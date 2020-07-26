@@ -1,0 +1,143 @@
+name: FreeRPG
+version: ${project.version}
+main: mc.carlton.freerpg.FreeRPG
+api-version: 1.13
+authors: [JackCarlton]
+description: Made from Spite
+commands:
+  guiCommand:
+    description: testing
+  skills:
+    description: Opens skills GUI
+  spite:
+    descriptions: Tells you what spite is good for.
+  globalGUI:
+    description: Opens global skill tree
+    aliases: [globalTree]
+  skillTreeGUI:
+    description: Opens a skill tree GUI
+    aliases: [skillTree]
+  craftingGUI:
+    description: Opens crafting recipe
+    aliases: [recipeGUI]
+  confirmationGUI:
+    description: Opens confirmaiton GUI for refunding skill trees
+    aliases: [confirmGUI]
+  configurationGUI:
+    description: Opens configuration GUI for global settings
+    aliases: [configGUI]
+  passiveSkillTreeGUI:
+    description: Opens a passive skill tree GUI
+    aliases: [passiveSkillTree]
+  giveEXP:
+    description: gives player RPG EXP
+    aliases:  [expGive]
+  setStatLevel:
+    description: sets player RPG levels
+    aliases: [levelSet]
+  statReset:
+    description: resets specified stat
+    aliases: [resetStat]
+  flintToggle:
+    description: Toggles gravel 100% flint drops and normal drops
+  enchantItem:
+    description: uses PseudoEnchanting to enchant item
+  speedToggle:
+    description: Toggles permanent speed I buff
+  potionToggle:
+    description: Toggles the level increase in potion buffs from the Poition Master Perk
+  flamePickToggle:
+    description: Toggles auto smelting some blocks when broken with a pickaxe
+  grappleToggle:
+    description: Toggles grappling hook fishing rod
+  hotRodToggle:
+    description: Toggles catching cooked fish as opposed to raw, also changes a few fishing drops
+  veinMinerToggle:
+    description: Toggles veins instantly mining
+  megaDigToggle:
+    descriptin: Toggles 3x3 breaking when using "Big Dig" Ability
+  statLeaders:
+    description: Shows leaders of querried stat
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#  die:
+#    description: Player dies.
+#  heal:
+#    description: Player is healed 2 hearts.
+#    aliases: [healme,gainHP]
+#  god:
+#    description: Player becomes invincible.
+#    aliases: [invincible]
+#  printMessageFromConfig:
+#    description: Prints a test message
+#    alisases: [configPrint]
+#  sendWord:
+#    description: sends player a given word.
+#  kill:
+#    descriptions: Kills a nigga
+#  vault:
+#    description: Open a vault
+#  guiCommand:
+#    description: Creates  GUI
+# woodcuttingGUI:
+#    description: Opens woodcutting skill tree
+#    aliases: [woodcuttingTree]
+#  miningGUI:
+#    description: Opens mining skill tree
+#    aliases: [miningTree]
+#  farmingGUI:
+#    description: Opens farming skill tree
+#    aliases: [farmingTree]
+#  fishingUI:
+#    description: Opens fishing skill tree
+#    aliases: [fishingTree]
+#  archeryGUI:
+#    description: Opens archery skill tree
+#    aliases: [archeryTree]
+#  beastMasteryGUI:
+#    description: Opens beast mastery skill tree
+#    aliases: [beastMasteryTree]
+#  swordsmanshipGUI:
+#    description: Opens swordsmanship skill tree
+#    aliases: [swordsmanshipTree]
+#  defenseGUI:
+#    description: Opens defense skill tree
+#    aliases: [defenseTree]
+#  axeMasteryGUI:
+#    description: Opens axe mastery skill tree
+#    aliases: [axeMasteryTree]
+#  repairGUI:
+#    description: Opens repair skill tree
+#    aliases: [repairTree]
+#  agilityGUI:
+#    description: Opens agility skill tree
+#    aliases: [agilityTree]
+#  alchemyGUI:
+#    description: Opens alchemy skill tree
+#    aliases: [alchemyTree]
+#  smeltingGUI:
+#    description: Opens smelting skill tree
+#    aliases: [smeltingTree]
+#  enchantingGUI:
+#    description: Opens enchanting skill tree
+#    aliases: [enchantingTree]
