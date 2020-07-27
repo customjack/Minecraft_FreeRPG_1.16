@@ -72,7 +72,7 @@ public class Leaderboard implements CommandExecutor {
         else {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                if (p.hasPermission("freeRPG.setLevel")) {
+                if (p.hasPermission("freeRPG.leaderboard")) {
                     p.sendMessage(ChatColor.RED + "Improper Arguments, try /statLeaders [skillName] [(Optional) page]");
                 } else {
                     p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");

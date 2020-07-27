@@ -37,7 +37,7 @@ public class CraftingGUIclick implements Listener {
                     switch (inv.getItem(25).getType()) {
                         case TIPPED_ARROW:
                             p.closeInventory();
-                            p.performCommand("skillTreeGUI archery");
+                            p.performCommand("frpg skillTreeGUI archery");
                             break;
                         case COW_SPAWN_EGG:
                         case BEE_SPAWN_EGG:
@@ -45,15 +45,15 @@ public class CraftingGUIclick implements Listener {
                         case HORSE_SPAWN_EGG:
                         case SLIME_SPAWN_EGG:
                             p.closeInventory();
-                            p.performCommand("skillTreeGUI farming");
+                            p.performCommand("frpg skillTreeGUI farming");
                             break;
                         case POTION:
                             p.closeInventory();
-                            p.performCommand("skillTreeGUI alchemy");
+                            p.performCommand("frpg skillTreeGUI alchemy");
                             break;
                         default:
                             p.closeInventory();
-                            p.performCommand("skillTreeGUI enchanting");
+                            p.performCommand("frpg skillTreeGUI enchanting");
                             break;
                     }
                 }

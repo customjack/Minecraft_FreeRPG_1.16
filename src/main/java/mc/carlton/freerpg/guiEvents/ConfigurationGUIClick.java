@@ -49,7 +49,7 @@ public class ConfigurationGUIClick implements Listener {
                         }
                         statAll.put(p.getUniqueId(), pStat);
                         pStatClass.setData(statAll);
-                        p.performCommand("configurationGUI");
+                        p.performCommand("frpg configurationGUI");
                         break;
                     case 23:
                         if ((int)pStat.get("global").get(22) > 0) {
@@ -60,10 +60,10 @@ public class ConfigurationGUIClick implements Listener {
                         }
                         statAll.put(p.getUniqueId(), pStat);
                         pStatClass.setData(statAll);
-                        p.performCommand("configurationGUI");
+                        p.performCommand("frpg configurationGUI");
                         break;
                     case 45:
-                        p.performCommand("skills");
+                        p.performCommand("frpg skills");
                     default:
                         break;
                 }

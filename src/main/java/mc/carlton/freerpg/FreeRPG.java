@@ -11,7 +11,6 @@ import mc.carlton.freerpg.enchantingEvents.*;
 import mc.carlton.freerpg.furnaceEvents.FurnaceBurn;
 import mc.carlton.freerpg.furnaceEvents.FurnaceInventoryClick;
 import mc.carlton.freerpg.furnaceEvents.FurnaceSmelt;
-import mc.carlton.freerpg.guiCommands.*;
 import mc.carlton.freerpg.guiEvents.*;
 import mc.carlton.freerpg.leaveAndJoin.LoginProcedure;
 import mc.carlton.freerpg.leaveAndJoin.LogoutProcedure;
@@ -126,8 +125,14 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerRespawn(), this);
         getServer().getPluginManager().registerEvents(new PlayerDropItem(), this);
 
-        getCommand("skills").setExecutor(new MainGUI());
+        getCommand("frpg").setExecutor(new FrpgCommands());
         getCommand("spite").setExecutor(new SpiteQuote());
+
+        /*
+
+        Old unique commands, replaced by new command /frpg [...]
+
+        getCommand("skills").setExecutor(new MainGUI());
         getCommand("skillTreeGUI").setExecutor(new SkillTreeGUI());
         getCommand("craftingGUI").setExecutor(new CraftingGUI());
         getCommand("confirmationGUI").setExecutor(new ConfirmationGUI());
@@ -135,7 +140,6 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         getCommand("giveEXP").setExecutor(new GiveEXP());
         getCommand("setStatLevel").setExecutor(new SetLevel());
         getCommand("statReset").setExecutor(new StatReset());
-        //getCommand("god").setExecutor(new god());
         getCommand("flintToggle").setExecutor(new FlintToggle());
         getCommand("enchantItem").setExecutor(new EnchantItem());
         getCommand("speedToggle").setExecutor(new SpeedToggle());
@@ -146,6 +150,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         getCommand("veinMinerToggle").setExecutor(new VeinMinerToggle());
         getCommand("megaDigToggle").setExecutor(new MegaDigToggle());
         getCommand("statLeaders").setExecutor(new Leaderboard());
+        */
 
         //Recipes
         cowEgg();

@@ -156,11 +156,11 @@ public class ConfirmationGUIClick implements Listener {
                     }
 
                     p.closeInventory();
-                    p.performCommand("skillTreeGUI " + skillName);
+                    p.performCommand("frpg skillTreeGUI " + skillName);
                 }
                 else if (e.getCurrentItem().getType() == Material.RED_TERRACOTTA) {
                     p.closeInventory();
-                    p.performCommand("skillTreeGUI " + skillName);
+                    p.performCommand("frpg skillTreeGUI " + skillName);
                 }
             }
 

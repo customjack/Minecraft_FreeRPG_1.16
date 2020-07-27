@@ -12,7 +12,7 @@ public class PlayerLeaderboard {
 
     public ArrayList<HeldStats> getLeaders(String skillName) {
         ArrayList<HeldStats> allPlayers = new ArrayList<>();
-        File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("SpiteMC").getDataFolder(), File.separator + "PlayerDatabase");
+        File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder(), File.separator + "PlayerDatabase");
         File[] allUsers = userdata.listFiles();
         for (File f : allUsers) {
             FileConfiguration playerData = YamlConfiguration.loadConfiguration(f);
