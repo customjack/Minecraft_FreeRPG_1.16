@@ -15,18 +15,11 @@ permissions:
     description: Gives access to all freeRPG commands
     default: op
     children:
-      freeRPG.mainGUI: true
-      freeRPG.configGUI: true
-      freeRPG.craftGUI: true
-      freeRPG.confirmGUI: true
-      freeRPG.skillsGUI: true
-      freeRPG.info: true
-      freeRPG.help: true
-      freeRPG.enchantItem: true
-      freeRPG.leaderboard: true
-      freeRPG.giveEXP: true
-      freeRPG.setLevel: true
-      freeRPG.statReset: true
+      freeRPG.standardPlayer: true
+      freeRPG.GUI: true
+      freeRPG.changeStats: true
+      freeRPG.getEXP: true
+      freeRPG.useAbilities: true
   freeRPG.standardPlayer:
     description: Grants the player all recommended permissions (for a common player)
     default: true
@@ -37,6 +30,9 @@ permissions:
       freeRPG.canRepair: true
       freeRPG.canSalvage: true
       freeRPG.fish: true
+      freeRPG.info: true
+      freeRPG.help: true
+      freeRPG.leaderboard: true
   freeRPG.GUI:
     description: Gives access to all GUI commands
     default: true
@@ -107,12 +103,12 @@ permissions:
   freeRPG.help:
     description: Allows the user to see all FreeRPG commands
     default: true
-  freeRPG.enchantItem:
-    descriptin: Allows the user to access the enchant item command
-    default: op
   freeRPG.leaderboard:
     description: Allows the user to access the leaderboard command, showing the user the top players in each skill
     default: true
+  freeRPG.enchantItem:
+    descriptin: Allows the user to access the enchant item command
+    default: op
   freeRPG.giveEXP:
     decription: Allows the user to give FreeRPG experience to any other player, including themselves
     default: op
