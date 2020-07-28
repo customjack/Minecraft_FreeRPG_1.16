@@ -87,6 +87,92 @@ public class Digging {
         this.enchantmentLevelMap.put(Enchantment.WATER_WORKER, 1);
     }
 
+    public void initiateAbility() {
+        if (!p.hasPermission("freeRPG.diggingAbility")) {
+            return;
+        }
+        Integer[] pTimers = timers.getPlayerTimers();
+        Integer[] pAbilities = abilities.getPlayerAbilities();
+        if (pAbilities[0] == -1) {
+            int cooldown = pTimers[0];
+            if (cooldown < 1) {
+                int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
+                if (prepMessages >0) {
+                    p.sendMessage(ChatColor.GRAY + ">>>You prepare your shovel...<<<");
+                }
+                int taskID = new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        if (prepMessages > 0) {
+                            p.sendMessage(ChatColor.GRAY + ">>>...You rest your shovel<<<");
+                        }
+                        try {
+                            abilities.setPlayerAbility( "digging", -1);
+                        }
+                        catch (Exception e) {
+
+                        }
+                    }
+                }.runTaskLater(plugin, 20 * 4).getTaskId();
+                abilities.setPlayerAbility( "digging", taskID);
+            } else {
+                p.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Big Dig again.");
+            }
+        }
+    }
+
+    public void enableAbility() {
+        Integer[] pAbilities = abilities.getPlayerAbilities();
+        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+        p.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Big Dig Activated!<<<");
+        int effLevel = itemInHand.getEnchantmentLevel(Enchantment.DIG_SPEED);
+        itemInHand.removeEnchantment(Enchantment.DIG_SPEED);
+        itemInHand.addUnsafeEnchantment(Enchantment.DIG_SPEED,effLevel+5);
+        int durationLevel = (int) pStat.get("digging").get(4);
+        double duration0 = Math.ceil(durationLevel*0.4) + 40;
+        int cooldown = 300;
+        if ((int) pStat.get("global").get(11) > 0) {
+            cooldown = 200;
+        }
+        int finalCooldown = cooldown;
+        long duration = (long) duration0;
+        timers.setPlayerTimer( "digging", finalCooldown);
+        Bukkit.getScheduler().cancelTask(pAbilities[0]);
+        abilities.setPlayerAbility( "digging", -2);
+        int taskID = new BukkitRunnable() {
+            @Override
+            public void run() {
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Big Dig has ended<<<");
+                itemInHand.removeEnchantment(Enchantment.DIG_SPEED);
+                if (effLevel != 0) {
+                    itemInHand.addUnsafeEnchantment(Enchantment.DIG_SPEED, effLevel);
+                }
+                abilities.setPlayerAbility( "digging", -1);
+                for(int i = 1; i < finalCooldown+1; i++) {
+                    int timeRemaining = finalCooldown - i;
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            timers.setPlayerTimer( "digging", timeRemaining);
+                            AbilityTimers timers2 = new AbilityTimers(p);
+                            if (timeRemaining ==0) {
+                                if (!p.isOnline()) {
+                                    timers2.removePlayer();
+                                }
+                                else {
+                                    p.sendMessage(ChatColor.GREEN + ">>>Big Dig is ready to use again<<<");
+                                }
+                            }
+                        }
+                    }.runTaskLater(plugin, 20*i);
+                }
+            }
+        }.runTaskLater(plugin, duration).getTaskId();
+        AbilityLogoutTracker incaseLogout = new AbilityLogoutTracker(p);
+        incaseLogout.setPlayerItem(p,"digging",itemInHand);
+        incaseLogout.setPlayerTask(p,"digging",taskID);
+    }
+
     public void storeBlockFace(BlockFace blockFace) {
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         int megaDigLevel = (int) pStat.get("digging").get(13);
@@ -494,88 +580,6 @@ public class Digging {
         }
     }
 
-    public void initiateAbility() {
-        Integer[] pTimers = timers.getPlayerTimers();
-        Integer[] pAbilities = abilities.getPlayerAbilities();
-        if (pAbilities[0] == -1) {
-            int cooldown = pTimers[0];
-            if (cooldown < 1) {
-                int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
-                if (prepMessages >0) {
-                    p.sendMessage(ChatColor.GRAY + ">>>You prepare your shovel...<<<");
-                }
-                int taskID = new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        if (prepMessages > 0) {
-                            p.sendMessage(ChatColor.GRAY + ">>>...You rest your shovel<<<");
-                        }
-                        try {
-                            abilities.setPlayerAbility( "digging", -1);
-                        }
-                        catch (Exception e) {
-
-                        }
-                    }
-                }.runTaskLater(plugin, 20 * 4).getTaskId();
-                abilities.setPlayerAbility( "digging", taskID);
-            } else {
-                p.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Big Dig again.");
-            }
-        }
-    }
-
-    public void enableAbility() {
-        Integer[] pAbilities = abilities.getPlayerAbilities();
-        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        p.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Big Dig Activated!<<<");
-        int effLevel = itemInHand.getEnchantmentLevel(Enchantment.DIG_SPEED);
-        itemInHand.removeEnchantment(Enchantment.DIG_SPEED);
-        itemInHand.addUnsafeEnchantment(Enchantment.DIG_SPEED,effLevel+5);
-        int durationLevel = (int) pStat.get("digging").get(4);
-        double duration0 = Math.ceil(durationLevel*0.4) + 40;
-        int cooldown = 300;
-        if ((int) pStat.get("global").get(11) > 0) {
-            cooldown = 200;
-        }
-        int finalCooldown = cooldown;
-        long duration = (long) duration0;
-        timers.setPlayerTimer( "digging", finalCooldown);
-        Bukkit.getScheduler().cancelTask(pAbilities[0]);
-        abilities.setPlayerAbility( "digging", -2);
-        int taskID = new BukkitRunnable() {
-            @Override
-            public void run() {
-                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Big Dig has ended<<<");
-                itemInHand.removeEnchantment(Enchantment.DIG_SPEED);
-                if (effLevel != 0) {
-                    itemInHand.addUnsafeEnchantment(Enchantment.DIG_SPEED, effLevel);
-                }
-                abilities.setPlayerAbility( "digging", -1);
-                for(int i = 1; i < finalCooldown+1; i++) {
-                    int timeRemaining = finalCooldown - i;
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            timers.setPlayerTimer( "digging", timeRemaining);
-                            AbilityTimers timers2 = new AbilityTimers(p);
-                            if (timeRemaining ==0) {
-                                if (!p.isOnline()) {
-                                    timers2.removePlayer();
-                                }
-                                else {
-                                    p.sendMessage(ChatColor.GREEN + ">>>Big Dig is ready to use again<<<");
-                                }
-                            }
-                        }
-                    }.runTaskLater(plugin, 20*i);
-                }
-            }
-        }.runTaskLater(plugin, duration).getTaskId();
-        AbilityLogoutTracker incaseLogout = new AbilityLogoutTracker(p);
-        incaseLogout.setPlayerItem(p,"digging",itemInHand);
-        incaseLogout.setPlayerTask(p,"digging",taskID);
-    }
     public boolean flintFinder(World world,Block block) {
         if (block.getType() == Material.GRAVEL) {
             Integer[] pAbilities = abilities.getPlayerAbilities();

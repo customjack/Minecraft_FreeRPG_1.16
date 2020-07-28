@@ -102,6 +102,9 @@ public class Woodcutting {
     }
 
     public void initiateAbility() {
+        if (!p.hasPermission("freeRPG.woodcuttingAbility")) {
+            return;
+        }
         Integer[] pTimers = timers.getPlayerTimers();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[1] == -1) {

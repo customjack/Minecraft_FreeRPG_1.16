@@ -14,6 +14,9 @@ public class PlayerFish implements Listener {
     @EventHandler
     void onPlayerFish(PlayerFishEvent e) {
         Player p = e.getPlayer();
+        if (!p.hasPermission("freeRPG.fish")) {
+            return;
+        }
         World world = p.getWorld();
         Entity caughtThing = e.getCaught();
         AbilityTracker abilities = new AbilityTracker(p);

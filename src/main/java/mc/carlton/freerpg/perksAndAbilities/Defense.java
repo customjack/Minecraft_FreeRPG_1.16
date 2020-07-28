@@ -57,6 +57,9 @@ public class Defense {
     }
 
     public void initiateAbility() {
+        if (!p.hasPermission("freeRPG.defenseAbility")) {
+            return;
+        }
         Integer[] pTimers = timers.getPlayerTimers();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[8] == -1) {

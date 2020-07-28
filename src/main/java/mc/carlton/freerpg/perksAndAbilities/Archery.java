@@ -47,6 +47,9 @@ public class Archery {
     }
 
     public void initiateAbility() {
+        if (!p.hasPermission("freeRPG.archeryAbility")) {
+            return;
+        }
         Integer[] pTimers = timers.getPlayerTimers();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[5] == -1) {

@@ -57,6 +57,9 @@ public class AxeMastery {
     }
 
     public void initiateAbility() {
+        if (!p.hasPermission("freeRPG.axeMasteryAbility")) {
+            return;
+        }
         Integer[] pTimers = timers.getPlayerTimers();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[9] == -1) {

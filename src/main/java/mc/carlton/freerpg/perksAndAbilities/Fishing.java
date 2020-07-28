@@ -73,6 +73,9 @@ public class Fishing {
 
 
     public void initiateAbility() {
+        if (!p.hasPermission("freeRPG.fishingAbility")) {
+            return;
+        }
         Integer[] pTimers = timers.getPlayerTimers();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[4] == -1) {

@@ -143,6 +143,9 @@ public class Farming {
     }
 
     public void initiateAbility() {
+        if (!p.hasPermission("freeRPG.farmingAbility")) {
+            return;
+        }
         Integer[] pTimers = timers.getPlayerTimers();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[3] == -1) {

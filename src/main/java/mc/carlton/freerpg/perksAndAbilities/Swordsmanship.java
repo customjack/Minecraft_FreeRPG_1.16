@@ -64,6 +64,9 @@ public class Swordsmanship {
     }
 
     public void initiateAbility() {
+        if (!p.hasPermission("freeRPG.swordsmanshipAbility")) {
+            return;
+        }
         Integer[] pTimers = timers.getPlayerTimers();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[7] == -1) {

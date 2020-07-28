@@ -54,46 +54,10 @@ public class Mining {
         this.placedClass = new PlacedBlocks();
     }
 
-    public void miningTreasureDrop(double treasureChance, World world, Location loc) {
-        double randomNum = rand.nextDouble();
-        if (treasureChance > randomNum) {
-            double randomNum2 = rand.nextDouble();
-            if (randomNum2 < 0.5) {
-                world.dropItemNaturally(loc, new ItemStack(Material.COAL,1));
-                increaseStats.changeEXP("mining",140);
-            }
-            else if (randomNum2 < 0.7) {
-                world.dropItemNaturally(loc, new ItemStack(Material.IRON_ORE,1));
-                increaseStats.changeEXP("mining",350);
-            }
-            else if (randomNum2 < 0.8) {
-                world.dropItemNaturally(loc, new ItemStack(Material.GOLD_ORE,1));
-                increaseStats.changeEXP("mining",750);
-            }
-            else if (randomNum2 < 0.85) {
-                world.dropItemNaturally(loc, new ItemStack(Material.LAPIS_LAZULI,1));
-                increaseStats.changeEXP("mining",1600);
-            }
-            else if (randomNum2 < 0.90) {
-                world.dropItemNaturally(loc, new ItemStack(Material.EMERALD,1));
-                increaseStats.changeEXP("mining",1700);
-            }
-            else if (randomNum2 < 0.99) {
-                world.dropItemNaturally(loc, new ItemStack(Material.REDSTONE,1));
-                increaseStats.changeEXP("mining",100);
-            }
-            else if (randomNum2 < 0.999){
-                world.dropItemNaturally(loc, new ItemStack(Material.DIAMOND,1));
-                increaseStats.changeEXP("mining",9000);
-            }
-            else {
-                world.dropItemNaturally(loc, new ItemStack(Material.NETHERITE_SCRAP,1));
-                increaseStats.changeEXP("mining",15000);
-            }
-        }
-    }
-
     public void initiateAbility() {
+        if (!p.hasPermission("freeRPG.miningAbility")) {
+            return;
+        }
         Integer[] pTimers = timers.getPlayerTimers();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[2] == -1) {
@@ -175,6 +139,45 @@ public class Mining {
         AbilityLogoutTracker incaseLogout = new AbilityLogoutTracker(p);
         incaseLogout.setPlayerItem(p,"mining",itemInHand);
         incaseLogout.setPlayerTask(p,"mining",taskID);
+    }
+
+    public void miningTreasureDrop(double treasureChance, World world, Location loc) {
+        double randomNum = rand.nextDouble();
+        if (treasureChance > randomNum) {
+            double randomNum2 = rand.nextDouble();
+            if (randomNum2 < 0.5) {
+                world.dropItemNaturally(loc, new ItemStack(Material.COAL,1));
+                increaseStats.changeEXP("mining",140);
+            }
+            else if (randomNum2 < 0.7) {
+                world.dropItemNaturally(loc, new ItemStack(Material.IRON_ORE,1));
+                increaseStats.changeEXP("mining",350);
+            }
+            else if (randomNum2 < 0.8) {
+                world.dropItemNaturally(loc, new ItemStack(Material.GOLD_ORE,1));
+                increaseStats.changeEXP("mining",750);
+            }
+            else if (randomNum2 < 0.85) {
+                world.dropItemNaturally(loc, new ItemStack(Material.LAPIS_LAZULI,1));
+                increaseStats.changeEXP("mining",1600);
+            }
+            else if (randomNum2 < 0.90) {
+                world.dropItemNaturally(loc, new ItemStack(Material.EMERALD,1));
+                increaseStats.changeEXP("mining",1700);
+            }
+            else if (randomNum2 < 0.99) {
+                world.dropItemNaturally(loc, new ItemStack(Material.REDSTONE,1));
+                increaseStats.changeEXP("mining",100);
+            }
+            else if (randomNum2 < 0.999){
+                world.dropItemNaturally(loc, new ItemStack(Material.DIAMOND,1));
+                increaseStats.changeEXP("mining",9000);
+            }
+            else {
+                world.dropItemNaturally(loc, new ItemStack(Material.NETHERITE_SCRAP,1));
+                increaseStats.changeEXP("mining",15000);
+            }
+        }
     }
 
     public void wastelessHaste() {

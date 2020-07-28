@@ -33,7 +33,20 @@ public class ChangeStats {
         this.isCommand = isFromCommand;
     }
 
+    public boolean checkPerms(String skillName) {
+        boolean hasPerms = true;
+        String perm = "freeRPG." + skillName +"EXP";
+        if (!p.hasPermission(perm)) {
+            hasPerms = false;
+        }
+        return hasPerms;
+    }
+
     public void changeEXP(String skillName,int expChange) {
+        boolean hasPerms = checkPerms(skillName);
+        if (!hasPerms) {
+            return;
+        }
         if (p.getGameMode() == GameMode.CREATIVE && !isCommand) {
             return;
         }

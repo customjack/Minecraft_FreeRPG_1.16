@@ -10,4 +10,199 @@ commands:
     aliases: [freeRPG]
   spite:
     descriptions: Tells you what spite is good for.
-
+permissions:
+  freeRPG.*:
+    description: Gives access to all freeRPG commands
+    default: op
+    children:
+      freeRPG.mainGUI: true
+      freeRPG.configGUI: true
+      freeRPG.craftGUI: true
+      freeRPG.confirmGUI: true
+      freeRPG.skillsGUI: true
+      freeRPG.info: true
+      freeRPG.help: true
+      freeRPG.enchantItem: true
+      freeRPG.leaderboard: true
+      freeRPG.giveEXP: true
+      freeRPG.setLevel: true
+      freeRPG.statReset: true
+  freeRPG.standardPlayer:
+    description: Grants the player all recommended permissions (for a common player)
+    default: true
+    children:
+      freeRPG.GUI: true
+      freeRPG.getEXP: true
+      freeRPG.useAbilites: true
+      freeRPG.canRepair: true
+      freeRPG.canSalvage: true
+      freeRPG.fish: true
+  freeRPG.GUI:
+    description: Gives access to all GUI commands
+    default: true
+    children:
+      freeRPG.mainGUI: true
+      freeRPG.configGUI: true
+      freeRPG.craftGUI: true
+      freeRPG.confirmGUI: true
+      freeRPG.skillsGUI: true
+  freeRPG.changeStats:
+    description: Gives access to all stat changing commands
+    default: op
+    children:
+      freeRPG.giveEXP: true
+      freeRPG.setLevel: true
+      freeRPG.statReset: true
+  freeRPG.getEXP:
+    description: Allows player to gain every type of EXP
+    default: true
+    children:
+      freeRPG.diggingEXP: true
+      freeRPG.woodcuttingEXP: true
+      freeRPG.miningEXP: true
+      freeRPG.farmingEXP: true
+      freeRPG.fishingEXP: true
+      freeRPG.archeryEXP: true
+      freeRPG.beastMasteryEXP: true
+      freeRPG.swordsmanshipEXP: true
+      freeRPG.defenseEXP: true
+      freeRPG.axeMasteryEXP: true
+      freeRPG.repairEXP: true
+      freeRPG.agilityEXP: true
+      freeRPG.alchemyEXP: true
+      freeRPG.smeltingEXP: true
+      freeRPG.enchantingEXP: true
+  freeRPG.useAbilities:
+    description: allows the player to use all skill abilities
+    default: true
+    children:
+      freeRPG.diggingAbility: true
+      freeRPG.woodcuttingAbility: true
+      freeRPG.miningAbility: true
+      freeRPG.farmingAbility: true
+      freeRPG.fishingAbility: true
+      freeRPG.archeryAbility: true
+      freeRPG.beastMasteryAbility: true
+      freeRPG.swordsmanshipAbility: true
+      freeRPG.defenseAbility: true
+      freeRPG.axeMasteryAbility: true
+  freeRPG.mainGUI:
+    description: allows user to access main GUI with all skills
+    default: true
+  freeRPG.skillsGUI:
+    description: allows user to access a skill's GUI (skill tree)
+    default: true
+  freeRPG.configGUI:
+    description: allows user to access the configuration GUI
+    default: true
+  freeRPG.craftGUI:
+    description: allows user to access the GUI that shows crafting recipes
+    default: true
+  freeRPG.confirmGUI:
+    description: allows user to access the cofirmation GUI when refunding skills
+    default: true
+  freeRPG.info:
+    decription: Allows the user to access the link to the info google document
+    default: true
+  freeRPG.help:
+    description: Allows the user to see all FreeRPG commands
+    default: true
+  freeRPG.enchantItem:
+    descriptin: Allows the user to access the enchant item command
+    default: op
+  freeRPG.leaderboard:
+    description: Allows the user to access the leaderboard command, showing the user the top players in each skill
+    default: true
+  freeRPG.giveEXP:
+    decription: Allows the user to give FreeRPG experience to any other player, including themselves
+    default: op
+  freeRPG.setLevel:
+    description: Allows the user to set the FreeRPG skill level of any skill for any player
+    default: op
+  freeRPG.statReset:
+    description: Allows the user to reset any FreeRPG skill of any player
+    default: op
+  freeRPG.diggingEXP:
+    description: Allows player to get digging experience
+    default: true
+  freeRPG.woodcuttingEXP:
+    description: Allows player to get woodcutting experience
+    default: true
+  freeRPG.miningEXP:
+    description: Allows player to get mining experience
+    default: true
+  freeRPG.farmingEXP:
+    description: Allows player to get farming experience
+    default: true
+  freeRPG.fishingEXP:
+    description: Allows player to get fishing experience
+    default: true
+  freeRPG.archeryEXP:
+    description: Allows player to get archery experience
+    default: true
+  freeRPG.beastMasteryEXP:
+    description: Allows player to get beastMastery experience
+    default: true
+  freeRPG.swordsmanshipEXP:
+    description: Allows player to get swordsmanship experience
+    default: true
+  freeRPG.defenseEXP:
+    description: Allows player to get defense experience
+    default: true
+  freeRPG.axeMasteryEXP:
+    description: Allows player to get axeMastery experience
+    default: true
+  freeRPG.repairEXP:
+    description: Allows player to get repair experience
+    default: true
+  freeRPG.agilityEXP:
+    description: Allows player to get agility experience
+    default: true
+  freeRPG.alchemyEXP:
+    description: Allows player to get alchemy experience
+    default: true
+  freeRPG.smeltingEXP:
+    description: Allows player to get smelting experience
+    default: true
+  freeRPG.enchantingEXP:
+    description: Allows player to get enchanting experience
+    default: true
+  freeRPG.diggingAbility:
+    description: allows the player to use the digging ability
+    default: true
+  freeRPG.woodcuttingAbility:
+    description: allows the player to use the woodcutting ability
+    default: true
+  freeRPG.miningAbility:
+    description: allows the player to use the mining ability
+    default: true
+  freeRPG.farmingAbility:
+    description: allows the player to use the farming ability
+    default: true
+  freeRPG.fishingAbility:
+    description: allows the player to use the fishing ability
+    default: true
+  freeRPG.archeryAbility:
+    description: allows the player to use the archery ability
+    default: true
+  freeRPG.beastMasteryAbility:
+    description: allows the player to use the beast mastery ability
+    default: true
+  freeRPG.swordsmanshipAbility:
+    description: allows the player to use the swordsmanship ability
+    default: true
+  freeRPG.defenseAbility:
+    description: allows the player to use the defense ability
+    default: true
+  freeRPG.axeMasteryAbility:
+    description: allows the player to use the axe mastery ability
+    default: true
+  freeRPG.canRepair:
+    description: allows player to use iron blocks to repair
+    default: true
+  freeRPG.canSalvage:
+    description: allows player to use gold blocks to salvage
+    default: true
+  freeRPG.fish:
+    description: players with this permission will use freeRPG's changed fishing system
+    default: true

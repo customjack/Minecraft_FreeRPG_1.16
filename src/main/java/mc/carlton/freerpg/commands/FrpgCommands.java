@@ -34,6 +34,10 @@ public class FrpgCommands implements CommandExecutor {
         if (args.length == 0) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.mainGUI")) {
+                    p.sendMessage(ChatColor.RED + "You do not have permission to use this command!");
+                    return true;
+                }
                 Inventory gui = Bukkit.createInventory(p, 45, "Skills");
 
                 //Menu Options(Items)
@@ -150,6 +154,10 @@ public class FrpgCommands implements CommandExecutor {
                 }
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
+                    if (!p.hasPermission("freeRPG.help")) {
+                        p.sendMessage(ChatColor.RED + "You do not have permission to use this command!");
+                        return true;
+                    }
                         p.sendMessage(ChatColor.RED + "------| " + ChatColor.GREEN + ChatColor.BOLD.toString() + " Help" +
                                 ChatColor.RESET + ChatColor.GREEN.toString() + " Page [" + Integer.toString(page) + "/" + Integer.toString(totalPages) + "]" +
                                 ChatColor.RED.toString() + " |-----");
@@ -215,6 +223,10 @@ public class FrpgCommands implements CommandExecutor {
             if (args.length == 1) {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
+                    if (!p.hasPermission("freeRPG.info")) {
+                        p.sendMessage(ChatColor.RED + "You do not have permission to use this command!");
+                        return true;
+                    }
                     p.sendMessage("Information URL (Google Docs): " + ChatColor.AQUA + ChatColor.UNDERLINE.toString() + "shorturl.at/ptCDX" +
                             ChatColor.RESET + ChatColor.GOLD.toString() + ChatColor.BOLD.toString() + "<-- CLICK");
                 } else {
@@ -985,6 +997,10 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("configGUI") || args[0].equalsIgnoreCase("configurationGUI")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.configGUI")) {
+                    p.sendMessage(ChatColor.RED + "You do not have permission to use this command!");
+                    return true;
+                }
                 if (args.length != 1) {
                     p.sendMessage(ChatColor.RED + "Error: Try /frpg configurationGUI");
                 }
@@ -1056,6 +1072,10 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("confirmGUI") || args[0].equalsIgnoreCase("confirmationGUI")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.confirmGUI")) {
+                    p.sendMessage(ChatColor.RED + "You do not have permission to use this command!");
+                    return true;
+                }
                 String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting","global"};
                 String[] titles_0 = {"Digging","Woodcutting","Mining","Farming","Fishing","Archery","Beast Mastery","Swordsmanship","Defense","Axe Mastery","Repair","Agility","Alchemy","Smelting","Enchanting","Global"};
                 List<String> labels_arr = Arrays.asList(labels_0);
@@ -1165,6 +1185,10 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("craftingGUI") || args[0].equalsIgnoreCase("recipeGUI")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.craftGUI")) {
+                    p.sendMessage(ChatColor.RED + "You do not have permission to use this command!");
+                    return true;
+                }
                 String[] labels_0 = {"archery1", "farming1", "farming2", "farming3", "farming4", "farming5",
                         "enchanting1", "enchanting2", "enchanting3", "enchanting4", "enchanting5",
                         "enchanting6", "enchanting7", "enchanting8", "enchanting9", "enchanting10",
@@ -1408,6 +1432,10 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("mainGUI") || args[0].equalsIgnoreCase("skills")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.mainGUI")) {
+                    p.sendMessage(ChatColor.RED + "You do not have permission to use this command!");
+                    return true;
+                }
                 Inventory gui = Bukkit.createInventory(p, 45, "Skills");
 
                 //Menu Options(Items)
@@ -1521,6 +1549,13 @@ public class FrpgCommands implements CommandExecutor {
 
         //SkillTreeGUI
         else if (args[0].equalsIgnoreCase("skillTree") || args[0].equalsIgnoreCase("skillTreeGUI")) {
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.skillsGUI")) {
+                    p.sendMessage(ChatColor.RED + "You do not have permission to use this command!");
+                    return true;
+                }
+            }
             Map<String, String[]> perksMap = new HashMap<>();
             Map<String, String[]> descriptionsMap = new HashMap<>();
             Map<String, String[]> passivePerksMap = new HashMap<>();

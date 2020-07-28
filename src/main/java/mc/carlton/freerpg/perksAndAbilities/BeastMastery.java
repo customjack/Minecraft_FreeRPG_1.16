@@ -52,6 +52,9 @@ public class BeastMastery {
     }
 
     public void initiateAbility() {
+        if (!p.hasPermission("freeRPG.beastMasteryAbility")) {
+            return;
+        }
         Integer[] pTimers = timers.getPlayerTimers();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[6] == -1) {
