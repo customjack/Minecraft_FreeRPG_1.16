@@ -138,6 +138,7 @@ public class PlayerBlockBreak implements Listener {
         miningEXP.put(Material.OBSIDIAN,150);
         //1.16 Additions, Subject to EXP change
         miningEXP.put(Material.ANCIENT_DEBRIS,5000);
+        miningEXP.put(Material.NETHER_GOLD_ORE,750);
         miningEXP.put(Material.BASALT,80);
         miningEXP.put(Material.BLACKSTONE,100);
         miningEXP.put(Material.CRYING_OBSIDIAN,200);
@@ -270,7 +271,7 @@ public class PlayerBlockBreak implements Listener {
         else if (miningEXP.containsKey(blockType) && natural) {
             increaseStats.changeEXP("mining", miningEXP.get(blockType));
             Material[] ores0 = {Material.COAL_ORE, Material.DIAMOND_ORE, Material.EMERALD_ORE, Material.GOLD_ORE,
-                    Material.IRON_ORE, Material.LAPIS_ORE, Material.NETHER_QUARTZ_ORE, Material.REDSTONE_ORE};
+                    Material.IRON_ORE, Material.LAPIS_ORE, Material.NETHER_QUARTZ_ORE, Material.REDSTONE_ORE,Material.NETHER_GOLD_ORE,Material.ANCIENT_DEBRIS,Material.GILDED_BLACKSTONE};
             List<Material> ores = Arrays.asList(ores0);
             Mining miningClass = new Mining(p);
             if (pAbilities[2] == -2) {

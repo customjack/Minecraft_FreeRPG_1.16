@@ -87,22 +87,37 @@ public class PlayerRightClick implements Listener {
 
             //Right clicking blocks
             if (a.equals(Action.RIGHT_CLICK_BLOCK)) {
+                //Composter EXP
                 Farming farmingClass = new Farming(p);
                 farmingClass.composterEXP(e.getClickedBlock());
+
+                //Repair
                 if (e.getClickedBlock().getType() == Material.IRON_BLOCK && !itemInHandType.isBlock()) {
-                    Repair repairClass = new Repair(p);
-                    repairClass.repairItem();
-                    e.setCancelled(true);
+                    if (pAbilities[0] != -2 && pAbilities[2]  != -2 && pAbilities[7] != -2) {
+                        Repair repairClass = new Repair(p);
+                        repairClass.repairItem();
+                        e.setCancelled(true);
+                    }
+                    else {
+                        p.sendMessage(ChatColor.RED + "You cannot repair while this ability is active!");
+                    }
                     return;
                 }
-                if (e.getClickedBlock().getType() == Material.GOLD_BLOCK && !itemInHandType.isBlock()) {
+                //Salvaging
+                else if (e.getClickedBlock().getType() == Material.GOLD_BLOCK && !itemInHandType.isBlock()) {
                     if (p.isSneaking()) {
-                        Repair repairClass = new Repair(p);
-                        repairClass.salvaging();
-                        e.setCancelled(true);
+                        if (pAbilities[0] != -2 && pAbilities[2]  != -2 && pAbilities[7] != -2) {
+                            Repair repairClass = new Repair(p);
+                            repairClass.salvaging();
+                            e.setCancelled(true);
+                        }
+                        else {
+                            p.sendMessage(ChatColor.RED + "You cannot salvage while this ability is active!");
+                        }
                         return;
                     }
                 }
+                //Stopping abilities from activating on stuff like doors
                 if (actionableBlocks.contains(e.getClickedBlock().getType())) {
                     return;
                 }

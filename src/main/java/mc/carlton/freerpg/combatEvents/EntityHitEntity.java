@@ -26,11 +26,11 @@ public class EntityHitEntity implements Listener {
         Random rand = new Random();
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
         if (e.getDamager() instanceof Player) {
-            Material[] shovels0 = {Material.DIAMOND_SHOVEL, Material.GOLDEN_SHOVEL, Material.IRON_SHOVEL, Material.STONE_SHOVEL, Material.WOODEN_SHOVEL};
+            Material[] shovels0 = {Material.NETHERITE_SHOVEL,Material.DIAMOND_SHOVEL, Material.GOLDEN_SHOVEL, Material.IRON_SHOVEL, Material.STONE_SHOVEL, Material.WOODEN_SHOVEL};
             List<Material> shovels = Arrays.asList(shovels0);
-            Material[] swords0 = {Material.WOODEN_SWORD,Material.STONE_SWORD,Material.GOLDEN_SWORD,Material.DIAMOND_SWORD,Material.IRON_SWORD};
+            Material[] swords0 = {Material.NETHERITE_SWORD,Material.WOODEN_SWORD,Material.STONE_SWORD,Material.GOLDEN_SWORD,Material.DIAMOND_SWORD,Material.IRON_SWORD};
             List<Material> swords = Arrays.asList(swords0);
-            Material[] axes0 = {Material.DIAMOND_AXE,Material.GOLDEN_AXE,Material.IRON_AXE, Material.STONE_AXE,Material.WOODEN_AXE};
+            Material[] axes0 = {Material.NETHERITE_AXE,Material.DIAMOND_AXE,Material.GOLDEN_AXE,Material.IRON_AXE, Material.STONE_AXE,Material.WOODEN_AXE};
             List<Material> axes = Arrays.asList(axes0);
 
             Player p = (Player) e.getDamager();

@@ -157,8 +157,6 @@ public class FrpgCommands implements CommandExecutor {
                             case 1:
                                 p.sendMessage(ChatColor.GOLD  + "/frpg" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
                                         ChatColor.RESET + ChatColor.WHITE + "Opens the main GUI with all skills");
-                                p.sendMessage(ChatColor.GOLD  + "/frpg globalGUI" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Opens the global GUI");
                                 p.sendMessage(ChatColor.GOLD  + "/frpg skillTreeGUI [skillName]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
                                         ChatColor.RESET + ChatColor.WHITE + "Opens a skill tree GUI of choice");
                                 p.sendMessage(ChatColor.GOLD  + "/frpg configurationGUI" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
@@ -171,6 +169,8 @@ public class FrpgCommands implements CommandExecutor {
                                         ChatColor.RESET + ChatColor.WHITE + "Resets a player's stats in a specified skill (does not refund stats)");
                                 p.sendMessage(ChatColor.GOLD  + "/frpg statLeaders [skillName] [(Optional) page #]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
                                         ChatColor.RESET + ChatColor.WHITE + "Displays a leaderboard for a specified stat");
+                                p.sendMessage(ChatColor.GOLD  + "/frpg info" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + "Provides a link to a plugin information page");
                                 break;
                             case 2:
                                 p.sendMessage(ChatColor.GOLD  + "/frpg flintToggle [(Optional) \"ON\"/\"OFF\"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
@@ -210,8 +210,28 @@ public class FrpgCommands implements CommandExecutor {
             }
         }
 
+        //Tutorial/info
+        else if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("use")) {
+            if (args.length == 1) {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    p.sendMessage("Information URL (Google Docs): " + ChatColor.AQUA + ChatColor.UNDERLINE.toString() + "shorturl.at/ptCDX" +
+                            ChatColor.RESET + ChatColor.GOLD.toString() + ChatColor.BOLD.toString() + "<-- CLICK");
+                } else {
+                    System.out.println("You must be a player to use this command");
+                }
+            } else {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    p.sendMessage(ChatColor.RED + "Improper Arguments, try /frpg info");
+                } else {
+                    System.out.println("You must be a player to use this command");
+                }
+            }
+        }
+
         //Enchant Item Command
-        if (args[0].equalsIgnoreCase("enchantItem") || args[0].equalsIgnoreCase("enchant")) {
+        else if (args[0].equalsIgnoreCase("enchantItem") || args[0].equalsIgnoreCase("enchant")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
                 if (p.hasPermission("freeRPG.enchantItem")) {
@@ -1490,6 +1510,15 @@ public class FrpgCommands implements CommandExecutor {
             }
         }
 
+
+
+
+        /*
+        This next argument is the biggest by far
+        It handles all the skill tree GUIs, which are the most adaptable with themost unqiue buttons
+        */
+
+
         //SkillTreeGUI
         else if (args[0].equalsIgnoreCase("skillTree") || args[0].equalsIgnoreCase("skillTreeGUI")) {
             Map<String, String[]> perksMap = new HashMap<>();
@@ -1506,7 +1535,7 @@ public class FrpgCommands implements CommandExecutor {
             //digging
             s_Name = "digging";
             perks = new String[]{"Mo' drops", "Double Treasure", "Rarer Drops", "Soul Stealer", "Flint Finder", "Shovel Knight", "Mega Dig"};
-            descriptions = new String[]{"Expands treasure drop table by 1 item per level","+5% chance of receiving double treasure drop per level (when treasure is rolled)","Further expands drop table by item per level","Soul sand is +5% more likely to drop treasure per level","Gravel has 100% flint drop rate (toggleable  by /flintToggle)","Shovels do double damage","When using ability, you now break a 3x3 block section (Treasure rate is halved)"};
+            descriptions = new String[]{"Expands treasure drop table by 1 item per level","+5% chance of receiving double treasure drop per level (when treasure is rolled)","Further expands drop table by item per level","Soul sand is +5% more likely to drop treasure per level","Gravel has 100% flint drop rate (toggleable  by /flintToggle)","Shovels do double damage","When using ability, you now break a 3x3 block section (20% of normal treasure rate when active)"};
             passivePerks = new String[]{"Passive Tokens","Back","Skill Tokens","Big Dig Duration","Treasure Chance"};
             passiveDescriptions = new String[]{"Tokens to invest in passive skills (dyes)","Takes you back to the main skills menu","Tokens to invest in skill tree","Increases duration of Big Dig by 0.02 s","Increases chance of digging up treasure by 0.005%"};
             perksMap.put(s_Name,perks);
@@ -1571,7 +1600,7 @@ public class FrpgCommands implements CommandExecutor {
 
             //beastMastery
             s_Name = "beastMastery";
-            perks = new String[]{"Thick Fur","Sharp Teeth","Healthy Bites","Keep Away","Graceful Feet","Identify","Adrenaline Boost"};
+            perks = new String[]{"Thick Fur","Sharp Teeth","Healthy Bites","Keep Away","Acro-Dog","Identify","Adrenaline Boost"};
             descriptions = new String[]{"Dogs take -10% damage per level","Dogs do +10% more damage per level","Dogs heal +1/2 heart per level from killing","Dogs have gain +5% chance of knocking back foes","Dogs do not take fall damage","Using a compass on a horse or wolf now shows their stats","Spur kick buff is now speed III"};
             passivePerks = new String[]{"Passive Tokens","Back","Skill Tokens","Spur Kick Duration","Critical Bite"};
             passiveDescriptions = new String[]{"Tokens to invest in passive skills (dyes)","Takes you back to the main skills menu","Tokens to invest in skill tree","Increases duration of Spur Kick by 0.02s","Increases chance for a dog to have a critical hit by 0.025%"};
@@ -1835,26 +1864,26 @@ public class FrpgCommands implements CommandExecutor {
                         break;
                     case "woodcutting":
                         special_index = 3;
-                        desc = "Leaves may drop ";
+                        desc = "Leaves may drop new items when cut by player ";
                         switch (skill_2b_level) {
                             case 0:
-                                desc += "feathers when cut by player";
+                                desc += "(feathers by default)";
                                 lores_line2[special_index] = desc;
                                 break;
                             case 1:
-                                desc += "golden nuggets when cut by player";
+                                desc += "(golden nuggets by default)";
                                 lores_line2[special_index] = desc;
                                 break;
                             case 2:
-                                desc += "golden apples when cut by player";
+                                desc += "(golden apples by default)";
                                 lores_line2[special_index] = desc;
                                 break;
                             case 3:
-                                desc += "bottles o' enchanting when cut by player";
+                                desc += "(bottles o' enchanting by default)";
                                 lores_line2[special_index] = desc;
                                 break;
                             case 4:
-                                desc += "enchanted golden apple when cut by player";
+                                desc += "(enchanted golden apples by default)";
                                 lores_line2[special_index] = desc;
                                 break;
                             default:
@@ -1921,33 +1950,28 @@ public class FrpgCommands implements CommandExecutor {
                         special_index = 0;
                         switch (skill_1a_level) {
                             case 0:
-                                desc = "May find ";
-                                desc += "golden ingots";
-                                desc += " while digging";
+                                desc = "May find new items while digging";
+                                desc += " (golden ingots by default)";
                                 lores_line2[special_index] = desc;
                                 break;
                             case 1:
-                                desc = "May find ";
-                                desc += "name tags";
-                                desc += " while digging";
+                                desc = "May find new items while digging";
+                                desc += " (name tags by default)";
                                 lores_line2[special_index] = desc;
                                 break;
                             case 2:
-                                desc = "May find ";
-                                desc += "music discs";
-                                desc += " while digging";
+                                desc = "May find new items while digging";
+                                desc += " (musics discs by default)";
                                 lores_line2[special_index] = desc;
                                 break;
                             case 3:
-                                desc = "May find ";
-                                desc += "Horse armor";
-                                desc += " while digging";
+                                desc = "May find new items while digging";
+                                desc += " (horse armor by default)";
                                 lores_line2[special_index] = desc;
                                 break;
                             case 4:
-                                desc = "May find ";
-                                desc += "diamonds";
-                                desc += " while digging";
+                                desc = "May find new items while digging";
+                                desc += " (diamonds by default)";
                                 lores_line2[special_index] = desc;
                                 break;
                             default:
@@ -1955,33 +1979,28 @@ public class FrpgCommands implements CommandExecutor {
                         }
                         switch (skill_2a_level) {
                             case 0:
-                                desc = "May find ";
-                                desc += "emeralds";
-                                desc += " while digging";
+                                desc = "May find new items while digging";
+                                desc += " (emeralds by default)";
                                 lores_line2[2] = desc;
                                 break;
                             case 1:
-                                desc = "May find ";
-                                desc += "enchanted books";
-                                desc += " while digging";
+                                desc = "May find new items while digging";
+                                desc += " (enchanted books by default)";;
                                 lores_line2[2] = desc;
                                 break;
                             case 2:
-                                desc = "May find ";
-                                desc += "dragon's breaths";
-                                desc += " while digging";
+                                desc = "May find new items while digging";
+                                desc += " (dragon's breath by default)";
                                 lores_line2[2] = desc;
                                 break;
                             case 3:
-                                desc = "May find ";
-                                desc += "totems of undying";
-                                desc += " while digging";
+                                desc = "May find new items while digging";
+                                desc += " (totems of undying by default)";
                                 lores_line2[2] = desc;
                                 break;
                             case 4:
-                                desc = "May find ";
-                                desc += "nether stars";
-                                desc += " while digging";
+                                desc = "May find new items while digging";
+                                desc += " (nether stars by default)";
                                 lores_line2[2] = desc;
                                 break;
                             default:
@@ -2589,6 +2608,7 @@ public class FrpgCommands implements CommandExecutor {
                             default:
                                 break;
                         }
+                        break;
                     case "repair":
                         special_index = 0;
                         switch (skill_1a_level) {

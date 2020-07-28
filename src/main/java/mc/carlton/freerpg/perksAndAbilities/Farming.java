@@ -57,7 +57,7 @@ public class Farming {
                                 EntityType.HORSE,EntityType.DONKEY,EntityType.MULE,EntityType.SKELETON_HORSE,EntityType.TURTLE,
                                 EntityType.PANDA,EntityType.FOX,EntityType.BEE};
     List<EntityType> babyAnimals = Arrays.asList(babyAnimals0);
-    Material[] hoes0 = {Material.DIAMOND_HOE,Material.GOLDEN_HOE,Material.IRON_HOE, Material.STONE_HOE,Material.WOODEN_HOE};
+    Material[] hoes0 = {Material.NETHERITE_HOE,Material.DIAMOND_HOE,Material.GOLDEN_HOE,Material.IRON_HOE, Material.STONE_HOE,Material.WOODEN_HOE};
     List<Material> hoes = Arrays.asList(hoes0);
     EntityType[] breedingAnimals0 = {EntityType.MUSHROOM_COW,EntityType.COW,EntityType.SHEEP,EntityType.PIG,EntityType.CHICKEN,EntityType.RABBIT,
                                     EntityType.TURTLE, EntityType.PANDA,EntityType.FOX,EntityType.BEE};

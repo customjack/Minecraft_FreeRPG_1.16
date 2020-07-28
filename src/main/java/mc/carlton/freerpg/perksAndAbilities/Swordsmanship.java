@@ -46,7 +46,8 @@ public class Swordsmanship {
             EntityType.HOGLIN,EntityType.PIGLIN,EntityType.ZOMBIFIED_PIGLIN,EntityType.ZOGLIN};
     List<EntityType> hostileMobs = Arrays.asList(hostileMobs0);
     EntityType[] thirstMobs0 = {EntityType.ZOMBIFIED_PIGLIN, EntityType.DROWNED,EntityType.ELDER_GUARDIAN, EntityType.EVOKER,EntityType.GUARDIAN,
-                                EntityType.HUSK,EntityType.PILLAGER, EntityType.RAVAGER, EntityType.VINDICATOR,EntityType.WITCH, EntityType.ZOMBIE,EntityType.ZOMBIE_VILLAGER};
+                                EntityType.HUSK,EntityType.PILLAGER, EntityType.RAVAGER, EntityType.VINDICATOR,EntityType.WITCH, EntityType.ZOMBIE,EntityType.ZOMBIE_VILLAGER,
+                                EntityType.PIGLIN,EntityType.HOGLIN,EntityType.ZOGLIN};
     List<EntityType> thirstMobs = Arrays.asList(thirstMobs0);
 
     Material[] swords0 = {Material.WOODEN_SWORD,Material.STONE_SWORD,Material.GOLDEN_SWORD,Material.DIAMOND_SWORD,Material.IRON_SWORD};

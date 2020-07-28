@@ -39,7 +39,10 @@ public class Global {
                                   Material.MUSIC_DISC_STAL, Material.MUSIC_DISC_STRAD, Material.MUSIC_DISC_WAIT, Material.MUSIC_DISC_WARD,
                                   Material.NAME_TAG,Material.TIPPED_ARROW,Material.TOTEM_OF_UNDYING,Material.SPECTRAL_ARROW,Material.DIAMOND,Material.GOLD_INGOT,
                                   Material.HEART_OF_THE_SEA,Material.DRAGON_BREATH,Material.EMERALD,Material.NAUTILUS_SHELL,Material.NETHER_STAR,Material.SLIME_BALL,
-                                  Material.RABBIT_FOOT};
+                                  Material.RABBIT_FOOT,
+                                  Material.NETHERITE_SWORD,Material.NETHERITE_HOE,Material.NETHERITE_SHOVEL,Material.NETHERITE_AXE,Material.NETHERITE_PICKAXE,Material.NETHER_GOLD_ORE,
+                                  Material.NETHERITE_BLOCK,Material.NETHERITE_BOOTS,Material.NETHERITE_CHESTPLATE,Material.NETHERITE_HELMET,Material.NETHERITE_INGOT,Material.NETHERITE_LEGGINGS,
+                                  Material.NETHERITE_SCRAP,Material.ANCIENT_DEBRIS};
     List<Material> valuableItems = Arrays.asList(valuableItems0);
 
 

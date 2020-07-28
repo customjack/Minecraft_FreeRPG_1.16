@@ -37,7 +37,7 @@ public class Mining {
     //GET TRACKED BLOCKS LIKE THIS:        ArrayList<Location> blocksLocations = placedClass.getBlocks();
 
     Material[] ores0 = {Material.REDSTONE_ORE,Material.NETHER_QUARTZ_ORE,Material.LAPIS_ORE,Material.IRON_ORE,Material.GOLD_ORE,
-                        Material.EMERALD_ORE,Material.DIAMOND_ORE,Material.COAL_ORE};
+                        Material.EMERALD_ORE,Material.DIAMOND_ORE,Material.COAL_ORE,Material.NETHER_GOLD_ORE,Material.ANCIENT_DEBRIS,Material.GILDED_BLACKSTONE};
     List<Material> ores = Arrays.asList(ores0);
 
     Random rand = new Random(); //Random class Import
@@ -82,9 +82,13 @@ public class Mining {
                 world.dropItemNaturally(loc, new ItemStack(Material.REDSTONE,1));
                 increaseStats.changeEXP("mining",100);
             }
-            else {
+            else if (randomNum2 < 0.999){
                 world.dropItemNaturally(loc, new ItemStack(Material.DIAMOND,1));
                 increaseStats.changeEXP("mining",9000);
+            }
+            else {
+                world.dropItemNaturally(loc, new ItemStack(Material.NETHERITE_SCRAP,1));
+                increaseStats.changeEXP("mining",15000);
             }
         }
     }
