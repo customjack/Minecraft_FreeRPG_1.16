@@ -25,6 +25,9 @@ tokens:
   startingPassiveTokens: 0
   startingSkillTokens: 0
   startingGlobalTokens: 0
+souls:
+  startingSouls: 0
+  refundCost: 250
 leveling:
   maxLevel: -1
   exponentialGrowthFactor: 1.001595
@@ -33,7 +36,7 @@ leveling:
   levelBeginLinear: 1000
   LinearEXPperLevel: 20000.0
 digging:
-  placeHolder: 0
+  maxLevel: -1
   drops:
     drop1Name: glowstone_dust
     drop1Amount: 1
@@ -72,6 +75,7 @@ digging:
     drop15Amount: 1
     drop15BaseChance: 0.001
 woodcutting:
+  maxLevel: -1
   drops:
     leavesDrop1Name: feather
     leavesDrop1Amount: 1
@@ -89,10 +93,11 @@ woodcutting:
     leavesDrop5Amount: 1
     leavesDrop5Chance: 0.0005
 mining:
-  placeHolder: 0
+  maxLevel: -1
 farming:
-  placeHolder: 0
+  maxLevel: -1
 fishing:
+  maxLevel: -1
   drops:
     tier1_baseChance: 0.045
     tier2_baseChance: 0.025
@@ -179,6 +184,26 @@ fishing:
     tier5_drop4Amount: 1
     tier5_drop4Random: 0
     tier5_enchantedArmor: 1
+archery:
+  maxLevel: -1
+beastMastery:
+  maxLevel: -1
+swordsmanship:
+  maxLevel: -1
+defense:
+  maxLevel: -1
+axeMastery:
+  maxLevel: -1
+repair:
+  maxLevel: -1
+agility:
+  maxLevel: -1
+alchemy:
+  maxLevel: -1
+smelting:
+  maxLevel: -1
+enchanting:
+  maxLevel: -1
 
 
 

@@ -17,12 +17,14 @@ public class ChangeStats {
     ArrayList<Double> multipliers = new ArrayList<>();
     ArrayList<Double> tokensInfo = new ArrayList<>();
     ArrayList<Double> levelingInfo = new ArrayList<>();
+    ArrayList<Integer> maxLevels = new ArrayList<>();
 
     public ChangeStats(Player p) {
         this.p = p;
         this.pName = p.getDisplayName();
         this.uuid = p.getUniqueId();
         ConfigLoad loadConfig = new ConfigLoad();
+        maxLevels = loadConfig.getMaxLevels();
         multipliers = loadConfig.getMultipliers();
         tokensInfo = loadConfig.getTokensInfo();
         levelingInfo = loadConfig.getLevelingInfo();
@@ -56,9 +58,23 @@ public class ChangeStats {
             String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting","global"};
             List<String> labels_arr = Arrays.asList(labels_0);
             String skillTitle = titles_0[labels_arr.indexOf(skillName)];
+
+            //Multipliers
             if (!isCommand) {
                 expChange = (int) Math.ceil(expChange * (multipliers.get(0)) * (multipliers.get(labels_arr.indexOf(skillName) + 1)) * (globalClass.expBoost(skillName))); //multiplies exp by global multiplier
             }
+
+            //Get Corresponding maxLevel
+            int maxLevel = (int) maxLevels.get(labels_arr.indexOf(skillName) + 1);
+            if (maxLevel == -1) {
+                maxLevel = maxLevels.get(0);
+                if (maxLevel == - 1) {
+                    maxLevel = Integer.MAX_VALUE;
+                }
+            }
+
+
+
             //TokensInfo
             double autoPassive = tokensInfo.get(0);
             double levelsPerPassive = tokensInfo.get(1);
@@ -80,6 +96,11 @@ public class ChangeStats {
             int tokens_P = (int)pStats.get(2);
             int tokens_G = (int)pGlobalStats.get(1);
 
+            //If currently level is already maxed, do nothing
+            if (oldLevel >= maxLevel) {
+                return;
+            }
+
             // set new stats
             exp += expChange;
             int level = 0;
@@ -87,6 +108,11 @@ public class ChangeStats {
             int newTokens_P = 0;
             int newTokens_G = 0;
             level = getLevelfromEXP(exp);
+
+            //if new level is greater than the max level, set it to the max level
+            if (level >= maxLevel) {
+                level = maxLevel;
+            }
 
             int levelChange = level - oldLevel;
             int globalLevel = oldGlobalLevel + levelChange;

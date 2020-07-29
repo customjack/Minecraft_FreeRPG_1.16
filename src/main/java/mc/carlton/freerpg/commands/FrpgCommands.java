@@ -2,10 +2,7 @@ package mc.carlton.freerpg.commands;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
-import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
-import mc.carlton.freerpg.playerAndServerInfo.HeldStats;
-import mc.carlton.freerpg.playerAndServerInfo.PlayerLeaderboard;
-import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
+import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -61,7 +58,7 @@ public class FrpgCommands implements CommandExecutor {
                 ItemStack configuration = new ItemStack(Material.REDSTONE);
 
                 ItemStack[] menu_items = {global,digging,woodcutting,mining,farming,fishing,archery,beastMastery,swords,armor,axes,repair,agility,alchemy,smelting,enchanting,tokens,configuration};
-                String[] labels = {"Global","Digging","Woodcutting","Mining","Farming","Fishing","Archery","Beast Mastery","Swordsmanship","Defense","Axe Mastery","Repair","Agility","Alchemy","Smelting","Enchanting","Tokens","Configuration"};
+                String[] labels = {"Global","Digging","Woodcutting","Mining","Farming","Fishing","Archery","Beast Mastery","Swordsmanship","Defense","Axe Mastery","Repair","Agility","Alchemy","Smelting","Enchanting","Information","Configuration"};
                 String[] labels0 = {"global","digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting"};
                 Integer[] indices = {4,11,12,13,14,15,20,21,22,23,24,29,30,31,32,33,36,44};
                 PlayerStats pStatClass = new PlayerStats(p);
@@ -117,7 +114,10 @@ public class FrpgCommands implements CommandExecutor {
                                 totTokens_S += pStat.get(j).get(3).intValue();
                             }
                         }
+                        PlayerStats timeStats = new PlayerStats(p);
+                        String playTimeString = timeStats.getPlayerPlayTimeString();
                         ArrayList<String> lore = new ArrayList<>();
+                        lore.add(ChatColor.GRAY + "Total Play Time: " + ChatColor.GOLD + playTimeString);
                         lore.add(ChatColor.GRAY + "Global Tokens: " + ChatColor.GOLD + String.valueOf(gTokens));
                         lore.add(ChatColor.GRAY + "SKill Tokens: " + ChatColor.GOLD + String.valueOf(totTokens_S));
                         lore.add(ChatColor.GRAY + "Passive Tokens: " + ChatColor.GOLD + String.valueOf(totTokens_P));
@@ -147,7 +147,18 @@ public class FrpgCommands implements CommandExecutor {
                 int totalPages = 3;
                 int page = 1;
                 if (args.length == 2) {
-                    page = Integer.valueOf(args[1]);
+                    try {
+                        page = Integer.valueOf(args[1]);
+                    }
+                    catch (NumberFormatException e) {
+                        if (sender instanceof Player) {
+                            Player p = (Player) sender;
+                            p.sendMessage(ChatColor.RED + "Improper Arguments, try /frpg help [(Optional) page]");
+                        } else {
+                            System.out.println("Improper Arguments, try /frpg help [(Optional) page]");
+                        }
+                        return true;
+                    }
                 }
                 if (page > totalPages || page < 1) {
                     page = 1;
@@ -248,7 +259,14 @@ public class FrpgCommands implements CommandExecutor {
                 Player p = (Player) sender;
                 if (p.hasPermission("freeRPG.enchantItem")) {
                     if (args.length == 2) {
-                        int level = Integer.valueOf(args[1]);
+                        int level = 0;
+                        try {
+                            level = Integer.valueOf(args[1]);
+                        }
+                        catch (NumberFormatException e) {
+                            p.sendMessage(ChatColor.RED + "Improper Arguments, try /frpg enchantItem [level]");
+                            return true;
+                        }
                         if (level < 40) {
                             ItemStack item = p.getInventory().getItemInMainHand();
                             PsuedoEnchanting enchant = new PsuedoEnchanting();
@@ -274,7 +292,18 @@ public class FrpgCommands implements CommandExecutor {
                 String skillName = args[1];
                 int page = 1;
                 if (args.length == 3) {
-                    page = Integer.valueOf(args[2]);
+                    try {
+                        page = Integer.valueOf(args[2]);;
+                    }
+                    catch (NumberFormatException e) {
+                        if (sender instanceof Player) {
+                            Player p = (Player) sender;
+                            p.sendMessage(ChatColor.RED + "Improper Arguments, try /frpg statLeaders [skillName] [(Optional) page]");
+                        } else {
+                            System.out.println("Improper Arguments, try /frpg statLeaders [skillName] [(Optional) page]");
+                        }
+                        return true;
+                    }
                 }
                 String[] titles_0 = {"Digging", "Woodcutting", "Mining", "Farming", "Fishing", "Archery", "Beast Mastery", "Swordsmanship", "Defense", "Axe Mastery", "Repair", "Agility", "Alchemy", "Smelting", "Enchanting", "Global"};
                 String[] labels_0 = {"digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting"};
@@ -349,7 +378,20 @@ public class FrpgCommands implements CommandExecutor {
                     }
                 }
                 String skillName = args[2];
-                int exp = Integer.valueOf(args[3]);
+                int exp = 0;
+                try {
+                    exp = Integer.valueOf(args[3]);
+                }
+                catch (NumberFormatException e) {
+                    if (sender instanceof Player) {
+                        Player p = (Player) sender;
+                        p.sendMessage(ChatColor.RED + "Improper Arguments, try /frpg giveEXP [playerName] [skillName] [exp]");
+                    } else {
+                        System.out.println("Improper Arguments, try /frpg giveEXP [playerName] [skillName] [exp]");
+                    }
+                    return true;
+                }
+
                 String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
                 List<String> labels_arr = Arrays.asList(labels_0);
                 if (labels_arr.contains(skillName) && target.isOnline()) {
@@ -422,7 +464,19 @@ public class FrpgCommands implements CommandExecutor {
                     }
                 }
                 String skillName = args[2];
-                int level = Integer.valueOf(args[3]);
+                int level = 0;
+                try {
+                    level = Integer.valueOf(args[3]);
+                }
+                catch (NumberFormatException e) {
+                    if (sender instanceof Player) {
+                        Player p = (Player) sender;
+                        p.sendMessage(ChatColor.RED + "Improper Arguments, try /frpg setLevel [playerName] [skillName] [level]");
+                    } else {
+                        System.out.println("Improper Arguments, try /frpg setLevel [playerName] [skillName] [level]");
+                    }
+                    return true;
+                }
                 String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
                 List<String> labels_arr = Arrays.asList(labels_0);
                 if (labels_arr.contains(skillName) && target.isOnline()) {
@@ -569,12 +623,192 @@ public class FrpgCommands implements CommandExecutor {
         }
 
         //setSouls
+        else if (args[0].equalsIgnoreCase("setSouls") || args[0].equalsIgnoreCase("soulsSet")) {
+            if (args.length == 3) {
+                String playerName = args[1];
+
+                //Checks if target is online and exists
+                Player target = plugin.getServer().getPlayer(playerName);
+                if (target == null) {
+                    if (sender instanceof Player) {
+                        Player p = (Player) sender;
+                        p.sendMessage(ChatColor.RED + "That player is not online");
+                    } else {
+                        System.out.println("Player not online");
+                    }
+                    return true;
+                }
+                if (target.isOnline()) { //THis may be redudant but I'm doing it to be safe
+                    int souls = 0;
+                    try {
+                        souls = Integer.valueOf(args[2]);
+                    }
+                    catch (NumberFormatException e) {
+                        if (sender instanceof Player) {
+                            Player p = (Player) sender;
+                            p.sendMessage(ChatColor.RED + "Improper Arguments, try /frpg setLevel [playerName] [skillName] [level]");
+                        } else {
+                            System.out.println("Improper Arguments, try /frpg setLevel [playerName] [skillName] [level]");
+                        }
+                        return true;
+                    }
+                    if (sender instanceof Player) {
+                        Player p = (Player) sender;
+                        if (p.hasPermission("freeRPG.setSouls")) {
+                            ChangeStats increaseStats = new ChangeStats(target);
+                            increaseStats.setStat("global",20,souls);
+                        } else {
+                            p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                        }
+                    }
+                    else {
+                        ChangeStats increaseStats = new ChangeStats(target);
+                        increaseStats.setStat("global",20,souls);
+                    }
+                }
+            }
+            else {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    if (p.hasPermission("freeRPG.setSouls")) {
+                        p.sendMessage(ChatColor.RED + "Improper Arguments, try /frpg setSouls [playername] [amount]");
+                    } else {
+                        p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                    }
+                }
+                else {
+                    System.out.println("Improper Arguments, try /frpg setSouls [playername] [amount]");
+                }
+            }
+        }
+
+        //setTokens
+        else if (args[0].equalsIgnoreCase("setTokens") || args[0].equalsIgnoreCase("tokensSet")) {
+
+            if (args.length == 5 || args.length == 4) {
+                String playerName = args[1];
+                String skillName = args[2];
+
+                //Checks if target is online and exists
+                Player target = plugin.getServer().getPlayer(playerName);
+                if (target == null) {
+                    if (sender instanceof Player) {
+                        Player p = (Player) sender;
+                        p.sendMessage(ChatColor.RED + "That player is not online");
+                    } else {
+                        System.out.println("Player not online");
+                    }
+                    return true;
+                }
+
+                //Global tokens case
+                if (args.length == 4) {
+                    if (skillName.equalsIgnoreCase("global")) {
+                        int globalTokens = 0;
+                        try {
+                            globalTokens = Integer.valueOf(args[3]);
+                        }
+                        catch (NumberFormatException e) {
+                            if (sender instanceof Player) {
+                                Player p = (Player) sender;
+                                p.sendMessage(ChatColor.RED + "Improper Arguments, try /frpg setTokens [playername] global [amount]");
+                            } else {
+                                System.out.println("Improper Arguments, try /frpg setTokens [playername] global [amount]");
+                            }
+                            return true;
+                        }
+                        if (sender instanceof Player) {
+                            Player p = (Player) sender;
+                            if (p.hasPermission("freeRPG.setTokens")) {
+                                ChangeStats increaseStats = new ChangeStats(target);
+                                increaseStats.setStat("global",1,globalTokens);
+                            }
+                        } else {
+                            ChangeStats increaseStats = new ChangeStats(target);
+                            increaseStats.setStat("global",1,globalTokens);
+                        }
+                    }
+                    else {
+                        if (sender instanceof Player) {
+                            Player p = (Player) sender;
+                            p.sendMessage(ChatColor.RED + "Improper Arguments, try /frpg setTokens [playername] global [amount]");
+                        } else {
+                            System.out.println("Player not online");
+                        }
+                    }
+                    return true;
+                }
+
+                String tokenType = args[3];
+                String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
+                List<String> labels_arr = Arrays.asList(labels_0);
+                if (labels_arr.contains(skillName) && target.isOnline()) { //THis may be redudant but I'm doing it to be safe
+                    //Skill/Passive Token Case
+                    if (tokenType.equalsIgnoreCase("skill") || tokenType.equalsIgnoreCase("passive")) {
+                        int tokens = 0;
+                        try {
+                            tokens = Integer.valueOf(args[4]);
+                        } catch (NumberFormatException e) {
+                            if (sender instanceof Player) {
+                                Player p = (Player) sender;
+                                p.sendMessage(ChatColor.RED + "Improper Arguments, try /frpg setTokens [playername] [skillName] [global/skill/passive] [amount]");
+                            } else {
+                                System.out.println("Improper Arguments, try /frpg setTokens [playername] [skillName] [global/skill/passive] [amount]");
+                            }
+                            return true;
+                        }
+                        if (sender instanceof Player) {
+                            Player p = (Player) sender;
+                            if (p.hasPermission("freeRPG.setTokens")) {
+                                ChangeStats increaseStats = new ChangeStats(target);
+                                if (tokenType.equalsIgnoreCase("skill")) {
+                                    increaseStats.setStat(skillName, 3, tokens);
+                                } else {
+                                    increaseStats.setStat(skillName, 2, tokens);
+                                }
+                            }
+                        } else {
+                            ChangeStats increaseStats = new ChangeStats(target);
+                            if (tokenType.equalsIgnoreCase("skill")) {
+                                increaseStats.setStat(skillName, 3, tokens);
+                            } else {
+                                increaseStats.setStat(skillName, 2, tokens);
+                            }
+                        }
+                    } else {
+                        if (sender instanceof Player) {
+                            Player p = (Player) sender;
+                            p.sendMessage(ChatColor.RED + "Improper Arguments, try /frpg setTokens [playername] [skillName] [global/skill/passive] [amount]");
+                        } else {
+                            System.out.println("Player not online");
+                        }
+                    }
+                }
+            }
+            else {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    if (p.hasPermission("freeRPG.setTokens")) {
+                        p.sendMessage(ChatColor.RED + "Improper Arguments, try /frpg setTokens [playername] [skillName] [global/skill/passive] [amount]");
+                    } else {
+                        p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                    }
+                }
+                else {
+                    System.out.println("Improper Arguments, try /frpg setTokens [playername] [skillName] [global/skill/passive] [amount]");
+                }
+            }
+        }
 
 
         //flamePickToggle
         else if (args[0].equalsIgnoreCase("toggleFlamePick") || args[0].equalsIgnoreCase("flamePickToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.toggleFlamePick")) {
+                    p.sendMessage(ChatColor.RED+"You do not have permission to use this command!");
+                    return true;
+                }
                 PlayerStats pStatClass = new PlayerStats(p);
                 Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
                 Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
@@ -627,6 +861,10 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleFlint") || args[0].equalsIgnoreCase("flintToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.toggleFlint")) {
+                    p.sendMessage(ChatColor.RED+"You do not have permission to use this command!");
+                    return true;
+                }
                 PlayerStats pStatClass = new PlayerStats(p);
                 Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
                 Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
@@ -679,6 +917,10 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleGrapple") || args[0].equalsIgnoreCase("grappleToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.toggleGrapple")) {
+                    p.sendMessage(ChatColor.RED+"You do not have permission to use this command!");
+                    return true;
+                }
                 PlayerStats pStatClass = new PlayerStats(p);
                 Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
                 Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
@@ -731,6 +973,10 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleHotRod") || args[0].equalsIgnoreCase("hotRodToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.toggleHotRod")) {
+                    p.sendMessage(ChatColor.RED+"You do not have permission to use this command!");
+                    return true;
+                }
                 PlayerStats pStatClass = new PlayerStats(p);
                 Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
                 Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
@@ -783,6 +1029,10 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleMegaDig") || args[0].equalsIgnoreCase("megaDigToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.toggleMegaDig")) {
+                    p.sendMessage(ChatColor.RED+"You do not have permission to use this command!");
+                    return true;
+                }
                 PlayerStats pStatClass = new PlayerStats(p);
                 Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
                 Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
@@ -835,6 +1085,10 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("togglePotion") || args[0].equalsIgnoreCase("potionToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.togglePotion")) {
+                    p.sendMessage(ChatColor.RED+"You do not have permission to use this command!");
+                    return true;
+                }
                 PlayerStats pStatClass = new PlayerStats(p);
                 Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
                 Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
@@ -887,6 +1141,10 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleSpeed") || args[0].equalsIgnoreCase("speedToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.toggleSpeed")) {
+                    p.sendMessage(ChatColor.RED+"You do not have permission to use this command!");
+                    return true;
+                }
                 PlayerStats pStatClass = new PlayerStats(p);
                 Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
                 Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
@@ -949,6 +1207,10 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleVeinMiner") || args[0].equalsIgnoreCase("veinMinerToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.toggleVeinMiner")) {
+                    p.sendMessage(ChatColor.RED+"You do not have permission to use this command!");
+                    return true;
+                }
                 PlayerStats pStatClass = new PlayerStats(p);
                 Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
                 Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
@@ -1093,12 +1355,18 @@ public class FrpgCommands implements CommandExecutor {
                     String skillName = labels_0[labels_arr.indexOf(args[1])];
                     String skillTitle = titles_0[labels_arr.indexOf(args[1])];
                     Inventory gui = Bukkit.createInventory(p, 54, "Confirmation Window");
+
+                    //Load souls data
+                    ConfigLoad loadConfig = new ConfigLoad();
+                    ArrayList<Integer> soulsInfo = loadConfig.getSoulsInfo();
+                    String refundCost = Integer.toString(soulsInfo.get(1));
+
                     //Information
                     ItemStack info = new ItemStack(Material.PAPER);
                     ItemMeta infoMeta = info.getItemMeta();
                     infoMeta.setDisplayName(ChatColor.BOLD + ChatColor.YELLOW.toString() + "WARNING");
                     ArrayList<String> lore = new ArrayList<String>();
-                    lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"Refunding a skill tree costs 1000 souls and");
+                    lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"Refunding a skill tree costs" + refundCost + "souls and");
                     lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"is not reversible, are you sure you want to");
                     lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"refund the " + ChatColor.BOLD.toString() + ChatColor.WHITE.toString() +
                             skillTitle + ChatColor.RESET.toString() + ChatColor.ITALIC.toString() + ChatColor.GRAY.toString()+" skill?");
@@ -1436,109 +1704,10 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("mainGUI") || args[0].equalsIgnoreCase("skills")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                if (!p.hasPermission("freeRPG.mainGUI")) {
-                    p.sendMessage(ChatColor.RED + "You do not have permission to use this command!");
-                    return true;
-                }
-                Inventory gui = Bukkit.createInventory(p, 45, "Skills");
-
-                //Menu Options(Items)
-                ItemStack global = new ItemStack(Material.NETHER_STAR);
-                ItemStack digging = new ItemStack(Material.IRON_SHOVEL);
-                ItemStack woodcutting = new ItemStack(Material.IRON_AXE);
-                ItemStack mining = new ItemStack(Material.IRON_PICKAXE);
-                ItemStack farming = new ItemStack(Material.IRON_HOE);
-                ItemStack fishing = new ItemStack(Material.FISHING_ROD);
-                ItemStack archery = new ItemStack(Material.BOW);
-                ItemStack beastMastery = new ItemStack(Material.BONE);
-                ItemStack swords = new ItemStack(Material.IRON_SWORD);
-                ItemStack armor = new ItemStack(Material.IRON_CHESTPLATE);
-                ItemStack axes = new ItemStack(Material.GOLDEN_AXE);
-                ItemStack repair = new ItemStack(Material.ANVIL);
-                ItemStack agility = new ItemStack(Material.LEATHER_LEGGINGS);
-                ItemStack alchemy = new ItemStack(Material.POTION);
-                ItemStack smelting = new ItemStack(Material.COAL);
-                ItemStack enchanting = new ItemStack(Material.ENCHANTING_TABLE);
-                ItemStack tokens = new ItemStack(Material.GOLD_INGOT);
-                ItemStack configuration = new ItemStack(Material.REDSTONE);
-
-                ItemStack[] menu_items = {global,digging,woodcutting,mining,farming,fishing,archery,beastMastery,swords,armor,axes,repair,agility,alchemy,smelting,enchanting,tokens,configuration};
-                String[] labels = {"Global","Digging","Woodcutting","Mining","Farming","Fishing","Archery","Beast Mastery","Swordsmanship","Defense","Axe Mastery","Repair","Agility","Alchemy","Smelting","Enchanting","Tokens","Configuration"};
-                String[] labels0 = {"global","digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting"};
-                Integer[] indices = {4,11,12,13,14,15,20,21,22,23,24,29,30,31,32,33,36,44};
-                PlayerStats pStatClass = new PlayerStats(p);
-                Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-
-                //Set item positions and lore for all items in the GUI
-                for (int i = 0; i < labels.length; i++) {
-                    ItemStack item = menu_items[i];
-                    ArrayList<String> lore_skills = new ArrayList<>();
-                    if (i < 16 && i!=0) {
-                        int passiveTokens = (int) pStat.get(labels0[i]).get(2);
-                        int skillTokens = (int) pStat.get(labels0[i]).get(3);
-                        if (passiveTokens > 0 || skillTokens > 0) {
-                            item.addUnsafeEnchantment(Enchantment.DURABILITY,1);
-                        }
-                        int level = pStat.get(labels0[i]).get(0).intValue();
-                        int EXP = pStat.get(labels0[i]).get(1).intValue();
-                        lore_skills.add(ChatColor.GRAY + "Level: " + ChatColor.BLUE + String.valueOf(level));
-                        lore_skills.add(ChatColor.GRAY + "Experience: " + ChatColor.BLUE + String.valueOf(EXP));
-                        ChangeStats getEXP = new ChangeStats(p);
-                        int nextEXP = getEXP.getEXPfromLevel(level+1);
-                        int EXPtoNext = nextEXP - EXP;
-                        lore_skills.add(ChatColor.GRAY + "EXP to next level: " + ChatColor.GREEN + String.valueOf(EXPtoNext));
-
-                    }
-                    else if (i==0) {
-                        int globalTokens = (int) pStat.get(labels0[i]).get(1);
-                        int totalLevel = pStat.get("global").get(0).intValue();
-                        lore_skills.add(ChatColor.GRAY + "Total Level: " + ChatColor.GOLD + String.valueOf(totalLevel));
-                        if (globalTokens > 0) {
-                            item.addUnsafeEnchantment(Enchantment.DURABILITY,1);
-                        }
-                    }
-                    ItemMeta meta = item.getItemMeta();
-                    meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-                    meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                    meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-                    meta.setDisplayName(ChatColor.AQUA + ChatColor.BOLD.toString() + labels[i]);
-                    meta.setLore(lore_skills);
-
-
-                    if (indices[i] == 36) {
-                        int totTokens_S = 0;
-                        int totTokens_P = 0;
-                        int gTokens = 0;
-                        for (String j : pStat.keySet()){
-
-                            if (j.equalsIgnoreCase("global")){
-                                gTokens = pStat.get(j).get(1).intValue();
-                            }
-                            else {
-                                totTokens_P += pStat.get(j).get(2).intValue();
-                                totTokens_S += pStat.get(j).get(3).intValue();
-                            }
-                        }
-                        ArrayList<String> lore = new ArrayList<>();
-                        lore.add(ChatColor.GRAY + "Global Tokens: " + ChatColor.GOLD + String.valueOf(gTokens));
-                        lore.add(ChatColor.GRAY + "SKill Tokens: " + ChatColor.GOLD + String.valueOf(totTokens_S));
-                        lore.add(ChatColor.GRAY + "Passive Tokens: " + ChatColor.GOLD + String.valueOf(totTokens_P));
-                        meta.setLore(lore);
-                    }
-                    else if (indices[i] == 44) {
-                        ArrayList<String> lore = new ArrayList<>();
-                        lore.add(ChatColor.GRAY + "Click for options");
-                        meta.setLore(lore);
-                    }
-                    item.setItemMeta(meta);
-                    gui.setItem(indices[i], item);
-                }
-
-                //Put the items in the inventory
-                p.openInventory(gui);
+                p.performCommand("frpg");
             }
             else {
-                System.out.println("You need to be a player to cast this command");
+                System.out.println("You must be a player to perform this command");
             }
         }
 
@@ -1750,6 +1919,11 @@ public class FrpgCommands implements CommandExecutor {
             String[] titles_0 = {"Digging","Woodcutting","Mining","Farming","Fishing","Archery","Beast Mastery","Swordsmanship","Defense","Axe Mastery","Repair","Agility","Alchemy","Smelting","Enchanting","Global"};
             String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting","global"};
             List<String> labels_arr = Arrays.asList(labels_0);
+
+            ConfigLoad loadConfig = new ConfigLoad();
+            ArrayList<Integer> soulsInfo = loadConfig.getSoulsInfo();
+            String refundCost = Integer.toString(soulsInfo.get(1));
+
             if (sender instanceof Player && args.length!= 2){
                 Player p = (Player) sender;
                 p.sendMessage(ChatColor.RED+"Error: Try /frpg skillTree [skillName]");
@@ -2491,9 +2665,9 @@ public class FrpgCommands implements CommandExecutor {
                 }
                 else {
                     int souls = (int) pStatAll.get("global").get(20);
-                    soulLore.add("Souls: " + ChatColor.AQUA + ChatColor.ITALIC.toString() + souls + "/250");
+                    soulLore.add("Souls: " + ChatColor.AQUA + ChatColor.ITALIC.toString() + souls + "/" + refundCost);
                     soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + "Click to refund this skill tree");
-                    soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + "(Costs 250 souls)");
+                    soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + "(Costs "+refundCost+" souls)");
                 }
                 soulMeta.setLore(soulLore);
                 soul.setItemMeta(soulMeta);
@@ -2943,9 +3117,9 @@ public class FrpgCommands implements CommandExecutor {
                 }
                 else {
                     int souls = (int) pStatAll.get("global").get(20);
-                    soulLore.add("Souls: " + ChatColor.AQUA + ChatColor.ITALIC.toString() + souls + "/250");
+                    soulLore.add("Souls: " + ChatColor.AQUA + ChatColor.ITALIC.toString() + souls + "/" + refundCost);
                     soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + "Click to refund this skill tree");
-                    soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + "(Costs 250 souls)");
+                    soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + "(Costs "+refundCost+" souls)");
                 }
                 soulMeta.setLore(soulLore);
                 soul.setItemMeta(soulMeta);

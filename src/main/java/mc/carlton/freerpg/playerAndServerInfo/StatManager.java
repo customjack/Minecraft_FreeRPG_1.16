@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
@@ -30,20 +31,27 @@ public class StatManager {
         FileConfiguration playerData = YamlConfiguration.loadConfiguration(f);
 
         String[] labels = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
+
+        long unixTime = Instant.now().getEpochSecond();
         //When player file is created for the first time...
         if(!f.exists()){
             try{
                 //Load some file creation config
                 ConfigLoad loadConfig = new ConfigLoad();
                 ArrayList<Double> tokensInfo = loadConfig.getTokensInfo();
+                ArrayList<Integer> soulsInfo = loadConfig.getSoulsInfo();
                 int passiveTokens0 = (int) Math.round(tokensInfo.get(4));
                 int skillTokens0 = (int) Math.round(tokensInfo.get(5));
                 int globalTokens0 = (int) Math.round(tokensInfo.get(6));
+                int souls0 = (int) soulsInfo.get(0);
 
                 //General Player infomration
                 playerData.createSection("general");
                 playerData.set("general.username", pName);
                 playerData.set("general.firstLogin",format.getCalendar());
+                playerData.set("general.lastLogin",unixTime);
+                playerData.set("general.lastLogout",unixTime);
+                playerData.set("general.playTime",0);
 
                 //Global stats data
                 playerData.createSection("globalStats");
@@ -67,7 +75,7 @@ public class StatManager {
                 playerData.set("globalStats.hotRodToggle",1);
                 playerData.set("globalStats.veinMinerToggle",1);
                 playerData.set("globalStats.megaDigToggle",1);
-                playerData.set("globalStats.souls",1);
+                playerData.set("globalStats.souls",souls0);
                 playerData.set("globalStats.levelUpMessageToggle",1);
                 playerData.set("globalStats.abilityPrepareMessageToggle",1);
 
@@ -94,7 +102,7 @@ public class StatManager {
                 exception.printStackTrace();
             }
         }
-        else {
+        else { //If the player's file already exists
             try{
                 //General Player information
                 if (!playerData.contains("general")) {
@@ -105,6 +113,16 @@ public class StatManager {
                 }
                 if (!playerData.contains("general.firstLogin")) {
                     playerData.set("general.firstLogin", format.getCalendar());
+                }
+
+                //Whether it exists or no, the last login will be set to the current unix timestamp
+                playerData.set("general.lastLogin", unixTime);
+
+                if (!playerData.contains("general.lastLogout")) {
+                    playerData.set("general.lastLogout", unixTime);
+                }
+                if (!playerData.contains("general.playTime")) {
+                    playerData.set("general.playTime", 0);
                 }
 
                 //Global stats data

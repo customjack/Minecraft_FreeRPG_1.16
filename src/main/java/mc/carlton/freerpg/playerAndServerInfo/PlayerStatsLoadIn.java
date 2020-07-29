@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,12 +19,37 @@ public class PlayerStatsLoadIn {
 
     public PlayerStatsLoadIn(Player player) {
         this.p = player;
-
     }
+
+    public long getLoginTime(Player p) {
+        long loginTime = 0;
+        UUID pUUID = p.getUniqueId();
+        File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder(), File.separator + "PlayerDatabase");
+        File f = new File(userdata, File.separator + pUUID.toString() + ".yml");
+        FileConfiguration playerData = YamlConfiguration.loadConfiguration(f);
+        if (f.exists()) {
+            loginTime = Long.parseLong(playerData.get("general.lastLogin").toString());
+            return loginTime;
+        }
+        return Instant.now().getEpochSecond();
+    }
+
+    public long getPlayTime(Player p) {
+        long playTime = 0;
+        UUID pUUID = p.getUniqueId();
+        File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder(), File.separator + "PlayerDatabase");
+        File f = new File(userdata, File.separator + pUUID.toString() + ".yml");
+        FileConfiguration playerData = YamlConfiguration.loadConfiguration(f);
+        if (f.exists()) {
+            playTime = Long.parseLong(playerData.get("general.playTime").toString());
+            return playTime;
+        }
+        return Instant.now().getEpochSecond();
+    }
+
     public  Map<String, ArrayList<Number>>  getPlayerStatsMap(Player p) {
         String[] labels = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
         ArrayList<Number> stats = new ArrayList<Number>();
-        String pName = p.getName();
         UUID pUUID = p.getUniqueId();
         File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder(), File.separator + "PlayerDatabase");
         File f = new File(userdata, File.separator + pUUID.toString() + ".yml");
@@ -82,11 +108,19 @@ public class PlayerStatsLoadIn {
         Map<String, ArrayList<Number>> pStatAll = pStatClass.getPlayerData();
         String pName = p.getName();
         UUID pUUID = p.getUniqueId();
+        long unixTime = Instant.now().getEpochSecond();
         File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder(), File.separator + "PlayerDatabase");
         File f = new File(userdata, File.separator + pUUID.toString() + ".yml");
         FileConfiguration playerData = YamlConfiguration.loadConfiguration(f);
         if(f.exists()) {
             playerData.set("general.username", pName);
+
+            //Setting playTime in seconds
+            playerData.set("general.lastLogout",unixTime);
+            long lastLoginTime = (long) Long.parseLong(playerData.get("general.lastLogin").toString());
+            long playTime = unixTime-lastLoginTime;
+            playerData.set("general.playTime",playTime);
+
             for (String i : pStatAll.keySet()) {
                 if (i.equalsIgnoreCase("global")) {
                     playerData.set("globalStats.totalLevel",pStatAll.get(i).get(0));

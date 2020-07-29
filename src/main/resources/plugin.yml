@@ -27,6 +27,7 @@ permissions:
     children:
       freeRPG.GUI: true
       freeRPG.getEXP: true
+      freeRPG.getSouls: true
       freeRPG.useAbilites: true
       freeRPG.canRepair: true
       freeRPG.canSalvage: true
@@ -34,6 +35,7 @@ permissions:
       freeRPG.info: true
       freeRPG.help: true
       freeRPG.leaderboard: true
+      freeRPG.toggles: true
   freeRPG.GUI:
     description: Gives access to all GUI commands
     default: true
@@ -43,6 +45,18 @@ permissions:
       freeRPG.craftGUI: true
       freeRPG.confirmGUI: true
       freeRPG.skillsGUI: true
+  freeRPG.toggles:
+    description: gives access to all toggle commands
+    default: true
+    children:
+      freeRPG.toggleFlint: true
+      freeRPG.toggleSpeed: true
+      freeRPG.togglePotion: true
+      freeRPG.toggleFlamePick: true
+      freeRPG.toggleGrapple: true
+      freeRPG.toggleHotRod: true
+      freeRPG.toggleVeinMiner: true
+      freeRPG.toggleMegaDig: true
   freeRPG.changeStats:
     description: Gives access to all stat changing commands
     default: op
@@ -50,6 +64,8 @@ permissions:
       freeRPG.giveEXP: true
       freeRPG.setLevel: true
       freeRPG.statReset: true
+      freeRPG.setSouls: true
+      freeRPG.setTokens: true
   freeRPG.getEXP:
     description: Allows player to gain every type of EXP
     default: true
@@ -202,4 +218,37 @@ permissions:
     default: true
   freeRPG.fish:
     description: players with this permission will use freeRPG's changed fishing system
+    default: true
+  freeRPG.setSouls:
+    description: allows player to set other players (including themselves) soul stat
+    default: op
+  freeRPG.setTokens:
+    description: allows player to set other players (including themselves) token stats (global, skill, passive)
+    default: op
+  freeRPG.getSouls:
+    description: allows player to earn souls after unlocking the Soul Harvest Perk
+    default: true
+  freeRPG.toggleFlint:
+    description: allows to player to toggle the flint finder perk
+    default: true
+  freeRPG.toggleSpeed:
+    description: allows to player to toggle the graceful feet perk
+    default: true
+  freeRPG.togglePotion:
+    description: allows to player to toggle the potion master perk
+    default: true
+  freeRPG.toggleFlamePick:
+    description: allows to player to toggle the flame pickaxe perk
+    default: true
+  freeRPG.toggleGrapple:
+    description: allows to player to toggle the grappling hook perk
+    default: true
+  freeRPG.toggleHotRod:
+    description: allows to player to toggle the hot rod perk
+    default: true
+  freeRPG.toggleVeinMiner:
+    description: allows to player to toggle the vein miner perk
+    default: true
+  freeRPG.toggleMegaDig:
+    description: allows to player to toggle the mega dig perk
     default: true

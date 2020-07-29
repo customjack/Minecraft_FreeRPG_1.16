@@ -119,6 +119,9 @@ public class Global {
     }
 
     public void gainSoul(Entity entity) {
+        if (!p.hasPermission("freeRPG.getSouls")) {
+            return;
+        }
         EntityType[] hostileMobs0 = {EntityType.SPIDER,EntityType.CAVE_SPIDER,EntityType.ENDERMAN,EntityType.ZOMBIFIED_PIGLIN,
                 EntityType.BLAZE,EntityType.CREEPER,EntityType.DROWNED,EntityType.ELDER_GUARDIAN,
                 EntityType.ENDERMITE,EntityType.EVOKER,EntityType.GHAST,EntityType.GUARDIAN,

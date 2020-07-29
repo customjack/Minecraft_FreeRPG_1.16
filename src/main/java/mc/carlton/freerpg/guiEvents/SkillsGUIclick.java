@@ -1,5 +1,6 @@
 package mc.carlton.freerpg.guiEvents;
 import mc.carlton.freerpg.perksAndAbilities.*;
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -66,7 +67,10 @@ public class SkillsGUIclick implements Listener {
                             }
                             else {
                                 if ((int) pStatAll.get("global").get(9) > 0) {
-                                    p.sendMessage(ChatColor.RED + "You need at least 250 souls to refund a skill tree");
+                                    ConfigLoad loadConfig = new ConfigLoad();
+                                    ArrayList<Integer> soulsInfo = loadConfig.getSoulsInfo();
+                                    String refundCost = Integer.toString(soulsInfo.get(1));
+                                    p.sendMessage(ChatColor.RED + "You need at least" + refundCost + "souls to refund a skill tree");
                                 }
                                 else {
                                     p.sendMessage(ChatColor.RED + "You need to unlock " +ChatColor.BOLD + "Soul Harvesting" + ChatColor.RESET + ChatColor.RED.toString() + " to refund skill trees");
