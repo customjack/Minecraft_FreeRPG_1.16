@@ -1,5 +1,6 @@
 package mc.carlton.freerpg;
 
+import com.sk89q.worldguard.WorldGuard;
 import mc.carlton.freerpg.brewingEvents.BrewingInventoryClick;
 import mc.carlton.freerpg.brewingEvents.FinishedBrewing;
 import mc.carlton.freerpg.clickEvents.PlayerLeftClick;
@@ -61,6 +62,10 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //Check if the server uses world guard
+        WorldGuardChecks CheckWorldGuardExistence = new WorldGuardChecks();
+        CheckWorldGuardExistence.initializeWorldGuardPresent();
 
 
         new BukkitRunnable() {

@@ -567,6 +567,10 @@ public class FrpgCommands implements CommandExecutor {
                 }
             }
         }
+
+        //setSouls
+
+
         //flamePickToggle
         else if (args[0].equalsIgnoreCase("toggleFlamePick") || args[0].equalsIgnoreCase("flamePickToggle")) {
             if (sender instanceof Player) {

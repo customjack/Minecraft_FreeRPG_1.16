@@ -2,9 +2,11 @@ package mc.carlton.freerpg.miscEvents;
 
 
 import mc.carlton.freerpg.playerAndServerInfo.PlacedBlocks;
+import mc.carlton.freerpg.playerAndServerInfo.WorldGuardChecks;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -15,6 +17,17 @@ import java.util.ArrayList;
 public class PlayerBlockPlace implements Listener {
     @EventHandler
     void onblockPlace(BlockPlaceEvent e){
+        Player p = e.getPlayer();
+        Block block = e.getBlockPlaced();
+        Location loc = block.getLocation();
+
+        //WorldGuard Check
+        WorldGuardChecks BuildingCheck = new WorldGuardChecks();
+        if (!BuildingCheck.canBuild(p, loc)) {
+            return;
+        }
+
+
         Material[] trackedBlocks = {Material.ACACIA_LOG,Material.ACACIA_LEAVES,Material.BIRCH_LOG,Material.BIRCH_LEAVES,
                                     Material.DARK_OAK_LOG,Material.DARK_OAK_LEAVES,Material.JUNGLE_LOG,Material.JUNGLE_LEAVES,
                                     Material.OAK_LOG,Material.OAK_LEAVES,Material.SPRUCE_LOG,Material.SPRUCE_LEAVES,
@@ -24,7 +37,6 @@ public class PlayerBlockPlace implements Listener {
                                     Material.BAMBOO,Material.CACTUS,
                                     Material.ANCIENT_DEBRIS,Material.NETHER_GOLD_ORE,Material.WARPED_STEM,Material.CRIMSON_STEM,
                                     Material.GILDED_BLACKSTONE};
-        Block block = e.getBlockPlaced();
         Material blockType = block.getType();
         boolean isTracked = false;
         for (Material mat : trackedBlocks) {
@@ -34,7 +46,6 @@ public class PlayerBlockPlace implements Listener {
             }
         }
         if (isTracked) {
-            Location loc = block.getLocation();
             PlacedBlocks placedClass = new PlacedBlocks();
             ArrayList<Location> blocksLocations = placedClass.getBlocks();
             blocksLocations.add(loc);

@@ -183,6 +183,7 @@ public class Digging {
     }
 
     public void megaDig(Block block, Map<Material, Integer> diggingEXP) {
+        WorldGuardChecks BuildingCheck = new WorldGuardChecks();
         World world = p.getWorld();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         int megaDigLevel = (int) pStat.get("digging").get(13);
@@ -199,11 +200,17 @@ public class Digging {
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
                 for (int z = -1; z <= 1; z++) {
+                    if (x==0 && y==0 && z==0) {
+                        continue;
+                    }
                     Vector relativeVector = new Vector(x, y, z);
                     if (relativeVector.dot(normalVector) == 0) {
                         Block planeBlock = block.getRelative(x, y, z);
                         Material blockType = planeBlock.getType();
                         Location blockLocation = planeBlock.getLocation();
+                        if (!BuildingCheck.canBuild(p, blockLocation)) {
+                            continue;
+                        }
                         if (diggingEXP.containsKey(blockType)) {
                             damageTool();
                             increaseStats.changeEXP("digging",(int) Math.round(diggingEXP.get(blockType)*0.2));
@@ -211,7 +218,7 @@ public class Digging {
                             for (ItemStack stack : drops) {
                                 world.dropItemNaturally(blockLocation, stack);
                             }
-                            diggingTreasureDrop(world,blockLocation,planeBlock);
+                            diggingTreasureDrop(world,blockLocation,blockType);
                             planeBlock.setType(Material.AIR);
                         }
                     }
@@ -232,7 +239,7 @@ public class Digging {
         }
     }
 
-    public void diggingTreasureDrop(World world, Location loc,Block block) {
+    public void diggingTreasureDrop(World world, Location loc,Material blockType) {
         ConfigLoad loadConfig = new ConfigLoad();
         ArrayList<Object> treasureData = loadConfig.getDiggingInfo();
         double randomNum = rand.nextDouble();
@@ -242,7 +249,7 @@ public class Digging {
         int treasureRoll = (int) pStat.get("digging").get(5);
         int soulStealing = (int) pStat.get("digging").get(10);
         double treasureChance = treasureRoll * 0.00005 + 0.01;
-        if (soulStealing > 0 && block.getType() == Material.SOUL_SAND) {
+        if (soulStealing > 0 && blockType == Material.SOUL_SAND) {
             treasureChance = treasureChance*(1+0.05*soulStealing);
         }
         if (treasureChance < randomNum) {
@@ -580,9 +587,8 @@ public class Digging {
         }
     }
 
-    public boolean flintFinder(World world,Block block) {
-        if (block.getType() == Material.GRAVEL) {
-            Integer[] pAbilities = abilities.getPlayerAbilities();
+    public boolean flintFinder(Material blockType) {
+        if (blockType == Material.GRAVEL) {
             Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
             int flintFinderLevel = (int) pStat.get("digging").get(11);
             int flintFinderToggle = (int) pStat.get("global").get(12);

@@ -278,6 +278,7 @@ public class Mining {
     }
 
     public void getVeinOres(Block b1,final int x1, final int y1, final int z1) {
+        WorldGuardChecks BuildingCheck = new WorldGuardChecks();
         int searchCubeSize = 7;
         Material ore = b1.getType();
         for (int x = -1; x <= 1; x++) {
@@ -292,8 +293,10 @@ public class Mining {
                             break;
                         }
                         else if (!(veinOres.contains(b2))) {
-                            veinOres.add(b2);
-                            this.getVeinOres(b2, x1,y1,z1);
+                            if (BuildingCheck.canBuild(p, b2.getLocation())) {
+                                veinOres.add(b2);
+                                this.getVeinOres(b2, x1, y1, z1);
+                            }
                         }
                     }
                 }
@@ -301,8 +304,8 @@ public class Mining {
         }
     }
 
-    public void veinMiner(Block initialBlock) {
-        if (!(ores.contains(initialBlock.getType()))) {
+    public void veinMiner(Block initialBlock,Material blockType) {
+        if (!(ores.contains(blockType))) {
             return;
         }
         World world = initialBlock.getWorld();

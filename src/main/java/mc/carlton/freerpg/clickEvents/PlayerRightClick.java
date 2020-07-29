@@ -5,6 +5,7 @@ import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.playerAndServerInfo.AbilityTracker;
 import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
+import mc.carlton.freerpg.playerAndServerInfo.WorldGuardChecks;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
@@ -137,6 +138,10 @@ public class PlayerRightClick implements Listener {
             //Explosions
             if (itemInHandType == Material.FLINT_AND_STEEL) {
                 Block blockLit = e.getClickedBlock();
+                WorldGuardChecks BuildingCheck = new WorldGuardChecks();
+                if (!BuildingCheck.canBuild(p, blockLit.getLocation())) {
+                    return;
+                }
                 if (blockLit.getType() == Material.TNT) {
                     e.setCancelled(true);
                     blockLit.setType(Material.AIR);

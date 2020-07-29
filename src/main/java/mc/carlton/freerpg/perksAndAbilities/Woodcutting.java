@@ -177,6 +177,7 @@ public class Woodcutting {
         }.runTaskLater(plugin, duration);
     }
     public void getTimberLogs(Block b1, final int x1, final int z1) {
+        WorldGuardChecks BuildingCheck = new WorldGuardChecks();
         int searchSquareSize = 7;
         for (int x = -1; x <= 1; x++) {
             for (int y = 0; y <= 1; y++) {
@@ -190,8 +191,10 @@ public class Woodcutting {
                             break;
                         }
                         else if (!(timberLogs.contains(b2))) {
-                            timberLogs.add(b2);
-                            this.getTimberLogs(b2, x1, z1);
+                            if (BuildingCheck.canBuild(p, b2.getLocation())) {
+                                timberLogs.add(b2);
+                                this.getTimberLogs(b2, x1, z1);
+                            }
                         }
                     }
                 }
@@ -441,6 +444,10 @@ public class Woodcutting {
     }
     public void leafBlower(Block block, World world) {
         if (leaves.contains(block.getType()) && axes.contains(itemInHand.getType())) {
+            WorldGuardChecks BuildingCheck = new WorldGuardChecks();
+            if (!BuildingCheck.canBuild(p, block.getLocation())) {
+                return;
+            }
             increaseStats.changeEXP("woodcutting",35);
             Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
             int leafLevel = (int) pStat.get("woodcutting").get(12);

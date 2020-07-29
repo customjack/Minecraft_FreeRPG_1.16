@@ -4,6 +4,7 @@ main: mc.carlton.freerpg.FreeRPG
 api-version: 1.13
 authors: [JackCarlton]
 description: Made from Spite
+softdepend: [WorldGuard]
 commands:
   frpg:
     description: Main FreeRPG command, type /frpg help for more info

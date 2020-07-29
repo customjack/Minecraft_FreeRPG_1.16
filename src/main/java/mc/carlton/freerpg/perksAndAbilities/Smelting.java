@@ -112,7 +112,7 @@ public class Smelting {
         }.runTaskLater(plugin, 1);
     }
 
-    public void flamePick(Block block,World world) {
+    public void flamePick(Block block,World world,Material blockType) {
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         int doubleDropLevel = (int) pStat.get("mining").get(5);
         int doubleDropWoodcuttingLevel = (int) pStat.get("woodcutting").get(5);
@@ -125,7 +125,7 @@ public class Smelting {
             dropAmount *= 2;
         }
         world.spawnParticle(Particle.FLAME, block.getLocation(), 5);
-        switch (block.getType()) {
+        switch (blockType) {
             case IRON_ORE:
                 block.setType(Material.AIR);
                 if (chanceDrop > rand.nextDouble()) {
