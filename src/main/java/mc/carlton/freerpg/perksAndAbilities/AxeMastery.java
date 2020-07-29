@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
 import org.bukkit.attribute.Attributable;
@@ -38,6 +39,8 @@ public class AxeMastery {
     PlacedBlocks placedClass;
     //GET TRACKED BLOCKS LIKE THIS:        ArrayList<Location> blocksLocations = placedClass.getBlocks();
 
+    ActionBarMessages actionMessage;
+
     Random rand = new Random(); //Random class Import
 
     Material[] axes0 = {Material.DIAMOND_AXE,Material.GOLDEN_AXE,Material.IRON_AXE, Material.STONE_AXE,Material.WOODEN_AXE};
@@ -53,7 +56,7 @@ public class AxeMastery {
         this.timers = new AbilityTimers(p);
         this.pStatClass=  new PlayerStats(p);
         this.placedClass = new PlacedBlocks();
-
+        this.actionMessage = new ActionBarMessages(p);
     }
 
     public void initiateAbility() {
@@ -67,7 +70,7 @@ public class AxeMastery {
             if (cooldown < 1) {
                 int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
                 if (pAbilities[1] != -1 && pTimers[1] >= 1 && prepMessages > 0) {
-                    p.sendMessage(ChatColor.GRAY + ">>>You prepare your axe...<<<");
+                    actionMessage.sendMessage(ChatColor.GRAY + ">>>You prepare your axe...<<<");
                 }
                 int taskID = new BukkitRunnable() {
                     @Override
@@ -77,7 +80,7 @@ public class AxeMastery {
                             Integer[] pAbilities2 = abilities.getPlayerAbilities();
                             int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
                             if (pAbilities2[1] != -1 && pTimers2[1] >= 1 && prepMessages > 0) {
-                                p.sendMessage(ChatColor.GRAY + ">>>You prepare you rest your axe...<<<");
+                                actionMessage.sendMessage(ChatColor.GRAY + ">>>You prepare you rest your axe...<<<");
                             }
                             abilities.setPlayerAbility( "axeMastery", -1);
                         }
@@ -88,14 +91,14 @@ public class AxeMastery {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( "axeMastery", taskID);
             } else {
-                p.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Great Axe again.");
+                actionMessage.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Great Axe again.");
             }
         }
     }
     public void enableAbility() {
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        p.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Great Axe Activated!<<<");
+        actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Great Axe Activated!<<<");
         int durationLevel = (int) pStat.get("axeMastery").get(4);
         double duration0 = Math.ceil(durationLevel*0.4) + 40;
         int cooldown = 300;
@@ -109,7 +112,7 @@ public class AxeMastery {
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Great Axe has ended<<<");
+                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Great Axe has ended<<<");
                 abilities.setPlayerAbility( "axeMastery", -1);
                 timers.setPlayerTimer( "axeMastery", finalCooldown);
                 for(int i = 1; i < finalCooldown+1; i++) {
@@ -124,7 +127,7 @@ public class AxeMastery {
                                     timers2.removePlayer();
                                 }
                                 else {
-                                    p.sendMessage(ChatColor.GREEN + ">>>Great Axe is ready to use again<<<");
+                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>Great Axe is ready to use again<<<");
                                 }
                             }
                         }

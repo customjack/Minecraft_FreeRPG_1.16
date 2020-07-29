@@ -1,5 +1,6 @@
 package mc.carlton.freerpg.playerAndServerInfo;
 
+import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.guiEvents.MaxPassiveLevels;
 import mc.carlton.freerpg.perksAndAbilities.Global;
 import org.bukkit.ChatColor;
@@ -18,6 +19,7 @@ public class ChangeStats {
     ArrayList<Double> tokensInfo = new ArrayList<>();
     ArrayList<Double> levelingInfo = new ArrayList<>();
     ArrayList<Integer> maxLevels = new ArrayList<>();
+    ActionBarMessages actionMessage;
 
     public ChangeStats(Player p) {
         this.p = p;
@@ -29,6 +31,7 @@ public class ChangeStats {
         tokensInfo = loadConfig.getTokensInfo();
         levelingInfo = loadConfig.getLevelingInfo();
         this.isCommand = false;
+        this.actionMessage = new ActionBarMessages(p);
     }
 
     public void set_isCommand(boolean isFromCommand) {
@@ -166,7 +169,7 @@ public class ChangeStats {
                         }
                         p.sendMessage(bars);
                     } else {
-                        p.sendMessage(ChatColor.YELLOW + skillTitle + " increased by " + Integer.toString(levelChange) + ". (" + level + ")");
+                        actionMessage.sendMessage(ChatColor.YELLOW + skillTitle + " increased by " + Integer.toString(levelChange) + ". (" + level + ")");
                     }
                 }
                 pStats.set(0, level);

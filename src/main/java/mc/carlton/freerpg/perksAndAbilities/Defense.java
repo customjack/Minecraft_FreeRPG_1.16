@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -34,6 +35,8 @@ public class Defense {
     PlayerStats pStatClass;
     //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
 
+    ActionBarMessages actionMessage;
+
     Random rand = new Random(); //Random class Import
 
     EntityType[] hostileMobs0 = {EntityType.SPIDER,EntityType.CAVE_SPIDER,EntityType.ENDERMAN,EntityType.ZOMBIFIED_PIGLIN,
@@ -54,6 +57,7 @@ public class Defense {
         this.abilities = new AbilityTracker(p);
         this.timers = new AbilityTimers(p);
         this.pStatClass = new PlayerStats(p);
+        this.actionMessage = new ActionBarMessages(p);
     }
 
     public void initiateAbility() {
@@ -67,13 +71,13 @@ public class Defense {
             if (cooldown < 1) {
                 int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
                 if (prepMessages > 0) {
-                    p.sendMessage(ChatColor.GRAY + ">>>You prepare yourself...<<<");
+                    actionMessage.sendMessage(ChatColor.GRAY + ">>>You prepare yourself...<<<");
                 }
                 int taskID = new BukkitRunnable() {
                     @Override
                     public void run() {
                         if (prepMessages > 0) {
-                            p.sendMessage(ChatColor.GRAY + ">>>...You rest yourself<<<");
+                            actionMessage.sendMessage(ChatColor.GRAY + ">>>...You rest yourself<<<");
                         }
                         try {
                             abilities.setPlayerAbility( "defense", -1);
@@ -85,7 +89,7 @@ public class Defense {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( "defense", taskID);
             } else {
-                p.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Stone Soldier again.");
+                actionMessage.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Stone Soldier again.");
             }
         }
     }
@@ -93,7 +97,7 @@ public class Defense {
     public void enableAbility() {
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        p.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Stone Soldier Activated!<<<");
+        actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Stone Soldier Activated!<<<");
         int durationLevel = (int) pStat.get("defense").get(4);
         double duration0 = Math.ceil(durationLevel * 0.4) + 40;
         int cooldown = 300;
@@ -149,7 +153,7 @@ public class Defense {
         int taskID = new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Stone Soldier has ended<<<");
+                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Stone Soldier has ended<<<");
                 abilities.setPlayerAbility( "defense", -1);
                 ((Attributable) p).getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4.0);
                 for (int i = 1; i < finalCooldown+1; i++) {
@@ -164,7 +168,7 @@ public class Defense {
                                     timers2.removePlayer();
                                 }
                                 else {
-                                    p.sendMessage(ChatColor.GREEN + ">>>Stone Soldier is ready to use again<<<");
+                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>Stone Soldier is ready to use again<<<");
                                 }
                             }
                         }

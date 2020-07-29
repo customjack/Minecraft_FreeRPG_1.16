@@ -204,7 +204,6 @@ public class EntityHitEntity implements Listener {
             Agility agilityClass = new Agility(p);
             boolean dodge = agilityClass.dodge(e.getFinalDamage());
             if (dodge) {
-                p.sendMessage(ChatColor.GREEN + ">>>DODGE<<<");
                 e.setCancelled(true);
             }
             Defense defenseClass = new Defense(p);

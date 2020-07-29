@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.HorseRiding;
 import mc.carlton.freerpg.playerAndServerInfo.AbilityTimers;
 import mc.carlton.freerpg.playerAndServerInfo.AbilityTracker;
@@ -37,6 +38,8 @@ public class BeastMastery {
     PlayerStats pStatClass;
     //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
 
+    ActionBarMessages actionMessage;
+
     Random rand = new Random(); //Random class Import
     EntityType[] breedingAnimals0 = {EntityType.HORSE,EntityType.WOLF,EntityType.CAT,EntityType.OCELOT,EntityType.PARROT};
     List<EntityType> breedingAnimals = Arrays.asList(breedingAnimals0);
@@ -49,6 +52,7 @@ public class BeastMastery {
         this.abilities = new AbilityTracker(p);
         this.timers = new AbilityTimers(p);
         this.pStatClass = new PlayerStats(p);
+        this.actionMessage = new ActionBarMessages(p);
     }
 
     public void initiateAbility() {
@@ -62,13 +66,13 @@ public class BeastMastery {
             if (cooldown < 1) {
                 int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
                 if (prepMessages >0) {
-                    p.sendMessage(ChatColor.GRAY + ">>>You prepare your leg...<<<");
+                    actionMessage.sendMessage(ChatColor.GRAY + ">>>You prepare your leg...<<<");
                 }
                 int taskID = new BukkitRunnable() {
                     @Override
                     public void run() {
                         if (prepMessages > 0) {
-                            p.sendMessage(ChatColor.GRAY + ">>>...You rest your leg<<<");
+                            actionMessage.sendMessage(ChatColor.GRAY + ">>>...You rest your leg<<<");
                         }
                         try {
                             abilities.setPlayerAbility( "beastMastery", -1);
@@ -80,7 +84,7 @@ public class BeastMastery {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( "beastMastery", taskID);
             } else {
-                p.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Spur Kick again.");
+                actionMessage.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Spur Kick again.");
             }
         }
     }
@@ -102,7 +106,7 @@ public class BeastMastery {
             LivingEntity horse = (LivingEntity) horse0;
             for (PotionEffect potionEffect : horse.getActivePotionEffects()) {
                 if ((potionEffect.getType() == PotionEffectType.SPEED && potionEffect.getDuration() > duration) || (potionEffect.getType() == PotionEffectType.SPEED && potionEffect.getAmplifier() > level)) {
-                    p.sendMessage(ChatColor.RED + ">>>This horse is already hyper!<<<");
+                    actionMessage.sendMessage(ChatColor.RED + ">>>This horse is already hyper!<<<");
                     return;
                 }
 
@@ -118,14 +122,14 @@ public class BeastMastery {
             return;
         }
 
-        p.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Spur Kick Activated!<<<");
+        actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Spur Kick Activated!<<<");
         timers.setPlayerTimer( "beastMastery", finalCooldown);
         Bukkit.getScheduler().cancelTask(pAbilities[6]);
         abilities.setPlayerAbility( "beastMastery", -2);
         int taskID = new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Spur Kick has ended<<<");
+                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Spur Kick has ended<<<");
                 abilities.setPlayerAbility( "beastMastery", -1);
                 for (int i = 1; i < finalCooldown+1; i++) {
                     int timeRemaining = finalCooldown - i;
@@ -139,7 +143,7 @@ public class BeastMastery {
                                     timers2.removePlayer();
                                 }
                                 else {
-                                    p.sendMessage(ChatColor.GREEN + ">>>Spur Kick is ready to use again<<<");
+                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>Spur Kick is ready to use again<<<");
                                 }
                             }
                         }

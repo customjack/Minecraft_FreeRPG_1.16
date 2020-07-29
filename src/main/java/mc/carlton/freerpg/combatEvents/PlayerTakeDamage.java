@@ -31,9 +31,6 @@ public class PlayerTakeDamage implements Listener {
             if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
                 Agility agilityClass = new Agility(p);
                 double damageReduction =  agilityClass.roll(e.getFinalDamage());
-                if (damageReduction < 1) {
-                    p.sendMessage(ChatColor.GREEN + ">>>ROLL<<<");
-                }
                 e.setDamage(e.getDamage()*damageReduction);
             }
 

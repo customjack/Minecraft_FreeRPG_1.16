@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.BlockFaceTracker;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
@@ -37,6 +38,8 @@ public class Digging {
     PlayerStats pStatClass;
     //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
 
+    ActionBarMessages actionMessage;
+
     Random rand = new Random(); //Random class Import
 
     public Digging(Player p) {
@@ -47,6 +50,7 @@ public class Digging {
         this.abilities = new AbilityTracker(p);
         this.timers = new AbilityTimers(p);
         this.pStatClass = new PlayerStats(p);
+        this.actionMessage = new ActionBarMessages(p);
 
         this.enchantmentLevelMap.put(Enchantment.ARROW_KNOCKBACK, 2);
         this.enchantmentLevelMap.put(Enchantment.ARROW_DAMAGE, 5);
@@ -98,13 +102,13 @@ public class Digging {
             if (cooldown < 1) {
                 int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
                 if (prepMessages >0) {
-                    p.sendMessage(ChatColor.GRAY + ">>>You prepare your shovel...<<<");
+                    actionMessage.sendMessage(ChatColor.GRAY + ">>>You prepare your shovel...<<<");
                 }
                 int taskID = new BukkitRunnable() {
                     @Override
                     public void run() {
                         if (prepMessages > 0) {
-                            p.sendMessage(ChatColor.GRAY + ">>>...You rest your shovel<<<");
+                            actionMessage.sendMessage(ChatColor.GRAY + ">>>...You rest your shovel<<<");
                         }
                         try {
                             abilities.setPlayerAbility( "digging", -1);
@@ -116,7 +120,7 @@ public class Digging {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( "digging", taskID);
             } else {
-                p.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Big Dig again.");
+                actionMessage.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Big Dig again.");
             }
         }
     }
@@ -124,7 +128,7 @@ public class Digging {
     public void enableAbility() {
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        p.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Big Dig Activated!<<<");
+        actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Big Dig Activated!<<<");
         int effLevel = itemInHand.getEnchantmentLevel(Enchantment.DIG_SPEED);
         itemInHand.removeEnchantment(Enchantment.DIG_SPEED);
         itemInHand.addUnsafeEnchantment(Enchantment.DIG_SPEED,effLevel+5);
@@ -142,7 +146,7 @@ public class Digging {
         int taskID = new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Big Dig has ended<<<");
+                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Big Dig has ended<<<");
                 itemInHand.removeEnchantment(Enchantment.DIG_SPEED);
                 if (effLevel != 0) {
                     itemInHand.addUnsafeEnchantment(Enchantment.DIG_SPEED, effLevel);
@@ -160,7 +164,7 @@ public class Digging {
                                     timers2.removePlayer();
                                 }
                                 else {
-                                    p.sendMessage(ChatColor.GREEN + ">>>Big Dig is ready to use again<<<");
+                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>Big Dig is ready to use again<<<");
                                 }
                             }
                         }
@@ -614,7 +618,7 @@ public class Digging {
                 cooldown = 200;
             }
             int finalCooldown = cooldown;
-            p.sendMessage(ChatColor.RED+ChatColor.BOLD.toString() + ">>>A magic force ends your ability<<<");
+            actionMessage.sendMessage(ChatColor.RED+ChatColor.BOLD.toString() + ">>>A magic force ends your ability<<<");
             abilities.setPlayerAbility( "digging", -1);
             for(int i = 1; i < finalCooldown+1; i++) {
                 int timeRemaining = finalCooldown - i;

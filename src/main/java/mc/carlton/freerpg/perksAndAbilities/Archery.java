@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.playerAndServerInfo.AbilityTimers;
 import mc.carlton.freerpg.playerAndServerInfo.AbilityTracker;
 import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
@@ -34,6 +35,8 @@ public class Archery {
     PlayerStats pStatClass;
     //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
 
+    ActionBarMessages actionMessage;
+
     Random rand = new Random(); //Random class Import
 
     public Archery(Player p) {
@@ -44,6 +47,7 @@ public class Archery {
         this.abilities = new AbilityTracker(p);
         this.timers = new AbilityTimers(p);
         this.pStatClass = new PlayerStats(p);
+        this.actionMessage = new ActionBarMessages(p);
     }
 
     public void initiateAbility() {
@@ -57,13 +61,13 @@ public class Archery {
             if (cooldown < 1) {
                 int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
                 if (prepMessages > 0) {
-                    p.sendMessage(ChatColor.GRAY + ">>>You prepare your bow...<<<");
+                    actionMessage.sendMessage(ChatColor.GRAY + ">>>You prepare your bow...<<<");
                 }
                 int taskID = new BukkitRunnable() {
                     @Override
                     public void run() {
                         if (prepMessages > 0) {
-                            p.sendMessage(ChatColor.GRAY + ">>>...You rest your bow<<<");
+                            actionMessage.sendMessage(ChatColor.GRAY + ">>>...You rest your bow<<<");
                         }
                         try {
                             abilities.setPlayerAbility( "archery", -1);
@@ -75,7 +79,7 @@ public class Archery {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( "archery", taskID);
             } else {
-                p.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Rapid Fire again.");
+                actionMessage.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Rapid Fire again.");
             }
         }
     }
@@ -83,7 +87,7 @@ public class Archery {
     public void enableAbility() {
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        p.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Rapid Fire Activated!<<<");
+        actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Rapid Fire Activated!<<<");
         int durationLevel = (int) pStat.get("archery").get(4);
         double duration0 = Math.ceil(durationLevel * 0.4) + 40;
         int cooldown = 300;
@@ -98,7 +102,7 @@ public class Archery {
         int taskID = new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Rapid Fire has ended<<<");
+                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Rapid Fire has ended<<<");
                 abilities.setPlayerAbility( "archery", -1);
                 for (int i = 1; i < finalCooldown +1; i++) {
                     int timeRemaining = finalCooldown - i;
@@ -112,7 +116,7 @@ public class Archery {
                                     timers2.removePlayer();
                                 }
                                 else {
-                                    p.sendMessage(ChatColor.GREEN + ">>>Rapid Fire is ready to use again<<<");
+                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>Rapid Fire is ready to use again<<<");
                                 }
                             }
                         }

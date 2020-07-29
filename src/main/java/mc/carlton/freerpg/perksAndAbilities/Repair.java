@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.ChatColor;
@@ -28,6 +29,8 @@ public class Repair {
     PlayerStats pStatClass;
     //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
 
+    ActionBarMessages actionMessage;
+
     Random rand = new Random(); //Random class Import
 
     Map<Material,Material> repairItems = new HashMap<>();
@@ -40,6 +43,7 @@ public class Repair {
         this.itemInHand = p.getInventory().getItemInMainHand();
         this.increaseStats = new ChangeStats(p);
         this.pStatClass = new PlayerStats(p);
+        this.actionMessage = new ActionBarMessages(p);
 
         repairItems.put(Material.WOODEN_AXE,Material.STICK);
         repairItems.put(Material.WOODEN_HOE,Material.STICK);
@@ -573,7 +577,7 @@ public class Repair {
                 }
                 ItemMeta itemInHandMeta = itemInHand.getItemMeta();
                 if (repairPercentage*a < 0.2) {
-                    p.sendMessage(ChatColor.RED + "You are not skilled enough to adequately repair this item yet");
+                    actionMessage.sendMessage(ChatColor.RED + "You are not skilled enough to adequately repair this item yet");
                     repaired = false;
                 }
                 else {
@@ -627,7 +631,7 @@ public class Repair {
                     p.getInventory().addItem(new ItemStack(type,1));
                 }
                 else {
-                    p.sendMessage(ChatColor.RED + "You failed to salvage any materials");
+                    actionMessage.sendMessage(ChatColor.RED + "You failed to salvage any materials");
                 }
             }
             else {
@@ -696,7 +700,7 @@ public class Repair {
             sucessChance = 1;
         }
         if (sucessChance < rand.nextDouble()) {
-            p.sendMessage(ChatColor.RED + "You failed to retain the item's enchantment power");
+            actionMessage.sendMessage(ChatColor.RED + "You failed to retain the item's enchantment power");
             Map<Enchantment,Integer> enchantments = itemInHand.getEnchantments();
             for (Enchantment enchantment : enchantments.keySet()) {
                 int level = enchantments.get(enchantment);

@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -36,6 +37,8 @@ public class Mining {
     PlacedBlocks placedClass;
     //GET TRACKED BLOCKS LIKE THIS:        ArrayList<Location> blocksLocations = placedClass.getBlocks();
 
+    ActionBarMessages actionMessage;
+
     Material[] ores0 = {Material.REDSTONE_ORE,Material.NETHER_QUARTZ_ORE,Material.LAPIS_ORE,Material.IRON_ORE,Material.GOLD_ORE,
                         Material.EMERALD_ORE,Material.DIAMOND_ORE,Material.COAL_ORE,Material.NETHER_GOLD_ORE,Material.ANCIENT_DEBRIS,Material.GILDED_BLACKSTONE};
     List<Material> ores = Arrays.asList(ores0);
@@ -52,6 +55,7 @@ public class Mining {
         this.timers = new AbilityTimers(p);
         this.pStatClass=  new PlayerStats(p);
         this.placedClass = new PlacedBlocks();
+        this.actionMessage = new ActionBarMessages(p);
     }
 
     public void initiateAbility() {
@@ -65,13 +69,13 @@ public class Mining {
             if (cooldown < 1) {
                 int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
                 if (prepMessages > 0) {
-                    p.sendMessage(ChatColor.GRAY + ">>>You prepare your pickaxe...<<<");
+                    actionMessage.sendMessage(ChatColor.GRAY + ">>>You prepare your pickaxe...<<<");
                 }
                 int taskID = new BukkitRunnable() {
                     @Override
                     public void run() {
                         if (prepMessages > 0) {
-                            p.sendMessage(ChatColor.GRAY + ">>>...You rest your pickaxe<<<");
+                            actionMessage.sendMessage(ChatColor.GRAY + ">>>...You rest your pickaxe<<<");
                         }
                         try {
                             abilities.setPlayerAbility( "mining", -1);
@@ -83,7 +87,7 @@ public class Mining {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( "mining", taskID);
             } else {
-                p.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Berserk Pick again.");
+                actionMessage.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Berserk Pick again.");
             }
         }
     }
@@ -92,7 +96,7 @@ public class Mining {
         Integer[] pTimers = timers.getPlayerTimers();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        p.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Berserk Pick Activated!<<<");
+        actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Berserk Pick Activated!<<<");
         int effLevel = itemInHand.getEnchantmentLevel(Enchantment.DIG_SPEED);
         itemInHand.removeEnchantment(Enchantment.DIG_SPEED);
         itemInHand.addUnsafeEnchantment(Enchantment.DIG_SPEED, effLevel + 5);
@@ -110,7 +114,7 @@ public class Mining {
         int taskID = new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Berserk Pick has ended<<<");
+                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Berserk Pick has ended<<<");
                 itemInHand.removeEnchantment(Enchantment.DIG_SPEED);
                 if (effLevel != 0) {
                     itemInHand.addUnsafeEnchantment(Enchantment.DIG_SPEED, effLevel);
@@ -128,7 +132,7 @@ public class Mining {
                                     timers2.removePlayer();
                                 }
                                 else {
-                                    p.sendMessage(ChatColor.GREEN + ">>>Berserk Pick is ready to use again<<<");
+                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>Berserk Pick is ready to use again<<<");
                                 }
                             }
                         }

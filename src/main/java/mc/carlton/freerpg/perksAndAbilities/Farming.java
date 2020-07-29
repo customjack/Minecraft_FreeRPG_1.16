@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -41,6 +42,8 @@ public class Farming {
     PlacedBlocks placedClass;
     //GET TRACKED BLOCKS LIKE THIS:        ArrayList<Location> blocksLocations = placedClass.getBlocks();
 
+    ActionBarMessages actionMessage;
+
     Random rand = new Random(); //Random class Import
 
     Material[] crops0 = {Material.WHEAT,Material.BEETROOTS,Material.CARROTS,Material.CHORUS_FLOWER,Material.MELON_STEM,Material.MELON,
@@ -78,6 +81,7 @@ public class Farming {
         this.timers = new AbilityTimers(p);
         this.pStatClass=  new PlayerStats(p);
         this.placedClass = new PlacedBlocks();
+        this.actionMessage = new ActionBarMessages(p);
 
         farmFood.put(Material.GOLDEN_APPLE,4);
         farmFoodSaturation.put(Material.GOLDEN_APPLE,13.6);
@@ -153,13 +157,13 @@ public class Farming {
             if (cooldown < 1) {
                 int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
                 if (prepMessages > 0) {
-                    p.sendMessage(ChatColor.GRAY + ">>>You prepare your hoe...<<<");
+                    actionMessage.sendMessage(ChatColor.GRAY + ">>>You prepare your hoe...<<<");
                 }
                 int taskID = new BukkitRunnable() {
                     @Override
                     public void run() {
                         if (prepMessages > 0) {
-                            p.sendMessage(ChatColor.GRAY + ">>>...You rest your hoe<<<");
+                            actionMessage.sendMessage(ChatColor.GRAY + ">>>...You rest your hoe<<<");
                         }
                         try {
                             abilities.setPlayerAbility( "farming", -1);
@@ -171,7 +175,7 @@ public class Farming {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( "farming", taskID);
             } else {
-                p.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Natural Regeneration again.");
+                actionMessage.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Natural Regeneration again.");
             }
         }
     }
@@ -179,7 +183,7 @@ public class Farming {
     public void enableAbility() {
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        p.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Natural Regeneration Activated!<<<");
+        actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Natural Regeneration Activated!<<<");
         int durationLevel = (int) pStat.get("farming").get(4);
         double duration0 = Math.ceil(durationLevel * 0.4) + 40;
         int cooldown = 300;
@@ -194,7 +198,7 @@ public class Farming {
         int taskID = new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Natural Regeneration has ended<<<");
+                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Natural Regeneration has ended<<<");
                 abilities.setPlayerAbility( "farming", -1);
                 for (int i = 1; i < finalCooldown+1; i++) {
                     int timeRemaining = finalCooldown - i;
@@ -208,7 +212,7 @@ public class Farming {
                                     timers2.removePlayer();
                                 }
                                 else {
-                                    p.sendMessage(ChatColor.GREEN + ">>>Natural Regeneration is ready to use again<<<");
+                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>Natural Regeneration is ready to use again<<<");
                                 }
                             }
                         }

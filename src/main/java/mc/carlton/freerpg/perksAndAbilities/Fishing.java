@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
@@ -38,6 +39,8 @@ public class Fishing {
     PlayerStats pStatClass;
     //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
 
+    ActionBarMessages actionMessage;
+
     Random rand = new Random(); //Random class Import
 
     Map<Material,Integer> fishFood = new HashMap<Material,Integer>();
@@ -54,6 +57,7 @@ public class Fishing {
         this.abilities = new AbilityTracker(p);
         this.timers = new AbilityTimers(p);
         this.pStatClass=  new PlayerStats(p);
+        this.actionMessage = new ActionBarMessages(p);
 
         fishFood.put(Material.COOKED_SALMON,6);
         fishFoodSaturation.put(Material.COOKED_SALMON,1.6);
@@ -83,13 +87,13 @@ public class Fishing {
             if (cooldown < 1) {
                 int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
                 if (prepMessages > 0) {
-                    p.sendMessage(ChatColor.GRAY + ">>>You prepare your fishing rod...<<<");
+                    actionMessage.sendMessage(ChatColor.GRAY + ">>>You prepare your fishing rod...<<<");
                 }
                 int taskID = new BukkitRunnable() {
                     @Override
                     public void run() {
                         if (prepMessages > 0) {
-                            p.sendMessage(ChatColor.GRAY + ">>>...You rest your fishing rod<<<");
+                            actionMessage.sendMessage(ChatColor.GRAY + ">>>...You rest your fishing rod<<<");
                         }
                         try {
                             abilities.setPlayerAbility( "fishing", -1);
@@ -101,7 +105,7 @@ public class Fishing {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( "fishing", taskID);
             } else {
-                p.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Super-bait again.");
+                actionMessage.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Super-bait again.");
             }
         }
     }
@@ -109,7 +113,7 @@ public class Fishing {
     public void enableAbility() {
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        p.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Super-bait Activated!<<<");
+        actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Super-bait Activated!<<<");
         int durationLevel = (int) pStat.get("fishing").get(4);
         double duration0 = Math.ceil(durationLevel * 0.2) + 20;
         int cooldown = 300;
@@ -124,7 +128,7 @@ public class Fishing {
         int taskID = new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Super-bait has ended<<<");
+                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Super-bait has ended<<<");
                 abilities.setPlayerAbility( "fishing", -1);
                 for (int i = 1; i < finalCooldown+1; i++) {
                     int timeRemaining = finalCooldown - i;
@@ -138,7 +142,7 @@ public class Fishing {
                                     timers2.removePlayer();
                                 }
                                 else {
-                                    p.sendMessage(ChatColor.GREEN + ">>>Super-bait is ready to use again<<<");
+                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>Super-bait is ready to use again<<<");
                                 }
                             }
                         }
@@ -399,7 +403,7 @@ public class Fishing {
             return;
         }
         if (pTimers[11] > 0) {
-            p.sendMessage(ChatColor.RED + "You must wait " + pTimers[11].toString() + " seconds to rob another mob");
+            actionMessage.sendMessage(ChatColor.RED + "You must wait " + pTimers[11].toString() + " seconds to rob another mob");
             return;
         }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
