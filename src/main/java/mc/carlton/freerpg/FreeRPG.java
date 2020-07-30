@@ -23,6 +23,8 @@ import mc.carlton.freerpg.pistonEvents.PistonExtend;
 import mc.carlton.freerpg.pistonEvents.PistonRetract;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -36,6 +38,7 @@ import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -63,6 +66,13 @@ public final class FreeRPG extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
 
+        //Saves Custom Languages YAML file
+        saveResource("languages.yml",true);
+
+        //config Load
+        ConfigLoad loadConfig = new ConfigLoad();
+        loadConfig.setConfigData();
+
         //Check if the server uses world guard
         WorldGuardChecks CheckWorldGuardExistence = new WorldGuardChecks();
         CheckWorldGuardExistence.initializeWorldGuardPresent();
@@ -76,9 +86,6 @@ public final class FreeRPG extends JavaPlugin implements Listener {
             }
         }.runTaskLater(plugin, 20);
 
-        //config Load
-        ConfigLoad loadConfig = new ConfigLoad();
-        loadConfig.setConfigData();
 
         System.out.println("FreeRPG loaded sucessfully...");
         System.out.println("Running FreeRPG version " + version);

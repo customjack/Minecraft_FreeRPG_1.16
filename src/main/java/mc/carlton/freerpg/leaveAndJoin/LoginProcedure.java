@@ -32,12 +32,14 @@ public class LoginProcedure {
         PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(p);
         long loginTime = loadInPlayer.getLoginTime(p);
         long playTime = loadInPlayer.getPlayTime(p);
+        String language = loadInPlayer.getPlayerLanguage(p);
         Map<String, ArrayList<Number>> playerStats0 = loadInPlayer.getPlayerStatsMap(p);
 
 
         //Combine the player's stats with everyone on the server's
         PlayerStats pStatsClass = new PlayerStats(p);
         pStatsClass.addPlayerTimes(loginTime,playTime);
+        pStatsClass.setPlayerLanguage(language);
         Map<UUID, Map<String, ArrayList<Number>>> allStats = pStatsClass.getData();
         allStats.put(uuid,playerStats0);
         pStatsClass.setData(allStats);

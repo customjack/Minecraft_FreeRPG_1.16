@@ -2,6 +2,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
+import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -41,6 +42,7 @@ public class Woodcutting {
     //GET TRACKED BLOCKS LIKE THIS:        ArrayList<Location> blocksLocations = placedClass.getBlocks();
 
     ActionBarMessages actionMessage;
+    LanguageSelector lang;
 
     Random rand = new Random(); //Random class Import
 
@@ -65,6 +67,7 @@ public class Woodcutting {
         this.pStatClass=  new PlayerStats(p);
         this.placedClass = new PlacedBlocks();
         this.actionMessage = new ActionBarMessages(p);
+        this.lang = new LanguageSelector(p);
 
         this.enchantmentLevelMap.put(Enchantment.ARROW_KNOCKBACK,2);
         this.enchantmentLevelMap.put(Enchantment.ARROW_DAMAGE,5);
@@ -116,7 +119,7 @@ public class Woodcutting {
             if (cooldown < 1) {
                 int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
                 if (prepMessages > 0) {
-                    actionMessage.sendMessage(ChatColor.GRAY + ">>>You prepare your axe...<<<");
+                    actionMessage.sendMessage(ChatColor.GRAY + ">>>" + lang.getString("prepare") + " " + lang.getString("axe") + "...<<<");
                 }
                 int taskID = new BukkitRunnable() {
                     @Override
@@ -124,7 +127,7 @@ public class Woodcutting {
                         try {
                             Integer[] pAbilities2 = abilities.getPlayerAbilities();
                             if (pAbilities2[9] != -2 && prepMessages > 0) {
-                                actionMessage.sendMessage(ChatColor.GRAY + ">>>...You rest your axe<<<");
+                                actionMessage.sendMessage(ChatColor.GRAY + ">>>..." + lang.getString("rest") + " " +lang.getString("axe") + "<<<");
                             }
                             abilities.setPlayerAbility( "woodcutting", -1);
                         }
@@ -135,14 +138,14 @@ public class Woodcutting {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( "woodcutting", taskID);
             } else {
-                actionMessage.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Timber again.");
+                actionMessage.sendMessage(ChatColor.RED +lang.getString("timber") + " " + lang.getString("cooldown") + ": " + cooldown+ "s");
             }
         }
     }
     public void enableAbility() {
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Timber Activated!<<<");
+        actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>" + lang.getString("timber") + " " + lang.getString("activated") + "<<<");
         int durationLevel = (int) pStat.get("woodcutting").get(4);
         double duration0 = Math.ceil(durationLevel*0.4) + 40;
         int cooldown = 300;
@@ -156,7 +159,7 @@ public class Woodcutting {
         new BukkitRunnable() {
             @Override
             public void run() {
-                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Timber has ended<<<");
+                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("timber") + " " + lang.getString("ended") + "<<<");
                 abilities.setPlayerAbility( "woodcutting", -1);
                 timers.setPlayerTimer( "woodcutting", finalCooldown);
                 for(int i = 1; i < finalCooldown+1; i++) {
@@ -171,7 +174,7 @@ public class Woodcutting {
                                     timers2.removePlayer();
                                 }
                                 else {
-                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>Timber is ready to use again<<<");
+                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>" + lang.getString("timber") + " " + lang.getString("readyToUse") + "<<<");
                                 }
                             }
                         }
@@ -221,13 +224,13 @@ public class Woodcutting {
         int numLogs = timberLogs.size();
         if (timber_plus < 1) {
             if (numLogs > 64) {
-                actionMessage.sendMessage(ChatColor.RED + "This tree is too big for you to chop in one go!");
+                actionMessage.sendMessage(ChatColor.RED + lang.getString("treeTooBig0"));
                 return;
             }
         }
         else {
             if (numLogs > 128) {
-                actionMessage.sendMessage(ChatColor.RED + "This tree can never be chopped in one go like this...");
+                actionMessage.sendMessage(ChatColor.RED + lang.getString("treeTooBig1"));
                 return;
             }
         }

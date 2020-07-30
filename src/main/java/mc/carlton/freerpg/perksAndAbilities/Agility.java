@@ -2,6 +2,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
+import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.Bukkit;
@@ -32,6 +33,7 @@ public class Agility {
     //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
 
     ActionBarMessages actionMessage;
+    LanguageSelector lang;
 
     Random rand = new Random(); //Random class Import
 
@@ -44,6 +46,7 @@ public class Agility {
         this.increaseStats = new ChangeStats(p);
         this.pStatClass = new PlayerStats(p);
         this.actionMessage = new ActionBarMessages(p);
+        this.lang = new LanguageSelector(p);
     }
 
     public double roll(double finalDamage) {
@@ -54,7 +57,7 @@ public class Agility {
         if (rollLevel*0.0005 > rand.nextDouble()) {
             multiplier = 0.5 - steelBonesLevel*0.1;
             increaseStats.changeEXP("agility", 250 + (int) Math.round(10*finalDamage)*10);
-            actionMessage.sendMessage(ChatColor.GREEN + ">>>ROLL<<<");
+            actionMessage.sendMessage(ChatColor.GREEN + ">>>" + lang.getString("roll") + "<<<");
         }
         else {
             if (finalDamage < p.getHealth()) {
@@ -70,7 +73,7 @@ public class Agility {
         double dodgeChance = Math.min(0.2,dodgeLevel*0.04);
         if (dodgeChance > rand.nextDouble()) {
             increaseStats.changeEXP("agility",(int) Math.round(10*finalDamage)*10);
-            actionMessage.sendMessage(ChatColor.GREEN + ">>>DODGE<<<");
+            actionMessage.sendMessage(ChatColor.GREEN + ">>>"+lang.getString("dodge")+"<<<");
             return true;
         }
         else {

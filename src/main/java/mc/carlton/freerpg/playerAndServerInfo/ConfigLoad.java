@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class ConfigLoad {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
+    static String defaultLanguage;
     static ArrayList<Integer> maxLevels = new ArrayList<>();
     static ArrayList<Integer> soulsInfo = new ArrayList<>();
     static ArrayList<Double> multipliers = new ArrayList<>();
@@ -24,6 +25,8 @@ public class ConfigLoad {
 
     public void setConfigData() {
         FileConfiguration config = plugin.getConfig();
+
+        defaultLanguage = config.getString("general.language");
 
         maxLevels.add(Integer.valueOf(config.getString("leveling.maxLevel")));
         maxLevels.add(Integer.valueOf(config.getString("digging.maxLevel")));
@@ -217,6 +220,7 @@ public class ConfigLoad {
         fishingInfoEnchants.add(Integer.valueOf(config.getString("fishing.drops.tier5_enchantedArmor")));
     }
 
+    public String getDefaultLanguage() {return  defaultLanguage;}
     public ArrayList<Integer> getMaxLevels(){
         return maxLevels;
     }

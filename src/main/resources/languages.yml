@@ -1,0 +1,450 @@
+lang:
+  enUs:
+    global: Global
+    digging: Digging
+    woodcutting: Woodcutting
+    mining: Mining
+    farming: Farming
+    fishing: Fishing
+    archery: Archery
+    beastMastery: Beast Mastery
+    swordsmanship: Swordsmanship
+    defense: Defense
+    axeMastery: Axe Mastery
+    repair: Repair
+    agility: Agility
+    smelting: Smelting
+    enchanting: Enchanting
+    information: Information
+    configuration: Configuration
+    level: Level
+    experience: experience
+    toNext: to next
+    total: Total
+    diggingPerkTitle0: Mo' drops
+    diggingPerkTitle1: Double Treasure
+    diggingPerkTitle2: Rarer Drops
+    diggingPerkTitle3: Soul Stealer
+    diggingPerkTitle4: Flint Finder
+    diggingPerkTitle5: Shovel Knight
+    diggingPerkTitle6: Mega Dig
+    diggingPerkDesc0: Expands treasure drop table by 1 item per level
+    diggingPerkDesc1: +5% chance of receiving double treasure drop per level (when
+      treasure is rolled)
+    diggingPerkDesc2: Further expands drop table by item per level
+    diggingPerkDesc3: Soul sand is +5% more likely to drop treasure per level
+    diggingPerkDesc4: Gravel has 100% flint drop rate (toggleable  by /flintToggle)
+    diggingPerkDesc5: Shovels do double damage
+    diggingPerkDesc6: When using ability, you now break a 3x3 block section (20% of
+      normal treasure rate when active)
+    diggingPassiveTitle0: Passive Tokens
+    diggingPassiveTitle1: Back
+    diggingPassiveTitle2: Skill Tokens
+    diggingPassiveTitle3: Big Dig Duration
+    diggingPassiveTitle4: Treasure Chance
+    diggingPassiveDesc0: Tokens to invest in passive skills (dyes)
+    diggingPassiveDesc1: Takes you back to the main skills menu
+    diggingPassiveDesc2: Tokens to invest in skill tree
+    diggingPassiveDesc3: Increases duration of Big Dig by 0.02 s
+    diggingPassiveDesc4: Increases chance of digging up treasure by 0.005%
+    woodcuttingPerkTitle0: Zealous Roots
+    woodcuttingPerkTitle1: Fresh Arms
+    woodcuttingPerkTitle2: Hidden Knowledge
+    woodcuttingPerkTitle3: Leaf Scavenger
+    woodcuttingPerkTitle4: Timber+
+    woodcuttingPerkTitle5: Leaf Blower
+    woodcuttingPerkTitle6: Able Axe
+    woodcuttingPerkDesc0: +20% chance for logs to drop 1 XP per level
+    woodcuttingPerkDesc1: +12 s per level of Haste I after first log broken in 5 minutes
+    woodcuttingPerkDesc2: Logs have a +0.2% chance per level to drop an enchanted
+      book
+    woodcuttingPerkDesc3: Leaves have a 1% chance to drop +1 treasure item per level
+    woodcuttingPerkDesc4: Timber break limit increased from 64 to 128
+    woodcuttingPerkDesc5: Instantly break leaves by holding left click with an axe
+    woodcuttingPerkDesc6: Double drops, Zealous Roots, and Hidden Knowledge all now
+      apply to timber (at half effectiveness)
+    woodcuttingPassiveTitle0: Passive Tokens
+    woodcuttingPassiveTitle1: Back
+    woodcuttingPassiveTitle2: Skill Tokens
+    woodcuttingPassiveTitle3: Timber Duration
+    woodcuttingPassiveTitle4: Double Drops
+    woodcuttingPassiveDesc0: Tokens to invest in passive skills (dyes)
+    woodcuttingPassiveDesc1: Takes you back to the main skills menu
+    woodcuttingPassiveDesc2: Tokens to invest in skill tree
+    woodcuttingPassiveDesc3: Increases duration of Timber by 0.02 s
+    woodcuttingPassiveDesc4: Increases chance to receive a double drop by 0.05%
+    miningPerkTitle0: Wasteless Haste
+    miningPerkTitle1: More Bombs
+    miningPerkTitle2: Treasure Seeker
+    miningPerkTitle3: Bomb-boyage
+    miningPerkTitle4: Vein Miner
+    miningPerkTitle5: Demolition Man
+    miningPerkTitle6: Triple Trouble
+    miningPerkDesc0: Gain haste after mining ores for each level
+    miningPerkDesc1: The crafting recipe for TNT produces +1 TNT block per level
+    miningPerkDesc2: When using ability on stones, +1% per level chance for an ore
+      to drop (extra exp is earned from dropped ores)
+    miningPerkDesc3: Increases TNT blast radius (when lit by flint and steel) each
+      level
+    miningPerkDesc4: Ore veins are instantly mined upon breaking one block (toggle-able)
+    miningPerkDesc5: No damage is taken from TNT explosions
+    miningPerkDesc6: Double drops are now triple drops
+    miningPassiveTitle0: Passive Tokens
+    miningPassiveTitle1: Back
+    miningPassiveTitle2: Skill Tokens
+    miningPassiveTitle3: Berserk Pick Duration
+    miningPassiveTitle4: Double Drops
+    miningPassiveTitle5: Blast Mining
+    miningPassiveDesc0: Tokens to invest in passive skills (dyes)
+    miningPassiveDesc1: Takes you back to the main skills menu
+    miningPassiveDesc2: Tokens to invest in skill tree
+    miningPassiveDesc3: Increases duration of Berserk Pick by 0.02s
+    miningPassiveDesc4: Increases chance to receive a double drop from ores by 0.05%
+    miningPassiveDesc5: Increases chances for ore to be created from TNT explosions
+      by 0.01% (rolled 10 times per explosion)
+    farmingPerkTitle0: Better Fertilizer
+    farmingPerkTitle1: Animal Farm
+    farmingPerkTitle2: Farmer's Diet
+    farmingPerkTitle3: Carnivore
+    farmingPerkTitle4: Green Thumb
+    farmingPerkTitle5: Growth Hormones
+    farmingPerkTitle6: One with Nature
+    farmingPerkDesc0: +10% chance to not consume bonemeal on use
+    farmingPerkDesc1: Can craft an additional spawn egg per level
+    farmingPerkDesc2: Farm food is +20% more effective at restoring hunger and saturation
+      per level
+    farmingPerkDesc3: Meat is +20% more effective at restoring hunger and saturation
+      per level
+    farmingPerkDesc4: Ability may replant crops fully grown with higher chance of
+      replanting in later growth stages; ability now effects Melons and Pumpkins
+    farmingPerkDesc5: Sugar can be used on baby animals to make them grow instantly
+    farmingPerkDesc6: Gain Regeneration I when standing still on grass
+    farmingPassiveTitle0: Passive Tokens
+    farmingPassiveTitle1: Back
+    farmingPassiveTitle2: Skill Tokens
+    farmingPassiveTitle3: Natural Regeneration Duration
+    farmingPassiveTitle4: Double Drops (Crops)
+    farmingPassiveTitle5: Double Drops (Animals)
+    farmingPassiveDesc0: Tokens to invest in passive skills (dyes)
+    farmingPassiveDesc1: Takes you back to the main skills menu
+    farmingPassiveDesc2: Tokens to invest in skill tree
+    farmingPassiveDesc3: Increases duration of Natural Regeneration by 0.02s
+    farmingPassiveDesc4: Increases chance to receive a double drop from crops by 0.05%
+    farmingPassiveDesc5: Increases chance to receive a double drop from most passive
+      animals by 0.05%
+    fishingPerkTitle0: Rob
+    fishingPerkTitle1: Scavenger
+    fishingPerkTitle2: Fisherman's Diet
+    fishingPerkTitle3: Filtration
+    fishingPerkTitle4: Grappling Hook
+    fishingPerkTitle5: Hot Rod
+    fishingPerkTitle6: Fish Person
+    fishingPerkDesc0: +15% chance to pull item off a mob per level
+    fishingPerkDesc1: Unlocks new tier of fishing treasure
+    fishingPerkDesc2: Fish restore +20% hunger per level
+    fishingPerkDesc3: Higher tier (II-V) loot becomes more common, lower tier (I)
+      becomes less common
+    fishingPerkDesc4: Fishing rod now acts as a grappling hook (toggleable with /grappleToggle
+      )
+    fishingPerkDesc5: Fish are now cooked when caught, some fishing treasures are
+      changed (toggleable with /hotRodToggle)
+    fishingPerkDesc6: Infinite night vision when underwater, infinite dolphin's grace
+      when in the water
+    fishingPassiveTitle0: Passive Tokens
+    fishingPassiveTitle1: Back
+    fishingPassiveTitle2: Skill Tokens
+    fishingPassiveTitle3: Super Bait Duration
+    fishingPassiveTitle4: Double catches
+    fishingPassiveTitle5: Treasure Finder
+    fishingPassiveDesc0: Tokens to invest in passive skills (dyes)
+    fishingPassiveDesc1: Takes you back to the main skills menu
+    fishingPassiveDesc2: Tokens to invest in skill tree
+    fishingPassiveDesc3: Increases duration of Super Bait by 0.01s
+    fishingPassiveDesc4: Increases chance to receive a double drop by 0.05%
+    fishingPassiveDesc5: Decreases chance of finding junk by 0.005%, increases chance
+      of finding treasure by 0.005%
+    archeryPerkTitle0: Extra Arrows
+    archeryPerkTitle1: Sniper
+    archeryPerkTitle2: Arrow of Light
+    archeryPerkTitle3: Explosive Arrows
+    archeryPerkTitle4: Dragon-less Arrows
+    archeryPerkTitle5: Crossbow Rapid Load
+    archeryPerkTitle6: Deadly Strike
+    archeryPerkDesc0: +1 arrow gained from crafting per level
+    archeryPerkDesc1: Arrow speed increases by +2% per level (~4% damage increase/level)
+    archeryPerkDesc2: Spectral arrows get a +5% damage boost per level
+    archeryPerkDesc3: Arrows have a +1% of creating an explosion on hit
+    archeryPerkDesc4: Allows crafting all tipped arrows with regular potions instead
+      of lingering potions
+    archeryPerkDesc5: Ability can now be used with crossbows, making all shots load
+      instantly
+    archeryPerkDesc6: Fireworks shot from crossbows do double damage (up to 16 hearts
+      of damage)
+    archeryPassiveTitle0: Passive Tokens
+    archeryPassiveTitle1: Back
+    archeryPassiveTitle2: Skill Tokens
+    archeryPassiveTitle3: Rapid Fire Duration
+    archeryPassiveTitle4: Retrieval
+    archeryPassiveDesc0: Tokens to invest in passive skills (dyes)
+    archeryPassiveDesc1: Takes you back to the main skills menu
+    archeryPassiveDesc2: Tokens to invest in skill tree
+    archeryPassiveDesc3: Increases duration of Rapid Fire by 0.02s
+    archeryPassiveDesc4: Increases chance for arrow shot to not consume arrow by 0.05%
+      per level
+    beastMasteryPerkTitle0: Thick Fur
+    beastMasteryPerkTitle1: Sharp Teeth
+    beastMasteryPerkTitle2: Healthy Bites
+    beastMasteryPerkTitle3: Keep Away
+    beastMasteryPerkTitle4: Acro-Dog
+    beastMasteryPerkTitle5: Identify
+    beastMasteryPerkTitle6: Adrenaline Boost
+    beastMasteryPerkDesc0: Dogs take -10% damage per level
+    beastMasteryPerkDesc1: Dogs do +10% more damage per level
+    beastMasteryPerkDesc2: Dogs heal +1/2 heart per level from killing
+    beastMasteryPerkDesc3: Dogs have gain +5% chance of knocking back foes
+    beastMasteryPerkDesc4: Dogs do not take fall damage
+    beastMasteryPerkDesc5: Using a compass on a horse or wolf now shows their stats
+    beastMasteryPerkDesc6: Spur kick buff is now speed III
+    beastMasteryPassiveTitle0: Passive Tokens
+    beastMasteryPassiveTitle1: Back
+    beastMasteryPassiveTitle2: Skill Tokens
+    beastMasteryPassiveTitle3: Spur Kick Duration
+    beastMasteryPassiveTitle4: Critical Bite
+    beastMasteryPassiveDesc0: Tokens to invest in passive skills (dyes)
+    beastMasteryPassiveDesc1: Takes you back to the main skills menu
+    beastMasteryPassiveDesc2: Tokens to invest in skill tree
+    beastMasteryPassiveDesc3: Increases duration of Spur Kick by 0.02s
+    beastMasteryPassiveDesc4: Increases chance for a dog to have a critical hit by
+      0.025%
+    swordsmanshipPerkTitle0: Adrenaline
+    swordsmanshipPerkTitle1: Killing Spree
+    swordsmanshipPerkTitle2: Adrenaline+
+    swordsmanshipPerkTitle3: Killing Frenzy
+    swordsmanshipPerkTitle4: Thirst for Blood
+    swordsmanshipPerkTitle5: Sharper!
+    swordsmanshipPerkTitle6: Sword Mastery
+    swordsmanshipPerkDesc0: Killing hostile mobs with a sword provides +2 s of speed
+      per level
+    swordsmanshipPerkDesc1: Killing hostile mobs with a sword provides +2 s of strength
+      per level
+    swordsmanshipPerkDesc2: +20% of speed I buff from Adrenaline is now speed II
+    swordsmanshipPerkDesc3: +20% of strength I buff from Killing Spree is now strength
+      II
+    swordsmanshipPerkDesc4: Killing certain aggressive mobs with a sword restores
+      hunger
+    swordsmanshipPerkDesc5: Swift strikes now adds a level of sharpness to your sword
+    swordsmanshipPerkDesc6: Swords permanently do +1 heart of damage
+    swordsmanshipPassiveTitle0: Passive Tokens
+    swordsmanshipPassiveTitle1: Back
+    swordsmanshipPassiveTitle2: Skill Tokens
+    swordsmanshipPassiveTitle3: Swift Strikes Duration
+    swordsmanshipPassiveTitle4: Double Hit
+    swordsmanshipPassiveDesc0: Tokens to invest in passive skills (dyes)
+    swordsmanshipPassiveDesc1: Takes you back to the main skills menu
+    swordsmanshipPassiveDesc2: Tokens to invest in skill tree
+    swordsmanshipPassiveDesc3: Increases duration of Swift Strikes by 0.02s
+    swordsmanshipPassiveDesc4: Increases chance to hit mob twice (second hit does
+      50% damage) by 0.02%
+    defensePerkTitle0: Healer
+    defensePerkTitle1: Stiffen
+    defensePerkTitle2: Hard Headed
+    defensePerkTitle3: Stiffen+
+    defensePerkTitle4: Gift From Above
+    defensePerkTitle5: Stronger Legs
+    defensePerkTitle6: Hearty
+    defensePerkDesc0: Gain +3s of regen per level on kill
+    defensePerkDesc1: +2% chance to gain resistance I for 5s when hit
+    defensePerkDesc2: Hard Body decreases damage by an additional 6.6% per level
+    defensePerkDesc3: +2% chance to gain resistance II for 5s when hit
+    defensePerkDesc4: Stone Solid now grants 4 absorption hearts for ability length
+      +1 minute
+    defensePerkDesc5: Stone Solid now gives slowness I instead of slowness IV
+    defensePerkDesc6: +2 hearts permanently
+    defensePassiveTitle0: Passive Tokens
+    defensePassiveTitle1: Back
+    defensePassiveTitle2: Skill Tokens
+    defensePassiveTitle3: Stone Solid Duration
+    defensePassiveTitle4: Hard Body
+    defensePassiveTitle5: Double Drops (Hostile Mobs)
+    defensePassiveDesc0: Tokens to invest in passive skills (dyes)
+    defensePassiveDesc1: Takes you back to the main skills menu
+    defensePassiveDesc2: Tokens to invest in skill tree
+    defensePassiveDesc3: Increases duration of Stone Solid by 0.02s
+    defensePassiveDesc4: Increases chance to take reduced (base -33%) damage by 0.01%
+      per level
+    defensePassiveDesc5: Increases chance to receive double drops from aggressive
+      mobs by 0.05%
+    axeMasteryPerkTitle0: Greater Axe
+    axeMasteryPerkTitle1: Holy Axe
+    axeMasteryPerkTitle2: Revitalized
+    axeMasteryPerkTitle3: Warrior Blood
+    axeMasteryPerkTitle4: Earthquake
+    axeMasteryPerkTitle5: Better Crits
+    axeMasteryPerkTitle6: Axe Man
+    axeMasteryPerkDesc0: Great Axe damage radius increases by 1 block per level
+    axeMasteryPerkDesc1: +2% chance for lighting to strike mobs on axe hit
+    axeMasteryPerkDesc2: +1% chance for full heal on kill per level
+    axeMasteryPerkDesc3: +3 s per level of Strength I on kills with an axe
+    axeMasteryPerkDesc4: Ability's AOE damage is doubled (25% -> 50% of damage)
+    axeMasteryPerkDesc5: Divine Crits now have 1.6x multiplier instead of 1.25x
+    axeMasteryPerkDesc6: Axes permanently do +1 heart of damage
+    axeMasteryPassiveTitle0: Passive Tokens
+    axeMasteryPassiveTitle1: Back
+    axeMasteryPassiveTitle2: Skill Tokens
+    axeMasteryPassiveTitle3: Great Axe Duration
+    axeMasteryPassiveTitle4: Divine Crits
+    axeMasteryPassiveDesc0: Tokens to invest in passive skills (dyes)
+    axeMasteryPassiveDesc1: Takes you back to the main skills menu
+    axeMasteryPassiveDesc2: Tokens to invest in skill tree
+    axeMasteryPassiveDesc3: Increases duration of Great Axe by 0.02s
+    axeMasteryPassiveDesc4: Increases random crit chance (base 1.25x damage) by 0.01%
+    repairPerkTitle0: Salvaging
+    repairPerkTitle1: Resourceful
+    repairPerkTitle2: Magic Repair Mastery
+    repairPerkDesc0: Get more materials on average from salvaging
+    repairPerkDesc1: +10% chance of keeping material used when repairing
+    repairPerkDesc2: Guarenteed to keep enchants on repair
+    repairPassiveTitle0: Back
+    repairPassiveTitle1: Skill Tokens
+    repairPassiveTitle2: Proficiency
+    repairPassiveDesc0: Takes you back to the main skills menu
+    repairPassiveDesc1: Tokens to invest in skill tree
+    repairPassiveDesc2: Materials restore more durability on repair
+    agilityPerkTitle0: Dodge
+    agilityPerkTitle1: Steel Bones
+    agilityPerkTitle2: Graceful Feet
+    agilityPerkDesc0: +4% chance to dodge attacks per level
+    agilityPerkDesc1: -10% fall damage per level
+    agilityPerkDesc2: Permanent speed I buff (toggleable by /speedToggle)
+    agilityPassiveTitle0: Back
+    agilityPassiveTitle1: Skill Tokens
+    agilityPassiveTitle2: Roll
+    agilityPassiveDesc0: Takes you back to the main skills menu
+    agilityPassiveDesc1: Tokens to invest in skill tree
+    agilityPassiveDesc2: Chance to roll and take reduced fall damage
+    alchemyPerkTitle0: Alchemical Summoning
+    alchemyPerkTitle1: Ancient Knowledge
+    alchemyPerkTitle2: Potion Master
+    alchemyPerkDesc0: Allows crafting of some potions without a brewing stand
+    alchemyPerkDesc1: Unlocks ability to brew new potions
+    alchemyPerkDesc2: All used potions are increased in level by 1 (toggleable with
+      /togglePotion)
+    alchemyPassiveTitle0: Back
+    alchemyPassiveTitle1: Skill Tokens
+    alchemyPassiveTitle2: Half-life+
+    alchemyPassiveDesc0: Takes you back to the main skills menu
+    alchemyPassiveDesc1: Tokens to invest in skill tree
+    alchemyPassiveDesc2: Increase in duration of potions when used
+    smeltingPerkTitle0: Fuel Efficiency
+    smeltingPerkTitle1: Double Smelt
+    smeltingPerkTitle2: Flame Pickaxe
+    smeltingPerkDesc0: Fuel last +20% longer per level
+    smeltingPerkDesc1: +5% chance for smelted ore to be doubled per level
+    smeltingPerkDesc2: Mined ores are instantly smelted (toggleable with /toggleFlamePick)
+    smeltingPassiveTitle0: Back
+    smeltingPassiveTitle1: Skill Tokens
+    smeltingPassiveTitle2: Fuel Speed
+    smeltingPassiveDesc0: Takes you back to the main skills menu
+    smeltingPassiveDesc1: Tokens to invest in skill tree
+    smeltingPassiveDesc2: Increasing cooking speed
+    enchantingPerkTitle0: Efficient Enchanting
+    enchantingPerkTitle1: Booksmart
+    enchantingPerkTitle2: Immortal Experience
+    enchantingPerkDesc0: Levels needed to enchant -1 per level, anvil repair costs
+      -1 (minimum of 2) XP levels per level
+    enchantingPerkDesc1: Unlocks crafting recipes for some enchanted books
+    enchantingPerkDesc2: Keep xp on death
+    enchantingPassiveTitle0: Back
+    enchantingPassiveTitle1: Skill Tokens
+    enchantingPassiveTitle2: Quicker Development
+    enchantingPassiveDesc0: Takes you back to the main skills menu
+    enchantingPassiveDesc1: Tokens to invest in skill tree
+    enchantingPassiveDesc2: All xp received increased
+    globalPerkTitle0: Gatherer
+    globalPerkTitle1: Scholar
+    globalPerkTitle2: Fighter
+    globalPerkTitle3: Hard Work
+    globalPerkTitle4: Research
+    globalPerkTitle5: Training
+    globalPerkTitle6: Reincarnation+
+    globalPerkTitle7: Soul Harvesting
+    globalPerkTitle8: Avatar
+    globalPerkTitle9: Master of the Arts
+    globalPerkDesc0: +20% exp gained in Digging, Woodcutting, Mining, Farming, and
+      Fishing
+    globalPerkDesc1: +20% exp gained in Repair, Agility, Brewing, Smelting, and Enchanting
+    globalPerkDesc2: +20% exp gained in Archery, Beast Mastery, Swordsmanship, Defense,
+      and Axe Mastery
+    globalPerkDesc3: +1 skill token in all Gatherer skills
+    globalPerkDesc4: +1 skill token in all Scholar skills
+    globalPerkDesc5: +1 skill token in all Fighter skills
+    globalPerkDesc6: On death, 50% chance to keep some of each valuable item in your
+      inventory
+    globalPerkDesc7: You now harvest souls from killing aggressive mobs, which can
+      be used to refund skill trees
+    globalPerkDesc8: 10% chance to take no damage and gain all in-game buffs for 10s
+      on a hit that would normallu kill you
+    globalPerkDesc9: Ability cooldowns decreased by 33%
+    globalPassiveTitle0: Global Tokens
+    globalPassiveTitle1: Back
+    globalPassiveDesc0: Tokens to invest in skill tree
+    globalPassiveDesc1: Takes you back to the main skills menu
+    cannotRepair: You cannot repair while this ability is active!
+    cannotSalvage: You cannot salvage while this ability is active!
+    spite: Everything good is made of spite
+    refundSkill: are required to refund a skill tree
+    refundSkill2: in order to refund a skill tree
+    needToUnlock: You need to unlock
+    perkRequirement: You need at least 2 skill tokens invested in the previous perks to unlock this perk
+    perkRequirementM: You need at least 10 total skill tokens invested in the skill tree to unlock this mastery perk
+    noSkillTokens: You do not have any skill tokens
+    noPassiveTokens: You do not have any passive tokens
+    maxedOutPerk: You have already maxed out this perk!
+    requiredGlobalPerks0: You need the previous perk to unlock this perk
+    requiredGlobalPerks1: are required to unlock this perk
+    requiredGlobalPerks2: is required to unlock this perk
+    requiredGlobalPerks3: You need every global perk to unlock this perk
+    craftRequirement: is required to craft this recipe!
+    craftXPRequirement0: You need at least 1 XP level to craft this
+    craftXPRequirement1: You need at least 10 XP levels to craft this
+    craftXPRequirement2: You need at least 2 XP levels to craft this
+    roll: ROLL
+    dodge: DODGE
+    prepare: You prepare your
+    rest: You rest your
+    activated: activated!
+    ended: has ended
+    readyToUse: is ready to use again
+    cooldown: cooldown
+    rapidFire: Rapid Fire
+    bow: bow
+    greatAxe: Great Axe
+    axe: axe
+    spurKick: Spur Kick
+    leg: leg
+    stoneSoldier: Stone Soldier
+    yourself: yourself
+    bigDig: Big Dig
+    shovel: shovel
+    naturalRegeneration: Natural Regeneration
+    hoe: hoe
+    superBait: Super Bait
+    fishingRod: fishing rod
+    berserkPick: Berserk Pick
+    pickaxe: pickaxe
+    swiftStrikes: Swift Strikes
+    sword: sword
+    timber: Timber
+    hyperHorse: This horse is already hyper!
+    magicForce: A magic force ends your ability
+    rob: Rob
+    repairFail0: You are not skilled enough to adequately repair this item
+    repairFail1: You failed to salavage any materials
+    repairFail2: You failed to retain the item's enchantment power
+    treeTooBig0: This tree is too big for you to chop in one go!"
+    treeTooBig1: This tree can never be chopped in one go like this...
+    noPermission: You do not have permission to use this command!
+    improperArgumenmts: Improper Arguments, try
+    totalPlayTime: Total Play Time
+    clickForOptions: Click for options
+    unknownCommand: Unknown command

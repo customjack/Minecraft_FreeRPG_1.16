@@ -1,5 +1,6 @@
 package mc.carlton.freerpg.miscEvents;
 
+import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.perksAndAbilities.Defense;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.ChatColor;
@@ -38,6 +39,7 @@ public class PlayerCraft implements Listener {
         Player p = (Player) e.getWhoClicked();
         PlayerStats pStatClass = new PlayerStats(p);
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+        LanguageSelector lang = new LanguageSelector(p);
 
         Defense defenseClass = new Defense(p);
         defenseClass.armorEXP(e.getRecipe().getResult());
@@ -130,47 +132,47 @@ public class PlayerCraft implements Listener {
         if (craftingMatch(cowEgg,crafting)) {
             if ((int)pStat.get("farming").get(8) < 1) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "Animal Farm (Level 1)"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("farmingPerkTitle1") + " (1/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(beeEgg,crafting)) {
             if ((int)pStat.get("farming").get(8) < 2) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "Animal Farm (Level 2)"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("farmingPerkTitle1") + " (2/5)"   + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(mooshroomEgg1,crafting) || craftingMatch(mooshroomEgg2,crafting)) {
             if ((int)pStat.get("farming").get(8) < 3) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "Animal Farm (Level 3)"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("farmingPerkTitle1") + " (3/5)"   + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(horseEgg,crafting)) {
             if ((int)pStat.get("farming").get(8) < 4) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "Animal Farm (Level 4)"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("farmingPerkTitle1") + " (4/5)"   + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(slimeEgg,crafting)) {
             if ((int)pStat.get("farming").get(8) < 5) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "Animal Farm (Level 5)"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("farmingPerkTitle1") + " (5/5)"   + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(tippedArrow,crafting)) {
             if ((int)pStat.get("archery").get(11) < 1) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "Dragonless Arrows"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("archeryPerkTitle4")  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(power,crafting) || craftingMatch(efficiency,crafting)) {
             if ((int)pStat.get("enchanting").get(9) < 1) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "Booksmart (Level 1)"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (1/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
             else if (p.getLevel() < 1) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You need at least 1 XP level to craft this");
+                p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement0"));
             }
             else {
                 p.setLevel(p.getLevel()-1);
@@ -180,11 +182,11 @@ public class PlayerCraft implements Listener {
         else if (craftingMatch(sharpness,crafting) || craftingMatch(protection,crafting)) {
             if ((int)pStat.get("enchanting").get(9) < 2) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "Booksmart (Level 2)"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (2/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
             else if (p.getLevel() < 1) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You need at least 1 XP level to craft this");
+                p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement0"));
             }
             else {
                 p.setLevel(p.getLevel()-1);
@@ -194,11 +196,11 @@ public class PlayerCraft implements Listener {
         else if (craftingMatch(luck,crafting) || craftingMatch(lure,crafting)) {
             if ((int)pStat.get("enchanting").get(9) < 3) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "Booksmart (Level 3)"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (3/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
             else if (p.getLevel() < 1) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You need at least 1 XP level to craft this");
+                p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement0"));
             }
             else {
                 p.setLevel(p.getLevel()-1);
@@ -208,11 +210,11 @@ public class PlayerCraft implements Listener {
         else if (craftingMatch(depth,crafting) || craftingMatch(frost,crafting)) {
             if ((int)pStat.get("enchanting").get(9) < 4) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "Booksmart (Level 4)"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (4/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
             else if (p.getLevel() < 1) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You need at least 1 XP level to craft this");
+                p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement0"));
             }
             else {
                 p.setLevel(p.getLevel()-1);
@@ -222,11 +224,11 @@ public class PlayerCraft implements Listener {
         else if (craftingMatch(mending,crafting)) {
             if ((int)pStat.get("enchanting").get(9) < 5) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "Booksmart (Level 5)"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (5/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
             else if (p.getLevel() < 10) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You need at least 10 XP levels to craft this");
+                p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement1"));
             }
             else {
                 p.setLevel(p.getLevel()-10);
@@ -236,11 +238,11 @@ public class PlayerCraft implements Listener {
         else if (craftingMatch(fortune,crafting)) {
             if ((int)pStat.get("enchanting").get(9) < 5) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "Booksmart (Level 5)"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (5/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
             else if (p.getLevel() < 2) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You need at least 2 XP levels to craft this");
+                p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement2"));
             }
             else {
                 p.setLevel(p.getLevel()-2);
@@ -250,31 +252,31 @@ public class PlayerCraft implements Listener {
         else if (craftingMatch(waterBreathing,crafting)) {
             if ((int)pStat.get("alchemy").get(7) < 1) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "Alchemical Summoning (Level 1)"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerk0") + " (1/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(speed,crafting)) {
             if ((int)pStat.get("alchemy").get(7) < 2) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "Alchemical Summoning (Level 2)"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerk0") + " (2/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(fireResistance,crafting)) {
             if ((int)pStat.get("alchemy").get(7) < 3) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "Alchemical Summoning (Level 3)"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerk0") + " (3/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(healing,crafting)) {
             if ((int)pStat.get("alchemy").get(7) < 4) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "Alchemical Summoning (Level 4)"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerk0") + " (4/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(strength,crafting)) {
             if ((int)pStat.get("alchemy").get(7) < 5) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "Alchemical Summoning (Level 5)"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerk0") + " (5/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
 
@@ -292,7 +294,7 @@ public class PlayerCraft implements Listener {
 
              if ((int)pStat.get("mining").get(12) < 1) {
                  e.setCancelled(true);
-                 p.sendMessage(ChatColor.RED + "You must unlock the " + ChatColor.BOLD + "More Bombs"  + ChatColor.RESET + ChatColor.RED.toString() + " perk to unlock this recipe");
+                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + "More Bombs"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement));
              }
         }
         */

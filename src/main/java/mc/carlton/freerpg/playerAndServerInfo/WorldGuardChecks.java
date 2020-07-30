@@ -37,6 +37,34 @@ public class WorldGuardChecks {
         }
     }
 
+    public boolean canPvP(Player p, Location l) {
+        if (!worldGuardPresent) {
+            return true;
+        }
+        RegionQuery query = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
+        LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(p);
+        com.sk89q.worldedit.util.Location loc = BukkitAdapter.adapt(l);
+        if (!hasBypass(localPlayer)) {
+            return query.testState(loc, WorldGuardPlugin.inst().wrapPlayer(p), Flags.PVP);
+        }else {
+            return true;
+        }
+    }
+
+    public boolean canDamageEntities(Player p, Location l) {
+        if (!worldGuardPresent) {
+            return true;
+        }
+        RegionQuery query = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
+        LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(p);
+        com.sk89q.worldedit.util.Location loc = BukkitAdapter.adapt(l);
+        if (!hasBypass(localPlayer)) {
+            return query.testState(loc, WorldGuardPlugin.inst().wrapPlayer(p), Flags.DAMAGE_ANIMALS);
+        }else {
+            return true;
+        }
+    }
+
 
     public boolean hasBypass(LocalPlayer localPlayer) {
         return WorldGuard.getInstance().getPlatform().getSessionManager().hasBypass(localPlayer, localPlayer.getWorld());

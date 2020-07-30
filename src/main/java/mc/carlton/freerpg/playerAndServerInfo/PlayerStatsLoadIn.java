@@ -47,6 +47,19 @@ public class PlayerStatsLoadIn {
         return Instant.now().getEpochSecond();
     }
 
+    public String getPlayerLanguage(Player p) {
+        String language = "enUs";
+        UUID pUUID = p.getUniqueId();
+        File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder(), File.separator + "PlayerDatabase");
+        File f = new File(userdata, File.separator + pUUID.toString() + ".yml");
+        FileConfiguration playerData = YamlConfiguration.loadConfiguration(f);
+        if (f.exists()) {
+            language = playerData.get("general.language").toString();
+            return language;
+        }
+        return language;
+    }
+
     public  Map<String, ArrayList<Number>>  getPlayerStatsMap(Player p) {
         String[] labels = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
         ArrayList<Number> stats = new ArrayList<Number>();
@@ -120,6 +133,10 @@ public class PlayerStatsLoadIn {
             long lastLoginTime = (long) Long.parseLong(playerData.get("general.lastLogin").toString());
             long playTime = unixTime-lastLoginTime;
             playerData.set("general.playTime",playTime);
+
+            //Setting player Language
+            String playerLanguage = pStatClass.getPlayerLanguage();
+            playerData.set("general.language",playerLanguage);
 
             for (String i : pStatAll.keySet()) {
                 if (i.equalsIgnoreCase("global")) {

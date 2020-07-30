@@ -2,6 +2,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
+import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -37,6 +38,7 @@ public class Swordsmanship {
     //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
 
     ActionBarMessages actionMessage;
+    LanguageSelector lang;
 
     Random rand = new Random(); //Random class Import
     EntityType[] hostileMobs0 = {EntityType.SPIDER,EntityType.CAVE_SPIDER,EntityType.ENDERMAN,EntityType.ZOMBIFIED_PIGLIN,
@@ -65,6 +67,7 @@ public class Swordsmanship {
         this.timers = new AbilityTimers(p);
         this.pStatClass = new PlayerStats(p);
         this.actionMessage = new ActionBarMessages(p);
+        this.lang = new LanguageSelector(p);
     }
 
     public void initiateAbility() {
@@ -78,13 +81,13 @@ public class Swordsmanship {
             if (cooldown < 1) {
                 int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
                 if (prepMessages > 0) {
-                    actionMessage.sendMessage(ChatColor.GRAY + ">>>You prepare your sword...<<<");
+                    actionMessage.sendMessage(ChatColor.GRAY + ">>>" + lang.getString("prepare") + " " + lang.getString("sword") + "...<<<");
                 }
                 int taskID = new BukkitRunnable() {
                     @Override
                     public void run() {
                         if (prepMessages > 0) {
-                            actionMessage.sendMessage(ChatColor.GRAY + ">>>...You rest your sword<<<");
+                            actionMessage.sendMessage(ChatColor.GRAY + ">>>..." + lang.getString("rest") + " " +lang.getString("sword") + "<<<");
                         }
                         try {
                             abilities.setPlayerAbility( "swordsmanship", -1);
@@ -96,7 +99,7 @@ public class Swordsmanship {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( "swordsmanship", taskID);
             } else {
-                actionMessage.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Swift Strikes again.");
+                actionMessage.sendMessage(ChatColor.RED +lang.getString("swiftStrikes") + " " + lang.getString("cooldown") + ": " + cooldown+ "s");
             }
         }
     }
@@ -104,7 +107,7 @@ public class Swordsmanship {
     public void enableAbility() {
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Swift Strikes Activated!<<<");
+        actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>" + lang.getString("swiftStrikes") + " " + lang.getString("activated") + "<<<");
         int durationLevel = (int) pStat.get("swordsmanship").get(4);
         double duration0 = Math.ceil(durationLevel * 0.4) + 40;
         int cooldown = 300;
@@ -127,7 +130,7 @@ public class Swordsmanship {
         int taskID = new BukkitRunnable() {
             @Override
             public void run() {
-                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Swift Strikes has ended<<<");
+                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("swiftStrikes") + " " + lang.getString("ended") + "<<<");
                 abilities.setPlayerAbility( "swordsmanship", -1);
                 ((Attributable) p).getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4.0);
                 for (int i = 1; i < finalCooldown+1; i++) {
@@ -142,7 +145,7 @@ public class Swordsmanship {
                                     timers2.removePlayer();
                                 }
                                 else {
-                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>Swift Strikes is ready to use again<<<");
+                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>" + lang.getString("swiftStrikes") + " " + lang.getString("readyToUse") + "<<<");
                                 }
                             }
                         }
@@ -174,7 +177,7 @@ public class Swordsmanship {
                     cooldown = 200;
                 }
                 int finalCooldown = cooldown;
-                actionMessage.sendMessage(ChatColor.RED+ChatColor.BOLD.toString() + ">>>A magic force ends your ability<<<");
+                actionMessage.sendMessage(ChatColor.RED+ChatColor.BOLD.toString() + ">>>"+lang.getString("magicForce")+"<<<");
                 abilities.setPlayerAbility( "swordsmanship", -1);
                 for(int i = 1; i < finalCooldown+1; i++) {
                     int timeRemaining = finalCooldown - i;

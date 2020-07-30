@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.clickEvents;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.playerAndServerInfo.AbilityTracker;
 import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
@@ -83,7 +84,7 @@ public class PlayerRightClick implements Listener {
                                            Material.LIGHT_GRAY_SHULKER_BOX,Material.LIME_SHULKER_BOX,Material.MAGENTA_SHULKER_BOX, Material.RED_SHULKER_BOX,Material.WHITE_SHULKER_BOX,Material.YELLOW_SHULKER_BOX,
                                            Material.ORANGE_SHULKER_BOX, Material.PURPLE_SHULKER_BOX,Material.PINK_SHULKER_BOX};
             List<Material> actionableBlocks = Arrays.asList(actionableBlocks0);
-
+            LanguageSelector langManager = new LanguageSelector(p);
 
 
             //Right clicking blocks
@@ -100,7 +101,7 @@ public class PlayerRightClick implements Listener {
                         e.setCancelled(true);
                     }
                     else {
-                        p.sendMessage(ChatColor.RED + "You cannot repair while this ability is active!");
+                        p.sendMessage(ChatColor.RED + langManager.getString("cannotRepair"));
                     }
                     return;
                 }
@@ -113,7 +114,7 @@ public class PlayerRightClick implements Listener {
                             e.setCancelled(true);
                         }
                         else {
-                            p.sendMessage(ChatColor.RED + "You cannot salvage while this ability is active!");
+                            p.sendMessage(ChatColor.RED + langManager.getString("cannotSalvage"));
                         }
                         return;
                     }

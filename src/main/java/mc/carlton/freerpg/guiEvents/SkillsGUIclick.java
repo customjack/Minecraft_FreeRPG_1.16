@@ -1,4 +1,5 @@
 package mc.carlton.freerpg.guiEvents;
+import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
@@ -45,6 +46,7 @@ public class SkillsGUIclick implements Listener {
                     e.setCancelled(true);
                 }
                 Player p = (Player) e.getWhoClicked();
+                LanguageSelector langManager = new LanguageSelector(p);
                 UUID uuid = p.getUniqueId();
                 String skillName = labels[titleIndex];
                 PlayerStats pStatClass = new PlayerStats(p);
@@ -70,18 +72,18 @@ public class SkillsGUIclick implements Listener {
                                     ConfigLoad loadConfig = new ConfigLoad();
                                     ArrayList<Integer> soulsInfo = loadConfig.getSoulsInfo();
                                     String refundCost = Integer.toString(soulsInfo.get(1));
-                                    p.sendMessage(ChatColor.RED + "You need at least" + refundCost + "souls to refund a skill tree");
+                                    p.sendMessage(ChatColor.RED + refundCost + " " + langManager.getString("refundSkill"));
                                 }
                                 else {
-                                    p.sendMessage(ChatColor.RED + "You need to unlock " +ChatColor.BOLD + "Soul Harvesting" + ChatColor.RESET + ChatColor.RED.toString() + " to refund skill trees");
+                                    p.sendMessage(ChatColor.RED + langManager.getString("needToUnlock") + " " + ChatColor.BOLD + langManager.getString("globalPerkTitle7") + ChatColor.RESET + ChatColor.RED.toString() + " " + langManager.getString("refundSkill2"));
                                 }
                             }
                             break;
                         case RED_TERRACOTTA:
                             if (e.getSlot() == 13 || e.getSlot() == 31 || e.getSlot() == 7 || e.getSlot() == 43 || e.getSlot() == 20 || e.getSlot() == 23) {
-                                p.sendMessage(ChatColor.RED + "You need at least 2 skill tokens invested in the previous perks to unlock this perk.");
+                                p.sendMessage(ChatColor.RED + langManager.getString("perkRequirement"));
                             } else if (e.getSlot() == 26) {
-                                p.sendMessage(ChatColor.RED + "You need at least 10 total skill tokens invested in the skill tree to unlock this mastery perk.");
+                                p.sendMessage(ChatColor.RED + langManager.getString("perkRequirementM"));
                             }
                             break;
                         case PINK_TERRACOTTA:
@@ -145,13 +147,13 @@ public class SkillsGUIclick implements Listener {
                                 statAll.put(uuid, pStatAll);
                                 pStatClass.setData(statAll);
                             } else {
-                                p.sendMessage(ChatColor.RED + "You do not have any skill tokens.");
+                                p.sendMessage(ChatColor.RED + langManager.getString("noSkillTokens"));
                             }
                             p.performCommand("frpg skillTreeGUI " + skillName);
                             break;
 
                         case GREEN_TERRACOTTA:
-                            p.sendMessage(ChatColor.RED + "You have already maxed out this perk!");
+                            p.sendMessage(ChatColor.RED + langManager.getString("maxedOutPerk"));
                             break;
                         case RED_DYE:
                             if (pStats.get(2).intValue() > 0) {
@@ -161,7 +163,7 @@ public class SkillsGUIclick implements Listener {
                                 statAll.put(uuid, pStatAll);
                                 pStatClass.setData(statAll);
                             } else {
-                                p.sendMessage(ChatColor.RED + "You do not have any passive tokens.");
+                                p.sendMessage(ChatColor.RED + langManager.getString("noPassiveTokens"));
                             }
 
                             p.performCommand("frpg skillTreeGUI " + skillName);
@@ -169,7 +171,7 @@ public class SkillsGUIclick implements Listener {
                         case GREEN_DYE:
                             int maxLevel2 = passiveMax.findMaxLevel(skillName,2);
                             if (pStats.get(5).intValue() >= maxLevel2) {
-                                p.sendMessage(ChatColor.RED + "You have reached the max level in this perk!");
+                                p.sendMessage(ChatColor.RED + langManager.getString("maxedOutPerk"));
                             }
                             else {
                                 if (pStats.get(2).intValue() > 0) {
@@ -179,7 +181,7 @@ public class SkillsGUIclick implements Listener {
                                     statAll.put(uuid, pStatAll);
                                     pStatClass.setData(statAll);
                                 } else {
-                                    p.sendMessage(ChatColor.RED + "You do not have any passive tokens.");
+                                    p.sendMessage(ChatColor.RED + langManager.getString("noPassiveTokens"));
                                 }
                             }
                             p.performCommand("frpg skillTreeGUI " + skillName);
@@ -187,7 +189,7 @@ public class SkillsGUIclick implements Listener {
                         case BLUE_DYE:
                             int maxLevel3 = passiveMax.findMaxLevel(skillName,3);
                             if (pStats.get(6).intValue() >= maxLevel3) {
-                                p.sendMessage(ChatColor.RED + "You have reached the max level in this perk!");
+                                p.sendMessage(ChatColor.RED + langManager.getString("maxedOutPerk"));
                             }
                             else {
                                 if (pStats.get(2).intValue() > 0) {
@@ -197,7 +199,7 @@ public class SkillsGUIclick implements Listener {
                                     statAll.put(uuid, pStatAll);
                                     pStatClass.setData(statAll);
                                 } else {
-                                    p.sendMessage(ChatColor.RED + "You do not have any passive tokens.");
+                                    p.sendMessage(ChatColor.RED + langManager.getString("noPassiveTokens"));
                                 }
                             }
                             p.performCommand("frpg skillTreeGUI " + skillName);
@@ -254,94 +256,105 @@ public class SkillsGUIclick implements Listener {
                             }
                                 break;
                         case CRAFTING_TABLE:
-                            ItemStack craftingItem = e.getCurrentItem();
-                            String craftingName = craftingItem.getItemMeta().getDisplayName();
-                            craftingName = craftingName.substring(2);
-                            switch (craftingName) {
-                                case "Cow Egg":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "farming1");
-                                    break;
-                                case "Bee Egg":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "farming2");
-                                    break;
-                                case "Mooshroom Egg":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "farming3");
-                                    break;
-                                case "Horse Egg":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "farming4");
-                                    break;
-                                case "Slime Egg":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "farming5");
-                                    break;
-                                case "Dragonless Arrows":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "archery1");
-                                    break;
-                                case "Power I Book":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "enchanting1");
-                                    break;
-                                case "Efficiency I Book":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "enchanting2");
-                                    break;
-                                case "Sharpness I Book":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "enchanting3");
-                                    break;
-                                case "Protection I Book":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "enchanting4");
-                                    break;
-                                case "Luck of the Sea I Book":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "enchanting5");
-                                    break;
-                                case "Lure I Book":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "enchanting6");
-                                    break;
-                                case "Frost Walker I Book":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "enchanting7");
-                                    break;
-                                case "Depth Strider I Book":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "enchanting8");
-                                    break;
-                                case "Mending Book":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "enchanting9");
-                                    break;
-                                case "Fortune I Book":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "enchanting10");
-                                    break;
-                                case "Water Breathing Potion":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "alchemy1");
-                                    break;
-                                case "Speed Potion":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "alchemy2");
-                                    break;
-                                case "Fire Resistance Potion":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "alchemy3");
-                                    break;
-                                case "Healing Potion":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "alchemy4");
-                                    break;
-                                case "Strength Potion":
-                                    p.closeInventory();
-                                    p.performCommand("frpg craftingGUI " + "alchemy5");
-                                    break;
+                            if (skillName.equalsIgnoreCase("farming")) {
+                                switch (e.getRawSlot()) {
+                                    case 48:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "farming1");
+                                        break;
+                                    case 49:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "farming2");
+                                        break;
+                                    case 50:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "farming3");
+                                        break;
+                                    case 51:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "farming4");
+                                        break;
+                                    case 52:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "farming5");
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            else if (skillName.equalsIgnoreCase("archery")) {
+                                p.closeInventory();
+                                p.performCommand("frpg craftingGUI " + "archery1");
+                            }
+                            else if (skillName.equalsIgnoreCase("enchanting")) {
+                                switch (e.getRawSlot()) {
+                                    case 39:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "enchanting1");
+                                        break;
+                                    case 40:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "enchanting2");
+                                        break;
+                                    case 41:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "enchanting3");
+                                        break;
+                                    case 42:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "enchanting4");
+                                        break;
+                                    case 43:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "enchanting5");
+                                        break;
+                                    case 48:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "enchanting6");
+                                        break;
+                                    case 49:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "enchanting7");
+                                        break;
+                                    case 50:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "enchanting8");
+                                        break;
+                                    case 51:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "enchanting9");
+                                        break;
+                                    case 52:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "enchanting10");
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            if (skillName.equalsIgnoreCase("alchemy")) {
+                                switch (e.getRawSlot()) {
+                                    case 48:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "alchemy1");
+                                        break;
+                                    case 49:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "alchemy2");
+                                        break;
+                                    case 50:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "alchemy3");
+                                        break;
+                                    case 51:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "alchemy4");
+                                        break;
+                                    case 52:
+                                        p.closeInventory();
+                                        p.performCommand("frpg craftingGUI " + "alchemy5");
+                                        break;
+                                }
                             }
                         default:
                             break;
@@ -360,6 +373,7 @@ public class SkillsGUIclick implements Listener {
                     e.setCancelled(true);
                 }
                 Player p = (Player) e.getWhoClicked();
+                LanguageSelector langManager = new LanguageSelector(p);
                 String skillName = "global";
                 PlayerStats pStatClass = new PlayerStats(p);
                 Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
@@ -373,13 +387,13 @@ public class SkillsGUIclick implements Listener {
                             break;
                         case RED_TERRACOTTA:
                             if (e.getSlot() == 3 || e.getSlot() == 21 || e.getSlot() == 39) {
-                                p.sendMessage(ChatColor.RED + "You need the previous perk to unlock this perk.");
+                                p.sendMessage(ChatColor.RED + langManager.getString("requiredGlobalPerks0"));
                             } else if (e.getSlot() == 24) {
-                                p.sendMessage(ChatColor.RED + "You need Hard Work, Research, and Training to unlock this perk.");
+                                p.sendMessage(ChatColor.RED + langManager.getString("globalPerkTitle3") + ", " + langManager.getString("globalPerkTitle4") + ", " + langManager.getString("globalPerkTitle5") + " " + langManager.getString("requiredGlobalPerks1"));
                             } else if (e.getSlot() == 6 || e.getSlot() == 42) {
-                                p.sendMessage(ChatColor.RED + "You need Job Bonus to unlock this perk.");
+                                p.sendMessage(ChatColor.RED + langManager.getString("globalPerkTitle7") + " " + langManager.getString("requiredGlobalPerks2"));
                             } else if (e.getSlot() == 26) {
-                                p.sendMessage(ChatColor.RED + "You need every global perk to unlock this perk.");
+                                p.sendMessage(ChatColor.RED + langManager.getString("requiredGlobalPerks3"));
                             }
                             break;
                         case PINK_TERRACOTTA:
@@ -432,13 +446,13 @@ public class SkillsGUIclick implements Listener {
                                 statAll.put(p.getUniqueId(), pStatAll);
                                 pStatClass.setData(statAll);
                             } else {
-                                p.sendMessage(ChatColor.RED + "You do not have any skill tokens.");
+                                p.sendMessage(ChatColor.RED + langManager.getString("noSkillTokens"));
                             }
                             p.performCommand("frpg skillTreeGUI " + skillName);
                             break;
 
                         case GREEN_TERRACOTTA:
-                            p.sendMessage(ChatColor.RED + "You have already maxed out this perk!");
+                            p.sendMessage(ChatColor.RED + langManager.getString("maxedOutPerk"));
                             break;
 
                     }

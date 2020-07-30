@@ -38,6 +38,7 @@ public class StatManager {
             try{
                 //Load some file creation config
                 ConfigLoad loadConfig = new ConfigLoad();
+                String defaultLanguage = loadConfig.getDefaultLanguage();
                 ArrayList<Double> tokensInfo = loadConfig.getTokensInfo();
                 ArrayList<Integer> soulsInfo = loadConfig.getSoulsInfo();
                 int passiveTokens0 = (int) Math.round(tokensInfo.get(4));
@@ -52,6 +53,7 @@ public class StatManager {
                 playerData.set("general.lastLogin",unixTime);
                 playerData.set("general.lastLogout",unixTime);
                 playerData.set("general.playTime",0);
+                playerData.set("general.language", defaultLanguage);
 
                 //Global stats data
                 playerData.createSection("globalStats");
@@ -123,6 +125,11 @@ public class StatManager {
                 }
                 if (!playerData.contains("general.playTime")) {
                     playerData.set("general.playTime", 0);
+                }
+                if (!playerData.contains("general.language")) {
+                    ConfigLoad loadConfig = new ConfigLoad();
+                    String defaultLanguage = loadConfig.getDefaultLanguage();
+                    playerData.set("general.language", defaultLanguage);
                 }
 
                 //Global stats data

@@ -2,6 +2,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
+import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
@@ -40,6 +41,7 @@ public class Fishing {
     //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
 
     ActionBarMessages actionMessage;
+    LanguageSelector lang;
 
     Random rand = new Random(); //Random class Import
 
@@ -58,6 +60,7 @@ public class Fishing {
         this.timers = new AbilityTimers(p);
         this.pStatClass=  new PlayerStats(p);
         this.actionMessage = new ActionBarMessages(p);
+        this.lang = new LanguageSelector(p);
 
         fishFood.put(Material.COOKED_SALMON,6);
         fishFoodSaturation.put(Material.COOKED_SALMON,1.6);
@@ -87,13 +90,13 @@ public class Fishing {
             if (cooldown < 1) {
                 int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
                 if (prepMessages > 0) {
-                    actionMessage.sendMessage(ChatColor.GRAY + ">>>You prepare your fishing rod...<<<");
+                    actionMessage.sendMessage(ChatColor.GRAY + ">>>" + lang.getString("prepare") + " " + lang.getString("fishingRod") + "...<<<");
                 }
                 int taskID = new BukkitRunnable() {
                     @Override
                     public void run() {
                         if (prepMessages > 0) {
-                            actionMessage.sendMessage(ChatColor.GRAY + ">>>...You rest your fishing rod<<<");
+                            actionMessage.sendMessage(ChatColor.GRAY + ">>>..." + lang.getString("rest") + " " +lang.getString("fishingRod") + "<<<");
                         }
                         try {
                             abilities.setPlayerAbility( "fishing", -1);
@@ -105,7 +108,7 @@ public class Fishing {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( "fishing", taskID);
             } else {
-                actionMessage.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Super-bait again.");
+                actionMessage.sendMessage(ChatColor.RED +lang.getString("superBait") + " " + lang.getString("cooldown") + ": " + cooldown+ "s");
             }
         }
     }
@@ -113,7 +116,7 @@ public class Fishing {
     public void enableAbility() {
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Super-bait Activated!<<<");
+        actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>" + lang.getString("superBait") + " " + lang.getString("activated") + "<<<");
         int durationLevel = (int) pStat.get("fishing").get(4);
         double duration0 = Math.ceil(durationLevel * 0.2) + 20;
         int cooldown = 300;
@@ -128,7 +131,7 @@ public class Fishing {
         int taskID = new BukkitRunnable() {
             @Override
             public void run() {
-                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Super-bait has ended<<<");
+                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("superBait") + " " + lang.getString("ended") + "<<<");
                 abilities.setPlayerAbility( "fishing", -1);
                 for (int i = 1; i < finalCooldown+1; i++) {
                     int timeRemaining = finalCooldown - i;
@@ -142,7 +145,7 @@ public class Fishing {
                                     timers2.removePlayer();
                                 }
                                 else {
-                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>Super-bait is ready to use again<<<");
+                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>" + lang.getString("superBait") + " " + lang.getString("readyToUse") + "<<<");
                                 }
                             }
                         }
@@ -403,7 +406,7 @@ public class Fishing {
             return;
         }
         if (pTimers[11] > 0) {
-            actionMessage.sendMessage(ChatColor.RED + "You must wait " + pTimers[11].toString() + " seconds to rob another mob");
+            actionMessage.sendMessage(ChatColor.RED + lang.getString("rob") + " " + lang.getString("cooldown") + ": " + pTimers[11].toString() + "s");
             return;
         }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();

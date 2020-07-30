@@ -2,6 +2,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
+import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -38,6 +39,7 @@ public class Mining {
     //GET TRACKED BLOCKS LIKE THIS:        ArrayList<Location> blocksLocations = placedClass.getBlocks();
 
     ActionBarMessages actionMessage;
+    LanguageSelector lang;
 
     Material[] ores0 = {Material.REDSTONE_ORE,Material.NETHER_QUARTZ_ORE,Material.LAPIS_ORE,Material.IRON_ORE,Material.GOLD_ORE,
                         Material.EMERALD_ORE,Material.DIAMOND_ORE,Material.COAL_ORE,Material.NETHER_GOLD_ORE,Material.ANCIENT_DEBRIS,Material.GILDED_BLACKSTONE};
@@ -56,6 +58,7 @@ public class Mining {
         this.pStatClass=  new PlayerStats(p);
         this.placedClass = new PlacedBlocks();
         this.actionMessage = new ActionBarMessages(p);
+        this.lang = new LanguageSelector(p);
     }
 
     public void initiateAbility() {
@@ -69,13 +72,13 @@ public class Mining {
             if (cooldown < 1) {
                 int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
                 if (prepMessages > 0) {
-                    actionMessage.sendMessage(ChatColor.GRAY + ">>>You prepare your pickaxe...<<<");
+                    actionMessage.sendMessage(ChatColor.GRAY + ">>>" + lang.getString("prepare") + " " + lang.getString("pickaxe") + "...<<<");
                 }
                 int taskID = new BukkitRunnable() {
                     @Override
                     public void run() {
                         if (prepMessages > 0) {
-                            actionMessage.sendMessage(ChatColor.GRAY + ">>>...You rest your pickaxe<<<");
+                            actionMessage.sendMessage(ChatColor.GRAY + ">>>..." + lang.getString("rest") + " " +lang.getString("pickaxe") + "<<<");
                         }
                         try {
                             abilities.setPlayerAbility( "mining", -1);
@@ -87,7 +90,7 @@ public class Mining {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( "mining", taskID);
             } else {
-                actionMessage.sendMessage(ChatColor.RED + "You must wait " + cooldown + " seconds to use Berserk Pick again.");
+                actionMessage.sendMessage(ChatColor.RED +lang.getString("berserkPick") + " " + lang.getString("cooldown") + ": " + cooldown + "s");
             }
         }
     }
@@ -96,7 +99,7 @@ public class Mining {
         Integer[] pTimers = timers.getPlayerTimers();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>Berserk Pick Activated!<<<");
+        actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>" + lang.getString("berserkPick") + " " + lang.getString("activated") + "<<<");
         int effLevel = itemInHand.getEnchantmentLevel(Enchantment.DIG_SPEED);
         itemInHand.removeEnchantment(Enchantment.DIG_SPEED);
         itemInHand.addUnsafeEnchantment(Enchantment.DIG_SPEED, effLevel + 5);
@@ -114,7 +117,7 @@ public class Mining {
         int taskID = new BukkitRunnable() {
             @Override
             public void run() {
-                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>Berserk Pick has ended<<<");
+                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("berserkPick") + " " + lang.getString("ended") + "<<<");
                 itemInHand.removeEnchantment(Enchantment.DIG_SPEED);
                 if (effLevel != 0) {
                     itemInHand.addUnsafeEnchantment(Enchantment.DIG_SPEED, effLevel);
@@ -132,7 +135,7 @@ public class Mining {
                                     timers2.removePlayer();
                                 }
                                 else {
-                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>Berserk Pick is ready to use again<<<");
+                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>" + lang.getString("berserkPick") + " " + lang.getString("readyToUse") + "<<<");
                                 }
                             }
                         }
@@ -263,7 +266,7 @@ public class Mining {
             }
             int finalCooldown = cooldown;
             abilities.setPlayerAbility( "mining", -1);
-            p.sendMessage(ChatColor.RED+ChatColor.BOLD.toString() + ">>>A magic force ends your ability<<<");
+            p.sendMessage(ChatColor.RED+ChatColor.BOLD.toString() + ">>>" + lang.getString("magicForce") + "<<<");
             for(int i = 1; i < finalCooldown+1; i++) {
                 int timeRemaining = finalCooldown - i;
                 new BukkitRunnable() {

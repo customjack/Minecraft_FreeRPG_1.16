@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.guiEvents;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
 import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
@@ -156,7 +157,9 @@ public class ConfirmationGUIClick implements Listener {
                         globalClass.loseSouls(refundCost);
                     }
                     else {
-                        p.sendMessage(ChatColor.RED + "You need at least 250 souls to refund a skill tree");
+                        LanguageSelector langManager = new LanguageSelector(p);
+                        String refundCostString = Integer.toString(refundCost);
+                        p.sendMessage(ChatColor.RED + refundCostString + " " + langManager.getString("requiredSouls"));
                     }
 
                     p.closeInventory();

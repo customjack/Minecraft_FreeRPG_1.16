@@ -6,7 +6,9 @@ import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.playerAndServerInfo.AbilityTracker;
 import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
+import mc.carlton.freerpg.playerAndServerInfo.WorldGuardChecks;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
@@ -25,6 +27,27 @@ public class EntityHitEntity implements Listener {
     void onEntityHit(EntityDamageByEntityEvent e) {
         Random rand = new Random();
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
+
+        if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
+            Player p = (Player) e.getDamager();
+            Location loc = p.getLocation();
+            WorldGuardChecks checkPVP = new WorldGuardChecks();
+            boolean canPvP = checkPVP.canPvP(p,loc);
+            if (!canPvP) {
+                return;
+            }
+        }
+
+        else if (e.getDamager() instanceof Player) {
+            Player p = (Player) e.getDamager();
+            Location loc = p.getLocation();
+            WorldGuardChecks checkPVP = new WorldGuardChecks();
+            boolean canDamageEntities = checkPVP.canDamageEntities(p,loc);
+            if (!canDamageEntities) {
+                return;
+            }
+        }
+
         if (e.getDamager() instanceof Player) {
             Material[] shovels0 = {Material.NETHERITE_SHOVEL,Material.DIAMOND_SHOVEL, Material.GOLDEN_SHOVEL, Material.IRON_SHOVEL, Material.STONE_SHOVEL, Material.WOODEN_SHOVEL};
             List<Material> shovels = Arrays.asList(shovels0);
