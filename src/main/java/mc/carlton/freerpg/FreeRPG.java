@@ -51,6 +51,15 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
         getConfig().options().copyDefaults();
         saveDefaultConfig();
+
+        //config Load
+        ConfigLoad loadConfig = new ConfigLoad();
+        loadConfig.setConfig();
+        loadConfig.setConfigData();
+
+        //Saves Custom Languages YAML file
+        saveResource("languages.yml",true);
+
         PlacedBlockManager mayCreateFile = new PlacedBlockManager();
         try {
             mayCreateFile.startConditions();
@@ -65,13 +74,6 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //Saves Custom Languages YAML file
-        saveResource("languages.yml",true);
-
-        //config Load
-        ConfigLoad loadConfig = new ConfigLoad();
-        loadConfig.setConfigData();
 
         //Check if the server uses world guard
         WorldGuardChecks CheckWorldGuardExistence = new WorldGuardChecks();
@@ -250,7 +252,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
     //Recipe methods
     private void cowEgg() {
         ItemStack item = new ItemStack(Material.COW_SPAWN_EGG, 1);
-        NamespacedKey key = new NamespacedKey(this, "CowSpawnEgg");
+        NamespacedKey key = new NamespacedKey(this, "frpgCowSpawnEgg");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("LBL", "BbB", "LBL");
         recipe.setIngredient('L', Material.LEATHER);
@@ -260,7 +262,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
     }
     private void beeEgg() {
         ItemStack item = new ItemStack(Material.BEE_SPAWN_EGG, 1);
-        NamespacedKey key = new NamespacedKey(this, "BeeSpawnEgg");
+        NamespacedKey key = new NamespacedKey(this, "frpgBeeSpawnEgg");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape(" O ", "DHR", " A ");
         recipe.setIngredient('O', Material.OXEYE_DAISY);
@@ -272,7 +274,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
     }
     private void mooshroomEgg1() {
         ItemStack item = new ItemStack(Material.MOOSHROOM_SPAWN_EGG, 1);
-        NamespacedKey key = new NamespacedKey(this, "MooshroomSpawnEgg1");
+        NamespacedKey key = new NamespacedKey(this, "frpgMooshroomSpawnEgg1");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("LML", "BbB", "LBL");
         recipe.setIngredient('L', Material.LEATHER);
@@ -283,7 +285,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
     }
     private void mooshroomEgg2() {
         ItemStack item = new ItemStack(Material.MOOSHROOM_SPAWN_EGG, 1);
-        NamespacedKey key = new NamespacedKey(this, "MooshroomSpawnEgg2");
+        NamespacedKey key = new NamespacedKey(this, "frpgMooshroomSpawnEgg2");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("LML", "BbB", "LBL");
         recipe.setIngredient('L', Material.LEATHER);
@@ -294,7 +296,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
     }
     private void horseEgg() {
         ItemStack item = new ItemStack(Material.HORSE_SPAWN_EGG, 1);
-        NamespacedKey key = new NamespacedKey(this, "HorseSpawnEgg");
+        NamespacedKey key = new NamespacedKey(this, "frpgHorseSpawnEgg");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("LSL", "LbL", "HHH");
         recipe.setIngredient('L', Material.LEATHER);
@@ -305,7 +307,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
     }
     private void slimeEgg() {
         ItemStack item = new ItemStack(Material.SLIME_SPAWN_EGG, 1);
-        NamespacedKey key = new NamespacedKey(this, "SlimeSpawnEgg");
+        NamespacedKey key = new NamespacedKey(this, "frpgSlimeSpawnEgg");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("   ", " SS", " SS");
         recipe.setIngredient('S', Material.SLIME_BALL);
@@ -314,7 +316,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
 
     private void dragonLessArrows() {
         ItemStack item = new ItemStack(Material.TIPPED_ARROW, 1);
-        NamespacedKey key = new NamespacedKey(this, "tippedArrows");
+        NamespacedKey key = new NamespacedKey(this, "frpgTippedArrows");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("AAA", "APA", "AAA");
         recipe.setIngredient('A', Material.ARROW);
@@ -327,7 +329,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
         meta.addStoredEnchant(Enchantment.ARROW_DAMAGE,1,true);
         item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "powerBook");
+        NamespacedKey key = new NamespacedKey(this, "frpgPowerBook");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("   ", " PP", " P*");
         recipe.setIngredient('*', Material.BOW);
@@ -340,7 +342,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
         meta.addStoredEnchant(Enchantment.DIG_SPEED,1,true);
         item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "efficiencyBook");
+        NamespacedKey key = new NamespacedKey(this, "frpgEfficiencyBook");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("   ", " PP", " P*");
         recipe.setIngredient('*', Material.IRON_PICKAXE);
@@ -353,7 +355,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
         meta.addStoredEnchant(Enchantment.DAMAGE_ALL,1,true);
         item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "sharpnessBook");
+        NamespacedKey key = new NamespacedKey(this, "frpgSharpnessBook");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("I  ", " PP", " P*");
         recipe.setIngredient('*', Material.IRON_SWORD);
@@ -367,7 +369,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
         meta.addStoredEnchant(Enchantment.PROTECTION_ENVIRONMENTAL,1,true);
         item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "protectionBook");
+        NamespacedKey key = new NamespacedKey(this, "frpgProtectionBook");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape(" * ", "*PP", " P*");
         recipe.setIngredient('*', Material.IRON_INGOT);
@@ -380,7 +382,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
         meta.addStoredEnchant(Enchantment.LUCK,1,true);
         item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "luckBook");
+        NamespacedKey key = new NamespacedKey(this, "frpgLuckBook");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("R  ", " PP", " P*");
         recipe.setIngredient('*', Material.FISHING_ROD);
@@ -394,7 +396,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
         meta.addStoredEnchant(Enchantment.LURE,1,true);
         item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "lureBook");
+        NamespacedKey key = new NamespacedKey(this, "frpgLureBook");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("R  ", " PP", " P*");
         recipe.setIngredient('*', Material.FISHING_ROD);
@@ -408,7 +410,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
         meta.addStoredEnchant(Enchantment.FROST_WALKER,1,true);
         item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "frostBook");
+        NamespacedKey key = new NamespacedKey(this, "frpgFrostBook");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("   ", " PP", " P*");
         recipe.setIngredient('*', Material.BLUE_ICE);
@@ -421,7 +423,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
         meta.addStoredEnchant(Enchantment.DEPTH_STRIDER,1,true);
         item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "depthBook");
+        NamespacedKey key = new NamespacedKey(this, "frpgDepthBook");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("   ", " PP", " P*");
         recipe.setIngredient('*', Material.NAUTILUS_SHELL);
@@ -434,7 +436,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
         meta.addStoredEnchant(Enchantment.MENDING,1,true);
         item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "mendingBook");
+        NamespacedKey key = new NamespacedKey(this, "frpgMendingBook");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("   ", " PP", " P*");
         recipe.setIngredient('*', Material.DIAMOND_BLOCK);
@@ -447,7 +449,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
         meta.addStoredEnchant(Enchantment.LOOT_BONUS_BLOCKS,1,true);
         item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "fortuneBook");
+        NamespacedKey key = new NamespacedKey(this, "frpgFortuneBook");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("   ", " PP", " P*");
         recipe.setIngredient('*', Material.GOLD_BLOCK);
@@ -460,7 +462,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         PotionMeta meta = (PotionMeta) item.getItemMeta();
         meta.setBasePotionData(new PotionData(PotionType.WATER_BREATHING,false,false));
         item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "waterBreathingPotion");
+        NamespacedKey key = new NamespacedKey(this, "frpgWaterBreathingPotion");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape(" I ", " W ", "   ");
         recipe.setIngredient('I', Material.PUFFERFISH);
@@ -473,7 +475,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         PotionMeta meta = (PotionMeta) item.getItemMeta();
         meta.setBasePotionData(new PotionData(PotionType.SPEED,false,false));
         item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "speedPotion");
+        NamespacedKey key = new NamespacedKey(this, "frpgSpeedPotion");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape(" I ", " W ", "   ");
         recipe.setIngredient('I', Material.SUGAR);
@@ -486,7 +488,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         PotionMeta meta = (PotionMeta) item.getItemMeta();
         meta.setBasePotionData(new PotionData(PotionType.FIRE_RESISTANCE,false,false));
         item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "fireResistancePotion");
+        NamespacedKey key = new NamespacedKey(this, "frpgFireResistancePotion");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape(" I ", " W ", "   ");
         recipe.setIngredient('I', Material.MAGMA_CREAM);
@@ -499,7 +501,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         PotionMeta meta = (PotionMeta) item.getItemMeta();
         meta.setBasePotionData(new PotionData(PotionType.INSTANT_HEAL,false,false));
         item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "healingPotion");
+        NamespacedKey key = new NamespacedKey(this, "frpgHealingPotion");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape(" I ", " W ", "   ");
         recipe.setIngredient('I', Material.GLISTERING_MELON_SLICE);
@@ -512,7 +514,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         PotionMeta meta = (PotionMeta) item.getItemMeta();
         meta.setBasePotionData(new PotionData(PotionType.STRENGTH,false,false));
         item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "strengthPotion");
+        NamespacedKey key = new NamespacedKey(this, "frpgStrengthPotion");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape(" I ", " W ", "   ");
         recipe.setIngredient('I', Material.BLAZE_POWDER);

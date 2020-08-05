@@ -101,7 +101,7 @@ public class PlayerStatsLoadIn {
                 statsi.add(Integer.valueOf((playerData.get(labels[i] + ".passiveTokens").toString())));
                 statsi.add(Integer.valueOf((playerData.get(labels[i] + ".skillTokens").toString())));
                 statsi.add(Integer.valueOf((playerData.get(labels[i] + ".passive1").toString())));
-                statsi.add(Integer.valueOf((playerData.get(labels[i] + ".passive1").toString())));
+                statsi.add(Integer.valueOf((playerData.get(labels[i] + ".passive2").toString())));
                 statsi.add(Integer.valueOf((playerData.get(labels[i] + ".passive3").toString())));
                 statsi.add(Integer.valueOf((playerData.get(labels[i] + ".skill_1a").toString())));
                 statsi.add(Integer.valueOf((playerData.get(labels[i] + ".skill_1b").toString())));

@@ -252,31 +252,31 @@ public class PlayerCraft implements Listener {
         else if (craftingMatch(waterBreathing,crafting)) {
             if ((int)pStat.get("alchemy").get(7) < 1) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerk0") + " (1/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerkTitle0") + " (1/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(speed,crafting)) {
             if ((int)pStat.get("alchemy").get(7) < 2) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerk0") + " (2/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerkTitle0") + " (2/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(fireResistance,crafting)) {
             if ((int)pStat.get("alchemy").get(7) < 3) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerk0") + " (3/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerkTitle0") + " (3/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(healing,crafting)) {
             if ((int)pStat.get("alchemy").get(7) < 4) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerk0") + " (4/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerkTitle0") + " (4/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(strength,crafting)) {
             if ((int)pStat.get("alchemy").get(7) < 5) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerk0") + " (5/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
+                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerkTitle0") + " (5/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
 

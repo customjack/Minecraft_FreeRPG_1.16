@@ -46,7 +46,7 @@ public class StatManager {
                 int globalTokens0 = (int) Math.round(tokensInfo.get(6));
                 int souls0 = (int) soulsInfo.get(0);
 
-                //General Player infomration
+                //General Player information
                 playerData.createSection("general");
                 playerData.set("general.username", pName);
                 playerData.set("general.firstLogin",format.getCalendar());

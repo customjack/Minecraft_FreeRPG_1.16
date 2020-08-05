@@ -1,11 +1,18 @@
 package mc.carlton.freerpg.playerAndServerInfo;
 
 import mc.carlton.freerpg.FreeRPG;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class ConfigLoad {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
@@ -23,10 +30,80 @@ public class ConfigLoad {
     static ArrayList<Object> fishingInfoEnchants = new ArrayList<>();
 
 
+    public void setConfig(){
+        try {
+            File userdata = new File(String.valueOf(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder()));
+            File f = new File(userdata,"config.yml");
+            FileConfiguration config = YamlConfiguration.loadConfiguration(f);
+
+            Map<String,Object> general = new HashMap<>();
+            Map<String,Object> tokens = new HashMap<>();
+            Map<String,Object> souls = new HashMap<>();
+            Map<String,Object> leveling = new HashMap<>();
+
+            //general.* config
+            general.put("playerBaseHP",20.0);
+            general.put("defaultLanguage","enUs");
+
+            //tokens.*
+            tokens.put("automaticPassiveUpgradesPerLevel",1.0);
+            tokens.put("levelsPerPassiveToken",1.0);
+            tokens.put("levelPerSkillToken",100.0);
+            tokens.put("levelsPerGlobalToken",1000.0);
+            tokens.put("startingPassiveTokens",0);
+            tokens.put("startingSkillTokens",0);
+            tokens.put("startingGlobalTokens",0);
+
+            //souls.*
+            souls.put("startingSouls",0);
+            souls.put("refundCost",250);
+
+            //leveling.*
+            leveling.put("maxLevel",-1);
+            leveling.put("exponentialGrowthFactor",1.001595);
+            leveling.put("exponentialReferenceLevel",1000);
+            leveling.put("exponentialReferenceEXP",10000000.0);
+            leveling.put("levelBeginLinear",1000);
+            leveling.put("LinearEXPperLevel",20000.0);
+
+            for (String key : general.keySet()) {
+                String generalString = "general." + key;
+                if (!config.contains(generalString)) {
+                    config.set(generalString,general.get(key));
+                }
+            }
+
+            for (String key : tokens.keySet()) {
+                String tokensString = "tokens." + key;
+                if (!config.contains(tokensString)) {
+                    config.set(tokensString,tokens.get(key));
+                }
+            }
+
+            for (String key : souls.keySet()) {
+                String soulsString = "souls." + key;
+                if (!config.contains(soulsString)) {
+                    config.set(soulsString,souls.get(key));
+                }
+            }
+
+            for (String key : leveling.keySet()) {
+                String levelingString = "leveling." + key;
+                if (!config.contains(levelingString)) {
+                    config.set(levelingString,leveling.get(key));
+                }
+            }
+
+            config.save(f);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setConfigData() {
         FileConfiguration config = plugin.getConfig();
 
-        defaultLanguage = config.getString("general.language");
+        defaultLanguage = config.getString("general.defaultLanguage");
 
         maxLevels.add(Integer.valueOf(config.getString("leveling.maxLevel")));
         maxLevels.add(Integer.valueOf(config.getString("digging.maxLevel")));
