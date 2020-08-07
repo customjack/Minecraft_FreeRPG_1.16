@@ -13,7 +13,7 @@ commands:
     descriptions: Tells you what spite is good for.
 permissions:
   freeRPG.*:
-    description: Gives access to all freeRPG commands
+    description: Gives access to all FreeRPG commands
     default: op
     children:
       freeRPG.standardPlayer: true
