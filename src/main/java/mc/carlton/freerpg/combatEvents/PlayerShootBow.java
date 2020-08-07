@@ -5,13 +5,17 @@ import mc.carlton.freerpg.perksAndAbilities.Archery;
 
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerShootBow implements Listener {
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     void onEntityShoot(EntityShootBowEvent e){
+        if (e.isCancelled()) {
+            return;
+        }
         Entity entity = e.getEntity();
         if (entity instanceof  Player && (e.getProjectile() instanceof Arrow || e.getProjectile() instanceof SpectralArrow)) {
             Player p = (Player) entity;

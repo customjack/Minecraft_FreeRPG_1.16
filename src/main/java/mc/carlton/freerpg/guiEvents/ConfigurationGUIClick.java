@@ -39,6 +39,7 @@ public class ConfigurationGUIClick implements Listener {
             Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
             Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
             if (e.getCurrentItem() != null) {
+                PlayerStats languageChange = new PlayerStats(p);
                 switch (e.getRawSlot()) {
                     case 21:
                         if ((int)pStat.get("global").get(21) > 0) {
@@ -62,8 +63,17 @@ public class ConfigurationGUIClick implements Listener {
                         pStatClass.setData(statAll);
                         p.performCommand("frpg configurationGUI");
                         break;
+                    case 38:
+                        languageChange.setPlayerLanguage("enUs");
+                        p.performCommand("frpg configurationGUI");
+                        break;
+                    case 39:
+                        languageChange.setPlayerLanguage("huHU");
+                        p.performCommand("frpg configurationGUI");
+                        break;
                     case 45:
                         p.performCommand("frpg skills");
+                        break;
                     default:
                         break;
                 }

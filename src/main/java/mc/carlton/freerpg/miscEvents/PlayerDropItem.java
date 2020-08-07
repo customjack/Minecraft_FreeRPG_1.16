@@ -7,13 +7,17 @@ import mc.carlton.freerpg.playerAndServerInfo.AbilityLogoutTracker;
 import mc.carlton.freerpg.playerAndServerInfo.AbilityTracker;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerDropItem implements Listener {
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     void onItemDrop(PlayerDropItemEvent e){
+        if (e.isCancelled()) {
+            return;
+        }
         Player p = (Player) e.getPlayer();
         AbilityTracker abilities = new AbilityTracker(p);
         Integer[] pAbilities = abilities.getPlayerAbilities();

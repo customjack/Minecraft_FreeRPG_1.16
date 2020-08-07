@@ -88,6 +88,9 @@ public final class FreeRPG extends JavaPlugin implements Listener {
             }
         }.runTaskLater(plugin, 20);
 
+        //Initiliazes periodically saving stats
+        PeriodicSaving saveStats = new PeriodicSaving();
+        saveStats.periodicallySaveStats();;
 
         System.out.println("FreeRPG loaded sucessfully...");
         System.out.println("Running FreeRPG version " + version);

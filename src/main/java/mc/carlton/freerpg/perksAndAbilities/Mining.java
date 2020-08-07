@@ -9,6 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -16,6 +17,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.*;
 
@@ -146,6 +148,80 @@ public class Mining {
         AbilityLogoutTracker incaseLogout = new AbilityLogoutTracker(p);
         incaseLogout.setPlayerItem(p,"mining",itemInHand);
         incaseLogout.setPlayerTask(p,"mining",taskID);
+    }
+
+    public void tntExplode(Block blockLit) {
+        WorldGuardChecks BuildingCheck = new WorldGuardChecks();
+        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+        blockLit.setType(Material.AIR);
+        World world = p.getWorld();
+        TNTPrimed tnt = world.spawn(blockLit.getLocation().add(0, 0.25, 0), TNTPrimed.class);
+        int blastRadiusLevel = (int) pStat.get("mining").get(10);
+        double power0 = 4 + blastRadiusLevel * 0.5;
+        float power = (float) power0;
+        tnt.setFuseTicks(41);
+        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+            @Override
+            public void run() {
+                Location tntLoc = tnt.getLocation();
+                int x0 = tntLoc.getBlockX();
+                int y0 = tntLoc.getBlockY();
+                int z0 = tntLoc.getBlockZ();
+                boolean causeExplosion = true;
+                outerLoop:
+                for (int x = -5; x < 6; x++) {
+                    for (int y = -5; y < 6; y++) {
+                        for (int z = -5; z < 6; z++) {
+                            Location newLoc = new Location(world,x+x0,y+y0,z+z0);
+                            boolean canExplode = BuildingCheck.canExplode(p,newLoc);
+                            boolean canBuild = BuildingCheck.canBuild(p,newLoc);
+                            if (!canBuild || !canExplode) {
+                                causeExplosion = false;
+                                break outerLoop;
+                            }
+                        }
+                    }
+                }
+
+                if (causeExplosion) {
+                    Map<org.bukkit.util.Vector,Block> location_block = new HashMap<>();
+                    Map<org.bukkit.util.Vector,Material> location_blockType = new HashMap<>();
+                    Block center = world.getBlockAt(tntLoc);
+                    for (int x = -2; x < 3; x++) {
+                        for (int y = -2; y < 3; y++) {
+                            for (int z = -2; z < 3; z++) {
+                                location_block.put(new org.bukkit.util.Vector(x,y,z),center.getRelative(x,y,z));
+                                location_blockType.put(new org.bukkit.util.Vector(x,y,z),center.getRelative(x,y,z).getType());
+                            }
+                        }
+                    }
+                    tnt.getWorld().createExplosion(tntLoc, power, false, true);
+                    tnt.remove();
+                    //Check blocks around the tnt, see if they even will explode
+                    Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            int changedBlocks = 0;
+                            for (Vector vector : location_block.keySet()) {
+                                if (location_block.get(vector).getType() != location_blockType.get(vector)) {
+                                    changedBlocks+=1;
+                                }
+                            }
+                            if (changedBlocks > 3) {
+                                increaseStats.changeEXP("mining", 1000);
+                                int passive3_mining = (int) pStat.get("mining").get(6);
+                                double explosionDrop = passive3_mining * 0.0001;
+                                for (int i = 0; i < (int) Math.floor(changedBlocks/2.0); i++) {
+                                    Mining miningClass = new Mining(p);
+                                    miningClass.miningTreasureDrop(explosionDrop, world, tntLoc);
+                                }
+                            }
+                        }
+                    }, 2L);
+
+                }
+            }
+        }, 40L);
     }
 
     public void miningTreasureDrop(double treasureChance, World world, Location loc) {
@@ -427,9 +503,7 @@ public class Mining {
                 increaseStats.changeEXP("smelting",320*totalOres);
             }
         }
-        System.out.println(numOres);
         increaseStats.changeEXP("mining",getEXP(blockType)*numOres);
-        System.out.println(getEXP(blockType)*numOres);
     }
     public void damageTool() {
         ItemMeta toolMeta = itemInHand.getItemMeta();
@@ -444,7 +518,6 @@ public class Mining {
     }
     public int getEXP(Material brokenOre) {
         int EXP = 0;
-        System.out.println(brokenOre);
         switch (brokenOre) {
             case COAL_ORE:
                 EXP = 300;

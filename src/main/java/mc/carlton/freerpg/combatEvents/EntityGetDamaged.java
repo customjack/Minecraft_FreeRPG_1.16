@@ -3,15 +3,19 @@ package mc.carlton.freerpg.combatEvents;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.*;
 
 public class EntityGetDamaged implements Listener {
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
 
     void onEntityDamaged(EntityDamageEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
         if (e.getEntity() instanceof Entity) {
             Entity wolf = e.getEntity();
             if (wolf.getType() == EntityType.WOLF) {

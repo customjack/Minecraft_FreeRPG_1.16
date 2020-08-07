@@ -16,7 +16,12 @@ import java.util.UUID;
 
 public class ConfigLoad {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
+    static int saveStatsTimer;
     static String defaultLanguage;
+    static boolean allowExplosions;
+    static boolean allowBuild;
+    static boolean allowPvP;
+    static boolean allowHurtAnimals;
     static ArrayList<Integer> maxLevels = new ArrayList<>();
     static ArrayList<Integer> soulsInfo = new ArrayList<>();
     static ArrayList<Double> multipliers = new ArrayList<>();
@@ -44,6 +49,11 @@ public class ConfigLoad {
             //general.* config
             general.put("playerBaseHP",20.0);
             general.put("defaultLanguage","enUs");
+            general.put("allowCustomExplosions",true);
+            general.put("allowBuild",true);
+            general.put("allowPvP",true);
+            general.put("allowHurtAnimals",true);
+            general.put("saveStatsTimer",600);
 
             //tokens.*
             tokens.put("automaticPassiveUpgradesPerLevel",1.0);
@@ -103,7 +113,12 @@ public class ConfigLoad {
     public void setConfigData() {
         FileConfiguration config = plugin.getConfig();
 
+        saveStatsTimer = config.getInt("general.saveStatsTimer");
         defaultLanguage = config.getString("general.defaultLanguage");
+        allowExplosions = config.getBoolean("general.allowCustomExplosions");
+        allowBuild = config.getBoolean("general.allowCustomExplosions");
+        allowPvP = config.getBoolean("general.allowCustomExplosions");
+        allowHurtAnimals = config.getBoolean("general.allowCustomExplosions");
 
         maxLevels.add(Integer.valueOf(config.getString("leveling.maxLevel")));
         maxLevels.add(Integer.valueOf(config.getString("digging.maxLevel")));
@@ -297,7 +312,12 @@ public class ConfigLoad {
         fishingInfoEnchants.add(Integer.valueOf(config.getString("fishing.drops.tier5_enchantedArmor")));
     }
 
+    public int getSaveStatsTimer() {return  saveStatsTimer;}
     public String getDefaultLanguage() {return  defaultLanguage;}
+    public boolean isAllowExplosions() {return allowExplosions;}
+    public boolean isAllowBuild() {return allowBuild;}
+    public boolean isAllowPvP() {return allowPvP;}
+    public boolean isAllowHurtAnimals() {return allowHurtAnimals;}
     public ArrayList<Integer> getMaxLevels(){
         return maxLevels;
     }

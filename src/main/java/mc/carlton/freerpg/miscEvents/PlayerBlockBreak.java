@@ -35,8 +35,7 @@ public class PlayerBlockBreak implements Listener {
         World world = e.getBlock().getWorld();
 
         //WorldGuard Check
-        WorldGuardChecks BuildingCheck = new WorldGuardChecks();
-        if (!BuildingCheck.canBuild(p, loc)) {
+        if (e.isCancelled()) {
             return;
         }
 

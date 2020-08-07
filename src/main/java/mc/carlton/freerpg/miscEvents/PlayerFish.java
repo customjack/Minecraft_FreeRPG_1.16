@@ -6,14 +6,18 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 
 public class PlayerFish implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     void onPlayerFish(PlayerFishEvent e) {
         Player p = e.getPlayer();
+        if (e.isCancelled()) {
+            return;
+        }
         if (!p.hasPermission("freeRPG.fish")) {
             return;
         }

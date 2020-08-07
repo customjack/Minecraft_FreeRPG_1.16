@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.plugin.Plugin;
@@ -15,8 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PistonExtend implements Listener {
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     void onPistonExtend(BlockPistonExtendEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
         List<Block> blocks = e.getBlocks();
         if (blocks.size() != 0) {
             World world = blocks.get(0).getWorld();

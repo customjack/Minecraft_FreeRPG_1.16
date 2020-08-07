@@ -89,7 +89,7 @@ public class FrpgCommands implements CommandExecutor {
                         ChangeStats getEXP = new ChangeStats(p);
                         int nextEXP = getEXP.getEXPfromLevel(level+1);
                         int EXPtoNext = nextEXP - EXP;
-                        lore_skills.add(ChatColor.GRAY + "EXP to next " + lang.getString("level") + ": " + ChatColor.GREEN + String.valueOf(EXPtoNext));
+                        lore_skills.add(ChatColor.GRAY + lang.getString("expToLevel") + ": " + ChatColor.GREEN + String.valueOf(EXPtoNext));
 
                     }
                     else if (i==0) {
@@ -162,7 +162,7 @@ public class FrpgCommands implements CommandExecutor {
                         if (sender instanceof Player) {
                             Player p = (Player) sender;
                             LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg help [(Optional) page]");
+                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg help ["+lang.getString("page")+"]");
                         } else {
                             System.out.println("Improper Arguments, try /frpg help [(Optional) page]");
                         }
@@ -180,48 +180,56 @@ public class FrpgCommands implements CommandExecutor {
                         return true;
                     }
                         p.sendMessage(ChatColor.RED + "------| " + ChatColor.GREEN + ChatColor.BOLD.toString() + " Help" +
-                                ChatColor.RESET + ChatColor.GREEN.toString() + " Page [" + Integer.toString(page) + "/" + Integer.toString(totalPages) + "]" +
+                                ChatColor.RESET + ChatColor.GREEN.toString() + " "+lang.getString("page")+" [" + Integer.toString(page) + "/" + Integer.toString(totalPages) + "]" +
                                 ChatColor.RED.toString() + " |-----");
                         switch (page) {
                             case 1:
                                 p.sendMessage(ChatColor.GOLD  + "/frpg" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Opens the main GUI with all skills");
-                                p.sendMessage(ChatColor.GOLD  + "/frpg skillTreeGUI [skillName]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Opens a skill tree GUI of choice");
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc0"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg skillTreeGUI [" +lang.getString("skillName")+ "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc1"));
                                 p.sendMessage(ChatColor.GOLD  + "/frpg configurationGUI" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Opens the configuration GUI");
-                                p.sendMessage(ChatColor.GOLD  + "/frpg giveEXP [playerName] [skillName] [amount]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Gives a player of choice EXP in a specified skill");
-                                p.sendMessage(ChatColor.GOLD  + "/frpg setLevel [playerName] [skillName] [level]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Sets a given player's level in a specified skill");
-                                p.sendMessage(ChatColor.GOLD  + "/frpg statReset [playerName] [skillName]" + ChatColor.RESET + ChatColor.GRAY.toString() +" - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Resets a player's stats in a specified skill (does not refund stats)");
-                                p.sendMessage(ChatColor.GOLD  + "/frpg statLeaders [skillName] [(Optional) page #]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Displays a leaderboard for a specified stat");
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc2"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg giveEXP ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] [amount]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc3"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg setLevel ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] ["+lang.getString("level")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc4"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg statReset ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() +" - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc5"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg statLeaders ["+lang.getString("skillName")+"] ["+lang.getString("page")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc6"));
                                 p.sendMessage(ChatColor.GOLD  + "/frpg info" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Provides a link to a plugin information page");
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc7"));
                                 break;
                             case 2:
-                                p.sendMessage(ChatColor.GOLD  + "/frpg flintToggle [(Optional) \"ON\"/\"OFF\"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Manually toggles the flint finder perk");
-                                p.sendMessage(ChatColor.GOLD  + "/frpg speedToggle [(Optional) \"ON\"/\"OFF\"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Manually toggles the gracious feet perk");
-                                p.sendMessage(ChatColor.GOLD  + "/frpg potionToggle [(Optional) \"ON\"/\"OFF\"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Manually toggles the potion master perk");
-                                p.sendMessage(ChatColor.GOLD  + "/frpg flamePickToggle [(Optional) \"ON\"/\"OFF\"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Manually toggles the flame pick perk");
-                                p.sendMessage(ChatColor.GOLD  + "/frpg grappleToggle [(Optional) \"ON\"/\"OFF\"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Manually toggles the grappling hook perk");
-                                p.sendMessage(ChatColor.GOLD  + "/frpg hotRodToggle [(Optional) \"ON\"/\"OFF\"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Manually toggles the hot rod perk");
-                                p.sendMessage(ChatColor.GOLD  + "/frpg veinMinerToggle [(Optional) \"ON\"/\"OFF\"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Manually toggles the vein miner perk");
-                                p.sendMessage(ChatColor.GOLD  + "/frpg megaDigToggle [(Optional) \"ON\"/\"OFF\"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Manually toggles the mega dig perk");
+                                p.sendMessage(ChatColor.GOLD  + "/frpg flintToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("diggingPerkTitle4"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg speedToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("agilityPerkTitle2"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg potionToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("alchemyPerkTitle2"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg flamePickToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("smeltingPerkTitle2"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg grappleToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("fishingPerkTitle4"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg hotRodToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("fishingPerkTitle5"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg veinMinerToggle ["+lang.getString("onOrOff")+"" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("miningPerkTitle4"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg megaDigToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("diggingPerkTitle6"));
                                 break;
                             case 3:
-                                p.sendMessage(ChatColor.GOLD  + "/frpg enchantItem [level]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + "Attempts to enchant an item in the users hand at a specified level");
+                                p.sendMessage(ChatColor.GOLD  + "/frpg enchantItem ["+lang.getString("level")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc8"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg setSouls" + " ["+lang.getString("playerName")+"]" + " ["+lang.getString("amount")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc9"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg setTokens" + " ["+lang.getString("playerName")+"]" + " ["+lang.getString("skillName")+"]" + " [skill/passive]" +" ["+lang.getString("amount")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc10"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg setTokens" + " ["+lang.getString("playerName")+"]" + " global" + " ["+lang.getString("amount")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc11"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg saveStats ["+lang.getString("playerName")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc12"));
                                 break;
                             default:
                                 break;
@@ -233,10 +241,83 @@ public class FrpgCommands implements CommandExecutor {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
                     LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg help [(Optional) page]");
+                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg help ["+lang.getString("page")+"]");
                 } else {
                     System.out.println("Improper Arguments, try /frpg help [(Optional) page]");
                 }
+            }
+        }
+
+        //saveStats
+        else if (args[0].equalsIgnoreCase("saveStats") || args[0].equalsIgnoreCase("statSave")) {
+            if (args.length == 1) {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    if (p.hasPermission("saveStats")) {
+                        PeriodicSaving saveAll = new PeriodicSaving();
+                        saveAll.saveAllStats();
+                    }
+                    else {
+                        LanguageSelector lang = new LanguageSelector(p);
+                        p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
+
+                    }
+                }
+                else {
+                    PeriodicSaving saveAll = new PeriodicSaving();
+                    saveAll.saveAllStats();
+                }
+            }
+            else if (args.length == 2) {
+                String playerName = args[1];
+                Player target = plugin.getServer().getPlayer(playerName);
+                if (target == null) {
+                    if (sender instanceof Player) {
+                        Player p = (Player) sender;
+                        LanguageSelector lang = new LanguageSelector(p);
+                        p.sendMessage(ChatColor.RED + lang.getString("playerOffline"));
+                    }
+                    else {
+                        System.out.println("Player not online");
+                    }
+                }
+                else {
+                    if (sender instanceof Player) {
+                        Player p = (Player) sender;
+                        if (p.hasPermission("saveStats")) {
+                            PlayerStatsLoadIn saveStats = new PlayerStatsLoadIn(target);
+                            try {
+                                saveStats.setPlayerStatsMap(target);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else {
+                            LanguageSelector lang = new LanguageSelector(p);
+                            p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
+
+                        }
+                    }
+                else {
+                        PlayerStatsLoadIn saveStats = new PlayerStatsLoadIn(target);
+                        try {
+                            saveStats.setPlayerStatsMap(target);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            else {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg saveStats");
+                }
+                else {
+                    System.out.println("Improper arguments, try /frpg saveStats");
+                }
+
             }
         }
 
@@ -250,8 +331,8 @@ public class FrpgCommands implements CommandExecutor {
                         p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
                         return true;
                     }
-                    p.sendMessage("Information URL (Google Docs): " + ChatColor.AQUA + ChatColor.UNDERLINE.toString() + "shorturl.at/ptCDX" +
-                            ChatColor.RESET + ChatColor.GOLD.toString() + ChatColor.BOLD.toString() + "<-- CLICK");
+                    p.sendMessage(lang.getString("informationURL")+": " + ChatColor.AQUA + ChatColor.UNDERLINE.toString() + "shorturl.at/ptCDX" +
+                            ChatColor.RESET + ChatColor.GOLD.toString() + ChatColor.BOLD.toString() + "<-- " +lang.getString("click"));
                 } else {
                     System.out.println("You must be a player to use this command");
                 }
@@ -278,7 +359,7 @@ public class FrpgCommands implements CommandExecutor {
                         }
                         catch (NumberFormatException e) {
                             LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg enchantItem [level]");
+                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg enchantItem ["+lang.getString("level")+"]");
                             return true;
                         }
                         if (level < 40) {
@@ -287,14 +368,16 @@ public class FrpgCommands implements CommandExecutor {
                             item = enchant.enchantItem(item, level, false);
                             p.getInventory().setItemInMainHand(item);
                         } else {
-                            p.sendMessage(ChatColor.RED + "Level argument must be less than 40");
+                            LanguageSelector lang = new LanguageSelector(p);
+                            p.sendMessage(ChatColor.RED +lang.getString("levelArgument"));
                         }
                     } else {
                         LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg enchantItem [level]");
+                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg enchantItem ["+lang.getString("level")+"]");
                     }
                 } else {
-                    p.sendMessage(ChatColor.RED + "You do not have permission to cast this command");
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED +lang.getString("noPermission"));
                 }
             } else {
                 System.out.println("You need to be a player to cast this command");
@@ -321,11 +404,9 @@ public class FrpgCommands implements CommandExecutor {
                         return true;
                     }
                 }
-                String[] titles_0 = {"Digging", "Woodcutting", "Mining", "Farming", "Fishing", "Archery", "Beast Mastery", "Swordsmanship", "Defense", "Axe Mastery", "Repair", "Agility", "Alchemy", "Smelting", "Enchanting", "Global"};
-                String[] labels_0 = {"digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting"};
+                String[] labels_0 = {"digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting","global"};
                 List<String> labels_arr = Arrays.asList(labels_0);
                 if (labels_arr.contains(skillName)) {
-                    String skillTitle = titles_0[labels_arr.indexOf(skillName)];
                     PlayerLeaderboard getStats = new PlayerLeaderboard();
                     ArrayList<HeldStats> sortedStats = getStats.getLeaders(skillName);
                     int totalPlayers = sortedStats.size();
@@ -336,17 +417,23 @@ public class FrpgCommands implements CommandExecutor {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
                         if (p.hasPermission("freeRPG.leaderboard")) {
-                            p.sendMessage(ChatColor.RED + "------| " + ChatColor.GREEN + ChatColor.BOLD.toString() + skillTitle + " Leaderboard" +
-                                    ChatColor.RESET + ChatColor.GREEN.toString() + " Page [" + Integer.toString(page) + "/" + Integer.toString(totalPages) + "]" +
+                            LanguageSelector lang = new LanguageSelector(p);
+                            String[] titles_0 = {lang.getString("digging"),lang.getString("woodcutting"),lang.getString("mining"),lang.getString("farming"),lang.getString("fishing"),lang.getString("archery"),lang.getString("beastMastery"),lang.getString("swordsmanship"),lang.getString("defense"),lang.getString("axeMastery"),lang.getString("repair"),lang.getString("agility"),lang.getString("alchemy"),lang.getString("smelting"),lang.getString("enchanting"),lang.getString("global")};
+                            String skillTitle = titles_0[labels_arr.indexOf(skillName)];
+                            p.sendMessage(ChatColor.RED + "------| " + ChatColor.GREEN + ChatColor.BOLD.toString() + skillTitle + " "+lang.getString("leaderboard")+"" +
+                                    ChatColor.RESET + ChatColor.GREEN.toString() + " "+lang.getString("page")+" [" + Integer.toString(page) + "/" + Integer.toString(totalPages) + "]" +
                                     ChatColor.RED.toString() + " |-----");
                             for (int i = 10 * (page - 1); i < (int) Math.min(10 * page, totalPlayers); i++) {
                                 HeldStats info = sortedStats.get(i);
                                 p.sendMessage(ChatColor.GREEN + Integer.toString(i + 1) + ". " + ChatColor.YELLOW + info.get_pName() + " (" + ChatColor.BLUE + Integer.toString(info.get_level()) + ChatColor.YELLOW + ")");
                             }
                         } else {
-                            p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                            LanguageSelector lang = new LanguageSelector(p);
+                            p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
                         }
                     } else {
+                        String[] titles_0 = {"Digging", "Woodcutting", "Mining", "Farming", "Fishing", "Archery", "Beast Mastery", "Swordsmanship", "Defense", "Axe Mastery", "Repair", "Agility", "Alchemy", "Smelting", "Enchanting", "Global"};
+                        String skillTitle = titles_0[labels_arr.indexOf(skillName)];
                         System.out.println("------| " + skillTitle + " Leaderboard" + " Page [" + Integer.toString(page) + "/" + Integer.toString(totalPages) + "]" + " |-----");
                         for (int i = 10 * (page - 1); i < (int) Math.min(10 * page, totalPlayers); i++) {
                             HeldStats info = sortedStats.get(i);
@@ -358,9 +445,10 @@ public class FrpgCommands implements CommandExecutor {
                         Player p = (Player) sender;
                         if (p.hasPermission("freeRPG.leaderboard")) {
                             LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg statLeaders [skillName] [(Optional) page]");
+                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg statLeaders ["+lang.getString("skillName")+"] ["+lang.getString("page")+"]");
                         } else {
-                            p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                            LanguageSelector lang = new LanguageSelector(p);
+                            p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
                         }
                     } else {
                         System.out.println("Improper Arguments, try /frpg statLeaders [skillName] [(Optional) page]");
@@ -371,9 +459,10 @@ public class FrpgCommands implements CommandExecutor {
                     Player p = (Player) sender;
                     if (p.hasPermission("freeRPG.leaderboard")) {
                         LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg statLeaders [skillName] [(Optional) page]");
+                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg statLeaders ["+lang.getString("skillName")+"] ["+lang.getString("page")+"]");
                     } else {
-                        p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                        LanguageSelector lang = new LanguageSelector(p);
+                        p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
                     }
                 } else {
                     System.out.println("Improper Arguments, try /frpg statLeaders [skillName] [(Optional) page]");
@@ -389,7 +478,8 @@ public class FrpgCommands implements CommandExecutor {
                 if (target == null) {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
-                        p.sendMessage(ChatColor.RED+"That player is not online");
+                        LanguageSelector lang = new LanguageSelector(p);
+                        p.sendMessage(ChatColor.RED + lang.getString("playerOffline"));
                     }
                     else {
                         System.out.println("Player not online");
@@ -404,7 +494,7 @@ public class FrpgCommands implements CommandExecutor {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
                         LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg giveEXP [playerName] [skillName] [exp]");
+                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg giveEXP ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] [exp]");
                     } else {
                         System.out.println("Improper Arguments, try /frpg giveEXP [playerName] [skillName] [exp]");
                     }
@@ -416,17 +506,18 @@ public class FrpgCommands implements CommandExecutor {
                 if (labels_arr.contains(skillName) && target.isOnline()) {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
+                        LanguageSelector lang = new LanguageSelector(p);
                         if (p.hasPermission("freeRPG.giveEXP")) {
                             ChangeStats increaseStats = new ChangeStats(target);
                             increaseStats.set_isCommand(true);
                             if (exp < 0) {
-                                p.sendMessage(ChatColor.RED + "Please only increase exp with this command, otherwise, use /frpg statReset then /frpg giveEXP");
+                                p.sendMessage(ChatColor.RED + lang.getString("onlyIncrease"));
                                 return true;
                             }
                             increaseStats.changeEXP(skillName, exp);
                             increaseStats.setTotalLevel();
                         } else {
-                            p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                            p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
                         }
                     } else {
                         ChangeStats increaseStats = new ChangeStats(target);
@@ -444,9 +535,10 @@ public class FrpgCommands implements CommandExecutor {
                         Player p = (Player) sender;
                         if (p.hasPermission("freeRPG.giveEXP")) {
                             LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg giveEXP [playerName] [skillName] [exp]");
+                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg giveEXP ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] [exp]");
                         } else {
-                            p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                            LanguageSelector lang = new LanguageSelector(p);
+                            p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
                         }
                     }
                     else {
@@ -459,9 +551,10 @@ public class FrpgCommands implements CommandExecutor {
                     Player p = (Player) sender;
                     if (p.hasPermission("freeRPG.giveEXP")) {
                         LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg giveEXP [playerName] [skillName] [exp]");
+                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg giveEXP ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] [exp]");
                     } else {
-                        p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                        LanguageSelector lang = new LanguageSelector(p);
+                        p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
                     }
                 }
                 else {
@@ -478,7 +571,8 @@ public class FrpgCommands implements CommandExecutor {
                 if (target == null) {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
-                        p.sendMessage(ChatColor.RED+"That player is not online");
+                        LanguageSelector lang = new LanguageSelector(p);
+                        p.sendMessage(ChatColor.RED + lang.getString("playerOffline"));
                     }
                     else {
                         System.out.println("Player not online");
@@ -493,7 +587,7 @@ public class FrpgCommands implements CommandExecutor {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
                         LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setLevel [playerName] [skillName] [level]");
+                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setLevel ["+ lang.getString("playerName")+"] ["+ lang.getString("skillName")+"] ["+ lang.getString("level")+"]");
                     } else {
                         System.out.println("Improper Arguments, try /frpg setLevel [playerName] [skillName] [level]");
                     }
@@ -512,13 +606,15 @@ public class FrpgCommands implements CommandExecutor {
                             int exp = increaseStats.getEXPfromLevel(level);
                             int currentExp = (int) pStat.get(skillName).get(1);
                             if (exp <= currentExp) {
-                                p.sendMessage(ChatColor.RED + "Please only increase levels with this command, otherwise, use /frpg statReset then /frpg setLevel");
+                                LanguageSelector lang = new LanguageSelector(p);
+                                p.sendMessage(ChatColor.RED + lang.getString("onlyIncrease"));
                                 return true;
                             }
                             increaseStats.changeEXP(skillName,exp-currentExp+1);
                             increaseStats.setTotalLevel();
                         } else {
-                            p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                            LanguageSelector lang = new LanguageSelector(p);
+                            p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
                         }
                     } else {
                         ChangeStats increaseStats = new ChangeStats(target);
@@ -540,9 +636,10 @@ public class FrpgCommands implements CommandExecutor {
                         Player p = (Player) sender;
                         if (p.hasPermission("freeRPG.setLevel")) {
                             LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setLevel [playerName] [skillName] [level]");
+                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setLevel ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] ["+lang.getString("level")+"]");
                         } else {
-                            p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                            LanguageSelector lang = new LanguageSelector(p);
+                            p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
                         }
                     }
                     else {
@@ -555,9 +652,10 @@ public class FrpgCommands implements CommandExecutor {
                     Player p = (Player) sender;
                     if (p.hasPermission("freeRPG.setLevel")) {
                         LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setLevel [playerName] [skillName] [level]");
+                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setLevel ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] ["+lang.getString("level")+"]");
                     } else {
-                        p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                        LanguageSelector lang = new LanguageSelector(p);
+                        p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
                     }
                 }
                 else {
@@ -565,6 +663,7 @@ public class FrpgCommands implements CommandExecutor {
                 }
             }
         }
+
         //statReset
         else if (args[0].equalsIgnoreCase("statReset") || args[0].equalsIgnoreCase("resetStat")) {
             if (args.length == 3) {
@@ -573,7 +672,8 @@ public class FrpgCommands implements CommandExecutor {
                 if (target == null) {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
-                        p.sendMessage(ChatColor.RED+"That player is not online");
+                        LanguageSelector lang = new LanguageSelector(p);
+                        p.sendMessage(ChatColor.RED+lang.getString("playerOffline"));
                     }
                     else {
                         System.out.println("Player not online");
@@ -600,7 +700,8 @@ public class FrpgCommands implements CommandExecutor {
                             increaseStats.setTotalLevel();
 
                         } else {
-                            p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                            LanguageSelector lang = new LanguageSelector(p);
+                            p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
                         }
                     } else {
                         ChangeStats increaseStats = new ChangeStats(target);
@@ -622,9 +723,10 @@ public class FrpgCommands implements CommandExecutor {
                         Player p = (Player) sender;
                         if (p.hasPermission("freeRPG.statReset")) {
                             LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg statReset [playername] [statName]");
+                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg statReset ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"]");
                         } else {
-                            p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                            LanguageSelector lang = new LanguageSelector(p);
+                            p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
                         }
                     }
                     else {
@@ -637,9 +739,10 @@ public class FrpgCommands implements CommandExecutor {
                     Player p = (Player) sender;
                     if (p.hasPermission("freeRPG.setLevel")) {
                         LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg statReset [playername] [statName]");
+                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg statReset ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"]");
                     } else {
-                        p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                        LanguageSelector lang = new LanguageSelector(p);
+                        p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
                     }
                 }
                 else {
@@ -658,7 +761,8 @@ public class FrpgCommands implements CommandExecutor {
                 if (target == null) {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
-                        p.sendMessage(ChatColor.RED + "That player is not online");
+                        LanguageSelector lang = new LanguageSelector(p);
+                        p.sendMessage(ChatColor.RED + lang.getString("playerOffline"));
                     } else {
                         System.out.println("Player not online");
                     }
@@ -673,7 +777,7 @@ public class FrpgCommands implements CommandExecutor {
                         if (sender instanceof Player) {
                             Player p = (Player) sender;
                             LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setLevel [playerName] [skillName] [level]");
+                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setLevel ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] ["+lang.getString("level")+"]");
                         } else {
                             System.out.println("Improper Arguments, try /frpg setLevel [playerName] [skillName] [level]");
                         }
@@ -685,7 +789,8 @@ public class FrpgCommands implements CommandExecutor {
                             ChangeStats increaseStats = new ChangeStats(target);
                             increaseStats.setStat("global",20,souls);
                         } else {
-                            p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                            LanguageSelector lang = new LanguageSelector(p);
+                            p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
                         }
                     }
                     else {
@@ -699,9 +804,10 @@ public class FrpgCommands implements CommandExecutor {
                     Player p = (Player) sender;
                     if (p.hasPermission("freeRPG.setSouls")) {
                         LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setSouls [playername] [amount]");
+                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setSouls ["+lang.getString("[playerName]")+"] ["+lang.getString("amount")+"]");
                     } else {
-                        p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                        LanguageSelector lang = new LanguageSelector(p);
+                        p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
                     }
                 }
                 else {
@@ -722,7 +828,8 @@ public class FrpgCommands implements CommandExecutor {
                 if (target == null) {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
-                        p.sendMessage(ChatColor.RED + "That player is not online");
+                        LanguageSelector lang = new LanguageSelector(p);
+                        p.sendMessage(ChatColor.RED+lang.getString("playerOffline"));
                     } else {
                         System.out.println("Player not online");
                     }
@@ -740,7 +847,7 @@ public class FrpgCommands implements CommandExecutor {
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
                                 LanguageSelector lang = new LanguageSelector(p);
-                                p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setTokens [playername] global [amount]");
+                                p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setTokens ["+lang.getString("playerName")+"] global ["+lang.getString("amount")+"]");
                             } else {
                                 System.out.println("Improper Arguments, try /frpg setTokens [playername] global [amount]");
                             }
@@ -761,7 +868,7 @@ public class FrpgCommands implements CommandExecutor {
                         if (sender instanceof Player) {
                             Player p = (Player) sender;
                             LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setTokens [playername] global [amount]");
+                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setTokens ["+lang.getString("playerName")+"] global ["+lang.getString("amount")+"]");
                         } else {
                             System.out.println("Player not online");
                         }
@@ -782,7 +889,7 @@ public class FrpgCommands implements CommandExecutor {
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
                                 LanguageSelector lang = new LanguageSelector(p);
-                                p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setTokens [playername] [skillName] [global/skill/passive] [amount]");
+                                p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setTokens ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] [skill/passive] ["+lang.getString("amount")+"]");
                             } else {
                                 System.out.println("Improper Arguments, try /frpg setTokens [playername] [skillName] [global/skill/passive] [amount]");
                             }
@@ -810,7 +917,7 @@ public class FrpgCommands implements CommandExecutor {
                         if (sender instanceof Player) {
                             Player p = (Player) sender;
                             LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setTokens [playername] [skillName] [global/skill/passive] [amount]");
+                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setTokens ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] [skill/passive] ["+lang.getString("amount")+"]");
                         } else {
                             System.out.println("Player not online");
                         }
@@ -822,13 +929,14 @@ public class FrpgCommands implements CommandExecutor {
                     Player p = (Player) sender;
                     if (p.hasPermission("freeRPG.setTokens")) {
                         LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setTokens [playername] [skillName] [global/skill/passive] [amount]");
+                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setTokens ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] [skill/passive] ["+lang.getString("amount")+"]");
                     } else {
-                        p.sendMessage(ChatColor.RED + "You do not have permissions to run this command!");
+                        LanguageSelector lang = new LanguageSelector(p);
+                        p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
                     }
                 }
                 else {
-                    System.out.println("Improper Arguments, try /frpg setTokens [playername] [skillName] [global/skill/passive] [amount]");
+                    System.out.println("Improper Arguments, try /frpg setTokens [playername] [skillName] [skill/passive] [amount]");
                 }
             }
         }
@@ -838,8 +946,9 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleFlamePick") || args[0].equalsIgnoreCase("flamePickToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                if (!p.hasPermission("freeRPG.toggleFlamePick")) {
-                    p.sendMessage(ChatColor.RED+"You do not have permission to use this command!");
+                LanguageSelector lang = new LanguageSelector(p);
+                if (!p.hasPermission("freeRPG.toggleFlamePick")) { ;
+                    p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
                     return true;
                 }
                 PlayerStats pStatClass = new PlayerStats(p);
@@ -850,40 +959,40 @@ public class FrpgCommands implements CommandExecutor {
                     if (args.length == 1) {
                         int flamePickToggle = (int) pStat.get("global").get(13);
                         if (flamePickToggle > 0) {
-                            p.sendMessage(ChatColor.RED + "Flame Pickaxe status change to: OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("smeltingPerkTitle2") + ": " + lang.getString("off0"));
                             pStat.get("global").set(13,0);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else {
-                            p.sendMessage(ChatColor.GREEN + "Flame Pickaxe status change to: ON");
+                            p.sendMessage(ChatColor.GREEN + lang.getString("smeltingPerkTitle2") + ": " + lang.getString("on0"));
                             pStat.get("global").set(13,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                     } else if (args.length == 2) {
                         if (args[1].equalsIgnoreCase("off")) {
-                            p.sendMessage(ChatColor.RED + "Flame Pickaxe status change to: OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("smeltingPerkTitle2") + ": " + lang.getString("off0"));
                             pStat.get("global").set(13,0);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else if (args[1].equalsIgnoreCase("on")) {
-                            p.sendMessage(ChatColor.GREEN + "Flame Pickaxe status change to: ON");
+                            p.sendMessage(ChatColor.GREEN + lang.getString("smeltingPerkTitle2") + ": " + lang.getString("on0"));
                             pStat.get("global").set(13,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else {
-                            p.sendMessage(ChatColor.RED + "Invalid use, try /frpg flamePickToggle ON or /frpg flamePickToggle OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg flamePickToggle");
                         }
                     }
                     else {
-                        p.sendMessage(ChatColor.RED + "Invalid use, try /frpg flamePickToggle ON or /frpg flamePickToggle OFF");
+                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg flamePickToggle");
                     }
                 }
                 else {
-                    p.sendMessage(ChatColor.RED + "You need to unlock " +ChatColor.BOLD + "Flame Pickaxe" + ChatColor.RESET + ChatColor.RED.toString() + " to use this command");
+                    p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString("smeltingPerkTitle2"));
                 }
             } else {
                 System.out.println("You need to be a player to cast this command");
@@ -894,8 +1003,9 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleFlint") || args[0].equalsIgnoreCase("flintToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                LanguageSelector lang = new LanguageSelector(p);
                 if (!p.hasPermission("freeRPG.toggleFlint")) {
-                    p.sendMessage(ChatColor.RED+"You do not have permission to use this command!");
+                    p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
                     return true;
                 }
                 PlayerStats pStatClass = new PlayerStats(p);
@@ -906,40 +1016,41 @@ public class FrpgCommands implements CommandExecutor {
                     if (args.length == 1) {
                         int flintFinderToggle = (int) pStat.get("global").get(12);
                         if (flintFinderToggle > 0) {
-                            p.sendMessage(ChatColor.RED + "Flint Finder status change to: OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("diggingPerkTitle4") + ": " + lang.getString("off0"));
                             pStat.get("global").set(12,0);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else {
-                            p.sendMessage(ChatColor.GREEN + "Flint Finder status change to: ON");
+                            p.sendMessage(ChatColor.GREEN + lang.getString("diggingPerkTitle4") + ": " + lang.getString("on0"));
                             pStat.get("global").set(12,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                     } else if (args.length == 2) {
                         if (args[1].equalsIgnoreCase("off")) {
-                            p.sendMessage(ChatColor.RED + "Flint Finder status change to: OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("diggingPerkTitle4") + ": " + lang.getString("off0"));
                             pStat.get("global").set(12,0);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else if (args[1].equalsIgnoreCase("on")) {
-                            p.sendMessage(ChatColor.GREEN + "Flint Finder status change to: ON");
+                            p.sendMessage(ChatColor.GREEN + lang.getString("diggingPerkTitle4") + ": " + lang.getString("on0"));
                             pStat.get("global").set(12,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else {
-                            p.sendMessage(ChatColor.RED + "Invalid use, try /frpg flintToggle ON or /frpg flintToggle OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg flintToggle");
                         }
                     }
                     else {
-                        p.sendMessage(ChatColor.RED + "Invalid use, try /frpg flintToggle ON or /frpg flintToggle OFF");
+                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg flintToggle");
                     }
                 }
                 else {
-                    p.sendMessage(ChatColor.RED + "You need to unlock " +ChatColor.BOLD + "Flint Finder" + ChatColor.RESET + ChatColor.RED.toString() + " to use this command");
+                    p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString("diggingPerkTitle4"));
+
                 }
             } else {
                 System.out.println("You need to be a player to cast this command");
@@ -950,8 +1061,9 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleGrapple") || args[0].equalsIgnoreCase("grappleToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                LanguageSelector lang = new LanguageSelector(p);
                 if (!p.hasPermission("freeRPG.toggleGrapple")) {
-                    p.sendMessage(ChatColor.RED+"You do not have permission to use this command!");
+                    p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
                     return true;
                 }
                 PlayerStats pStatClass = new PlayerStats(p);
@@ -962,40 +1074,40 @@ public class FrpgCommands implements CommandExecutor {
                     if (args.length == 1) {
                         int grappleToggle = (int) pStat.get("global").get(16);
                         if (grappleToggle > 0) {
-                            p.sendMessage(ChatColor.RED + "Grappling Hook status change to: OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("fishingPerkTitle4") + ": " + lang.getString("off0"));
                             pStat.get("global").set(16,0);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else {
-                            p.sendMessage(ChatColor.GREEN + "Grappling Hook status change to: ON");
+                            p.sendMessage(ChatColor.GREEN + lang.getString("fishingPerkTitle4") + ": " + lang.getString("on0"));
                             pStat.get("global").set(16,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                     } else if (args.length == 2) {
                         if (args[1].equalsIgnoreCase("off")) {
-                            p.sendMessage(ChatColor.RED + "Grappling Hook status change to: OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("fishingPerkTitle4") + ": " + lang.getString("off0"));
                             pStat.get("global").set(16,0);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else if (args[1].equalsIgnoreCase("on")) {
-                            p.sendMessage(ChatColor.GREEN + "Grappling Hook status change to: ON");
+                            p.sendMessage(ChatColor.GREEN + lang.getString("fishingPerkTitle4") + ": " + lang.getString("on0"));
                             pStat.get("global").set(16,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else {
-                            p.sendMessage(ChatColor.RED + "Invalid use, try /frpg grappleToggle ON or /frpg grappleToggle OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg grappleToggle");
                         }
                     }
                     else {
-                        p.sendMessage(ChatColor.RED + "Invalid use, try /frpg grappleToggle ON or /frpg grappleToggle OFF");
+                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg grappleToggle");
                     }
                 }
                 else {
-                    p.sendMessage(ChatColor.RED + "You need to unlock " +ChatColor.BOLD + "Grappling Hook" + ChatColor.RESET + ChatColor.RED.toString() + " to use this command");
+                    p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString("fishingPerkTitle4"));
                 }
             } else {
                 System.out.println("You need to be a player to cast this command");
@@ -1006,8 +1118,9 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleHotRod") || args[0].equalsIgnoreCase("hotRodToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                LanguageSelector lang = new LanguageSelector(p);
                 if (!p.hasPermission("freeRPG.toggleHotRod")) {
-                    p.sendMessage(ChatColor.RED+"You do not have permission to use this command!");
+                    p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
                     return true;
                 }
                 PlayerStats pStatClass = new PlayerStats(p);
@@ -1018,40 +1131,40 @@ public class FrpgCommands implements CommandExecutor {
                     if (args.length == 1) {
                         int hotRodToggle = (int) pStat.get("global").get(17);
                         if (hotRodToggle > 0) {
-                            p.sendMessage(ChatColor.RED + "Hot Rod status change to: OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("fishingPerkTitle5") + ": " + lang.getString("off0"));
                             pStat.get("global").set(17,0);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else {
-                            p.sendMessage(ChatColor.GREEN + "Hot Rod status change to: ON");
+                            p.sendMessage(ChatColor.GREEN + lang.getString("fishingPerkTitle5") + ": " + lang.getString("on0"));
                             pStat.get("global").set(17,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                     } else if (args.length == 2) {
                         if (args[1].equalsIgnoreCase("off")) {
-                            p.sendMessage(ChatColor.RED + "Hot Rod status change to: OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("fishingPerkTitle5") + ": " + lang.getString("off0"));
                             pStat.get("global").set(17,0);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else if (args[1].equalsIgnoreCase("on")) {
-                            p.sendMessage(ChatColor.GREEN + "Hot Rod status change to: ON");
+                            p.sendMessage(ChatColor.GREEN + lang.getString("fishingPerkTitle5") + ": " + lang.getString("on0"));
                             pStat.get("global").set(17,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else {
-                            p.sendMessage(ChatColor.RED + "Invalid use, try /frpg hotRodToggle ON or /frpg hotRodToggle OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg hotRodToggle");
                         }
                     }
                     else {
-                        p.sendMessage(ChatColor.RED + "Invalid use, try /frpg hotRodToggle ON or /frpg hotRodToggle OFF");
+                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg hotRodToggle");
                     }
                 }
                 else {
-                    p.sendMessage(ChatColor.RED + "You need to unlock " +ChatColor.BOLD + "Hot Rod" + ChatColor.RESET + ChatColor.RED.toString() + " to use this command");
+                    p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString("fishingPerkTitle5"));
                 }
             } else {
                 System.out.println("You need to be a player to cast this command");
@@ -1062,8 +1175,9 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleMegaDig") || args[0].equalsIgnoreCase("megaDigToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                LanguageSelector lang = new LanguageSelector(p);
                 if (!p.hasPermission("freeRPG.toggleMegaDig")) {
-                    p.sendMessage(ChatColor.RED+"You do not have permission to use this command!");
+                    p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
                     return true;
                 }
                 PlayerStats pStatClass = new PlayerStats(p);
@@ -1074,40 +1188,40 @@ public class FrpgCommands implements CommandExecutor {
                     if (args.length == 1) {
                         int megaDigToggle = (int) pStat.get("global").get(19);
                         if (megaDigToggle > 0) {
-                            p.sendMessage(ChatColor.RED + "Mega Dig status change to: OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("diggingPerkTitle6") + ": " + lang.getString("off0"));
                             pStat.get("global").set(19,0);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else {
-                            p.sendMessage(ChatColor.GREEN + "Mega Dig status change to: ON");
+                            p.sendMessage(ChatColor.GREEN + lang.getString("diggingPerkTitle6") + ": " + lang.getString("on0"));
                             pStat.get("global").set(19,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                     } else if (args.length == 2) {
                         if (args[1].equalsIgnoreCase("off")) {
-                            p.sendMessage(ChatColor.RED + "Mega Dig status change to: OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("diggingPerkTitle6") + ": " + lang.getString("off0"));
                             pStat.get("global").set(19,0);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else if (args[1].equalsIgnoreCase("on")) {
-                            p.sendMessage(ChatColor.GREEN + "Mega Dig status change to: ON");
+                            p.sendMessage(ChatColor.GREEN + lang.getString("diggingPerkTitle6") + ": " + lang.getString("on0"));
                             pStat.get("global").set(19,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else {
-                            p.sendMessage(ChatColor.RED + "Invalid use, try /frpg megaDigToggle ON or /frpg megaDigToggle OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg megaDigToggle");
                         }
                     }
                     else {
-                        p.sendMessage(ChatColor.RED + "Invalid use, try /frpg megaDigToggle ON or /frpg megaDigToggle OFF");
+                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg megaDigToggle");
                     }
                 }
                 else {
-                    p.sendMessage(ChatColor.RED + "You need to unlock " +ChatColor.BOLD + "Mega Dig" + ChatColor.RESET + ChatColor.RED.toString() + " to use this command");
+                    p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString("diggingPerkTitle6"));
                 }
             } else {
                 System.out.println("You need to be a player to cast this command");
@@ -1118,8 +1232,9 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("togglePotion") || args[0].equalsIgnoreCase("potionToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                LanguageSelector lang = new LanguageSelector(p);
                 if (!p.hasPermission("freeRPG.togglePotion")) {
-                    p.sendMessage(ChatColor.RED+"You do not have permission to use this command!");
+                    p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
                     return true;
                 }
                 PlayerStats pStatClass = new PlayerStats(p);
@@ -1130,40 +1245,40 @@ public class FrpgCommands implements CommandExecutor {
                     if (args.length == 1) {
                         int potionToggle = (int) pStat.get("global").get(5);
                         if (potionToggle > 0) {
-                            p.sendMessage(ChatColor.RED + "Potion Master status change to: OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("alchemyPerkTitle2") + ": " + lang.getString("off0"));
                             pStat.get("global").set(5,0);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else {
-                            p.sendMessage(ChatColor.GREEN + "Potion Master status change to: ON");
+                            p.sendMessage(ChatColor.GREEN + lang.getString("alchemyPerkTitle2") + ": " + lang.getString("on0"));
                             pStat.get("global").set(5,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                     } else if (args.length == 2) {
                         if (args[1].equalsIgnoreCase("off")) {
-                            p.sendMessage(ChatColor.RED + "Potion Master status change to: OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("alchemyPerkTitle2") + ": " + lang.getString("off0"));
                             pStat.get("global").set(5,0);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else if (args[1].equalsIgnoreCase("on")) {
-                            p.sendMessage(ChatColor.GREEN + "Potion Master status change to: ON");
+                            p.sendMessage(ChatColor.GREEN + lang.getString("alchemyPerkTitle2") + ": " + lang.getString("on0"));
                             pStat.get("global").set(5,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else {
-                            p.sendMessage(ChatColor.RED + "Invalid use, try /frpg potionToggle ON or /frpg potionToggle OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg potionToggle");
                         }
                     }
                     else {
-                        p.sendMessage(ChatColor.RED + "Invalid use, try /frpg potionToggle ON or /frpg potionToggle OFF");
+                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg potionToggle");
                     }
                 }
                 else {
-                    p.sendMessage(ChatColor.RED + "You need to unlock " +ChatColor.BOLD + "Potion Master" + ChatColor.RESET + ChatColor.RED.toString() + " to use this command");
+                    p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString("alchemyPerkTitle2"));
                 }
             } else {
                 System.out.println("You need to be a player to cast this command");
@@ -1174,8 +1289,9 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleSpeed") || args[0].equalsIgnoreCase("speedToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                LanguageSelector lang = new LanguageSelector(p);
                 if (!p.hasPermission("freeRPG.toggleSpeed")) {
-                    p.sendMessage(ChatColor.RED+"You do not have permission to use this command!");
+                    p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
                     return true;
                 }
                 PlayerStats pStatClass = new PlayerStats(p);
@@ -1186,7 +1302,7 @@ public class FrpgCommands implements CommandExecutor {
                     if (args.length == 1) {
                         int gracefulFeetToggle = (int) pStat.get("global").get(14);
                         if (gracefulFeetToggle > 0) {
-                            p.sendMessage(ChatColor.RED + "Graceful Feet status change to: OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("agilityPerkTitle2") + ": " + lang.getString("off0"));
                             pStat.get("global").set(14,0);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
@@ -1197,14 +1313,14 @@ public class FrpgCommands implements CommandExecutor {
                             }
                         }
                         else {
-                            p.sendMessage(ChatColor.GREEN + "Graceful Feet status change to: ON");
+                            p.sendMessage(ChatColor.GREEN + lang.getString("agilityPerkTitle2") + ": " + lang.getString("on0"));
                             pStat.get("global").set(14,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                     } else if (args.length == 2) {
                         if (args[1].equalsIgnoreCase("off")) {
-                            p.sendMessage(ChatColor.RED + "Graceful Feet status change to: OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("agilityPerkTitle2") + ": " + lang.getString("off0"));
                             pStat.get("global").set(14,0);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
@@ -1215,21 +1331,21 @@ public class FrpgCommands implements CommandExecutor {
                             }
                         }
                         else if (args[1].equalsIgnoreCase("on")) {
-                            p.sendMessage(ChatColor.GREEN + "Graceful Feet status change to: ON");
+                            p.sendMessage(ChatColor.GREEN + lang.getString("agilityPerkTitle2") + ": " + lang.getString("on0"));
                             pStat.get("global").set(14,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else {
-                            p.sendMessage(ChatColor.RED + "Invalid use, try /frpg speedToggle ON or /frpg speedToggle OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg speedToggle");
                         }
                     }
                     else {
-                        p.sendMessage(ChatColor.RED + "Invalid use, try /frpg speedToggle ON or /frpg speedToggle OFF");
+                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg speedToggle");
                     }
                 }
                 else {
-                    p.sendMessage(ChatColor.RED + "You need to unlock " +ChatColor.BOLD + "Graceful Feet" + ChatColor.RESET + ChatColor.RED.toString() + " to use this command");
+                    p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString("agilityPerkTitle2"));
                 }
             } else {
                 System.out.println("You need to be a player to cast this command");
@@ -1240,8 +1356,9 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleVeinMiner") || args[0].equalsIgnoreCase("veinMinerToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
+                LanguageSelector lang = new LanguageSelector(p);
                 if (!p.hasPermission("freeRPG.toggleVeinMiner")) {
-                    p.sendMessage(ChatColor.RED+"You do not have permission to use this command!");
+                    p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
                     return true;
                 }
                 PlayerStats pStatClass = new PlayerStats(p);
@@ -1252,40 +1369,40 @@ public class FrpgCommands implements CommandExecutor {
                     if (args.length == 1) {
                         int veinMinerToggle = (int) pStat.get("global").get(18);
                         if (veinMinerToggle > 0) {
-                            p.sendMessage(ChatColor.RED + "Vein Miner status change to: OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("miningPerkTitle4") + ": " + lang.getString("off0"));
                             pStat.get("global").set(18,0);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else {
-                            p.sendMessage(ChatColor.GREEN + "Vein Miner status change to: ON");
+                            p.sendMessage(ChatColor.GREEN + lang.getString("miningPerkTitle4") + ": " + lang.getString("on0"));
                             pStat.get("global").set(18,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                     } else if (args.length == 2) {
                         if (args[1].equalsIgnoreCase("off")) {
-                            p.sendMessage(ChatColor.RED + "Vein Miner status change to: OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("miningPerkTitle4") + ": " + lang.getString("off0"));
                             pStat.get("global").set(18,0);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else if (args[1].equalsIgnoreCase("on")) {
-                            p.sendMessage(ChatColor.GREEN + "Vein Miner status change to: ON");
+                            p.sendMessage(ChatColor.GREEN + lang.getString("miningPerkTitle4") + ": " + lang.getString("on0"));
                             pStat.get("global").set(18,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
                         }
                         else {
-                            p.sendMessage(ChatColor.RED + "Invalid use, try /frpg hotRodToggle ON or /frpg hotRodToggle OFF");
+                            p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg veinMinerToggle");
                         }
                     }
                     else {
-                        p.sendMessage(ChatColor.RED + "Invalid use, try /frpg hotRodToggle ON or /frpg hotRodToggle OFF");
+                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg veinMinerToggle");
                     }
                 }
                 else {
-                    p.sendMessage(ChatColor.RED + "You need to unlock " +ChatColor.BOLD + "Vein Miner" + ChatColor.RESET + ChatColor.RED.toString() + " to use this command");
+                    p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString("miningPerkTitle4"));
                 }
             } else {
                 System.out.println("You need to be a player to cast this command");
@@ -1302,7 +1419,7 @@ public class FrpgCommands implements CommandExecutor {
                     return true;
                 }
                 if (args.length != 1) {
-                    p.sendMessage(ChatColor.RED + "Error: Try /frpg configurationGUI");
+                    p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg configurationGUI");
                 }
                 else {
                     Inventory gui = Bukkit.createInventory(p, 54, "Configuration Window");
@@ -1314,7 +1431,7 @@ public class FrpgCommands implements CommandExecutor {
                     ItemMeta backMeta = back.getItemMeta();
                     backMeta.setDisplayName(ChatColor.BOLD + "Back");
                     ArrayList<String> lore = new ArrayList<String>();
-                    lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"Takes you back to the skills menu");
+                    lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("diggingPassiveDesc1"));
                     backMeta.setLore(lore);
                     back.setItemMeta(backMeta);
                     gui.setItem(45,back);
@@ -1322,18 +1439,18 @@ public class FrpgCommands implements CommandExecutor {
                     //Level up Notifications
                     ItemStack levelUp = new ItemStack(Material.EXPERIENCE_BOTTLE);
                     ItemMeta levelUpMeta = levelUp.getItemMeta();
-                    levelUpMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + "Level Up Notifications");
+                    levelUpMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("levelUpNotif"));
                     levelUp.setItemMeta(levelUpMeta);
                     gui.setItem(12,levelUp);
 
                     ItemStack levelUpToggle = new ItemStack(Material.LIME_DYE);
                     ItemMeta levelUpToggleMeta = levelUpToggle.getItemMeta();
                     if ( (int) pStat.get("global").get(21) > 0) {
-                        levelUpToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + "ON");
+                        levelUpToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
                     }
                     else {
                         levelUpToggle.setType(Material.GRAY_DYE);
-                        levelUpToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + "OFF");
+                        levelUpToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
                     }
                     levelUpToggle.setItemMeta(levelUpToggleMeta);
                     gui.setItem(21,levelUpToggle);
@@ -1341,18 +1458,18 @@ public class FrpgCommands implements CommandExecutor {
                     //Ability Notifications
                     ItemStack abilityNotifications = new ItemStack(Material.STICK);
                     ItemMeta abilityNotificationsMeta = abilityNotifications.getItemMeta();
-                    abilityNotificationsMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + "Ability Preparation Notifications");
+                    abilityNotificationsMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("abilityPreparationNotif"));
                     abilityNotifications.setItemMeta(abilityNotificationsMeta);
                     gui.setItem(14,abilityNotifications);
 
                     ItemStack abilityNotificationsToggle = new ItemStack(Material.LIME_DYE);
                     ItemMeta abilityNotificationsToggleMeta = abilityNotificationsToggle.getItemMeta();
                     if ( (int) pStat.get("global").get(22) > 0) {
-                        abilityNotificationsToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + "ON");
+                        abilityNotificationsToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
                     }
                     else {
                         abilityNotificationsToggle.setType(Material.GRAY_DYE);
-                        abilityNotificationsToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + "OFF");
+                        abilityNotificationsToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
                     }
                     abilityNotificationsToggle.setItemMeta(abilityNotificationsToggleMeta);
                     gui.setItem(23,abilityNotificationsToggle);
@@ -1367,6 +1484,8 @@ public class FrpgCommands implements CommandExecutor {
                     ArrayList<String> englishLore = new ArrayList<>();
                     englishMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + "English");
                     englishLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"(American English)");
+                    englishLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("status")+": "+
+                                    ChatColor.RESET + ChatColor.GREEN +lang.getString("complete"));
                     englishMeta.setLore(englishLore);
                     english.setItemMeta(englishMeta);
                     gui.setItem(29,english);
@@ -1374,11 +1493,11 @@ public class FrpgCommands implements CommandExecutor {
                     ItemStack englishToggle = new ItemStack(Material.LIME_DYE);
                     ItemMeta englishToggleMeta = englishToggle.getItemMeta();
                     if (language.equalsIgnoreCase("enUs")) {
-                        englishToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + "ON");
+                        englishToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
                     }
                     else {
                         englishToggle.setType(Material.GRAY_DYE);
-                        englishToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + "OFF");
+                        englishToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
                     }
                     englishToggle.setItemMeta(englishToggleMeta);
                     gui.setItem(38,englishToggle);
@@ -1390,18 +1509,20 @@ public class FrpgCommands implements CommandExecutor {
                     hungaryMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + "Magyar Nyelv");
                     ArrayList<String> hungaryLore = new ArrayList<>();
                     hungaryLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"(Hungarian)");
+                    hungaryLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("status")+": "+
+                            ChatColor.RESET + ChatColor.RED +lang.getString("incomplete"));
                     hungaryMeta.setLore(hungaryLore);
                     hungary.setItemMeta(hungaryMeta);
                     gui.setItem(30,hungary);
 
                     ItemStack hungaryToggle = new ItemStack(Material.LIME_DYE);
                     ItemMeta hungaryToggleMeta = hungaryToggle.getItemMeta();
-                    if (language.equalsIgnoreCase("hu")) {
-                        hungaryToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + "ON");
+                    if (language.equalsIgnoreCase("huHU")) {
+                        hungaryToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
                     }
                     else {
                         hungaryToggle.setType(Material.GRAY_DYE);
-                        hungaryToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + "OFF");
+                        hungaryToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
                     }
                     hungaryToggle.setItemMeta(hungaryToggleMeta);
                     gui.setItem(39,hungaryToggle);
@@ -1426,13 +1547,13 @@ public class FrpgCommands implements CommandExecutor {
                     return true;
                 }
                 String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting","global"};
-                String[] titles_0 = {"Digging","Woodcutting","Mining","Farming","Fishing","Archery","Beast Mastery","Swordsmanship","Defense","Axe Mastery","Repair","Agility","Alchemy","Smelting","Enchanting","Global"};
+                String[] titles_0 = {lang.getString("digging"),lang.getString("woodcutting"),lang.getString("mining"),lang.getString("farming"),lang.getString("fishing"),lang.getString("archery"),lang.getString("beastMastery"),lang.getString("swordsmanship"),lang.getString("defense"),lang.getString("axeMastery"),lang.getString("repair"),lang.getString("agility"),lang.getString("alchemy"),lang.getString("smelting"),lang.getString("enchanting"),lang.getString("global")};
                 List<String> labels_arr = Arrays.asList(labels_0);
                 if (args.length != 2) {
-                    p.sendMessage(ChatColor.RED + "Error: Try /frpg confirmationGUI [skillName]");
+                    p.sendMessage(ChatColor.RED +  lang.getString("improperArguments") + " /frpg confirmationGUI [skillName]");
                 }
                 else if (labels_arr.indexOf(args[1]) == -1) {
-                    p.sendMessage(ChatColor.RED+"Error: Try /frpg confirmationGUI [skillName]");
+                    p.sendMessage(ChatColor.RED+ lang.getString("improperArguments") + " /frpg confirmationGUI [skillName]");
                 }
                 else {
                     String skillName = labels_0[labels_arr.indexOf(args[1])];
@@ -1447,12 +1568,12 @@ public class FrpgCommands implements CommandExecutor {
                     //Information
                     ItemStack info = new ItemStack(Material.PAPER);
                     ItemMeta infoMeta = info.getItemMeta();
-                    infoMeta.setDisplayName(ChatColor.BOLD + ChatColor.YELLOW.toString() + "WARNING");
+                    infoMeta.setDisplayName(ChatColor.BOLD + ChatColor.YELLOW.toString() + lang.getString("warning"));
                     ArrayList<String> lore = new ArrayList<String>();
-                    lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"Refunding a skill tree costs" + refundCost + "souls and");
-                    lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"is not reversible, are you sure you want to");
-                    lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"refund the " + ChatColor.BOLD.toString() + ChatColor.WHITE.toString() +
-                            skillTitle + ChatColor.RESET.toString() + ChatColor.ITALIC.toString() + ChatColor.GRAY.toString()+" skill?");
+                    lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("refundSkillTree0") + " " + refundCost + " " + lang.getString("souls"));
+                    lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("refundSkillTree1"));
+                    lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("refundSkillTree2") + " " + ChatColor.BOLD.toString() + ChatColor.WHITE.toString() +
+                            skillTitle + ChatColor.RESET.toString() + ChatColor.ITALIC.toString() + ChatColor.GRAY.toString()+ " " +lang.getString("skill") +"?");
                     infoMeta.setLore(lore);
                     info.setItemMeta(infoMeta);
                     gui.setItem(22,info);
@@ -1460,14 +1581,14 @@ public class FrpgCommands implements CommandExecutor {
                     //Yes Button
                     ItemStack yes = new ItemStack(Material.LIME_TERRACOTTA);
                     ItemMeta yesMeta = yes.getItemMeta();
-                    yesMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + "YES");
+                    yesMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("yes0"));
                     yes.setItemMeta(yesMeta);
                     gui.setItem(39,yes);
 
                     //No Button
                     ItemStack no = new ItemStack(Material.RED_TERRACOTTA);
                     ItemMeta noMeta = no.getItemMeta();
-                    noMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + "NO");
+                    noMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("no0"));
                     no.setItemMeta(noMeta);
                     gui.setItem(41,no);
 
@@ -1551,9 +1672,9 @@ public class FrpgCommands implements CommandExecutor {
                         "alchemy1","alchemy2","alchemy3","alchemy4","alchemy5"};
                 List<String> labels_arr = Arrays.asList(labels_0);
                 if (args.length != 2) {
-                    p.sendMessage(ChatColor.RED + "Error: Try /frpg craftingRecipe [skillName[Number]]");
+                    p.sendMessage(ChatColor.RED + lang.getString("improperArguments") +" /frpg craftingRecipe [skillName[Number]]");
                 } else if (labels_arr.indexOf(args[1]) == -1) {
-                    p.sendMessage(ChatColor.RED + "Error: Try /frpg craftingRecipe [skillName[Number]]");
+                    p.sendMessage(ChatColor.RED + lang.getString("improperArguments") +" /frpg craftingRecipe [skillName[Number]]");
                 } else {
                     String craftingLabel = args[1];
                     ItemStack[] cowEgg = {new ItemStack(Material.LEATHER,1), new ItemStack(Material.BEEF,1),new ItemStack(Material.LEATHER,1),
@@ -1755,7 +1876,7 @@ public class FrpgCommands implements CommandExecutor {
                     ItemMeta backMeta = back.getItemMeta();
                     backMeta.setDisplayName(ChatColor.BOLD + "Back");
                     ArrayList<String> lore = new ArrayList<String>();
-                    lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"Takes you back to skill tree");
+                    lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("backToSkillTree"));
                     backMeta.setLore(lore);
                     back.setItemMeta(backMeta);
                     gui.setItem(45,back);
@@ -2053,14 +2174,17 @@ public class FrpgCommands implements CommandExecutor {
 
             if (sender instanceof Player && args.length!= 2){
                 Player p = (Player) sender;
-                p.sendMessage(ChatColor.RED+"Error: Try /frpg skillTree [skillName]");
+                LanguageSelector lang = new LanguageSelector(p);
+                p.sendMessage(ChatColor.RED+lang.getString("improperArguments")+" /frpg skillTree ["+lang.getString("skillName")+"]");
             }
             else if (sender instanceof Player && labels_arr.indexOf(args[1]) == -1) {
                 Player p = (Player) sender;
-                p.sendMessage(ChatColor.RED+"Error: Try /frpg skillTree [skillName]");
+                LanguageSelector lang = new LanguageSelector(p);
+                p.sendMessage(ChatColor.RED+lang.getString("improperArguments")+" /frpg skillTree ["+lang.getString("skillName")+"]");
             }
             else if (sender instanceof Player && labels_arr.indexOf(args[1]) < 10) {
                 Player p = (Player) sender;
+                LanguageSelector lang = new LanguageSelector(p);
                 String skillName = labels_0[labels_arr.indexOf(args[1])];
                 String skillTitle = titles_0[labels_arr.indexOf(args[1])];
                 Inventory gui = Bukkit.createInventory(p, 54,skillTitle);
@@ -2179,23 +2303,23 @@ public class FrpgCommands implements CommandExecutor {
                         special_index = 0;
                         switch (skill_1a_level) {
                             case 0:
-                                desc = "2 seconds of Haste I after mining any ore";
+                                desc = lang.getString("miningPerkDesc0_1");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 1:
-                                desc = "5 seconds of Haste I after mining any ore";
+                                desc = lang.getString("miningPerkDesc0_2");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 2:
-                                desc = "10 seconds of Haste I after mining any ore";
+                                desc = lang.getString("miningPerkDesc0_3");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 3:
-                                desc = "5 seconds of Haste II after mining any ore, followed by 5 seconds of Haste I";
+                                desc = lang.getString("miningPerkDesc0_4");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 4:
-                                desc = "10 seconds of Haste II after mining any ore";
+                                desc = lang.getString("miningPerkDesc0_5");
                                 lores_line2[special_index] = desc;
                                 break;
                             default:
@@ -2204,26 +2328,67 @@ public class FrpgCommands implements CommandExecutor {
                         break;
                     case "woodcutting":
                         special_index = 3;
-                        desc = "Leaves may drop new items when cut by player ";
+                        desc = lang.getString("woodcuttingPerkDesc3_1") + " ";
+                        ArrayList<Object> woodcuttingInfo = loadConfig.getWoodcuttingInfo();
                         switch (skill_2b_level) {
                             case 0:
-                                desc += "(feathers by default)";
+                                Material mat0 = (Material) woodcuttingInfo.get(0);
+                                String itemName0 = "";
+                                if (mat0 != null) {
+                                    itemName0 = mat0.toString().replaceAll("_", " ").toLowerCase();
+                                }
+                                else {
+                                    itemName0 = "feather";
+                                }
+                                desc += itemName0;
                                 lores_line2[special_index] = desc;
                                 break;
                             case 1:
-                                desc += "(golden nuggets by default)";
+                                Material mat1 = (Material) woodcuttingInfo.get(3);
+                                String itemName1 = "";
+                                if (mat1 != null) {
+                                    itemName1 = mat1.toString().replaceAll("_", " ").toLowerCase();
+                                }
+                                else {
+                                    itemName1 = "gold nugget";
+                                }
+                                desc += itemName1;
                                 lores_line2[special_index] = desc;
                                 break;
                             case 2:
-                                desc += "(golden apples by default)";
+                                Material mat2 = (Material) woodcuttingInfo.get(6);
+                                String itemName2 = "";
+                                if (mat2 != null) {
+                                    itemName2 = mat2.toString().replaceAll("_", " ").toLowerCase();
+                                }
+                                else {
+                                    itemName2 = "golden apple";
+                                }
+                                desc += itemName2;
                                 lores_line2[special_index] = desc;
                                 break;
                             case 3:
-                                desc += "(bottles o' enchanting by default)";
+                                Material mat3 = (Material) woodcuttingInfo.get(9);
+                                String itemName3 = "";
+                                if (mat3 != null) {
+                                    itemName3 = mat3.toString().replaceAll("_", " ").toLowerCase();
+                                }
+                                else {
+                                    itemName3 = "experience bottle";
+                                }
+                                desc += itemName3;
                                 lores_line2[special_index] = desc;
                                 break;
                             case 4:
-                                desc += "(enchanted golden apples by default)";
+                                Material mat4 = (Material) woodcuttingInfo.get(12);
+                                String itemName4 = "";
+                                if (mat4 != null) {
+                                    itemName4 = mat4.toString().replaceAll("_", " ").toLowerCase();
+                                }
+                                else {
+                                    itemName4 = "enchanted golden apple";
+                                }
+                                desc += itemName4;
                                 lores_line2[special_index] = desc;
                                 break;
                             default:
@@ -2232,26 +2397,26 @@ public class FrpgCommands implements CommandExecutor {
                         break;
                     case "fishing":
                         special_index = 1;
-                        desc = "Unlocks treasure tier ";
+                        desc = lang.getString("fishingPerkDesc1_1") + " ";
                         switch (skill_1b_level) {
                             case 0:
-                                desc += "I (common)";
+                                desc += "I ("+lang.getString("common") +")";
                                 lores_line2[special_index] = desc;
                                 break;
                             case 1:
-                                desc += "II (uncommon)";
+                                desc += "II ("+lang.getString("uncommon") +")";
                                 lores_line2[special_index] = desc;
                                 break;
                             case 2:
-                                desc += "III (rare)";
+                                desc += "III ("+lang.getString("rare") +")";
                                 lores_line2[special_index] = desc;
                                 break;
                             case 3:
-                                desc += "IV (very rare)";
+                                desc += "IV ("+lang.getString("veryRare") +")";
                                 lores_line2[special_index] = desc;
                                 break;
                             case 4:
-                                desc += "V (legendary)";
+                                desc += "V ("+lang.getString("legendary") +")";
                                 lores_line2[special_index] = desc;
                                 break;
                             default:
@@ -2260,26 +2425,26 @@ public class FrpgCommands implements CommandExecutor {
                         break;
                     case "farming":
                         special_index = 1;
-                        desc = "Gain the ability to craft ";
+                        desc = lang.getString("farmingPerkDesc1_1")  + " ";
                         switch (skill_1b_level) {
                             case 0:
-                                desc += "cow spawn eggs";
+                                desc += lang.getString("cowSpawnEgg");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 1:
-                                desc += "bee spawn eggs";
+                                desc += lang.getString("beeSpawnEgg");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 2:
-                                desc += "mooshroom spawn eggs";
+                                desc += lang.getString("mooshroomSpawnEgg");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 3:
-                                desc += "horse spawn eggs";
+                                desc += lang.getString("horseSpawnEgg");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 4:
-                                desc += "slime spawn eggs";
+                                desc += lang.getString("slimeSpawnEgg");
                                 lores_line2[special_index] = desc;
                                 break;
                             default:
@@ -2288,30 +2453,71 @@ public class FrpgCommands implements CommandExecutor {
                         break;
                     case "digging":
                         special_index = 0;
+                        ArrayList<Object> diggingInfo = loadConfig.getDiggingInfo();
                         switch (skill_1a_level) {
                             case 0:
-                                desc = "May find new items while digging";
-                                desc += " (golden ingots by default)";
+                                desc = lang.getString("diggingPerkDesc0_1") + " ";
+                                Material mat0 = (Material) diggingInfo.get(10);
+                                String itemName0 = "";
+                                if (mat0 != null) {
+                                    itemName0 = mat0.toString().replaceAll("_", " ").toLowerCase();
+                                }
+                                else {
+                                    itemName0 = "gold ingot";
+                                }
+                                desc += itemName0;
                                 lores_line2[special_index] = desc;
                                 break;
                             case 1:
-                                desc = "May find new items while digging";
-                                desc += " (name tags by default)";
+                                desc = lang.getString("diggingPerkDesc0_1")+ " ";
+                                Material mat1 = (Material) diggingInfo.get(12);
+                                String itemName1 = "";
+                                if (mat1 != null) {
+                                    itemName1 = mat1.toString().replaceAll("_", " ").toLowerCase();
+                                }
+                                else {
+                                    itemName1 = "name tag";
+                                }
+                                desc += itemName1;
                                 lores_line2[special_index] = desc;
                                 break;
                             case 2:
-                                desc = "May find new items while digging";
-                                desc += " (musics discs by default)";
+                                desc = lang.getString("diggingPerkDesc0_1")+ " ";
+                                Material mat2 = (Material) diggingInfo.get(14);
+                                String itemName2 = "";
+                                if (mat2 != null) {
+                                    itemName2 = mat2.toString().replaceAll("_", " ").toLowerCase();
+                                }
+                                else {
+                                    itemName2 = "music discs";
+                                }
+                                desc += itemName2;
                                 lores_line2[special_index] = desc;
                                 break;
                             case 3:
-                                desc = "May find new items while digging";
-                                desc += " (horse armor by default)";
+                                desc = lang.getString("diggingPerkDesc0_1")+ " ";
+                                Material mat3 = (Material) diggingInfo.get(16);
+                                String itemName3 = "";
+                                if (mat3 != null) {
+                                    itemName3 = mat3.toString().replaceAll("_", " ").toLowerCase();
+                                }
+                                else {
+                                    itemName3 = "horse armor";
+                                }
+                                desc += itemName3;
                                 lores_line2[special_index] = desc;
                                 break;
                             case 4:
-                                desc = "May find new items while digging";
-                                desc += " (diamonds by default)";
+                                desc = lang.getString("diggingPerkDesc0_1")+ " ";
+                                Material mat4 = (Material) diggingInfo.get(18);
+                                String itemName4 = "";
+                                if (mat4 != null) {
+                                    itemName4 = mat4.toString().replaceAll("_", " ").toLowerCase();
+                                }
+                                else {
+                                    itemName4 = "diamond";
+                                }
+                                desc += itemName4;
                                 lores_line2[special_index] = desc;
                                 break;
                             default:
@@ -2319,28 +2525,68 @@ public class FrpgCommands implements CommandExecutor {
                         }
                         switch (skill_2a_level) {
                             case 0:
-                                desc = "May find new items while digging";
-                                desc += " (emeralds by default)";
+                                desc = lang.getString("diggingPerkDesc0_1")+ " ";
+                                Material mat5 = (Material) diggingInfo.get(21);
+                                String itemName5 = "";
+                                if (mat5 != null) {
+                                    itemName5 = mat5.toString().replaceAll("_", " ").toLowerCase();
+                                }
+                                else {
+                                    itemName5 = "emerald";
+                                }
+                                desc += itemName5;
                                 lores_line2[2] = desc;
                                 break;
                             case 1:
-                                desc = "May find new items while digging";
-                                desc += " (enchanted books by default)";;
+                                desc = lang.getString("diggingPerkDesc0_1")+ " ";
+                                Material mat6 = (Material) diggingInfo.get(24);
+                                String itemName6 = "";
+                                if (mat6 != null) {
+                                    itemName6 = mat6.toString().replaceAll("_", " ").toLowerCase();
+                                }
+                                else {
+                                    itemName6 = "enchanted book";
+                                }
+                                desc += itemName6;
                                 lores_line2[2] = desc;
                                 break;
                             case 2:
-                                desc = "May find new items while digging";
-                                desc += " (dragon's breath by default)";
+                                desc = lang.getString("diggingPerkDesc0_1")+ " ";
+                                Material mat7 = (Material) diggingInfo.get(27);
+                                String itemName7 = "";
+                                if (mat7 != null) {
+                                    itemName7 = mat7.toString().replaceAll("_", " ").toLowerCase();
+                                }
+                                else {
+                                    itemName7 = "dragon breath";
+                                }
+                                desc += itemName7;
                                 lores_line2[2] = desc;
                                 break;
                             case 3:
-                                desc = "May find new items while digging";
-                                desc += " (totems of undying by default)";
+                                desc = lang.getString("diggingPerkDesc0_1")+ " ";
+                                Material mat8 = (Material) diggingInfo.get(30);
+                                String itemName8 = "";
+                                if (mat8 != null) {
+                                    itemName8 = mat8.toString().replaceAll("_", " ").toLowerCase();
+                                }
+                                else {
+                                    itemName8 = "totem of undying";
+                                }
+                                desc += itemName8;
                                 lores_line2[2] = desc;
                                 break;
                             case 4:
-                                desc = "May find new items while digging";
-                                desc += " (nether stars by default)";
+                                desc = lang.getString("diggingPerkDesc0_1")+ " ";
+                                Material mat9 = (Material) diggingInfo.get(30);
+                                String itemName9 = "";
+                                if (mat9 != null) {
+                                    itemName9 = mat9.toString().replaceAll("_", " ").toLowerCase();
+                                }
+                                else {
+                                    itemName9 = "nether star";
+                                }
+                                desc += itemName9;
                                 lores_line2[2] = desc;
                                 break;
                             default:
@@ -2353,12 +2599,12 @@ public class FrpgCommands implements CommandExecutor {
                             case 0:
                             case 2:
                             case 1:
-                                desc = "Gain +3 s of regen per level on kills";
+                                desc = lang.getString("defensePerkDesc0_1");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 3:
                             case 4:
-                                desc = "Gain +0.5 hearts per level instantly on kills";
+                                desc = lang.getString("defensePerkDesc0_2");
                                 lores_line2[special_index] = desc;
                                 break;
                             default:
@@ -2372,15 +2618,15 @@ public class FrpgCommands implements CommandExecutor {
                 String[] lores_line1 = {"Level: 0/5","Level: 0/5","Level: 0/5","Level: 0/5","Level: 0/1","Level: 0/1","Level: 0/1"}; //Data lines 7-13
                 for (int i = 0; i < 4; i++) {
                     String level = pStats.get(7+i).toString();
-                    lores_line1[i] = ChatColor.GRAY + "Level " + ChatColor.GREEN + level + "/5";
+                    lores_line1[i] = ChatColor.GRAY +lang.getString("level") +" " + ChatColor.GREEN + level + "/5";
                 }
                 for (int i = 0; i < 3; i++) {
                     String level = pStats.get(11+i).toString();
                     if (i != 2) {
-                        lores_line1[i + 4] = ChatColor.GRAY + "Level " + ChatColor.BLUE + level + "/1";
+                        lores_line1[i + 4] = ChatColor.GRAY + lang.getString("level") +" " + ChatColor.BLUE + level + "/1";
                     }
                     else {
-                        lores_line1[i + 4] = ChatColor.GRAY + "Level " + ChatColor.DARK_PURPLE + level + "/1";
+                        lores_line1[i + 4] = ChatColor.GRAY + lang.getString("level") +" " + ChatColor.DARK_PURPLE + level + "/1";
                     }
                 }
 
@@ -2435,7 +2681,7 @@ public class FrpgCommands implements CommandExecutor {
                 String[] lores_line2_2 = passiveDescriptionsMap.get(skillName);
 
                 //Total Passive Tokens
-                lores_line1_2[0] = ChatColor.BLUE + "Total: " + ChatColor.GOLD + String.valueOf(tokens_P);
+                lores_line1_2[0] = ChatColor.BLUE + lang.getString("total") +": " + ChatColor.GOLD + String.valueOf(tokens_P);
                 if (tokens_P > 1 && tokens_P < 64){
                     passive_token.setAmount(tokens_P);
                 }
@@ -2444,7 +2690,7 @@ public class FrpgCommands implements CommandExecutor {
                 }
 
                 //Total skill tokens
-                lores_line1_2[2] = ChatColor.BLUE + "Total: " + ChatColor.GOLD + String.valueOf(tokens_S);
+                lores_line1_2[2] = ChatColor.BLUE + lang.getString("total") +": " + ChatColor.GOLD + String.valueOf(tokens_S);
                 if (tokens_S > 1 && tokens_S < 64){
                     skill_token.setAmount(tokens_S);
                 }
@@ -2458,13 +2704,13 @@ public class FrpgCommands implements CommandExecutor {
                 //Passive 1
                 duration = duration*0.02+ 2;
                 duration = Math.round(duration*1000)/1000.0d;
-                lores_line1_2[3] = ChatColor.GRAY + "Duration " + ChatColor.AQUA + String.valueOf(duration) + " s";
+                lores_line1_2[3] = ChatColor.GRAY + lang.getString("duration") +": " + ChatColor.AQUA + String.valueOf(duration) + " s";
                 switch (skillName){
                     case "digging":
                         //Passive2
                         chance1 = 1 + chance1*0.01;
                         chance1 = Math.round(chance1*1000)/1000.0d;
-                        lores_line1_2[4] = ChatColor.GRAY + "Likelihood " + ChatColor.AQUA + String.valueOf(chance1) + "%";
+                        lores_line1_2[4] = ChatColor.GRAY + lang.getString("likelihood") +": " + ChatColor.AQUA + String.valueOf(chance1) + "%";
 
                         //Passive 3
                         break;
@@ -2473,7 +2719,7 @@ public class FrpgCommands implements CommandExecutor {
                         //Passive 2
                         chance1 = chance1*0.05;
                         chance1 = Math.round(chance1*1000)/1000.0d;
-                        lores_line1_2[4] = ChatColor.GRAY + "Likelihood " + ChatColor.AQUA + String.valueOf(chance1) + "%";
+                        lores_line1_2[4] = ChatColor.GRAY + lang.getString("likelihood") +": " + ChatColor.AQUA + String.valueOf(chance1) + "%";
 
                         //Passive 3
                         break;
@@ -2483,39 +2729,39 @@ public class FrpgCommands implements CommandExecutor {
                         //Passive 2
                         chance1 = chance1*0.05;
                         chance1 = Math.round(chance1*1000)/1000.0d;
-                        lores_line1_2[4] = ChatColor.GRAY + "Likelihood " + ChatColor.AQUA + String.valueOf(chance1) + "%";
+                        lores_line1_2[4] = ChatColor.GRAY + lang.getString("likelihood") +": " + ChatColor.AQUA + String.valueOf(chance1) + "%";
 
                         //Passive 3
                         chance2 = chance2*0.01;
                         chance2 = Math.round(chance2*1000)/1000.0d;
-                        lores_line1_2[5] = ChatColor.GRAY + "Likelihood " + ChatColor.AQUA + String.valueOf(chance2) + "%";
+                        lores_line1_2[5] = ChatColor.GRAY + lang.getString("likelihood") +": " + ChatColor.AQUA + String.valueOf(chance2) + "%";
                         break;
                     case "farming":
                         //Passive 2
                         chance1 = chance1*0.05;
                         chance1 = Math.round(chance1*1000)/1000.0d;
-                        lores_line1_2[4] = ChatColor.GRAY + "Likelihood " + ChatColor.AQUA + String.valueOf(chance1) + "%";
+                        lores_line1_2[4] = ChatColor.GRAY + lang.getString("likelihood") +": " + ChatColor.AQUA + String.valueOf(chance1) + "%";
 
                         //Passive 3
                         chance2 = chance2*0.05;
                         chance2 = Math.round(chance2*1000)/1000.0d;
-                        lores_line1_2[5] = ChatColor.GRAY + "Likelihood " + ChatColor.AQUA + String.valueOf(chance2) + "%";
+                        lores_line1_2[5] = ChatColor.GRAY + lang.getString("likelihood") +": " + ChatColor.AQUA + String.valueOf(chance2) + "%";
                         break;
                     case "fishing":
                         //Passive 1
                         duration = duration/2.0;
                         duration = Math.round(duration*1000)/1000.0d;
-                        lores_line1_2[3] = ChatColor.GRAY + "Duration " + ChatColor.AQUA + String.valueOf(duration) + " s";
+                        lores_line1_2[3] = ChatColor.GRAY + lang.getString("duration") +": " + ChatColor.AQUA + String.valueOf(duration) + " s";
 
                         //Passive 2
                         chance1 = chance1*0.05;
                         chance1 = Math.round(chance1*1000)/1000.0d;
-                        lores_line1_2[4] = ChatColor.GRAY + "Likelihood " + ChatColor.AQUA + String.valueOf(chance1) + "%";
+                        lores_line1_2[4] = ChatColor.GRAY + lang.getString("likelihood") +": " + ChatColor.AQUA + String.valueOf(chance1) + "%";
 
                         //Passive 3
                         chance2 = 10 - chance2*0.005;
                         chance2 = Math.round(chance2*1000)/1000.0d;
-                        lores_line1_2[5] = ChatColor.GRAY + "Junk Chance " + ChatColor.AQUA + String.valueOf(chance2) + "%";
+                        lores_line1_2[5] = ChatColor.GRAY + lang.getString("junkChance") +": " + ChatColor.AQUA + String.valueOf(chance2) + "%";
                         break;
 
                     //Passive 3
@@ -2523,7 +2769,7 @@ public class FrpgCommands implements CommandExecutor {
                         //Passive 2
                         chance1 = chance1*0.025;
                         chance1 = Math.round(chance1*1000)/1000.0d;
-                        lores_line1_2[4] = ChatColor.GRAY + "Likelihood " + ChatColor.AQUA + String.valueOf(chance1) + "%";
+                        lores_line1_2[4] = ChatColor.GRAY + lang.getString("likelihood") +": " + ChatColor.AQUA + String.valueOf(chance1) + "%";
 
                         //Passive 3
                         break;
@@ -2531,7 +2777,7 @@ public class FrpgCommands implements CommandExecutor {
                         //Passive 2
                         chance1 = chance1*0.02;
                         chance1 = Math.round(chance1*1000)/1000.0d;
-                        lores_line1_2[4] = ChatColor.GRAY + "Likelihood " + ChatColor.AQUA + String.valueOf(chance1) + "%";
+                        lores_line1_2[4] = ChatColor.GRAY + lang.getString("likelihood") +": " + ChatColor.AQUA + String.valueOf(chance1) + "%";
 
                         //Passive 3
                         break;
@@ -2539,12 +2785,12 @@ public class FrpgCommands implements CommandExecutor {
                         //Passive 2
                         chance1 = 1 + chance1*0.01;
                         chance1 = Math.round(chance1*1000)/1000.0d;
-                        lores_line1_2[4] = ChatColor.GRAY + "Likelihood " + ChatColor.AQUA + String.valueOf(chance1) + "%";
+                        lores_line1_2[4] = ChatColor.GRAY + lang.getString("likelihood") +": " + ChatColor.AQUA + String.valueOf(chance1) + "%";
 
                         //Passive 3
                         chance2 = chance2*0.05;
                         chance2 = Math.round(chance2*1000)/1000.0d;
-                        lores_line1_2[5] = ChatColor.GRAY + "Likelihood " + ChatColor.AQUA + String.valueOf(chance2) + "%";
+                        lores_line1_2[5] = ChatColor.GRAY + lang.getString("likelihood") +": " + ChatColor.AQUA + String.valueOf(chance2) + "%";
 
                         break;
 
@@ -2553,7 +2799,7 @@ public class FrpgCommands implements CommandExecutor {
                         //Passive 2
                         chance1 = chance1*0.01;
                         chance1 = Math.round(chance1*1000)/1000.0d;
-                        lores_line1_2[4] = ChatColor.GRAY + "Likelihood " + ChatColor.AQUA + String.valueOf(chance1) + "%";
+                        lores_line1_2[4] = ChatColor.GRAY + lang.getString("likelihood") +": " + ChatColor.AQUA + String.valueOf(chance1) + "%";
 
                         //Passive 3
                         break;
@@ -2603,16 +2849,16 @@ public class FrpgCommands implements CommandExecutor {
                     ItemStack[] crafting = {new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE),
                             new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE),
                             new ItemStack(Material.CRAFTING_TABLE)};
-                    String[] craftingNames = {"Cow Egg","Bee Egg","Mooshroom Egg","Horse Egg","Slime Egg"};
+                    String[] craftingNames = {lang.getString("cowEgg"),lang.getString("beeEgg"),lang.getString("mooshroomEgg"),lang.getString("horseEgg"),lang.getString("slimeEgg")};
                     int animalFarmLevel = (int) pStats.get(8);
                     for (int i=0; i < craftingNames.length; i++) {
                         ArrayList<String> lore = new ArrayList<>();
                         ItemMeta craftingMeta = crafting[i].getItemMeta();
                         if ( animalFarmLevel >= i+1) {
-                            lore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + "UNLOCKED" );
+                            lore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("unlocked") );
                         }
                         else {
-                            lore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "LOCKED" );
+                            lore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
                         }
                         craftingMeta.setDisplayName(ChatColor.BOLD + craftingNames[i]);
                         craftingMeta.setLore(lore);
@@ -2623,16 +2869,16 @@ public class FrpgCommands implements CommandExecutor {
                 else if (skillName.equalsIgnoreCase("archery")) {
                     Integer[] indices_crafting = {48,49,50,51,52};
                     ItemStack[] crafting = {new ItemStack(Material.CRAFTING_TABLE)};
-                    String[] craftingNames = {"Dragonless Arrows"};
+                    String[] craftingNames = {lang.getString("tippedArrows")};
                     int dragonlessArrowsLevel = (int) pStats.get(11);
                     for (int i=0; i < craftingNames.length; i++) {
                         ArrayList<String> lore = new ArrayList<>();
                         ItemMeta craftingMeta = crafting[i].getItemMeta();
                         if ( dragonlessArrowsLevel >= 1) {
-                            lore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + "UNLOCKED" );
+                            lore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("unlocked") );
                         }
                         else {
-                            lore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "LOCKED" );
+                            lore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
                         }
                         craftingMeta.setDisplayName(ChatColor.BOLD + craftingNames[i]);
                         craftingMeta.setLore(lore);
@@ -2646,22 +2892,22 @@ public class FrpgCommands implements CommandExecutor {
                     ItemStack flintFinder = new ItemStack(Material.GRAY_WOOL);
                     ItemMeta flintFinderMeta = flintFinder.getItemMeta();
                     ArrayList<String> flintFinderLore = new ArrayList<>();
-                    flintFinderMeta.setDisplayName(ChatColor.BOLD + "Flint Finder Toggle");
+                    flintFinderMeta.setDisplayName(ChatColor.BOLD + lang.getString("diggingPerkTitle4") + " " + lang.getString("toggle"));
                     if (skill_3a_level < 1) {
-                        flintFinderLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "LOCKED" );
+                        flintFinderLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
                         flintFinderMeta.setLore(flintFinderLore);
                         flintFinder.setItemMeta(flintFinderMeta);
                         gui.setItem(47,flintFinder);
                     }
                     else {
                         if ((int) pStatAll.get("global").get(12) < 1) {
-                            flintFinderLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "OFF" );
+                            flintFinderLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
                             flintFinderMeta.setLore(flintFinderLore);
                             flintFinder.setItemMeta(flintFinderMeta);
                             gui.setItem(47,flintFinder);
                         }
                         else {
-                            flintFinderLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + "ON" );
+                            flintFinderLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("on0") );
                             flintFinderMeta.setLore(flintFinderLore);
                             flintFinder.setItemMeta(flintFinderMeta);
                             flintFinder.setType(Material.LIME_WOOL);
@@ -2673,22 +2919,22 @@ public class FrpgCommands implements CommandExecutor {
                     ItemStack megaDig = new ItemStack(Material.GRAY_WOOL);
                     ItemMeta megaDigMeta = megaDig.getItemMeta();
                     ArrayList<String> megaDigLore = new ArrayList<>();
-                    megaDigMeta.setDisplayName(ChatColor.BOLD + "Mega Dig Toggle");
+                    megaDigMeta.setDisplayName(ChatColor.BOLD + lang.getString("diggingPerkTitle6") + " " + lang.getString("toggle"));
                     if (skill_M_level < 1) {
-                        megaDigLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "LOCKED" );
+                        megaDigLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
                         megaDigMeta.setLore(megaDigLore);
                         megaDig.setItemMeta(megaDigMeta);
                         gui.setItem(48,megaDig);
                     }
                     else {
                         if ((int) pStatAll.get("global").get(19) < 1) {
-                            megaDigLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "OFF" );
+                            megaDigLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
                             megaDigMeta.setLore(megaDigLore);
                             megaDig.setItemMeta(megaDigMeta);
                             gui.setItem(48,megaDig);
                         }
                         else {
-                            megaDigLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + "ON" );
+                            megaDigLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("on0") );
                             megaDigMeta.setLore(megaDigLore);
                             megaDig.setItemMeta(megaDigMeta);
                             megaDig.setType(Material.LIME_WOOL);
@@ -2702,22 +2948,22 @@ public class FrpgCommands implements CommandExecutor {
                     ItemStack veinMiner = new ItemStack(Material.GRAY_WOOL);
                     ItemMeta veinMinerMeta = veinMiner.getItemMeta();
                     ArrayList<String> veinMinerLore = new ArrayList<>();
-                    veinMinerMeta.setDisplayName(ChatColor.BOLD + "Vein Miner Toggle");
+                    veinMinerMeta.setDisplayName(ChatColor.BOLD + lang.getString("miningPerkTitle4") + " " + lang.getString("toggle"));
                     if (skill_3a_level < 1) {
-                        veinMinerLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "LOCKED" );
+                        veinMinerLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
                         veinMinerMeta.setLore(veinMinerLore);
                         veinMiner.setItemMeta(veinMinerMeta);
                         gui.setItem(47,veinMiner);
                     }
                     else {
                         if ((int) pStatAll.get("global").get(18) < 1) {
-                            veinMinerLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "OFF" );
+                            veinMinerLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
                             veinMinerMeta.setLore(veinMinerLore);
                             veinMiner.setItemMeta(veinMinerMeta);
                             gui.setItem(47,veinMiner);
                         }
                         else {
-                            veinMinerLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + "ON" );
+                            veinMinerLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("on0") );
                             veinMinerMeta.setLore(veinMinerLore);
                             veinMiner.setItemMeta(veinMinerMeta);
                             veinMiner.setType(Material.LIME_WOOL);
@@ -2731,22 +2977,22 @@ public class FrpgCommands implements CommandExecutor {
                     ItemStack grapplingHook = new ItemStack(Material.GRAY_WOOL);
                     ItemMeta grapplingHookMeta = grapplingHook.getItemMeta();
                     ArrayList<String> grapplingHookLore = new ArrayList<>();
-                    grapplingHookMeta.setDisplayName(ChatColor.BOLD + "Grappling Hook Toggle");
+                    grapplingHookMeta.setDisplayName(ChatColor.BOLD + lang.getString("fishingPerkTitle4") + " " + lang.getString("toggle"));
                     if (skill_3a_level < 1) {
-                        grapplingHookLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "LOCKED" );
+                        grapplingHookLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
                         grapplingHookMeta.setLore(grapplingHookLore);
                         grapplingHook.setItemMeta(grapplingHookMeta);
                         gui.setItem(47,grapplingHook);
                     }
                     else {
                         if ((int) pStatAll.get("global").get(16) < 1) {
-                            grapplingHookLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "OFF" );
+                            grapplingHookLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
                             grapplingHookMeta.setLore(grapplingHookLore);
                             grapplingHook.setItemMeta(grapplingHookMeta);
                             gui.setItem(47,grapplingHook);
                         }
                         else {
-                            grapplingHookLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + "ON" );
+                            grapplingHookLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("on0") );
                             grapplingHookMeta.setLore(grapplingHookLore);
                             grapplingHook.setItemMeta(grapplingHookMeta);
                             grapplingHook.setType(Material.LIME_WOOL);
@@ -2758,22 +3004,22 @@ public class FrpgCommands implements CommandExecutor {
                     ItemStack hotRod = new ItemStack(Material.GRAY_WOOL);
                     ItemMeta hotRodMeta = hotRod.getItemMeta();
                     ArrayList<String> hotRodLore = new ArrayList<>();
-                    hotRodMeta.setDisplayName(ChatColor.BOLD + "Hot Rod Toggle");
+                    hotRodMeta.setDisplayName(ChatColor.BOLD + lang.getString("fishingPerkTitle5") + " " + lang.getString("toggle"));
                     if (skill_3b_level < 1) {
-                        hotRodLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "LOCKED" );
+                        hotRodLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
                         hotRodMeta.setLore(hotRodLore);
                         hotRod.setItemMeta(hotRodMeta);
                         gui.setItem(48,hotRod);
                     }
                     else {
                         if ((int) pStatAll.get("global").get(17) < 1) {
-                            hotRodLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "OFF" );
+                            hotRodLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
                             hotRodMeta.setLore(hotRodLore);
                             hotRod.setItemMeta(hotRodMeta);
                             gui.setItem(48,hotRod);
                         }
                         else {
-                            hotRodLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + "ON" );
+                            hotRodLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("on0") );
                             hotRodMeta.setLore(hotRodLore);
                             hotRod.setItemMeta(hotRodMeta);
                             hotRod.setType(Material.LIME_WOOL);
@@ -2786,15 +3032,17 @@ public class FrpgCommands implements CommandExecutor {
                 ItemStack soul = new ItemStack(Material.COMPOSTER);
                 ItemMeta soulMeta = soul.getItemMeta();
                 ArrayList<String> soulLore = new ArrayList<>();
-                soulMeta.setDisplayName(ChatColor.BOLD + "Refund Skill");
+                soulMeta.setDisplayName(ChatColor.BOLD + lang.getString("refundSkillTitle"));
                 if ((int) pStatAll.get("global").get(9) < 1) {
-                    soulLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "LOCKED" );
+                    soulLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
                 }
                 else {
                     int souls = (int) pStatAll.get("global").get(20);
-                    soulLore.add("Souls: " + ChatColor.AQUA + ChatColor.ITALIC.toString() + souls + "/" + refundCost);
-                    soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + "Click to refund this skill tree");
-                    soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + "(Costs "+refundCost+" souls)");
+                    String soulsString = lang.getString("souls");
+                    String soulsCapitilized = soulsString.substring(0,1).toUpperCase() + soulsString.substring(1);
+                    soulLore.add(soulsCapitilized +": " + ChatColor.AQUA + ChatColor.ITALIC.toString() + souls + "/" + refundCost);
+                    soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + lang.getString("refundSkillTreeDesc"));
+                    soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + "(-"+refundCost+" "+ lang.getString("souls")+ ")");
                 }
                 soulMeta.setLore(soulLore);
                 soul.setItemMeta(soulMeta);
@@ -2815,6 +3063,7 @@ public class FrpgCommands implements CommandExecutor {
             }
             else if (sender instanceof Player && labels_arr.indexOf(args[1]) >= 10 && labels_arr.indexOf(args[1]) < 15) {
                 Player p = (Player) sender;
+                LanguageSelector lang = new LanguageSelector(p);
                 String skillName = labels_0[labels_arr.indexOf(args[1])];
                 String skillTitle = titles_0[labels_arr.indexOf(args[1])];
                 Inventory gui = Bukkit.createInventory(p, 54, skillTitle);
@@ -2869,28 +3118,28 @@ public class FrpgCommands implements CommandExecutor {
                         special_index = 1;
                         switch (skill_2a_level) {
                             case 0:
-                                desc = "Unlocks ability to brew ";
-                                desc += "Hero of The Village potions (Ingredient: Emerald)";
+                                desc = lang.getString("alchemyPerkDesc1_0") + " ";
+                                desc += lang.getString("alchemyPerkDesc1_1");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 1:
-                                desc = "Unlocks ability to brew ";
-                                desc += "Mining Fatigue potions (Ingredient: Slimeball)";
+                                desc = lang.getString("alchemyPerkDesc1_0") + " ";
+                                desc += lang.getString("alchemyPerkDesc1_2");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 2:
-                                desc = "Unlocks ability to brew ";
-                                desc += "Haste potions (Ingredient: Clock)";
+                                desc = lang.getString("alchemyPerkDesc1_0") + " ";
+                                desc += lang.getString("alchemyPerkDesc1_3");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 3:
-                                desc = "Unlocks ability to brew ";
-                                desc += "Wither potions (Ingredient: Poisonous Potato)";
+                                desc = lang.getString("alchemyPerkDesc1_0") + " ";
+                                desc += lang.getString("alchemyPerkDesc1_4");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 4:
-                                desc = "Unlocks ability to brew ";
-                                desc += "Resistance potions (Ingredient: Golden Apple)";
+                                desc = lang.getString("alchemyPerkDesc1_0") + " ";
+                                desc += lang.getString("alchemyPerkDesc1_5");
                                 lores_line2[special_index] = desc;
                                 break;
                             default:
@@ -2898,23 +3147,28 @@ public class FrpgCommands implements CommandExecutor {
                         }
                         switch (skill_1a_level) {
                             case 0:
-                                desc = "Gain the ability to craft water breathing potions in a crafting table";
+                                desc = lang.getString("alchemyPerkDesc0_0") + " ";
+                                desc += lang.getString("alchemyPerkDesc0_1");
                                 lores_line2[0] = desc;
                                 break;
                             case 1:
-                                desc = "Gain the ability to craft speed potions in a crafting table";
+                                desc = lang.getString("alchemyPerkDesc0_0") + " ";
+                                desc += lang.getString("alchemyPerkDesc0_2");
                                 lores_line2[0] = desc;
                                 break;
                             case 2:
-                                desc = "Gain the ability to craft fire resistance potions in a crafting table";
+                                desc = lang.getString("alchemyPerkDesc0_0") + " ";
+                                desc += lang.getString("alchemyPerkDesc0_3");
                                 lores_line2[0] = desc;
                                 break;
                             case 3:
-                                desc = "Gain the ability to craft healing potions in a crafting table";
+                                desc = lang.getString("alchemyPerkDesc0_0") + " ";
+                                desc += lang.getString("alchemyPerkDesc0_4");
                                 lores_line2[0] = desc;
                                 break;
                             case 4:
-                                desc = "Gain the ability to craft strength potions in a crafting table";
+                                desc = lang.getString("alchemyPerkDesc0_0") + " ";
+                                desc += lang.getString("alchemyPerkDesc0_5");
                                 lores_line2[0] = desc;
                                 break;
                             default:
@@ -2923,26 +3177,26 @@ public class FrpgCommands implements CommandExecutor {
                         break;
                     case "enchanting":
                         special_index = 1;
-                        desc = "Unlocks ability to craft ";
+                        desc = lang.getString("enchantingPerkDesc1_0")+" ";
                         switch (skill_2a_level) {
                             case 0:
-                                desc += "Power I and Efficiency I enchanted books (costs 1 level to craft)";
+                                desc += lang.getString("enchantingPerkDesc1_1");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 1:
-                                desc += "Sharpness I and Protection I enchanted books (costs 1 level to craft)";
+                                desc += lang.getString("enchantingPerkDesc1_2");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 2:
-                                desc += "Luck of the Sea I and Lure I enchanted books (costs 1 level to craft)";
+                                desc += lang.getString("enchantingPerkDesc1_3");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 3:
-                                desc += "Depth Strider I and Frost Walker I enchanted books (costs 1 level to craft)";
+                                desc += lang.getString("enchantingPerkDesc1_4");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 4:
-                                desc += "Mending (costs 10 levels to craft) and Fortune I (costs 2 levels to craft) enchanted books";
+                                desc += lang.getString("enchantingPerkDesc1_5");
                                 lores_line2[special_index] = desc;
                                 break;
                             default:
@@ -2956,11 +3210,11 @@ public class FrpgCommands implements CommandExecutor {
                             case 1:
                             case 2:
                             case 3:
-                                desc += "Gain more materials from salvaging on average";
+                                desc += lang.getString("repairPerkDesc0_1");
                                 lores_line2[special_index] = desc;
                                 break;
                             case 4:
-                                desc += "Gain more materials from salvaging on average, salvaging now stores item enchants in a book";
+                                desc += lang.getString("repairPerkDesc0_2");
                                 lores_line2[special_index] = desc;
                                 break;
                             default:
@@ -2970,11 +3224,11 @@ public class FrpgCommands implements CommandExecutor {
                 }
                 String[] lores_line1 = {"Level: 0/5","Level: 0/5","Level: 0/1"};
                 String level = pStats.get(7).toString();
-                lores_line1[0] = ChatColor.GRAY + "Level " + ChatColor.GREEN + level + "/5";
+                lores_line1[0] = ChatColor.GRAY + lang.getString("level") + " " + ChatColor.GREEN + level + "/5";
                 level = pStats.get(9).toString();
-                lores_line1[1] = ChatColor.GRAY + "Level " + ChatColor.GREEN + level + "/5";
+                lores_line1[1] = ChatColor.GRAY + lang.getString("level") + " " + ChatColor.GREEN + level + "/5";
                 level = pStats.get(13).toString();
-                lores_line1[2] = ChatColor.GRAY + "Level " + ChatColor.DARK_PURPLE + level + "/1";
+                lores_line1[2] = ChatColor.GRAY + lang.getString("level") + " " + ChatColor.DARK_PURPLE + level + "/1";
 
                 Integer[] indices = {20,23,26};
                 //Set skills
@@ -3025,7 +3279,7 @@ public class FrpgCommands implements CommandExecutor {
                 String[] lores_line2_2 = passiveDescriptionsMap.get(skillName);
 
                 //Total skill tokens
-                lores_line1_2[1] = ChatColor.BLUE + "Total: " + ChatColor.GOLD + String.valueOf(tokens_S);
+                lores_line1_2[1] = ChatColor.BLUE + lang.getString("total")+": " + ChatColor.GOLD + String.valueOf(tokens_S);
                 if (tokens_S > 1 && tokens_S < 64){
                     skill_token.setAmount(tokens_S);
                 }
@@ -3038,27 +3292,27 @@ public class FrpgCommands implements CommandExecutor {
                     case "repair":
                         passive = passive;
                         //passive = Math.round(passive*1000)/1000.0d;
-                        lores_line1_2[2] = ChatColor.GRAY + "Level: " + ChatColor.AQUA + String.valueOf(passive);
+                        lores_line1_2[2] = ChatColor.GRAY + lang.getString("level")+": " + ChatColor.AQUA + String.valueOf(passive);
                         break;
                     case "agility":
                         passive = passive*0.05;
                         passive = Math.round(passive*1000)/1000.0d;
-                        lores_line1_2[2] = ChatColor.GRAY + "Likelihood: " + ChatColor.AQUA + String.valueOf(passive)+"%";
+                        lores_line1_2[2] = ChatColor.GRAY + lang.getString("likelihood")+": " + ChatColor.AQUA + String.valueOf(passive)+"%";
                         break;
                     case "enchanting":
                         passive = passive*0.2;
                         passive = Math.round(passive*1000)/1000.0d;
-                        lores_line1_2[2] = ChatColor.GRAY + "XP Boost: " + ChatColor.AQUA + "+"+String.valueOf(passive)+"%";
+                        lores_line1_2[2] = ChatColor.GRAY + lang.getString("xpBoost")+": " + ChatColor.AQUA + "+"+String.valueOf(passive)+"%";
                         break;
                     case "smelting":
                         passive = passive*0.2;
                         passive = Math.round(passive*1000)/1000.0d;
-                        lores_line1_2[2] = ChatColor.GRAY + "Speed Boost: " + ChatColor.AQUA + "+"+String.valueOf(passive)+"%";
+                        lores_line1_2[2] = ChatColor.GRAY + lang.getString("speedBoost")+": " + ChatColor.AQUA + "+"+String.valueOf(passive)+"%";
                         break;
                     case "alchemy":
                         passive = passive*0.1;
                         passive = Math.round(passive*1000)/1000.0d;
-                        lores_line1_2[2] = ChatColor.GRAY + "Time Extension: " + ChatColor.AQUA + "+"+String.valueOf(passive)+"%";
+                        lores_line1_2[2] = ChatColor.GRAY + lang.getString("timeExtension")+": " + ChatColor.AQUA + "+"+String.valueOf(passive)+"%";
                         break;
                     default:
                         break;
@@ -3107,17 +3361,19 @@ public class FrpgCommands implements CommandExecutor {
                             new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE),
                             new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE),
                             new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE)};
-                    String[] craftingNames = {"Power I Book","Efficiency I Book","Sharpness I Book","Protection I Book","Luck of the Sea I Book",
-                            "Lure I Book","Frost Walker I Book","Depth Strider I Book", "Mending Book","Fortune I Book"};
+                    String[] craftingNames = {lang.getString("enchantingCraft0"),lang.getString("enchantingCraft1"),
+                            lang.getString("enchantingCraft2"),lang.getString("enchantingCraft3"),lang.getString("enchantingCraft4"),
+                            lang.getString("enchantingCraft5"),lang.getString("enchantingCraft6"),lang.getString("enchantingCraft7"),
+                            lang.getString("enchantingCraft8"),lang.getString("enchantingCraft9")};
                     int bookSmartLevel = (int) pStats.get(9);
                     for (int i=0; i < craftingNames.length; i++) {
                         ArrayList<String> lore = new ArrayList<>();
                         ItemMeta craftingMeta = crafting[i].getItemMeta();
                         if ( bookSmartLevel >= Math.ceil((double) (i+1)/2.0)) {
-                            lore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + "UNLOCKED" );
+                            lore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("unlocked") );
                         }
                         else {
-                            lore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "LOCKED" );
+                            lore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
                         }
                         craftingMeta.setDisplayName(ChatColor.BOLD + craftingNames[i]);
                         craftingMeta.setLore(lore);
@@ -3130,16 +3386,17 @@ public class FrpgCommands implements CommandExecutor {
                     ItemStack[] crafting = {new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE),
                             new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE),
                             new ItemStack(Material.CRAFTING_TABLE)};
-                    String[] craftingNames = {"Water Breathing Potion","Speed Potion","Fire Resistance Potion","Healing Potion","Strength Potion"};
+                    String[] craftingNames = {lang.getString("alchemyCraft0"),lang.getString("alchemyCraft1"),lang.getString("alchemyCraft2"),
+                            lang.getString("alchemyCraft3"),lang.getString("alchemyCraft4")};
                     int alchemicalSummoningLevel = (int) pStats.get(7);
                     for (int i=0; i < craftingNames.length; i++) {
                         ArrayList<String> lore = new ArrayList<>();
                         ItemMeta craftingMeta = crafting[i].getItemMeta();
                         if ( alchemicalSummoningLevel > i) {
-                            lore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + "UNLOCKED" );
+                            lore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("unlocked") );
                         }
                         else {
-                            lore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "LOCKED" );
+                            lore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
                         }
                         craftingMeta.setDisplayName(ChatColor.BOLD + craftingNames[i]);
                         craftingMeta.setLore(lore);
@@ -3154,22 +3411,22 @@ public class FrpgCommands implements CommandExecutor {
                     ItemStack flamePick = new ItemStack(Material.GRAY_WOOL);
                     ItemMeta flamePickMeta = flamePick.getItemMeta();
                     ArrayList<String> flamePickLore = new ArrayList<>();
-                    flamePickMeta.setDisplayName(ChatColor.BOLD + "Flame Pick Toggle");
+                    flamePickMeta.setDisplayName(ChatColor.BOLD + lang.getString("smeltingPerkTitle2") + " " + lang.getString("toggle"));
                     if (skill_M_level < 1) {
-                        flamePickLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "LOCKED" );
+                        flamePickLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
                         flamePickMeta.setLore(flamePickLore);
                         flamePick.setItemMeta(flamePickMeta);
                         gui.setItem(47,flamePick);
                     }
                     else {
                         if ((int) pStatAll.get("global").get(13) < 1) {
-                            flamePickLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "OFF" );
+                            flamePickLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
                             flamePickMeta.setLore(flamePickLore);
                             flamePick.setItemMeta(flamePickMeta);
                             gui.setItem(47,flamePick);
                         }
                         else {
-                            flamePickLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + "ON" );
+                            flamePickLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("on0") );
                             flamePickMeta.setLore(flamePickLore);
                             flamePick.setItemMeta(flamePickMeta);
                             flamePick.setType(Material.LIME_WOOL);
@@ -3182,22 +3439,22 @@ public class FrpgCommands implements CommandExecutor {
                     ItemStack gracefulFeet = new ItemStack(Material.GRAY_WOOL);
                     ItemMeta gracefulFeetMeta = gracefulFeet.getItemMeta();
                     ArrayList<String> gracefulFeetLore = new ArrayList<>();
-                    gracefulFeetMeta.setDisplayName(ChatColor.BOLD + "Graceful Feet Toggle");
+                    gracefulFeetMeta.setDisplayName(ChatColor.BOLD + lang.getString("agilityPerkTitle2") + " " + lang.getString("toggle"));
                     if (skill_M_level < 1) {
-                        gracefulFeetLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "LOCKED" );
+                        gracefulFeetLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
                         gracefulFeetMeta.setLore(gracefulFeetLore);
                         gracefulFeet.setItemMeta(gracefulFeetMeta);
                         gui.setItem(47,gracefulFeet);
                     }
                     else {
                         if ((int) pStatAll.get("global").get(14) < 1) {
-                            gracefulFeetLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "OFF" );
+                            gracefulFeetLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
                             gracefulFeetMeta.setLore(gracefulFeetLore);
                             gracefulFeet.setItemMeta(gracefulFeetMeta);
                             gui.setItem(47,gracefulFeet);
                         }
                         else {
-                            gracefulFeetLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + "ON" );
+                            gracefulFeetLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("on0") );
                             gracefulFeetMeta.setLore(gracefulFeetLore);
                             gracefulFeet.setItemMeta(gracefulFeetMeta);
                             gracefulFeet.setType(Material.LIME_WOOL);
@@ -3210,22 +3467,22 @@ public class FrpgCommands implements CommandExecutor {
                     ItemStack potionMaster = new ItemStack(Material.GRAY_WOOL);
                     ItemMeta potionMasterMeta = potionMaster.getItemMeta();
                     ArrayList<String> potionMasterLore = new ArrayList<>();
-                    potionMasterMeta.setDisplayName(ChatColor.BOLD + "Potion Master Toggle");
+                    potionMasterMeta.setDisplayName(ChatColor.BOLD + lang.getString("alchemyPerkTitle2") + " " + lang.getString("toggle"));
                     if (skill_M_level < 1) {
-                        potionMasterLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "LOCKED" );
+                        potionMasterLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
                         potionMasterMeta.setLore(potionMasterLore);
                         potionMaster.setItemMeta(potionMasterMeta);
                         gui.setItem(47,potionMaster);
                     }
                     else {
                         if ((int) pStatAll.get("global").get(15) < 1) {
-                            potionMasterLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "OFF" );
+                            potionMasterLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
                             potionMasterMeta.setLore(potionMasterLore);
                             potionMaster.setItemMeta(potionMasterMeta);
                             gui.setItem(47,potionMaster);
                         }
                         else {
-                            potionMasterLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + "ON" );
+                            potionMasterLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("on0") );
                             potionMasterMeta.setLore(potionMasterLore);
                             potionMaster.setItemMeta(potionMasterMeta);
                             potionMaster.setType(Material.LIME_WOOL);
@@ -3238,15 +3495,17 @@ public class FrpgCommands implements CommandExecutor {
                 ItemStack soul = new ItemStack(Material.COMPOSTER);
                 ItemMeta soulMeta = soul.getItemMeta();
                 ArrayList<String> soulLore = new ArrayList<>();
-                soulMeta.setDisplayName(ChatColor.BOLD + "Refund Skill");
+                soulMeta.setDisplayName(ChatColor.BOLD + lang.getString("refundSkillTitle"));
                 if ((int) pStatAll.get("global").get(9) < 1) {
-                    soulLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + "LOCKED" );
+                    soulLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
                 }
                 else {
                     int souls = (int) pStatAll.get("global").get(20);
-                    soulLore.add("Souls: " + ChatColor.AQUA + ChatColor.ITALIC.toString() + souls + "/" + refundCost);
-                    soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + "Click to refund this skill tree");
-                    soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + "(Costs "+refundCost+" souls)");
+                    String soulsString = lang.getString("souls");
+                    String soulsCapitilized = soulsString.substring(0,1).toUpperCase() + soulsString.substring(1);
+                    soulLore.add(soulsCapitilized +": " + ChatColor.AQUA + ChatColor.ITALIC.toString() + souls + "/" + refundCost);
+                    soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + lang.getString("refundSkillTreeDesc"));
+                    soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + "(-"+refundCost+" "+ lang.getString("souls")+ ")");
                 }
                 soulMeta.setLore(soulLore);
                 soul.setItemMeta(soulMeta);
@@ -3267,6 +3526,7 @@ public class FrpgCommands implements CommandExecutor {
             }
             else if (sender instanceof Player && labels_arr.indexOf(args[1]) > 10 && labels_arr.indexOf(args[1]) == 15) {
                 Player p = (Player) sender;
+                LanguageSelector lang = new LanguageSelector(p);
                 String skillName = labels_0[labels_arr.indexOf(args[1])];
                 String skillTitle = titles_0[labels_arr.indexOf(args[1])];
                 Inventory gui = Bukkit.createInventory(p, 54,skillTitle);
@@ -3409,9 +3669,9 @@ public class FrpgCommands implements CommandExecutor {
                 String[] lores_line1 = {"1","2","3","4","5","6","7","8","9","10"}; //Data lines 7-13
                 for (int i = 0; i < labels.length; i++) {
                     String level = pStats.get(2+i).toString();
-                    lores_line1[i] = ChatColor.GRAY + "Level " + ChatColor.BLUE + level + "/1";
+                    lores_line1[i] = ChatColor.GRAY + lang.getString("level")+" " + ChatColor.BLUE + level + "/1";
                     if (i==9) {
-                        lores_line1[i] = ChatColor.GRAY + "Level " + ChatColor.DARK_PURPLE + level + "/1";
+                        lores_line1[i] = ChatColor.GRAY + lang.getString("level")+" " + ChatColor.DARK_PURPLE + level + "/1";
                     }
                 }
 
@@ -3458,7 +3718,7 @@ public class FrpgCommands implements CommandExecutor {
                 String[] lores_line2_2 = passiveDescriptionsMap.get(skillName);
 
                 //Total global Tokens
-                lores_line1_2[0] = ChatColor.BLUE + "Total: " + ChatColor.GOLD + String.valueOf(tokens_G);
+                lores_line1_2[0] = ChatColor.BLUE + lang.getString("total")+": " + ChatColor.GOLD + String.valueOf(tokens_G);
                 if (tokens_G > 1 && tokens_G < 64){
                     g_token.setAmount(tokens_G);
                 }

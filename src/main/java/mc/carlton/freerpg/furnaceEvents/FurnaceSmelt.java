@@ -7,14 +7,18 @@ import org.bukkit.Material;
 import org.bukkit.block.Furnace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.plugin.Plugin;
 
 public class FurnaceSmelt implements Listener {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     void onSmelt(FurnaceSmeltEvent e){
+        if (e.isCancelled()) {
+            return;
+        }
         boolean isBlast = false;
         if (e.getBlock().getType() == Material.BLAST_FURNACE || e.getBlock().getType() == Material.SMOKER) {
             isBlast = true;

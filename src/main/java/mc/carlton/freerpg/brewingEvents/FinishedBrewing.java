@@ -10,6 +10,7 @@ import org.bukkit.block.BrewingStand;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.BrewEvent;
 import org.bukkit.inventory.BrewerInventory;
@@ -22,8 +23,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class FinishedBrewing implements Listener {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     void onBrewComplete(BrewEvent e){
+        if (e.isCancelled()) {
+            return;
+        }
         BrewerInventory inventory = e.getContents();
         ItemStack ingredient = inventory.getItem(3).clone();
         ItemStack[] slotItems = {inventory.getItem(0),inventory.getItem(1),inventory.getItem(2)};

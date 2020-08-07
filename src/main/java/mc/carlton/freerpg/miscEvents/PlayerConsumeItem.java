@@ -5,13 +5,17 @@ import mc.carlton.freerpg.perksAndAbilities.Farming;
 import mc.carlton.freerpg.perksAndAbilities.Fishing;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerConsumeItem implements Listener {
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     void onConsumeItem(PlayerItemConsumeEvent e){
+        if (e.isCancelled()) {
+            return;
+        }
         Player p  = e.getPlayer();
         ItemStack consumedItem = e.getItem();
 

@@ -1,6 +1,11 @@
 general:
   playerBaseHP: 20.0
   defaultLanguage: enUs
+  allowCustomExplosions: true
+  allowBuild: true
+  allowPvP: true
+  allowHurtAnimals: true
+  saveStatsTimer: 900
 multipliers:
   globalMultiplier: 1.0
   diggingMultiplier: 1.0

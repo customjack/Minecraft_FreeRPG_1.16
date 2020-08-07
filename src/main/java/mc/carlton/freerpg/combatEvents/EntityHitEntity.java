@@ -3,10 +3,7 @@ package mc.carlton.freerpg.combatEvents;
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.FireworkShotByPlayerTracker;
 import mc.carlton.freerpg.perksAndAbilities.*;
-import mc.carlton.freerpg.playerAndServerInfo.AbilityTracker;
-import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
-import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
-import mc.carlton.freerpg.playerAndServerInfo.WorldGuardChecks;
+import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,6 +11,7 @@ import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.plugin.Plugin;
@@ -22,29 +20,46 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.*;
 
 public class EntityHitEntity implements Listener {
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
 
     void onEntityHit(EntityDamageByEntityEvent e) {
         Random rand = new Random();
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
 
-        if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
-            Player p = (Player) e.getDamager();
-            Location loc = p.getLocation();
-            WorldGuardChecks checkPVP = new WorldGuardChecks();
-            boolean canPvP = checkPVP.canPvP(p,loc);
-            if (!canPvP) {
-                return;
-            }
+        if (e.isCancelled()) {
+            return;
         }
 
-        else if (e.getDamager() instanceof Player) {
-            Player p = (Player) e.getDamager();
-            Location loc = p.getLocation();
-            WorldGuardChecks checkPVP = new WorldGuardChecks();
-            boolean canDamageEntities = checkPVP.canDamageEntities(p,loc);
-            if (!canDamageEntities) {
-                return;
+        //removes PvP effects if PvP is disabled
+        if (e.getEntity() instanceof Player) {
+            ConfigLoad loadConfig = new ConfigLoad();
+            if (e.getDamager() instanceof Player) {
+                if (!loadConfig.isAllowPvP()) {
+                    return;
+                }
+            }
+            else if (e.getDamager() instanceof Projectile) {
+                if (((Projectile) e.getDamager()).getShooter() instanceof Player) {
+                    if (!loadConfig.isAllowPvP()) {
+                        return;
+                    }
+                }
+            }
+        }
+        //removes hurting animals effects if hurting animals is disabled
+        else if (e.getEntity() instanceof Animals) {
+            ConfigLoad loadConfig = new ConfigLoad();
+            if (e.getDamager() instanceof Player) {
+                if (!loadConfig.isAllowHurtAnimals()) {
+                    return;
+                }
+            }
+            else if (e.getDamager() instanceof Projectile) {
+                if (((Projectile) e.getDamager()).getShooter() instanceof Player) {
+                    if (!loadConfig.isAllowHurtAnimals()) {
+                        return;
+                    }
+                }
             }
         }
 
@@ -55,6 +70,7 @@ public class EntityHitEntity implements Listener {
             List<Material> swords = Arrays.asList(swords0);
             Material[] axes0 = {Material.NETHERITE_AXE,Material.DIAMOND_AXE,Material.GOLDEN_AXE,Material.IRON_AXE, Material.STONE_AXE,Material.WOODEN_AXE};
             List<Material> axes = Arrays.asList(axes0);
+
 
             Player p = (Player) e.getDamager();
             PlayerStats pStatClass = new PlayerStats(p);
@@ -124,6 +140,7 @@ public class EntityHitEntity implements Listener {
                 PlayerStats pStatClass = new PlayerStats(p);
                 Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
                 Archery archeryClass = new Archery(p);
+                archeryClass.explosiveArrows(e.getDamager(),e.getEntity().getLocation());
                 Material arrowType = archeryClass.getArrowType();
                 if (arrowType == Material.SPECTRAL_ARROW) {
                     int arrowOfLightLevel = (int) pStat.get("archery").get(10);

@@ -66,6 +66,7 @@ permissions:
       freeRPG.statReset: true
       freeRPG.setSouls: true
       freeRPG.setTokens: true
+      freeRPG.saveStats: true
   freeRPG.getEXP:
     description: Allows player to gain every type of EXP
     default: true
@@ -252,3 +253,6 @@ permissions:
   freeRPG.toggleMegaDig:
     description: allows to player to toggle the mega dig perk
     default: true
+  freeRPG.saveStats:
+    description: allows player to save any or all player's stats to their stat file
+    default: op

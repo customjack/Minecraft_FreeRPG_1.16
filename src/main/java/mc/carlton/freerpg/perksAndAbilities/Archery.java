@@ -207,13 +207,12 @@ public class Archery {
         }
     }
 
-    public void explosiveArrows(Entity projectile) {
+    public void explosiveArrows(Entity projectile, Location loc) {
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         int explosiveLevel = (int) pStat.get("archery").get(10);
         double explosionChance = explosiveLevel * 0.01;
         if (explosionChance > rand.nextDouble()) {
             World world = projectile.getWorld();
-            Location loc = projectile.getLocation();
             world.createExplosion(loc, 3, false, false);
             increaseStats.changeEXP("archery",200);
         }

@@ -102,7 +102,7 @@ lang:
     miningPassiveDesc3: Increases duration of Berserk Pick by 0.02s
     miningPassiveDesc4: Increases chance to receive a double drop from ores by 0.05%
     miningPassiveDesc5: Increases chances for ore to be created from TNT explosions
-      by 0.01% (rolled 10 times per explosion)
+      by 0.01% (More blocks broken = More treasure rolls)
     farmingPerkTitle0: Better Fertilizer
     farmingPerkTitle1: Animal Farm
     farmingPerkTitle2: Farmer's Diet
@@ -445,7 +445,659 @@ lang:
     treeTooBig0: This tree is too big for you to chop in one go!"
     treeTooBig1: This tree can never be chopped in one go like this...
     noPermission: You do not have permission to use this command!
-    improperArgumenmts: Improper Arguments, try
+    improperArguments: Improper Arguments, try
     totalPlayTime: Total Play Time
     clickForOptions: Click for options
     unknownCommand: Unknown command
+    expToLevel: EXP to next level
+    playerName: playerName
+    skillName: skillName (in English)
+    page: page
+    on0: "ON"
+    off0: "OFF"
+    onOrOff: ON/OFF
+    manuallyToggles: Manually toggles
+    commandDesc0: Opens the main GUI with all skills
+    commandDesc1: Opens a skill tree GUI of choice
+    commandDesc2: Opens the configuration GUI
+    commandDesc3: Gives a player of choice EXP in a specified skill
+    commandDesc4: Sets a given player's level in a specified skill
+    commandDesc5: Resets a player's stats in a specified skill (does not refund stats)
+    commandDesc6: Displays a leaderboard for a specified stat
+    commandDesc7: Provides a link to a plugin information page
+    commandDesc8: Attempts to enchant an item in the users hand at a specified level
+    informationURL: Information URL (Google Docs)
+    click: CLICK
+    levelArgument: Level argument must be less than 40
+    leaderboard: Leaderboard
+    playerOffline: That player is not online
+    onlyIncrease: Please only increase exp with this command, otherwise, use /frpg statReset then /frpg giveEXP
+    amount: amount
+    unlockToggle: To use this command you must unlock
+    levelUpNotif: Level Up Notifications
+    abilityPreparationNotif: Ability Preparation Notifications
+    yes0: "YES"
+    no0: "NO"
+    warning: WARNING
+    souls: souls
+    refundSkillTree0: Refunding a skill tree costs
+    refundSkillTree1: and is not reversible, are you sure you want to
+    refundSkillTree2: refund the
+    skill: skill
+    backToSkillTree: Takes you back to the skill tree
+    miningPerkDesc0_1:  2 seconds of Haste I after mining any ore
+    miningPerkDesc0_2:  5 seconds of Haste I after mining any ore
+    miningPerkDesc0_3:  10 seconds of Haste I after mining any ore
+    miningPerkDesc0_4:  5 seconds of Haste II after mining any ore, followed by 5 seconds of Haste I
+    miningPerkDesc0_5:  10 seconds of Haste II after mining any ore
+    woodcuttingPerkDesc3_1: Leaves may now drop a
+    common: common
+    uncommon: uncommon
+    rare: rare
+    veryRare: very rare
+    legendary: legendary
+    fishingPerkDesc1_1: Unlocks treasure tier
+    farmingPerkDesc1_1: Gain the ability to craft
+    cowSpawnEgg: cow spawn egg
+    beeSpawnEgg: bee spanwn egg
+    mooshroomSpawnEgg: mooshroom spawn egg
+    horseSpawnEgg: horse spawn egg
+    slimeSpawnEgg: slime spawn egg
+    diggingPerkDesc0_1: You may now dig up a
+    defensePerkDesc0_1: Gain +3 s of regen per level on kills
+    defensePerkDesc0_2: Gain +0.5 hearts per level instantly on kills
+    duration: Duration
+    likelihood: Likelihood
+    junkChance: Junk Chance
+    locked: LOCKED
+    unlocked: UNLOCKED
+    cowEgg: Cow Egg
+    beeEgg: Bee Egg
+    mooshroomEgg: Mooshroom Egg
+    horseEgg: Horse Egg
+    slimeEgg: Slime Egg
+    tippedArrows: Tipped Arrows
+    toggle: Toggle
+    refundSkillTitle: Refund Skill
+    refundSkillTreeDesc: Click to refund this skill tree
+    alchemyPerkDesc1_0: Unlocks ability to brew
+    alchemyPerkDesc1_1: Hero of The Village potions (Ingredient = Emerald)
+    alchemyPerkDesc1_2: Mining Fatigue potions (Ingredient = Slimeball)
+    alchemyPerkDesc1_3: Haste potions (Ingredient = Clock)
+    alchemyPerkDesc1_4: Wither potions (Ingredient = Poisonous Potato)
+    alchemyPerkDesc1_5: Resistance potions (Ingredient = Golden Apple)
+    alchemyPerkDesc0_0: A crafting table can be used to craft potions of
+    alchemyPerkDesc0_1: water breathing
+    alchemyPerkDesc0_2: speed
+    alchemyPerkDesc0_3: fire resistance
+    alchemyPerkDesc0_4: healing
+    alchemyPerkDesc0_5: strength
+    enchantingPerkDesc1_0: Unlocks ability to craft
+    enchantingPerkDesc1_1: Power I and Efficiency I enchanted books (costs 1 level to craft)"
+    enchantingPerkDesc1_2: Sharpness I and Protection I enchanted books (costs 1 level to craft)
+    enchantingPerkDesc1_3: Luck of the Sea I and Lure I enchanted books (costs 1 level to craft)
+    enchantingPerkDesc1_4: Depth Strider I and Frost Walker I enchanted books (costs 1 level to craft)
+    enchantingPerkDesc1_5: Mending (costs 10 levels to craft) and Fortune I (costs 2 levels to craft) enchanted books
+    repairPerkDesc0_1: Gain more materials from salvaging on average
+    repairPerkDesc0_2: Gain more materials from salvaging on average, salvaging now stores item enchants in a book
+    xpBoost: XP Boost
+    speedBoost: Speed Boost
+    timeExtension: Time Extension
+    enchantingCraft0: Power I Book
+    enchantingCraft1: Efficiency I Book
+    enchantingCraft2: Sharpness I Book
+    enchantingCraft3: Protection I Book
+    enchantingCraft4: Luck of the Sea I Book
+    enchantingCraft5: Lure I Book
+    enchantingCraft6: Frost Walker I Book
+    enchantingCraft7: Depth Strider I Book
+    enchantingCraft8: Mending Book
+    enchantingCraft9: Fortune I Book
+    alchemyCraft0: Water Breathing Potion
+    alchemyCraft1: Speed Potion
+    alchemyCraft2: Fire Resistance Potion
+    alchemyCraft3: Healing Potion
+    alchemyCraft4: Strength Potion
+    commandDesc9: Sets the souls for a specified player
+    commandDesc10: Sets the skill or passive tokens in specified skill for a specified player
+    commandDesc11: Sets the global tokens for a specified player
+    commandDesc12: saves stats of all players or a specified player
+    status: STATUS
+    complete: COMPLETE
+    incomplete: INCOMPLETE
+
+  huHU: #Translated by vERKE
+      global: Globális
+      digging: Ásás
+      woodcutting: Favágás
+      mining: Bányászat
+      farming: Földművelés
+      fishing: Horgászás
+      archery: Íjászat
+      beastMastery: Uralom a természet felett
+      swordsmanship: Kardforgatás
+      defense: Védelem
+      axeMastery: Balta ismerete
+      repair: Javítás
+      agility: Gyorsaság
+      alchemy: Aranycsinálás
+      smelting: Olvasztás
+      enchanting: Bűvölés
+      information: Információk
+      configuration: Beállítások
+      level: Szint
+      experience: tapasztalatpont
+      toNext: Következő
+      total: Összesített
+      diggingPerkTitle0: Több Drop
+      diggingPerkTitle1: Dupla Kincs
+      diggingPerkTitle2: Ritkább Droppok
+      diggingPerkTitle3: Léleklopó
+      diggingPerkTitle4: Kovakő Kereső
+      diggingPerkTitle5: Ásás Királya
+      diggingPerkTitle6: Gödör Készítő
+      diggingPerkDesc0: Megnöveli a kincsek droppjának értékét szintenként eggyel.
+      diggingPerkDesc1: Szintenként 5%-kal nagyobb az esélye, hogy dupla annyi értékes tárgyat kapjon a  játékos.
+      diggingPerkDesc2: A drop táblát megnöveli szintenként eggyel.
+      diggingPerkDesc3: Szintenként 5%-kal nagyobb az esélye, hogy értékes tárgyat dob a Lélekhomok.
+      diggingPerkDesc4: 100%-os eséllyel dob kovakövet a sóder (/flintToggle paranccsal tudod ki- és bekapcsolni)
+      diggingPerkDesc5: Az ásó dupla akkorát sebez
+      diggingPerkDesc6: E képesség használatakor egy 3x3-mas lyukat ás a játékos, és 20%-át kapja meg a dropoknak
+      diggingPassiveTitle0: Passzív Zsetonok
+      diggingPassiveTitle1: Vissza
+      diggingPassiveTitle2: Képesség Zsetonok
+      diggingPassiveTitle3: Gödör Készítő időtartama
+      diggingPassiveTitle4: Kincsszerzés esélye
+      diggingPassiveDesc0: Ezeket a Zsetonokat a passzív képességekre tudod elhasználni (színezékek)
+      diggingPassiveDesc1: Visszamész a főmenübe
+      diggingPassiveDesc2: Ezeket a Zsetonokat a képesség fában tudod elhasználni
+      diggingPassiveDesc3: Megnöveli a Gödörkészítő időtartamát 0.02 másodperccel
+      diggingPassiveDesc4: Megnöveli a kincsek kiásásának esélyét 0.05%-kal
+      woodcuttingPerkTitle0: Buzgó Gyökérzet
+      woodcuttingPerkTitle1: Üde Kezek
+      woodcuttingPerkTitle2: Tudatalatti Befolyás
+      woodcuttingPerkTitle3: Levél Gyűjtögető
+      woodcuttingPerkTitle4: Favágó+
+      woodcuttingPerkTitle5: Levélfúvó
+      woodcuttingPerkTitle6: Ügyes Baltás
+      woodcuttingPerkDesc0: +20% az esélye, hogy a nyersfa 1 xp dob szintenként
+      woodcuttingPerkDesc1: +12 másodpercnyi Sietség 1-et ad, miután a játékos kiütött egy nyersfát
+      woodcuttingPerkDesc2: +0.2% eséllyel dobhat a nyersfa egy bűvölt könyvet.
+      woodcuttingPerkDesc3: 1% esély van arra, hogy a falevelek plusz tárgyat droppolnak
+      woodcuttingPerkDesc4: 64-ről 128-ra ugrik a favágás limitje
+      woodcuttingPerkDesc5: Rögtön ki tudod ütni a faleveleket bal kattintással, ha balta van a kezedben
+      woodcuttingPerkDesc6: Dupla droppok, Buzgó Gyökérzet, és a Tudatalatti Befolyás hatnak a favágásra is
+      woodcuttingPassiveTitle0: Passzív Zsetonok
+      woodcuttingPassiveTitle1: Vissza
+      woodcuttingPassiveTitle2: Képesség Zsetonok
+      woodcuttingPassiveTitle3: Időtartam
+      woodcuttingPassiveTitle4: Dupla droppok
+      woodcuttingPassiveDesc0: Ezeket a Zsetonokat a passzív képességekre tudod elhasználni (színezékek)
+      woodcuttingPassiveDesc1: Visszamész a főmenübe
+      woodcuttingPassiveDesc2: Ezeket a Zsetonokat a képesség fában tudod elhasználni
+      woodcuttingPassiveDesc3: Megnöveli a Favágó képesség időtartamát 0.02 másodperccel
+      woodcuttingPassiveDesc4: 0.05%-kal nagyobb az esélye, hogy dupla tárgyat kap a játékos
+      miningPerkTitle0: Fáradhatatlan Bányász
+      miningPerkTitle1: Több bomba
+      miningPerkTitle2: Kincsvadász
+      miningPerkTitle3: Vigyázz, bomba!
+      miningPerkTitle4: Ügyes bányász
+      miningPerkTitle5: Tűzszerész
+      miningPerkTitle6: Triplán szerencsés
+      miningPerkDesc0: A játékos Sietséget kap, miután kibászáik egy ércet
+      miningPerkDesc1: +1 TNT-t kap a játékos, amikor barkácsol egyet
+      miningPerkDesc2: Ha ezt a képességet egy kőn használja a játékos, akkor szintenként +1% esély van arra, hogy egy extra ércet dobjon a kő
+      miningPerkDesc3: Megnöveli a TNT robbanásának területét, ha szikrapattintóval gyútja be a játékos a TNT-t
+      miningPerkDesc4: Az összes ércet egy kis területen belül egyszerre kibányássza a játékos (be- és kikapcsolható)
+      miningPerkDesc5: A játékos nem sebződik a TNT-től
+      miningPerkDesc6: Dupla droppok helyett, tripla droppot kap a játékos
+      miningPassiveTitle0: Passzív Zsetonok
+      miningPassiveTitle1: Vissza
+      miningPassiveTitle2: Képesség Zsetonok
+      miningPassiveTitle3: Gyors Csákány Időtartama
+      miningPassiveTitle4: Dupla Droppok
+      miningPassiveTitle5: Kirobbanó Bányászat
+      miningPassiveDesc0: Ezeket a Zsetonokat a passzív képességekre tudod elhasználni (színezékek)
+      miningPassiveDesc1: Visszamész a főmenübe
+      miningPassiveDesc2: Ezeket a Zsetonokat a képesség fában tudod elhasználni
+      miningPassiveDesc3: Megnöveli a Gyors Csákány időtartamát 0.02 másodperccel
+      miningPassiveDesc4: Megnöveli 0.05%-kal az esélyét annak, hogy dupla ércet kap a játékos
+      miningPassiveDesc5: Megnöveli az esélyét, hogy több ércet kap a játékos, amikor TNT-vel bányászik (0.01%-kal, 10 robbanásonként)
+      farmingPerkTitle0: Trágyázás
+      farmingPerkTitle1: Állatfarm
+      farmingPerkTitle2: Vegetáriánus
+      farmingPerkTitle3: Húsimádó
+      farmingPerkTitle4: Zöld Kezű
+      farmingPerkTitle5: Serkentő Hormonok
+      farmingPerkTitle6: Egy mindenkiért, mindenki a természetért
+      farmingPerkDesc0: +10% esély arra, hogy a csontliszt nem kerül elhasználásra
+      farmingPerkDesc1: Szintenként tud a játékos tojásokat barkácsolni
+      farmingPerkDesc2: Zöldségek és gyümölcsök 20%-kal többet töltenek az ételsávon
+        per level
+      farmingPerkDesc3: A húsok 20%-kal többet töltenek az ételsávon
+      farmingPerkDesc4: A képesség visszaülteti a Zöldségeket és Gyülmöcsöket, és nagy eséllyel olyan státuszban, hogy már teljesen megnőttek, vagy a teljes megnövés közelében járnak.
+      farmingPerkDesc5: Ha cukorral megeteti a játékos a kisállatokat, akkor rögtön felnőnek
+      farmingPerkDesc6: Ha egy helyben, füvön áll a játékos, akkor visszatöltődik az életereje
+      farmingPassiveTitle0: Passzív Zsetonok
+      farmingPassiveTitle1: Vissza
+      farmingPassiveTitle2: Képesség Zsetonok
+      farmingPassiveTitle3: Természetes Regeneráció Időtartama
+      farmingPassiveTitle4: Dupla Droppok (Zöldség/Gyümölcs)
+      farmingPassiveTitle5: Dupla Droppok (Állatok)
+      farmingPassiveDesc0: Ezeket a Zsetonokat a passzív képességekre tudod elhasználni (színezékek)
+      farmingPassiveDesc1: Visszamész a főmenübe
+      farmingPassiveDesc2: Ezeket a Zsetonokat a képesség fában tudod elhasználni
+      farmingPassiveDesc3: Megnöveli a Természetes Regeneráció Időtartamát 0.02s másodperccel
+      farmingPassiveDesc4: Megnöveli az esélyét, hogy az aratás során dupla annyi tárgyat kapjon a játékos 0.05%-kal
+      farmingPassiveDesc5: Megnöveli az esélyét, hogy a passzív állatok megölése során dupla annyi tárgyat kapjon a játékos 0.05%-kal
+      fishingPerkTitle0: Rabló
+      fishingPerkTitle1: Gyűjtögető
+      fishingPerkTitle2: A Halász Ínyencségei
+      fishingPerkTitle3: Aranykezű Horgász
+      fishingPerkTitle4: Mászókarom
+      fishingPerkTitle5: Villámgyors horgászat
+      fishingPerkTitle6: Halasember
+      fishingPerkDesc0: +15% eséllyel tud tárgyakat lopni a játékos a szörnyektől
+      fishingPerkDesc1: Jobb tárgyakat horgászhat ki a játékos
+      fishingPerkDesc2: A halfélék 20%-kal többel töltik az életsávját a játékosnak.
+      fishingPerkDesc3: Nagyobb értékű tárgyakat gyakrabban horgászik a játékos, amíg a kisebb értékű tárgyakat kevésbé gyarkan
+      fishingPerkDesc4: A horgászbotok, ha bekapcsolja a játékos a /grappleToggle paranccsal, akkor mászókaromként is működhetnek
+      fishingPerkDesc5: A halakat kisütve fogja ki a játékos, hogyha bekapcsolja a képességét a /hotRodToggle paranccsal
+      fishingPerkDesc6: Végtelen éjjelátó és delfin áldás erősítést kap a játékos a víz alatt.
+      fishingPassiveTitle0: Passzív Zsetonok
+      fishingPassiveTitle1: Vissza
+      fishingPassiveTitle2: Képesség Zsetonok
+      fishingPassiveTitle3: Szupercsali időtartama
+      fishingPassiveTitle4: Dupla Fogás
+      fishingPassiveTitle5: Kincsvadász
+      fishingPassiveDesc0: Ezeket a Zsetonokat a passzív képességekre tudod elhasználni (színezékek)
+      fishingPassiveDesc1: Visszamész a főmenübe
+      fishingPassiveDesc2: Ezeket a Zsetonokat a képesség fában tudod elhasználni
+      fishingPassiveDesc3: Megnöveli a Szupercsali időtartamát 0.01 másodperccel
+      fishingPassiveDesc4: 0.05%-kal megnöveli az esélyét, hogy a játékos dupla annyi tárgyat fog ki
+      fishingPassiveDesc5: Csökkenti a 0.00%5-kal azt, hogy a játékos szemetet fogjon ki, és megnöveli 0.005%-kal, hogy értékes tárgyra leljen
+      archeryPerkTitle0: Extra nyilak
+      archeryPerkTitle1: Mesterlövész
+      archeryPerkTitle2: A Fény Nyila
+      archeryPerkTitle3: Robbanó Nyíl
+      archeryPerkTitle4: Sárkány Nélküli Barkácsolgatás
+      archeryPerkTitle5: Gyorskezű Íjász
+      archeryPerkTitle6: Halálos Csapás
+      archeryPerkDesc0: Minden szinttel plusz egy nyilat kapsz, hogyha barkácsolsz egyet
+      archeryPerkDesc1: A nyíl sebessége megnő 2%-kal minden szinttel
+      archeryPerkDesc2: Szintenként 5%-kal többet sebez a Spectral nyíl
+      archeryPerkDesc3: Szintenként 1%-kkal nő az esélye, hogy robban a nyíl, amit kilő a játékos
+      archeryPerkDesc4: Egyszerű bájitalokból is tud különleges nyilakat kraftolni a játékos ezzel a képeséggel
+      archeryPerkDesc5: A számszeríjakat is rögtön felhúzza a játékos ezzel a képességgel
+      archeryPerkDesc6: A tüzijátékok, amiket számszeríjból lő ki a játékos dupla annyit sebeznek
+      archeryPassiveTitle0: Passzív Zsetonok
+      archeryPassiveTitle1: Vissza
+      archeryPassiveTitle2: Képesség Zsetonok
+      archeryPassiveTitle3: Gyors Tüzelés időtartama
+      archeryPassiveTitle4: Varázsnyíl
+      archeryPassiveDesc0: Ezeket a Zsetonokat a passzív képességekre tudod elhasználni (színezékek)
+      archeryPassiveDesc1: Visszamész a főmenübe
+      archeryPassiveDesc2: Ezeket a Zsetonokat a képesség fában tudod elhasználni
+      archeryPassiveDesc3: 0.02 másodperccel megnöveli a Gyors Tüzelés képesség időtartamát
+      archeryPassiveDesc4: 0.05%-kal nő szintenként az esélye annak, hogy nem használódik el a nyíl, amikor íjat használ a játékos
+      beastMasteryPerkTitle0: Páncélos Kutyus
+      beastMasteryPerkTitle1: Harcieb
+      beastMasteryPerkTitle2: Egészséges Falatok
+      beastMasteryPerkTitle3: Tartsd be a másfél métert
+      beastMasteryPerkTitle4: Akrobata
+      beastMasteryPerkTitle5: Jegyzetek
+      beastMasteryPerkTitle6: Adrenalinbomba
+      beastMasteryPerkDesc0: 10%-kal kevesebb sebzést kap a játékos kutyái
+      beastMasteryPerkDesc1: 10%-kal többet sebez a játékos kutyái
+      beastMasteryPerkDesc2: Kutyák másfél szívet gyógyítanak magukon, hogyha megölnek valamit
+      beastMasteryPerkDesc3: 5% eséllyel rúgják hátrébb a kutyák az ellenfelet
+      beastMasteryPerkDesc4: Kutyák nem sebződnek, hogyha leesnek
+      beastMasteryPerkDesc5: Ha iránytűvel a kezében ránéz a játékos egy kutyára, vagy lóra, akkor meg tudja nézni a statisztikáit
+      beastMasteryPerkDesc6: Sarkanytús Rúgás mostmár Gyorsaság III erősítést ad
+      beastMasteryPassiveTitle0: Passzív Zsetonok
+      beastMasteryPassiveTitle1: Vissza
+      beastMasteryPassiveTitle2: Képesség Zsetonok
+      beastMasteryPassiveTitle3: Sarkanytús Rúgás időtartama
+      beastMasteryPassiveTitle4: Kritikus Harapás
+      beastMasteryPassiveDesc0: Ezeket a Zsetonokat a passzív képességekre tudod elhasználni (színezékek)
+      beastMasteryPassiveDesc1: Visszamész a főmenübe
+      beastMasteryPassiveDesc2: Ezeket a Zsetonokat a képesség fában tudod elhasználni
+      beastMasteryPassiveDesc3: 0.02 másodperccel megnöveli a Sarkanytús Rúgás időtartamát
+      beastMasteryPassiveDesc4: 0.025%-kal megnöveli az esélyét annak, hogy a kutya kritikus sebzést ejt
+      swordsmanshipPerkTitle0: Adrenalin
+      swordsmanshipPerkTitle1: Megállíthatatlan
+      swordsmanshipPerkTitle2: Adrenalin+
+      swordsmanshipPerkTitle3: Tényleg Megállíthatatlan
+      swordsmanshipPerkTitle4: Vérszomjas
+      swordsmanshipPerkTitle5: Még élesebb!
+      swordsmanshipPerkTitle6: Kardmester
+      swordsmanshipPerkDesc0: Szintenként plusz két másodpercnyi gyorsaság erősítést ad a játékosnak, hogyha megöl egy szörnyet
+      swordsmanshipPerkDesc1: Szintenként plusz két másodpercnyi erő erősítést ad a játékosnak, hogyha megöl egy szörnyet
+      swordsmanshipPerkDesc2: Az Adrenalin gyorsaság II erősítést ad
+      swordsmanshipPerkDesc3: A Megállíthatatlan erő II erősítést ad
+      swordsmanshipPerkDesc4: Visszatölti a játékos ételsávját, hogyha karddal öl szörnyeket
+      swordsmanshipPerkDesc5: Gyors Támadás ezentúl ad plusz egy “sharpness” erősítést a játékos kardjára
+      swordsmanshipPerkDesc6: A kard +1 szívet sebez
+      swordsmanshipPassiveTitle0: Passzív Zsetonok
+      swordsmanshipPassiveTitle1: Vissza
+      swordsmanshipPassiveTitle2: Képesség Zsetonok
+      swordsmanshipPassiveTitle3: Gyors Támadás időtartama
+      swordsmanshipPassiveTitle4: Dubla találat
+      swordsmanshipPassiveDesc0: Ezeket a Zsetonokat a passzív képességekre tudod elhasználni (színezékek)
+      swordsmanshipPassiveDesc1: Visszamész a főmenübe
+      swordsmanshipPassiveDesc2: Ezeket a Zsetonokat a képesség fában tudod elhasználni
+      swordsmanshipPassiveDesc3: 0.02 másodperccel megnöveli a Gyors Támadás időtartamát
+      swordsmanshipPassiveDesc4: Megnöveli 0.02%-kal az esélyét, hogy a játékos kétszer üti meg a szörnyet (a második ütés 50%-os sebzést okoz)
+      defensePerkTitle0: Gyógyító
+      defensePerkTitle1: Stiffen
+      defensePerkTitle2: Hard Headed
+      defensePerkTitle3: Stiffen+
+      defensePerkTitle4: Gift From Above
+      defensePerkTitle5: Stronger Legs
+      defensePerkTitle6: Hearty
+      defensePerkDesc0: Gain +3s of regen per level on kill
+      defensePerkDesc1: +2% chance to gain resistance I for 5s when hit
+      defensePerkDesc2: Hard Body decreases damage by an additional 6.6% per level
+      defensePerkDesc3: +2% chance to gain resistance II for 5s when hit
+      defensePerkDesc4: Stone Solid now grants 4 absorption hearts for ability length
+        +1 minute
+      defensePerkDesc5: Stone Solid now gives slowness I instead of slowness IV
+      defensePerkDesc6: +2 hearts permanently
+      defensePassiveTitle0: Passzív Zsetonok
+      defensePassiveTitle1: Vissza
+      defensePassiveTitle2: Képesség Zsetonok
+      defensePassiveTitle3: Stone Solid Duration
+      defensePassiveTitle4: Hard Body
+      defensePassiveTitle5: Dupla Droppok (Hostile Mobs)
+      defensePassiveDesc0: Ezeket a Zsetonokat a passzív képességekre tudod elhasználni (színezékek)
+      defensePassiveDesc1: Visszamész a főmenübe
+      defensePassiveDesc2: Ezeket a Zsetonokat a képesség fában tudod elhasználni
+      defensePassiveDesc3: Increases duration of Stone Solid by 0.02s
+      defensePassiveDesc4: Increases chance to take reduced (base -33%) damage by 0.01%
+        per level
+      defensePassiveDesc5: Increases chance to receive double drops from aggressive
+        mobs by 0.05%
+      axeMasteryPerkTitle0: Greater Axe
+      axeMasteryPerkTitle1: Holy Axe
+      axeMasteryPerkTitle2: Revitalized
+      axeMasteryPerkTitle3: Warrior Blood
+      axeMasteryPerkTitle4: Earthquake
+      axeMasteryPerkTitle5: Better Crits
+      axeMasteryPerkTitle6: Axe Man
+      axeMasteryPerkDesc0: Great Axe damage radius increases by 1 block per level
+      axeMasteryPerkDesc1: +2% chance for lighting to strike mobs on axe hit
+      axeMasteryPerkDesc2: +1% chance for full heal on kill per level
+      axeMasteryPerkDesc3: +3 s per level of Strength I on kills with an axe
+      axeMasteryPerkDesc4: Ability's AOE damage is doubled (25% -> 50% of damage)
+      axeMasteryPerkDesc5: Divine Crits now have 1.6x multiplier instead of 1.25x
+      axeMasteryPerkDesc6: Axes permanently do +1 heart of damage
+      axeMasteryPassiveTitle0: Passzív Zsetonok
+      axeMasteryPassiveTitle1: Vissza
+      axeMasteryPassiveTitle2: Képesség Zsetonok
+      axeMasteryPassiveTitle3: Great Axe Duration
+      axeMasteryPassiveTitle4: Divine Crits
+      axeMasteryPassiveDesc0: Ezeket a Zsetonokat a passzív képességekre tudod elhasználni (színezékek)
+      axeMasteryPassiveDesc1: Visszamész a főmenübe
+      axeMasteryPassiveDesc2: Ezeket a Zsetonokat a képesség fában tudod elhasználni
+      axeMasteryPassiveDesc3: Increases duration of Great Axe by 0.02s
+      axeMasteryPassiveDesc4: Increases random crit chance (base 1.25x damage) by 0.01%
+      repairPerkTitle0: Salvaging
+      repairPerkTitle1: Resourceful
+      repairPerkTitle2: Magic Repair Mastery
+      repairPerkDesc0: Get more materials on average from salvaging
+      repairPerkDesc1: +10% chance of keeping material used when repairing
+      repairPerkDesc2: Guarenteed to keep enchants on repair
+      repairPassiveTitle0: Vissza
+      repairPassiveTitle1: Képesség Zsetonok
+      repairPassiveTitle2: Proficiency
+      repairPassiveDesc0: Visszamész a főmenübe
+      repairPassiveDesc1: Ezeket a Zsetonokat a képesség fában tudod elhasználni
+      repairPassiveDesc2: Materials restore more durability on repair
+      agilityPerkTitle0: Dodge
+      agilityPerkTitle1: Steel Bones
+      agilityPerkTitle2: Graceful Feet
+      agilityPerkDesc0: +4% chance to dodge attacks per level
+      agilityPerkDesc1: -10% fall damage per level
+      agilityPerkDesc2: Permanent speed I buff (toggleable by /speedToggle)
+      agilityPassiveTitle0: Vissza
+      agilityPassiveTitle1: Képesség Zsetonok
+      agilityPassiveTitle2: Roll
+      agilityPassiveDesc0: Visszamész a főmenübe
+      agilityPassiveDesc1: Ezeket a Zsetonokat a képesség fában tudod elhasználni
+      agilityPassiveDesc2: Chance to roll and take reduced fall damage
+      alchemyPerkTitle0: Alchemical Summoning
+      alchemyPerkTitle1: Ancient Knowledge
+      alchemyPerkTitle2: Potion Master
+      alchemyPerkDesc0: Allows crafting of some potions without a brewing stand
+      alchemyPerkDesc1: Unlocks ability to brew new potions
+      alchemyPerkDesc2: All used potions are increased in level by 1 (toggleable with
+        /togglePotion)
+      alchemyPassiveTitle0: Vissza
+      alchemyPassiveTitle1: Képesség Zsetonok
+      alchemyPassiveTitle2: Half-life+
+      alchemyPassiveDesc0: Visszamész a főmenübe
+      alchemyPassiveDesc1: Ezeket a Zsetonokat a képesség fában tudod elhasználni
+      alchemyPassiveDesc2: Increase in duration of potions when used
+      smeltingPerkTitle0: Fuel Efficiency
+      smeltingPerkTitle1: Double Smelt
+      smeltingPerkTitle2: Flame Pickaxe
+      smeltingPerkDesc0: Fuel last +20% longer per level
+      smeltingPerkDesc1: +5% chance for smelted ore to be doubled per level
+      smeltingPerkDesc2: Mined ores are instantly smelted (toggleable with /toggleFlamePick)
+      smeltingPassiveTitle0: Vissza
+      smeltingPassiveTitle1: Képesség Zsetonok
+      smeltingPassiveTitle2: Fuel Speed
+      smeltingPassiveDesc0: Visszamész a főmenübe
+      smeltingPassiveDesc1: Ezeket a Zsetonokat a képesség fában tudod elhasználni
+      smeltingPassiveDesc2: Increasing cooking speed
+      enchantingPerkTitle0: Okos Bájoló
+      enchantingPerkTitle1: Könyvmoly
+      enchantingPerkTitle2: Örök Tudás
+      enchantingPerkDesc0: Eggyel kevesebb szint kell, hogy bűvölje az eszközét a játékos, és megjavítani is eggyel kevesebb tapasztalat pontba kerül
+      enchantingPerkDesc1: A játékos ezentúl tud barkácsolni pár bűvölt könyvet
+      enchantingPerkDesc2: A játékos megtartja a tapasztalat pontját a halála során
+      enchantingPassiveTitle0: Vissza
+      enchantingPassiveTitle1: Képesség Zsetonok
+      enchantingPassiveTitle2: Tartalékolás
+      enchantingPassiveDesc0: Visszamész a főmenübe
+      enchantingPassiveDesc1: Ezeket a Zsetonokat a képesség fában tudod elhasználni
+      enchantingPassiveDesc2: Megnő a tapasztalatpontok száma, amit a játékos szerezhet
+      globalPerkTitle0: Gyűjtögető
+      globalPerkTitle1: Diák
+      globalPerkTitle2: Harcos
+      globalPerkTitle3: Kemény munkás
+      globalPerkTitle4: Kutató
+      globalPerkTitle5: Edző
+      globalPerkTitle6: Szanitéc
+      globalPerkTitle7: Léleklopó
+      globalPerkTitle8: Avatár
+      globalPerkTitle9: Ezermester
+      globalPerkDesc0: +20% TP-t kapsz az ásásért, favágásért, bányászásért, földművelésért és horgászásért
+      globalPerkDesc1: +20% TP-t kapsz a javításért, ugrás és futásért, kotyvasztásért, olvasztásért és a bűvülésért
+      globalPerkDesc2: +20% TP-t kapsz a íjászatban, kardforgatásban, védelemben, balta használatért és a természet feletti uralomért
+      globalPerkDesc3: +1 képesség zseton minden Gyűjtögető képességhez
+      globalPerkDesc4: +1 képesség zseton minden Diák képességhez
+      globalPerkDesc5: +1 képesség zseton minden Harcos képességhez
+      globalPerkDesc6: Halál esetén 50% esély van rá, hogy az értékes tárgyakat megtartja a játékos
+      globalPerkDesc7: A megölt szörnyek lelkét ki tudod szívni, ezzel tudod nullázni a képesség fáid.
+      globalPerkDesc8: 10% esély van rá, hogy 10 másodpercig minden erősítést megkap a játékos, hogyha egy olyan támadás éri, amitől meghalna
+      globalPerkDesc9: Minden képesség töltési ideje csökken 33%-kal
+      globalPassiveTitle0: Globális Zsetonok
+      globalPassiveTitle1: Vissza
+      globalPassiveDesc0: Ezeket a Zsetonokat a képesség fában tudod elhasználni
+      globalPassiveDesc1: Visszamész a főmenübe
+      cannotRepair: Nem tudsz javítani, amíg a képességed be van kapcsolva!
+      cannotSalvage: You cannot salvage while this ability is active!
+      spite: Minden jó valami rosszból származik
+      refundSkill: szükéges, hogy nullázd a képesség fádat
+      refundSkill2: hogy nullázd a képesség fádat
+      needToUnlock: Fel kell oldanod
+      perkRequirement: Legalább 2 képesség zsetonnak kell lennie az előző képességeknél, hogy felold ezt a képességet
+      perkRequirementM: Összesen minimun 10 képesség zsetonnak kell a képességfádban lennie, hogy feloldj egy mester képességet
+      noSkillTokens: Nincsen egy képesség tokened sem
+      noPassiveTokens: Nincsen egy passzív tokened sem
+      maxedOutPerk: Már kimaxoltad ezt a képességed!
+      requiredGlobalPerks0: Fel kell oldanod az előző képességet, hogy ezt felold
+      requiredGlobalPerks1: képességet fel kell oldanod, hogy aztán ezt is fel tudd
+      requiredGlobalPerks2: képességre szükség van, hogy ezt is felold
+      requiredGlobalPerks3: Minden globális képességre szükséged van, hogy ezt is felold
+      craftRequirement: tudásra is szükséged van, hogy össze tudd barkácsolni ezt
+      craftXPRequirement0: Minimum 1 TP szintre van szükséged, hogy összed tudd barkácsolni ezt
+      craftXPRequirement1: Minimum 10 TP szintre van szükséged, hogy összed tudd barkácsolni ezt
+      craftXPRequirement2: Minimum 2 TP szintre van szükséged, hogy összed tudd barkácsolni ezt
+      roll: PÖRGETÉS
+      dodge: KITÉRÉS
+      prepare: Előkészíted
+      rest: Pihenteted
+      activated: aktiválva
+      ended: véget ért
+      readyToUse: újra készen áll a használatra
+      cooldown: újratöltési idő
+      rapidFire: Gyors Tüzelés
+      bow: íj
+      greatAxe: Nagy Balta
+      axe: balta
+      spurKick: Sarkanytús Rúgás
+      leg: láb
+      stoneSoldier: KőKatona
+      yourself: saját magad
+      bigDig: Gödörkészítő
+      shovel: ásó
+      naturalRegeneration: Természetes Regenerálódás
+      hoe: kapa
+      superBait: Szuper Csali
+      fishingRod: horgászbot
+      berserkPick: Gyors Csákány
+      pickaxe: csákány
+      swiftStrikes: Gyors Támadás
+      sword: kard
+      timber: Favágó
+      hyperHorse: Ez a ló már fel van gyorsítva!
+      magicForce: A mágikus erő véget vet a képességednek!
+      rob: Rablás
+      repairFail0: Nem vagy elég tapasztalt, hogy meg tudd javítani ezt a tárgyat
+      repairFail1: Semmilyen értékes alkatrészt sem tudtál kiszedni ebből
+      repairFail2: Nem sikerült megtartanod az eszközöd bájait
+      treeTooBig0: Ez a fa túl nagy, hogy egyben kiásd!"
+      treeTooBig1: Ezt a fát nem tudod kivágni egyben!
+      noPermission: Ehhez a parancshoz nincs jogod!
+      improperArguments: Nem megfelelő argumentum! Ezt próbáld meg
+      totalPlayTime: Összes játszott idő
+      clickForOptions: Kattints ide, hogy megnézd a beállításokat
+      unknownCommand: Ismeretlen parancs
+      expToLevel: EXP to next level
+      playerName: playerName
+      skillName: skillName (in English)
+      page: page
+      on0: "ON"
+      off0: "OFF"
+      onOrOff: ON/OFF
+      manuallyToggles: Manually toggles
+      commandDesc0: Opens the main GUI with all skills
+      commandDesc1: Opens a skill tree GUI of choice
+      commandDesc2: Opens the configuration GUI
+      commandDesc3: Gives a player of choice EXP in a specified skill
+      commandDesc4: Sets a given player's level in a specified skill
+      commandDesc5: Resets a player's stats in a specified skill (does not refund stats)
+      commandDesc6: Displays a leaderboard for a specified stat
+      commandDesc7: Provides a link to a plugin information page
+      commandDesc8: Attempts to enchant an item in the users hand at a specified level
+      informationURL: Information URL (Google Docs)
+      click: CLICK
+      levelArgument: Level argument must be less than 40
+      leaderboard: Leaderboard
+      playerOffline: That player is not online
+      onlyIncrease: Please only increase exp with this command, otherwise, use /frpg statReset then /frpg giveEXP
+      amount: amount
+      unlockToggle: To use this command you must unlock
+      levelUpNotif: Level Up Notifications
+      abilityPreparationNotif: Ability Preparation Notifications
+      yes0: "YES"
+      no0: "NO"
+      warning: WARNING
+      souls: souls
+      refundSkillTree0: Refunding a skill tree costs
+      refundSkillTree1: and is not reversible, are you sure you want to
+      refundSkillTree2: refund the
+      skill: skill
+      backToSkillTree: Takes you back to the skill tree
+      miningPerkDesc0_1:  2 seconds of Haste I after mining any ore
+      miningPerkDesc0_2:  5 seconds of Haste I after mining any ore
+      miningPerkDesc0_3:  10 seconds of Haste I after mining any ore
+      miningPerkDesc0_4:  5 seconds of Haste II after mining any ore, followed by 5 seconds of Haste I
+      miningPerkDesc0_5:  10 seconds of Haste II after mining any ore
+      woodcuttingPerkDesc3_1: Leaves may now drop a
+      common: common
+      uncommon: uncommon
+      rare: rare
+      veryRare: very rare
+      legendary: legendary
+      fishingPerkDesc1_1: Unlocks treasure tier
+      farmingPerkDesc1_1: Gain the ability to craft
+      cowSpawnEgg: cow spawn egg
+      beeSpawnEgg: bee spanwn egg
+      mooshroomSpawnEgg: mooshroom spawn egg
+      horseSpawnEgg: horse spawn egg
+      slimeSpawnEgg: slime spawn egg
+      diggingPerkDesc0_1: You may now dig up a
+      defensePerkDesc0_1: Gain +3 s of regen per level on kills
+      defensePerkDesc0_2: Gain +0.5 hearts per level instantly on kills
+      duration: Duration
+      likelihood: Likelihood
+      junkChance: Junk Chance
+      locked: LOCKED
+      unlocked: UNLOCKED
+      cowEgg: Cow Egg
+      beeEgg: Bee Egg
+      mooshroomEgg: Mooshroom Egg
+      horseEgg: Horse Egg
+      slimeEgg: Slime Egg
+      tippedArrows: Tipped Arrows
+      toggle: Toggle
+      refundSkillTitle: Refund Skill
+      refundSkillTreeDesc: Click to refund this skill tree
+      alchemyPerkDesc1_0: Unlocks ability to brew
+      alchemyPerkDesc1_1: Hero of The Village potions (Ingredient = Emerald)
+      alchemyPerkDesc1_2: Mining Fatigue potions (Ingredient = Slimeball)
+      alchemyPerkDesc1_3: Haste potions (Ingredient = Clock)
+      alchemyPerkDesc1_4: Wither potions (Ingredient = Poisonous Potato)
+      alchemyPerkDesc1_5: Resistance potions (Ingredient = Golden Apple)
+      alchemyPerkDesc0_0: A crafting table can be used to craft potions of
+      alchemyPerkDesc0_1: water breathing
+      alchemyPerkDesc0_2: speed
+      alchemyPerkDesc0_3: fire resistance
+      alchemyPerkDesc0_4: healing
+      alchemyPerkDesc0_5: strength
+      enchantingPerkDesc1_0: Unlocks ability to craft
+      enchantingPerkDesc1_1: Power I and Efficiency I enchanted books (costs 1 level to craft)"
+      enchantingPerkDesc1_2: Sharpness I and Protection I enchanted books (costs 1 level to craft)
+      enchantingPerkDesc1_3: Luck of the Sea I and Lure I enchanted books (costs 1 level to craft)
+      enchantingPerkDesc1_4: Depth Strider I and Frost Walker I enchanted books (costs 1 level to craft)
+      enchantingPerkDesc1_5: Mending (costs 10 levels to craft) and Fortune I (costs 2 levels to craft) enchanted books
+      repairPerkDesc0_1: Gain more materials from salvaging on average
+      repairPerkDesc0_2: Gain more materials from salvaging on average, salvaging now stores item enchants in a book
+      xpBoost: XP Boost
+      speedBoost: Speed Boost
+      timeExtension: Time Extension
+      enchantingCraft0: Power I Book
+      enchantingCraft1: Efficiency I Book
+      enchantingCraft2: Sharpness I Book
+      enchantingCraft3: Protection I Book
+      enchantingCraft4: Luck of the Sea I Book
+      enchantingCraft5: Lure I Book
+      enchantingCraft6: Frost Walker I Book
+      enchantingCraft7: Depth Strider I Book
+      enchantingCraft8: Mending Book
+      enchantingCraft9: Fortune I Book
+      alchemyCraft0: Water Breathing Potion
+      alchemyCraft1: Speed Potion
+      alchemyCraft2: Fire Resistance Potion
+      alchemyCraft3: Healing Potion
+      alchemyCraft4: Strength Potion
+      commandDesc9: Sets the souls for a specified player
+      commandDesc10: Sets the skill or passive tokens in specified skill for a specified player
+      commandDesc11: Sets the global tokens for a specified player
+      commandDesc12: saves stats of all players or a specified player
+      status: STATUS
+      complete: COMPLETE
+      incomplete: INCOMPLETE

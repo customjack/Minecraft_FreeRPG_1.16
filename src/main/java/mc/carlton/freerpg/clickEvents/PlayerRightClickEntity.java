@@ -6,12 +6,16 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 public class PlayerRightClickEntity implements Listener {
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     void onRightClick(PlayerInteractEntityEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
         Player p = e.getPlayer();
         if (p.getGameMode() == GameMode.CREATIVE) {
             return;

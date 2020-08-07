@@ -53,6 +53,7 @@ public class StatManager {
                 playerData.set("general.lastLogin",unixTime);
                 playerData.set("general.lastLogout",unixTime);
                 playerData.set("general.playTime",0);
+                System.out.println(defaultLanguage);
                 playerData.set("general.language", defaultLanguage);
 
                 //Global stats data

@@ -5,6 +5,7 @@ import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.LingeringPotionSplashEvent;
 import org.bukkit.plugin.Plugin;
@@ -15,8 +16,11 @@ import java.util.Map;
 
 public class LingeringPotionSplash implements Listener {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     void onPotionSplash(LingeringPotionSplashEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
 
         ThrownPotion potionEntity = e.getEntity();
         if (!(potionEntity.getShooter() instanceof Player)) {

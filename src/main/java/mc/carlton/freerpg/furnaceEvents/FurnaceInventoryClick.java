@@ -5,6 +5,7 @@ import mc.carlton.freerpg.gameTools.FurnaceUserTracker;
 import org.bukkit.block.Furnace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -12,8 +13,11 @@ import org.bukkit.plugin.Plugin;
 
 public class FurnaceInventoryClick implements Listener {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     void onInventoryClick(InventoryClickEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
         try {
             InventoryType invType = e.getClickedInventory().getType();
         } catch (Exception except) {
