@@ -1101,3 +1101,535 @@ lang:
       status: STATUS
       complete: COMPLETE
       incomplete: INCOMPLETE
+
+
+ frFR: #Translated by Temuel
+    global: Global
+    digging: Forage
+    woodcutting: Coupe du bois
+    mining: Minage
+    farming: Agriculture
+    fishing: Pêche
+    archery: Archerie
+    beastMastery: Maîtrise des bêtes
+    swordsmanship: Maniement de l'épée
+    defense: Défense
+    axeMastery: Maîtrise de la hache
+    repair: Réparation
+    alchemy: Alchemie
+    agility: Agilité
+    smelting: Cuisson
+    enchanting: Enchantement
+    information: Information
+    configuration: Configuration
+    level: Niveau
+    experience: experience
+    toNext: au prochain
+    total: Total
+    diggingPerkTitle0: Mo' drops
+    diggingPerkTitle1: Double loot
+    diggingPerkTitle2: Drops rares
+    diggingPerkTitle3: Voleur d'âme
+    diggingPerkTitle4: Dénicheur de silex
+    diggingPerkTitle5: Chevalier de la pelle
+    diggingPerkTitle6: Mega forage
+    diggingPerkDesc0: Augmente la table des drops de 1 objet par niveau
+    diggingPerkDesc1: +5% de chances de recevoir un double loot a chaque niveau (lorsqu'un loot doit être reçu)
+    diggingPerkDesc2: Augmente d'avantage la table des drops des objets par niveau
+    diggingPerkDesc3: Le sable des âmes a +5% de chances de drop un loot par niveau
+    diggingPerkDesc4: Le gravier a 100% de chances de drop du silex (Activable avec /flintToggle)
+    diggingPerkDesc5: Dégâts des pelles x2
+    diggingPerkDesc6: Quand vous utilisez cette compétence vous cassez désormais une section de blocs de 3x3 (20% d'avoir des loots quand cette compétence est active)
+    diggingPassiveTitle0: Jetons passif
+    diggingPassiveTitle1: Retour
+    diggingPassiveTitle2: Jetons compétence
+    diggingPassiveTitle3: Durée de Mega forage
+    diggingPassiveTitle4: Chances d'obtenir un loot
+    diggingPassiveDesc0: Jetons a investir dans les passifs (teintures)
+    diggingPassiveDesc1: Retourner au menu principal des compétences
+    diggingPassiveDesc2: Jetons a investir dans les compétences
+    diggingPassiveDesc3: Augmente la durée de Mega forage de 0.02 s
+    diggingPassiveDesc4: Augmente la chance de trouver un loot en creusant de 0.005%
+    woodcuttingPerkTitle0: Racines zélées
+    woodcuttingPerkTitle1: Nouvelles armes
+    woodcuttingPerkTitle2: Savoir caché
+    woodcuttingPerkTitle3: Charognard de feuilles
+    woodcuttingPerkTitle4: Bûcheron+
+    woodcuttingPerkTitle5: Souffleur de feuilles
+    woodcuttingPerkTitle6: Maître Bûcheron
+    woodcuttingPerkDesc0: +20% de chances que les souches drop 1 XP Minecraft par niveau
+    woodcuttingPerkDesc1: +12s de Célérité par niveau après la première souche coupée en 5 minutes
+    woodcuttingPerkDesc2: Les souches ont +0.2% de chances de droper un grimoire enchanté par niveau
+    woodcuttingPerkDesc3: Les feuilles ont 1% de chances de drop +1 loot par niveau
+    woodcuttingPerkDesc4: La limite de destruction de Bûcheron passe de 64 a 128
+    woodcuttingPerkDesc5: Détruit instantanément les feuilles en gardant le clique gauche appuyé avec une hache
+    woodcuttingPerkDesc6: Double drops, Racines zélées, et Savoir caché sont désormais tous actifs avec Bûcheron (leurs effets sont réduits de 50%)
+    woodcuttingPassiveTitle0: Jetons passif
+    woodcuttingPassiveTitle1: Retour
+    woodcuttingPassiveTitle2: Jetons compétence
+    woodcuttingPassiveTitle3: Durée de Bûcheron
+    woodcuttingPassiveTitle4: Double Drops
+    woodcuttingPassiveDesc0: Jetons a investir dans les passifs (teintures)
+    woodcuttingPassiveDesc1: Retourner au menu principal des compétences
+    woodcuttingPassiveDesc2: Jetons a investir dans les compétences
+    woodcuttingPassiveDesc3: Augmente la durée de Bûcheron de 0.02s
+    woodcuttingPassiveDesc4: Augmente les chances d'obtenir un double drop de 0.05%
+    miningPerkTitle0: Célérité maitrisée
+    miningPerkTitle1: Plus de bombes
+    miningPerkTitle2: Dénicheur de trésor
+    miningPerkTitle3: Bomb-boyage
+    miningPerkTitle4: Mineur de gisement
+    miningPerkTitle5: Demolition Man
+    miningPerkTitle6: Triple Trouble
+    miningPerkDesc0: Gain de Célérité après chaque minage de minerai pour chaque niveau
+    miningPerkDesc1: La recette de fabrication de la TNT produit +1 bloc pour chaque niveau
+    miningPerkDesc2: Lorsque cette compétence est utilisée sur une pierre, +1% de chance par niveau d'obtenir un minerai (de l'expérience d'compétence est obtenue avec le minerai)
+    miningPerkDesc3: Augmente le rayon d'explosion de la TNT (quand elle est allumé avec un briquet) pour chaque niveau
+    miningPerkDesc4: L'intégralité des minerais d'une veine sont instantanément détruits lorsque un bloc est détruit (activable)
+    miningPerkDesc5: Les explosions de TNT ne vont font plus de dégâts
+    miningPerkDesc6: Double drops devient triple drops
+    miningPassiveTitle0: Jetons passif
+    miningPassiveTitle1: Retour
+    miningPassiveTitle2: Jetons compétence
+    miningPassiveTitle3: Durée de Mineur Berserk
+    miningPassiveTitle4: Double Drops
+    miningPassiveTitle5: Mineur explosif
+    miningPassiveDesc0: Jetons a investir dans les passifs (teintures)
+    miningPassiveDesc1: Retourner au menu principal des compétences
+    miningPassiveDesc2: Jetons a investir dans les compétences
+    miningPassiveDesc3: Augmente la durée de Mineur berserk de 0.02s
+    miningPassiveDesc4: Augmente les chances d'obtenir un double drop sur les minerais de 0.05%
+    miningPassiveDesc5: Augmente les chances d'obtenir des minerais sur les blocs détruit par de la TNT de 0.01% (Plus de blocs détruits = Plus de chance de drop)
+    farmingPerkTitle0: Engrais+
+    farmingPerkTitle1: Eleveur de bétail
+    farmingPerkTitle2: Régime de fermier
+    farmingPerkTitle3: Carnivore
+    farmingPerkTitle4: Mains vertes
+    farmingPerkTitle5: Hormones de croissange
+    farmingPerkTitle6: Faire un avec la nature
+    farmingPerkDesc0: +10% de chances de ne pas consommer la poudre d'os lorsqu'elle est utilisée
+    farmingPerkDesc1: Permet de fabriquer des oeufs supplémentaires pour chaque niveau
+    farmingPerkDesc2: La nourriture que vous produisez est +20% plus efficace à restaurer votre faim pour chaque niveau
+    farmingPerkDesc3: la viande est +20% plus efficace à restaurer votre faim pour chaque niveau
+    farmingPerkDesc4: Capacité de replanter des cultures avec une plus grande chance de replanter à des stades de croissance ultérieurs; cette capacité influe maintenant sur les pastèques et les citrouilles
+    farmingPerkDesc5: Le sucre peut-être utilisé sur les bébés animaux pour les faire grandir instantanément
+    farmingPerkDesc6: Vous obtenez Regénération lorsque vous restez immobile sur l'herbe
+    farmingPassiveTitle0: Jetons passif
+    farmingPassiveTitle1: Retour
+    farmingPassiveTitle2: Jetons compétence
+    farmingPassiveTitle3: Durée de Regénération Naturelle
+    farmingPassiveTitle4: Double Drops (Récoltes)
+    farmingPassiveTitle5: Double Drops (Animaux)
+    farmingPassiveDesc0: Jetons a investir dans les passifs (teintures)
+    farmingPassiveDesc1: Retourner au menu principal des compétences
+    farmingPassiveDesc2: Jetons a investir dans les compétences
+    farmingPassiveDesc3: Augmente la durée de Regénération Naturelle de 0.02s
+    farmingPassiveDesc4: Augmente la chance d'obtenir le double de récoltes de 0.05%
+    farmingPassiveDesc5: Augmente la chance d'obtenir un double loot sur le bétail de 0.05%
+    fishingPerkTitle0: Vol
+    fishingPerkTitle1: Charognard
+    fishingPerkTitle2: Régime du pêcheur
+    fishingPerkTitle3: Filtration
+    fishingPerkTitle4: Grappin
+    fishingPerkTitle5: Canne en feu
+    fishingPerkTitle6: Homme poisson
+    fishingPerkDesc0: +15% de chances d'extraire un objet d'un mob pour chaque niveau
+    fishingPerkDesc1: Débloque un nouveau tier de loot en pêche
+    fishingPerkDesc2: Les poissons restaurent +20% de faim pour chaque niveau
+    fishingPerkDesc3: Les plus haut tiers (II-V) de loot deviennete plus commun, les tiers plus bas (I) deviennent plus rares
+    fishingPerkDesc4: Les cannes à pêche se comportent désormais comme des grappins(activable avec /grappleToggle)
+    fishingPerkDesc5: Les poissons sont désormaisa déjà cuisinés lorsqu'ils sont pêchés, certains loots sont changés (toggleable with /hotRodToggle)
+    fishingPerkDesc6: Vous obtenez le buff vision nocturne sous l'eau et le buff Grâce du dauphin quand vous êtes dans l'eau
+    fishingPassiveTitle0: Jetons passif
+    fishingPassiveTitle1: Retour
+    fishingPassiveTitle2: Jetons compétence
+    fishingPassiveTitle3: Durée du Super Appât
+    fishingPassiveTitle4: Coup double
+    fishingPassiveTitle5: Dénicheur de trésor
+    fishingPassiveDesc0: Jetons a investir dans les passifs (teintures)
+    fishingPassiveDesc1: Retourner au menu principal des compétences
+    fishingPassiveDesc2: Jetons a investir dans les compétences
+    fishingPassiveDesc3: Augmente la durée du Super Appât de 0.01s
+    fishingPassiveDesc4: Augmente la chance d'obtenir un double drop de 0.05%
+    fishingPassiveDesc5: Diminue la chance de pêcher des déchets de 0.005%, augmente la chance d'obtenir un loot de 0.005%
+    archeryPerkTitle0: Flèches supplémentaires
+    archeryPerkTitle1: Sniper
+    archeryPerkTitle2: Flèche de lumière
+    archeryPerkTitle3: Flèches explosives
+    archeryPerkTitle4: Flèches magiques
+    archeryPerkTitle5: Recharge rapide d'arbalète
+    archeryPerkTitle6: Tir meurtrier
+    archeryPerkDesc0: +1 flèche obtenue par fabrication pour chaque niveau
+    archeryPerkDesc1: Augmente la vitesse des flèches de +2% par niveau (augmente les dommages de ~4%/niveau)
+    archeryPerkDesc2: Augmente les dégâts de Flèche Spectrale de +5% par niveau
+    archeryPerkDesc3: Les flèches ont +1% de produire une explosion au toucher
+    archeryPerkDesc4: Permet la fabrication de toutes les flèches à effet avec des potions jetables a la place des potions persistantes
+    archeryPerkDesc5: L'abilité peut désormais être utilisé avec les arbalettes et permet de faire des tirs instantanés
+    archeryPerkDesc6: Les dégâts des feux d'artifice tirés avec les flèches sont doublés (jusqu'â 16 coeurs de dégâts)
+    archeryPassiveTitle0: Jetons passif
+    archeryPassiveTitle1: Retour
+    archeryPassiveTitle2: Jetons compétence
+    archeryPassiveTitle3: Durée de Tir Rapide
+    archeryPassiveTitle4: Retraite
+    archeryPassiveDesc0: Jetons a investir dans les passifs (teintures)
+    archeryPassiveDesc1: Retourner au menu principal des compétences
+    archeryPassiveDesc2: Jetons a investir dans les compétences
+    archeryPassiveDesc3: Augmente la durée de Tir Rapide de 0.02s
+    archeryPassiveDesc4: Augmente les chances de tirer une flèche sans en consommer de 0.05% par niveau
+    beastMasteryPerkTitle0: Fourrure épaisse
+    beastMasteryPerkTitle1: Crocs aiguisés
+    beastMasteryPerkTitle2: Morsure regénérante
+    beastMasteryPerkTitle3: N'approche pas
+    beastMasteryPerkTitle4: Loup agile
+    beastMasteryPerkTitle5: Identification
+    beastMasteryPerkTitle6: Boost d'adrénaline
+    beastMasteryPerkDesc0: Les loups prennent -10% de dégâts par niveau
+    beastMasteryPerkDesc1: Les loups font +10% de dégâts par niveau
+    beastMasteryPerkDesc2: Les loups gagnent +1/2 coeur(s) en tuant des ennemis pour chaque niveau
+    beastMasteryPerkDesc3: Les loups ont +5% de chances de repousser les ennemis
+    beastMasteryPerkDesc4: Les loups ne subissent plus de dégâts de chute
+    beastMasteryPerkDesc5: Affiche les statistiques des chevaux et des loups lorsque vous utilisez une boussole dessus
+    beastMasteryPerkDesc6: Le buff Coup d'éperon buff est maintenant Vitesse III
+    beastMasteryPassiveTitle0: Jetons passif
+    beastMasteryPassiveTitle1: Retour
+    beastMasteryPassiveTitle2: Jetons compétence
+    beastMasteryPassiveTitle3: Coup d'éperon Duration
+    beastMasteryPassiveTitle4: Morsure sauvage
+    beastMasteryPassiveDesc0: Jetons à investir dans les passifs (teintures)
+    beastMasteryPassiveDesc1: Retourner au menu principal des compétences
+    beastMasteryPassiveDesc2: Jetons à investir dans les compétences
+    beastMasteryPassiveDesc3: Augmente la durée de Coup d'éperon de 0.02s
+    beastMasteryPassiveDesc4: Augmente les chances de coup critique des loups de 0.025%
+    swordsmanshipPerkTitle0: Adrenaline
+    swordsmanshipPerkTitle1: Massacre
+    swordsmanshipPerkTitle2: Adrenaline+
+    swordsmanshipPerkTitle3: Folie meurtrière
+    swordsmanshipPerkTitle4: Soif de sang
+    swordsmanshipPerkTitle5: Tranchant!
+    swordsmanshipPerkTitle6: Maîtrise de l'épée
+    swordsmanshipPerkDesc0: Tuer un monstre hostile avec une épée donne +2s de vitesser par niveau
+    swordsmanshipPerkDesc1: Tuer un monstre hostile avec une épée donne +2s de force par niveau
+    swordsmanshipPerkDesc2: +20% du buff Vitesse I reçu avec Adrenaline devient Vitesse II
+    swordsmanshipPerkDesc3: +20% du buff Force I reçu avec Folie meurtrière devient Force II
+    swordsmanshipPerkDesc4: Restaure la barre de faim en tuant certains monstres avec votre épée
+    swordsmanshipPerkDesc5: Frappes rapides ajoute désormais un niveau de tranchant a votre épée
+    swordsmanshipPerkDesc6: Les épées font désormais +1 coeur de dégâts de manière permanente
+    swordsmanshipPassiveTitle0: Jetons passif
+    swordsmanshipPassiveTitle1: Retour
+    swordsmanshipPassiveTitle2: Jetons compétence
+    swordsmanshipPassiveTitle3: Durée de Frappes Rapides
+    swordsmanshipPassiveTitle4: Coup double
+    swordsmanshipPassiveDesc0: Jetons à investir dans les passifs (teintures)
+    swordsmanshipPassiveDesc1: Retourner au menu principal des compétences
+    swordsmanshipPassiveDesc2: Jetons à investir dans les compétences
+    swordsmanshipPassiveDesc3: Augmente la durée de Frappes Rapides de 0.02s
+    swordsmanshipPassiveDesc4: Augmente les chances de frapper un monstre 2 fois de 0.02% (Les dégats du seconde coup sont de 50%)
+    defensePerkTitle0: Soigneur
+    defensePerkTitle1: Carapace
+    defensePerkTitle2: Tête dure
+    defensePerkTitle3: Carapace+
+    defensePerkTitle4: Cadeau du ciel
+    defensePerkTitle5: Jambes solides
+    defensePerkTitle6: Vitalité
+    defensePerkDesc0: Ajoute +3s de regénération par niveau après avoir tuer un monstre
+    defensePerkDesc1: +2% de chances d'obtenir le buff Résistance I pendant 5s si vous êtes frappés
+    defensePerkDesc2: Corps Robuste reduit les dommages de 6.6% supplémentaires par niveau
+    defensePerkDesc3: +2% de chances d'obtenir le buff Résistance II pendant 5s si vous êtes frappés
+    defensePerkDesc4: Indestructible accorde désormais un bouclier absorbant de 4 coeurs durant l'aptidtude +1 minute
+    defensePerkDesc5: Indestructible donne désormais le buff Lenteur I au lieu de Lenteur IV
+    defensePerkDesc6: +2 coeurs de manière permanente
+    defensePassiveTitle0: Jetons passif
+    defensePassiveTitle1: Retour
+    defensePassiveTitle2: Jetons compétence
+    defensePassiveTitle3: Durée d'Indestructible
+    defensePassiveTitle4: Corps Solide
+    defensePassiveTitle5: Double Drops (monstres hostiles)
+    defensePassiveDesc0: Jetons à investir dans les passifs (teintures)
+    defensePassiveDesc1: Retourner au menu principal des compétences
+    defensePassiveDesc2: Jetons à investir dans les compétences
+    defensePassiveDesc3: Augmente la durée d'Indestructible de 0.02s
+    defensePassiveDesc4: Augmente les chances de réduire (-33% de base) les dégâts reçus de 0.01% par niveau
+    defensePassiveDesc5: Augmente les chances de double drops sur les monstres de 0.05%
+    axeMasteryPerkTitle0: Hache Suprême
+    axeMasteryPerkTitle1: Hache Sainte
+    axeMasteryPerkTitle2: Revitalisé
+    axeMasteryPerkTitle3: Sang guerrier
+    axeMasteryPerkTitle4: Séisme
+    axeMasteryPerkTitle5: Critique+
+    axeMasteryPerkTitle6: Hacheur
+    axeMasteryPerkDesc0: Le rayon des dommages de Hache Suprême est augmenté de 1 bloc par niveau
+    axeMasteryPerkDesc1: +2% de chances qu'un éclaire frappe le monstre touché par une attaque à la hache
+    axeMasteryPerkDesc2: +1% de chances par niveau de récupérer toute votre vie en tuant un monstre à la hache
+    axeMasteryPerkDesc3: +3s par niveau de buff Force I en tuant un monstre à la hache
+    axeMasteryPerkDesc4: Les dégâts de zone de l'compétence sont doublés (25% -> 50% de dégâts)
+    axeMasteryPerkDesc5: Crtitiques Divins possède désormais un multiplicateur de 1.6x au lieu de 1.25x
+    axeMasteryPerkDesc6: Les haches font désormais +1 coeur de dégâts de manière permanente
+    axeMasteryPassiveTitle0: Jetons passif
+    axeMasteryPassiveTitle1: Retour
+    axeMasteryPassiveTitle2: Jetons compétence
+    axeMasteryPassiveTitle3: Durée de Hache Suprême
+    axeMasteryPassiveTitle4: Crtiques Divins
+    axeMasteryPassiveDesc0: Jetons à investir dans les passifs (teintures)
+    axeMasteryPassiveDesc1: Retourner au menu principal des compétences
+    axeMasteryPassiveDesc2: Jetons à investir dans les compétences
+    axeMasteryPassiveDesc3: Augmente la durée de Hache Suprême de 0.02s
+    axeMasteryPassiveDesc4: Augmente les chances de faire un coup critique (De base, 1.25x dégâts) de 0.01%
+    repairPerkTitle0: Recyclage
+    repairPerkTitle1: Débrouillard
+    repairPerkTitle2: Maître Réparateur
+    repairPerkDesc0: Vous obtenez plus de matériaux en recyclant
+    repairPerkDesc1: +10% de chances de garder vos matériaux utilisés pour une réparation
+    repairPerkDesc2: Les enchantements sont gardés lors d'une réparation
+    repairPassiveTitle0: Retour
+    repairPassiveTitle1: Jetons compétence
+    repairPassiveTitle2: Maîtrise
+    repairPassiveDesc0: Retourner au menu principal des compétences
+    repairPassiveDesc1: Jetons à investir dans les compétences
+    repairPassiveDesc2: Vos matériaux de réparation restaurent plus de solidité
+    agilityPerkTitle0: Esquive
+    agilityPerkTitle1: Ossature métallique
+    agilityPerkTitle2: Pied léger
+    agilityPerkDesc0: +4% de chances d'esquiver les attaques par niveau
+    agilityPerkDesc1: -10% de dégâts de chute par niveau
+    agilityPerkDesc2: Vous obtenez le buff Vitesse I de manière permanente (Activable avec /speedToggle)
+    agilityPassiveTitle0: Retour
+    agilityPassiveTitle1: Jetons compétence
+    agilityPassiveTitle2: Roulade
+    agilityPassiveDesc0: Retourner au menu principal des compétences
+    agilityPassiveDesc1: Jetons à investir dans les compétences
+    agilityPassiveDesc2: Vous avez une chance de faire une roulade et de diminuer les dégâts de chute
+    alchemyPerkTitle0: Invocation Alchimique
+    alchemyPerkTitle1: Savoir Ancien
+    alchemyPerkTitle2: Maître Alchimiste
+    alchemyPerkDesc0: Permet de créer certaines potions sans alambic
+    alchemyPerkDesc1: Débloque l'compétence de pouvoir concocter de nouvelles potions
+    alchemyPerkDesc2: Le niveau des potions utilisées est augmenté de +1 (Activable avec /togglePotion)
+    alchemyPassiveTitle0: Retour
+    alchemyPassiveTitle1: Jetons compétence
+    alchemyPassiveTitle2: Potions+
+    alchemyPassiveDesc0: Retourner au menu principal des compétences
+    alchemyPassiveDesc1: Jetons à investir dans les compétences
+    alchemyPassiveDesc2: Augmente la durée des potions utilisées
+    smeltingPerkTitle0: Combustilble efficace
+    smeltingPerkTitle1: Double cuisson
+    smeltingPerkTitle2: Pioche enflammée
+    smeltingPerkDesc0: Les combustibles dure 20% plus longtemps par niveau
+    smeltingPerkDesc1: +5% de chances de doubler les minerais fondus
+    smeltingPerkDesc2: Les minerais piochés sont instantanément fondus (Activable avec /toggleFlamePick)
+    smeltingPassiveTitle0: Retour
+    smeltingPassiveTitle1: Jetons compétence
+    smeltingPassiveTitle2: Combustion Rapide
+    smeltingPassiveDesc0: Retourner au menu principal des compétences
+    smeltingPassiveDesc1: Jetons à investir dans les compétences
+    smeltingPassiveDesc2: Augmente la vitesse de cuisson
+    enchantingPerkTitle0: Enchantement efficace
+    enchantingPerkTitle1: Erudit
+    enchantingPerkTitle2: Immortelle expérience
+    enchantingPerkDesc0: Les enchantements ont besoin d'1 niveau (Minecraft) en moins par niveau per level, les réparations sur l'enclume coutent 1 niveau (Minecraft) de moins (minimum de 2) par niveau
+    enchantingPerkDesc1: Débloque des recettes pour certains livres d'enchantement
+    enchantingPerkDesc2: Vous ne perdez plus d'expérience (Minecraft) en mourrant
+    enchantingPassiveTitle0: Retour
+    enchantingPassiveTitle1: Jetons compétence
+    enchantingPassiveTitle2: Développement Rapide
+    enchantingPassiveDesc0: Retourner au menu principal des compétences
+    enchantingPassiveDesc1: Jetons à investir dans les compétences
+    enchantingPassiveDesc2: L'expérience (Minecraft) reçue est augmentée
+    globalPerkTitle0: Récolteur
+    globalPerkTitle1: Erudit
+    globalPerkTitle2: Combattant
+    globalPerkTitle3: Dur labeur
+    globalPerkTitle4: Recherche
+    globalPerkTitle5: Entrainement
+    globalPerkTitle6: Réincarnation+
+    globalPerkTitle7: Récolte d'âme
+    globalPerkTitle8: Avatar
+    globalPerkTitle9: Maître des Arts
+    globalPerkDesc0: +20% d'expérience gagnée en Forage, Bûcheron, Minage, Agriculture et Pêche
+    globalPerkDesc1: +20% d'expérience gagnée en Réparation, Agilité, Alchimie, Cuisson et Enchantement
+    globalPerkDesc2: +20% d'expérience gagnée en Archerie, Maitrîse des bêtes, Maniement de l'épée, Défense et Maîtrise de la hache
+    globalPerkDesc3: +1 Jetons compétence dans toutes les compétences de Récolteur
+    globalPerkDesc4: +1 Jetons compétence dans toutes les compétences d'Erudit
+    globalPerkDesc5: +1 Jetons compétence dans toutes les compétences de Combattant
+    globalPerkDesc6: A votre mort vous avez 50% de chances de garder quelques objets de valeur dans votre inventaire
+    globalPerkDesc7: Vous récoltez désormais des âmes en tuant des monstres, il est possible de les utiliser pour réinitialiser vos compétences
+    globalPerkDesc8: Vous avez 10% de chances de devenir invincible et d'obtenir tous les buffs pendant 10s après un coup qui devait vous tuer
+    globalPerkDesc9: Le délais d'utilisation des compétences est diminué de 33%
+    globalPassiveTitle0: Jetons globaux
+    globalPassiveTitle1: Retour
+    globalPassiveDesc0: Jetons à investir dans les compétences
+    globalPassiveDesc1: Retourner au menu principal des compétences
+    cannotRepair: Vous ne pouvez pas réparer lorsque cette compétence est active !
+    cannotSalvage: Vous ne pouvez pas recycler lorsque cette compétence est active !
+    spite: Tout ce qui est bon est fait de dépit
+    refundSkill: sont requises pour réinitialiser vos compétences
+    refundSkill2: pour réinitialiser vos compétences
+    needToUnlock: Vous devez débloquer
+    perkRequirement: Vous avez besoin de 2 jetons d'compétence dans l'compétence précédente pour la débloquer
+    perkRequirementM: Vous devez avoir dépensé 10 jetons compétence dans cette arbre de talent pour débloquer cette compétence ultime
+    noSkillTokens: Vous n'avez aucun jetons compétence
+    noPassiveTokens: Vous n'avez aucun jetons passif
+    maxedOutPerk: Vous avez déjà le niveau maximum !
+    requiredGlobalPerks0: Vous avez besoin de la compétence précédente pour débloquer cette compétences
+    requiredGlobalPerks1: sont requis pour débloquer cette compétence
+    requiredGlobalPerks2: est requi pour débloquer cette compétence
+    requiredGlobalPerks3: Vous avez besoin de toutes les compétences globales pour la débloquer
+    craftRequirement: est requis pour faire cette recette !
+    craftXPRequirement0: Vous avez besoin d'au moins 1 niveau (Minecraft) pour fabriquer ca
+    craftXPRequirement1: Vous avez besoin d'au moins 10 niveaux (Minecraft) pour fabriquer ca
+    craftXPRequirement2: Vous avez besoin d'au moins 2 niveaux (Minecraft) pour fabriquer ca
+    roll: ROULADE
+    dodge: ESQUIVE
+    prepare: Vous préparez votre
+    rest: Vous reposez votre
+    activated: activé(e) !
+    ended: est terminé(e)
+    readyToUse: est prêt a être utilisé(e)
+    cooldown: Temps de Recharge
+    rapidFire: Tir Rapide
+    bow: arc
+    greatAxe: Hache Suprême
+    axe: hache
+    spurKick: Coup d'éperon
+    leg: Jambes
+    stoneSoldier: Soldat de Pierre
+    yourself: vous-même
+    bigDig: Mega forage
+    shovel: pelle
+    naturalRegeneration: Régénération Naturelle
+    hoe: houe
+    superBait: Super Appât
+    fishingRod: Canne à pêche
+    berserkPick: Mineur Berserk
+    pickaxe: pioche
+    swiftStrikes: Frappes Rapides
+    sword: épée
+    timber: Bûcheron
+    hyperHorse: Ce cheval est déjà boosté !
+    magicForce: Une force magique a mis fin a votre capacité
+    rob: Vol
+    repairFail0: Vous n'avez pas le niveau nécessaire pour correctement réparer cet objet
+    repairFail1: Vous avez raté votre recyclage !
+    repairFail2: Vous n'avez pas réussi a garde l'enchantement de l'objet !
+    treeTooBig0: Cet arbre est trop gros pour être coupé d'un seul coup !
+    treeTooBig1: Cet arbre ne pourra jamais être coupé d'un coup comme ca...
+    noPermission: Vous n'avez pas la permission d'utiliser cette commande !
+    improperArguments: Arguments invalides, essayez
+    totalPlayTime: Temps de jeu total
+    clickForOptions: Cliquez pour voir les options
+    unknownCommand: Commande inconnue
+    expToLevel: EXP pour le prochain niveau
+    playerName: playerName
+    skillName: skillName (in English)
+    page: page
+    on0: "ON"
+    off0: "OFF"
+    onOrOff: ON/OFF
+    manuallyToggles: Interrupteurs manuel
+    commandDesc0: Ouvrir l'interface principale des compétences
+    commandDesc1: Ouvrir l'arbre de compétence de votre choix
+    commandDesc2: Ouvrir l'interface de configuration
+    commandDesc3: Donne a un joueur de l'EXP dans une compétence spécifique
+    commandDesc4: Définit le niveau d’un joueur dans une compétence spécifique
+    commandDesc5: Réinitialise les statistique d'un joueur dans une compétence spécifique (ne redonne pas les statistiques)
+    commandDesc6: Afficher un classement d'une statistique spécifique
+    commandDesc7: Founit un lien vers la page d'information du plugin
+    commandDesc8: Tentative d'enchantement d'un élément dans la main du joueur à un niveau spécifié
+    informationURL: URL d'information (Google Docs)
+    click: CLICK
+    levelArgument: Argument de niveau doit être en dessous de 40
+    leaderboard: classement
+    playerOffline: Ce joueur est hors ligne
+    onlyIncrease: S'il vous-plaît augmentez l'EXP seulement avec cette commande, sinon, utilisez /frpg statReset et ensuite /frpg giveEXP
+    amount: montant
+    unlockToggle: Pour utilisez cette compétences vous devez débloquer
+    levelUpNotif: Notifications de niveau
+    abilityPreparationNotif: Notifications de préparation de compétence
+    yes0: "OUI"
+    no0: "NON"
+    warning: ATTENTION
+    souls: âmes
+    refundSkillTree0: Réinitialiser un arbre coûte
+    refundSkillTree1: cette action est irréversible, êtes vous sur
+    refundSkillTree2: réinitialiser le
+    skill: compétence
+    backToSkillTree: Vous ramène à l’arbre de compétences
+    miningPerkDesc0_1:  2 secondes de Célérité I après avoir miné un minerai
+    miningPerkDesc0_2:  5 secondes de Célérité I après avoir miné un minerai
+    miningPerkDesc0_3:  10 secondes de Célérité I après avoir miné un minerai
+    miningPerkDesc0_4:  5 secondes de Célérité II après avoir miné un minerai, suivi de 5 secondes de Célérité I
+    miningPerkDesc0_5:  10 secondes de Célérité II après avoir miné un minerai
+    woodcuttingPerkDesc3_1: Les feuilles peuvent maintenant drop 
+    common: commun
+    uncommon: peu commun
+    rare: rare
+    veryRare: très rare
+    legendary: légendaire
+    fishingPerkDesc1_1: Unlocks treasure tier
+    farmingPerkDesc1_1: Gagner la compétence de fabrication
+    cowSpawnEgg: Générateur Oeuf de vache
+    beeSpawnEgg: Générateur Oeuf d'abeille
+    mooshroomSpawnEgg: Générateur Oeuf de champimeuh
+    horseSpawnEgg: Générateur Oeuf de cheval
+    slimeSpawnEgg: Générateur Oeuf de slime
+    diggingPerkDesc0_1: Vous pouvez maintenant creuser
+    defensePerkDesc0_1: Vous gagnez +3s de régénération par niveau après avoir tué un monstre
+    defensePerkDesc0_2: Vous gagnez +0.5 coeurs instantanément par niveau après avoir tué un monstre
+    duration: Durée
+    likelihood: Probabilité
+    junkChance: Junk Chance
+    locked: BLOQUE
+    unlocked: DEBLOQUE
+    cowEgg: Oeuf de vache
+    beeEgg: Oeuf d'abeille
+    mooshroomEgg: Oeuf de champimeuh
+    horseEgg: Oeuf de cheval
+    slimeEgg: Oeuf de slime
+    tippedArrows: Flèches à effet
+    toggle: Basculer
+    refundSkillTitle: Réinitialiser aptidtude
+    refundSkillTreeDesc: Cliquez pour réinitialiser l'arbre de compétence
+    alchemyPerkDesc1_0: Débloquer la compétence d'Alchimie
+    alchemyPerkDesc1_1: Potions Héro du village (Ingredient = Emeraude)
+    alchemyPerkDesc1_2: Potions de Fatigue (Ingredient = Boule de slime)
+    alchemyPerkDesc1_3: Potions de Célérité (Ingredient = Clock)
+    alchemyPerkDesc1_4: Potions Wither (Ingredient = Pomme de terre empoisonnée)
+    alchemyPerkDesc1_5: Potions de Résistance (Ingredient = Pomme d'or)
+    alchemyPerkDesc0_0: Un établi peut être utilisé pour fabriquer des potions de
+    alchemyPerkDesc0_1: apnée
+    alchemyPerkDesc0_2: rapidité
+    alchemyPerkDesc0_3: résistance au feu
+    alchemyPerkDesc0_4: soin
+    alchemyPerkDesc0_5: force
+    enchantingPerkDesc1_0: Débloque la capacité de fabriquer
+    enchantingPerkDesc1_1: Livres enchantés de Puissance I et Efficacité I (Coût de 1 niveau)"
+    enchantingPerkDesc1_2: Livres enchantés Tranchant I et Protection I (Coût de 1 niveau)
+    enchantingPerkDesc1_3: Livres enchantés Chance de la mer I et Appât I (Coût de 1 niveau)
+    enchantingPerkDesc1_4: Livres enchantés Agilité aquatique I et Semelles givrantes I (Coût de 1 niveau)
+    enchantingPerkDesc1_5: Livres enchantés Raccommodage (Coût de 10 niveaux) et Fortune I (Coût de 2 niveaux)
+    repairPerkDesc0_1: Gagnez plus de matériaux en recyclant
+    repairPerkDesc0_2: Gagnez plus de matériaux en recyclant, recycler extrait maintenant l'enchantement de l'objet dans un livre
+    xpBoost: Boost d'XP
+    speedBoost: Boost de rapidité
+    timeExtension: Extension du temps
+    enchantingCraft0: Livre Puissance I
+    enchantingCraft1: Livre Efficacité I
+    enchantingCraft2: Livre Tranchant I
+    enchantingCraft3: Livre Protection I
+    enchantingCraft4: Livre Chance de la mer I
+    enchantingCraft5: Livre Appât I
+    enchantingCraft6: Livre Semelles givrantes I
+    enchantingCraft7: Livre Agilité aquatique I
+    enchantingCraft8: Livre Raccommodage
+    enchantingCraft9: Livre Fortune I
+    alchemyCraft0: Potion d'Apnée
+    alchemyCraft1: Potion de Rapidité
+    alchemyCraft2: Potion de Résistance au feu
+    alchemyCraft3: Potion de Soin
+    alchemyCraft4: Potion de Force
+    commandDesc9: Définit le nombre âmes d'un joueur
+    commandDesc10: Définit la compétence ou les jetons passifs dans la compétence spécifiée d'un joueur
+    commandDesc11: Définit le nombre de jetons globaux d'un joueur
+    commandDesc12: Enregistre les statistiques de tous les joueurs ou d’un joueur
+    status: STATUS
+    complete: COMPLET
+    incomplete: INCOMPLET
