@@ -1,12 +1,12 @@
 general:
-  playerBaseHP: 20.0
-  defaultLanguage: enUs
+  playerBaseHP: 20.0 #Amount of
+  defaultLanguage: enUs #Current Choices: enUs, huHu, frFR
   allowCustomExplosions: true
   allowBuild: true
   allowPvP: true
   allowHurtAnimals: true
-  saveStatsTimer: 900
-multipliers:
+  saveStatsTimer: 900 #Number of seconds between each time the server saves all player stats
+multipliers: #EXP multipliers, global STACKS with any other multiplier
   globalMultiplier: 1.0
   diggingMultiplier: 1.0
   woodcuttingMultiplier: 1.0
@@ -24,17 +24,21 @@ multipliers:
   smeltingMultiplier: 1.0
   enchantingMultiplier: 1.0
 tokens:
-  automaticPassiveUpgradesPerLevel: 1.0
-  levelsPerPassiveToken: 1.0
-  levelPerSkillToken: 100.0
-  levelsPerGlobalToken: 1000.0
-  startingPassiveTokens: 0
+  automaticPassiveUpgradesPerLevel: 1.0 #Number of passive tokens gained per level
+  levelsPerPassiveToken: 1.0 #Number of levels required before a passive token is earned (ex. 0.5 --> 2 passive tokens per level)
+  levelPerSkillToken: 100.0 #Number of levels required before a skill token is earned
+  levelsPerGlobalToken: 1000.0 #Number of levels required before a global token is earned
+  startingPassiveTokens: 0 #Starting tokens for newly joining players...
   startingSkillTokens: 0
   startingGlobalTokens: 0
+  skillTokenToPassiveTokenConversion: 50 #When a skill tree is maxed, skill tokens will convert to passive tokens automatically at this exchange rate
+  globalTokenToEXPbuff: 0.01 #When the global tree is maxed, Players will gain a +1% global exp boost instead of a token (ex. 0.05 --> +5% global exp boost per global token)
 souls:
   startingSouls: 0
   refundCost: 250
 leveling:
+  # Use this link to visualize the EXP curve and test parameters:
+  # https://www.desmos.com/calculator/908u6zj6yk
   maxLevel: -1
   exponentialGrowthFactor: 1.001595
   exponentialReferenceLevel: 1000

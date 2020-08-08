@@ -399,7 +399,7 @@ public class Defense {
 
     public void giveHitEXP(double damage) {
         increaseStats.changeEXP("defense",20);
-        increaseStats.changeEXP("defense", (int) Math.round(damage * 12) * 10);
+        increaseStats.changeEXP("defense", (int) Math.round(damage * 25) * 10);
     }
 
     public void giveKillEXP(Entity entity) {
@@ -409,11 +409,11 @@ public class Defense {
                 switch (type) {
                     case STRIDER:
                     case CREEPER:
-                        increaseStats.changeEXP("defense",400);
+                        increaseStats.changeEXP("defense",200);
                         break;
                     case HOGLIN:
                     case ZOGLIN:
-                        increaseStats.changeEXP("defense",600);
+                        increaseStats.changeEXP("defense",300);
                         break;
                     case WITHER:
                         increaseStats.changeEXP("defense",30000);
@@ -422,7 +422,7 @@ public class Defense {
                         increaseStats.changeEXP("defense",10000);
                         break;
                     default:
-                        increaseStats.changeEXP("defense", 300);
+                        increaseStats.changeEXP("defense", 150);
                         break;
                 }
             }
@@ -432,7 +432,7 @@ public class Defense {
                         increaseStats.changeEXP("defense",50000);
                         break;
                     case IRON_GOLEM:
-                        increaseStats.changeEXP("defense", 750);
+                        increaseStats.changeEXP("defense", 400);
                         break;
                     case BEE:
                     case DOLPHIN:
@@ -440,7 +440,7 @@ public class Defense {
                     case POLAR_BEAR:
                     case TRADER_LLAMA:
                     case WOLF:
-                        increaseStats.changeEXP("defense",250);
+                        increaseStats.changeEXP("defense",200);
                         break;
                     default:
                         increaseStats.changeEXP("defense",80);

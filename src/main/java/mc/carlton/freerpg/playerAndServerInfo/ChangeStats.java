@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.playerAndServerInfo;
 
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
+import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.guiEvents.MaxPassiveLevels;
 import mc.carlton.freerpg.perksAndAbilities.Global;
 import org.bukkit.ChatColor;
@@ -57,14 +58,22 @@ public class ChangeStats {
         }
         if (!skillName.equals("global")) {
             Global globalClass = new Global(p);
-            String[] titles_0 = {"Digging","Woodcutting","Mining","Farming","Fishing","Archery","Beast Mastery","Swordsmanship","Defense","Axe Mastery","Repair","Agility","Alchemy","Smelting","Enchanting","Global"};
+            LanguageSelector lang = new LanguageSelector(p);
+            String[] titles_0 = {lang.getString("digging"),lang.getString("woodcutting"),lang.getString("mining"),lang.getString("farming"),lang.getString("fishing"),lang.getString("archery"),lang.getString("beastMastery"),lang.getString("swordsmanship"),lang.getString("defense"),lang.getString("axeMastery"),lang.getString("repair"),lang.getString("agility"),lang.getString("alchemy"),lang.getString("smelting"),lang.getString("enchanting"),lang.getString("global")};
             String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting","global"};
             List<String> labels_arr = Arrays.asList(labels_0);
             String skillTitle = titles_0[labels_arr.indexOf(skillName)];
 
+            //Get stats
+            PlayerStats pStatClass = new PlayerStats(p);
+            Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
+            Map<String, ArrayList<Number>> pStatAll = statAll.get(uuid);
+            ArrayList<Number> pStats = pStatAll.get(skillName);
+            ArrayList<Number> pGlobalStats = pStatAll.get("global");
+
             //Multipliers
             if (!isCommand) {
-                expChange = (int) Math.ceil(expChange * (multipliers.get(0)) * (multipliers.get(labels_arr.indexOf(skillName) + 1)) * (globalClass.expBoost(skillName))); //multiplies exp by global multiplier
+                expChange = (int) Math.ceil(expChange * ((double)pGlobalStats.get(23) * multipliers.get(0)) * (multipliers.get(labels_arr.indexOf(skillName) + 1)) * (globalClass.expBoost(skillName))); //multiplies exp by global multiplier
             }
 
             //Get Corresponding maxLevel
@@ -76,6 +85,8 @@ public class ChangeStats {
                 }
             }
 
+            //Max skill tokens
+
 
 
             //TokensInfo
@@ -83,13 +94,6 @@ public class ChangeStats {
             double levelsPerPassive = tokensInfo.get(1);
             double levelsPerSkill = tokensInfo.get(2);
             double levelsPerGlobal = tokensInfo.get(3);
-
-            //Get stats
-            PlayerStats pStatClass = new PlayerStats(p);
-            Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
-            Map<String, ArrayList<Number>> pStatAll = statAll.get(uuid);
-            ArrayList<Number> pStats = pStatAll.get(skillName);
-            ArrayList<Number> pGlobalStats = pStatAll.get("global");
 
             // get old stats
             int exp = pStats.get(1).intValue();
@@ -124,18 +128,48 @@ public class ChangeStats {
                 int level_s = (int) Math.floor(level/levelsPerSkill);
                 int oldLevel_g = (int)Math.floor(oldGlobalLevel/levelsPerGlobal);
                 int level_g = (int) Math.floor(globalLevel/levelsPerGlobal);
+                newTokens_S = level_s-oldLevel_s;
+                newTokens_G = level_g-oldLevel_g;
+                int extraSkillTokens = -100;
+                int extraGlobalTokens = -100;
+                boolean gainedGlobalToken = false;
+                int passiveBoost = 0;
+                if (newTokens_S > 0) {
+                     extraSkillTokens = areSkillsMaxed(skillName,newTokens_S);
+                    if (extraSkillTokens >= 0) {
+                        newTokens_S -= extraSkillTokens;
+                    }
+                }
+                if (newTokens_G > 0) {
+                    gainedGlobalToken = true;
+                    extraGlobalTokens = areGlobalPerksMaxed(newTokens_G);
+                    if (extraGlobalTokens >= 0) {
+                        newTokens_G -= extraGlobalTokens;
+                        ConfigLoad loadConfig = new ConfigLoad();
+                        double multiplierIncrease = extraGlobalTokens*loadConfig.getTokensInfo().get(8);
+                        changeStat("global",23,multiplierIncrease);
+                    }
+                }
                 if (!skillName.equals("repair") && !skillName.equals("agility") && !skillName.equals("alchemy") && !skillName.equals("smelting") && !skillName.equals("enchanting")) {
                     int oldLevel_p = (int)Math.floor(oldLevel/levelsPerPassive);
                     int level_p = (int) Math.floor(level/levelsPerPassive);
                     newTokens_P = level_p-oldLevel_p;
+                    if (extraSkillTokens > 0) {
+                        ConfigLoad loadConfig = new ConfigLoad();
+                        newTokens_P +=(int) (extraSkillTokens*loadConfig.getTokensInfo().get(7));
+                    }
                 }
-                newTokens_S = level_s-oldLevel_s;
-                newTokens_G = level_g-oldLevel_g;
+                else {
+                    if (extraSkillTokens > 0) {
+                        ConfigLoad loadConfig = new ConfigLoad();
+                        passiveBoost += (int) (extraSkillTokens*loadConfig.getTokensInfo().get(7));
+                    }
+                }
                 tokens_S += newTokens_S;
                 tokens_P += newTokens_P;
                 tokens_G += newTokens_G;
                 String bars = "------------------------------------------------";
-                String levelUpMessage = "Reached level " + level + " in " + skillTitle + "!";
+                String levelUpMessage = skillTitle + " " + lang.getString("level") + " " + level + "!";
                 String sbSpace = "";
                 int spaces = bars.length() - levelUpMessage.length();
                 if (!(spaces % 2 == 0)){
@@ -146,30 +180,39 @@ public class ChangeStats {
                     sbSpace += " ";
                 }
                 if ((int)pGlobalStats.get(21) > 0) { //Level Up Message Toggle Conditional
-                    if (newTokens_G > 0) {
-                        p.sendTitle(ChatColor.DARK_PURPLE + "+1 Global Token", ChatColor.YELLOW + "Check /skillTree global", 5, 20, 20);
+                    if (gainedGlobalToken) {
+                        p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
+                        if (newTokens_G>0 && extraGlobalTokens <= 0) {
+                            p.sendTitle(ChatColor.DARK_PURPLE + lang.getString("globalPassiveTitle0") + " " +  "+" + newTokens_G, ChatColor.YELLOW + lang.getString("try0") + " /frpg skillTree global", 5, 40, 20);
+                        }
+                        else {
+                            ConfigLoad loadConfig = new ConfigLoad();
+                            double multiplierIncrease = extraGlobalTokens*loadConfig.getTokensInfo().get(8);
+                            String percentageIncreaseString = String.valueOf(multiplierIncrease*100)+"%";
+                            p.sendTitle(ChatColor.DARK_PURPLE + lang.getString("expIncrease") + " +" + percentageIncreaseString,ChatColor.RED + lang.getString("globalPassiveTitle0") + " " + "+" + newTokens_G, 5, 40, 20);
+                        }
                     }
                     if (newTokens_S > 0 || oldLevel < 3) {
                         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
                         p.sendMessage(bars);
-                        p.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + sbSpace + "Reached level " + level + " in " + skillTitle + "!");
+                        p.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + sbSpace + levelUpMessage);
                         if (newTokens_P > 0) {
-                            p.sendMessage(ChatColor.LIGHT_PURPLE + "+" + newTokens_P + " Passive Tokens");
+                            p.sendMessage(ChatColor.LIGHT_PURPLE + "+" + newTokens_P + " " + lang.getString("diggingPassiveTitle0"));
                         }
                         if (newTokens_S > 0) {
-                            p.sendMessage(ChatColor.GOLD + "+" + newTokens_S + " Skill Tokens");
+                            p.sendMessage(ChatColor.GOLD + "+" + newTokens_S + " " + lang.getString("diggingPassiveTitle2"));
                         }
                         if (newTokens_G > 0) {
-                            p.sendMessage(ChatColor.DARK_PURPLE + "+" + newTokens_G + " Global Tokens");
+                            p.sendMessage(ChatColor.DARK_PURPLE + "+" + newTokens_G + " " + lang.getString("globalPassiveTitle0"));
                         }
                         if (oldLevel < 3) {
                             p.sendMessage("");
-                            p.sendMessage(ChatColor.ITALIC + "Your passive perks improve every level!");
-                            p.sendMessage(ChatColor.ITALIC + "Check out /skillTree " + skillName + " to see your perks!");
+                            p.sendMessage(ChatColor.ITALIC + lang.getString("passiveImprove"));
+                            p.sendMessage(ChatColor.ITALIC + lang.getString("try0") + " /frpg skillTree " + skillName);
                         }
                         p.sendMessage(bars);
                     } else {
-                        actionMessage.sendMessage(ChatColor.YELLOW + skillTitle + " increased by " + Integer.toString(levelChange) + ". (" + level + ")");
+                        actionMessage.sendMessage(ChatColor.YELLOW + skillTitle + " "+lang.getString("increasedBy")+" " + Integer.toString(levelChange) + ". (" + level + ")");
                     }
                 }
                 pStats.set(0, level);
@@ -179,12 +222,12 @@ public class ChangeStats {
                 int oldLevel_auto_p = (int)Math.floor(oldLevel/autoPassive);
                 int level_auto_p = (int) Math.floor(level/autoPassive);
                 autoPassivesChange = level_auto_p-oldLevel_auto_p;
-                pStats.set(4, (int) pStats.get(4) + autoPassivesChange);
+                pStats.set(4, (int) pStats.get(4) + autoPassivesChange+passiveBoost);
                 MaxPassiveLevels passiveMax = new MaxPassiveLevels();
                 int passiveMax2 = passiveMax.findMaxLevel(skillName, 2);
                 int passiveMax3 = passiveMax.findMaxLevel(skillName, 3);
-                pStats.set(5, (int) Math.min((int) pStats.get(5) + autoPassivesChange, passiveMax2));
-                pStats.set(6, (int) Math.min((int) pStats.get(6) + autoPassivesChange, passiveMax3));
+                pStats.set(5, (int) Math.min((int) pStats.get(5) + autoPassivesChange+passiveBoost, passiveMax2));
+                pStats.set(6, (int) Math.min((int) pStats.get(6) + autoPassivesChange+passiveBoost, passiveMax3));
                 pGlobalStats.set(0, globalLevel);
                 pGlobalStats.set(1, tokens_G);
             }
@@ -198,6 +241,35 @@ public class ChangeStats {
             pStatClass.setData(statAll);
         }
     }
+
+    public int areSkillsMaxed(String skillName,int skillTokensGained){
+        String[] passive_skills_0 = {"repair","agility","alchemy","smelting","enchanting"};
+        List<String> passiveSkills = Arrays.asList(passive_skills_0);
+        int maxSkillTokens = 23;
+        int currentSkillTotal = 0;
+        if (passiveSkills.contains(skillName)) {
+            maxSkillTokens = 11;
+        }
+
+        PlayerStats pStatClass = new PlayerStats(p);
+        Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
+        Map<String, ArrayList<Number>> pStatAll = statAll.get(uuid);
+        ArrayList<Number> pStats = pStatAll.get(skillName);
+        currentSkillTotal = (int) pStats.get(3) + (int) pStats.get(7) + (int) pStats.get(8) + (int) pStats.get(9) + (int) pStats.get(10) + (int) pStats.get(11) + (int) pStats.get(12) + (int) pStats.get(13);
+        currentSkillTotal += skillTokensGained;
+        return currentSkillTotal-maxSkillTokens;
+    }
+
+    public int areGlobalPerksMaxed(int globalTokensGained) {
+        int maxGlobalTotal = 10;
+        PlayerStats pStatClass = new PlayerStats(p);
+        Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
+        Map<String, ArrayList<Number>> pStatAll = statAll.get(uuid);
+        ArrayList<Number> pStats = pStatAll.get("global");
+        int currentGlobalTotal = globalTokensGained + (int) pStats.get(1) + (int) pStats.get(2) + (int) pStats.get(3) + (int) pStats.get(4) + (int) pStats.get(5) + (int) pStats.get(6) + (int) pStats.get(7) + (int) pStats.get(8) +(int) pStats.get(9) +(int) pStats.get(10) +(int) pStats.get(11);
+        return currentGlobalTotal - maxGlobalTotal;
+    }
+
     public int getEXPfromLevel(int level) {
         double B = levelingInfo.get(1);
         int referenceLevel = (int) Math.round(levelingInfo.get(2));
@@ -263,7 +335,7 @@ public class ChangeStats {
         pStatClass.setData(statAll);
     }
 
-    public void changeStat(String skillName,int statIndex, int valueChange) {
+    public void changeStat(String skillName,int statIndex, Number valueChange) {
         //Get stats
         PlayerStats pStatClass = new PlayerStats(p);
         Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
@@ -271,8 +343,16 @@ public class ChangeStats {
         ArrayList<Number> pStats = pStatAll.get(skillName);
 
         //change stat
-        int originalValue = (int) pStats.get(statIndex);
-        pStats.set(statIndex,originalValue+valueChange);
+        if (skillName.equalsIgnoreCase("global") && statIndex == 23) {
+            double originalValue = (double) pStats.get(statIndex);
+            double valueChangeDouble = (double) valueChange;
+            pStats.set(statIndex, originalValue + valueChangeDouble);
+        }
+        else {
+            int originalValue = (int) pStats.get(statIndex);
+            int valueChangeInt = (int) valueChange;
+            pStats.set(statIndex, originalValue + valueChangeInt);
+        }
 
         // Sets stats
         pStatAll.put(skillName, pStats);
@@ -280,7 +360,7 @@ public class ChangeStats {
         pStatClass.setData(statAll);
     }
 
-    public void setStat(String skillName,int statIndex, int newValue ) {
+    public void setStat(String skillName,int statIndex, Number newValue ) {
         //Get stats
         PlayerStats pStatClass = new PlayerStats(p);
         Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
@@ -288,7 +368,14 @@ public class ChangeStats {
         ArrayList<Number> pStats = pStatAll.get(skillName);
 
         //change stat
-        pStats.set(statIndex,newValue);
+        if (skillName.equalsIgnoreCase("global") && statIndex == 23) {
+            double newValueDouble = (double) newValue;
+            pStats.set(statIndex, newValueDouble);
+        }
+        else {
+            int newValueInt = (int) newValue;
+            pStats.set(statIndex, newValueInt);
+        }
 
         // Sets stats
         pStatAll.put(skillName, pStats);

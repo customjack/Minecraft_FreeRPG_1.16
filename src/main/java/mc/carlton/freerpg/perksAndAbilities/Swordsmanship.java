@@ -55,7 +55,7 @@ public class Swordsmanship {
                                 EntityType.PIGLIN,EntityType.HOGLIN,EntityType.ZOGLIN};
     List<EntityType> thirstMobs = Arrays.asList(thirstMobs0);
 
-    Material[] swords0 = {Material.WOODEN_SWORD,Material.STONE_SWORD,Material.GOLDEN_SWORD,Material.DIAMOND_SWORD,Material.IRON_SWORD};
+    Material[] swords0 = {Material.NETHERITE_SWORD,Material.WOODEN_SWORD,Material.STONE_SWORD,Material.GOLDEN_SWORD,Material.DIAMOND_SWORD,Material.IRON_SWORD};
     List<Material> swords = Arrays.asList(swords0);
 
     public Swordsmanship(Player p) {
@@ -117,8 +117,8 @@ public class Swordsmanship {
         int finalCooldown = cooldown;
         long duration = (long) duration0;
         int sharperLevel = (int) pStat.get("swordsmanship").get(12);
+        int sharpLevel = itemInHand.getEnchantmentLevel(Enchantment.DAMAGE_ALL);
         if (sharperLevel > 0) {
-            int sharpLevel = itemInHand.getEnchantmentLevel(Enchantment.DAMAGE_ALL);
             itemInHand.removeEnchantment(Enchantment.DAMAGE_ALL);
             itemInHand.addUnsafeEnchantment(Enchantment.DAMAGE_ALL,sharpLevel+1);
         }
@@ -133,6 +133,14 @@ public class Swordsmanship {
                 actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("swiftStrikes") + " " + lang.getString("ended") + "<<<");
                 abilities.setPlayerAbility( "swordsmanship", -1);
                 ((Attributable) p).getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4.0);
+                if (sharperLevel > 0) {
+                    if (sharpLevel > 0) {
+                        itemInHand.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, sharpLevel);
+                    }
+                    else {
+                        itemInHand.removeEnchantment(Enchantment.DAMAGE_ALL);
+                    }
+                }
                 for (int i = 1; i < finalCooldown+1; i++) {
                     int timeRemaining = finalCooldown - i;
                     new BukkitRunnable() {
@@ -367,7 +375,7 @@ public class Swordsmanship {
 
     public void giveHitEXP(double finalDamage) {
         increaseStats.changeEXP("swordsmanship",20);
-        increaseStats.changeEXP("swordsmanship", (int) Math.round(finalDamage * 5) * 10);
+        increaseStats.changeEXP("swordsmanship", (int) Math.round(finalDamage * 10) * 10);
     }
 
     public void giveKillEXP(Entity entity) {
@@ -383,14 +391,15 @@ public class Swordsmanship {
                     case ZOMBIE:
                     case CAVE_SPIDER:
                     case SPIDER:
-                        increaseStats.changeEXP("swordsmanship", 250);
+                        increaseStats.changeEXP("swordsmanship", 120);
                         break;
+                    case STRIDER:
                     case CREEPER:
-                        increaseStats.changeEXP("swordsmanship",750);
+                        increaseStats.changeEXP("swordsmanship",200);
                         break;
                     case HOGLIN:
                     case ZOGLIN:
-                        increaseStats.changeEXP("swordsmanship",1200);
+                        increaseStats.changeEXP("swordsmanship",250);
                         break;
                     case WITHER:
                         increaseStats.changeEXP("swordsmanship",30000);
@@ -399,7 +408,7 @@ public class Swordsmanship {
                         increaseStats.changeEXP("swordsmanship",10000);
                         break;
                     default:
-                        increaseStats.changeEXP("swordsmanship", 400);
+                        increaseStats.changeEXP("swordsmanship", 100);
                         break;
                 }
             }
@@ -409,7 +418,7 @@ public class Swordsmanship {
                         increaseStats.changeEXP("swordsmanship",50000);
                         break;
                     case IRON_GOLEM:
-                        increaseStats.changeEXP("swordsmanship", 500);
+                        increaseStats.changeEXP("swordsmanship", 300);
                         break;
                     case BEE:
                     case DOLPHIN:
@@ -417,10 +426,10 @@ public class Swordsmanship {
                     case POLAR_BEAR:
                     case TRADER_LLAMA:
                     case WOLF:
-                        increaseStats.changeEXP("swordsmanship",250);
+                        increaseStats.changeEXP("swordsmanship",125);
                         break;
                     default:
-                        increaseStats.changeEXP("swordsmanship",100);
+                        increaseStats.changeEXP("swordsmanship",50);
                         break;
                 }
             }

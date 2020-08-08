@@ -235,7 +235,7 @@ public class SkillsGUIclick implements Listener {
                                     break;
                                 case "agility":
                                     if ((int) pStats.get(13) > 0) {
-                                        p.performCommand("frpg speedTogggle");
+                                        p.performCommand("frpg speedToggle");
                                         p.performCommand("frpg skillTreeGUI " + skillName);
                                     }
                                     break;

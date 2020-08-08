@@ -81,6 +81,7 @@ public class StatManager {
                 playerData.set("globalStats.souls",souls0);
                 playerData.set("globalStats.levelUpMessageToggle",1);
                 playerData.set("globalStats.abilityPrepareMessageToggle",1);
+                playerData.set("globalStats.personalEXPMultiplier",1.0);
 
                 // Skill Type Data
                 for (int i = 0; i < labels.length; i++) {
@@ -205,6 +206,9 @@ public class StatManager {
                 }
                 if (!playerData.contains("globalStats.abilityPrepareMessageToggle")) {
                     playerData.set("globalStats.abilityPrepareMessageToggle", 1);
+                }
+                if (!playerData.contains("globalStats.personalEXPMultiplier")) {
+                    playerData.set("globalStats.personalEXPMultiplier", 1.0);
                 }
 
                 // Skill Type Data

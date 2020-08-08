@@ -95,6 +95,7 @@ public class PlayerStatsLoadIn {
             stats.add(Integer.valueOf((playerData.get("globalStats.souls").toString())));
             stats.add(Integer.valueOf((playerData.get("globalStats.levelUpMessageToggle").toString())));
             stats.add(Integer.valueOf((playerData.get("globalStats.abilityPrepareMessageToggle").toString())));
+            stats.add(Double.valueOf((playerData.get("globalStats.personalEXPMultiplier").toString())));
             statsMap.put("global", stats);
 
             for (int i = 0; i < labels.length; i++) {
@@ -167,6 +168,7 @@ public class PlayerStatsLoadIn {
                     playerData.set("globalStats.souls",pStatAll.get(i).get(20));
                     playerData.set("globalStats.levelUpMessageToggle",pStatAll.get(i).get(21));
                     playerData.set("globalStats.abilityPrepareMessageToggle",pStatAll.get(i).get(22));
+                    playerData.set("globalStats.personalEXPMultiplier",pStatAll.get(i).get(23));
                 }
                 else {
                     playerData.set(i+".level",pStatAll.get(i).get(0));

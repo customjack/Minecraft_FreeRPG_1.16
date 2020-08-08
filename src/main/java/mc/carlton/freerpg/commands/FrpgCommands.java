@@ -95,7 +95,7 @@ public class FrpgCommands implements CommandExecutor {
                     else if (i==0) {
                         int globalTokens = (int) pStat.get(labels0[i]).get(1);
                         int totalLevel = pStat.get("global").get(0).intValue();
-                        lore_skills.add(ChatColor.GRAY + lang.getString("total") + lang.getString("level") +": " + ChatColor.GOLD + String.valueOf(totalLevel));
+                        lore_skills.add(ChatColor.GRAY + lang.getString("total") + " " + lang.getString("level") +": " + ChatColor.GOLD + String.valueOf(totalLevel));
                         if (globalTokens > 0) {
                             item.addUnsafeEnchantment(Enchantment.DURABILITY,1);
                         }
@@ -124,8 +124,10 @@ public class FrpgCommands implements CommandExecutor {
                         }
                         PlayerStats timeStats = new PlayerStats(p);
                         String playTimeString = timeStats.getPlayerPlayTimeString();
+                        double personalMultiplier = (double) pStat.get("global").get(23);
                         ArrayList<String> lore = new ArrayList<>();
                         lore.add(ChatColor.GRAY + lang.getString("totalPlayTime")+ ": " + ChatColor.GOLD + playTimeString);
+                        lore.add(ChatColor.GRAY + lang.getString("personalMultiplier")+": " + ChatColor.GOLD + String.valueOf(personalMultiplier)+"x");
                         lore.add(ChatColor.GRAY + lang.getString("globalPassiveTitle0")+ ": " + ChatColor.GOLD + String.valueOf(gTokens));
                         lore.add(ChatColor.GRAY + lang.getString("diggingPassiveTitle2")+": " + ChatColor.GOLD + String.valueOf(totTokens_S));
                         lore.add(ChatColor.GRAY + lang.getString("diggingPassiveTitle0")+": " + ChatColor.GOLD + String.valueOf(totTokens_P));
@@ -229,7 +231,9 @@ public class FrpgCommands implements CommandExecutor {
                                 p.sendMessage(ChatColor.GOLD  + "/frpg setTokens" + " ["+lang.getString("playerName")+"]" + " global" + " ["+lang.getString("amount")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
                                         ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc11"));
                                 p.sendMessage(ChatColor.GOLD  + "/frpg saveStats ["+lang.getString("playerName")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc12"));
+                                    ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc12"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg setMultiplier ["+lang.getString("playerName")+"] " + "[" + lang.getString("expIncrease")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc13"));
                                 break;
                             default:
                                 break;
@@ -941,6 +945,66 @@ public class FrpgCommands implements CommandExecutor {
             }
         }
 
+        //setMultiplier
+        else if (args[0].equalsIgnoreCase("setMultiplier") || args[0].equalsIgnoreCase("multiplierSet")) {
+            if (args.length == 3) {
+                String playerName = args[1];
+
+                //Checks if target is online and exists
+                Player target = plugin.getServer().getPlayer(playerName);
+                if (target == null) {
+                    if (sender instanceof Player) {
+                        Player p = (Player) sender;
+                        LanguageSelector lang = new LanguageSelector(p);
+                        p.sendMessage(ChatColor.RED+lang.getString("playerOffline"));
+                    } else {
+                        System.out.println("Player not online");
+                    }
+                    return true;
+                }
+
+                //Checks if value is a double
+                double multiplier = 1.0;
+                try {
+                    multiplier = Double.valueOf(args[2]);
+                }
+                catch (NumberFormatException e) {
+                    if (sender instanceof Player) {
+                        Player p = (Player) sender;
+                        LanguageSelector lang = new LanguageSelector(p);
+                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg setMultiplier [" + lang.getString("playerName") + "] " + "[" + lang.getString("expIncrease")+"]");
+                    }
+                    else {
+                        System.out.println("Improper arguments, try /frpg setMultiplier [playerName] [EXP Multiplier]");
+                    }
+                    return true;
+                }
+
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    if (p.hasPermission("setMultiplier")) {
+                        ChangeStats setMultiplier = new ChangeStats(target);
+                        setMultiplier.setStat("global",23,multiplier);
+                    }
+                }
+                else {
+                    ChangeStats setMultiplier = new ChangeStats(target);
+                    setMultiplier.setStat("global",23,multiplier);
+                }
+
+
+            }
+            else {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg setMultiplier [" + lang.getString("playerName") + "] " + "[" + lang.getString("expIncrease")+"]");
+                }
+                else {
+                    System.out.println("Improper arguments, try /frpg setMultiplier [playerName] [EXP Multiplier]");
+                }
+            }
+        }
 
         //flamePickToggle
         else if (args[0].equalsIgnoreCase("toggleFlamePick") || args[0].equalsIgnoreCase("flamePickToggle")) {
@@ -1485,7 +1549,7 @@ public class FrpgCommands implements CommandExecutor {
                     englishMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + "English");
                     englishLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"(American English)");
                     englishLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("status")+": "+
-                                    ChatColor.RESET + ChatColor.GREEN +lang.getString("complete"));
+                                    ChatColor.RESET + ChatColor.GREEN + "100% " +lang.getString("complete"));
                     englishMeta.setLore(englishLore);
                     english.setItemMeta(englishMeta);
                     gui.setItem(29,english);
@@ -1503,14 +1567,14 @@ public class FrpgCommands implements CommandExecutor {
                     gui.setItem(38,englishToggle);
 
 
-                    //HUNGARIAN
+                    //Hungarian
                     ItemStack hungary = new ItemStack(Material.BOOK);
                     ItemMeta hungaryMeta = hungary.getItemMeta();
                     hungaryMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + "Magyar Nyelv");
                     ArrayList<String> hungaryLore = new ArrayList<>();
                     hungaryLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"(Hungarian)");
                     hungaryLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("status")+": "+
-                            ChatColor.RESET + ChatColor.RED +lang.getString("incomplete"));
+                            ChatColor.RESET + ChatColor.YELLOW + "75% " +lang.getString("complete"));
                     hungaryMeta.setLore(hungaryLore);
                     hungary.setItemMeta(hungaryMeta);
                     gui.setItem(30,hungary);
@@ -1526,6 +1590,30 @@ public class FrpgCommands implements CommandExecutor {
                     }
                     hungaryToggle.setItemMeta(hungaryToggleMeta);
                     gui.setItem(39,hungaryToggle);
+
+                    //French
+                    ItemStack french = new ItemStack(Material.BOOK);
+                    ItemMeta frenchMeta = french.getItemMeta();
+                    frenchMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + "Français");
+                    ArrayList<String> frenchLore = new ArrayList<>();
+                    frenchLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"(French)");
+                    frenchLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("status")+": "+
+                            ChatColor.RESET + ChatColor.GREEN + "99% " +lang.getString("complete"));
+                    frenchMeta.setLore(frenchLore);
+                    french.setItemMeta(frenchMeta);
+                    gui.setItem(31,french);
+
+                    ItemStack frenchToggle = new ItemStack(Material.LIME_DYE);
+                    ItemMeta frenchToggleMeta = frenchToggle.getItemMeta();
+                    if (language.equalsIgnoreCase("frFR")) {
+                        frenchToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
+                    }
+                    else {
+                        frenchToggle.setType(Material.GRAY_DYE);
+                        frenchToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
+                    }
+                    frenchToggle.setItemMeta(frenchToggleMeta);
+                    gui.setItem(40,frenchToggle);
 
 
                     //Put the items in the inventory

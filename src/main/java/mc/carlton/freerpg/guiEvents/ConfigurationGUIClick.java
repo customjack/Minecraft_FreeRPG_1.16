@@ -1,6 +1,8 @@
 package mc.carlton.freerpg.guiEvents;
 
+import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,6 +36,7 @@ public class ConfigurationGUIClick implements Listener {
                 e.setCancelled(true);
             }
             Player p = (Player) e.getWhoClicked();
+            LanguageSelector lang = new LanguageSelector(p);
             Inventory inv = e.getClickedInventory();
             PlayerStats pStatClass = new PlayerStats(p);
             Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
@@ -63,12 +66,24 @@ public class ConfigurationGUIClick implements Listener {
                         pStatClass.setData(statAll);
                         p.performCommand("frpg configurationGUI");
                         break;
+                    case 30:
+                        p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
+                                ChatColor.WHITE + "vERKE");
+                        break;
+                    case 31:
+                        p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
+                                ChatColor.WHITE + "Temuel");
+                        break;
                     case 38:
                         languageChange.setPlayerLanguage("enUs");
                         p.performCommand("frpg configurationGUI");
                         break;
                     case 39:
                         languageChange.setPlayerLanguage("huHU");
+                        p.performCommand("frpg configurationGUI");
+                        break;
+                    case 40:
+                        languageChange.setPlayerLanguage("frFR");
                         p.performCommand("frpg configurationGUI");
                         break;
                     case 45:

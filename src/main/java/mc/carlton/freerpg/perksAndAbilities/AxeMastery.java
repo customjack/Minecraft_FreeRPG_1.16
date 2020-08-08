@@ -260,7 +260,7 @@ public class AxeMastery {
 
     public void giveHitEXP(double finalDamage) {
         increaseStats.changeEXP("axeMastery",20);
-        increaseStats.changeEXP("axeMastery", (int) Math.round(finalDamage * 5) * 10);
+        increaseStats.changeEXP("axeMastery", (int) Math.round(finalDamage * 10) * 10);
     }
 
     public void giveKillEXP(Entity entity) {
@@ -276,15 +276,15 @@ public class AxeMastery {
                     case ZOMBIE:
                     case CAVE_SPIDER:
                     case SPIDER:
-                        increaseStats.changeEXP("axeMastery", 250);
+                        increaseStats.changeEXP("axeMastery", 120);
                         break;
                     case STRIDER:
                     case CREEPER:
-                        increaseStats.changeEXP("axeMastery",750);
+                        increaseStats.changeEXP("axeMastery",200);
                         break;
                     case HOGLIN:
                     case ZOGLIN:
-                        increaseStats.changeEXP("axeMastery",1400);
+                        increaseStats.changeEXP("axeMastery",250);
                         break;
                     case WITHER:
                         increaseStats.changeEXP("axeMastery",30000);
@@ -293,7 +293,7 @@ public class AxeMastery {
                         increaseStats.changeEXP("axeMastery",10000);
                         break;
                     default:
-                        increaseStats.changeEXP("axeMastery", 400);
+                        increaseStats.changeEXP("axeMastery", 100);
                         break;
                 }
             }
@@ -303,7 +303,7 @@ public class AxeMastery {
                         increaseStats.changeEXP("axeMastery",50000);
                         break;
                     case IRON_GOLEM:
-                        increaseStats.changeEXP("axeMastery", 500);
+                        increaseStats.changeEXP("axeMastery", 300);
                         break;
                     case BEE:
                     case DOLPHIN:
@@ -311,10 +311,10 @@ public class AxeMastery {
                     case POLAR_BEAR:
                     case TRADER_LLAMA:
                     case WOLF:
-                        increaseStats.changeEXP("axeMastery",250);
+                        increaseStats.changeEXP("axeMastery",125);
                         break;
                     default:
-                        increaseStats.changeEXP("axeMastery",100);
+                        increaseStats.changeEXP("axeMastery",50);
                         break;
                 }
             }

@@ -63,6 +63,8 @@ public class ConfigLoad {
             tokens.put("startingPassiveTokens",0);
             tokens.put("startingSkillTokens",0);
             tokens.put("startingGlobalTokens",0);
+            tokens.put("skillTokenToPassiveTokenConversion",50);
+            tokens.put("globalTokenToEXPbuff",0.01);
 
             //souls.*
             souls.put("startingSouls",0);
@@ -164,6 +166,8 @@ public class ConfigLoad {
         tokensInfo.add(Double.valueOf(config.getString("tokens.startingPassiveTokens")));
         tokensInfo.add(Double.valueOf(config.getString("tokens.startingSkillTokens")));
         tokensInfo.add(Double.valueOf(config.getString("tokens.startingGlobalTokens")));
+        tokensInfo.add(Double.valueOf(config.getString("tokens.skillTokenToPassiveTokenConversion")));
+        tokensInfo.add(Double.valueOf(config.getString("tokens.globalTokenToEXPbuff")));
 
         levelingInfo.add(Double.valueOf(config.getString("leveling.maxLevel")));
         levelingInfo.add(Double.valueOf(config.getString("leveling.exponentialGrowthFactor")));

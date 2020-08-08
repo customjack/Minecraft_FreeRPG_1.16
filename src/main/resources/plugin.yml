@@ -67,6 +67,7 @@ permissions:
       freeRPG.setSouls: true
       freeRPG.setTokens: true
       freeRPG.saveStats: true
+      freeRPG.setMultiplier: true
   freeRPG.getEXP:
     description: Allows player to gain every type of EXP
     default: true
@@ -135,6 +136,9 @@ permissions:
     default: op
   freeRPG.statReset:
     description: Allows the user to reset any FreeRPG skill of any player
+    default: op
+  freeRPG.setMultiplier:
+    description: Allows the user to set any player's personal EXP multiplier
     default: op
   freeRPG.diggingEXP:
     description: Allows player to get digging experience
