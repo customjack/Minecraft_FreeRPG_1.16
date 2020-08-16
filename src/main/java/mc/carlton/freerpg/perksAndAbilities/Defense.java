@@ -355,7 +355,9 @@ public class Defense {
         int heartyLevel = (int) pStat.get("defense").get(13);
         if (heartyLevel > 0) {
             double HP = Double.valueOf(plugin.getConfig().getString("general.playerBaseHP"));
-            ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(HP + 4.0);
+            if (((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() <= HP + 4.0) {
+                ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(HP + 4.0);
+            }
         }
 
     }

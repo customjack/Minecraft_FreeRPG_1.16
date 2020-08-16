@@ -1,14 +1,19 @@
 package mc.carlton.freerpg.leaveAndJoin;
 
+import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.ScoreboardOperations;
 import mc.carlton.freerpg.perksAndAbilities.Agility;
+import mc.carlton.freerpg.perksAndAbilities.Defense;
 import mc.carlton.freerpg.perksAndAbilities.Farming;
 import mc.carlton.freerpg.perksAndAbilities.Fishing;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -17,10 +22,13 @@ import java.util.UUID;
 public class LoginProcedure {
     Player p;
     private UUID uuid;
+    Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
+
 
     public LoginProcedure(Player p) {
         this.p = p;
-        this.uuid =uuid;
+        this.uuid = p.getUniqueId();
+
     }
 
     public void playerLogin() {
@@ -66,13 +74,11 @@ public class LoginProcedure {
         //Initiates player abiliyLogoutTracker
         AbilityLogoutTracker abilityLogout = new AbilityLogoutTracker(p);
         Map<Player, Integer[]> logoutTasks = abilityLogout.getTasks();
-        Map<Player, ItemStack[]> logoutItems = abilityLogout.getItems();
+        Map<Player, NamespacedKey[]> logoutItems = abilityLogout.getItems();
         if (!logoutTasks.containsKey(p)) {
             Integer[] initTasks = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
-            ItemStack[] initItems = {new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                    new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                    new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                    new ItemStack(Material.AIR,0)};
+            NamespacedKey key = new NamespacedKey(plugin,"x");
+            NamespacedKey[] initItems = {key,key,key,key,key,key,key,key,key,key,key,key,key,key,key};
             logoutTasks.put(p, initTasks);
             abilityLogout.setTasks(logoutTasks);
             logoutItems.put(p,initItems);
@@ -88,5 +94,12 @@ public class LoginProcedure {
 
         Agility agilityClass = new Agility(p);
         agilityClass.gracefulFeetStart();
+
+        Defense defenseClass = new Defense(p);
+        defenseClass.hearty();
+
+        //Sets up powerlevel
+        //ScoreboardOperations sb = new ScoreboardOperations();
+        //sb.setPlayerPowerLevel(p);
     }
 }

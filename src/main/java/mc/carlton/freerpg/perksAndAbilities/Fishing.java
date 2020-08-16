@@ -153,9 +153,6 @@ public class Fishing {
                 }
             }
         }.runTaskLater(plugin, duration).getTaskId();
-        AbilityLogoutTracker incaseLogout = new AbilityLogoutTracker(p);
-        incaseLogout.setPlayerItem(p,"fishing",itemInHand);
-        incaseLogout.setPlayerTask(p,"fishing",taskID);
     }
 
     public void killFishEXP(Entity fish) {

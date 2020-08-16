@@ -125,12 +125,15 @@ public class FrpgCommands implements CommandExecutor {
                         PlayerStats timeStats = new PlayerStats(p);
                         String playTimeString = timeStats.getPlayerPlayTimeString();
                         double personalMultiplier = (double) pStat.get("global").get(23);
+                        int souls = (int) pStat.get("global").get(20);
+                        String soulsString = lang.getString("souls").substring(0,1).toUpperCase() + lang.getString("souls").substring(1);
                         ArrayList<String> lore = new ArrayList<>();
                         lore.add(ChatColor.GRAY + lang.getString("totalPlayTime")+ ": " + ChatColor.GOLD + playTimeString);
                         lore.add(ChatColor.GRAY + lang.getString("personalMultiplier")+": " + ChatColor.GOLD + String.valueOf(personalMultiplier)+"x");
                         lore.add(ChatColor.GRAY + lang.getString("globalPassiveTitle0")+ ": " + ChatColor.GOLD + String.valueOf(gTokens));
                         lore.add(ChatColor.GRAY + lang.getString("diggingPassiveTitle2")+": " + ChatColor.GOLD + String.valueOf(totTokens_S));
                         lore.add(ChatColor.GRAY + lang.getString("diggingPassiveTitle0")+": " + ChatColor.GOLD + String.valueOf(totTokens_P));
+                        lore.add(ChatColor.GRAY + soulsString +": " + ChatColor.GOLD + String.valueOf(souls));
                         meta.setLore(lore);
                     }
                     else if (indices[i] == 44) {
@@ -1614,6 +1617,54 @@ public class FrpgCommands implements CommandExecutor {
                     }
                     frenchToggle.setItemMeta(frenchToggleMeta);
                     gui.setItem(40,frenchToggle);
+
+                    //German
+                    ItemStack german = new ItemStack(Material.BOOK);
+                    ItemMeta germanMeta = german.getItemMeta();
+                    germanMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + "Deutsch");
+                    ArrayList<String> germanLore = new ArrayList<>();
+                    germanLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"(German)");
+                    germanLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("status")+": "+
+                            ChatColor.RESET + ChatColor.GREEN + "99% " +lang.getString("complete"));
+                    germanMeta.setLore(germanLore);
+                    german.setItemMeta(germanMeta);
+                    gui.setItem(32,german);
+
+                    ItemStack germanToggle = new ItemStack(Material.LIME_DYE);
+                    ItemMeta germanToggleMeta = germanToggle.getItemMeta();
+                    if (language.equalsIgnoreCase("deDE")) {
+                        germanToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
+                    }
+                    else {
+                        germanToggle.setType(Material.GRAY_DYE);
+                        germanToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
+                    }
+                    germanToggle.setItemMeta(germanToggleMeta);
+                    gui.setItem(41,germanToggle);
+
+                    //Polish
+                    ItemStack polish = new ItemStack(Material.BOOK);
+                    ItemMeta polishMeta = polish.getItemMeta();
+                    polishMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + "Polski");
+                    ArrayList<String> polishLore = new ArrayList<>();
+                    polishLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"(Polish)");
+                    polishLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("status")+": "+
+                            ChatColor.RESET + ChatColor.GREEN + "99% " +lang.getString("complete"));
+                    polishMeta.setLore(polishLore);
+                    polish.setItemMeta(polishMeta);
+                    gui.setItem(33,polish);
+
+                    ItemStack polishToggle = new ItemStack(Material.LIME_DYE);
+                    ItemMeta polishToggleMeta = polishToggle.getItemMeta();
+                    if (language.equalsIgnoreCase("plPL")) {
+                        polishToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
+                    }
+                    else {
+                        polishToggle.setType(Material.GRAY_DYE);
+                        polishToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
+                    }
+                    polishToggle.setItemMeta(polishToggleMeta);
+                    gui.setItem(42,polishToggle);
 
 
                     //Put the items in the inventory

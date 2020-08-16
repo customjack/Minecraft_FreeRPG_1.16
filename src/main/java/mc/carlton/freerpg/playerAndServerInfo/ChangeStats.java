@@ -2,12 +2,14 @@ package mc.carlton.freerpg.playerAndServerInfo;
 
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
+import mc.carlton.freerpg.gameTools.ScoreboardOperations;
 import mc.carlton.freerpg.guiEvents.MaxPassiveLevels;
 import mc.carlton.freerpg.perksAndAbilities.Global;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.*;
 
@@ -402,5 +404,10 @@ public class ChangeStats {
         pStatAll.put("global", pStats);
         statAll.put(uuid, pStatAll);
         pStatClass.setData(statAll);
+
+        //Sets up powerlevel
+        //ScoreboardOperations sb = new ScoreboardOperations();
+        //sb.setPlayerPowerLevel(p);
+
     }
 }

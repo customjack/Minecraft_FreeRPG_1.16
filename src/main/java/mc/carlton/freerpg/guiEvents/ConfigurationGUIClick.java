@@ -74,6 +74,14 @@ public class ConfigurationGUIClick implements Listener {
                         p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
                                 ChatColor.WHITE + "Temuel");
                         break;
+                    case 32:
+                        p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
+                                ChatColor.WHITE + "FruitLab.gg");
+                        break;
+                    case 33:
+                        p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
+                                ChatColor.WHITE + "QuarVey");
+                        break;
                     case 38:
                         languageChange.setPlayerLanguage("enUs");
                         p.performCommand("frpg configurationGUI");
@@ -84,6 +92,14 @@ public class ConfigurationGUIClick implements Listener {
                         break;
                     case 40:
                         languageChange.setPlayerLanguage("frFR");
+                        p.performCommand("frpg configurationGUI");
+                        break;
+                    case 41:
+                        languageChange.setPlayerLanguage("deDE");
+                        p.performCommand("frpg configurationGUI");
+                        break;
+                    case 42:
+                        languageChange.setPlayerLanguage("plPL");
                         p.performCommand("frpg configurationGUI");
                         break;
                     case 45:

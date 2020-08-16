@@ -41,9 +41,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Set;
 
 public final class FreeRPG extends JavaPlugin implements Listener {
-    public String version = "Beta 1.0";
+    public String version = "1.1.2";
 
     @Override
     public void onEnable() {
@@ -58,8 +59,9 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         loadConfig.setConfigData();
 
         //Saves Custom Languages YAML file
-        saveResource("languages.yml",true);
+        saveResource("languages.yml",false);
 
+        //Get placed blocks array
         PlacedBlockManager mayCreateFile = new PlacedBlockManager();
         try {
             mayCreateFile.startConditions();
@@ -80,6 +82,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         CheckWorldGuardExistence.initializeWorldGuardPresent();
 
 
+        //Gets minecraft tipped arrows that will stack with vanilla minecraft tipped arrows
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -88,13 +91,15 @@ public final class FreeRPG extends JavaPlugin implements Listener {
             }
         }.runTaskLater(plugin, 20);
 
+
         //Initiliazes periodically saving stats
         PeriodicSaving saveStats = new PeriodicSaving();
-        saveStats.periodicallySaveStats();;
+        saveStats.periodicallySaveStats();
 
-        System.out.println("FreeRPG loaded sucessfully...");
-        System.out.println("Running FreeRPG version " + version);
+        System.out.println("[FreeRPG] FreeRPG loaded sucessfully...");
+        System.out.println("[FreeRPG] Running FreeRPG version " + version);
 
+        //Events
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
         getServer().getPluginManager().registerEvents(new PlayerLeave(), this);
@@ -207,29 +212,6 @@ public final class FreeRPG extends JavaPlugin implements Listener {
             LoginProcedure login = new LoginProcedure(p);
             login.playerLogin();
         }
-
-        //Repeating task to save plugin data
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    PlayerStatsLoadIn saveStats = new PlayerStatsLoadIn(p);
-                    try {
-                        saveStats.setPlayerStatsMap(p);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                PlacedBlocksLoadIn saveBlocks = new PlacedBlocksLoadIn();
-                try {
-                    saveBlocks.setPlacedBlocks();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.runTaskTimer(plugin, 20*600,20*600);
-
     }
 
     public void onDisable() {

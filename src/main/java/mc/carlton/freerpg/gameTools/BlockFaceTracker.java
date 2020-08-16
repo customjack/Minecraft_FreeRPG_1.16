@@ -5,9 +5,10 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BlockFaceTracker {
-    static Map<Player, BlockFace> blockFacePlayerMap = new HashMap<>();
+    static Map<Player, BlockFace> blockFacePlayerMap = new ConcurrentHashMap<>();
 
     public void addBlockFace(BlockFace blockface, Player player) {
         blockFacePlayerMap.put(player, blockface);

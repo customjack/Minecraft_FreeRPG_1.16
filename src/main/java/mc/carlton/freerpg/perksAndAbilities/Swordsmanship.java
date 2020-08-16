@@ -3,21 +3,26 @@ package mc.carlton.freerpg.perksAndAbilities;
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
+import mc.carlton.freerpg.gameTools.TrackItem;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.time.Instant;
 import java.util.*;
 
 public class Swordsmanship {
@@ -123,6 +128,14 @@ public class Swordsmanship {
             itemInHand.addUnsafeEnchantment(Enchantment.DAMAGE_ALL,sharpLevel+1);
         }
 
+        //Mark the item
+        long unixTime = Instant.now().getEpochSecond();
+        String keyName = p.getUniqueId().toString() + "-" + String.valueOf(unixTime) + "-" + "swordsmanship";
+        NamespacedKey key = new NamespacedKey(plugin,keyName);
+        ItemMeta itemMeta = itemInHand.getItemMeta();
+        itemMeta.getPersistentDataContainer().set(key, PersistentDataType.STRING,"nothing");
+        itemInHand.setItemMeta(itemMeta);
+
         ((Attributable) p).getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(1024.0);
         timers.setPlayerTimer( "swordsmanship", finalCooldown);
         Bukkit.getScheduler().cancelTask(pAbilities[7]);
@@ -130,6 +143,11 @@ public class Swordsmanship {
         int taskID = new BukkitRunnable() {
             @Override
             public void run() {
+                TrackItem trackItem = new TrackItem();
+                ItemStack potentialAbilityItem = trackItem.findTrackedItemInInventory(p,key);
+                if (potentialAbilityItem != null) {
+                    itemInHand = potentialAbilityItem;
+                }
                 actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("swiftStrikes") + " " + lang.getString("ended") + "<<<");
                 abilities.setPlayerAbility( "swordsmanship", -1);
                 ((Attributable) p).getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4.0);
@@ -162,7 +180,7 @@ public class Swordsmanship {
             }
         }.runTaskLater(plugin, duration).getTaskId();
         AbilityLogoutTracker incaseLogout = new AbilityLogoutTracker(p);
-        incaseLogout.setPlayerItem(p,"swordsmanship",itemInHand);
+        incaseLogout.setPlayerItem(p,"swordsmanship",key);
         incaseLogout.setPlayerTask(p,"swordsmanship",taskID);
     }
 
@@ -232,6 +250,7 @@ public class Swordsmanship {
                 public void run() {
                     if (!entity.isDead()) {
                         LivingEntity aliveEntity = (LivingEntity) entity;
+                        double hpRemaining = aliveEntity.getHealth();
                         Vector knockback = aliveEntity.getVelocity();
                         aliveEntity.setNoDamageTicks(0);
                         if (aliveEntity instanceof Player) {
@@ -239,7 +258,7 @@ public class Swordsmanship {
                             increaseStats.changeEXP("swordsmanship", (int) 75);
                         }
                         else {
-                            aliveEntity.damage(damage * 0.5);
+                            aliveEntity.damage(Math.min(damage * 0.5,hpRemaining-1));
                             increaseStats.changeEXP("swordsmanship", (int) Math.round(damage * 1.5) * 10);
                         }
                         aliveEntity.setVelocity(knockback.multiply(2));

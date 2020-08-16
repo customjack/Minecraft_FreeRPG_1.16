@@ -4,11 +4,13 @@ import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.playerAndServerInfo.AbilityLogoutTracker;
 import mc.carlton.freerpg.playerAndServerInfo.AbilityTracker;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +36,10 @@ public class PlayerDeath implements Listener {
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[0] != -1) {
             AbilityLogoutTracker logoutTracker = new AbilityLogoutTracker(p);
-            ItemStack itemInHand_digging = logoutTracker.getPlayerItems(p)[0];
+            NamespacedKey key = logoutTracker.getPlayerItems(p)[0];
             int taskID_digging = logoutTracker.getPlayerTasks(p)[0];
             for (ItemStack drop : drops) {
-                if (drop.getItemMeta().equals(itemInHand_digging.getItemMeta())) {
+                if (drop.getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
                     ItemStack abilityItem = drop;
                     Digging diggingClass = new Digging(p);
                     diggingClass.preventLogoutTheft(taskID_digging, abilityItem);
@@ -45,12 +47,12 @@ public class PlayerDeath implements Listener {
                 }
             }
         }
-        else if (pAbilities[2] != -1) {
+        if (pAbilities[2] != -1) {
             AbilityLogoutTracker logoutTracker = new AbilityLogoutTracker(p);
-            ItemStack itemInHand_mining = logoutTracker.getPlayerItems(p)[2];
+            NamespacedKey key = logoutTracker.getPlayerItems(p)[2];
             int taskID_mining = logoutTracker.getPlayerTasks(p)[2];
             for (ItemStack drop: drops) {
-                if (drop.getItemMeta().equals(itemInHand_mining.getItemMeta())) {
+                if (drop.getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
                     ItemStack abilityItem = drop;
                     Mining miningClass = new Mining(p);
                     miningClass.preventLogoutTheft(taskID_mining, abilityItem);
@@ -58,12 +60,12 @@ public class PlayerDeath implements Listener {
                 }
             }
         }
-        else if (pAbilities[7] != -1) {
+        if (pAbilities[7] != -1) {
             AbilityLogoutTracker logoutTracker = new AbilityLogoutTracker(p);
-            ItemStack itemInHand_swordsmanship = logoutTracker.getPlayerItems(p)[7];
+            NamespacedKey key = logoutTracker.getPlayerItems(p)[7];
             int taskID_swordsmanship = logoutTracker.getPlayerTasks(p)[7];
             for (ItemStack drop: drops) {
-                if (drop.getItemMeta().equals(itemInHand_swordsmanship.getItemMeta())) {
+                if (drop.getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
                     ItemStack abilityItem = drop;
                     Swordsmanship swordsmanshipClass = new Swordsmanship(p);
                     swordsmanshipClass.preventLogoutTheft(taskID_swordsmanship, abilityItem);

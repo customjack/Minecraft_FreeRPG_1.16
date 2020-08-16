@@ -3,11 +3,14 @@ package mc.carlton.freerpg.leaveAndJoin;
 import mc.carlton.freerpg.gameTools.BlockFaceTracker;
 import mc.carlton.freerpg.gameTools.BrewingStandUserTracker;
 import mc.carlton.freerpg.gameTools.FurnaceUserTracker;
+import mc.carlton.freerpg.gameTools.TrackItem;
 import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.playerAndServerInfo.*;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import javax.sound.midi.Track;
 import java.io.IOException;
 
 public class LogoutProcedure {
@@ -34,24 +37,35 @@ public class LogoutProcedure {
 
         //Ensures no items stay permanently altered from abilities
         AbilityLogoutTracker logoutTracker = new AbilityLogoutTracker(p);
+        TrackItem trackItem = new TrackItem();
 
-        ItemStack itemInHand_digging = logoutTracker.getPlayerItems(p)[0];
+
+        NamespacedKey key_digging = logoutTracker.getPlayerItems(p)[0];
         int taskID_digging = logoutTracker.getPlayerTasks(p)[0];
+        ItemStack itemInHand_digging = trackItem.findTrackedItemInInventory(p,key_digging);
 
-        ItemStack itemInHand_mining = logoutTracker.getPlayerItems(p)[2];
+        NamespacedKey key_mining = logoutTracker.getPlayerItems(p)[2];
         int taskID_mining = logoutTracker.getPlayerTasks(p)[2];
+        ItemStack itemInHand_mining = trackItem.findTrackedItemInInventory(p,key_mining);
 
-        ItemStack itemInHand_swordsmanship = logoutTracker.getPlayerItems(p)[7];
+        NamespacedKey key_swordsmanship = logoutTracker.getPlayerItems(p)[7];
         int taskID_swordsmanship = logoutTracker.getPlayerTasks(p)[7];
+        ItemStack itemInHand_swordsmanship = trackItem.findTrackedItemInInventory(p,key_swordsmanship);
 
         int taskID_defense = logoutTracker.getPlayerTasks(p)[8];
 
-        Digging diggingClass = new Digging(p);
-        diggingClass.preventLogoutTheft(taskID_digging,itemInHand_digging);
-        Mining miningClass = new Mining(p);
-        miningClass.preventLogoutTheft(taskID_mining,itemInHand_mining);
-        Swordsmanship swordsmanshipClass = new Swordsmanship(p);
-        swordsmanshipClass.preventLogoutTheft(taskID_swordsmanship,itemInHand_swordsmanship);
+        if (itemInHand_digging != null) {
+            Digging diggingClass = new Digging(p);
+            diggingClass.preventLogoutTheft(taskID_digging, itemInHand_digging);
+        }
+        if (itemInHand_mining != null) {
+            Mining miningClass = new Mining(p);
+            miningClass.preventLogoutTheft(taskID_mining, itemInHand_mining);
+        }
+        if (itemInHand_swordsmanship != null) {
+            Swordsmanship swordsmanshipClass = new Swordsmanship(p);
+            swordsmanshipClass.preventLogoutTheft(taskID_swordsmanship, itemInHand_swordsmanship);
+        }
         Defense defenseClass = new Defense(p);
         defenseClass.preventLogoutTheft(taskID_defense);
 

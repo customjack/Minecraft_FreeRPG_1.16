@@ -7,11 +7,12 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class HorseRiding {
-    static Map<Player,Integer> taskMap = new HashMap<>();
-    static Map<UUID,Player> mountPlayerMap = new HashMap<>();
-    static Map<Player, Location> playerLocationMap = new HashMap<>();
+    static Map<Player,Integer> taskMap = new ConcurrentHashMap<>();
+    static Map<UUID,Player> mountPlayerMap = new ConcurrentHashMap<>();
+    static Map<Player, Location> playerLocationMap = new ConcurrentHashMap<>();
 
     public void setTaskMap(int taskID,Player p){
         taskMap.put(p,taskID);

@@ -1,5 +1,6 @@
 package mc.carlton.freerpg.playerAndServerInfo;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -9,7 +10,7 @@ import java.util.Map;
 public class AbilityLogoutTracker {
     private Player player;
     static Map<Player, Integer[]> playerTasks = new HashMap<Player, Integer[]>();
-    static Map<Player, ItemStack[]> playerItems = new HashMap<Player, ItemStack[]>();
+    static Map<Player, NamespacedKey[]> playerItems = new HashMap<Player, NamespacedKey[]>();
 
     public AbilityLogoutTracker(Player player) {
         this.player = player;
@@ -20,23 +21,23 @@ public class AbilityLogoutTracker {
     public Integer[]  getPlayerTasks(Player p) {
         return playerTasks.get(p);
     }
-    public Map<Player, ItemStack[]>  getItems() {
+    public Map<Player, NamespacedKey[]>  getItems() {
         return playerItems;
     }
-    public ItemStack[]  getPlayerItems(Player p) {
+    public NamespacedKey[]  getPlayerItems(Player p) {
         return playerItems.get(p);
     }
     public void setTasks(Map<Player, Integer[]> player_tasks) {
         playerTasks = player_tasks;
     }
-    public void setItems(Map<Player, ItemStack[]> player_items) {
+    public void setItems(Map<Player, NamespacedKey[]> player_items) {
         playerItems = player_items;
     }
 
     public void setPlayerTasks(Integer[] tasks,Player p) {
         playerTasks.put(p,tasks);
     }
-    public void setPlayerItems(ItemStack[] items,Player p) {
+    public void setPlayerItems(NamespacedKey[] items,Player p) {
         playerItems.put(p,items);
     }
     public void setPlayerTask(Player p,String ability,int taskID) {
@@ -87,47 +88,47 @@ public class AbilityLogoutTracker {
         playerTasks.put(p, pTasks);
     }
 
-    public void setPlayerItem(Player p,String ability,ItemStack item) {
-        ItemStack[] pItems = playerItems.get(p);
+    public void setPlayerItem(Player p,String ability,NamespacedKey key) {
+        NamespacedKey[] pItems = playerItems.get(p);
         switch (ability) {
             case "digging":
-                pItems[0] = item;
+                pItems[0] = key;
                 break;
             case "woodcutting":
-                pItems[1] = item;
+                pItems[1] = key;
                 break;
             case "mining":
-                pItems[2] = item;
+                pItems[2] = key;
                 break;
             case "farming":
-                pItems[3] = item;
+                pItems[3] = key;
                 break;
             case "fishing":
-                pItems[4] = item;
+                pItems[4] = key;
                 break;
             case "archery":
-                pItems[5] = item;
+                pItems[5] = key;
                 break;
             case "beastMastery":
-                pItems[6] = item;
+                pItems[6] = key;
                 break;
             case "swordsmanship":
-                pItems[7] = item;
+                pItems[7] = key;
                 break;
             case "defense":
-                pItems[8] = item;
+                pItems[8] = key;
                 break;
             case "axeMastery":
-                pItems[9] = item;
+                pItems[9] = key;
                 break;
             case "woodcuttingHaste":
-                pItems[10] = item;
+                pItems[10] = key;
                 break;
             case "swordSpeed":
-                pItems[11] = item;
+                pItems[11] = key;
                 break;
             case "swordStrength":
-                pItems[12] = item;
+                pItems[12] = key;
                 break;
             default:
                 break;

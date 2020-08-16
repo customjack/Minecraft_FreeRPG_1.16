@@ -4,6 +4,7 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.BlockFaceTracker;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
+import mc.carlton.freerpg.gameTools.TrackItem;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -14,10 +15,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.time.Instant;
 import java.util.*;
 
 public class Digging {
@@ -135,6 +138,15 @@ public class Digging {
         int effLevel = itemInHand.getEnchantmentLevel(Enchantment.DIG_SPEED);
         itemInHand.removeEnchantment(Enchantment.DIG_SPEED);
         itemInHand.addUnsafeEnchantment(Enchantment.DIG_SPEED,effLevel+5);
+
+        //Mark the item
+        long unixTime = Instant.now().getEpochSecond();
+        String keyName = p.getUniqueId().toString() + "-" + String.valueOf(unixTime) + "-" + "digging";
+        NamespacedKey key = new NamespacedKey(plugin,keyName);
+        ItemMeta itemMeta = itemInHand.getItemMeta();
+        itemMeta.getPersistentDataContainer().set(key, PersistentDataType.STRING,"nothing");
+        itemInHand.setItemMeta(itemMeta);
+
         int durationLevel = (int) pStat.get("digging").get(4);
         double duration0 = Math.ceil(durationLevel*0.4) + 40;
         int cooldown = 300;
@@ -149,6 +161,11 @@ public class Digging {
         int taskID = new BukkitRunnable() {
             @Override
             public void run() {
+                TrackItem trackItem = new TrackItem();
+                ItemStack potentialAbilityItem = trackItem.findTrackedItemInInventory(p,key);
+                if (potentialAbilityItem != null) {
+                    itemInHand = potentialAbilityItem;
+                }
                 actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("bigDig") + " " + lang.getString("ended") + "<<<");
                 itemInHand.removeEnchantment(Enchantment.DIG_SPEED);
                 if (effLevel != 0) {
@@ -176,7 +193,7 @@ public class Digging {
             }
         }.runTaskLater(plugin, duration).getTaskId();
         AbilityLogoutTracker incaseLogout = new AbilityLogoutTracker(p);
-        incaseLogout.setPlayerItem(p,"digging",itemInHand);
+        incaseLogout.setPlayerItem(p,"digging",key);
         incaseLogout.setPlayerTask(p,"digging",taskID);
     }
 

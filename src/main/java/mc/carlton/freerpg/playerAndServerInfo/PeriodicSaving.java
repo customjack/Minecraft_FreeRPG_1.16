@@ -31,9 +31,11 @@ public class PeriodicSaving {
             try {
                 PlayerStatsLoadIn loadIn = new PlayerStatsLoadIn(p);
                 loadIn.setPlayerStatsMap(p);
+                PlacedBlocksLoadIn saveBlocks = new PlacedBlocksLoadIn();
+                saveBlocks.setPlacedBlocks();
             }
             catch (IOException e) {
-                System.out.println("FAILED TO SAVE STATS OF PLAYER: " + p.getDisplayName());
+                System.out.println("[FreeRPG] FAILED TO SAVE STATS OF PLAYER: " + p.getDisplayName());
             }
         }
     }

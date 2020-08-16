@@ -62,19 +62,21 @@ public class Smelting {
         new BukkitRunnable() {
             @Override
             public void run() {
-                furnace.setCookTimeTotal((int)Math.round(finalDefaultCookTime /speedUpFactor));
+                furnace.setCookTimeTotal((int) Math.round(finalDefaultCookTime / speedUpFactor));
                 FurnaceInventory oldInv = furnace.getSnapshotInventory();
-                oldInv.setSmelting(furnaceInv.getSmelting());
-                if (finalDoubleSmelt) {
-                    ItemStack result = furnaceInv.getResult();
-                    int resultAmount = result.getAmount();
-                    result.setAmount(resultAmount+1);
-                    oldInv.setResult(result);
+                if (oldInv.getResult() == null) {
+                    increaseStats.changeEXP("smelting", 100);
                 }
                 else {
-                    oldInv.setResult(furnaceInv.getResult());
+                    oldInv.setSmelting(furnaceInv.getSmelting());
+                    ItemStack result = furnaceInv.getResult();
+                    if (finalDoubleSmelt) {
+                        int resultAmount = result.getAmount();
+                        result.setAmount(resultAmount + 1);
+                    }
+                    oldInv.setResult(result);
+                    increaseStats.changeEXP("smelting", getEXP(oldInv.getResult().getType()));
                 }
-                increaseStats.changeEXP("smelting",getEXP(oldInv.getResult().getType()));
                 furnace.update();
             }
         }.runTaskLater(plugin, 1);
