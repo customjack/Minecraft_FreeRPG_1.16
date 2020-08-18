@@ -877,7 +877,7 @@ public class FrpgCommands implements CommandExecutor {
                             LanguageSelector lang = new LanguageSelector(p);
                             p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setTokens ["+lang.getString("playerName")+"] global ["+lang.getString("amount")+"]");
                         } else {
-                            System.out.println("Player not online");
+                            System.out.println("Improper Arguments, /frpg setTokens [PlayerName] global [amount]");
                         }
                     }
                     return true;
@@ -926,7 +926,7 @@ public class FrpgCommands implements CommandExecutor {
                             LanguageSelector lang = new LanguageSelector(p);
                             p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setTokens ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] [skill/passive] ["+lang.getString("amount")+"]");
                         } else {
-                            System.out.println("Player not online");
+                            System.out.println("Improper Arguments, try /frpg setTokens [playerName] [skillName] [passive/skill] [amount]");
                         }
                     }
                 }

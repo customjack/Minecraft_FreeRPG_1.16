@@ -64,7 +64,7 @@ public class Smelting {
             public void run() {
                 furnace.setCookTimeTotal((int) Math.round(finalDefaultCookTime / speedUpFactor));
                 FurnaceInventory oldInv = furnace.getSnapshotInventory();
-                if (oldInv.getResult() == null) {
+                if (furnaceInv.getResult() == null) {
                     increaseStats.changeEXP("smelting", 100);
                 }
                 else {
@@ -76,8 +76,8 @@ public class Smelting {
                     }
                     oldInv.setResult(result);
                     increaseStats.changeEXP("smelting", getEXP(oldInv.getResult().getType()));
+                    furnace.update();
                 }
-                furnace.update();
             }
         }.runTaskLater(plugin, 1);
 
