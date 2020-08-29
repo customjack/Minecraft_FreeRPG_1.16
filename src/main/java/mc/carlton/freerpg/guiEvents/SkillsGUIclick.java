@@ -157,8 +157,22 @@ public class SkillsGUIclick implements Listener {
                             break;
                         case RED_DYE:
                             if (pStats.get(2).intValue() > 0) {
-                                pStats.set(2, pStats.get(2).intValue() - 1);
-                                pStats.set(4, pStats.get(4).intValue() + 1);
+                                ConfigLoad configLoad = new ConfigLoad();
+                                ArrayList<Double> tokensInfo = configLoad.getTokensInfo();
+                                int rightClickInvestment = (int) Math.round(tokensInfo.get(9));
+                                int shiftClickInvestment = (int) Math.round(tokensInfo.get(10));
+                                if (e.isShiftClick() && pStats.get(2).intValue() >= shiftClickInvestment) {
+                                    pStats.set(2, pStats.get(2).intValue() - shiftClickInvestment);
+                                    pStats.set(4, pStats.get(4).intValue() + shiftClickInvestment);
+                                }
+                                else if (e.isRightClick() && pStats.get(2).intValue() >= rightClickInvestment) {
+                                    pStats.set(2, pStats.get(2).intValue() - rightClickInvestment);
+                                    pStats.set(4, pStats.get(4).intValue() + rightClickInvestment);
+                                }
+                                else {
+                                    pStats.set(2, pStats.get(2).intValue() - 1);
+                                    pStats.set(4, pStats.get(4).intValue() + 1);
+                                }
                                 pStatAll.put(skillName, pStats);
                                 statAll.put(uuid, pStatAll);
                                 pStatClass.setData(statAll);
@@ -175,8 +189,22 @@ public class SkillsGUIclick implements Listener {
                             }
                             else {
                                 if (pStats.get(2).intValue() > 0) {
-                                    pStats.set(2, pStats.get(2).intValue() - 1);
-                                    pStats.set(5, pStats.get(5).intValue() + 1);
+                                    ConfigLoad configLoad = new ConfigLoad();
+                                    ArrayList<Double> tokensInfo = configLoad.getTokensInfo();
+                                    int rightClickInvestment = (int) Math.round(tokensInfo.get(9));
+                                    int shiftClickInvestment = (int) Math.round(tokensInfo.get(10));
+                                    if (e.isShiftClick() && pStats.get(2).intValue() >= shiftClickInvestment) {
+                                        pStats.set(2, pStats.get(2).intValue() - shiftClickInvestment);
+                                        pStats.set(5, pStats.get(5).intValue() + shiftClickInvestment);
+                                    }
+                                    else if (e.isRightClick() && pStats.get(2).intValue() >= rightClickInvestment) {
+                                        pStats.set(2, pStats.get(2).intValue() - rightClickInvestment);
+                                        pStats.set(5, pStats.get(5).intValue() + rightClickInvestment);
+                                    }
+                                    else {
+                                        pStats.set(2, pStats.get(2).intValue() - 1);
+                                        pStats.set(5, pStats.get(5).intValue() + 1);
+                                    }
                                     pStatAll.put(skillName, pStats);
                                     statAll.put(uuid, pStatAll);
                                     pStatClass.setData(statAll);
@@ -193,8 +221,22 @@ public class SkillsGUIclick implements Listener {
                             }
                             else {
                                 if (pStats.get(2).intValue() > 0) {
-                                    pStats.set(2, pStats.get(2).intValue() - 1);
-                                    pStats.set(6, pStats.get(6).intValue() + 1);
+                                    ConfigLoad configLoad = new ConfigLoad();
+                                    ArrayList<Double> tokensInfo = configLoad.getTokensInfo();
+                                    int rightClickInvestment = (int) Math.round(tokensInfo.get(9));
+                                    int shiftClickInvestment = (int) Math.round(tokensInfo.get(10));
+                                    if (e.isShiftClick() && pStats.get(2).intValue() >= shiftClickInvestment) {
+                                        pStats.set(2, pStats.get(2).intValue() - shiftClickInvestment);
+                                        pStats.set(6, pStats.get(6).intValue() + shiftClickInvestment);
+                                    }
+                                    else if (e.isRightClick() && pStats.get(2).intValue() >= rightClickInvestment) {
+                                        pStats.set(2, pStats.get(2).intValue() - rightClickInvestment);
+                                        pStats.set(6, pStats.get(6).intValue() + rightClickInvestment);
+                                    }
+                                    else {
+                                        pStats.set(2, pStats.get(2).intValue() - 1);
+                                        pStats.set(6, pStats.get(6).intValue() + 1);
+                                    }
                                     pStatAll.put(skillName, pStats);
                                     statAll.put(uuid, pStatAll);
                                     pStatClass.setData(statAll);
@@ -204,56 +246,9 @@ public class SkillsGUIclick implements Listener {
                             }
                             p.performCommand("frpg skillTreeGUI " + skillName);
                             break;
-                        case LIME_WOOL:
-                        case GRAY_WOOL:
-                            switch (skillName) {
-                                case "digging":
-                                    if ((int) pStats.get(11) > 0 && e.getSlot() == 47) {
-                                        p.performCommand("frpg flintToggle");
-                                        p.performCommand("frpg skillTreeGUI " + skillName);
-                                    }
-                                    else if ((int) pStats.get(13) > 0  && e.getSlot() == 48 ) {
-                                        p.performCommand("frpg megaDigToggle");
-                                        p.performCommand("frpg skillTreeGUI " + skillName);
-                                    }
-                                    break;
-                                case "mining":
-                                    if ((int) pStats.get(11) > 0) {
-                                        p.performCommand("frpg veinMinerToggle");
-                                        p.performCommand("frpg skillTreeGUI " + skillName);
-                                    }
-                                    break;
-                                case "fishing":
-                                    if ((int) pStats.get(11) > 0  && e.getSlot() == 47) {
-                                        p.performCommand("frpg grappleToggle");
-                                        p.performCommand("frpg skillTreeGUI " + skillName);
-                                    }
-                                    else if ((int) pStats.get(12) > 0  && e.getSlot() == 48) {
-                                        p.performCommand("frpg hotRodToggle");
-                                        p.performCommand("frpg skillTreeGUI " + skillName);
-                                    }
-                                    break;
-                                case "agility":
-                                    if ((int) pStats.get(13) > 0) {
-                                        p.performCommand("frpg speedToggle");
-                                        p.performCommand("frpg skillTreeGUI " + skillName);
-                                    }
-                                    break;
-                                case "alchemy":
-                                    if ((int) pStats.get(13) > 0) {
-                                        p.performCommand("frpg potionToggle");
-                                        p.performCommand("frpg skillTreeGUI " + skillName);
-                                    }
-                                    break;
-                                case "smelting":
-                                    if ((int) pStats.get(13) > 0) {
-                                        p.performCommand("frpg flamePickToggle");
-                                        p.performCommand("frpg skillTreeGUI " + skillName);
-                                    }
-                                    break;
-                                default:
-                                    break;
-                            }
+                        case REDSTONE:
+                                p.closeInventory();
+                                p.performCommand("frpg skillConfigGUI " + skillName);
                                 break;
                         case CRAFTING_TABLE:
                             if (skillName.equalsIgnoreCase("farming")) {

@@ -1,5 +1,6 @@
 package mc.carlton.freerpg.combatEvents;
 
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -14,6 +15,10 @@ public class EntityGetDamaged implements Listener {
 
     void onEntityDamaged(EntityDamageEvent e) {
         if (e.isCancelled()) {
+            return;
+        }
+        ConfigLoad configLoad = new ConfigLoad();
+        if (!configLoad.getAllowedSkillsMap().get("beastMastery")) {
             return;
         }
         if (e.getEntity() instanceof Entity) {

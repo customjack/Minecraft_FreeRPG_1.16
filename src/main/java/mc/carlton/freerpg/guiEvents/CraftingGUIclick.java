@@ -36,7 +36,6 @@ public class CraftingGUIclick implements Listener {
                 if (e.getCurrentItem().getType() == Material.ARROW) {
                     switch (inv.getItem(25).getType()) {
                         case TIPPED_ARROW:
-                            p.closeInventory();
                             p.performCommand("frpg skillTreeGUI archery");
                             break;
                         case COW_SPAWN_EGG:
@@ -44,15 +43,12 @@ public class CraftingGUIclick implements Listener {
                         case MOOSHROOM_SPAWN_EGG:
                         case HORSE_SPAWN_EGG:
                         case SLIME_SPAWN_EGG:
-                            p.closeInventory();
                             p.performCommand("frpg skillTreeGUI farming");
                             break;
                         case POTION:
-                            p.closeInventory();
                             p.performCommand("frpg skillTreeGUI alchemy");
                             break;
                         default:
-                            p.closeInventory();
                             p.performCommand("frpg skillTreeGUI enchanting");
                             break;
                     }

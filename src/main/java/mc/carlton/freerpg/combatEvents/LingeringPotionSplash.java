@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.combatEvents;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
@@ -19,6 +20,10 @@ public class LingeringPotionSplash implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     void onPotionSplash(LingeringPotionSplashEvent e) {
         if (e.isCancelled()) {
+            return;
+        }
+        ConfigLoad configLoad = new ConfigLoad();
+        if (!configLoad.getAllowedSkillsMap().get("alchemy")) {
             return;
         }
 

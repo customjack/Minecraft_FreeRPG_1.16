@@ -3,6 +3,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
+import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
 import org.bukkit.attribute.Attributable;
@@ -22,9 +23,10 @@ import java.util.*;
 public class AxeMastery {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     private Player p;
-    private String pName;
     private ItemStack itemInHand;
     private Map<Enchantment,Integer> enchantmentLevelMap = new HashMap<>();
+    private String skillName = "axeMastery";
+    Map<String,Integer> expMap;
 
     ChangeStats increaseStats; //Changing Stats
 
@@ -37,8 +39,6 @@ public class AxeMastery {
     PlayerStats pStatClass;
     //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
 
-    PlacedBlocks placedClass;
-    //GET TRACKED BLOCKS LIKE THIS:        ArrayList<Location> blocksLocations = placedClass.getBlocks();
 
     ActionBarMessages actionMessage;
     LanguageSelector lang;
@@ -46,25 +46,32 @@ public class AxeMastery {
 
     Random rand = new Random(); //Random class Import
 
-    Material[] axes0 = {Material.DIAMOND_AXE,Material.GOLDEN_AXE,Material.IRON_AXE, Material.STONE_AXE,Material.WOODEN_AXE};
-    List<Material> axes = Arrays.asList(axes0);
+    private boolean runMethods;
 
 
     public AxeMastery(Player p) {
         this.p = p;
-        this.pName = p.getDisplayName();
         this.itemInHand = p.getInventory().getItemInMainHand();
         this.increaseStats = new ChangeStats(p);
         this.abilities = new AbilityTracker(p);
         this.timers = new AbilityTimers(p);
         this.pStatClass=  new PlayerStats(p);
-        this.placedClass = new PlacedBlocks();
         this.actionMessage = new ActionBarMessages(p);
         this.lang = new LanguageSelector(p);
+        ConfigLoad configLoad = new ConfigLoad();
+        this.runMethods = configLoad.getAllowedSkillsMap().get(skillName);
+        expMap = configLoad.getExpMapForSkill(skillName);
     }
 
     public void initiateAbility() {
-        if (!p.hasPermission("freeRPG.axeMasteryAbility")) {
+        if (!runMethods) {
+            return;
+        }
+        if (!p.hasPermission("freeRPG.axeMasteryAbility") || !pStatClass.isPlayerSkillAbilityOn(skillName)) {
+            return;
+        }
+        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+        if ((int) pStat.get("global").get(24) < 1 || !pStatClass.isPlayerSkillAbilityOn(skillName)) {
             return;
         }
         Integer[] pTimers = timers.getPlayerTimers();
@@ -86,24 +93,27 @@ public class AxeMastery {
                             if (pAbilities2[1] != -1 && pTimers2[1] >= 1 && prepMessages > 0) {
                                 actionMessage.sendMessage(ChatColor.GRAY + ">>>..." + lang.getString("rest") + " " +lang.getString("axe") + "<<<");
                             }
-                            abilities.setPlayerAbility( "axeMastery", -1);
+                            abilities.setPlayerAbility( skillName, -1);
                         }
                         catch (Exception e) {
 
                         }
                     }
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
-                abilities.setPlayerAbility( "axeMastery", taskID);
+                abilities.setPlayerAbility( skillName, taskID);
             } else {
                 actionMessage.sendMessage(ChatColor.RED +lang.getString("greatAxe") + " " + lang.getString("cooldown") + ": " + cooldown+ "s");
             }
         }
     }
     public void enableAbility() {
+        if (!runMethods) {
+            return;
+        }
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>" + lang.getString("greatAxe") + " " + lang.getString("activated") + "<<<");
-        int durationLevel = (int) pStat.get("axeMastery").get(4);
+        int durationLevel = (int) pStat.get(skillName).get(4);
         double duration0 = Math.ceil(durationLevel*0.4) + 40;
         int cooldown = 300;
         if ((int) pStat.get("global").get(11) > 0) {
@@ -112,19 +122,19 @@ public class AxeMastery {
         int finalCooldown = cooldown;
         long duration = (long) duration0;
         Bukkit.getScheduler().cancelTask(pAbilities[9]);
-        abilities.setPlayerAbility( "axeMastery", -2);
+        abilities.setPlayerAbility( skillName, -2);
         new BukkitRunnable() {
             @Override
             public void run() {
                 actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("greatAxe") + " " + lang.getString("ended") + "<<<");
-                abilities.setPlayerAbility( "axeMastery", -1);
-                timers.setPlayerTimer( "axeMastery", finalCooldown);
+                abilities.setPlayerAbility( skillName, -1);
+                timers.setPlayerTimer( skillName, finalCooldown);
                 for(int i = 1; i < finalCooldown+1; i++) {
                     int timeRemaining = finalCooldown - i;
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            timers.setPlayerTimer( "axeMastery", timeRemaining);
+                            timers.setPlayerTimer( skillName, timeRemaining);
                             AbilityTimers timers2 = new AbilityTimers(p);
                             if (timeRemaining ==0) {
                                 if (!p.isOnline()) {
@@ -142,12 +152,15 @@ public class AxeMastery {
     }
 
     public void greaterAxe(Entity entity, World world,double finalDamage) {
+        if (!runMethods) {
+            return;
+        }
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         if (pAbilities[9] == -2) {
-            int greaterAxeLevel = (int) pStat.get("axeMastery").get(7);
+            int greaterAxeLevel = (int) pStat.get(skillName).get(7);
             double radius = 2 + 0.5*greaterAxeLevel;
-            if ((int) pStat.get("axeMastery").get(11) > 0) {
+            if ((int) pStat.get(skillName).get(11) > 0) {
                 finalDamage = finalDamage*2;
             }
 
@@ -162,7 +175,7 @@ public class AxeMastery {
                         }
                     }
                     ((LivingEntity) mob).damage(finalDamage*0.25);
-                    increaseStats.changeEXP("axeMastery",(int) Math.round(finalDamage*0.25*3)*10);
+                    increaseStats.changeEXP(skillName,(int) Math.round(finalDamage*0.25*expMap.get("greaterAxeAEO_EXPperDamagePointDone")));
                 }
             }
             for (int x = -1*(int)Math.ceil(radius/2.0); x <= (int)Math.ceil(radius/2.0); x++ ) {
@@ -207,10 +220,13 @@ public class AxeMastery {
     }
 
     public double divineCritical() {
+        if (!runMethods) {
+            return 1.0;
+        }
         double multiplier = 1;
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int divineCriticalsLevel = (int) pStat.get("axeMastery").get(5);
-        int betterCritsLevel = (int) pStat.get("axeMastery").get(12);
+        int divineCriticalsLevel = (int) pStat.get(skillName).get(5);
+        int betterCritsLevel = (int) pStat.get(skillName).get(12);
         if (divineCriticalsLevel*0.0001 < rand.nextDouble()) {
             return multiplier;
         }
@@ -219,18 +235,24 @@ public class AxeMastery {
     }
 
     public void revitalized() {
+        if (!runMethods) {
+            return;
+        }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int revitalizedLevel = (int) pStat.get("axeMastery").get(9);
+        int revitalizedLevel = (int) pStat.get(skillName).get(9);
         if (revitalizedLevel*0.01 > rand.nextDouble()) {
             double maxHP = ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
             p.setHealth(maxHP);
-            increaseStats.changeEXP("axeMastery",200);
+            increaseStats.changeEXP(skillName,expMap.get("revitalizedActivateEXP"));
         }
     }
 
     public void warriorBlood() {
+        if (!runMethods) {
+            return;
+        }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int warriorBloodLevel = (int) pStat.get("axeMastery").get(10);
+        int warriorBloodLevel = (int) pStat.get(skillName).get(10);
         if (warriorBloodLevel < 1) {
             return;
         }
@@ -245,76 +267,250 @@ public class AxeMastery {
     }
 
     public void holyAxe(Entity entity,World world,double finalDamage) {
+        if (!runMethods) {
+            return;
+        }
         if (entity instanceof LivingEntity) {
             if (((LivingEntity) entity).getHealth() < finalDamage) {
                 return;
             }
             Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-            int holyAxeLevel = (int) pStat.get("axeMastery").get(8);
+            int holyAxeLevel = (int) pStat.get(skillName).get(8);
             if (holyAxeLevel*0.02 > rand.nextDouble()) {
                 world.strikeLightning(entity.getLocation());
-                increaseStats.changeEXP("axeMastery",100);
+                increaseStats.changeEXP(skillName,expMap.get("holyAxeActivateEXP"));
             }
         }
     }
 
     public void giveHitEXP(double finalDamage) {
-        increaseStats.changeEXP("axeMastery",20);
-        increaseStats.changeEXP("axeMastery", (int) Math.round(finalDamage * 10) * 10);
+        if (!runMethods) {
+            return;
+        }
+        increaseStats.changeEXP(skillName,20);
+        increaseStats.changeEXP(skillName, (int) Math.round(finalDamage * expMap.get("axeDamage_EXPperDamagePointDone")));
     }
 
     public void giveKillEXP(Entity entity) {
+        if (!runMethods) {
+            return;
+        }
+        ItemGroups itemGroups = new ItemGroups();
+        List<Material> axes = itemGroups.getAxes();
         if (!(axes.contains(itemInHand.getType()))) {
             return;
         }
         if (entity instanceof LivingEntity) {
-            EntityType type = entity.getType();
-            if (entity instanceof Monster) {
+            if (entity instanceof Mob) {
+                Mob mob = (Mob) entity;
+                EntityType type = mob.getType();
                 switch (type) {
-                    case BLAZE:
-                    case SKELETON:
-                    case ZOMBIE:
-                    case CAVE_SPIDER:
-                    case SPIDER:
-                        increaseStats.changeEXP("axeMastery", 120);
+                    case BAT:
+                        increaseStats.changeEXP(skillName, expMap.get("killBat"));
+                        break;
+                    case CAT:
+                        increaseStats.changeEXP(skillName, expMap.get("killCat"));
+                        break;
+                    case CHICKEN:
+                        increaseStats.changeEXP(skillName, expMap.get("killChicken"));
+                        break;
+                    case COD:
+                        increaseStats.changeEXP(skillName, expMap.get("killCod"));
+                        break;
+                    case COW:
+                        increaseStats.changeEXP(skillName, expMap.get("killCow"));
+                        break;
+                    case DONKEY:
+                        increaseStats.changeEXP(skillName, expMap.get("killDonkey"));
+                        break;
+                    case FOX:
+                        increaseStats.changeEXP(skillName, expMap.get("killFox"));
+                        break;
+                    case HORSE:
+                        increaseStats.changeEXP(skillName, expMap.get("killHorse"));
+                        break;
+                    case POLAR_BEAR:
+                        increaseStats.changeEXP(skillName, expMap.get("killPolarBear"));
+                        break;
+                    case MUSHROOM_COW:
+                        increaseStats.changeEXP(skillName, expMap.get("killMooshroom"));
+                        break;
+                    case MULE:
+                        increaseStats.changeEXP(skillName, expMap.get("killMule"));
+                        break;
+                    case OCELOT:
+                        increaseStats.changeEXP(skillName, expMap.get("killOcelot"));
+                        break;
+                    case PARROT:
+                        increaseStats.changeEXP(skillName, expMap.get("killParrot"));
+                        break;
+                    case PIG:
+                        increaseStats.changeEXP(skillName, expMap.get("killPig"));
+                        break;
+                    case PIGLIN:
+                        increaseStats.changeEXP(skillName, expMap.get("killPiglin"));
+                        break;
+                    case RABBIT:
+                        increaseStats.changeEXP(skillName, expMap.get("killRabbit"));
+                        break;
+                    case SALMON:
+                        increaseStats.changeEXP(skillName, expMap.get("killSalmon"));
+                        break;
+                    case SHEEP:
+                        increaseStats.changeEXP(skillName, expMap.get("killSheep"));
+                        break;
+                    case SKELETON_HORSE:
+                        increaseStats.changeEXP(skillName, expMap.get("killSkeleton_Horse"));
+                        break;
+                    case SNOWMAN:
+                        increaseStats.changeEXP(skillName, expMap.get("killSnowman"));
+                        break;
+                    case SQUID:
+                        increaseStats.changeEXP(skillName, expMap.get("killSquid"));
                         break;
                     case STRIDER:
-                    case CREEPER:
-                        increaseStats.changeEXP("axeMastery",200);
+                        increaseStats.changeEXP(skillName, expMap.get("killStrider"));
                         break;
-                    case HOGLIN:
-                    case ZOGLIN:
-                        increaseStats.changeEXP("axeMastery",250);
+                    case TROPICAL_FISH:
+                        increaseStats.changeEXP(skillName, expMap.get("killTropical_Fish"));
                         break;
-                    case WITHER:
-                        increaseStats.changeEXP("axeMastery",30000);
+                    case TURTLE:
+                        increaseStats.changeEXP(skillName, expMap.get("killTurtle"));
                         break;
-                    case ELDER_GUARDIAN:
-                        increaseStats.changeEXP("axeMastery",10000);
+                    case VILLAGER:
+                        increaseStats.changeEXP(skillName, expMap.get("killVillager"));
                         break;
-                    default:
-                        increaseStats.changeEXP("axeMastery", 100);
-                        break;
-                }
-            }
-            else {
-                switch (type) {
-                    case ENDER_DRAGON:
-                        increaseStats.changeEXP("axeMastery",50000);
-                        break;
-                    case IRON_GOLEM:
-                        increaseStats.changeEXP("axeMastery", 300);
+                    case WANDERING_TRADER:
+                        increaseStats.changeEXP(skillName, expMap.get("killWandering_Trader"));
                         break;
                     case BEE:
+                        increaseStats.changeEXP(skillName, expMap.get("killBee"));
+                        break;
+                    case CAVE_SPIDER:
+                        increaseStats.changeEXP(skillName, expMap.get("killCaveSpider"));
+                        break;
                     case DOLPHIN:
+                        increaseStats.changeEXP(skillName, expMap.get("killDolphin"));
+                        break;
+                    case ENDERMAN:
+                        increaseStats.changeEXP(skillName, expMap.get("killEnderman"));
+                        break;
+                    case IRON_GOLEM:
+                        increaseStats.changeEXP(skillName, expMap.get("killIron_Golem"));
+                        break;
                     case LLAMA:
-                    case POLAR_BEAR:
-                    case TRADER_LLAMA:
+                        increaseStats.changeEXP(skillName, expMap.get("killLlama"));
+                        break;
+                    case PANDA:
+                        increaseStats.changeEXP(skillName, expMap.get("killPanda"));
+                        break;
+                    case PUFFERFISH:
+                        increaseStats.changeEXP(skillName, expMap.get("killPufferfish"));
+                        break;
+                    case SPIDER:
+                        increaseStats.changeEXP(skillName, expMap.get("killSpider"));
+                        break;
                     case WOLF:
-                        increaseStats.changeEXP("axeMastery",125);
+                        increaseStats.changeEXP(skillName, expMap.get("killWolf"));
+                        break;
+                    case ZOMBIFIED_PIGLIN:
+                        increaseStats.changeEXP(skillName, expMap.get("killZombie_Pigman"));
+                        break;
+                    case BLAZE:
+                        increaseStats.changeEXP(skillName, expMap.get("killBlaze"));
+                        break;
+                    case CREEPER:
+                        increaseStats.changeEXP(skillName, expMap.get("killCreeper"));
+                        break;
+                    case DROWNED:
+                        increaseStats.changeEXP(skillName, expMap.get("killDrowned"));
+                        break;
+                    case ELDER_GUARDIAN:
+                        increaseStats.changeEXP(skillName, expMap.get("killElder_Guardian"));
+                        break;
+                    case ENDERMITE:
+                        increaseStats.changeEXP(skillName, expMap.get("killEndermite"));
+                        break;
+                    case EVOKER:
+                        increaseStats.changeEXP(skillName, expMap.get("killEvoker"));
+                        break;
+                    case GHAST:
+                        increaseStats.changeEXP(skillName, expMap.get("killGhast"));
+                        break;
+                    case GUARDIAN:
+                        increaseStats.changeEXP(skillName, expMap.get("killGuardian"));
+                        break;
+                    case HOGLIN:
+                        increaseStats.changeEXP(skillName, expMap.get("killHoglin"));
+                        break;
+                    case HUSK:
+                        increaseStats.changeEXP(skillName, expMap.get("killHusk"));
+                        break;
+                    case MAGMA_CUBE:
+                        increaseStats.changeEXP(skillName, expMap.get("killMagma_Cube"));
+                        break;
+                    case PHANTOM:
+                        increaseStats.changeEXP(skillName, expMap.get("killPhantom"));
+                        break;
+                    case PILLAGER:
+                        increaseStats.changeEXP(skillName, expMap.get("killPillager"));
+                        break;
+                    case RAVAGER:
+                        increaseStats.changeEXP(skillName, expMap.get("killRavager"));
+                        break;
+                    case SHULKER:
+                        increaseStats.changeEXP(skillName, expMap.get("killShulker"));
+                        break;
+                    case SILVERFISH:
+                        increaseStats.changeEXP(skillName, expMap.get("killSilverfish"));
+                        break;
+                    case SKELETON:
+                        increaseStats.changeEXP(skillName, expMap.get("killSkeleton"));
+                        break;
+                    case SLIME:
+                        increaseStats.changeEXP(skillName, expMap.get("killSlime"));
+                        break;
+                    case STRAY:
+                        increaseStats.changeEXP(skillName, expMap.get("killStray"));
+                        break;
+                    case VEX:
+                        increaseStats.changeEXP(skillName, expMap.get("killVex"));
+                        break;
+                    case VINDICATOR:
+                        increaseStats.changeEXP(skillName, expMap.get("killVindicator"));
+                        break;
+                    case WITCH:
+                        increaseStats.changeEXP(skillName, expMap.get("killWitch"));
+                        break;
+                    case WITHER_SKELETON:
+                        increaseStats.changeEXP(skillName, expMap.get("killWitherSkeleton"));
+                        break;
+                    case ZOGLIN:
+                        increaseStats.changeEXP(skillName, expMap.get("killZoglin"));
+                        break;
+                    case ZOMBIE:
+                        increaseStats.changeEXP(skillName, expMap.get("killZombie"));
+                        break;
+                    case ZOMBIE_VILLAGER:
+                        increaseStats.changeEXP(skillName, expMap.get("killZombie_Villager"));
+                        break;
+                    case ENDER_DRAGON:
+                        increaseStats.changeEXP(skillName, expMap.get("killEnder_Dragon"));
+                        break;
+                    case WITHER:
+                        increaseStats.changeEXP(skillName, expMap.get("killWither"));
+                        break;
+                    case ZOMBIE_HORSE:
+                        increaseStats.changeEXP(skillName, expMap.get("killZombie_Horse"));
+                        break;
+                    case ILLUSIONER:
+                        increaseStats.changeEXP(skillName, expMap.get("killIllusioner"));
+                        break;
+                    case GIANT:
+                        increaseStats.changeEXP(skillName, expMap.get("killGiant"));
                         break;
                     default:
-                        increaseStats.changeEXP("axeMastery",50);
+                        increaseStats.changeEXP(skillName, expMap.get("killAnythingElse"));
                         break;
                 }
             }

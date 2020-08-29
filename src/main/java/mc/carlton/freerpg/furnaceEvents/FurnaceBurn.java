@@ -23,7 +23,7 @@ public class FurnaceBurn implements Listener {
         Furnace furnace = (Furnace) e.getBlock().getState();
         FurnaceUserTracker furnaceTracker = new FurnaceUserTracker();
         Player p = furnaceTracker.getPlayer(furnace.getLocation());
-        if (p != null) {
+        if (p != null && p.isOnline()) {
             Smelting smeltingClass = new Smelting(p);
             smeltingClass.fuelBurn(furnace,isBlast);
         }

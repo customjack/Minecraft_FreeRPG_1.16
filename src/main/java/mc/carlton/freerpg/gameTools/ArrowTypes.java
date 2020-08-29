@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.gameTools;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -54,6 +55,7 @@ public class ArrowTypes {
         inv.clear();
         chestBlock.setType(Material.AIR);
         chestBlock.setType(oldBlockType);
+        printSuccess();
     }
 
     public ItemStack getArrow(String type) {
@@ -61,5 +63,13 @@ public class ArrowTypes {
             return effectArrows.get(type);
         }
         return new ItemStack(Material.ARROW,1);
+    }
+
+    public void printSuccess() {
+        StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+        String version = stringsAndOtherData.getVersion();
+        System.out.println("[FreeRPG] Tipped arrow ItemStacks saved successfully");
+        System.out.println("[FreeRPG] FreeRPG loaded sucessfully...");
+        System.out.println("[FreeRPG] Running FreeRPG version " + version);
     }
 }

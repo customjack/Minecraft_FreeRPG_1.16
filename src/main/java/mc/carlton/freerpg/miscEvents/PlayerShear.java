@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.miscEvents;
 
 import mc.carlton.freerpg.perksAndAbilities.Farming;
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -13,6 +14,10 @@ public class PlayerShear implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     void onPlayerShear(PlayerShearEntityEvent e){
         if (e.isCancelled()) {
+            return;
+        }
+        ConfigLoad configLoad = new ConfigLoad();
+        if (!configLoad.getAllowedSkillsMap().get("farming")) {
             return;
         }
         Player p = e.getPlayer();

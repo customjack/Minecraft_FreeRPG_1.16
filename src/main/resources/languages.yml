@@ -521,18 +521,6 @@
       toggle: Toggle
       refundSkillTitle: Refund Skill
       refundSkillTreeDesc: Click to refund this skill tree
-      alchemyPerkDesc1_0: Unlocks ability to brew
-      alchemyPerkDesc1_1: Hero of The Village potions (Ingredient = Emerald)
-      alchemyPerkDesc1_2: Mining Fatigue potions (Ingredient = Slimeball)
-      alchemyPerkDesc1_3: Haste potions (Ingredient = Clock)
-      alchemyPerkDesc1_4: Wither potions (Ingredient = Poisonous Potato)
-      alchemyPerkDesc1_5: Resistance potions (Ingredient = Golden Apple)
-      alchemyPerkDesc0_0: A crafting table can be used to craft potions of
-      alchemyPerkDesc0_1: water breathing
-      alchemyPerkDesc0_2: speed
-      alchemyPerkDesc0_3: fire resistance
-      alchemyPerkDesc0_4: healing
-      alchemyPerkDesc0_5: strength
       enchantingPerkDesc1_0: Unlocks ability to craft
       enchantingPerkDesc1_1: Power I and Efficiency I enchanted books (costs 1 level to craft)"
       enchantingPerkDesc1_2: Sharpness I and Protection I enchanted books (costs 1 level to craft)
@@ -554,11 +542,6 @@
       enchantingCraft7: Depth Strider I Book
       enchantingCraft8: Mending Book
       enchantingCraft9: Fortune I Book
-      alchemyCraft0: Water Breathing Potion
-      alchemyCraft1: Speed Potion
-      alchemyCraft2: Fire Resistance Potion
-      alchemyCraft3: Healing Potion
-      alchemyCraft4: Strength Potion
       commandDesc9: Sets the souls for a specified player
       commandDesc10: Sets the skill or passive tokens in specified skill for a specified player
       commandDesc11: Sets the global tokens for a specified player
@@ -573,6 +556,62 @@
       personalMultiplier: Personal Multiplier
       translators: Translators
       commandDesc13: Sets the personal multiplier for a specified player
+      abilityDescription: Ability Description
+      abilityDescription_digging: Temporarily adds 5 levels of effiency to your shovel. Activated by right-clicking a shovel then breaking a block.
+      abilityDescription_woodcutting: Temporarily makes axes break an entire tree with one block break. Activated by right-clicking an axe then breaking a log.
+      abilityDescription_mining: Temporarily adds 5 levels of effiency to your pickaxe. Activated by right-clicking a pickaxe then breaking block.
+      abilityDescription_farming: Temporarily makes crops broken with a hoe automatically replant. Activated by right-clicking a hoe then breaking a crop.
+      abilityDescription_fishing: Temporarily makes fishing rods instantly catch a fish. Activated by left-clicking a fishing rod then fishing in water.
+      abilityDescription_archery: Temporarily makes all arrows fired at max speed. Activated by left-clicking a bow then shooting an arrow.
+      abilityDescription_beastMastery: Temporarily gives your horse a speed buff. Activated by right-clicking while on a horse then left-clicking.
+      abilityDescription_swordsmanship: Temporarily removes swinging cooldown on swords. Activated by right-clicking a sword then hitting a mob.
+      abilityDescription_defense: Temporarily gives the user Resistance and Slowness effects. Activated by right-clicking with an empty hand then hitting a mob.
+      abilityDescription_axeMastery: Temporarily makes axes do damage to all mobs in a certain radius. Activated by right-clicking an axe then hitting a mob.
+      alchemyPerkDesc1_0: Unlocks ability to brew
+      alchemyPerkDesc0_0: A crafting table can be used to craft
+      triggerAbilities: Trigger Abilities
+      showEXPBar: Show EXP Bar
+      disabledSkill: This skill is disabled
+      skillConfigDesc: Takes you to configuration menu for this skill
+      lvl: Lvl. #Abbreviation for "Level" If your language has no abbreviation, please put the translation for "Level"
+      exp: EXP #Abbreviation for "experience" if your language has no abbreviation, please put the translation for "experience"
+      potionAbsorption: Potion of Absorption
+      potionBadOmen: Potion of Bad Omen
+      potionBlindess: Potion of Blindess
+      potionConduitPower: Potion of Conduit Power
+      potionResistance: Potion of Resistance
+      potionDolphinsGrace: Potion of Dolphins Grace
+      potionHaste: Potion of Haste
+      potionFireResistance: Potion of Fire Resistance
+      potionGlowing: Potion of Glowing
+      potionHarm: Potion of Harm
+      potionHealing: Potion of Healing
+      potionHealthBoost: Potion of Health Boost
+      potiontheHero: Potion of the Hero
+      potionHunger: Potion of Hunger
+      potionStrength: Potion of Strength
+      potionInvsibility: Potion of Invsibility
+      potionJump: Potion of Jump
+      potionLuck: Potion of Luck
+      potionNightVision: Potion of Night Vision
+      potionRegeneration: Potion of Regeneration
+      potionSaturation: Potion of Saturation
+      potionSlowness: Potion of Slowness
+      potionFatigue: Potion of Fatigue
+      potionSlowFalling: Potion of Slow Falling
+      potionSpeed: Potion of Speed
+      potionBadLuck: Potion of Bad Luck
+      potionWaterBreathing: Potion of Water Breathing
+      potionWeakness: Potion of Weakness
+      potionDecay: Potion of Decay
+      potionAwkward: Awkward Potion
+      potionUncraftable: Uncraftable Potion
+      potionMundane: Mundane Potion
+      potionTurtleMaster: Potion of the Turtle Master
+      potionThick: Thick Potion
+      potionWater: Water Bottle
+      ingredient: Ingredient
+      usedToBrew: Is used to brew
 
     huHU: #Translated by vERKE
       global: Globális
@@ -1064,18 +1103,6 @@
       toggle: Toggle
       refundSkillTitle: Refund Skill
       refundSkillTreeDesc: Click to refund this skill tree
-      alchemyPerkDesc1_0: Unlocks ability to brew
-      alchemyPerkDesc1_1: Hero of The Village potions (Ingredient = Emerald)
-      alchemyPerkDesc1_2: Mining Fatigue potions (Ingredient = Slimeball)
-      alchemyPerkDesc1_3: Haste potions (Ingredient = Clock)
-      alchemyPerkDesc1_4: Wither potions (Ingredient = Poisonous Potato)
-      alchemyPerkDesc1_5: Resistance potions (Ingredient = Golden Apple)
-      alchemyPerkDesc0_0: A crafting table can be used to craft potions of
-      alchemyPerkDesc0_1: water breathing
-      alchemyPerkDesc0_2: speed
-      alchemyPerkDesc0_3: fire resistance
-      alchemyPerkDesc0_4: healing
-      alchemyPerkDesc0_5: strength
       enchantingPerkDesc1_0: Unlocks ability to craft
       enchantingPerkDesc1_1: Power I and Efficiency I enchanted books (costs 1 level to craft)"
       enchantingPerkDesc1_2: Sharpness I and Protection I enchanted books (costs 1 level to craft)
@@ -1097,11 +1124,6 @@
       enchantingCraft7: Depth Strider I Book
       enchantingCraft8: Mending Book
       enchantingCraft9: Fortune I Book
-      alchemyCraft0: Water Breathing Potion
-      alchemyCraft1: Speed Potion
-      alchemyCraft2: Fire Resistance Potion
-      alchemyCraft3: Healing Potion
-      alchemyCraft4: Strength Potion
       commandDesc9: Sets the souls for a specified player
       commandDesc10: Sets the skill or passive tokens in specified skill for a specified player
       commandDesc11: Sets the global tokens for a specified player
@@ -1116,6 +1138,62 @@
       personalMultiplier: Personal Multiplier
       translators: Translators
       commandDesc13: Sets the personal multiplier for a specified player
+      abilityDescription: Ability Description
+      abilityDescription_digging: Temporarily adds 5 levels of effiency to your shovel. Activated by right-clicking a shovel then breaking a block.
+      abilityDescription_woodcutting: Temporarily makes axes break an entire tree with one block break. Activated by right-clicking an axe then breaking a log.
+      abilityDescription_mining: Temporarily adds 5 levels of effiency to your pickaxe. Activated by right-clicking a pickaxe then breaking block.
+      abilityDescription_farming: Temporarily makes crops broken with a hoe automatically replant. Activated by right-clicking a hoe then breaking a crop.
+      abilityDescription_fishing: Temporarily makes fishing rods instantly catch a fish. Activated by left-clicking a fishing rod then fishing in water.
+      abilityDescription_archery: Temporarily makes all arrows fired at max speed. Activated by left-clicking a bow then shooting an arrow.
+      abilityDescription_beastMastery: Temporarily gives your horse a speed buff. Activated by right-clicking while on a horse then left-clicking.
+      abilityDescription_swordsmanship: Temporarily removes swinging cooldown on swords. Activated by right-clicking a sword then hitting a mob.
+      abilityDescription_defense: Temporarily gives the user Resistance and Slowness effects. Activated by right-clicking with an empty hand then hitting a mob.
+      abilityDescription_axeMastery: Temporarily makes axes do damage to all mobs in a certain radius. Activated by right-clicking an axe then hitting a mob.
+      alchemyPerkDesc1_0: Unlocks ability to brew
+      alchemyPerkDesc0_0: A crafting table can be used to craft
+      triggerAbilities: Trigger Abilities
+      showEXPBar: Show EXP Bar
+      disabledSkill: This skill is disabled
+      skillConfigDesc: Takes you to configuration menu for this skill
+      lvl: Lvl. #Abbreviation for "Level" If your language has no abbreviation, please put the translation for "Level"
+      exp: EXP #Abbreviation for "experience" if your language has no abbreviation, please put the translation for "experience"
+      potionAbsorption: Potion of Absorption
+      potionBadOmen: Potion of Bad Omen
+      potionBlindess: Potion of Blindess
+      potionConduitPower: Potion of Conduit Power
+      potionResistance: Potion of Resistance
+      potionDolphinsGrace: Potion of Dolphins Grace
+      potionHaste: Potion of Haste
+      potionFireResistance: Potion of Fire Resistance
+      potionGlowing: Potion of Glowing
+      potionHarm: Potion of Harm
+      potionHealing: Potion of Healing
+      potionHealthBoost: Potion of Health Boost
+      potiontheHero: Potion of the Hero
+      potionHunger: Potion of Hunger
+      potionStrength: Potion of Strength
+      potionInvsibility: Potion of Invsibility
+      potionJump: Potion of Jump
+      potionLuck: Potion of Luck
+      potionNightVision: Potion of Night Vision
+      potionRegeneration: Potion of Regeneration
+      potionSaturation: Potion of Saturation
+      potionSlowness: Potion of Slowness
+      potionFatigue: Potion of Fatigue
+      potionSlowFalling: Potion of Slow Falling
+      potionSpeed: Potion of Speed
+      potionBadLuck: Potion of Bad Luck
+      potionWaterBreathing: Potion of Water Breathing
+      potionWeakness: Potion of Weakness
+      potionDecay: Potion of Decay
+      potionAwkward: Awkward Potion
+      potionUncraftable: Uncraftable Potion
+      potionMundane: Mundane Potion
+      potionTurtleMaster: Potion of the Turtle Master
+      potionThick: Thick Potion
+      potionWater: Water Bottle
+      ingredient: Ingredient
+      usedToBrew: Is used to brew
 
     frFR: #Translated by Temuel
       global: Global
@@ -1602,18 +1680,6 @@
       toggle: Basculer
       refundSkillTitle: Réinitialiser aptidtude
       refundSkillTreeDesc: Cliquez pour réinitialiser l'arbre de compétence
-      alchemyPerkDesc1_0: Débloquer la compétence d'Alchimie
-      alchemyPerkDesc1_1: Potions Héro du village (Ingredient = Emeraude)
-      alchemyPerkDesc1_2: Potions de Fatigue (Ingredient = Boule de slime)
-      alchemyPerkDesc1_3: Potions de Célérité (Ingredient = Clock)
-      alchemyPerkDesc1_4: Potions Wither (Ingredient = Pomme de terre empoisonnée)
-      alchemyPerkDesc1_5: Potions de Résistance (Ingredient = Pomme d'or)
-      alchemyPerkDesc0_0: Un établi peut être utilisé pour fabriquer des potions de
-      alchemyPerkDesc0_1: apnée
-      alchemyPerkDesc0_2: rapidité
-      alchemyPerkDesc0_3: résistance au feu
-      alchemyPerkDesc0_4: soin
-      alchemyPerkDesc0_5: force
       enchantingPerkDesc1_0: Débloque la capacité de fabriquer
       enchantingPerkDesc1_1: Livres enchantés de Puissance I et Efficacité I (Coût de 1 niveau)"
       enchantingPerkDesc1_2: Livres enchantés Tranchant I et Protection I (Coût de 1 niveau)
@@ -1635,11 +1701,6 @@
       enchantingCraft7: Livre Agilité aquatique I
       enchantingCraft8: Livre Raccommodage
       enchantingCraft9: Livre Fortune I
-      alchemyCraft0: Potion d'Apnée
-      alchemyCraft1: Potion de Rapidité
-      alchemyCraft2: Potion de Résistance au feu
-      alchemyCraft3: Potion de Soin
-      alchemyCraft4: Potion de Force
       commandDesc9: Définit le nombre âmes d'un joueur
       commandDesc10: Définit la compétence ou les jetons passifs dans la compétence spécifiée d'un joueur
       commandDesc11: Définit le nombre de jetons globaux d'un joueur
@@ -1654,6 +1715,62 @@
       personalMultiplier: Personal Multiplier
       translators: Translators
       commandDesc13: Sets the personal multiplier for a specified player
+      abilityDescription: Ability Description
+      abilityDescription_digging: Temporarily adds 5 levels of effiency to your shovel. Activated by right-clicking a shovel then breaking a block.
+      abilityDescription_woodcutting: Temporarily makes axes break an entire tree with one block break. Activated by right-clicking an axe then breaking a log.
+      abilityDescription_mining: Temporarily adds 5 levels of effiency to your pickaxe. Activated by right-clicking a pickaxe then breaking block.
+      abilityDescription_farming: Temporarily makes crops broken with a hoe automatically replant. Activated by right-clicking a hoe then breaking a crop.
+      abilityDescription_fishing: Temporarily makes fishing rods instantly catch a fish. Activated by left-clicking a fishing rod then fishing in water.
+      abilityDescription_archery: Temporarily makes all arrows fired at max speed. Activated by left-clicking a bow then shooting an arrow.
+      abilityDescription_beastMastery: Temporarily gives your horse a speed buff. Activated by right-clicking while on a horse then left-clicking.
+      abilityDescription_swordsmanship: Temporarily removes swinging cooldown on swords. Activated by right-clicking a sword then hitting a mob.
+      abilityDescription_defense: Temporarily gives the user Resistance and Slowness effects. Activated by right-clicking with an empty hand then hitting a mob.
+      abilityDescription_axeMastery: Temporarily makes axes do damage to all mobs in a certain radius. Activated by right-clicking an axe then hitting a mob.
+      alchemyPerkDesc1_0: Débloquer la compétence d'Alchimie
+      alchemyPerkDesc0_0: Un établi peut être utilisé pour fabriquer des potions de
+      triggerAbilities: Trigger Abilities
+      showEXPBar: Show EXP Bar
+      disabledSkill: This skill is disabled
+      skillConfigDesc: Takes you to configuration menu for this skill
+      lvl: Lvl. #Abbreviation for "Level" If your language has no abbreviation, please put the translation for "Level"
+      exp: EXP #Abbreviation for "experience" if your language has no abbreviation, please put the translation for "experience"
+      potionAbsorption: Potion of Absorption
+      potionBadOmen: Potion of Bad Omen
+      potionBlindess: Potion of Blindess
+      potionConduitPower: Potion of Conduit Power
+      potionResistance: Potion of Resistance
+      potionDolphinsGrace: Potion of Dolphins Grace
+      potionHaste: Potion of Haste
+      potionFireResistance: Potion of Fire Resistance
+      potionGlowing: Potion of Glowing
+      potionHarm: Potion of Harm
+      potionHealing: Potion of Healing
+      potionHealthBoost: Potion of Health Boost
+      potiontheHero: Potion of the Hero
+      potionHunger: Potion of Hunger
+      potionStrength: Potion of Strength
+      potionInvsibility: Potion of Invsibility
+      potionJump: Potion of Jump
+      potionLuck: Potion of Luck
+      potionNightVision: Potion of Night Vision
+      potionRegeneration: Potion of Regeneration
+      potionSaturation: Potion of Saturation
+      potionSlowness: Potion of Slowness
+      potionFatigue: Potion of Fatigue
+      potionSlowFalling: Potion of Slow Falling
+      potionSpeed: Potion of Speed
+      potionBadLuck: Potion of Bad Luck
+      potionWaterBreathing: Potion of Water Breathing
+      potionWeakness: Potion of Weakness
+      potionDecay: Potion of Decay
+      potionAwkward: Awkward Potion
+      potionUncraftable: Uncraftable Potion
+      potionMundane: Mundane Potion
+      potionTurtleMaster: Potion of the Turtle Master
+      potionThick: Thick Potion
+      potionWater: Water Bottle
+      ingredient: Ingredient
+      usedToBrew: Is used to brew
 
     deDE:
       global: Global
@@ -2142,18 +2259,6 @@
       toggle: Umschalten
       refundSkillTitle: Rückerstattungsskill
       refundSkillTreeDesc: Klicke hier, um diesen Skillbaum zurückzusetzen
-      alchemyPerkDesc1_0: Schaltet die Fähigkeit zum Brauen frei
-      alchemyPerkDesc1_1: Helden des Dorfes Tränke (Zutat = Smaragd)
-      alchemyPerkDesc1_2: Abbaulähmung Tränke (Zutat = Schleimball)
-      alchemyPerkDesc1_3: Eile Tränke (Zutat = Uhr)
-      alchemyPerkDesc1_4: Wither Tränke (Zutat = Giftkartoffel)
-      alchemyPerkDesc1_5: Resistenztränke (Zutat = Goldener Apfel)
-      alchemyPerkDesc0_0: Ein Crafting Table kann verwendet werden, um folgende Tränke herzustellen
-      alchemyPerkDesc0_1: Unterwasseratmung
-      alchemyPerkDesc0_2: Geschwindigkeit
-      alchemyPerkDesc0_3: Feuerresistenz
-      alchemyPerkDesc0_4: Heilung
-      alchemyPerkDesc0_5: Stärke
       enchantingPerkDesc1_0: Schaltet die Fähigkeit frei, folgendes zu herzustellen
       enchantingPerkDesc1_1: Stärke 1 und Effizienz I verzauberte Bücher (kostet 1 Level zum herstellen)
       enchantingPerkDesc1_2: Schärfe I und Schutz I verzauberte Bücher (kostet 1 Level zum herstellen)
@@ -2175,11 +2280,6 @@
       enchantingCraft7: Wasserläufer I Buch
       enchantingCraft8: Reparatur Buch
       enchantingCraft9: Glück I Buch
-      alchemyCraft0: Unterwasseratmungstrank
-      alchemyCraft1: Geschwindigkeitstrank
-      alchemyCraft2: Feuerresistenz Trank
-      alchemyCraft3: Heilungstrank
-      alchemyCraft4: Stärketrank
       commandDesc9: Legt die Seelen für einen bestimmten Spieler fest
       commandDesc10: Legt die Fähigkeit oder den passiven Token in der angegebenen Skill für einen bestimmten Spieler fest
       commandDesc11: Legt die globalen Token für einen bestimmten Spieler fest
@@ -2194,6 +2294,62 @@
       personalMultiplier: Persönlicher Multiplikator
       translators: Übersetzer
       commandDesc13: Legt den persönlichen Multiplikator für einen bestimmten Spieler fest
+      abilityDescription: Ability Description
+      abilityDescription_digging: Temporarily adds 5 levels of effiency to your shovel. Activated by right-clicking a shovel then breaking a block.
+      abilityDescription_woodcutting: Temporarily makes axes break an entire tree with one block break. Activated by right-clicking an axe then breaking a log.
+      abilityDescription_mining: Temporarily adds 5 levels of effiency to your pickaxe. Activated by right-clicking a pickaxe then breaking block.
+      abilityDescription_farming: Temporarily makes crops broken with a hoe automatically replant. Activated by right-clicking a hoe then breaking a crop.
+      abilityDescription_fishing: Temporarily makes fishing rods instantly catch a fish. Activated by left-clicking a fishing rod then fishing in water.
+      abilityDescription_archery: Temporarily makes all arrows fired at max speed. Activated by left-clicking a bow then shooting an arrow.
+      abilityDescription_beastMastery: Temporarily gives your horse a speed buff. Activated by right-clicking while on a horse then left-clicking.
+      abilityDescription_swordsmanship: Temporarily removes swinging cooldown on swords. Activated by right-clicking a sword then hitting a mob.
+      abilityDescription_defense: Temporarily gives the user Resistance and Slowness effects. Activated by right-clicking with an empty hand then hitting a mob.
+      abilityDescription_axeMastery: Temporarily makes axes do damage to all mobs in a certain radius. Activated by right-clicking an axe then hitting a mob.
+      alchemyPerkDesc1_0: Schaltet die Fähigkeit zum Brauen frei
+      alchemyPerkDesc0_0: Ein Crafting Table kann verwendet werden, um folgende Tränke herzustellen
+      triggerAbilities: Trigger Abilities
+      showEXPBar: Show EXP Bar
+      disabledSkill: This skill is disabled
+      skillConfigDesc: Takes you to configuration menu for this skill
+      lvl: Lvl. #Abbreviation for "Level" If your language has no abbreviation, please put the translation for "Level"
+      exp: EXP #Abbreviation for "experience" if your language has no abbreviation, please put the translation for "experience"
+      potionAbsorption: Potion of Absorption
+      potionBadOmen: Potion of Bad Omen
+      potionBlindess: Potion of Blindess
+      potionConduitPower: Potion of Conduit Power
+      potionResistance: Potion of Resistance
+      potionDolphinsGrace: Potion of Dolphins Grace
+      potionHaste: Potion of Haste
+      potionFireResistance: Potion of Fire Resistance
+      potionGlowing: Potion of Glowing
+      potionHarm: Potion of Harm
+      potionHealing: Potion of Healing
+      potionHealthBoost: Potion of Health Boost
+      potiontheHero: Potion of the Hero
+      potionHunger: Potion of Hunger
+      potionStrength: Potion of Strength
+      potionInvsibility: Potion of Invsibility
+      potionJump: Potion of Jump
+      potionLuck: Potion of Luck
+      potionNightVision: Potion of Night Vision
+      potionRegeneration: Potion of Regeneration
+      potionSaturation: Potion of Saturation
+      potionSlowness: Potion of Slowness
+      potionFatigue: Potion of Fatigue
+      potionSlowFalling: Potion of Slow Falling
+      potionSpeed: Potion of Speed
+      potionBadLuck: Potion of Bad Luck
+      potionWaterBreathing: Potion of Water Breathing
+      potionWeakness: Potion of Weakness
+      potionDecay: Potion of Decay
+      potionAwkward: Awkward Potion
+      potionUncraftable: Uncraftable Potion
+      potionMundane: Mundane Potion
+      potionTurtleMaster: Potion of the Turtle Master
+      potionThick: Thick Potion
+      potionWater: Water Bottle
+      ingredient: Ingredient
+      usedToBrew: Is used to brew
 
     plPL:
       global: Globalny
@@ -2709,18 +2865,6 @@
       toggle: Przełącznik
       refundSkillTitle:  Zwrot Umiejętności
       refundSkillTreeDesc: Kliknij, aby zwrócić to drzewo umiejętności
-      alchemyPerkDesc1_0: Odblokowuje możliwość warzenia
-      alchemyPerkDesc1_1: Mikstury Bohatera Wioski (Składnik = Szmaragd)
-      alchemyPerkDesc1_2: Mikstury Zmęczenia Górnictwa (Składnik = kula slime)
-      alchemyPerkDesc1_3: Mikstury przyspieszenia (składnik = zegar)
-      alchemyPerkDesc1_4: Witherowe mikstury (składnik = trujący ziemniak)
-      alchemyPerkDesc1_5: Mikstury odporności (składnik = złote jabłko)
-      alchemyPerkDesc0_0: Na stole rzemieślniczym można tworzyć mikstury do
-      alchemyPerkDesc0_1: oddychania pod wodą
-      alchemyPerkDesc0_2: przyśpieszenia
-      alchemyPerkDesc0_3: odporności na ogień
-      alchemyPerkDesc0_4: leczenia
-      alchemyPerkDesc0_5: siły
       enchantingPerkDesc1_0: Odblokowuje możliwość tworzenia
       enchantingPerkDesc1_1: Zaklęte książki Moc I i Wydajność I (Kosztują 1 poziom aby wytworzyć) "
       enchantingPerkDesc1_2: Zaklęte książki Ostrośc I i Ochrona I (Kosztują 1 poziom aby wytworzyć)
@@ -2742,11 +2886,6 @@
       enchantingCraft7: Księga Głebinowy Wędrowiec I
       enchantingCraft8: Księga Naprawa
       enchantingCraft9: Księga Fortuna I
-      alchemyCraft0: Mikstura Oddychania pod wodą
-      alchemyCraft1: Mikstura Szybkości
-      alchemyCraft2: Mikstura Odporności na ogień
-      alchemyCraft3: Mikstura Leczenia
-      alchemyCraft4: Mikstura Siły
       commandDesc9: Ustawia dusze dla określonego gracza
       commandDesc10: Ustawia tokeny umiejętności lub pasywne w określonej umiejętności dla określonego gracza
       commandDesc11: Ustawia globalne tokeny dla określonego gracza
@@ -2761,3 +2900,59 @@
       personalMultiplier: Osobisty mnożnik
       translators: Tłumacze
       commandDesc13: Ustawia osobisty mnożnik dla określonego gracza
+      abilityDescription: Ability Description
+      abilityDescription_digging: Temporarily adds 5 levels of effiency to your shovel. Activated by right-clicking a shovel then breaking a block.
+      abilityDescription_woodcutting: Temporarily makes axes break an entire tree with one block break. Activated by right-clicking an axe then breaking a log.
+      abilityDescription_mining: Temporarily adds 5 levels of effiency to your pickaxe. Activated by right-clicking a pickaxe then breaking block.
+      abilityDescription_farming: Temporarily makes crops broken with a hoe automatically replant. Activated by right-clicking a hoe then breaking a crop.
+      abilityDescription_fishing: Temporarily makes fishing rods instantly catch a fish. Activated by left-clicking a fishing rod then fishing in water.
+      abilityDescription_archery: Temporarily makes all arrows fired at max speed. Activated by left-clicking a bow then shooting an arrow.
+      abilityDescription_beastMastery: Temporarily gives your horse a speed buff. Activated by right-clicking while on a horse then left-clicking.
+      abilityDescription_swordsmanship: Temporarily removes swinging cooldown on swords. Activated by right-clicking a sword then hitting a mob.
+      abilityDescription_defense: Temporarily gives the user Resistance and Slowness effects. Activated by right-clicking with an empty hand then hitting a mob.
+      abilityDescription_axeMastery: Temporarily makes axes do damage to all mobs in a certain radius. Activated by right-clicking an axe then hitting a mob.
+      alchemyPerkDesc1_0: Odblokowuje możliwość warzenia
+      alchemyPerkDesc0_0: Na stole rzemieślniczym można tworzyć mikstury do
+      triggerAbilities: Trigger Abilities
+      showEXPBar: Show EXP Bar
+      disabledSkill: This skill is disabled
+      skillConfigDesc: Takes you to configuration menu for this skill
+      lvl: Lvl. #Abbreviation for "Level" If your language has no abbreviation, please put the translation for "Level"
+      exp: EXP #Abbreviation for "experience" if your language has no abbreviation, please put the translation for "experience"
+      potionAbsorption: Potion of Absorption
+      potionBadOmen: Potion of Bad Omen
+      potionBlindess: Potion of Blindess
+      potionConduitPower: Potion of Conduit Power
+      potionResistance: Potion of Resistance
+      potionDolphinsGrace: Potion of Dolphins Grace
+      potionHaste: Potion of Haste
+      potionFireResistance: Potion of Fire Resistance
+      potionGlowing: Potion of Glowing
+      potionHarm: Potion of Harm
+      potionHealing: Potion of Healing
+      potionHealthBoost: Potion of Health Boost
+      potiontheHero: Potion of the Hero
+      potionHunger: Potion of Hunger
+      potionStrength: Potion of Strength
+      potionInvsibility: Potion of Invsibility
+      potionJump: Potion of Jump
+      potionLuck: Potion of Luck
+      potionNightVision: Potion of Night Vision
+      potionRegeneration: Potion of Regeneration
+      potionSaturation: Potion of Saturation
+      potionSlowness: Potion of Slowness
+      potionFatigue: Potion of Fatigue
+      potionSlowFalling: Potion of Slow Falling
+      potionSpeed: Potion of Speed
+      potionBadLuck: Potion of Bad Luck
+      potionWaterBreathing: Potion of Water Breathing
+      potionWeakness: Potion of Weakness
+      potionDecay: Potion of Decay
+      potionAwkward: Awkward Potion
+      potionUncraftable: Uncraftable Potion
+      potionMundane: Mundane Potion
+      potionTurtleMaster: Potion of the Turtle Master
+      potionThick: Thick Potion
+      potionWater: Water Bottle
+      ingredient: Ingredient
+      usedToBrew: Is used to brew

@@ -5,6 +5,7 @@ import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.playerAndServerInfo.AbilityTracker;
 import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
+import mc.carlton.freerpg.playerAndServerInfo.RunTimeData;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -18,17 +19,17 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class PlayerLeftClick implements Listener {
+public class PlayerLeftClickDeveloper implements Listener {
 
     @EventHandler
     void onLeftClick(PlayerInteractEvent e) {
         Action a = e.getAction();
 
         if ((a.equals(Action.LEFT_CLICK_AIR)) || (a.equals(Action.LEFT_CLICK_BLOCK))) {
+            RunTimeData runTimeData = new RunTimeData();
             Player p = e.getPlayer();
             if (p.getGameMode() == GameMode.CREATIVE) {
                 return;
@@ -39,6 +40,7 @@ public class PlayerLeftClick implements Listener {
             ItemGroups itemGroups = new ItemGroups();
             List<Material> leftClickItems = itemGroups.getLeftClickItems();
 
+            long timer = System.currentTimeMillis();
             if (itemType == Material.FISHING_ROD && a.equals(Action.LEFT_CLICK_BLOCK)) {
                 Fishing fishingClass = new Fishing(p);
                 fishingClass.initiateAbility();
@@ -69,14 +71,24 @@ public class PlayerLeftClick implements Listener {
 
 
             if (a.equals(Action.LEFT_CLICK_BLOCK)) {
+                long timer1 = System.currentTimeMillis();
                 Block clickedBlock = e.getClickedBlock();
                 Woodcutting woodcuttingClass = new Woodcutting(p);
                 woodcuttingClass.leafBlower(clickedBlock,world);
+                long leafBlowerTime = System.currentTimeMillis() - timer1;
+                runTimeData.addTime(leafBlowerTime,"leafBlower");
 
+                timer1 = System.currentTimeMillis();
                 BlockFace blockface = e.getBlockFace();
                 Digging diggingClass = new Digging(p);
                 diggingClass.storeBlockFace(blockface);
+                long storeBlockFaceTime = System.currentTimeMillis() - timer1;
+                runTimeData.addTime(storeBlockFaceTime,"blockFace");
+
             }
+            long allConditionals = System.currentTimeMillis() - timer;
+            runTimeData.addTime(allConditionals,"leftClickConditionals");
+
         }
     }
 }

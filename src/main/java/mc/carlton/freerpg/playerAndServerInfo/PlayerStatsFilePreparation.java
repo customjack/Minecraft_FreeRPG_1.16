@@ -15,13 +15,13 @@ import java.util.Date;
 import java.util.UUID;
 
 
-public class StatManager {
+public class PlayerStatsFilePreparation {
     public static void playJoinConditions(Player p) {
         String pName = p.getName();
         UUID pUUID = p.getUniqueId();
 
         Date now = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:ss:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
         File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder(), File.separator + "PlayerDatabase");
         if(!userdata.exists()){
@@ -49,7 +49,7 @@ public class StatManager {
                 //General Player information
                 playerData.createSection("general");
                 playerData.set("general.username", pName);
-                playerData.set("general.firstLogin",format.getCalendar());
+                playerData.set("general.firstLogin","\"" + simpleDateFormat.format(now)+ "\"");
                 playerData.set("general.lastLogin",unixTime);
                 playerData.set("general.lastLogout",unixTime);
                 playerData.set("general.playTime",0);
@@ -81,6 +81,8 @@ public class StatManager {
                 playerData.set("globalStats.levelUpMessageToggle",1);
                 playerData.set("globalStats.abilityPrepareMessageToggle",1);
                 playerData.set("globalStats.personalEXPMultiplier",1.0);
+                playerData.set("globalStats.triggerAbilitiesToggle",1);
+                playerData.set("globalStats.showEXPBarToggle",1);
 
                 // Skill Type Data
                 for (int i = 0; i < labels.length; i++) {
@@ -99,6 +101,8 @@ public class StatManager {
                     playerData.set(labels[i] + ".skill_3a", 0);
                     playerData.set(labels[i] + ".skill_3b", 0);
                     playerData.set(labels[i] + ".skill_M", 0);
+                    playerData.set(labels[i] + ".triggerAbilityToggle", 1);
+                    playerData.set(labels[i] + ".showEXPBarToggle", 1);
                 }
                 playerData.save(f);
             } catch (IOException exception){
@@ -115,7 +119,7 @@ public class StatManager {
                     playerData.set("general.username", pName);
                 }
                 if (!playerData.contains("general.firstLogin")) {
-                    playerData.set("general.firstLogin", format.getCalendar());
+                    playerData.set("general.firstLogin", "\"" + simpleDateFormat.format(now)+ "\"");
                 }
 
                 //Whether it exists or no, the last login will be set to the current unix timestamp
@@ -209,6 +213,12 @@ public class StatManager {
                 if (!playerData.contains("globalStats.personalEXPMultiplier")) {
                     playerData.set("globalStats.personalEXPMultiplier", 1.0);
                 }
+                if (!playerData.contains("globalStats.triggerAbilitiesToggle")) {
+                    playerData.set("globalStats.triggerAbilitiesToggle", 1);
+                }
+                if (!playerData.contains("globalStats.showEXPBarToggle")) {
+                    playerData.set("globalStats.showEXPBarToggle", 1);
+                }
 
                 // Skill Type Data
                 for (int i = 0; i < labels.length; i++) {
@@ -256,6 +266,12 @@ public class StatManager {
                     }
                     if (!playerData.contains(labels[i] + ".skill_M")) {
                         playerData.set(labels[i] + ".skill_M", 0);
+                    }
+                    if (!playerData.contains(labels[i] + ".triggerAbilityToggle")) {
+                        playerData.set(labels[i] + ".triggerAbilityToggle", 1);
+                    }
+                    if (!playerData.contains(labels[i] + ".showEXPBarToggle")) {
+                        playerData.set(labels[i] + ".showEXPBarToggle", 1);
                     }
                 }
 

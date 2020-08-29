@@ -1,28 +1,40 @@
 package mc.carlton.freerpg.playerAndServerInfo;
 
+import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
+import mc.carlton.freerpg.gameTools.BossBarStorage;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.gameTools.ScoreboardOperations;
+import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
 import mc.carlton.freerpg.guiEvents.MaxPassiveLevels;
 import mc.carlton.freerpg.perksAndAbilities.Global;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ChangeStats {
     private Player p;
     private String pName;
     private UUID uuid;
     private boolean isCommand;
-    ArrayList<Double> multipliers = new ArrayList<>();
-    ArrayList<Double> tokensInfo = new ArrayList<>();
-    ArrayList<Double> levelingInfo = new ArrayList<>();
-    ArrayList<Integer> maxLevels = new ArrayList<>();
+    ArrayList<Double> multipliers;
+    ArrayList<Double> tokensInfo;
+    ArrayList<Double> levelingInfo;
+    ArrayList<Integer> maxLevels;
     ActionBarMessages actionMessage;
+    static Map<Player,Boolean> isPlayerFlashingText = new ConcurrentHashMap<>();
+    static Map<Player,Integer> playerRemoveEXPBarTaskIdMap = new ConcurrentHashMap<>();
+    Map<String,Boolean> allowedSkillsMap = new HashMap<>();
+    Map<String,Boolean> allowedSkillGainEXPMap = new HashMap<>();
 
     public ChangeStats(Player p) {
         this.p = p;
@@ -35,6 +47,8 @@ public class ChangeStats {
         levelingInfo = loadConfig.getLevelingInfo();
         this.isCommand = false;
         this.actionMessage = new ActionBarMessages(p);
+        this.allowedSkillsMap = loadConfig.getAllowedSkillsMap();
+        this.allowedSkillGainEXPMap = loadConfig.getAllowedSkillGainEXPMap();
     }
 
     public void set_isCommand(boolean isFromCommand) {
@@ -58,6 +72,9 @@ public class ChangeStats {
         if (p.getGameMode() == GameMode.CREATIVE && !isCommand) {
             return;
         }
+        if (expChange <= 0) {
+            return;
+        }
         if (!skillName.equals("global")) {
             Global globalClass = new Global(p);
             LanguageSelector lang = new LanguageSelector(p);
@@ -65,6 +82,11 @@ public class ChangeStats {
             String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting","global"};
             List<String> labels_arr = Arrays.asList(labels_0);
             String skillTitle = titles_0[labels_arr.indexOf(skillName)];
+
+            //Check if gaining skill EXP is disabled or the skill is disabled
+            if (!allowedSkillGainEXPMap.get(skillName) || !allowedSkillsMap.get(skillName)) {
+                return;
+            }
 
             //Get stats
             PlayerStats pStatClass = new PlayerStats(p);
@@ -75,7 +97,7 @@ public class ChangeStats {
 
             //Multipliers
             if (!isCommand) {
-                expChange = (int) Math.ceil(expChange * ((double)pGlobalStats.get(23) * multipliers.get(0)) * (multipliers.get(labels_arr.indexOf(skillName) + 1)) * (globalClass.expBoost(skillName))); //multiplies exp by global multiplier
+                expChange = (int) Math.ceil(expChange * ((double)pGlobalStats.get(23) * multipliers.get(0)) * (multipliers.get(labels_arr.indexOf(skillName) + 1)) * (globalClass.expBoost(skillName))); //multiplies exp by all mutlipliers
             }
 
             //Get Corresponding maxLevel
@@ -86,10 +108,6 @@ public class ChangeStats {
                     maxLevel = Integer.MAX_VALUE;
                 }
             }
-
-            //Max skill tokens
-
-
 
             //TokensInfo
             double autoPassive = tokensInfo.get(0);
@@ -110,6 +128,7 @@ public class ChangeStats {
                 return;
             }
 
+
             // set new stats
             exp += expChange;
             int level = 0;
@@ -122,6 +141,11 @@ public class ChangeStats {
             if (level >= maxLevel) {
                 level = maxLevel;
             }
+
+
+            //EXP bar
+            setupBossBar(exp,oldLevel,level,skillTitle,skillName,expChange);
+
 
             int levelChange = level - oldLevel;
             int globalLevel = oldGlobalLevel + levelChange;
@@ -405,9 +429,121 @@ public class ChangeStats {
         statAll.put(uuid, pStatAll);
         pStatClass.setData(statAll);
 
-        //Sets up powerlevel
-        //ScoreboardOperations sb = new ScoreboardOperations();
-        //sb.setPlayerPowerLevel(p);
+    }
+
+    public void setupBossBar(int exp, int oldLevel,int newLevel,String skillTitle,String skillName,int expChange){
+        PlayerStats pStatClass = new PlayerStats(p);
+        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+        if ((int)pStat.get("global").get(25) < 1 || !pStatClass.isPlayerSkillExpBarOn(skillName)) {
+            return;
+        }
+        if (isPlayerFlashingText.containsKey(p)) {
+            if (isPlayerFlashingText.get(p)) {
+                return;
+            }
+        }
+        LanguageSelector lang = new LanguageSelector(p);
+        if (newLevel > oldLevel) {
+            BossBarStorage bossBarStorage = new BossBarStorage();
+            BossBar expBar = bossBarStorage.getPlayerBossBar(p);
+            expBar.setProgress(1.0);
+            String message = skillTitle.toUpperCase() + " " + lang.getString("level").toUpperCase() + " " + newLevel + "!";
+            expBar.setVisible(true);
+            flashEXPBarText(message,ChatColor.GOLD,ChatColor.DARK_PURPLE,expBar);
+            removeEXPBar(expBar);
+        }
+        else {
+            int lastLevelEXP = getEXPfromLevel(oldLevel);
+            int nextLevelEXP = getEXPfromLevel(oldLevel+1);
+            double progressEXP = Math.max(exp - lastLevelEXP,0);
+            double neededEXP = nextLevelEXP-lastLevelEXP;
+            double percentProgress = Math.min(progressEXP/neededEXP,1.0);
+            BossBarStorage bossBarStorage = new BossBarStorage();
+            BossBar expBar = bossBarStorage.getPlayerBossBar(p);
+            expBar.setProgress(percentProgress);
+            expBar.setTitle(ChatColor.GRAY + skillTitle + ChatColor.GOLD + " " + lang.getString("lvl") + " " + newLevel +
+                            ChatColor.YELLOW + " (+" + expChange + " " + lang.getString("exp") + ")");
+            expBar.setVisible(true);
+            removeEXPBar(expBar);
+        }
 
     }
+
+    public void flashEXPBarText(String message,ChatColor color1,ChatColor color2,BossBar expBar){
+        Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
+        expBar.setProgress(1.0);
+        isPlayerFlashingText.put(p,true);
+        //Sets up 6 flashes
+        for (int i = 0; i<=5;i++) {
+            int finalI = i;
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (p.isOnline()) {
+                        if (finalI % 2 == 0) {
+                            expBar.setTitle(color1 + message);
+                        } else {
+                            expBar.setTitle(color2 + message);
+                        }
+                    }
+                    if (finalI == 5) {
+                        isPlayerFlashingText.remove(p);
+                    }
+                }
+            }.runTaskLater(plugin, 10*i);
+        }
+    }
+
+    public void removeEXPBar(BossBar expBar) {
+        Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
+        if (playerRemoveEXPBarTaskIdMap.containsKey(p)) {
+            Bukkit.getScheduler().cancelTask(playerRemoveEXPBarTaskIdMap.get(p));
+        }
+        int taskId = new BukkitRunnable() {
+            @Override
+            public void run() {
+                expBar.setVisible(false);
+                if (playerRemoveEXPBarTaskIdMap.containsKey(p)) {
+                    playerRemoveEXPBarTaskIdMap.remove(p);
+                }
+            }
+        }.runTaskLater(plugin,60).getTaskId();
+        playerRemoveEXPBarTaskIdMap.put(p,taskId);
+    }
+
+    /*
+    public int getLevelFromBinarySearch(int value, ArrayList<Integer> a) {
+        int lastIndex = a.size()-1;
+        if(value < a.get(0)) {
+            return a.get(0);
+        }
+        if(value > a.get(lastIndex)) {
+            return a.get(lastIndex);
+        }
+
+        int lo = 0;
+        int hi = lastIndex;
+
+        while (lo <= hi) {
+            int mid = (hi + lo) / 2;
+
+            if (value < a.get(mid)) {
+                hi = mid - 1;
+            } else if (value > a.get(mid)) {
+                lo = mid + 1;
+            } else {
+                return mid;
+            }
+        }
+        // lo == hi + 1
+        if ((a.get(lo)- value) < (value - a.get(hi))) {
+            return lo;
+        }
+        else {
+            return hi;
+        }
+    }
+
+     */
+
 }

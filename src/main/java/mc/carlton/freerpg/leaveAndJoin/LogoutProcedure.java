@@ -1,9 +1,6 @@
 package mc.carlton.freerpg.leaveAndJoin;
 
-import mc.carlton.freerpg.gameTools.BlockFaceTracker;
-import mc.carlton.freerpg.gameTools.BrewingStandUserTracker;
-import mc.carlton.freerpg.gameTools.FurnaceUserTracker;
-import mc.carlton.freerpg.gameTools.TrackItem;
+import mc.carlton.freerpg.gameTools.*;
 import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.NamespacedKey;
@@ -25,7 +22,7 @@ public class LogoutProcedure {
     public void playerLogout() throws IOException {
         //Saves Player Stats to file
         PlayerStatsLoadIn saveStats = new PlayerStatsLoadIn(p);
-        saveStats.setPlayerStatsMap(p);
+        saveStats.setPlayerStatsMap();
 
         //Removes tracked player data
         BrewingStandUserTracker brewDelete = new BrewingStandUserTracker();
@@ -89,5 +86,8 @@ public class LogoutProcedure {
 
         AbilityLogoutTracker deleteLogoutTracked = new AbilityLogoutTracker(p);
         deleteLogoutTracked.removePlayer(p);
+
+        BossBarStorage bossBarStorage = new BossBarStorage();
+        bossBarStorage.removePlayer(p);
     }
 }

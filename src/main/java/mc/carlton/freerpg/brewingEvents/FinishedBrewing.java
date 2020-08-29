@@ -4,6 +4,7 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.BrewingStandUserTracker;
 import mc.carlton.freerpg.perksAndAbilities.Alchemy;
 import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.BrewingStand;
@@ -21,11 +22,17 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Map;
+
 public class FinishedBrewing implements Listener {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     @EventHandler(priority = EventPriority.HIGH)
     void onBrewComplete(BrewEvent e){
         if (e.isCancelled()) {
+            return;
+        }
+        ConfigLoad configLoad = new ConfigLoad();
+        if (!configLoad.getAllowedSkillsMap().get("alchemy")) {
             return;
         }
         BrewerInventory inventory = e.getContents();
@@ -70,8 +77,10 @@ public class FinishedBrewing implements Listener {
                                     stand.getSnapshotInventory().setItem(i,slot_i);
                                     stand.update();
                                     if (p != null) {
+                                        ConfigLoad configLoad1 = new ConfigLoad();
+                                        Map<String,Integer> expMap = configLoad1.getExpMapForSkill("alchemy");
                                         ChangeStats increaseStats = new ChangeStats(p);
-                                        increaseStats.changeEXP("alchemy", 750);
+                                        increaseStats.changeEXP("alchemy", expMap.get("brewSplashPotion"));
                                     }
                                 }
                             }

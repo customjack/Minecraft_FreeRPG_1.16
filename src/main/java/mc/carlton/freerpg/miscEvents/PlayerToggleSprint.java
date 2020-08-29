@@ -10,7 +10,6 @@ import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.plugin.Plugin;
 
 public class PlayerToggleSprint implements Listener {
-    Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     @EventHandler(priority = EventPriority.HIGH)
     void onSprintToggle(PlayerToggleSprintEvent e){
         if (e.isCancelled()) {

@@ -2,6 +2,7 @@ package mc.carlton.freerpg.enchantingEvents;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.perksAndAbilities.Enchanting;
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,6 +16,10 @@ public class PlayerEnchant implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     void onEnchant(EnchantItemEvent e){
         if (e.isCancelled()) {
+            return;
+        }
+        ConfigLoad configLoad = new ConfigLoad();
+        if (!configLoad.getAllowedSkillsMap().get("enchanting")) {
             return;
         }
         Player p = (Player) e.getEnchanter();

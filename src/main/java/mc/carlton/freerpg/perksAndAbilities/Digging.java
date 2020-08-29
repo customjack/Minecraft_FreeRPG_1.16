@@ -5,6 +5,7 @@ import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.BlockFaceTracker;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.gameTools.TrackItem;
+import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -28,7 +29,8 @@ public class Digging {
     private Player p;
     private String pName;
     private ItemStack itemInHand;
-    private Map<Enchantment, Integer> enchantmentLevelMap = new HashMap<>();
+    private String skillName = "digging";
+    Map<String,Integer> expMap;
 
 
     ChangeStats increaseStats; //Changing Stats
@@ -47,6 +49,8 @@ public class Digging {
 
     Random rand = new Random(); //Random class Import
 
+    private boolean runMethods;
+
     public Digging(Player p) {
         this.p = p;
         this.pName = p.getDisplayName();
@@ -57,48 +61,20 @@ public class Digging {
         this.pStatClass = new PlayerStats(p);
         this.actionMessage = new ActionBarMessages(p);
         this.lang = new LanguageSelector(p);
-
-        this.enchantmentLevelMap.put(Enchantment.ARROW_KNOCKBACK, 2);
-        this.enchantmentLevelMap.put(Enchantment.ARROW_DAMAGE, 5);
-        this.enchantmentLevelMap.put(Enchantment.ARROW_FIRE, 1);
-        this.enchantmentLevelMap.put(Enchantment.ARROW_INFINITE, 1);
-        this.enchantmentLevelMap.put(Enchantment.BINDING_CURSE, 1);
-        this.enchantmentLevelMap.put(Enchantment.CHANNELING, 1);
-        this.enchantmentLevelMap.put(Enchantment.DAMAGE_ALL, 4);
-        this.enchantmentLevelMap.put(Enchantment.DAMAGE_ARTHROPODS, 4);
-        this.enchantmentLevelMap.put(Enchantment.DAMAGE_UNDEAD, 4);
-        this.enchantmentLevelMap.put(Enchantment.DEPTH_STRIDER, 2);
-        this.enchantmentLevelMap.put(Enchantment.DIG_SPEED, 4);
-        this.enchantmentLevelMap.put(Enchantment.DURABILITY, 3);
-        this.enchantmentLevelMap.put(Enchantment.FIRE_ASPECT, 2);
-        this.enchantmentLevelMap.put(Enchantment.FROST_WALKER, 2);
-        this.enchantmentLevelMap.put(Enchantment.IMPALING, 4);
-        this.enchantmentLevelMap.put(Enchantment.KNOCKBACK, 2);
-        this.enchantmentLevelMap.put(Enchantment.LOOT_BONUS_BLOCKS, 3);
-        this.enchantmentLevelMap.put(Enchantment.LUCK, 3);
-        this.enchantmentLevelMap.put(Enchantment.LOOT_BONUS_MOBS, 3);
-        this.enchantmentLevelMap.put(Enchantment.LOYALTY, 3);
-        this.enchantmentLevelMap.put(Enchantment.LURE, 3);
-        this.enchantmentLevelMap.put(Enchantment.MENDING, 1);
-        this.enchantmentLevelMap.put(Enchantment.MULTISHOT, 1);
-        this.enchantmentLevelMap.put(Enchantment.OXYGEN, 3);
-        this.enchantmentLevelMap.put(Enchantment.PIERCING, 4);
-        this.enchantmentLevelMap.put(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
-        this.enchantmentLevelMap.put(Enchantment.PROTECTION_EXPLOSIONS, 4);
-        this.enchantmentLevelMap.put(Enchantment.PROTECTION_FALL, 4);
-        this.enchantmentLevelMap.put(Enchantment.PROTECTION_FIRE, 4);
-        this.enchantmentLevelMap.put(Enchantment.PROTECTION_PROJECTILE, 4);
-        this.enchantmentLevelMap.put(Enchantment.QUICK_CHARGE, 3);
-        this.enchantmentLevelMap.put(Enchantment.RIPTIDE, 3);
-        this.enchantmentLevelMap.put(Enchantment.SILK_TOUCH, 1);
-        this.enchantmentLevelMap.put(Enchantment.SWEEPING_EDGE, 3);
-        this.enchantmentLevelMap.put(Enchantment.THORNS, 3);
-        this.enchantmentLevelMap.put(Enchantment.VANISHING_CURSE, 1);
-        this.enchantmentLevelMap.put(Enchantment.WATER_WORKER, 1);
+        ConfigLoad configLoad = new ConfigLoad();
+        this.runMethods = configLoad.getAllowedSkillsMap().get(skillName);
+        expMap = configLoad.getExpMapForSkill(skillName);
     }
 
     public void initiateAbility() {
+        if (!runMethods) {
+            return;
+        }
         if (!p.hasPermission("freeRPG.diggingAbility")) {
+            return;
+        }
+        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+        if ((int) pStat.get("global").get(24) < 1 || !pStatClass.isPlayerSkillAbilityOn(skillName)) {
             return;
         }
         Integer[] pTimers = timers.getPlayerTimers();
@@ -117,14 +93,14 @@ public class Digging {
                             actionMessage.sendMessage(ChatColor.GRAY + ">>>..." + lang.getString("rest") + " " +lang.getString("shovel") + "<<<");
                         }
                         try {
-                            abilities.setPlayerAbility( "digging", -1);
+                            abilities.setPlayerAbility( skillName, -1);
                         }
                         catch (Exception e) {
 
                         }
                     }
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
-                abilities.setPlayerAbility( "digging", taskID);
+                abilities.setPlayerAbility( skillName, taskID);
             } else {
                 actionMessage.sendMessage(ChatColor.RED +lang.getString("bigDig") + " " + lang.getString("cooldown") + ": " + cooldown+ "s");
             }
@@ -132,6 +108,9 @@ public class Digging {
     }
 
     public void enableAbility() {
+        if (!runMethods) {
+            return;
+        }
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>" + lang.getString("bigDig") + " " + lang.getString("activated") + "<<<");
@@ -141,13 +120,13 @@ public class Digging {
 
         //Mark the item
         long unixTime = Instant.now().getEpochSecond();
-        String keyName = p.getUniqueId().toString() + "-" + String.valueOf(unixTime) + "-" + "digging";
+        String keyName = p.getUniqueId().toString() + "-" + String.valueOf(unixTime) + "-" + skillName;
         NamespacedKey key = new NamespacedKey(plugin,keyName);
         ItemMeta itemMeta = itemInHand.getItemMeta();
         itemMeta.getPersistentDataContainer().set(key, PersistentDataType.STRING,"nothing");
         itemInHand.setItemMeta(itemMeta);
 
-        int durationLevel = (int) pStat.get("digging").get(4);
+        int durationLevel = (int) pStat.get(skillName).get(4);
         double duration0 = Math.ceil(durationLevel*0.4) + 40;
         int cooldown = 300;
         if ((int) pStat.get("global").get(11) > 0) {
@@ -155,9 +134,9 @@ public class Digging {
         }
         int finalCooldown = cooldown;
         long duration = (long) duration0;
-        timers.setPlayerTimer( "digging", finalCooldown);
+        timers.setPlayerTimer( skillName, finalCooldown);
         Bukkit.getScheduler().cancelTask(pAbilities[0]);
-        abilities.setPlayerAbility( "digging", -2);
+        abilities.setPlayerAbility( skillName, -2);
         int taskID = new BukkitRunnable() {
             @Override
             public void run() {
@@ -171,13 +150,13 @@ public class Digging {
                 if (effLevel != 0) {
                     itemInHand.addUnsafeEnchantment(Enchantment.DIG_SPEED, effLevel);
                 }
-                abilities.setPlayerAbility( "digging", -1);
+                abilities.setPlayerAbility( skillName, -1);
                 for(int i = 1; i < finalCooldown+1; i++) {
                     int timeRemaining = finalCooldown - i;
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            timers.setPlayerTimer( "digging", timeRemaining);
+                            timers.setPlayerTimer( skillName, timeRemaining);
                             AbilityTimers timers2 = new AbilityTimers(p);
                             if (timeRemaining ==0) {
                                 if (!p.isOnline()) {
@@ -193,13 +172,16 @@ public class Digging {
             }
         }.runTaskLater(plugin, duration).getTaskId();
         AbilityLogoutTracker incaseLogout = new AbilityLogoutTracker(p);
-        incaseLogout.setPlayerItem(p,"digging",key);
-        incaseLogout.setPlayerTask(p,"digging",taskID);
+        incaseLogout.setPlayerItem(p,skillName,key);
+        incaseLogout.setPlayerTask(p,skillName,taskID);
     }
 
     public void storeBlockFace(BlockFace blockFace) {
+        if (!runMethods) {
+            return;
+        }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int megaDigLevel = (int) pStat.get("digging").get(13);
+        int megaDigLevel = (int) pStat.get(skillName).get(13);
         if (megaDigLevel > 0) {
             BlockFaceTracker blockFaceTracker = new BlockFaceTracker();
             blockFaceTracker.addBlockFace(blockFace,p);
@@ -207,10 +189,13 @@ public class Digging {
     }
 
     public void megaDig(Block block, Map<Material, Integer> diggingEXP) {
+        if (!runMethods) {
+            return;
+        }
         WorldGuardChecks BuildingCheck = new WorldGuardChecks();
         World world = p.getWorld();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int megaDigLevel = (int) pStat.get("digging").get(13);
+        int megaDigLevel = (int) pStat.get(skillName).get(13);
         if (megaDigLevel < 1) {
             return;
         }
@@ -221,6 +206,7 @@ public class Digging {
         BlockFaceTracker blockFaceTracker = new BlockFaceTracker();
         BlockFace blockFace = blockFaceTracker.getBlockface(p);
         Vector normalVector = blockFace.getDirection();
+        ConfigLoad configLoad = new ConfigLoad();
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
                 for (int z = -1; z <= 1; z++) {
@@ -237,7 +223,7 @@ public class Digging {
                         }
                         if (diggingEXP.containsKey(blockType)) {
                             damageTool();
-                            increaseStats.changeEXP("digging",(int) Math.round(diggingEXP.get(blockType)*0.2));
+                            increaseStats.changeEXP(skillName,(int) Math.round(diggingEXP.get(blockType)*configLoad.getSpecialMultiplier().get("megaDigEXPMultiplier")));
                             Collection<ItemStack> drops = planeBlock.getDrops(itemInHand);
                             for (ItemStack stack : drops) {
                                 world.dropItemNaturally(blockLocation, stack);
@@ -264,14 +250,17 @@ public class Digging {
     }
 
     public void diggingTreasureDrop(World world, Location loc,Material blockType) {
+        if (!runMethods) {
+            return;
+        }
         ConfigLoad loadConfig = new ConfigLoad();
         ArrayList<Object> treasureData = loadConfig.getDiggingInfo();
         double randomNum = rand.nextDouble();
         double randomNum2 = 0;
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int treasureRoll = (int) pStat.get("digging").get(5);
-        int soulStealing = (int) pStat.get("digging").get(10);
+        int treasureRoll = (int) pStat.get(skillName).get(5);
+        int soulStealing = (int) pStat.get(skillName).get(10);
         double treasureChance = treasureRoll * 0.00005 + 0.01;
         if (soulStealing > 0 && blockType == Material.SOUL_SAND) {
             treasureChance = treasureChance*(1+0.05*soulStealing);
@@ -281,10 +270,10 @@ public class Digging {
         }
 
         int rolls = 1;
-        int megaDig = (int) pStat.get("digging").get(13);
-        int doubleTreasure = (int) pStat.get("digging").get(8);
-        int dropLevel_I = (int) pStat.get("digging").get(7);
-        int dropLevel_II = (int) pStat.get("digging").get(9);
+        int megaDig = (int) pStat.get(skillName).get(13);
+        int doubleTreasure = (int) pStat.get(skillName).get(8);
+        int dropLevel_I = (int) pStat.get(skillName).get(7);
+        int dropLevel_II = (int) pStat.get(skillName).get(9);
         double[] rates = {0, 0, 0, 0, 0, 0, 0, 0, 0, (double)treasureData.get(20), (double)treasureData.get(23),
                           (double)treasureData.get(26), (double)treasureData.get(29), (double)treasureData.get(32), (double)treasureData.get(35)};
 
@@ -295,7 +284,7 @@ public class Digging {
         }
 
         /* Old Treasure Magnet Perk, Replaced with Mega Dig
-        int treasureMagnet = (int) pStat.get("digging").get(13);
+        int treasureMagnet = (int) pStat.get(skillName).get(13);
         if (treasureMagnet > 0 && pAbilities[0] == -2) {
             for (int i = 0; i < rates.length; i++) {
                 rates[i] = rates[i] * 1.5;
@@ -392,7 +381,7 @@ public class Digging {
                     drop.setAmount((int) treasureData.get(1));
                 }
                 world.dropItemNaturally(loc, drop);
-                increaseStats.changeEXP("digging", 400);
+                increaseStats.changeEXP(skillName, expMap.get("drop1EXP"));
                 if (doubleDrop) {
                     world.dropItemNaturally(loc, drop);
                 }
@@ -406,7 +395,7 @@ public class Digging {
                     drop.setAmount((int) treasureData.get(3));
                 }
                 world.dropItemNaturally(loc, drop);
-                increaseStats.changeEXP("digging", 400);
+                increaseStats.changeEXP(skillName, expMap.get("drop2EXP"));
                 if (doubleDrop) {
                     world.dropItemNaturally(loc, drop);
                 }
@@ -420,7 +409,7 @@ public class Digging {
                     drop.setAmount((int) treasureData.get(5));
                 }
                 world.dropItemNaturally(loc, drop);
-                increaseStats.changeEXP("digging", 400);
+                increaseStats.changeEXP(skillName, expMap.get("drop3EXP"));
                 if (doubleDrop) {
                     world.dropItemNaturally(loc, drop);
                 }
@@ -434,7 +423,7 @@ public class Digging {
                     drop.setAmount((int) treasureData.get(7));
                 }
                 world.dropItemNaturally(loc, drop);
-                increaseStats.changeEXP("digging", 400);
+                increaseStats.changeEXP(skillName, expMap.get("drop4EXP"));
                 if (doubleDrop) {
                     world.dropItemNaturally(loc, drop);
                 }
@@ -448,7 +437,7 @@ public class Digging {
                     drop.setAmount((int) treasureData.get(9));
                 }
                 world.dropItemNaturally(loc, drop);
-                increaseStats.changeEXP("digging", 400);
+                increaseStats.changeEXP(skillName, expMap.get("drop5EXP"));
                 if (doubleDrop) {
                     world.dropItemNaturally(loc, drop);
                 }
@@ -462,7 +451,7 @@ public class Digging {
                     drop.setAmount((int) treasureData.get(11));
                 }
                 world.dropItemNaturally(loc, drop);
-                increaseStats.changeEXP("digging", 400);
+                increaseStats.changeEXP(skillName, expMap.get("drop6EXP"));
                 if (doubleDrop) {
                     world.dropItemNaturally(loc, drop);
                 }
@@ -476,7 +465,7 @@ public class Digging {
                     drop.setAmount((int) treasureData.get(13));
                 }
                 world.dropItemNaturally(loc, drop);
-                increaseStats.changeEXP("digging", 900);
+                increaseStats.changeEXP(skillName, expMap.get("drop7EXP"));
                 if (doubleDrop) {
                     world.dropItemNaturally(loc, drop);
                 }
@@ -490,7 +479,7 @@ public class Digging {
                     drop.setAmount((int) treasureData.get(15));
                 }
                 world.dropItemNaturally(loc, drop);
-                increaseStats.changeEXP("digging", 1000);
+                increaseStats.changeEXP(skillName, expMap.get("drop8EXP"));
                 if (doubleDrop) {
                     world.dropItemNaturally(loc, drop);
                 }
@@ -504,7 +493,7 @@ public class Digging {
                     drop.setAmount((int) treasureData.get(17));
                 }
                 world.dropItemNaturally(loc, drop);
-                increaseStats.changeEXP("digging", 1100);
+                increaseStats.changeEXP(skillName, expMap.get("drop9EXP"));
                 if (doubleDrop) {
                     world.dropItemNaturally(loc, drop);
                 }
@@ -518,7 +507,7 @@ public class Digging {
                     drop.setAmount((int) treasureData.get(19));
                 }
                 world.dropItemNaturally(loc, drop);
-                increaseStats.changeEXP("digging", 10000);
+                increaseStats.changeEXP(skillName, expMap.get("drop10EXP"));
                 if (doubleDrop) {
                     world.dropItemNaturally(loc, drop);
                 }
@@ -532,13 +521,15 @@ public class Digging {
                     drop.setAmount((int) treasureData.get(22));
                 }
                 world.dropItemNaturally(loc, drop);
-                increaseStats.changeEXP("digging", 1200);
+                increaseStats.changeEXP(skillName, expMap.get("drop11EXP"));
                 if (doubleDrop) {
                     world.dropItemNaturally(loc, drop);
                 }
             } else if (randomNum < rateSums[11] && dropLevel_II >= 2) {
                 ItemStack drop = new ItemStack(Material.DIRT,1);
                 if (treasureData.get(24) == null) {
+                    ItemGroups itemGroups = new ItemGroups();
+                    Map<Enchantment, Integer> enchantmentLevelMap = itemGroups.getEnchantmentLevelMap();
                     drop.setType(Material.ENCHANTED_BOOK);
                     List<Enchantment> keysAsArray = new ArrayList<Enchantment>(enchantmentLevelMap.keySet());
                     Enchantment randomEnchant = keysAsArray.get(rand.nextInt(keysAsArray.size()));
@@ -561,7 +552,7 @@ public class Digging {
                     drop.setAmount((int) treasureData.get(25));
                 }
                 world.dropItemNaturally(loc, drop);
-                increaseStats.changeEXP("digging", 2200);
+                increaseStats.changeEXP(skillName, expMap.get("drop12EXP"));
                 if (doubleDrop) {
                     world.dropItemNaturally(loc, drop);
                 }
@@ -575,7 +566,7 @@ public class Digging {
                     drop.setAmount((int) treasureData.get(28));
                 }
                 world.dropItemNaturally(loc, drop);
-                increaseStats.changeEXP("digging", 3600);
+                increaseStats.changeEXP(skillName, expMap.get("drop13EXP"));
                 if (doubleDrop) {
                     world.dropItemNaturally(loc, drop);
                 }
@@ -589,7 +580,7 @@ public class Digging {
                     drop.setAmount((int) treasureData.get(31));
                 }
                 world.dropItemNaturally(loc, drop);
-                increaseStats.changeEXP("digging", 10500);
+                increaseStats.changeEXP(skillName, expMap.get("drop14EXP"));
                 if (doubleDrop) {
                     world.dropItemNaturally(loc, drop);
                 }
@@ -603,7 +594,7 @@ public class Digging {
                     drop.setAmount((int) treasureData.get(34));
                 }
                 world.dropItemNaturally(loc, drop);
-                increaseStats.changeEXP("digging", 20000);
+                increaseStats.changeEXP(skillName, expMap.get("drop15EXP"));
                 if (doubleDrop) {
                     world.dropItemNaturally(loc, drop);
                 }
@@ -612,9 +603,12 @@ public class Digging {
     }
 
     public boolean flintFinder(Material blockType) {
+        if (!runMethods) {
+            return false;
+        }
         if (blockType == Material.GRAVEL) {
             Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-            int flintFinderLevel = (int) pStat.get("digging").get(11);
+            int flintFinderLevel = (int) pStat.get(skillName).get(11);
             int flintFinderToggle = (int) pStat.get("global").get(12);
             if (flintFinderLevel > 0 && flintFinderToggle > 0) {
                 return true;
@@ -624,6 +618,9 @@ public class Digging {
     }
 
     public void preventLogoutTheft(int taskID_digging, ItemStack itemInHand_digging){
+        if (!runMethods) {
+            return;
+        }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[0] == -2) {
@@ -639,14 +636,14 @@ public class Digging {
             }
             int finalCooldown = cooldown;
             actionMessage.sendMessage(ChatColor.RED+ChatColor.BOLD.toString() + ">>>" + lang.getString("magicForce") + "<<<");
-            abilities.setPlayerAbility( "digging", -1);
+            abilities.setPlayerAbility( skillName, -1);
             for(int i = 1; i < finalCooldown+1; i++) {
                 int timeRemaining = finalCooldown - i;
                 new BukkitRunnable() {
                     @Override
                     public void run() {
                         AbilityTimers timers2 = new AbilityTimers(p);
-                        timers2.setPlayerTimer( "digging", timeRemaining);
+                        timers2.setPlayerTimer( skillName, timeRemaining);
                         if (timeRemaining==0 && !p.isOnline()){
                             timers2.removePlayer();
                         }

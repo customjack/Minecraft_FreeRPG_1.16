@@ -4,6 +4,7 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -24,8 +25,10 @@ public class Agility {
     private Player p;
     private String pName;
     private ItemStack itemInHand;
+    private String skillName = "agility";
     static Map<Player,Integer> gracefulFeetMap = new HashMap<>();
     static Map<Player,Long> playerSprintMap = new HashMap<>();
+    Map<String,Integer> expMap;
 
     ChangeStats increaseStats; //Changing Stats
 
@@ -37,6 +40,8 @@ public class Agility {
 
     Random rand = new Random(); //Random class Import
 
+    private boolean runMethods;
+
 
 
     public Agility(Player p) {
@@ -47,32 +52,41 @@ public class Agility {
         this.pStatClass = new PlayerStats(p);
         this.actionMessage = new ActionBarMessages(p);
         this.lang = new LanguageSelector(p);
+        ConfigLoad configLoad = new ConfigLoad();
+        runMethods = configLoad.getAllowedSkillsMap().get(skillName);
+        expMap = configLoad.getExpMapForSkill(skillName);
     }
 
     public double roll(double finalDamage) {
+        if (!runMethods) {
+            return 1.0;
+        }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int rollLevel = (int) pStat.get("agility").get(4);
-        int steelBonesLevel = (int) pStat.get("agility").get(9);
+        int rollLevel = (int) pStat.get(skillName).get(4);
+        int steelBonesLevel = (int) pStat.get(skillName).get(9);
         double multiplier = 1;
         if (rollLevel*0.0005 > rand.nextDouble()) {
             multiplier = 0.5 - steelBonesLevel*0.1;
-            increaseStats.changeEXP("agility", 250 + (int) Math.round(10*finalDamage)*10);
+            increaseStats.changeEXP(skillName, expMap.get("rollBaseEXP") + (int) Math.round(finalDamage*expMap.get("roll_EXPperFallDamagePoint")));
             actionMessage.sendMessage(ChatColor.GREEN + ">>>" + lang.getString("roll") + "<<<");
         }
         else {
             if (finalDamage < p.getHealth()) {
-                increaseStats.changeEXP("agility", (int) Math.round(10 * finalDamage) * 10);
+                increaseStats.changeEXP(skillName, (int) Math.round(finalDamage*expMap.get("roll_EXPperFallDamagePoint")));
             }
         }
         return multiplier;
     }
 
     public boolean dodge(double finalDamage) {
+        if (!runMethods) {
+            return false;
+        }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int dodgeLevel = (int) pStat.get("agility").get(7);
+        int dodgeLevel = (int) pStat.get(skillName).get(7);
         double dodgeChance = Math.min(0.2,dodgeLevel*0.04);
         if (dodgeChance > rand.nextDouble()) {
-            increaseStats.changeEXP("agility",(int) Math.round(10*finalDamage)*10);
+            increaseStats.changeEXP(skillName,(int) Math.round(expMap.get("dodge_EXPperDamagePointAvoided")*finalDamage));
             actionMessage.sendMessage(ChatColor.GREEN + ">>>"+lang.getString("dodge")+"<<<");
             return true;
         }
@@ -82,8 +96,11 @@ public class Agility {
     }
 
     public void gracefulFeetStart() {
+        if (!runMethods) {
+            return;
+        }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int gracefulFeetLevel = (int) pStat.get("agility").get(13);
+        int gracefulFeetLevel = (int) pStat.get(skillName).get(13);
         if (gracefulFeetLevel > 0) {
             if (p.getPotionEffect(PotionEffectType.SPEED) == null) {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 60 * 20, 0));
@@ -110,8 +127,11 @@ public class Agility {
         }
     }
     public void gracefulFeetEnd(){
+        if (!runMethods) {
+            return;
+        }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int gracefulFeetLevel = (int) pStat.get("agility").get(13);
+        int gracefulFeetLevel = (int) pStat.get(skillName).get(13);
         if (gracefulFeetLevel > 0) {
             Bukkit.getScheduler().cancelTask(gracefulFeetMap.get(p));
             gracefulFeetMap.remove(p);
@@ -120,6 +140,9 @@ public class Agility {
     }
 
     public void sprintingEXP(boolean beginSprint) {
+        if (!runMethods) {
+            return;
+        }
         if (beginSprint) {
             playerSprintMap.put(p,(new java.util.Date()).getTime());
         }
@@ -128,8 +151,8 @@ public class Agility {
                 long oldTime = playerSprintMap.get(p);
                 long newTime = (new java.util.Date()).getTime();
                 long timeSprint = newTime-oldTime;
-                int expToGive = (int)Math.round(timeSprint/1000.0 *3)*12;
-                increaseStats.changeEXP("agility", expToGive);
+                int expToGive = (int)Math.round((timeSprint/1000.0)*expMap.get("sprint_EXPperSecondSprinted"));
+                increaseStats.changeEXP(skillName, expToGive);
             }
             catch (Exception e) {
 

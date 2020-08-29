@@ -1,27 +1,38 @@
 package mc.carlton.freerpg.playerAndServerInfo;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.ArrowTypes;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ConfigLoad {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
+    static boolean saveRunTimeData;
+    static boolean verboseRunTimeData;
     static int saveStatsTimer;
     static String defaultLanguage;
     static boolean allowExplosions;
     static boolean allowBuild;
     static boolean allowPvP;
     static boolean allowHurtAnimals;
+    static int furnaceDeleteTimer;
+    static boolean getEXPFromEnchantingBottles;
+    static Map<String,Double> specialMultiplier = new HashMap<>();
     static ArrayList<Integer> maxLevels = new ArrayList<>();
     static ArrayList<Integer> soulsInfo = new ArrayList<>();
     static ArrayList<Double> multipliers = new ArrayList<>();
@@ -33,111 +44,99 @@ public class ConfigLoad {
     static ArrayList<Object> fishingInfoBaseChances = new ArrayList<>();
     static ArrayList<Object> fishingInfoHotRod = new ArrayList<>();
     static ArrayList<Object> fishingInfoEnchants = new ArrayList<>();
+    static Map<String,Boolean> allowedSkillsMap = new HashMap<>();
+    static Map<String,Boolean> allowedSkillGainEXPMap = new HashMap<>();
+    static ArrayList<Object> alchemyInfo = new ArrayList<>();
+    static Map<String,Map<String,Integer>> expMap = new HashMap<>();
 
+
+    public void initializeConfig(){
+        setConfig();
+        setConfigData();
+    }
 
     public void setConfig(){
-        try {
-            File userdata = new File(String.valueOf(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder()));
-            File f = new File(userdata,"config.yml");
-            FileConfiguration config = YamlConfiguration.loadConfiguration(f);
-
-            Map<String,Object> general = new HashMap<>();
-            Map<String,Object> tokens = new HashMap<>();
-            Map<String,Object> souls = new HashMap<>();
-            Map<String,Object> leveling = new HashMap<>();
-
-            //general.* config
-            general.put("playerBaseHP",20.0);
-            general.put("defaultLanguage","enUs");
-            general.put("allowCustomExplosions",true);
-            general.put("allowBuild",true);
-            general.put("allowPvP",true);
-            general.put("allowHurtAnimals",true);
-            general.put("saveStatsTimer",600);
-
-            //tokens.*
-            tokens.put("automaticPassiveUpgradesPerLevel",1.0);
-            tokens.put("levelsPerPassiveToken",1.0);
-            tokens.put("levelPerSkillToken",100.0);
-            tokens.put("levelsPerGlobalToken",1000.0);
-            tokens.put("startingPassiveTokens",0);
-            tokens.put("startingSkillTokens",0);
-            tokens.put("startingGlobalTokens",0);
-            tokens.put("skillTokenToPassiveTokenConversion",50);
-            tokens.put("globalTokenToEXPbuff",0.01);
-
-            //souls.*
-            souls.put("startingSouls",0);
-            souls.put("refundCost",250);
-
-            //leveling.*
-            leveling.put("maxLevel",-1);
-            leveling.put("exponentialGrowthFactor",1.001595);
-            leveling.put("exponentialReferenceLevel",1000);
-            leveling.put("exponentialReferenceEXP",10000000.0);
-            leveling.put("levelBeginLinear",1000);
-            leveling.put("LinearEXPperLevel",20000.0);
-
-            for (String key : general.keySet()) {
-                String generalString = "general." + key;
-                if (!config.contains(generalString)) {
-                    config.set(generalString,general.get(key));
-                }
-            }
-
-            for (String key : tokens.keySet()) {
-                String tokensString = "tokens." + key;
-                if (!config.contains(tokensString)) {
-                    config.set(tokensString,tokens.get(key));
-                }
-            }
-
-            for (String key : souls.keySet()) {
-                String soulsString = "souls." + key;
-                if (!config.contains(soulsString)) {
-                    config.set(soulsString,souls.get(key));
-                }
-            }
-
-            for (String key : leveling.keySet()) {
-                String levelingString = "leveling." + key;
-                if (!config.contains(levelingString)) {
-                    config.set(levelingString,leveling.get(key));
-                }
-            }
-
-            config.save(f);
-        } catch (IOException e) {
-            e.printStackTrace();
+        File f = new File(plugin.getDataFolder(),"config.yml");
+        FileConfiguration config = YamlConfiguration.loadConfiguration(f);
+        LanguagesYMLManager getFile = new LanguagesYMLManager();
+        File f1 = getFile.inputStreamToFile(plugin.getResource("config.yml"),"TEMP_config.yml");
+        FileConfiguration configTrue = YamlConfiguration.loadConfiguration(f1);
+        if (!config.getKeys(true).equals(configTrue.getKeys(true))) {
+            updateConfigYML();
         }
+        f1.delete();
+    }
+
+    public void updateConfigYML() {
+        Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
+        System.out.println("[FreeRPG] config.yml is not up to date or is missing a key");
+        LanguagesYMLManager languagesYMLManager = new LanguagesYMLManager();
+        languagesYMLManager.storeOldFile("config.yml");
+        System.out.println("[FreeRPG] Old config.yml stored in /.../FreeRPG/OutdatedYMLFiles");
+
+        plugin.saveResource("config.yml",true); //Saves default config
+
+        //Loads the new files
+        File f = new File(plugin.getDataFolder(),"config.yml");
+        File outdatedYAML = new File(plugin.getDataFolder(),File.separator + "OutdatedYMLFiles");
+        File f2 = new File(outdatedYAML,"OUTDATED_config.yml");
+        FileConfiguration oldConfig = YamlConfiguration.loadConfiguration(f2);
+        File f3 = new File(plugin.getDataFolder(),"TEMP_config.yml");
+        FileConfiguration newConfig = YamlConfiguration.loadConfiguration(f3);
+        boolean changeMade = false;
+
+        ArrayList<String> lastLevelKeys = getAllLastLevelKeys(newConfig);
+        for (String key : lastLevelKeys) {
+            if (oldConfig.contains(key) && newConfig.contains(key)) {
+                if (!oldConfig.get(key).equals(newConfig.get(key))) {
+                    newConfig.set(key, oldConfig.get(key)); //Sets the new config to whatever data was in the old config
+                    changeMade = true;
+                }
+            }
+        }
+
+        if (changeMade) {
+            try {
+                newConfig.save(f);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("[FreeRPG] config.yml updated succesfully");
+    }
+
+    public ArrayList<String> getAllLastLevelKeys(FileConfiguration configuration) {
+        ArrayList<String> lastLevelKeys = new ArrayList<>();
+        for (String key : configuration.getKeys(true)) {
+            if (configuration.getConfigurationSection(key) == null) {
+                lastLevelKeys.add(key);
+            }
+        }
+        return lastLevelKeys;
     }
 
     public void setConfigData() {
-        FileConfiguration config = plugin.getConfig();
+        File f = new File(plugin.getDataFolder(),"config.yml");
+        FileConfiguration config = YamlConfiguration.loadConfiguration(f);
 
+        saveRunTimeData = config.getBoolean("general.saveRunTimeData");
+        verboseRunTimeData = config.getBoolean("general.verboseRunTimeData");
         saveStatsTimer = config.getInt("general.saveStatsTimer");
         defaultLanguage = config.getString("general.defaultLanguage");
         allowExplosions = config.getBoolean("general.allowCustomExplosions");
-        allowBuild = config.getBoolean("general.allowCustomExplosions");
-        allowPvP = config.getBoolean("general.allowCustomExplosions");
-        allowHurtAnimals = config.getBoolean("general.allowCustomExplosions");
+        allowBuild = config.getBoolean("general.allowBuild");
+        allowPvP = config.getBoolean("general.allowPvP");
+        allowHurtAnimals = config.getBoolean("general.allowHurtAnimals");
+        furnaceDeleteTimer = config.getInt("smelting.removePlayerFurnacesTimer");
 
+        String[] labels = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
         maxLevels.add(Integer.valueOf(config.getString("leveling.maxLevel")));
-        maxLevels.add(Integer.valueOf(config.getString("digging.maxLevel")));
-        maxLevels.add(Integer.valueOf(config.getString("woodcutting.maxLevel")));
-        maxLevels.add(Integer.valueOf(config.getString("mining.maxLevel")));
-        maxLevels.add(Integer.valueOf(config.getString("farming.maxLevel")));
-        maxLevels.add(Integer.valueOf(config.getString("fishing.maxLevel")));
-        maxLevels.add(Integer.valueOf(config.getString("archery.maxLevel")));
-        maxLevels.add(Integer.valueOf(config.getString("beastMastery.maxLevel")));
-        maxLevels.add(Integer.valueOf(config.getString("swordsmanship.maxLevel")));
-        maxLevels.add(Integer.valueOf(config.getString("defense.maxLevel")));
-        maxLevels.add(Integer.valueOf(config.getString("axeMastery.maxLevel")));
-        maxLevels.add(Integer.valueOf(config.getString("repair.maxLevel")));
-        maxLevels.add(Integer.valueOf(config.getString("agility.maxLevel")));
-        maxLevels.add(Integer.valueOf(config.getString("alchemy.maxLevel")));
-        maxLevels.add(Integer.valueOf(config.getString("smelting.maxLevel")));
-        maxLevels.add(Integer.valueOf(config.getString("enchanting.maxLevel")));
+        allowedSkillsMap.put("global",config.getBoolean("global.skillAllowed"));
+        for (String label : labels) {
+            maxLevels.add(Integer.valueOf(config.getString(label+".maxLevel")));
+            allowedSkillsMap.put(label,config.getBoolean(label+".skillAllowed"));
+            allowedSkillGainEXPMap.put(label,config.getBoolean(label+".expDrops.enableEXPDrops"));
+        }
 
         soulsInfo.add(Integer.valueOf(config.getString("souls.startingSouls")));
         soulsInfo.add(Integer.valueOf(config.getString("souls.refundCost")));
@@ -168,6 +167,8 @@ public class ConfigLoad {
         tokensInfo.add(Double.valueOf(config.getString("tokens.startingGlobalTokens")));
         tokensInfo.add(Double.valueOf(config.getString("tokens.skillTokenToPassiveTokenConversion")));
         tokensInfo.add(Double.valueOf(config.getString("tokens.globalTokenToEXPbuff")));
+        tokensInfo.add(Double.valueOf(config.getString("tokens.passiveRightClickInvestment")));
+        tokensInfo.add(Double.valueOf(config.getString("tokens.passiveShiftClickInvestment")));
 
         levelingInfo.add(Double.valueOf(config.getString("leveling.maxLevel")));
         levelingInfo.add(Double.valueOf(config.getString("leveling.exponentialGrowthFactor")));
@@ -176,124 +177,42 @@ public class ConfigLoad {
         levelingInfo.add(Double.valueOf(config.getString("leveling.levelBeginLinear")));
         levelingInfo.add(Double.valueOf(config.getString("leveling.LinearEXPperLevel")));
 
-        diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop1Name")));
-        diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop1Amount")));
-        diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop2Name")));
-        diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop2Amount")));
-        diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop3Name")));
-        diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop3Amount")));
-        diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop4Name")));
-        diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop4Amount")));
-        diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop5Name")));
-        diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop5Amount")));
-        diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop6Name")));
-        diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop6Amount")));
-        diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop7Name")));
-        diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop7Amount")));
-        diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop8Name")));
-        diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop8Amount")));
-        diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop9Name")));
-        diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop9Amount")));
-        diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop10Name")));
-        diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop10Amount")));
-        diggingInfo.add(Double.valueOf(config.getString("digging.drops.drop10BaseChance")));
-        diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop11Name")));
-        diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop11Amount")));
-        diggingInfo.add(Double.valueOf(config.getString("digging.drops.drop11BaseChance")));
-        diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop12Name")));
-        diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop12Amount")));
-        diggingInfo.add(Double.valueOf(config.getString("digging.drops.drop12BaseChance")));
-        diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop13Name")));
-        diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop13Amount")));
-        diggingInfo.add(Double.valueOf(config.getString("digging.drops.drop13BaseChance")));
-        diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop14Name")));
-        diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop14Amount")));
-        diggingInfo.add(Double.valueOf(config.getString("digging.drops.drop14BaseChance")));
-        diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop15Name")));
-        diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop15Amount")));
-        diggingInfo.add(Double.valueOf(config.getString("digging.drops.drop15BaseChance")));
+        for (int i = 1; i<= 9; i++) {
+            diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop"+i+"Name")));
+            diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop"+i+"Amount")));
+        }
+        for (int i = 10; i<=15;i++) {
+            diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop"+i+"Name")));
+            diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop"+i+"Amount")));
+            diggingInfo.add(Double.valueOf(config.getString("digging.drops.drop"+i+"BaseChance")));
+        }
 
-        woodcuttingInfo.add(Material.matchMaterial(config.getString("woodcutting.drops.leavesDrop1Name")));
-        woodcuttingInfo.add(Integer.valueOf(config.getString("woodcutting.drops.leavesDrop1Amount")));
-        woodcuttingInfo.add(Double.valueOf(config.getString("woodcutting.drops.leavesDrop1Chance")));
-        woodcuttingInfo.add(Material.matchMaterial(config.getString("woodcutting.drops.leavesDrop2Name")));
-        woodcuttingInfo.add(Integer.valueOf(config.getString("woodcutting.drops.leavesDrop2Amount")));
-        woodcuttingInfo.add(Double.valueOf(config.getString("woodcutting.drops.leavesDrop2Chance")));
-        woodcuttingInfo.add(Material.matchMaterial(config.getString("woodcutting.drops.leavesDrop3Name")));
-        woodcuttingInfo.add(Integer.valueOf(config.getString("woodcutting.drops.leavesDrop3Amount")));
-        woodcuttingInfo.add(Double.valueOf(config.getString("woodcutting.drops.leavesDrop3Chance")));
-        woodcuttingInfo.add(Material.matchMaterial(config.getString("woodcutting.drops.leavesDrop4Name")));
-        woodcuttingInfo.add(Integer.valueOf(config.getString("woodcutting.drops.leavesDrop4Amount")));
-        woodcuttingInfo.add(Double.valueOf(config.getString("woodcutting.drops.leavesDrop4Chance")));
-        woodcuttingInfo.add(Material.matchMaterial(config.getString("woodcutting.drops.leavesDrop5Name")));
-        woodcuttingInfo.add(Integer.valueOf(config.getString("woodcutting.drops.leavesDrop5Amount")));
-        woodcuttingInfo.add(Double.valueOf(config.getString("woodcutting.drops.leavesDrop5Chance")));
+        for (int i = 1; i<=5 ; i++) {
+            woodcuttingInfo.add(Material.matchMaterial(config.getString("woodcutting.drops.leavesDrop"+i+"Name")));
+            woodcuttingInfo.add(Integer.valueOf(config.getString("woodcutting.drops.leavesDrop"+i+"Amount")));
+            woodcuttingInfo.add(Double.valueOf(config.getString("woodcutting.drops.leavesDrop"+i+"Chance")));
+        }
 
         fishingInfoBaseChances.add(Double.valueOf(config.getString("fishing.drops.tier1_baseChance")));
         fishingInfoBaseChances.add(Double.valueOf(config.getString("fishing.drops.tier2_baseChance")));
         fishingInfoBaseChances.add(Double.valueOf(config.getString("fishing.drops.tier3_baseChance")));
         fishingInfoBaseChances.add(Double.valueOf(config.getString("fishing.drops.tier4_baseChance")));
         fishingInfoBaseChances.add(Double.valueOf(config.getString("fishing.drops.tier5_baseChance")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier1_drop1Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier1_drop1Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier1_drop1Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier1_drop2Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier1_drop2Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier1_drop2Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier1_drop3Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier1_drop3Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier1_drop3Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier1_drop4Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier1_drop4Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier1_drop4Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier2_drop1Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier2_drop1Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier2_drop1Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier2_drop2Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier2_drop2Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier2_drop2Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier2_drop3Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier2_drop3Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier2_drop3Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier2_drop4Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier2_drop4Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier2_drop4Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier3_drop1Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier3_drop1Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier3_drop1Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier3_drop2Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier3_drop2Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier3_drop2Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier3_drop3Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier3_drop3Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier3_drop3Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier3_drop4Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier3_drop4Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier3_drop4Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier4_drop1Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier4_drop1Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier4_drop1Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier4_drop2Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier4_drop2Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier4_drop2Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier4_drop3Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier4_drop3Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier4_drop3Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier4_drop4Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier4_drop4Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier4_drop4Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier5_drop1Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier5_drop1Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier5_drop1Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier5_drop2Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier5_drop2Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier5_drop2Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier5_drop3Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier5_drop3Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier5_drop3Random")));
-        fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier5_drop4Name")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier5_drop4Amount")));
-        fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier5_drop4Random")));
+
+        fishingInfoEnchants.add(Integer.valueOf(config.getString("fishing.drops.tier1_enchantedArmor")));
+        fishingInfoEnchants.add(Integer.valueOf(config.getString("fishing.drops.tier2_enchantedArmor")));
+        fishingInfoEnchants.add(Integer.valueOf(config.getString("fishing.drops.tier3_enchantedArmor")));
+        fishingInfoEnchants.add(Integer.valueOf(config.getString("fishing.drops.tier4_enchantedArmor")));
+        fishingInfoEnchants.add(Integer.valueOf(config.getString("fishing.drops.tier5_enchantedArmor")));
+
+        for (int i = 1; i<=5; i++) {
+            for (int j = 1; j<=4; j++) {
+                fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier"+i+"_drop"+j+"Name")));
+                fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier"+i+"_drop"+j+"Amount")));
+                fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier"+i+"_drop"+j+"Random")));
+            }
+        }
+
         fishingInfoHotRod.add(Material.matchMaterial(config.getString("fishing.drops.tier1_drop1Name_HotRod")));
         fishingInfoHotRod.add(Integer.valueOf(config.getString("fishing.drops.tier1_drop1Amount_HotRod")));
         fishingInfoHotRod.add(Integer.valueOf(config.getString("fishing.drops.tier1_drop1Random_HotRod")));
@@ -309,11 +228,53 @@ public class ConfigLoad {
         fishingInfoHotRod.add(Material.matchMaterial(config.getString("fishing.drops.tier2_drop4Name_HotRod")));
         fishingInfoHotRod.add(Integer.valueOf(config.getString("fishing.drops.tier2_drop4Amount_HotRod")));
         fishingInfoHotRod.add(Integer.valueOf(config.getString("fishing.drops.tier2_drop4Random_HotRod")));
-        fishingInfoEnchants.add(Integer.valueOf(config.getString("fishing.drops.tier1_enchantedArmor")));
-        fishingInfoEnchants.add(Integer.valueOf(config.getString("fishing.drops.tier2_enchantedArmor")));
-        fishingInfoEnchants.add(Integer.valueOf(config.getString("fishing.drops.tier3_enchantedArmor")));
-        fishingInfoEnchants.add(Integer.valueOf(config.getString("fishing.drops.tier4_enchantedArmor")));
-        fishingInfoEnchants.add(Integer.valueOf(config.getString("fishing.drops.tier5_enchantedArmor")));
+
+        //Alchemy Info
+        for (int i = 1; i<= 5; i++) {
+            alchemyInfo.add(PotionEffectType.getByName(config.getString("alchemy.customPotions.potionType"+i)));
+            alchemyInfo.add(Material.matchMaterial(config.getString("alchemy.customPotions.potionIngredient"+i)));
+            alchemyInfo.add(config.getInt("alchemy.customPotions.potionDuration"+i));
+            alchemyInfo.add(getColorFromString(config.getString("alchemy.customPotions.potionColor"+i)));
+        }
+        for (int i = 1; i<= 5; i++) {
+            alchemyInfo.add(PotionType.valueOf(config.getString("alchemy.craftablePotions.potionType"+i)));
+            alchemyInfo.add(Material.matchMaterial(config.getString("alchemy.craftablePotions.potionIngredient"+i)));
+        }
+
+        //Enchanting Bottle info
+        getEXPFromEnchantingBottles = config.getBoolean("enchanting.gainEXPfromEnchantingBottles");
+
+        //EXP Info
+        for (String label : labels) {
+            Map<String,Integer> skillExpMap = new HashMap<>();
+            ConfigurationSection skillExpDrops = config.getConfigurationSection(label+".expDrops");
+            for (String id : skillExpDrops.getKeys(false)) {
+                if (!id.equalsIgnoreCase("enableEXPDrops")) {
+                    skillExpMap.put(id,config.getInt(label+".expDrops." + id));
+                }
+            }
+            expMap.put(label,skillExpMap);
+        }
+
+        //Special Multipliers
+        specialMultiplier.put("megaDigEXPMultiplier",config.getDouble("digging.megaDigEXPMultiplier"));
+        specialMultiplier.put("superBaitEXPMultiplier",config.getDouble("fishing.superBaitEXPMultiplier"));
+        specialMultiplier.put("timberEXPMultiplier",config.getDouble("woodcutting.timberEXPMultiplier"));
+
+    }
+
+    public Color getColorFromString(String colorString) {
+        colorString = colorString.substring(1,colorString.length()-1);
+        List<String> RGB = Arrays.asList(colorString.trim().split(","));
+        int red = 0;
+        int green = 0;
+        int blue = 0;
+        if (RGB.size() == 3) {
+            red = Integer.parseInt(RGB.get(0));
+            green = Integer.parseInt(RGB.get(1));
+            blue = Integer.parseInt(RGB.get(2));
+        }
+        return Color.fromRGB(red,green,blue);
     }
 
     public int getSaveStatsTimer() {return  saveStatsTimer;}
@@ -355,4 +316,19 @@ public class ConfigLoad {
     public ArrayList<Object> getFishingInfo4(){
         return fishingInfoEnchants;
     }
+    public boolean isGetEXPFromEnchantingBottles() {return getEXPFromEnchantingBottles;}
+    public boolean isSaveRunTimeData() {return saveRunTimeData;}
+    public boolean isVerboseRunTimeData() {return verboseRunTimeData;}
+    public int getFurnaceDeleteTimer() {return furnaceDeleteTimer;}
+    public Map<String,Boolean> getAllowedSkillsMap() {return allowedSkillsMap;}
+    public Map<String,Boolean> getAllowedSkillGainEXPMap() {return allowedSkillGainEXPMap;}
+    public  ArrayList<Object> getAlchemyInfo() { return alchemyInfo; }
+    public Map<String,Map<String,Integer>> getExpMap() {return expMap;}
+    public Map<String,Integer> getExpMapForSkill(String skillName) {
+        if (expMap.containsKey(skillName)) {
+            return expMap.get(skillName);
+        }
+        return null;
+    }
+    public Map<String,Double> getSpecialMultiplier(){return specialMultiplier;}
 }

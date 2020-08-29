@@ -2,6 +2,7 @@ package mc.carlton.freerpg.enchantingEvents;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -11,6 +12,8 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Map;
 
 public class AnvilClick implements Listener {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
@@ -32,8 +35,10 @@ public class AnvilClick implements Listener {
                 public void run() {
                     int newLevel = p.getLevel();
                     if (newLevel < level) {
+                        ConfigLoad configLoad1 = new ConfigLoad();
+                        Map<String,Integer> expMap = configLoad1.getExpMapForSkill("enchanting");
                         ChangeStats increaseStats = new ChangeStats(p);
-                        increaseStats.changeEXP("enchanting",1200*(level-newLevel));
+                        increaseStats.changeEXP("enchanting",expMap.get("useAnvil_EXPperLevelUsed")*(level-newLevel));
                     }
                 }
             }.runTaskLater(plugin, 2);

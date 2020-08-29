@@ -1,10 +1,14 @@
 package mc.carlton.freerpg.brewingEvents;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.BrewingStandUserTracker;
+import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.perksAndAbilities.Alchemy;
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.block.BrewingStand;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -42,6 +46,10 @@ public class BrewingInventoryClick implements Listener {
         } catch (Exception except) {
             return;
         }
+        ConfigLoad configLoad = new ConfigLoad();
+        if (!configLoad.getAllowedSkillsMap().get("alchemy")) {
+            return;
+        }
 
         /* Perk removed
         if (e.getInventory().getHolder() instanceof BrewingStand) { //This section is very buggy, and not clean. Hopefully I can improve it in the future
@@ -61,75 +69,26 @@ public class BrewingInventoryClick implements Listener {
             }
         }
          */
+
+        if (e.getInventory().getHolder() instanceof BrewingStand) { //This section is very buggy, and not clean. Hopefully I can improve it in the future
+            Player p = (Player) e.getWhoClicked();
+            BrewingStandUserTracker brewTracker = new BrewingStandUserTracker();
+            brewTracker.addstand((BrewingStand) e.getInventory().getHolder(), p);
+        }
+
         if (e.getClick() != ClickType.LEFT) {
             return;
         }
         if (e.getClickedInventory() instanceof BrewerInventory) {
-            Material[] newIngredients0 = {Material.EMERALD,Material.SLIME_BALL,Material.CLOCK,Material.POISONOUS_POTATO,Material.GOLDEN_APPLE};
-            List<Material> newIngredients = Arrays.asList(newIngredients0);
-            Material[] oldIngredients0 = {Material.NETHER_WART,Material.GUNPOWDER,Material.GLOWSTONE_DUST,Material.SPIDER_EYE,Material.GHAST_TEAR,
-                                          Material.RABBIT_FOOT,Material.BLAZE_POWDER,Material.GLISTERING_MELON_SLICE,Material.SUGAR,Material.MAGMA_CREAM,
-                                          Material.REDSTONE, Material.PUFFERFISH, Material.GOLDEN_CARROT,Material.TURTLE_HELMET,Material.PHANTOM_MEMBRANE,
-                                          Material.FERMENTED_SPIDER_EYE};
-            List<Material> oldIngredients = Arrays.asList(oldIngredients0);
+            ItemGroups itemGroups = new ItemGroups();
+            List<Material> oldIngredients = itemGroups.getOldIngredients();
+            List<Material> newIngredients = itemGroups.getNewIngredients();
+            ItemStack heroPotion = itemGroups.getHeroPotion();
+            ItemStack fatiguePotion = itemGroups.getFatiguePotion();
+            ItemStack hastePotion = itemGroups.getHastePotion();
+            ItemStack decayPotion = itemGroups.getDecayPotion();
+            ItemStack resistancePotion = itemGroups.getResistancePotion();
 
-            //Haste Potion
-            ItemStack hastePotion = new ItemStack(Material.POTION,1);
-            hastePotion.addUnsafeEnchantment(Enchantment.LOYALTY,1);
-            PotionMeta hasteMeta = (PotionMeta) hastePotion.getItemMeta();
-            hasteMeta.addCustomEffect(new PotionEffect(PotionEffectType.FAST_DIGGING,20*180,0),true);
-            hasteMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            hasteMeta.setColor(Color.fromBGR(186,232,159));
-            hasteMeta.setDisplayName("Potion of Haste");
-            hastePotion.setItemMeta(hasteMeta);
-
-
-            //Mining Fatigue Potion
-            ItemStack fatiguePotion = new ItemStack(Material.POTION,1);
-            fatiguePotion.addUnsafeEnchantment(Enchantment.LOYALTY,1);
-            PotionMeta fatigueMeta = (PotionMeta) fatiguePotion.getItemMeta();
-            fatigueMeta.addCustomEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING,20*60,0),true);
-            fatigueMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            fatigueMeta.setColor(Color.fromBGR(10,212,164));
-            fatigueMeta.setDisplayName("Potion of Fatigue");
-            fatiguePotion.setItemMeta(fatigueMeta);
-
-
-            //Absorption Potion
-            ItemStack heroPotion = new ItemStack(Material.POTION,1);
-            heroPotion.addUnsafeEnchantment(Enchantment.LOYALTY,1);
-            PotionMeta heroMeta = (PotionMeta) heroPotion.getItemMeta();
-            heroMeta.addCustomEffect(new PotionEffect(PotionEffectType.HERO_OF_THE_VILLAGE,20*180,0),true);
-            heroMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            heroMeta.setColor(Color.fromBGR(64, 210, 30));
-            heroMeta.setDisplayName("Potion of the Hero");
-            heroPotion.setItemMeta(heroMeta);
-
-            //decay Potion
-            ItemStack decayPotion = new ItemStack(Material.POTION,1);
-            decayPotion.addUnsafeEnchantment(Enchantment.LOYALTY,1);
-            PotionMeta decayMeta = (PotionMeta) decayPotion.getItemMeta();
-            decayMeta.addCustomEffect(new PotionEffect(PotionEffectType.WITHER,20*30,0),true);
-            decayMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            decayMeta.setColor(Color.fromBGR(0,0,0));
-            decayMeta.setDisplayName("Potion of Decay");
-            decayPotion.setItemMeta(decayMeta);
-
-            //resistance Potion
-            ItemStack resistancePotion = new ItemStack(Material.POTION,1);
-            resistancePotion.addUnsafeEnchantment(Enchantment.LOYALTY,1);
-            PotionMeta resistanceMeta = (PotionMeta) resistancePotion.getItemMeta();
-            resistanceMeta.addCustomEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,20*180,0),true);
-            resistanceMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            resistanceMeta.setColor(Color.fromBGR(175,140,150));
-            resistanceMeta.setDisplayName("Potion of Resistance");
-            resistancePotion.setItemMeta(resistanceMeta);
-
-
-            ItemStack[] newPotions0 = {hastePotion,fatiguePotion,heroPotion,decayPotion,resistancePotion};
-            List<ItemStack> newPotions = Arrays.asList(newPotions0);
-            Integer[] durations0 = {20*180,20*30,20*60};
-            List<Integer> durations = Arrays.asList(durations0);
 
             BrewerInventory brewingInventory = (BrewerInventory) e.getClickedInventory();
             Player p = (Player) e.getWhoClicked();
@@ -194,7 +153,6 @@ public class BrewingInventoryClick implements Listener {
                                 }
                             }
                         } else if (cursorClone.getType() == Material.GLOWSTONE_DUST || cursorClone.getType() == Material.REDSTONE) {
-                            ArrayList<ItemMeta> slotMetas = new ArrayList<>();
                             boolean[] slotsToCheck = {false,false,false};
                             for (int i = 0; i < 3; i++) {
                                 if (potionSlots[i] != null) {

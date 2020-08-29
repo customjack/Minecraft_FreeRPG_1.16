@@ -20,17 +20,20 @@ import java.util.UUID;
 public class PlayerStatsLoadIn {
     private Player p;
     Map<String, ArrayList<Number>> statsMap = new HashMap<String, ArrayList<Number>>();
+    File f;
+    UUID pUUID;
+    FileConfiguration playerData;
 
     public PlayerStatsLoadIn(Player player) {
+        Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
         this.p = player;
+        this.pUUID = p.getUniqueId();
+        this.f = new File(plugin.getDataFolder(), File.separator + "PlayerDatabase" + File.separator + pUUID.toString() + ".yml");
+        this.playerData = YamlConfiguration.loadConfiguration(f);
     }
 
-    public long getLoginTime(Player p) {
+    public long getLoginTime() {
         long loginTime = 0;
-        UUID pUUID = p.getUniqueId();
-        File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder(), File.separator + "PlayerDatabase");
-        File f = new File(userdata, File.separator + pUUID.toString() + ".yml");
-        FileConfiguration playerData = YamlConfiguration.loadConfiguration(f);
         if (f.exists()) {
             loginTime = Long.parseLong(playerData.get("general.lastLogin").toString());
             return loginTime;
@@ -38,12 +41,8 @@ public class PlayerStatsLoadIn {
         return Instant.now().getEpochSecond();
     }
 
-    public long getPlayTime(Player p) {
+    public long getPlayTime() {
         long playTime = 0;
-        UUID pUUID = p.getUniqueId();
-        File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder(), File.separator + "PlayerDatabase");
-        File f = new File(userdata, File.separator + pUUID.toString() + ".yml");
-        FileConfiguration playerData = YamlConfiguration.loadConfiguration(f);
         if (f.exists()) {
             playTime = Long.parseLong(playerData.get("general.playTime").toString());
             return playTime;
@@ -51,12 +50,8 @@ public class PlayerStatsLoadIn {
         return Instant.now().getEpochSecond();
     }
 
-    public String getPlayerLanguage(Player p) {
+    public String getPlayerLanguage() {
         String language = "enUs";
-        UUID pUUID = p.getUniqueId();
-        File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder(), File.separator + "PlayerDatabase");
-        File f = new File(userdata, File.separator + pUUID.toString() + ".yml");
-        FileConfiguration playerData = YamlConfiguration.loadConfiguration(f);
         if (f.exists()) {
             language = playerData.get("general.language").toString();
             return language;
@@ -64,13 +59,26 @@ public class PlayerStatsLoadIn {
         return language;
     }
 
-    public  Map<String, ArrayList<Number>>  getPlayerStatsMap(Player p) {
+    public Map<String,Integer> getSkillExpBarToggles(){
+        Map<String,Integer> skillExpBarToggleMap = new HashMap<>();
+        String[] labels = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
+        for (String label : labels) {
+            skillExpBarToggleMap.put(label,playerData.getInt(label + ".showEXPBarToggle"));
+        }
+        return skillExpBarToggleMap;
+    }
+    public Map<String,Integer> getSkillAbilityToggles(){
+        Map<String,Integer> skillAbilityToggleMap = new HashMap<>();
+        String[] labels = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
+        for (String label : labels) {
+            skillAbilityToggleMap.put(label,playerData.getInt(label + ".triggerAbilityToggle"));
+        }
+        return skillAbilityToggleMap;
+    }
+
+    public  Map<String, ArrayList<Number>>  getPlayerStatsMap() {
         String[] labels = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
         ArrayList<Number> stats = new ArrayList<Number>();
-        UUID pUUID = p.getUniqueId();
-        File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder(), File.separator + "PlayerDatabase");
-        File f = new File(userdata, File.separator + pUUID.toString() + ".yml");
-        FileConfiguration playerData = YamlConfiguration.loadConfiguration(f);
         if(f.exists()) {
             stats.add(Integer.valueOf((playerData.get("globalStats.totalLevel").toString())));
             stats.add(Integer.valueOf((playerData.get("globalStats.globalTokens").toString())));
@@ -96,6 +104,8 @@ public class PlayerStatsLoadIn {
             stats.add(Integer.valueOf((playerData.get("globalStats.levelUpMessageToggle").toString())));
             stats.add(Integer.valueOf((playerData.get("globalStats.abilityPrepareMessageToggle").toString())));
             stats.add(Double.valueOf((playerData.get("globalStats.personalEXPMultiplier").toString())));
+            stats.add(Integer.valueOf((playerData.get("globalStats.triggerAbilitiesToggle").toString())));
+            stats.add(Integer.valueOf((playerData.get("globalStats.showEXPBarToggle").toString())));
             statsMap.put("global", stats);
 
             for (int i = 0; i < labels.length; i++) {
@@ -121,15 +131,13 @@ public class PlayerStatsLoadIn {
         }
     return statsMap;
     }
-    public void setPlayerStatsMap(Player p) throws IOException {
+    public void setPlayerStatsMap() throws IOException {
         PlayerStats pStatClass = new PlayerStats(p);
         Map<String, ArrayList<Number>> pStatAll = pStatClass.getPlayerData();
+        Map<String,Integer> expBarToggles = pStatClass.getSkillToggleExpBar();
+        Map<String,Integer> abilityToggles = pStatClass.getSkillToggleAbility();
         String pName = p.getName();
-        UUID pUUID = p.getUniqueId();
         long unixTime = Instant.now().getEpochSecond();
-        File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder(), File.separator + "PlayerDatabase");
-        File f = new File(userdata, File.separator + pUUID.toString() + ".yml");
-        FileConfiguration playerData = YamlConfiguration.loadConfiguration(f);
         if(f.exists()) {
             playerData.set("general.username", pName);
 
@@ -169,6 +177,8 @@ public class PlayerStatsLoadIn {
                     playerData.set("globalStats.levelUpMessageToggle",pStatAll.get(i).get(21));
                     playerData.set("globalStats.abilityPrepareMessageToggle",pStatAll.get(i).get(22));
                     playerData.set("globalStats.personalEXPMultiplier",pStatAll.get(i).get(23));
+                    playerData.set("globalStats.triggerAbilitiesToggle",pStatAll.get(i).get(24));
+                    playerData.set("globalStats.showEXPBarToggle",pStatAll.get(i).get(25));
                 }
                 else {
                     playerData.set(i+".level",pStatAll.get(i).get(0));
@@ -185,6 +195,8 @@ public class PlayerStatsLoadIn {
                     playerData.set(i+".skill_3a",pStatAll.get(i).get(11));
                     playerData.set(i+".skill_3b",pStatAll.get(i).get(12));
                     playerData.set(i+".skill_M",pStatAll.get(i).get(13));
+                    playerData.set(i+".triggerAbilityToggle",expBarToggles.get(i));
+                    playerData.set(i+".showEXPBarToggle",abilityToggles.get(i));
                 }
                 }
             playerData.save(f);

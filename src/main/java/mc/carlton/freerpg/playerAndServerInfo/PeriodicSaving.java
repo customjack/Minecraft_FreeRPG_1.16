@@ -30,9 +30,9 @@ public class PeriodicSaving {
         for (Player p : Bukkit.getOnlinePlayers()) {
             try {
                 PlayerStatsLoadIn loadIn = new PlayerStatsLoadIn(p);
-                loadIn.setPlayerStatsMap(p);
-                PlacedBlocksLoadIn saveBlocks = new PlacedBlocksLoadIn();
-                saveBlocks.setPlacedBlocks();
+                loadIn.setPlayerStatsMap();
+                PlacedBlocksManager saveBlocks = new PlacedBlocksManager();
+                saveBlocks.writePlacedBlocks();
             }
             catch (IOException e) {
                 System.out.println("[FreeRPG] FAILED TO SAVE STATS OF PLAYER: " + p.getDisplayName());

@@ -3,6 +3,7 @@ package mc.carlton.freerpg.combatEvents;
 import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.playerAndServerInfo.AbilityLogoutTracker;
 import mc.carlton.freerpg.playerAndServerInfo.AbilityTracker;
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -23,13 +24,16 @@ public class PlayerDeath implements Listener {
         Player p = e.getEntity();
         PlayerStats pStatClass = new PlayerStats(p);
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int immortalExperienceLevel = (int) pStat.get("enchanting").get(13);
-        int expBuffLevel = (int) pStat.get("enchanting").get(4);
-        double multiplier = 1 + expBuffLevel*0.002;
-        e.setDroppedExp( (int) Math.round(e.getDroppedExp()/multiplier) );
-        if (immortalExperienceLevel > 0) {
-            e.setKeepLevel(true);
-            e.setDroppedExp(0);
+        ConfigLoad configLoad = new ConfigLoad();
+        if (configLoad.getAllowedSkillsMap().get("alchemy")) {
+            int immortalExperienceLevel = (int) pStat.get("enchanting").get(13);
+            int expBuffLevel = (int) pStat.get("enchanting").get(4);
+            double multiplier = 1 + expBuffLevel*0.002;
+            e.setDroppedExp( (int) Math.round(e.getDroppedExp()/multiplier) );
+            if (immortalExperienceLevel > 0) {
+                e.setKeepLevel(true);
+                e.setDroppedExp(0);
+            }
         }
         List<ItemStack> drops = e.getDrops();
         AbilityTracker abilities = new AbilityTracker(p);

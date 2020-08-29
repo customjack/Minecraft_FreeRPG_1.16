@@ -3,6 +3,7 @@ package mc.carlton.freerpg.combatEvents;
 
 import mc.carlton.freerpg.perksAndAbilities.Agility;
 import mc.carlton.freerpg.perksAndAbilities.Global;
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -28,17 +29,29 @@ public class PlayerTakeDamage implements Listener {
             Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
             Random rand = new Random();
             if (e.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION) {
+                ConfigLoad configLoad = new ConfigLoad();
+                if (!configLoad.getAllowedSkillsMap().get("mining")) {
+                    return;
+                }
                 if ( (int)pStat.get("mining").get(12) >0) {
                     e.setDamage(0);
                 }
             }
             if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
+                ConfigLoad configLoad = new ConfigLoad();
+                if (!configLoad.getAllowedSkillsMap().get("agility")) {
+                    return;
+                }
                 Agility agilityClass = new Agility(p);
                 double damageReduction =  agilityClass.roll(e.getFinalDamage());
                 e.setDamage(e.getDamage()*damageReduction);
             }
 
             if (e.getFinalDamage() > p.getHealth()) {
+                ConfigLoad configLoad = new ConfigLoad();
+                if (!configLoad.getAllowedSkillsMap().get("global")) {
+                    return;
+                }
                 if ((int) pStat.get("global").get(10) > 0) {
                     if ( 0.1 > rand.nextFloat()) {
                         e.setDamage(0);

@@ -11,7 +11,6 @@ import org.bukkit.event.entity.EntityTameEvent;
 import org.bukkit.plugin.Plugin;
 
 public class TameEntityEvent implements Listener {
-    Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     @EventHandler(priority = EventPriority.HIGH)
     void onEntityTame(EntityTameEvent e){
         if (e.isCancelled()) {

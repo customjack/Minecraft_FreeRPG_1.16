@@ -1,7 +1,9 @@
 package mc.carlton.freerpg.miscEvents;
 
 import mc.carlton.freerpg.gameTools.LanguageSelector;
+import mc.carlton.freerpg.globalVariables.CraftingRecipes;
 import mc.carlton.freerpg.perksAndAbilities.Defense;
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -40,133 +42,76 @@ public class PlayerCraft implements Listener {
         PlayerStats pStatClass = new PlayerStats(p);
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         LanguageSelector lang = new LanguageSelector(p);
+        ConfigLoad configLoad = new ConfigLoad();
 
         Defense defenseClass = new Defense(p);
         defenseClass.armorEXP(e.getRecipe().getResult());
 
+        CraftingRecipes craftingRecipes = new CraftingRecipes();
         ItemStack[] crafting = e.getInventory().getMatrix();
-        ItemStack[] cowEgg = {new ItemStack(Material.LEATHER,1), new ItemStack(Material.BEEF,1),new ItemStack(Material.LEATHER,1),
-                              new ItemStack(Material.BEEF,1), new ItemStack(Material.BONE,1), new ItemStack(Material.BEEF,1),
-                              new ItemStack(Material.LEATHER,1), new ItemStack(Material.BEEF,1),new ItemStack(Material.LEATHER,1)};
-        ItemStack[] beeEgg = {new ItemStack(Material.AIR,0), new ItemStack(Material.OXEYE_DAISY,1),new ItemStack(Material.AIR,0),
-                              new ItemStack(Material.DANDELION,1), new ItemStack(Material.HONEY_BOTTLE,1), new ItemStack(Material.POPPY,1),
-                              new ItemStack(Material.AIR,0), new ItemStack(Material.AZURE_BLUET,1),new ItemStack(Material.AIR,0)};
-        ItemStack[] mooshroomEgg1 = {new ItemStack(Material.LEATHER,1), new ItemStack(Material.RED_MUSHROOM,1),new ItemStack(Material.LEATHER,1),
-                                     new ItemStack(Material.BEEF,1), new ItemStack(Material.BONE,1), new ItemStack(Material.BEEF,1),
-                                     new ItemStack(Material.LEATHER,1), new ItemStack(Material.BEEF,1),new ItemStack(Material.LEATHER,1)};
-        ItemStack[] mooshroomEgg2 = {new ItemStack(Material.LEATHER,1), new ItemStack(Material.BROWN_MUSHROOM,1),new ItemStack(Material.LEATHER,1),
-                                     new ItemStack(Material.BEEF,1), new ItemStack(Material.BONE,1), new ItemStack(Material.BEEF,1),
-                                     new ItemStack(Material.LEATHER,1), new ItemStack(Material.BEEF,1),new ItemStack(Material.LEATHER,1)};
-        ItemStack[] horseEgg = {new ItemStack(Material.LEATHER,1), new ItemStack(Material.SADDLE,1),new ItemStack(Material.LEATHER,1),
-                                new ItemStack(Material.LEATHER,1), new ItemStack(Material.BONE,1), new ItemStack(Material.LEATHER,1),
-                                new ItemStack(Material.HAY_BLOCK,1), new ItemStack(Material.HAY_BLOCK,1),new ItemStack(Material.HAY_BLOCK,1)};
-        ItemStack[] slimeEgg = {new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                                new ItemStack(Material.AIR,0), new ItemStack(Material.SLIME_BALL,1),new ItemStack(Material.SLIME_BALL,1),
-                                new ItemStack(Material.AIR,0), new ItemStack(Material.SLIME_BALL,1),new ItemStack(Material.SLIME_BALL,1)};
-        ItemStack[] tippedArrow = {new ItemStack(Material.ARROW,1), new ItemStack(Material.ARROW,1),new ItemStack(Material.ARROW,1),
-                                   new ItemStack(Material.ARROW,1), new ItemStack(Material.POTION,1),new ItemStack(Material.ARROW,1),
-                                   new ItemStack(Material.ARROW,1), new ItemStack(Material.ARROW,1),new ItemStack(Material.ARROW,1)};
-
-        ItemStack[] power = {new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                             new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                             new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.BOW,1)};
-
-        ItemStack[] efficiency = {new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                                 new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                                 new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.IRON_PICKAXE,1)};
-
-        ItemStack[] sharpness = {new ItemStack(Material.IRON_INGOT,1), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                                 new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                                 new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.IRON_SWORD,1)};
-
-        ItemStack[] protection = {new ItemStack(Material.AIR,0), new ItemStack(Material.IRON_INGOT,1),new ItemStack(Material.AIR,0),
-                                  new ItemStack(Material.IRON_INGOT,1), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                                  new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.IRON_INGOT,1)};
-
-        ItemStack[] luck = {new ItemStack(Material.RABBIT_FOOT,1), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.FISHING_ROD,1)};
-
-        ItemStack[] lure = {new ItemStack(Material.COD_BUCKET,1), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.FISHING_ROD,1)};
-
-        ItemStack[] frost = {new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                             new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                             new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.BLUE_ICE,1)};
-
-        ItemStack[] depth = {new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                             new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                             new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.NAUTILUS_SHELL,1)};
-
-        ItemStack[] mending = {new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                               new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                               new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.DIAMOND_BLOCK,1)};
-
-        ItemStack[] fortune = {new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                               new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                               new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.GOLD_BLOCK,1)};
-
-        ItemStack[] waterBreathing = {new ItemStack(Material.AIR,0), new ItemStack(Material.PUFFERFISH,1),new ItemStack(Material.AIR,0),
-                                      new ItemStack(Material.AIR,0), new ItemStack(Material.GLASS_BOTTLE,1),new ItemStack(Material.AIR,0),
-                                      new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0)};
-
-        ItemStack[] speed = {new ItemStack(Material.AIR,0), new ItemStack(Material.SUGAR,1),new ItemStack(Material.AIR,0),
-                             new ItemStack(Material.AIR,0), new ItemStack(Material.GLASS_BOTTLE,1),new ItemStack(Material.AIR,0),
-                             new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0)};
-
-        ItemStack[] fireResistance = {new ItemStack(Material.AIR,0), new ItemStack(Material.MAGMA_CREAM,1),new ItemStack(Material.AIR,0),
-                                      new ItemStack(Material.AIR,0), new ItemStack(Material.GLASS_BOTTLE,1),new ItemStack(Material.AIR,0),
-                                      new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0)};
-
-        ItemStack[] healing = {new ItemStack(Material.AIR,0), new ItemStack(Material.GLISTERING_MELON_SLICE,1),new ItemStack(Material.AIR,0),
-                               new ItemStack(Material.AIR,0), new ItemStack(Material.GLASS_BOTTLE,1),new ItemStack(Material.AIR,0),
-                               new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0)};
-
-        ItemStack[] strength = {new ItemStack(Material.AIR,0), new ItemStack(Material.BLAZE_POWDER,1),new ItemStack(Material.AIR,0),
-                                new ItemStack(Material.AIR,0), new ItemStack(Material.GLASS_BOTTLE,1),new ItemStack(Material.AIR,0),
-                                new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0)};
+        ItemStack[] cowEgg = craftingRecipes.getCowEggRecipe();
+        ItemStack[] beeEgg = craftingRecipes.getBeeEggRecipe();
+        ItemStack[] mooshroomEgg1 = craftingRecipes.getMooshroomEgg1Recipe();
+        ItemStack[] mooshroomEgg2 = craftingRecipes.getMooshroomEgg2Recipe();
+        ItemStack[] horseEgg = craftingRecipes.getHorseEggRecipe();
+        ItemStack[] slimeEgg = craftingRecipes.getSlimeEggRecipe();
+        ItemStack[] tippedArrow = craftingRecipes.getTippedArrowRecipe();
+        ItemStack[] power = craftingRecipes.getPowerRecipe();
+        ItemStack[] efficiency = craftingRecipes.getEfficiencyRecipe();
+        ItemStack[] sharpness = craftingRecipes.getSharpnessRecipe();
+        ItemStack[] protection = craftingRecipes.getProtectionRecipe();
+        ItemStack[] luck = craftingRecipes.getLuckRecipe();
+        ItemStack[] lure = craftingRecipes.getLureRecipe();
+        ItemStack[] depth = craftingRecipes.getDepthRecipe();
+        ItemStack[] frost = craftingRecipes.getFrostRecipe();
+        ItemStack[] mending = craftingRecipes.getMendingRecipe();
+        ItemStack[] fortune = craftingRecipes.getFortuneRecipe();
+        ItemStack[] waterBreathing = craftingRecipes.getWaterBreathingRecipe();
+        ItemStack[] speed = craftingRecipes.getSpeedRecipe();
+        ItemStack[] fireResistance = craftingRecipes.getFireResistanceRecipe();
+        ItemStack[] healing = craftingRecipes.getHealingRecipe();
+        ItemStack[] strength = craftingRecipes.getStrengthRecipe();
 
 
 
         if (craftingMatch(cowEgg,crafting)) {
-            if ((int)pStat.get("farming").get(8) < 1) {
+            if ((int)pStat.get("farming").get(8) < 1 || !configLoad.getAllowedSkillsMap().get("farming")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("farmingPerkTitle1") + " (1/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(beeEgg,crafting)) {
-            if ((int)pStat.get("farming").get(8) < 2) {
+            if ((int)pStat.get("farming").get(8) < 2 || !configLoad.getAllowedSkillsMap().get("farming")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("farmingPerkTitle1") + " (2/5)"   + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(mooshroomEgg1,crafting) || craftingMatch(mooshroomEgg2,crafting)) {
-            if ((int)pStat.get("farming").get(8) < 3) {
+            if ((int)pStat.get("farming").get(8) < 3 || !configLoad.getAllowedSkillsMap().get("farming")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("farmingPerkTitle1") + " (3/5)"   + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(horseEgg,crafting)) {
-            if ((int)pStat.get("farming").get(8) < 4) {
+            if ((int)pStat.get("farming").get(8) < 4 || !configLoad.getAllowedSkillsMap().get("farming")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("farmingPerkTitle1") + " (4/5)"   + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(slimeEgg,crafting)) {
-            if ((int)pStat.get("farming").get(8) < 5) {
+            if ((int)pStat.get("farming").get(8) < 5 || !configLoad.getAllowedSkillsMap().get("farming")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("farmingPerkTitle1") + " (5/5)"   + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(tippedArrow,crafting)) {
-            if ((int)pStat.get("archery").get(11) < 1) {
+            if ((int)pStat.get("archery").get(11) < 1 || !configLoad.getAllowedSkillsMap().get("archery")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("archeryPerkTitle4")  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(power,crafting) || craftingMatch(efficiency,crafting)) {
-            if ((int)pStat.get("enchanting").get(9) < 1) {
+            if ((int)pStat.get("enchanting").get(9) < 1 || !configLoad.getAllowedSkillsMap().get("enchanting")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (1/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
@@ -180,7 +125,7 @@ public class PlayerCraft implements Listener {
             }
         }
         else if (craftingMatch(sharpness,crafting) || craftingMatch(protection,crafting)) {
-            if ((int)pStat.get("enchanting").get(9) < 2) {
+            if ((int)pStat.get("enchanting").get(9) < 2 || !configLoad.getAllowedSkillsMap().get("enchanting")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (2/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
@@ -194,7 +139,7 @@ public class PlayerCraft implements Listener {
             }
         }
         else if (craftingMatch(luck,crafting) || craftingMatch(lure,crafting)) {
-            if ((int)pStat.get("enchanting").get(9) < 3) {
+            if ((int)pStat.get("enchanting").get(9) < 3 || !configLoad.getAllowedSkillsMap().get("enchanting")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (3/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
@@ -208,7 +153,7 @@ public class PlayerCraft implements Listener {
             }
         }
         else if (craftingMatch(depth,crafting) || craftingMatch(frost,crafting)) {
-            if ((int)pStat.get("enchanting").get(9) < 4) {
+            if ((int)pStat.get("enchanting").get(9) < 4 || !configLoad.getAllowedSkillsMap().get("enchanting")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (4/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
@@ -222,7 +167,7 @@ public class PlayerCraft implements Listener {
             }
         }
         else if (craftingMatch(mending,crafting)) {
-            if ((int)pStat.get("enchanting").get(9) < 5) {
+            if ((int)pStat.get("enchanting").get(9) < 5 || !configLoad.getAllowedSkillsMap().get("enchanting")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (5/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
@@ -236,7 +181,7 @@ public class PlayerCraft implements Listener {
             }
         }
         else if (craftingMatch(fortune,crafting)) {
-            if ((int)pStat.get("enchanting").get(9) < 5) {
+            if ((int)pStat.get("enchanting").get(9) < 5 || !configLoad.getAllowedSkillsMap().get("enchanting")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (5/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
@@ -250,31 +195,31 @@ public class PlayerCraft implements Listener {
             }
         }
         else if (craftingMatch(waterBreathing,crafting)) {
-            if ((int)pStat.get("alchemy").get(7) < 1) {
+            if ((int)pStat.get("alchemy").get(7) < 1 || !configLoad.getAllowedSkillsMap().get("alchemy")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerkTitle0") + " (1/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(speed,crafting)) {
-            if ((int)pStat.get("alchemy").get(7) < 2) {
+            if ((int)pStat.get("alchemy").get(7) < 2 || !configLoad.getAllowedSkillsMap().get("alchemy")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerkTitle0") + " (2/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(fireResistance,crafting)) {
-            if ((int)pStat.get("alchemy").get(7) < 3) {
+            if ((int)pStat.get("alchemy").get(7) < 3 || !configLoad.getAllowedSkillsMap().get("alchemy")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerkTitle0") + " (3/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(healing,crafting)) {
-            if ((int)pStat.get("alchemy").get(7) < 4) {
+            if ((int)pStat.get("alchemy").get(7) < 4 || !configLoad.getAllowedSkillsMap().get("alchemy")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerkTitle0") + " (4/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
         else if (craftingMatch(strength,crafting)) {
-            if ((int)pStat.get("alchemy").get(7) < 5) {
+            if ((int)pStat.get("alchemy").get(7) < 5 || !configLoad.getAllowedSkillsMap().get("alchemy")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("alchemyPerkTitle0") + " (5/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }

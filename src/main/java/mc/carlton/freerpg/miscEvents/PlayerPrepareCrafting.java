@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.miscEvents;
 
 import mc.carlton.freerpg.gameTools.ArrowTypes;
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -26,17 +27,29 @@ public class PlayerPrepareCrafting implements Listener {
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
 
         if((firstInContents.getType()== Material.TNT) && (firstInContents.getAmount() == 1)) {
+            ConfigLoad configLoad = new ConfigLoad();
+            if (!configLoad.getAllowedSkillsMap().get("mining")) {
+                return;
+            }
             int moreBombsLevel = (int)pStat.get("mining").get(8);
             if (moreBombsLevel > 0) {
                 firstInContents.setAmount(Math.min(6,moreBombsLevel+1));
             }
         }
         else if((firstInContents.getType()== Material.ARROW) && (firstInContents.getAmount() < 64)) {
+            ConfigLoad configLoad = new ConfigLoad();
+            if (!configLoad.getAllowedSkillsMap().get("archery")) {
+                return;
+            }
             if ((int)pStat.get("archery").get(7) > 0) {
                 firstInContents.setAmount(4+(int)pStat.get("archery").get(7));
             }
         }
         else if(firstInContents.getType() == Material.TIPPED_ARROW && contents[5].getType() == Material.POTION) {
+            ConfigLoad configLoad = new ConfigLoad();
+            if (!configLoad.getAllowedSkillsMap().get("archery")) {
+                return;
+            }
             PotionMeta potionMeta = (PotionMeta) contents[5].getItemMeta();
             ArrowTypes effectArrows = new ArrowTypes();
             ItemStack arrow = new ItemStack(Material.ARROW,1);

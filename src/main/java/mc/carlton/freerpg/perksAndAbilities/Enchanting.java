@@ -1,12 +1,16 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.ExperienceBottleTracking;
 import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
 import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentOffer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EnchantingInventory;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +28,8 @@ public class Enchanting {
     private Player p;
     private String pName;
     private ItemStack itemInHand;
+    private String skillName = "enchanting";
+    Map<String,Integer> expMap;
 
     ChangeStats increaseStats; //Changing Stats
 
@@ -33,6 +39,8 @@ public class Enchanting {
     Random rand = new Random(); //Random class Import
     static Map<Player,EnchantmentOffer[]> offersHolder = new HashMap<Player, EnchantmentOffer[]>();
 
+    private boolean runMethods;
+
 
 
     public Enchanting(Player p) {
@@ -41,11 +49,17 @@ public class Enchanting {
         this.itemInHand = p.getInventory().getItemInMainHand();
         this.increaseStats = new ChangeStats(p);
         this.pStatClass = new PlayerStats(p);
+        ConfigLoad configLoad = new ConfigLoad();
+        this.runMethods = configLoad.getAllowedSkillsMap().get(skillName);
+        expMap = configLoad.getExpMapForSkill(skillName);
     }
 
     public int xpIncrease(int oldAmount) {
+        if (!runMethods) {
+            return oldAmount;
+        }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int expBuffLevel = (int) pStat.get("enchanting").get(4);
+        int expBuffLevel = (int) pStat.get(skillName).get(4);
         double multiplier = 1 + expBuffLevel*0.002;
         int newAmount = (int) Math.floor(oldAmount*multiplier);
         double roundUpChance = oldAmount*multiplier - Math.floor(oldAmount*multiplier);
@@ -56,12 +70,15 @@ public class Enchanting {
     }
 
     public EnchantmentOffer[] enchantmentDiscount(EnchantmentOffer[] oldOffers) {
+        if (!runMethods) {
+            return oldOffers;
+        }
         if (oldOffers.length == 0) {
             return oldOffers;
         }
         offersHolder.put(p,oldOffers.clone());
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int levelSubtract = (int) pStat.get("enchanting").get(7);
+        int levelSubtract = (int) pStat.get(skillName).get(7);
         for (EnchantmentOffer offer : oldOffers) {
             if (offer != null) {
                 int newCost = Math.max(offer.getCost() - levelSubtract, 1);
@@ -72,11 +89,14 @@ public class Enchanting {
     }
 
     public void enchantItem(ItemStack enchantedItem, int buttonClicked, EnchantingInventory enchantingInventory) {
+        if (!runMethods) {
+            return;
+        }
         EnchantmentOffer[] originalOffers = offersHolder.get(p);
         Enchantment enchant0 = originalOffers[buttonClicked].getEnchantment();
         int level0 = originalOffers[buttonClicked].getEnchantmentLevel();
         int cost0 = originalOffers[buttonClicked].getCost();
-        increaseStats.changeEXP("enchanting",500*cost0);
+        increaseStats.changeEXP(skillName,expMap.get("enchantItem_EXPperLevelOfCost")*cost0);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -104,7 +124,24 @@ public class Enchanting {
     }
 
     public void giveEXP(int exp) {
-        increaseStats.changeEXP("enchanting",25*exp);
+        if (!runMethods) {
+            return;
+        }
+        int taskID = new BukkitRunnable() {
+            @Override
+            public void run() {
+                ConfigLoad configLoad = new ConfigLoad();
+                boolean giveEXP = true;
+                if (!configLoad.isGetEXPFromEnchantingBottles()) {
+                    ExperienceBottleTracking experienceBottleTracking = new ExperienceBottleTracking();
+                    giveEXP = !experienceBottleTracking.fromEnchantingBottle();
+                }
+                if (giveEXP) {
+                    increaseStats.changeEXP(skillName, expMap.get("EXPperMinecraftXPGained") * exp);
+                }
+            }
+        }.runTaskLater(plugin, 2).getTaskId();
+
     }
 
 }

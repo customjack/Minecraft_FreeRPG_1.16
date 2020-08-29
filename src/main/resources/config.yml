@@ -1,13 +1,36 @@
+#---------------------------------------------
+#   ______             _____  _____   _____
+#  |  ____|           |  __ \|  __ \ / ____|
+#  | |__ _ __ ___  ___| |__) | |__) | |  __
+#  |  __| '__/ _ \/ _ \  _  /|  ___/| | |_ |
+#  | |  | | |  __/  __/ | \ \| |    | |__| |
+#  |_|  |_|  \___|\___|_|  \_\_|     \_____|
+#---------------------------------------------
+# WARNING: This file will automatically try to repair itself if it is missing data. This will cause all comments to disappear
+#
+# Welcome to FreeRPG!
+# Support Discord: https://discord.gg/uAJXCnX
+#
+# For any editing drops/items, use the minecraft default name in english. If the plugin cannot match the name to an item,
+# the default drop/item will be used.
+#
+# For editing expDrops, make sure the exp drops are integers, decimal values will not work!
+# If you are using an older version of Minecraft, exp drops for newer items will not take effect.
+#
+#
+
 general:
-  playerBaseHP: 20.0 #Amount of
-  defaultLanguage: enUs #Current Choices: enUs, huHu, frFR
-  allowCustomExplosions: true
-  allowBuild: true
-  allowPvP: true
-  allowHurtAnimals: true
-  saveStatsTimer: 900 #Number of seconds between each time the server saves all player stats
-multipliers: #EXP multipliers, global STACKS with any other multiplier
-  globalMultiplier: 1.0
+  playerBaseHP: 20.0 #Player max health will reset to this value on login (or this value plus 4 if the player has the Hearty perk)
+  defaultLanguage: enUs #Choices: enUs, huHU, frFR, deDE, plPL
+  allowCustomExplosions: true #If false, some mining perks won't work
+  allowBuild: true #Keep true in most cases (If you use world guard to deny build permissions in entire worlds, set to false)
+  allowPvP: true #Set to false to disable skills from activating during PvP
+  allowHurtAnimals: true #Set ot false to disable skills form activating on Animals
+  saveStatsTimer: 900 #Time (in seconds) between each time the server saves all player stats
+  saveRunTimeData: false #Logs some run time information in /.../FreeRPG/RunTimes
+  verboseRunTimeData: false #Logs additional run time information /.../FreeRPG/RunTimes
+multipliers: #Multipliers multiply EXP earned
+  globalMultiplier: 1.0 #global Multiplier increases EXP in all skills and STACKS with all other multipliers
   diggingMultiplier: 1.0
   woodcuttingMultiplier: 1.0
   miningMultiplier: 1.0
@@ -24,29 +47,40 @@ multipliers: #EXP multipliers, global STACKS with any other multiplier
   smeltingMultiplier: 1.0
   enchantingMultiplier: 1.0
 tokens:
-  automaticPassiveUpgradesPerLevel: 1.0 #Number of passive tokens gained per level
-  levelsPerPassiveToken: 1.0 #Number of levels required before a passive token is earned (ex. 0.5 --> 2 passive tokens per level)
-  levelPerSkillToken: 100.0 #Number of levels required before a skill token is earned
-  levelsPerGlobalToken: 1000.0 #Number of levels required before a global token is earned
-  startingPassiveTokens: 0 #Starting tokens for newly joining players...
+  #For any option with "per" in the name:
+  #If set to a decimal (ex. 0.5), the server will reward the player every x levels.
+  #Example:
+  # levelsPerPassiveToken: = .667
+  # means the player will get +1 passive token at level 1, +2 passive tokens at level 2, +1 passive token at level 3, and so on...
+  automaticPassiveUpgradesPerLevel: 1.0
+  levelsPerPassiveToken: 1.0
+  levelPerSkillToken: 100.0
+  levelsPerGlobalToken: 1000.0
+  startingPassiveTokens: 0
   startingSkillTokens: 0
   startingGlobalTokens: 0
-  skillTokenToPassiveTokenConversion: 50 #When a skill tree is maxed, skill tokens will convert to passive tokens automatically at this exchange rate
-  globalTokenToEXPbuff: 0.01 #When the global tree is maxed, Players will gain a +1% global exp boost instead of a token (ex. 0.05 --> +5% global exp boost per global token)
+  skillTokenToPassiveTokenConversion: 50 #The automatic conversion rate for skill tokens to passive tokens when skill tokens become useless
+  globalTokenToEXPbuff: 0.01 #The automatic conversion rate for global tokens to EXP multiplier boost when global tokens become useless
+  passiveRightClickInvestment: 10
+  passiveShiftClickInvestment: 100
 souls:
   startingSouls: 0
   refundCost: 250
 leveling:
-  # Use this link to visualize the EXP curve and test parameters:
-  # https://www.desmos.com/calculator/908u6zj6yk
+  # Please use this interactive graph to visualize the effect of each parameter:
+  #  https://www.desmos.com/calculator/wmg69smflt
   maxLevel: -1
   exponentialGrowthFactor: 1.001595
   exponentialReferenceLevel: 1000
-  exponentialReferenceEXP: 10000000.0
+  exponentialReferenceEXP: 1.0E7
   levelBeginLinear: 1000
   LinearEXPperLevel: 20000.0
+global:
+  skillAllowed: true #Setting this to false disables all global skill tree and features
 digging:
+  skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
+  megaDigEXPMultiplier: 0.2
   drops:
     drop1Name: glowstone_dust
     drop1Amount: 1
@@ -62,9 +96,9 @@ digging:
     drop6Amount: 1
     drop7Name: name_tag
     drop7Amount: 1
-    drop8Name: music_disc_null
+    drop8Name: music_disc_null #not a real item
     drop8Amount: 1
-    drop9Name: horse_armor_null
+    drop9Name: horse_armor_null #not a real item
     drop9Amount: 1
     drop10Name: diamond
     drop10Amount: 1
@@ -84,8 +118,42 @@ digging:
     drop15Name: nether_star
     drop15Amount: 1
     drop15BaseChance: 0.001
+  expDrops:
+    enableEXPDrops: true
+    drop1EXP: 100
+    drop2EXP: 100
+    drop3EXP: 100
+    drop4EXP: 100
+    drop5EXP: 100
+    drop6EXP: 100
+    drop7EXP: 150
+    drop8EXP: 160
+    drop9EXP: 170
+    drop10EXP: 2000
+    drop11EXP: 180
+    drop12EXP: 350
+    drop13EXP: 600
+    drop14EXP: 2050
+    drop15EXP: 4000
+    breakClay: 75
+    breakFarmland: 50
+    breakGrassBlock: 50
+    breakGrassPath: 50
+    breakGravel: 60
+    breakMycelium: 55
+    breakPodzol: 55
+    breakCoarse_Dirt: 55
+    breakDirt: 50
+    breakRed_Sand: 55
+    breakSand: 50
+    breakSoulSand: 75
+    breakSnowBlock: 55
+    breakSnow: 8
+    breakConcretePowder: 50
 woodcutting:
+  skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
+  timberEXPMultiplier: 0.4
   drops:
     leavesDrop1Name: feather
     leavesDrop1Amount: 1
@@ -101,18 +169,124 @@ woodcutting:
     leavesDrop4Chance: 0.0075
     leavesDrop5Name: enchanted_golden_apple
     leavesDrop5Amount: 1
-    leavesDrop5Chance: 0.0005
+    leavesDrop5Chance: 5.0E-4
+  expDrops:
+    enableEXPDrops: true
+    useLeafBlower: 35 #EXP for each leaves block broken with leaf blower
+    leafDrop1: 200
+    leafDrop2: 250
+    leafDrop3: 1000
+    leafDrop4: 750
+    leafDrop5: 3000
+    breakAcacia_Log: 200
+    breakBirch_Log: 200
+    breakDark_Oak_Log: 200
+    breakOak_Log: 200
+    breakSpruce_Log: 200
+    breakJungle_Log: 200
+    breakAcacia_Plank: 200
+    breakBirch_Plank: 200
+    breakDark_Oak_Plank: 200
+    breakOak_Plank: 200
+    breakSpruce_Plank: 200
+    breakJungle_Plank: 200
+    breakAcacia_Leaves: 200
+    breakBirch_Leaves: 200
+    breakDark_Oak_Leaves: 200
+    breakOak_Leaves: 200
+    breakSpruce_Leaves: 200
+    breakJungle_Leaves: 200
+    breakBrown_Mushroom_Block: 250
+    breakRed_Mushroom_Block: 250
+    breakCrimson_Stem: 250
+    breakWarped_Stem: 250
+    breakCrimson_Planks: 55
+    breakWarped_Planks: 55
 mining:
+  skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
+  expDrops:
+    enableEXPDrops: true
+    explodeTNT: 1000
+    breakIce: 40
+    breakBlue_Ice: 45
+    breakPacked_Ice: 45
+    breakFrosted_Ice: 45
+    breakAndesite: 55
+    breakCoal_Ore: 200
+    breakDiorite: 55
+    breakEnd_Stone: 40
+    breakGranite: 55
+    breakNetherrack: 20
+    breakNether_Quartz_Ore: 210
+    breakMossy_Cobblestone: 75
+    breakSandstone: 40
+    breakRed_Sandstone: 40
+    breakSpawner: 6000 #This actually gives EXP to 4 skills: Mining, Swordsmanship, Defense, and AxeMastery
+    breakStone: 40
+    breakTerracotta: 50
+    breakIron_Ore: 350
+    breakRedstone_Ore: 450
+    breakLapis_Ore: 700
+    breakDiamond_Ore: 1000
+    breakGold_Ore: 450
+    breakEmerald_Ore: 1250
+    breakObsidian: 100
+    breakAncient_Debris: 1500
+    breakNether_Gold_Ore: 475
+    breakBasalt: 45
+    breakBlackstone: 60
+    breakCrying_Obsidian: 150
+    breakCrimson_Nylium: 40
+    breakWarped_Nylium: 40
+    breakGilded_Blackstone: 500
 farming:
+  skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
+  expDrops:
+    enableEXPDrops: true
+    tillLand: 25
+    useBonemeal: 40
+    useComposter: 300 #Rewarded when composter level rises
+    maximizeComposter: 100 #Rewarded when composter becomes full
+    sheapSheep: 200
+    milkAnimal: 100
+    breedFarmAnimal: 500
+    killSheep: 100
+    killCow: 100
+    killChicken: 100
+    killPig: 100
+    killHorse: 50
+    killRabbit: 150
+    killLlama: 50
+    killTurtle: 100
+    breakWheat: 200
+    breakBeatRoots: 200
+    breakCarrots: 200
+    breakPotatoes: 200
+    breakMelon: 400
+    breakPumpkin: 400
+    breakBamboo: 60 #This EXP is rewarded for each bamboo that falls if a tower is broken
+    breakCocoa: 300
+    breakSugarCane: 125 #This EXP is rewarded for each sugar cane that breaks if a tower is broken
+    breakCactus: 200 #This EXP is rewarded for cactus that breaks if a tower is broken
+    breakRed_Mushroom: 300
+    breakBrown_Mushroom: 300
+    breakSweetBerries: 250
+    breakKelp: 20 #This EXP is rewarded for each kelp that breaks if a tower is broken
+    breakSea_Pickle: 300
+    breakNether_Wart: 225
+    breakChorusPlant: 200
 fishing:
+  skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
+  superBaitEXPMultiplier: 1.0
   drops:
+    #Tier chances are fairly complicated, but as a rule of thumb, their sum should not exceed 0.5
     tier1_baseChance: 0.045
     tier2_baseChance: 0.025
     tier3_baseChance: 0.015
-    tier4_baseChance: 0.010
+    tier4_baseChance: 0.01
     tier5_baseChance: 0.005
     tier1_drop1Name: ender_pearl
     tier1_drop1Amount: 1
@@ -194,26 +368,622 @@ fishing:
     tier5_drop4Amount: 1
     tier5_drop4Random: 0
     tier5_enchantedArmor: 1
+  expDrops:
+    enableEXPDrops: true
+    catchFish: 1600
+    catchJunk: 2500
+    catchTier0: 3500 #Natural Treasure Items
+    catchTier1: 3500
+    catchTier2: 4300
+    catchTier3: 6400
+    catchTier4: 8500
+    catchTier5: 13200
+    killCod: 750
+    killSalmon: 1000
+    killPufferfish: 2500
+    killTropical_Fish: 1250
+    robBlaze: 800
+    robGhast: 800
+    robZombie_Pigman: 800
+    robZombie: 1000
+    robSpider: 1000
+    robCave_Spider: 1000
+    robPig: 600
+    robChicken: 600
+    robCreeper: 1000
+    robSkeleton: 1000
+    robWither_Skeleton: 1200
+    robSlime: 800
+    robMagma_Cube: 1000
+    robCow: 600
+    robMooshroom: 600
+    robEnderman: 1000
+    robSheep: 600
+    robIron_Golem: 800
+    robSnowman: 600
+    robWitch: 800
+    robShulker: 800
 archery:
+  skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
+  expDrops:
+    enableEXPDrops: true
+    explosiveArrowEXP: 200
+    hitArrow: 50
+    arrowDamage_EXPperDamagePointDone: 160
+    killBat: 30
+    killCat: 50
+    killChicken: 60
+    killCod: 60
+    killCow: 60
+    killDonkey: 80
+    killFox: 100
+    killHorse: 80
+    killPolarBear: 150
+    killMooshroom: 80
+    killMule: 80
+    killOcelot: 60
+    killParrot: 50
+    killPig: 60
+    killPiglin: 150
+    killRabbit: 60
+    killSalmon: 60
+    killSheep: 60
+    killSkeleton_Horse: 150
+    killSnowman: 20
+    killSquid: 60
+    killStrider: 60
+    killTropical_Fish: 60
+    killTurtle: 60
+    killVillager: 50
+    killWandering_Trader: 100
+    killBee: 110
+    killCaveSpider: 170
+    killDolphin: 140
+    killEnderman: 250
+    killIron_Golem: 250
+    killLlama: 110
+    killPanda: 110
+    killPufferfish: 120
+    killSpider: 150
+    killWolf: 130
+    killZombie_Pigman: 110
+    killBlaze: 175
+    killCreeper: 175
+    killDrowned: 180
+    killElder_Guardian: 7500
+    killEndermite: 130
+    killEvoker: 175
+    killGhast: 160
+    killGuardian: 120
+    killHoglin: 175
+    killHusk: 150
+    killMagma_Cube: 100
+    killPhantom: 140
+    killPillager: 160
+    killRavager: 200
+    killShulker: 170
+    killSilverfish: 100
+    killSkeleton: 160
+    killSlime: 100
+    killStray: 150
+    killVex: 180
+    killVindicator: 170
+    killWitch: 200
+    killWitherSkeleton: 190
+    killZoglin: 175
+    killZombie: 150
+    killZombie_Villager: 150
+    killEnder_Dragon: 20000
+    killWither: 12500
+    killZombie_Horse: 150
+    killIllusioner: 250
+    killGiant: 250
+    killAnythingElse: 50
 beastMastery:
+  skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
+  expDrops:
+    enableEXPDrops: true
+    dogDamage_EXPperDamagePointDone: 110
+    tameHorse: 2500
+    tameWolf: 4000
+    tameCat: 4000
+    tameParrot: 4500
+    horseRiding_EXPperSecondMoving: 75
+    breedTameableAnimal: 1250
+    killBat: 200
+    killCat: 400
+    killChicken: 450
+    killCod: 450
+    killCow: 550
+    killDonkey: 600
+    killFox: 600
+    killHorse: 600
+    killPolarBear: 750
+    killMooshroom: 550
+    killMule: 600
+    killOcelot: 500
+    killParrot: 450
+    killPig: 450
+    killPiglin: 600
+    killRabbit: 400
+    killSalmon: 450
+    killSheep: 450
+    killSkeleton_Horse: 750
+    killSnowman: 100
+    killSquid: 450
+    killStrider: 500
+    killTropical_Fish: 450
+    killTurtle: 450
+    killVillager: 450
+    killWandering_Trader: 700
+    killBee: 750
+    killCaveSpider: 800
+    killDolphin: 700
+    killEnderman: 750
+    killIron_Golem: 1500
+    killLlama: 650
+    killPanda: 650
+    killPufferfish: 550
+    killSpider: 770
+    killWolf: 500
+    killZombie_Pigman: 650
+    killBlaze: 900
+    killCreeper: 1100
+    killDrowned: 1050
+    killElder_Guardian: 10000
+    killEndermite: 550
+    killEvoker: 750
+    killGhast: 1500
+    killGuardian: 800
+    killHoglin: 1000
+    killHusk: 750
+    killMagma_Cube: 500
+    killPhantom: 800
+    killPillager: 800
+    killRavager: 1000
+    killShulker: 550
+    killSilverfish: 500
+    killSkeleton: 750
+    killSlime: 500
+    killStray: 750
+    killVex: 750
+    killVindicator: 750
+    killWitch: 800
+    killWitherSkeleton: 900
+    killZoglin: 1000
+    killZombie: 750
+    killZombie_Villager: 750
+    killEnder_Dragon: 50000
+    killWither: 25000
+    killZombie_Horse: 750
+    killIllusioner: 750
+    killGiant: 750
+    killAnythingElse: 300
 swordsmanship:
+  skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
+  expDrops:
+    dealDamage: 20
+    dealDamage_EXPperDamagePointDone: 100
+    thirstForBloodActivate: 50
+    doubleHitActivate: 75
+    doubleHit_EXPperDamagePointDone: 15
+    enableEXPDrops: true
+    killBat: 30
+    killCat: 50
+    killChicken: 60
+    killCod: 60
+    killCow: 60
+    killDonkey: 80
+    killFox: 100
+    killHorse: 80
+    killPolarBear: 150
+    killMooshroom: 80
+    killMule: 80
+    killOcelot: 60
+    killParrot: 50
+    killPig: 60
+    killPiglin: 150
+    killRabbit: 60
+    killSalmon: 60
+    killSheep: 60
+    killSkeleton_Horse: 150
+    killSnowman: 20
+    killSquid: 60
+    killStrider: 60
+    killTropical_Fish: 60
+    killTurtle: 60
+    killVillager: 50
+    killWandering_Trader: 100
+    killBee: 110
+    killCaveSpider: 170
+    killDolphin: 140
+    killEnderman: 250
+    killIron_Golem: 250
+    killLlama: 110
+    killPanda: 110
+    killPufferfish: 120
+    killSpider: 150
+    killWolf: 130
+    killZombie_Pigman: 110
+    killBlaze: 175
+    killCreeper: 175
+    killDrowned: 180
+    killElder_Guardian: 7500
+    killEndermite: 130
+    killEvoker: 175
+    killGhast: 160
+    killGuardian: 120
+    killHoglin: 175
+    killHusk: 150
+    killMagma_Cube: 100
+    killPhantom: 140
+    killPillager: 160
+    killRavager: 200
+    killShulker: 170
+    killSilverfish: 100
+    killSkeleton: 160
+    killSlime: 100
+    killStray: 150
+    killVex: 180
+    killVindicator: 170
+    killWitch: 200
+    killWitherSkeleton: 190
+    killZoglin: 175
+    killZombie: 150
+    killZombie_Villager: 150
+    killEnder_Dragon: 20000
+    killWither: 12500
+    killZombie_Horse: 150
+    killIllusioner: 250
+    killGiant: 250
+    killAnythingElse: 50
 defense:
+  skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
+  expDrops:
+    enableEXPDrops: true
+    takeDamage: 20
+    takeDamage_EXPperDamagePointDone: 250
+    hardBodyActivate: 100
+    reactionsLevel2Activate: 100
+    reactionsLevel1Activate: 50
+    healerRegenActivate: 30
+    healerHealActivate: 30
+    killBat: 30
+    killCat: 50
+    killChicken: 60
+    killCod: 60
+    killCow: 60
+    killDonkey: 80
+    killFox: 100
+    killHorse: 80
+    killPolarBear: 150
+    killMooshroom: 80
+    killMule: 80
+    killOcelot: 60
+    killParrot: 50
+    killPig: 60
+    killPiglin: 150
+    killRabbit: 60
+    killSalmon: 60
+    killSheep: 60
+    killSkeleton_Horse: 150
+    killSnowman: 20
+    killSquid: 60
+    killStrider: 60
+    killTropical_Fish: 60
+    killTurtle: 60
+    killVillager: 50
+    killWandering_Trader: 100
+    killBee: 110
+    killCaveSpider: 170
+    killDolphin: 140
+    killEnderman: 250
+    killIron_Golem: 250
+    killLlama: 110
+    killPanda: 110
+    killPufferfish: 120
+    killSpider: 150
+    killWolf: 130
+    killZombie_Pigman: 110
+    killBlaze: 175
+    killCreeper: 175
+    killDrowned: 180
+    killElder_Guardian: 7500
+    killEndermite: 130
+    killEvoker: 175
+    killGhast: 160
+    killGuardian: 120
+    killHoglin: 175
+    killHusk: 150
+    killMagma_Cube: 100
+    killPhantom: 140
+    killPillager: 160
+    killRavager: 200
+    killShulker: 170
+    killSilverfish: 100
+    killSkeleton: 160
+    killSlime: 100
+    killStray: 150
+    killVex: 180
+    killVindicator: 170
+    killWitch: 200
+    killWitherSkeleton: 190
+    killZoglin: 175
+    killZombie: 150
+    killZombie_Villager: 150
+    killEnder_Dragon: 20000
+    killWither: 12500
+    killZombie_Horse: 150
+    killIllusioner: 250
+    killGiant: 250
+    killAnythingElse: 50
 axeMastery:
+  skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
+  expDrops:
+    enableEXPDrops: true
+    greaterAxeAEO_EXPperDamagePointDone: 50
+    revitalizedActivateEXP: 200
+    holyAxeActivateEXP: 100
+    axeDamage_EXPperDamagePointDone: 150
+    killBat: 30
+    killCat: 50
+    killChicken: 60
+    killCod: 60
+    killCow: 60
+    killDonkey: 80
+    killFox: 100
+    killHorse: 80
+    killPolarBear: 150
+    killMooshroom: 80
+    killMule: 80
+    killOcelot: 60
+    killParrot: 50
+    killPig: 60
+    killPiglin: 150
+    killRabbit: 60
+    killSalmon: 60
+    killSheep: 60
+    killSkeleton_Horse: 150
+    killSnowman: 20
+    killSquid: 60
+    killStrider: 60
+    killTropical_Fish: 60
+    killTurtle: 60
+    killVillager: 50
+    killWandering_Trader: 100
+    killBee: 110
+    killCaveSpider: 170
+    killDolphin: 140
+    killEnderman: 250
+    killIron_Golem: 250
+    killLlama: 110
+    killPanda: 110
+    killPufferfish: 120
+    killSpider: 150
+    killWolf: 130
+    killZombie_Pigman: 110
+    killBlaze: 175
+    killCreeper: 175
+    killDrowned: 180
+    killElder_Guardian: 7500
+    killEndermite: 130
+    killEvoker: 175
+    killGhast: 160
+    killGuardian: 120
+    killHoglin: 175
+    killHusk: 150
+    killMagma_Cube: 100
+    killPhantom: 140
+    killPillager: 160
+    killRavager: 200
+    killShulker: 170
+    killSilverfish: 100
+    killSkeleton: 160
+    killSlime: 100
+    killStray: 150
+    killVex: 180
+    killVindicator: 170
+    killWitch: 200
+    killWitherSkeleton: 190
+    killZoglin: 175
+    killZombie: 150
+    killZombie_Villager: 150
+    killEnder_Dragon: 20000
+    killWither: 12500
+    killZombie_Horse: 150
+    killIllusioner: 250
+    killGiant: 250
+    killAnythingElse: 50
 repair:
+  skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
+  expDrops:
+    # Repair EXP is not straightforward, it follows the following formula for repairing items:
+    # Material_baseEXP + (Material_EXPMultiplier*damagePointsRestored*x)
+    # Where "x" is generally the number of items required to craft the repaired item
+    enableEXPDrops: true
+    repairEnchantedItemSucessfully: 1000
+    wooden_baseEXP: 90
+    wooden_EXPMultiplier: 9
+    leather_baseEXP: 90
+    leather_EXPMultiplier: 9
+    stone_baseEXP: 75
+    stone_EXPMultiplier: 10
+    chainmail_baseEXP: 180
+    chainmail_EXPMultiplier: 11
+    gold_baseEXP: 300
+    gold_EXPMultiplier: 25
+    iron_baseEXP: 300
+    iron_EXPMultiplier: 18
+    diamond_baseEXP: 750
+    diamond_EXPMultiplier: 20
+    netherite_baseEXP: 1500
+    netherite_EXPMultiplier: 25
+    shears_baseEXP: 300
+    shear_expMultiplier: 18
+    fishingRod_baseEXP: 500
+    fishingRod_expMultiplier: 25
+    carrotOnAStick_baseEXP: 500
+    carrotOnAStick_expMultiplier: 25
+    flintAndSteel_baseEXP: 500
+    flintAndSteel_expMultiplier: 25
+    bow_baseEXP: 300
+    bow_expMultiplier: 18
+    trident_baseEXP: 300
+    trident_expMultiplier: 18
+    elytra_baseEXP: 500
+    elytra_expMultiplier: 18
+    shield_baseEXP: 300
+    shield_expMultiplier: 18
+    crossbow_baseEXP: 300
+    crossbow_expMultiplier: 18
+    salvageStick: 400
+    salvageLeather: 500
+    salvageCobblestone: 700
+    salvageIron_Ingot: 1500
+    salvageGold_Ingot: 2000
+    salvageString: 1000
+    salvagePhantom_Membrane: 4000
+    salvageDiamond: 6000
+    salvageNetherite_Ingot: 10000
 agility:
+  skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
+  expDrops:
+    enableEXPDrops: true
+    rollBaseEXP: 250
+    roll_EXPperFallDamagePoint: 100
+    dodge_EXPperDamagePointAvoided: 100
+    sprint_EXPperSecondSprinted: 36
 alchemy:
+  skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
+  customPotions: #Ancient Knowledge Data
+    # Choices for Potion Types:
+    # "ABSORPTION" , "BAD_OMEN" , "BLINDNESS" , "CONDUIT_POWER", "CONFUSION" , "DAMAGE_RESISTANCE" , "DOLPHINS_GRACE" ,
+    # "FAST_DIGGING" , "FIRE_RESISTANCE" , "GLOWING" , "HARM" , "HEAL" , "HEALTH_BOOST" , "HERO_OF_THE_VILLAGE" ,
+    # "HUNGER" , "INCREASE_DAMAGE" , "INVISIBILITY" , "JUMP" , "LEVITATION" , "LUCK" , "NIGHT_VISION" , "POISON" ,
+    # "REGENERATION" , "SATURATION" , "SLOW" , "SLOW_DIGGING" , "SLOW_FALLING" , "SPEED" , "UNLUCK" , "WATER_BREATHING" ,
+    # "WEAKNESS" , "WITHER"
+    # HTML Color Picker (Applies to Potion Colors):
+    # https://htmlcolorcodes.com/color-picker/
+    potionType1: HERO_OF_THE_VILLAGE
+    potionIngredient1: emerald
+    potionDuration1: 180 #duration in seconds of initial potion, extended version is multiplied by 8/3, upgraded by 1/2
+    potionColor1: "(30,210,64)" #RGB colors for potion
+    potionType2: SLOW_DIGGING
+    potionIngredient2: slime_ball
+    potionDuration2: 60 #duration in seconds of initial potion, extended version is multiplied by 8/3, upgraded by 1/2
+    potionColor2: "(164,212,10)" #RGB colors for potion
+    potionType3: FAST_DIGGING
+    potionIngredient3: clock
+    potionDuration3: 180 #duration in seconds of initial potion, extended version is multiplied by 8/3, upgraded by 1/2
+    potionColor3: "(159,232,186)" #RGB colors for potion
+    potionType4: WITHER
+    potionIngredient4: poisonous_potato
+    potionDuration4: 30 #duration in seconds of initial potion, extended version is multiplied by 8/3, upgraded by 1/2
+    potionColor4: "(0,0,0)" #RGB colors for potion
+    potionType5: DAMAGE_RESISTANCE
+    potionIngredient5: golden_apple
+    potionDuration5: 180 #duration in seconds of initial potion, extended version is multiplied by 8/3, upgraded by 1/2
+    potionColor5: "(150,140,175)" #RGB colors for potion
+  craftablePotions: #Alchemical Summoning Data
+    #Choices for Potion Type:
+    # "AWKWARD" , "FIRE_RESISTANCE" , "INSTANT_DAMAGE" , "INSTANT_HEAL", "INVISIBILITY" , "JUMP" , "LUCK" , "MUNDANE" ,
+    # "NIGHT_VISION" , "POISON" , "REGEN" , "SLOW_FALLING" , "SLOWNESS" , "SPEED" , "STRENGTH" , "THICK" , "TURTLE_MASTER" ,
+    # "UNCRAFTABLE" , "WATER" , "WATER_BREATHING" , "WEAKNESS"
+    # Potion Ingredients are the item above the glass bottle in the crafting recipe
+    potionType1: WATER_BREATHING
+    potionIngredient1: pufferfish
+    potionType2: SPEED
+    potionIngredient2: sugar
+    potionType3: FIRE_RESISTANCE
+    potionIngredient3: magma_cream
+    potionType4: INSTANT_HEAL
+    potionIngredient4: glistering_melon_slice
+    potionType5: STRENGTH
+    potionIngredient5: blaze_powder
+  expDrops:
+    enableEXPDrops: true
+    breakNetherWart: 200
+    brewSpeedPotion: 1000
+    brewJumpPotion: 1200
+    brewStrengthPotion: 1100
+    brewHealingPotion: 1100
+    brewPoisonPotion: 1000
+    brewRegenerationPotion: 1200
+    brewFireResistancePotion: 1150
+    brewWaterBreathingPotion: 1250
+    brewNightVisionPotion: 1100
+    brewPotionOfTurtleMaster: 1150
+    brewPotionOfSlowFalling: 1100
+    brewPotionOfWeakness: 1100
+    brewAwkwardPotion: 500
+    brewSplashPotion: 300
+    brewLingeringPotion: 300
+    upgradePotion: 700
+    extendPotion: 700
+    brewAnythingElse: 400
+    brewCustomPotion: 1500 #Applies to potions added in customPotions
+    upgradeCustomPotion: 1200 #Applies to potions added in customPotions
+    drinkPotion: 1000
+    drinkExtendedPotion: 1500
+    drinkUpgradedPotion: 1500
+    drinkCustomPotion: 1500 #Applies to potions added in customPotions
 smelting:
+  skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
+  removePlayerFurnacesTimer: 60 #Number of seconds before all player's furances are removed from the server
+  expDrops:
+    enableEXPDrops: true
+    smeltBeef: 175
+    smeltChicken: 175
+    smeltMutton: 175
+    smeltRabbit: 175
+    smeltPorkchop: 175
+    smeltGreen_Dye: 175
+    smeltLime_Dye: 175
+    smeltCod: 200
+    smeltSalmon: 200
+    smeltPopped_Chorus_Fruit: 200
+    smeltDried_Kelp: 110
+    smeltGlass: 110
+    smeltBrick: 110
+    smeltNether_Brick: 110
+    smeltStone: 130
+    smeltSmooth_Sandstone: 130
+    smeltBakedPotato: 130
+    smeltSmooth_Red_Sandstone: 130
+    smeltSmooth_Stone: 130
+    smeltSmoothQuartz: 130
+    smeltTerracotta: 130
+    smeltGlazed_Terracotta: 130
+    smeltCharcoal: 130
+    smeltIronIngot: 300
+    smeltGoldIngot: 320
+    smeltDiamond: 650
+    smeltLapis_Lazuli: 520
+    smeltEmerald: 800
+    smeltRedstone: 260
+    smeltQuartz: 260
+    smeltSponge: 260
+    smeltIron_Nugget: 330
+    smeltGold_Nugget: 390
+    smeltNetherite_Scrap: 1000
+    smeltCracked_Nether_Bricks: 140
+    smeltCracked_Stone_Bricks: 140
+    smeltAnythingElse: 100
 enchanting:
+  skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
-
-
-
+  gainEXPfromEnchantingBottles: false
+  expDrops:
+    enableEXPDrops: true
+    useAnvil_EXPperLevelUsed: 800
+    enchantItem_EXPperLevelOfCost: 350 #"Cost" is the level on the right side of the enchantment offer, NOT the XP level used
+    EXPperMinecraftXPGained: 25

@@ -1,17 +1,13 @@
 package mc.carlton.freerpg.miscEvents;
 
-import com.sk89q.worldguard.LocalPlayer;
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.protection.flags.Flags;
-import com.sk89q.worldguard.protection.regions.RegionContainer;
-import com.sk89q.worldguard.protection.regions.RegionQuery;
-import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.globalVariables.ExpMaps;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.playerAndServerInfo.*;
-import org.bukkit.*;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
@@ -21,13 +17,17 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
-public class PlayerBlockBreak implements Listener {
+public class PlayerBlockBreakDeveloper implements Listener {
     @EventHandler
     void onblockBreak(BlockBreakEvent e){
+        RunTimeData runTimeData = new RunTimeData();
+
         //WorldGuard Check
         if (e.isCancelled()) {
             return;
@@ -38,6 +38,8 @@ public class PlayerBlockBreak implements Listener {
         Location loc = block.getLocation();
         Material blockType = block.getType();
         World world = e.getBlock().getWorld();
+        ItemStack itemInHand = p.getInventory().getItemInMainHand();
+
 
         ItemGroups itemGroups = new ItemGroups();
 
@@ -65,7 +67,6 @@ public class PlayerBlockBreak implements Listener {
         }
 
 
-
         ChangeStats increaseStats = new ChangeStats(p);
 
         AbilityTracker abilities = new AbilityTracker(p);
@@ -74,14 +75,18 @@ public class PlayerBlockBreak implements Listener {
         PlayerStats pStatClass = new PlayerStats(p);
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
 
-        ItemStack itemInHand = p.getInventory().getItemInMainHand();
 
+        long timer = System.currentTimeMillis();
         //Tracked Blocks
         PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();
         boolean natural = !placedBlocksManager.isBlockTracked(block);
         if (!natural) {
             placedBlocksManager.removeBlock(block);
         }
+
+        long getTrackedBlocks = System.currentTimeMillis() - timer;
+        runTimeData.addTime(getTrackedBlocks,"BreakBlocktrackedBlocks");
+        timer = System.currentTimeMillis();
 
         //EXP drops
         if (flamePickEXP.containsKey(blockType) && pickaxes.contains(itemInHand.getType()) && (int) pStat.get("global").get(13) > 0 && (int) pStat.get("smelting").get(13) > 0) {
@@ -97,10 +102,6 @@ public class PlayerBlockBreak implements Listener {
                 if (veinMinerLevel > 0 && veinMinerToggle > 0) {
                     miningClass.veinMiner(block,blockType);
                 }
-                else {
-                    Smelting smeltingClass = new Smelting(p);
-                    smeltingClass.flamePick(block, world,blockType);
-                }
             }
             else {
                 Smelting smeltingClass = new Smelting(p);
@@ -113,47 +114,101 @@ public class PlayerBlockBreak implements Listener {
             if (!configLoad.getAllowedSkillsMap().get("digging")) {
                 return;
             }
+            long timer1 = System.currentTimeMillis();
             increaseStats.changeEXP("digging",diggingEXP.get(blockType));
+            long changeDiggingEXP = System.currentTimeMillis() - timer1;
+            runTimeData.addTime(changeDiggingEXP,"changeEXP");
+
+
             Material[] treasureBlocks0 = {Material.CLAY,Material.GRASS_BLOCK,Material.GRAVEL,Material.MYCELIUM, Material.PODZOL,Material.COARSE_DIRT,
                                           Material.DIRT,Material.RED_SAND,Material.SAND,Material.SOUL_SAND,Material.SNOW_BLOCK};
             List<Material> treasureBlocks = Arrays.asList(treasureBlocks0);
+            timer1 = System.currentTimeMillis();
             Digging diggingClass = new Digging(p);
             boolean dropFlint = diggingClass.flintFinder(blockType);
             if (dropFlint) {
                 e.setDropItems(false);
                 world.dropItemNaturally(loc,new ItemStack(Material.FLINT,1));
             }
+            long flintFinder = System.currentTimeMillis() - timer1;
+            runTimeData.addTime(flintFinder,"flintFinder");
+
             if (treasureBlocks.contains(blockType)) {
+                long timer2 = System.currentTimeMillis();
                 diggingClass.diggingTreasureDrop(world,loc,blockType);
+                long treasureDropTime = System.currentTimeMillis() - timer2;
+                runTimeData.addTime(treasureDropTime,"diggingTreasureDrop");
             }
 
         }
         else if(woodcuttingEXP.containsKey(blockType) && natural) {
+            long timer1 = System.currentTimeMillis();
             increaseStats.changeEXP("woodcutting",woodcuttingEXP.get(blockType));
+            long woodcuttingEXPTime = System.currentTimeMillis() - timer1;
+            runTimeData.addTime(woodcuttingEXPTime,"changeEXP");
+
+            timer1 = System.currentTimeMillis();
             Woodcutting woodcuttingClass = new Woodcutting(p);
             woodcuttingClass.woodcuttingDoubleDrop(block,world);
+            long woodcuttingDoubleDropTime = System.currentTimeMillis() - timer1;
+            runTimeData.addTime(woodcuttingDoubleDropTime,"doubleDrop");
+
+            timer1 = System.currentTimeMillis();
             woodcuttingClass.logXPdrop(block,world);
+            long logXPDropTime = System.currentTimeMillis() - timer1;
+            runTimeData.addTime(logXPDropTime,"logXP");
+
+            timer1 = System.currentTimeMillis();;
             woodcuttingClass.logBookDrop(block,world);
+            long logBookDropTime = System.currentTimeMillis() - timer1;
+            runTimeData.addTime(logBookDropTime,"logBook");
+
+            timer1 = System.currentTimeMillis();
             woodcuttingClass.leavesDrops(block,world);
+            long leavesDropTime = System.currentTimeMillis() - timer1;
+            runTimeData.addTime(leavesDropTime,"leaves");
+
+            timer1 = System.currentTimeMillis();
             woodcuttingClass.timedHaste(block);
+            long timedHasteTime = System.currentTimeMillis() - timer1;
+            runTimeData.addTime(timedHasteTime,"woodcuttingHaste");
 
         }
         else if (miningEXP.containsKey(blockType) && natural) {
+            long timer1 = System.currentTimeMillis();
             increaseStats.changeEXP("mining", miningEXP.get(blockType));
+            long miningEXPTime = System.currentTimeMillis() - timer1;
+            runTimeData.addTime(miningEXPTime,"changeEXP");
+
+
             Material[] ores0 = {Material.COAL_ORE, Material.DIAMOND_ORE, Material.EMERALD_ORE, Material.GOLD_ORE,
                     Material.IRON_ORE, Material.LAPIS_ORE, Material.NETHER_QUARTZ_ORE, Material.REDSTONE_ORE,Material.NETHER_GOLD_ORE,Material.ANCIENT_DEBRIS,Material.GILDED_BLACKSTONE};
             List<Material> ores = Arrays.asList(ores0);
             Mining miningClass = new Mining(p);
             if (pAbilities[2] == -2) {
+                long timer2 = System.currentTimeMillis();
                 //Treasure Drops:
                 int passive2_mining = (int) pStat.get("mining").get(9);
                 double treasureDropChance = passive2_mining * 0.01;
                 miningClass.miningTreasureDrop(treasureDropChance, world, loc);
+                long miningTreasureDropTime = System.currentTimeMillis() - timer2;
+                runTimeData.addTime(miningTreasureDropTime,"miningTreasureDrop");
             }
             if (ores.contains(blockType)) {
+                long timer2 = System.currentTimeMillis();
                 miningClass.wastelessHaste();
+                long miningWastelessHasteTime = System.currentTimeMillis() - timer2;
+                runTimeData.addTime(miningWastelessHasteTime,"wastelessHaste");
+
+                timer2 = System.currentTimeMillis();
                 miningClass.miningDoubleDrop(block, world);
+                long miningDoubleDropTime = System.currentTimeMillis() - timer2;
+                runTimeData.addTime(miningDoubleDropTime,"doubleDrop");
+
+                timer2 = System.currentTimeMillis();
                 miningClass.veinMiner(block,blockType);
+                long veinMinerTimes = System.currentTimeMillis() - timer2;
+                runTimeData.addTime(veinMinerTimes,"veinMiner");
 
             }
             if (blockType == Material.SPAWNER) {
@@ -162,6 +217,8 @@ public class PlayerBlockBreak implements Listener {
                 increaseStats.changeEXP("archery", miningEXP.get(blockType));
                 increaseStats.changeEXP("axeMastery", miningEXP.get(blockType));
             }
+            long timeTaken = System.currentTimeMillis() - timer1;
+            System.out.println("Time taken for broken mining block: " + timeTaken);
         }
         else if (farmingEXP.containsKey(blockType) && natural) {
             BlockData block_data = block.getBlockData();
@@ -243,5 +300,7 @@ public class PlayerBlockBreak implements Listener {
             }
 
         }
+        long allConditionals = System.currentTimeMillis() - timer;
+        runTimeData.addTime(allConditionals,"BreakBlockconditionals");
     }
 }

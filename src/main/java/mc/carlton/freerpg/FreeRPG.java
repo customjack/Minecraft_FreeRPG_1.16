@@ -1,9 +1,9 @@
 package mc.carlton.freerpg;
 
-import com.sk89q.worldguard.WorldGuard;
 import mc.carlton.freerpg.brewingEvents.BrewingInventoryClick;
 import mc.carlton.freerpg.brewingEvents.FinishedBrewing;
 import mc.carlton.freerpg.clickEvents.PlayerLeftClick;
+import mc.carlton.freerpg.clickEvents.PlayerLeftClickDeveloper;
 import mc.carlton.freerpg.clickEvents.PlayerRightClick;
 import mc.carlton.freerpg.clickEvents.PlayerRightClickEntity;
 import mc.carlton.freerpg.combatEvents.*;
@@ -12,6 +12,8 @@ import mc.carlton.freerpg.enchantingEvents.*;
 import mc.carlton.freerpg.furnaceEvents.FurnaceBurn;
 import mc.carlton.freerpg.furnaceEvents.FurnaceInventoryClick;
 import mc.carlton.freerpg.furnaceEvents.FurnaceSmelt;
+import mc.carlton.freerpg.gameTools.LanguageSelector;
+import mc.carlton.freerpg.globalVariables.*;
 import mc.carlton.freerpg.guiEvents.*;
 import mc.carlton.freerpg.leaveAndJoin.LoginProcedure;
 import mc.carlton.freerpg.leaveAndJoin.LogoutProcedure;
@@ -23,8 +25,6 @@ import mc.carlton.freerpg.pistonEvents.PistonExtend;
 import mc.carlton.freerpg.pistonEvents.PistonRetract;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -35,16 +35,15 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Set;
 
 public final class FreeRPG extends JavaPlugin implements Listener {
-    public String version = "1.1.2";
 
     @Override
     public void onEnable() {
@@ -55,27 +54,18 @@ public final class FreeRPG extends JavaPlugin implements Listener {
 
         //config Load
         ConfigLoad loadConfig = new ConfigLoad();
-        loadConfig.setConfig();
-        loadConfig.setConfigData();
+        loadConfig.initializeConfig();
 
         //Saves Custom Languages YAML file
         saveResource("languages.yml",false);
+        LanguagesYMLManager languagesYMLManager = new LanguagesYMLManager();
+        languagesYMLManager.checkLanguagesYML();
 
-        //Get placed blocks array
-        PlacedBlockManager mayCreateFile = new PlacedBlockManager();
-        try {
-            mayCreateFile.startConditions();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        PlacedBlocksLoadIn loadInBlocks = new PlacedBlocksLoadIn();
-        try {
-            ArrayList<Location> blocks = loadInBlocks.getPlacedBlocks();
-            PlacedBlocks blockStorageClass = new PlacedBlocks();
-            blockStorageClass.setBlocks(blocks);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //Initialize Placed Blocks Map
+        PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();
+        placedBlocksManager.startConditions();
+        placedBlocksManager.initializePlacedBlocks();
+
 
         //Check if the server uses world guard
         WorldGuardChecks CheckWorldGuardExistence = new WorldGuardChecks();
@@ -91,15 +81,33 @@ public final class FreeRPG extends JavaPlugin implements Listener {
             }
         }.runTaskLater(plugin, 20);
 
+        //Initializes all "global" variables
+        ItemGroups itemGroups =  new ItemGroups();
+        itemGroups.initializeItemGroups();
+        EntityGroups entityGroups = new EntityGroups();
+        entityGroups.initializeAllEntityGroups();
+        ExpMaps expMaps = new ExpMaps();
+        expMaps.initializeAllExpMaps();
+        CraftingRecipes craftingRecipes = new CraftingRecipes();
+        craftingRecipes.initializeAllCraftingRecipes();
+        StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+        stringsAndOtherData.initializeData();
+
 
         //Initiliazes periodically saving stats
         PeriodicSaving saveStats = new PeriodicSaving();
         saveStats.periodicallySaveStats();
 
-        System.out.println("[FreeRPG] FreeRPG loaded sucessfully...");
-        System.out.println("[FreeRPG] Running FreeRPG version " + version);
-
         //Events
+        ConfigLoad configLoad = new ConfigLoad();
+        if (!configLoad.isSaveRunTimeData()) {
+            getServer().getPluginManager().registerEvents(new PlayerLeftClick(), this);
+            getServer().getPluginManager().registerEvents(new PlayerBlockBreak(), this);
+        }
+        else{
+            getServer().getPluginManager().registerEvents(new PlayerLeftClickDeveloper(), this);
+            getServer().getPluginManager().registerEvents(new PlayerBlockBreakDeveloper(), this);
+        }
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
         getServer().getPluginManager().registerEvents(new PlayerLeave(), this);
@@ -108,10 +116,8 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new CraftingGUIclick(), this);
         getServer().getPluginManager().registerEvents(new ConfirmationGUIClick(), this);
         getServer().getPluginManager().registerEvents(new ConfigurationGUIClick(), this);
-        getServer().getPluginManager().registerEvents(new PlayerBlockBreak(), this);
         getServer().getPluginManager().registerEvents(new PlayerBlockPlace(), this);
         getServer().getPluginManager().registerEvents(new PlayerRightClick(), this);
-        getServer().getPluginManager().registerEvents(new PlayerLeftClick(), this);
         getServer().getPluginManager().registerEvents(new PlayerTakeDamage(), this);
         getServer().getPluginManager().registerEvents(new PlayerCraft(), this);
         getServer().getPluginManager().registerEvents(new PlayerPrepareCrafting(), this);
@@ -146,6 +152,8 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new FurnaceBurn(), this);
         getServer().getPluginManager().registerEvents(new PlayerRespawn(), this);
         getServer().getPluginManager().registerEvents(new PlayerDropItem(), this);
+        getServer().getPluginManager().registerEvents(new ExperienceBottleBreak(), this);
+        getServer().getPluginManager().registerEvents(new SkillsConfigGUIClick(), this);
 
         getCommand("frpg").setExecutor(new FrpgCommands());
         getCommand("spite").setExecutor(new SpiteQuote());
@@ -201,7 +209,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         //If the plugin starts with players online
         for (Player p : Bukkit.getOnlinePlayers()) {
             PlayerStats pStatClass = new PlayerStats(p);
-            if (pStatClass.getData().keySet().contains(p.getDisplayName())) {
+            if (pStatClass.getData().containsKey(p.getUniqueId())) {
                 LogoutProcedure logout = new LogoutProcedure(p);
                 try {
                     logout.playerLogout();
@@ -226,11 +234,13 @@ public final class FreeRPG extends JavaPlugin implements Listener {
             }
         }
 
-        PlacedBlocksLoadIn saveBlocks = new PlacedBlocksLoadIn();
-        try {
-            saveBlocks.setPlacedBlocks();
-        } catch (IOException e) {
-            e.printStackTrace();
+        PlacedBlocksManager saveBlocks = new PlacedBlocksManager();
+        saveBlocks.writePlacedBlocks();
+
+        ConfigLoad configLoad = new ConfigLoad();
+        if (configLoad.isSaveRunTimeData()) {
+            RunTimeData runTimeData = new RunTimeData();
+            runTimeData.logRunTimeData();
         }
     }
 
@@ -443,66 +453,86 @@ public final class FreeRPG extends JavaPlugin implements Listener {
     }
 
     private void waterBreathingPotion() {
+        ConfigLoad configLoad = new ConfigLoad();
+        ArrayList<Object> alchemyInfo =configLoad.getAlchemyInfo();
+        PotionType potionType = (PotionType) alchemyInfo.get(20);
+        Material potionIngredient = (Material) alchemyInfo.get(21);
         ItemStack item = new ItemStack(Material.POTION, 1);
         PotionMeta meta = (PotionMeta) item.getItemMeta();
-        meta.setBasePotionData(new PotionData(PotionType.WATER_BREATHING,false,false));
+        meta.setBasePotionData(new PotionData(potionType,false,false));
         item.setItemMeta(meta);
         NamespacedKey key = new NamespacedKey(this, "frpgWaterBreathingPotion");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape(" I ", " W ", "   ");
-        recipe.setIngredient('I', Material.PUFFERFISH);
+        recipe.setIngredient('I', potionIngredient);
         recipe.setIngredient('W', Material.GLASS_BOTTLE);
         Bukkit.addRecipe(recipe);
     }
 
     private void speedPotion() {
+        ConfigLoad configLoad = new ConfigLoad();
+        ArrayList<Object> alchemyInfo =configLoad.getAlchemyInfo();
+        PotionType potionType = (PotionType) alchemyInfo.get(22);
+        Material potionIngredient = (Material) alchemyInfo.get(23);
         ItemStack item = new ItemStack(Material.POTION, 1);
         PotionMeta meta = (PotionMeta) item.getItemMeta();
-        meta.setBasePotionData(new PotionData(PotionType.SPEED,false,false));
+        meta.setBasePotionData(new PotionData(potionType,false,false));
         item.setItemMeta(meta);
         NamespacedKey key = new NamespacedKey(this, "frpgSpeedPotion");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape(" I ", " W ", "   ");
-        recipe.setIngredient('I', Material.SUGAR);
+        recipe.setIngredient('I', potionIngredient);
         recipe.setIngredient('W', Material.GLASS_BOTTLE);
         Bukkit.addRecipe(recipe);
     }
 
     private void fireResistancePotion() {
+        ConfigLoad configLoad = new ConfigLoad();
+        ArrayList<Object> alchemyInfo =configLoad.getAlchemyInfo();
+        PotionType potionType = (PotionType) alchemyInfo.get(24);
+        Material potionIngredient = (Material) alchemyInfo.get(25);
         ItemStack item = new ItemStack(Material.POTION, 1);
         PotionMeta meta = (PotionMeta) item.getItemMeta();
-        meta.setBasePotionData(new PotionData(PotionType.FIRE_RESISTANCE,false,false));
+        meta.setBasePotionData(new PotionData(potionType,false,false));
         item.setItemMeta(meta);
         NamespacedKey key = new NamespacedKey(this, "frpgFireResistancePotion");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape(" I ", " W ", "   ");
-        recipe.setIngredient('I', Material.MAGMA_CREAM);
+        recipe.setIngredient('I', potionIngredient);
         recipe.setIngredient('W', Material.GLASS_BOTTLE);
         Bukkit.addRecipe(recipe);
     }
 
     private void healingPotion() {
+        ConfigLoad configLoad = new ConfigLoad();
+        ArrayList<Object> alchemyInfo =configLoad.getAlchemyInfo();
+        PotionType potionType = (PotionType) alchemyInfo.get(26);
+        Material potionIngredient = (Material) alchemyInfo.get(27);
         ItemStack item = new ItemStack(Material.POTION, 1);
         PotionMeta meta = (PotionMeta) item.getItemMeta();
-        meta.setBasePotionData(new PotionData(PotionType.INSTANT_HEAL,false,false));
+        meta.setBasePotionData(new PotionData(potionType,false,false));
         item.setItemMeta(meta);
         NamespacedKey key = new NamespacedKey(this, "frpgHealingPotion");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape(" I ", " W ", "   ");
-        recipe.setIngredient('I', Material.GLISTERING_MELON_SLICE);
+        recipe.setIngredient('I', potionIngredient);
         recipe.setIngredient('W', Material.GLASS_BOTTLE);
         Bukkit.addRecipe(recipe);
     }
 
     private void strengthPotion() {
+        ConfigLoad configLoad = new ConfigLoad();
+        ArrayList<Object> alchemyInfo =configLoad.getAlchemyInfo();
+        PotionType potionType = (PotionType) alchemyInfo.get(28);
+        Material potionIngredient = (Material) alchemyInfo.get(29);
         ItemStack item = new ItemStack(Material.POTION, 1);
         PotionMeta meta = (PotionMeta) item.getItemMeta();
-        meta.setBasePotionData(new PotionData(PotionType.STRENGTH,false,false));
+        meta.setBasePotionData(new PotionData(potionType,false,false));
         item.setItemMeta(meta);
         NamespacedKey key = new NamespacedKey(this, "frpgStrengthPotion");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape(" I ", " W ", "   ");
-        recipe.setIngredient('I', Material.BLAZE_POWDER);
+        recipe.setIngredient('I', potionIngredient);
         recipe.setIngredient('W', Material.GLASS_BOTTLE);
         Bukkit.addRecipe(recipe);
     }

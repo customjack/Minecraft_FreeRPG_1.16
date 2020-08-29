@@ -45,6 +45,7 @@ permissions:
       freeRPG.craftGUI: true
       freeRPG.confirmGUI: true
       freeRPG.skillsGUI: true
+      freeRPG.skillConfigGUI: true
   freeRPG.toggles:
     description: gives access to all toggle commands
     default: true
@@ -260,3 +261,6 @@ permissions:
   freeRPG.saveStats:
     description: allows player to save any or all player's stats to their stat file
     default: op
+  freeRPG.skillConfigGUI:
+    description: allows player to open the config gui for each individual skill
+    default: true

@@ -2,6 +2,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -24,6 +25,8 @@ public class Smelting {
     private Player p;
     private String pName;
     private ItemStack itemInHand;
+    private String skillName = "smelting";
+    Map<String,Integer> expMap;
 
     ChangeStats increaseStats; //Changing Stats
 
@@ -32,7 +35,7 @@ public class Smelting {
 
     Random rand = new Random(); //Random class Import
 
-
+    private boolean runMethods;
 
     public Smelting(Player p) {
         this.p = p;
@@ -40,12 +43,18 @@ public class Smelting {
         this.itemInHand = p.getInventory().getItemInMainHand();
         this.increaseStats = new ChangeStats(p);
         this.pStatClass = new PlayerStats(p);
+        ConfigLoad configLoad = new ConfigLoad();
+        this.runMethods = configLoad.getAllowedSkillsMap().get(skillName);
+        expMap = configLoad.getExpMapForSkill(skillName);
     }
 
     public void speedUpFurnace(Furnace furnace,boolean isBlastFurnace) {
+        if (!runMethods) {
+            return;
+        }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int fastFuelLevel = (int) pStat.get("smelting").get(4);
-        int doubleSmeltLevel = (int) pStat.get("smelting").get(9);
+        int fastFuelLevel = (int) pStat.get(skillName).get(4);
+        int doubleSmeltLevel = (int) pStat.get(skillName).get(9);
         boolean doubleSmelt = false;
         if (doubleSmeltLevel*0.05 > rand.nextDouble()) {
             doubleSmelt = true;
@@ -65,7 +74,7 @@ public class Smelting {
                 furnace.setCookTimeTotal((int) Math.round(finalDefaultCookTime / speedUpFactor));
                 FurnaceInventory oldInv = furnace.getSnapshotInventory();
                 if (furnaceInv.getResult() == null) {
-                    increaseStats.changeEXP("smelting", 100);
+                    increaseStats.changeEXP(skillName, expMap.get("smeltAnythingElse"));
                 }
                 else {
                     oldInv.setSmelting(furnaceInv.getSmelting());
@@ -75,7 +84,7 @@ public class Smelting {
                         result.setAmount(resultAmount + 1);
                     }
                     oldInv.setResult(result);
-                    increaseStats.changeEXP("smelting", getEXP(oldInv.getResult().getType()));
+                    increaseStats.changeEXP(skillName, getEXP(oldInv.getResult().getType()));
                     furnace.update();
                 }
             }
@@ -85,10 +94,13 @@ public class Smelting {
     }
 
     public void fuelBurn(Furnace furnace,boolean isBlastFurnace) {
+        if (!runMethods) {
+            return;
+        }
         World world = furnace.getWorld();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int fastFuelLevel = (int) pStat.get("smelting").get(4);
-        int fuelEfficiencyLevel = (int) pStat.get("smelting").get(7);
+        int fastFuelLevel = (int) pStat.get(skillName).get(4);
+        int fuelEfficiencyLevel = (int) pStat.get(skillName).get(7);
         double defaultCookTime = 200.0;
         if (isBlastFurnace) {
             defaultCookTime = 100.0;
@@ -115,10 +127,13 @@ public class Smelting {
     }
 
     public void flamePick(Block block,World world,Material blockType) {
+        if (!runMethods) {
+            return;
+        }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         int doubleDropLevel = (int) pStat.get("mining").get(5);
         int doubleDropWoodcuttingLevel = (int) pStat.get("woodcutting").get(5);
-        int doubleSmeltLevel = (int) pStat.get("smelting").get(9);
+        int doubleSmeltLevel = (int) pStat.get(skillName).get(9);
         double chanceDrop = 0.0005*doubleDropLevel;
         double chanceSmelt = doubleSmeltLevel*0.05;
         double chanceLogDrop = 0.0005*doubleDropWoodcuttingLevel;
@@ -139,7 +154,7 @@ public class Smelting {
                     }
                 }
                 world.dropItemNaturally(block.getLocation(), new ItemStack(Material.IRON_INGOT, dropAmount));
-                increaseStats.changeEXP("smelting",getEXP(Material.IRON_INGOT));
+                increaseStats.changeEXP(skillName,getEXP(Material.IRON_INGOT));
                 damageTool();
                 if (0.7 > rand.nextDouble()) {
                     ((ExperienceOrb) world.spawn(block.getLocation(), ExperienceOrb.class)).setExperience(1);
@@ -156,68 +171,68 @@ public class Smelting {
                     }
                 }
                 world.dropItemNaturally(block.getLocation(), new ItemStack(Material.GOLD_INGOT, dropAmount));
-                increaseStats.changeEXP("smelting",getEXP(Material.GOLD_INGOT));
+                increaseStats.changeEXP(skillName,getEXP(Material.GOLD_INGOT));
                 damageTool();
                 ((ExperienceOrb) world.spawn(block.getLocation(), ExperienceOrb.class)).setExperience(1);
                 break;
             case COBBLESTONE:
                 block.setType(Material.AIR);
                 world.dropItemNaturally(block.getLocation(), new ItemStack(Material.STONE, dropAmount));
-                increaseStats.changeEXP("smelting",getEXP(Material.STONE));
+                increaseStats.changeEXP(skillName,getEXP(Material.STONE));
                 damageTool();
                 break;
             case SANDSTONE:
                 block.setType(Material.AIR);
                 world.dropItemNaturally(block.getLocation(), new ItemStack(Material.SMOOTH_SANDSTONE, dropAmount));
-                increaseStats.changeEXP("smelting",getEXP(Material.SMOOTH_SANDSTONE));
+                increaseStats.changeEXP(skillName,getEXP(Material.SMOOTH_SANDSTONE));
                 damageTool();
                 break;
             case RED_SANDSTONE:
                 block.setType(Material.AIR);
                 world.dropItemNaturally(block.getLocation(), new ItemStack(Material.SMOOTH_RED_SANDSTONE, dropAmount));
-                increaseStats.changeEXP("smelting",getEXP(Material.SMOOTH_RED_SANDSTONE));
+                increaseStats.changeEXP(skillName,getEXP(Material.SMOOTH_RED_SANDSTONE));
                 damageTool();
                 break;
             case STONE:
                 block.setType(Material.AIR);
                 world.dropItemNaturally(block.getLocation(), new ItemStack(Material.SMOOTH_STONE, dropAmount));
-                increaseStats.changeEXP("smelting",getEXP(Material.SMOOTH_STONE));
+                increaseStats.changeEXP(skillName,getEXP(Material.SMOOTH_STONE));
                 damageTool();
                 break;
             case SAND:
                 block.setType(Material.AIR);
                 world.dropItemNaturally(block.getLocation(), new ItemStack(Material.GLASS, dropAmount));
-                increaseStats.changeEXP("smelting",getEXP(Material.GLASS));
+                increaseStats.changeEXP(skillName,getEXP(Material.GLASS));
                 damageTool();
                 break;
             case QUARTZ_BLOCK:
                 block.setType(Material.AIR);
                 world.dropItemNaturally(block.getLocation(), new ItemStack(Material.SMOOTH_QUARTZ, dropAmount));
-                increaseStats.changeEXP("smelting",getEXP(Material.SMOOTH_QUARTZ));
+                increaseStats.changeEXP(skillName,getEXP(Material.SMOOTH_QUARTZ));
                 damageTool();
                 break;
             case NETHERRACK:
                 block.setType(Material.AIR);
                 world.dropItemNaturally(block.getLocation(), new ItemStack(Material.NETHER_BRICK, dropAmount));
-                increaseStats.changeEXP("smelting",getEXP(Material.NETHER_BRICK));
+                increaseStats.changeEXP(skillName,getEXP(Material.NETHER_BRICK));
                 damageTool();
                 break;
             case CLAY:
                 block.setType(Material.AIR);
                 world.dropItemNaturally(block.getLocation(), new ItemStack(Material.TERRACOTTA, dropAmount));
-                increaseStats.changeEXP("smelting",getEXP(Material.TERRACOTTA));
+                increaseStats.changeEXP(skillName,getEXP(Material.TERRACOTTA));
                 damageTool();
                 break;
             case WET_SPONGE:
                 block.setType(Material.AIR);
                 world.dropItemNaturally(block.getLocation(), new ItemStack(Material.SPONGE, dropAmount));
-                increaseStats.changeEXP("smelting",getEXP(Material.SPONGE));
+                increaseStats.changeEXP(skillName,getEXP(Material.SPONGE));
                 damageTool();
                 break;
             case CACTUS:
                 block.setType(Material.AIR);
                 world.dropItemNaturally(block.getLocation(), new ItemStack(Material.GREEN_DYE, dropAmount));
-                increaseStats.changeEXP("smelting",getEXP(Material.GREEN_DYE));
+                increaseStats.changeEXP(skillName,getEXP(Material.GREEN_DYE));
                 damageTool();
                 break;
             case ACACIA_LOG:
@@ -231,7 +246,7 @@ public class Smelting {
                     dropAmount *= 2;
                 }
                 world.dropItemNaturally(block.getLocation(), new ItemStack(Material.CHARCOAL, dropAmount));
-                increaseStats.changeEXP("smelting",getEXP(Material.CHARCOAL));
+                increaseStats.changeEXP(skillName,getEXP(Material.CHARCOAL));
                 damageTool();
                 break;
             default:
@@ -254,35 +269,74 @@ public class Smelting {
     }
 
     public int getEXP(Material smeltedMaterial) {
+        if (!runMethods) {
+            return 0;
+        }
         int EXP = 0;
         switch (smeltedMaterial) {
             case COOKED_BEEF:
+                EXP = expMap.get("smeltBeef");
+                break;
             case COOKED_CHICKEN:
+                EXP = expMap.get("smeltChicken");
+                break;
             case COOKED_MUTTON:
+                EXP = expMap.get("smeltMutton");
+                break;
             case COOKED_RABBIT:
+                EXP = expMap.get("smeltRabbit");
+                break;
             case COOKED_PORKCHOP:
+                EXP = expMap.get("smeltPorkchop");
+                break;
             case GREEN_DYE:
+                EXP = expMap.get("smeltGreen_Dye");
+                break;
             case LIME_DYE:
-                EXP = 175;
+                EXP = expMap.get("smeltLime_Dye");
                 break;
             case COOKED_COD:
+                EXP = expMap.get("smeltCod");
+                break;
             case COOKED_SALMON:
+                EXP = expMap.get("smeltSalmon");
+                break;
             case POPPED_CHORUS_FRUIT:
-                EXP = 200;
+                EXP = expMap.get("smeltPopped_Chorus_Fruit");
                 break;
             case DRIED_KELP:
+                EXP = expMap.get("smeltDried_Kelp");
+                break;
             case GLASS:
+                EXP = expMap.get("smeltGlass");
+                break;
             case BRICK:
+                EXP = expMap.get("smeltBrick");
+                break;
             case NETHER_BRICK:
-                EXP = 110;
+                EXP = expMap.get("smeltNether_Brick");
                 break;
             case STONE:
+                EXP = expMap.get("smeltStone");
+                break;
             case SMOOTH_SANDSTONE:
+                EXP = expMap.get("smeltSmooth_Sandstone");
+                break;
             case BAKED_POTATO:
+                EXP = expMap.get("smeltBakedPotato");
+                break;
             case SMOOTH_RED_SANDSTONE:
+                EXP = expMap.get("smeltSmooth_Red_Sandstone");
+                break;
             case SMOOTH_STONE:
+                EXP = expMap.get("smeltSmooth_Stone");
+                break;
             case SMOOTH_QUARTZ:
+                EXP = expMap.get("smeltSmoothQuartz");
+                break;
             case TERRACOTTA:
+                EXP = expMap.get("smeltTerracotta");
+                break;
             case GRAY_GLAZED_TERRACOTTA:
             case BLACK_GLAZED_TERRACOTTA:
             case GREEN_GLAZED_TERRACOTTA:
@@ -299,43 +353,53 @@ public class Smelting {
             case RED_GLAZED_TERRACOTTA:
             case WHITE_GLAZED_TERRACOTTA:
             case YELLOW_GLAZED_TERRACOTTA:
+                EXP = expMap.get("smeltGlazed_Terracotta");
+                break;
             case CHARCOAL:
-                EXP = 130;
+                EXP = expMap.get("smeltCharcoal");
                 break;
             case IRON_INGOT:
-                EXP = 300;
+                EXP = expMap.get("smeltIronIngot");
                 break;
             case GOLD_INGOT:
-                EXP = 320;
+                EXP = expMap.get("smeltGoldIngot");
                 break;
             case DIAMOND:
-                EXP = 650;
+                EXP = expMap.get("smeltDiamond");
                 break;
             case LAPIS_LAZULI:
-                EXP = 520;
+                EXP = expMap.get("smeltLapis_Lazuli");
                 break;
             case EMERALD:
-                EXP = 800;
+                EXP = expMap.get("smeltEmerald");
                 break;
             case REDSTONE:
+                EXP = expMap.get("smeltRedstone");
+                break;
             case QUARTZ:
+                EXP = expMap.get("smeltQuartz");
+                break;
             case SPONGE:
-                EXP = 260;
+                EXP = expMap.get("smeltSponge");
                 break;
             case IRON_NUGGET:
-                EXP = 330;
+                EXP = expMap.get("smeltIron_Nugget");
                 break;
             case GOLD_NUGGET:
-                EXP = 390;
+                EXP = expMap.get("smeltGold_Nugget");
                 break;
                 //1.16 Items, Subject to EXP changes
             case NETHERITE_SCRAP:
-                EXP = 1000;
+                EXP = expMap.get("smeltNetherite_Scrap");
                 break;
             case CRACKED_NETHER_BRICKS:
+                EXP = expMap.get("smeltCracked_Nether_Bricks");
+                break;
             case CRACKED_STONE_BRICKS:
-                EXP = 140;
+                EXP = expMap.get("smeltCracked_Stone_Bricks");
+                break;
             default:
+                EXP = expMap.get("smeltAnythingElse");
                 break;
         }
         return EXP;

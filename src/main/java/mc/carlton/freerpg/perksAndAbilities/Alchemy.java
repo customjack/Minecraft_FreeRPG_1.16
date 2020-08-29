@@ -2,6 +2,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -26,15 +27,17 @@ public class Alchemy {
     private Player p;
     private String pName;
     private ItemStack itemInHand;
+    private String skillName = "alchemy";
+    Map<String,Integer> expMap;
 
     ChangeStats increaseStats; //Changing Stats
 
     PlayerStats pStatClass;
     //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
 
-    Random rand = new Random(); //Random class Import
     private static Map<BrewerInventory, Integer> counter = new HashMap<>();
     private static Map<BrewerInventory, Integer> failSafe = new HashMap<>();
+    private boolean runMethods;
 
 
     public Alchemy(Player p) {
@@ -43,14 +46,20 @@ public class Alchemy {
         this.itemInHand = p.getInventory().getItemInMainHand();
         this.increaseStats = new ChangeStats(p);
         this.pStatClass = new PlayerStats(p);
+        ConfigLoad configLoad = new ConfigLoad();
+        this.runMethods = configLoad.getAllowedSkillsMap().get(skillName);
+        expMap = configLoad.getExpMapForSkill("alchemy");
     }
 
     public void startBrewing(BrewerInventory inventory, ItemStack output, ItemStack input) {
+        if (!runMethods) {
+            return;
+        }
         if (counter.containsKey(inventory)) {
             return;
         }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        //int speedBrewingLevel = (int) pStat.get("alchemy").get(7);
+        //int speedBrewingLevel = (int) pStat.get(skillName).get(7);
         int time = 400;
         BrewingStand stand = inventory.getHolder();
         World world = stand.getWorld();
@@ -87,24 +96,24 @@ public class Alchemy {
 
                         if (inventory.getItem(i).getType() == Material.SPLASH_POTION) {
                             output.setType(Material.SPLASH_POTION);
-                            outputMeta.setDisplayName(ChatColor.RESET + "Splash " + normalName);
+                            outputMeta.setDisplayName(ChatColor.RESET + ChatColor.WHITE.toString() + "Splash " + normalName);
                             output.setItemMeta(outputMeta);
                         } else if (inventory.getItem(i).getType() == Material.LINGERING_POTION) {
                             output.setType(Material.LINGERING_POTION);
-                            outputMeta.setDisplayName(ChatColor.RESET + "Lingering " + normalName);
+                            outputMeta.setDisplayName(ChatColor.RESET + ChatColor.WHITE.toString() + "Lingering " + normalName);
                             PotionEffectType effect = outputMeta.getCustomEffects().get(0).getType();
                             int newLength = (int) Math.round(outputMeta.getCustomEffects().get(0).getDuration() / 4.0);
                             outputMeta.addCustomEffect(new PotionEffect(effect, newLength, 0), true);
                             output.setItemMeta(outputMeta);
                         } else {
                             output.setType(Material.POTION);
-                            outputMeta.setDisplayName(ChatColor.RESET + normalName);
+                            outputMeta.setDisplayName(ChatColor.RESET + ChatColor.WHITE.toString() + normalName);
                             output.setItemMeta(outputMeta);
                         }
                         inventory.setItem(i, output);
                         stand.getSnapshotInventory().setItem(i, output);
                         outputMeta.addCustomEffect(oldEffect, true);
-                        increaseStats.changeEXP("alchemy",4000);
+                        increaseStats.changeEXP(skillName,expMap.get("brewCustomPotion"));
 
                     }
 
@@ -168,6 +177,9 @@ public class Alchemy {
     }
 
     public void upgradeBrewing(BrewerInventory inventory, ItemStack input, boolean[] slotsToCheck) {
+        if (!runMethods) {
+            return;
+        }
         if (input.getType() != Material.REDSTONE && input.getType() != Material.GLOWSTONE_DUST) {
             return;
         }
@@ -183,7 +195,7 @@ public class Alchemy {
             return;
         }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        //int speedBrewingLevel = (int) pStat.get("alchemy").get(7);
+        //int speedBrewingLevel = (int) pStat.get(skillName).get(7);
         int time = 400; //(int) Math.round((1 - speedBrewingLevel * 0.15) * 400);
         BrewingStand stand = inventory.getHolder();
         World world = stand.getWorld();
@@ -230,7 +242,7 @@ public class Alchemy {
 
                         potion.setItemMeta(potionMeta);
                         stand.getSnapshotInventory().setItem(i, potion);
-                        increaseStats.changeEXP("alchemy",2500);
+                        increaseStats.changeEXP(skillName,expMap.get("upgradeCustomPotion"));
                     }
 
                     stand.setFuelLevel(stand.getFuelLevel() - 1);
@@ -295,6 +307,9 @@ public class Alchemy {
     }
 
     public boolean comparePotionEffects(ItemStack p1, ItemStack p2) {
+        if (!runMethods) {
+            return false;
+        }
         if (p1 == null || p2 == null) {
             return false;
         }
@@ -315,10 +330,13 @@ public class Alchemy {
 
 
     public void drinkPotion(ItemStack potion) {
+        if (!runMethods) {
+            return;
+        }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int lengthBoostLevel = (int) pStat.get("alchemy").get(4);
+        int lengthBoostLevel = (int) pStat.get(skillName).get(4);
         double durationMultiplier = 1.0 + 0.001 * lengthBoostLevel;
-        int potionMasterLevel = (int) Math.min((int) pStat.get("alchemy").get(13), 1);
+        int potionMasterLevel = (int) Math.min((int) pStat.get(skillName).get(13), 1);
         if ((int) pStat.get("global").get(15) != 1) {
             potionMasterLevel = 0;
         }
@@ -330,20 +348,20 @@ public class Alchemy {
             List<PotionType> noEXPPots = Arrays.asList(noEXPPots0);
             if (!noEXPPots.contains( ((PotionMeta) potion.getItemMeta()).getBasePotionData().getType() ) ) {
                 if ( ((PotionMeta) potion.getItemMeta()).getBasePotionData().isUpgraded() ) {
-                    increaseStats.changeEXP("alchemy", 2000);
+                    increaseStats.changeEXP(skillName, expMap.get("drinkUpgradedPotion"));
                 }
                 else if ( ((PotionMeta) potion.getItemMeta()).getBasePotionData().isExtended() ) {
-                    increaseStats.changeEXP("alchemy", 2000);
+                    increaseStats.changeEXP(skillName, expMap.get("drinkExtendedPotion"));
                 }
                 else {
-                    increaseStats.changeEXP("alchemy", 1000);
+                    increaseStats.changeEXP(skillName, expMap.get("drinkPotion"));
                 }
             }
 
 
             if (((PotionMeta) potion.getItemMeta()).hasCustomEffects()) {
                 PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
-                increaseStats.changeEXP("alchemy", 2000);
+                increaseStats.changeEXP(skillName, expMap.get("drinkCustomPotion"));
                 for (PotionEffect effect : potionMeta.getCustomEffects()) {
                     p.addPotionEffect(new PotionEffect(effect.getType(), (int) Math.round(effect.getDuration() * durationMultiplier), effect.getAmplifier() + potionMasterLevel), true);
                 }
@@ -362,9 +380,9 @@ public class Alchemy {
     public PotionEffect potionToEffect(PotionData potionData) {
         PotionEffect pEffect = new PotionEffect(PotionEffectType.BAD_OMEN, 1, 1);
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int lengthBoostLevel = (int) pStat.get("alchemy").get(4);
+        int lengthBoostLevel = (int) pStat.get(skillName).get(4);
         double durationMultiplier = 1.0 + 0.001 * lengthBoostLevel;
-        int potionMasterLevel = (int) Math.min((int) pStat.get("alchemy").get(13), 1);
+        int potionMasterLevel = (int) Math.min((int) pStat.get(skillName).get(13), 1);
         switch (potionData.getType()) {
             case WEAKNESS:
                 if (potionData.isExtended()) {
@@ -499,6 +517,9 @@ public class Alchemy {
     }
 
     public void giveBrewingEXP(ItemStack ingredient, ItemStack[] slots) {
+        if (!runMethods) {
+            return;
+        }
         int brewedPotions = 0;
         for (int i = 0; i < 3; i++) {
             if (slots[i] != null) {
@@ -510,56 +531,62 @@ public class Alchemy {
         int expToGive = 0;
         switch (ingredient.getType()) {
             case SUGAR:
-                expToGive = 1500;
+                expToGive = expMap.get("brewSpeedPotion");
                 break;
             case RABBIT_FOOT:
-                expToGive = 1750;
+                expToGive = expMap.get("brewJumpPotion");
                 break;
             case BLAZE_POWDER:
-                expToGive = 1500;
+                expToGive = expMap.get("brewStrengthPotion");
                 break;
             case GLISTERING_MELON_SLICE:
-                expToGive = 1600;
+                expToGive = expMap.get("brewHealingPotion");
                 break;
             case SPIDER_EYE:
-                expToGive = 1400;
+                expToGive = expMap.get("brewPoisonPotion");
                 break;
             case GHAST_TEAR:
-                expToGive = 1700;
+                expToGive = expMap.get("brewRegenerationPotion");
                 break;
             case MAGMA_CREAM:
-                expToGive = 1650;
+                expToGive = expMap.get("brewFireResistancePotion");
                 break;
             case PUFFERFISH:
-                expToGive = 1800;
+                expToGive = expMap.get("brewWaterBreathingPotion");
                 break;
             case GOLDEN_CARROT:
-                expToGive = 1600;
+                expToGive = expMap.get("brewNightVisionPotion");
                 break;
             case TURTLE_HELMET:
-                expToGive = 1650;
+                expToGive = expMap.get("brewPotionOfTurtleMaster");
                 break;
             case PHANTOM_MEMBRANE:
-                expToGive = 1600;
+                expToGive = expMap.get("brewPotionOfSlowFalling");
                 break;
             case FERMENTED_SPIDER_EYE:
-                expToGive = 1550;
+                expToGive = expMap.get("brewPotionOfWeakness");
                 break;
             case NETHER_WART:
-                expToGive = 700;
+                expToGive = expMap.get("brewAwkwardPotion");
                 break;
             case GUNPOWDER:
-                expToGive = 800;
+                expToGive = expMap.get("brewSplashPotion");
+                break;
+            case DRAGON_BREATH:
+                expToGive = expMap.get("brewLingeringPotion");
                 break;
             case GLOWSTONE:
+                expToGive = expMap.get("upgradePotion");
+                break;
             case REDSTONE:
-                expToGive = 900;
+                expToGive = expMap.get("extendPotion");
                 break;
             default:
-                expToGive = 400;
+                expToGive = expMap.get("brewAnythingElse");
+                break;
 
         }
-        increaseStats.changeEXP("alchemy",expToGive*brewedPotions);
+        increaseStats.changeEXP(skillName,expToGive*brewedPotions);
 
 
     }

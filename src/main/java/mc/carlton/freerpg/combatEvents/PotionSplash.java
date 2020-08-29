@@ -1,6 +1,8 @@
 package mc.carlton.freerpg.combatEvents;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.globalVariables.ItemGroups;
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -24,9 +26,12 @@ public class PotionSplash implements Listener {
         if (e.isCancelled()) {
             return;
         }
-        PotionEffectType[] harmfulEffects0 = {PotionEffectType.WEAKNESS,PotionEffectType.POISON,PotionEffectType.BLINDNESS,PotionEffectType.HUNGER,
-                                              PotionEffectType.HARM,PotionEffectType.SLOW_DIGGING,PotionEffectType.SLOW,PotionEffectType.WEAKNESS,PotionEffectType.WITHER};
-        List<PotionEffectType> harmfulEffects = Arrays.asList(harmfulEffects0);
+        ConfigLoad configLoad = new ConfigLoad();
+        if (!configLoad.getAllowedSkillsMap().get("alchemy")) {
+            return;
+        }
+        ItemGroups itemGroups = new ItemGroups();
+        List<PotionEffectType> harmfulEffects = itemGroups.getHarmfulEffects();
 
         ThrownPotion potionEntity = e.getPotion();
         if (!(potionEntity.getShooter() instanceof Player)) {
@@ -41,7 +46,6 @@ public class PotionSplash implements Listener {
         }
         int potionDurationLevel = (int) pStat.get("alchemy").get(4);
         double durationMultiplier = potionDurationLevel*0.001 + 1;
-        ItemStack potion = potionEntity.getItem();
         for (LivingEntity entity : e.getAffectedEntities()) {
             for (PotionEffect effect : e.getPotion().getEffects()) {
                 if (p.equals(entity)) {

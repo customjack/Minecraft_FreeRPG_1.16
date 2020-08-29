@@ -3,6 +3,9 @@ package mc.carlton.freerpg.commands;
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
+import mc.carlton.freerpg.globalVariables.CraftingRecipes;
+import mc.carlton.freerpg.globalVariables.ItemGroups;
+import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,6 +29,7 @@ import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
+import javax.management.openmbean.OpenMBeanConstructorInfo;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -155,7 +159,7 @@ public class FrpgCommands implements CommandExecutor {
         }
 
         //Help
-        if (args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) {
+        else if (args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) {
             if (args.length >= 1) {
                 int totalPages = 3;
                 int page = 1;
@@ -294,7 +298,7 @@ public class FrpgCommands implements CommandExecutor {
                         if (p.hasPermission("saveStats")) {
                             PlayerStatsLoadIn saveStats = new PlayerStatsLoadIn(target);
                             try {
-                                saveStats.setPlayerStatsMap(target);
+                                saveStats.setPlayerStatsMap();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -308,7 +312,7 @@ public class FrpgCommands implements CommandExecutor {
                 else {
                         PlayerStatsLoadIn saveStats = new PlayerStatsLoadIn(target);
                         try {
-                            saveStats.setPlayerStatsMap(target);
+                            saveStats.setPlayerStatsMap();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -1504,11 +1508,11 @@ public class FrpgCommands implements CommandExecutor {
                     gui.setItem(45,back);
 
                     //Level up Notifications
-                    ItemStack levelUp = new ItemStack(Material.EXPERIENCE_BOTTLE);
+                    ItemStack levelUp = new ItemStack(Material.OAK_SIGN);
                     ItemMeta levelUpMeta = levelUp.getItemMeta();
                     levelUpMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("levelUpNotif"));
                     levelUp.setItemMeta(levelUpMeta);
-                    gui.setItem(12,levelUp);
+                    gui.setItem(11,levelUp);
 
                     ItemStack levelUpToggle = new ItemStack(Material.LIME_DYE);
                     ItemMeta levelUpToggleMeta = levelUpToggle.getItemMeta();
@@ -1520,14 +1524,14 @@ public class FrpgCommands implements CommandExecutor {
                         levelUpToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
                     }
                     levelUpToggle.setItemMeta(levelUpToggleMeta);
-                    gui.setItem(21,levelUpToggle);
+                    gui.setItem(20,levelUpToggle);
 
                     //Ability Notifications
-                    ItemStack abilityNotifications = new ItemStack(Material.STICK);
+                    ItemStack abilityNotifications = new ItemStack(Material.OAK_SIGN);
                     ItemMeta abilityNotificationsMeta = abilityNotifications.getItemMeta();
                     abilityNotificationsMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("abilityPreparationNotif"));
                     abilityNotifications.setItemMeta(abilityNotificationsMeta);
-                    gui.setItem(14,abilityNotifications);
+                    gui.setItem(12,abilityNotifications);
 
                     ItemStack abilityNotificationsToggle = new ItemStack(Material.LIME_DYE);
                     ItemMeta abilityNotificationsToggleMeta = abilityNotificationsToggle.getItemMeta();
@@ -1539,7 +1543,49 @@ public class FrpgCommands implements CommandExecutor {
                         abilityNotificationsToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
                     }
                     abilityNotificationsToggle.setItemMeta(abilityNotificationsToggleMeta);
-                    gui.setItem(23,abilityNotificationsToggle);
+                    gui.setItem(21,abilityNotificationsToggle);
+
+
+                    //Trigger Abilities
+                    ItemStack triggerAbilities = new ItemStack(Material.WOODEN_PICKAXE);
+                    ItemMeta triggerAbilitiesMeta = triggerAbilities.getItemMeta();
+                    triggerAbilitiesMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                    triggerAbilitiesMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("triggerAbilities"));
+                    triggerAbilities.setItemMeta(triggerAbilitiesMeta);
+                    gui.setItem(13,triggerAbilities);
+
+                    ItemStack triggerAbilitiesToggle = new ItemStack(Material.LIME_DYE);
+                    ItemMeta triggerAbilitiesToggleMeta = triggerAbilitiesToggle.getItemMeta();
+                    if ( (int) pStat.get("global").get(24) > 0) {
+                        triggerAbilitiesToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
+                    }
+                    else {
+                        triggerAbilitiesToggle.setType(Material.GRAY_DYE);
+                        triggerAbilitiesToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
+                    }
+                    triggerAbilitiesToggle.setItemMeta(triggerAbilitiesToggleMeta);
+                    gui.setItem(22,triggerAbilitiesToggle);
+
+
+                    //Experience Bar
+                    ItemStack expBar = new ItemStack(Material.EXPERIENCE_BOTTLE);
+                    ItemMeta expBarMeta = expBar.getItemMeta();
+                    expBarMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("showEXPBar"));
+                    expBar.setItemMeta(expBarMeta);
+                    gui.setItem(14,expBar);
+
+                    ItemStack expBarToggle = new ItemStack(Material.LIME_DYE);
+                    ItemMeta expBarToggleMeta = expBarToggle.getItemMeta();
+                    if ( (int) pStat.get("global").get(25) > 0) {
+                        expBarToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
+                    }
+                    else {
+                        expBarToggle.setType(Material.GRAY_DYE);
+                        expBarToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
+                    }
+                    expBarToggle.setItemMeta(expBarToggleMeta);
+                    gui.setItem(23,expBarToggle);
+
 
                     //LANGUAGES
                     LanguageSelector langManager = new LanguageSelector(p);
@@ -1670,6 +1716,309 @@ public class FrpgCommands implements CommandExecutor {
                     //Put the items in the inventory
                     p.openInventory(gui);
                 }
+            }
+            else {
+                System.out.println("You need to be a player to cast this command");
+            }
+        }
+
+        else if (args[0].equalsIgnoreCase("skillConfigGUI") || args[0].equalsIgnoreCase("skillConfigurationGUI") || args[0].equalsIgnoreCase("skillConfig")) {
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
+                LanguageSelector lang = new LanguageSelector(p);
+                if (!p.hasPermission("freeRPG.skillConfigGUI")) {
+                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
+                    return true;
+                }
+                if (args.length != 2) {
+                    p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg skillConfigGUI [" + lang.getString("skillName") + "]");
+                    return true;
+                }
+                String[] titles_0 = {"Digging","Woodcutting","Mining","Farming","Fishing","Archery","Beast Mastery","Swordsmanship","Defense","Axe Mastery","Repair","Agility","Alchemy","Smelting","Enchanting"};
+                String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
+                String[] passiveLabels0 = {"repair","agility","alchemy","smelting","enchanting"};
+                List<String> labels = Arrays.asList(labels_0);
+                List<String> passiveLabels = Arrays.asList(passiveLabels0);
+                if (!labels.contains(args[1])) {
+                    p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg skillConfigGUI [" + lang.getString("skillName") + "]");
+                    return true;
+                }
+                String skillName = args[1];
+                String skillTitle = titles_0[labels.indexOf(skillName)];
+                Inventory gui = Bukkit.createInventory(p, 54, skillTitle + " Configuration");
+                PlayerStats pStatClass = new PlayerStats(p);
+                Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+
+                //UNIVERSAL CONFIG STUFF
+
+
+                //Experience Bar
+                ItemStack expBar = new ItemStack(Material.EXPERIENCE_BOTTLE);
+                ItemMeta expBarMeta = expBar.getItemMeta();
+                expBarMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("showEXPBar"));
+                expBar.setItemMeta(expBarMeta);
+                gui.setItem(10,expBar);
+
+                ItemStack expBarToggle = new ItemStack(Material.LIME_DYE);
+                ItemMeta expBarToggleMeta = expBarToggle.getItemMeta();
+                if ( pStatClass.isPlayerSkillExpBarOn(skillName) ) {
+                    expBarToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
+                }
+                else {
+                    expBarToggle.setType(Material.GRAY_DYE);
+                    expBarToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
+                }
+                expBarToggle.setItemMeta(expBarToggleMeta);
+                gui.setItem(19,expBarToggle);
+
+                //Trigger Abilities
+                if (!passiveLabels.contains(skillName)) {
+                    ItemStack triggerAbilities = new ItemStack(Material.WOODEN_PICKAXE);
+                    ItemMeta triggerAbilitiesMeta = triggerAbilities.getItemMeta();
+                    triggerAbilitiesMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                    triggerAbilitiesMeta.setDisplayName(ChatColor.BOLD.toString() + lang.getString("triggerAbilities"));
+                    triggerAbilities.setItemMeta(triggerAbilitiesMeta);
+                    gui.setItem(11, triggerAbilities);
+
+                    ItemStack triggerAbilitiesToggle = new ItemStack(Material.LIME_DYE);
+                    ItemMeta triggerAbilitiesToggleMeta = triggerAbilitiesToggle.getItemMeta();
+                    if (pStatClass.isPlayerSkillAbilityOn(skillName)) {
+                        triggerAbilitiesToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
+                    } else {
+                        triggerAbilitiesToggle.setType(Material.GRAY_DYE);
+                        triggerAbilitiesToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
+                    }
+                    triggerAbilitiesToggle.setItemMeta(triggerAbilitiesToggleMeta);
+                    gui.setItem(20, triggerAbilitiesToggle);
+                }
+
+
+                //Back button
+                ItemStack back = new ItemStack(Material.ARROW);
+                ItemMeta backMeta = back.getItemMeta();
+                backMeta.setDisplayName(ChatColor.BOLD + "Back");
+                ArrayList<String> lore = new ArrayList<String>();
+                lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("backToSkillTree"));
+                backMeta.setLore(lore);
+                back.setItemMeta(backMeta);
+                gui.setItem(45,back);
+
+                ItemStack skillIcon = new ItemStack(Material.WOODEN_PICKAXE);
+                ItemMeta skillIconMeta = skillIcon.getItemMeta();
+                skillIconMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                skillIconMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                skillIconMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+                skillIconMeta.setDisplayName(ChatColor.AQUA + ChatColor.BOLD.toString() + lang.getString(skillName));
+                skillIcon.setItemMeta(skillIconMeta);
+
+                switch (skillName) {
+                    case "digging":
+                        skillIcon.setType(Material.IRON_SHOVEL);
+                        //flintFinder
+                        ItemStack flintFinder = new ItemStack(Material.FLINT);
+                        ItemMeta flintFinderMeta = flintFinder.getItemMeta();
+                        flintFinderMeta.setDisplayName(ChatColor.BOLD + lang.getString("diggingPerkTitle4") + " " + lang.getString("toggle"));
+                        flintFinder.setItemMeta(flintFinderMeta);
+                        gui.setItem(28,flintFinder);
+
+                        ItemStack flintFinderToggle = new ItemStack(Material.LIME_DYE);
+                        ItemMeta flintFinderToggleMeta = flintFinderToggle.getItemMeta();
+                        if ( (int) pStat.get("global").get(12) > 0) {
+                            flintFinderToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
+                        }
+                        else {
+                            flintFinderToggle.setType(Material.GRAY_DYE);
+                            flintFinderToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
+                        }
+                        flintFinderToggle.setItemMeta(flintFinderToggleMeta);
+                        gui.setItem(37,flintFinderToggle);
+
+                        //Mega Dig
+                        ItemStack megaDig = new ItemStack(Material.DIAMOND_SHOVEL);
+                        ItemMeta megaDigMeta = megaDig.getItemMeta();
+                        megaDigMeta.setDisplayName(ChatColor.BOLD + lang.getString("diggingPerkTitle6") + " " + lang.getString("toggle"));
+                        megaDig.setItemMeta(megaDigMeta);
+                        gui.setItem(29,megaDig);
+
+                        ItemStack megaDigToggle = new ItemStack(Material.LIME_DYE);
+                        ItemMeta megaDigToggleMeta = megaDigToggle.getItemMeta();
+                        if ( (int) pStat.get("global").get(19) > 0) {
+                            megaDigToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
+                        }
+                        else {
+                            megaDigToggle.setType(Material.GRAY_DYE);
+                            megaDigToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
+                        }
+                        megaDigToggle.setItemMeta(megaDigToggleMeta);
+                        gui.setItem(38,megaDigToggle);
+                        break;
+                    case "woodcutting":
+                        skillIcon.setType(Material.IRON_AXE);
+                        break;
+                    case "mining":
+                        skillIcon.setType(Material.IRON_PICKAXE);
+
+                        //veinMiner
+                        ItemStack veinMiner = new ItemStack(Material.DIAMOND_PICKAXE);
+                        ItemMeta veinMinerMeta = veinMiner.getItemMeta();
+                        veinMinerMeta.setDisplayName(ChatColor.BOLD + lang.getString("miningPerkTitle4") + " " + lang.getString("toggle"));
+                        veinMiner.setItemMeta(veinMinerMeta);
+                        gui.setItem(28,veinMiner);
+
+                        ItemStack veinMinerToggle = new ItemStack(Material.LIME_DYE);
+                        ItemMeta veinMinerToggleMeta = veinMinerToggle.getItemMeta();
+                        if ( (int) pStat.get("global").get(18) > 0) {
+                            veinMinerToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
+                        }
+                        else {
+                            veinMinerToggle.setType(Material.GRAY_DYE);
+                            veinMinerToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
+                        }
+                        veinMinerToggle.setItemMeta(veinMinerToggleMeta);
+                        gui.setItem(37,veinMinerToggle);
+                        break;
+                    case "farming":
+                        skillIcon.setType(Material.IRON_HOE);
+                        break;
+                    case "fishing":
+                        skillIcon.setType(Material.FISHING_ROD);
+
+                        //grappling Hook
+                        ItemStack grapple = new ItemStack(Material.LEAD);
+                        ItemMeta grappleMeta = grapple.getItemMeta();
+                        grappleMeta.setDisplayName(ChatColor.BOLD + lang.getString("fishingPerkTitle4") + " " + lang.getString("toggle"));
+                        grapple.setItemMeta(grappleMeta);
+                        gui.setItem(28,grapple);
+
+                        ItemStack grappleToggle = new ItemStack(Material.LIME_DYE);
+                        ItemMeta grappleToggleMeta = grappleToggle.getItemMeta();
+                        if ( (int) pStat.get("global").get(16) > 0) {
+                            grappleToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
+                        }
+                        else {
+                            grappleToggle.setType(Material.GRAY_DYE);
+                            grappleToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
+                        }
+                        grappleToggle.setItemMeta(grappleToggleMeta);
+                        gui.setItem(37,grappleToggle);
+
+                        //hot Rod
+                        ItemStack hotRod = new ItemStack(Material.BLAZE_POWDER);
+                        ItemMeta hotRodMeta = hotRod.getItemMeta();
+                        hotRodMeta.setDisplayName(ChatColor.BOLD + lang.getString("fishingPerkTitle5") + " " + lang.getString("toggle"));
+                        hotRod.setItemMeta(hotRodMeta);
+                        gui.setItem(29,hotRod);
+
+                        ItemStack hotRodToggle = new ItemStack(Material.LIME_DYE);
+                        ItemMeta hotRodToggleMeta = hotRodToggle.getItemMeta();
+                        if ( (int) pStat.get("global").get(17) > 0) {
+                            hotRodToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
+                        }
+                        else {
+                            hotRodToggle.setType(Material.GRAY_DYE);
+                            hotRodToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
+                        }
+                        hotRodToggle.setItemMeta(hotRodToggleMeta);
+                        gui.setItem(38,hotRodToggle);
+                        break;
+                    case "archery":
+                        skillIcon.setType(Material.BOW);
+                        break;
+                    case "beastMastery":
+                        skillIcon.setType(Material.BONE);
+                        break;
+                    case "swordsmanship":
+                        skillIcon.setType(Material.IRON_SWORD);
+                        break;
+                    case "defense":
+                        skillIcon.setType(Material.IRON_CHESTPLATE);
+                        break;
+                    case "axeMastery":
+                        skillIcon.setType(Material.GOLDEN_AXE);
+                        break;
+                    case "repair":
+                        skillIcon.setType(Material.ANVIL);
+                        break;
+                    case "agility":
+                        skillIcon.setType(Material.LEATHER_LEGGINGS);
+
+                        //gracefulFeet
+                        ItemStack gracefulFeet = new ItemStack(Material.LEATHER_BOOTS);
+                        ItemMeta gracefulFeetMeta = gracefulFeet.getItemMeta();
+                        gracefulFeetMeta.setDisplayName(ChatColor.BOLD + lang.getString("agilityPerkTitle2") + " " + lang.getString("toggle"));
+                        gracefulFeet.setItemMeta(gracefulFeetMeta);
+                        gui.setItem(28,gracefulFeet);
+
+                        ItemStack gracefulFeetToggle = new ItemStack(Material.LIME_DYE);
+                        ItemMeta gracefulFeetToggleMeta = gracefulFeetToggle.getItemMeta();
+                        if ( (int) pStat.get("global").get(14) > 0) {
+                            gracefulFeetToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
+                        }
+                        else {
+                            gracefulFeetToggle.setType(Material.GRAY_DYE);
+                            gracefulFeetToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
+                        }
+                        gracefulFeetToggle.setItemMeta(gracefulFeetToggleMeta);
+                        gui.setItem(37,gracefulFeetToggle);
+                        break;
+                    case "alchemy":
+                        skillIcon.setType(Material.POTION);
+
+                        //potionMaster
+                        ItemStack potionMaster = new ItemStack(Material.GLOWSTONE_DUST);
+                        ItemMeta potionMasterMeta = potionMaster.getItemMeta();
+                        potionMasterMeta.setDisplayName(ChatColor.BOLD + lang.getString("alchemyPerkTitle2") + " " + lang.getString("toggle"));
+                        potionMaster.setItemMeta(potionMasterMeta);
+                        gui.setItem(28,potionMaster);
+
+                        ItemStack potionMasterToggle = new ItemStack(Material.LIME_DYE);
+                        ItemMeta potionMasterToggleMeta = potionMasterToggle.getItemMeta();
+                        if ( (int) pStat.get("global").get(15) > 0) {
+                            potionMasterToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
+                        }
+                        else {
+                            potionMasterToggle.setType(Material.GRAY_DYE);
+                            potionMasterToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
+                        }
+                        potionMasterToggle.setItemMeta(potionMasterToggleMeta);
+                        gui.setItem(37,potionMasterToggle);
+                        break;
+                    case "smelting":
+                        skillIcon.setType(Material.COAL);
+
+                        //flamePick
+                        ItemStack flamePick = new ItemStack(Material.BLAZE_POWDER);
+                        ItemMeta flamePickMeta = flamePick.getItemMeta();
+                        flamePickMeta.setDisplayName(ChatColor.BOLD + lang.getString("smeltingPerkTitle2") + " " + lang.getString("toggle"));
+                        flamePick.setItemMeta(flamePickMeta);
+                        gui.setItem(28,flamePick);
+
+                        ItemStack flamePickToggle = new ItemStack(Material.LIME_DYE);
+                        ItemMeta flamePickToggleMeta = flamePickToggle.getItemMeta();
+                        if ( (int) pStat.get("global").get(13) > 0) {
+                            flamePickToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
+                        }
+                        else {
+                            flamePickToggle.setType(Material.GRAY_DYE);
+                            flamePickToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
+                        }
+                        flamePickToggle.setItemMeta(flamePickToggleMeta);
+                        gui.setItem(37,flamePickToggle);
+                        break;
+                    case "enchanting":
+                        skillIcon.setType(Material.ENCHANTING_TABLE);
+                        break;
+                    default:
+                        break;
+
+                }
+                gui.setItem(4,skillIcon);
+
+
+
+
+                //Put the items in the inventory
+                p.openInventory(gui);
             }
             else {
                 System.out.println("You need to be a player to cast this command");
@@ -1815,89 +2164,32 @@ public class FrpgCommands implements CommandExecutor {
                 } else if (labels_arr.indexOf(args[1]) == -1) {
                     p.sendMessage(ChatColor.RED + lang.getString("improperArguments") +" /frpg craftingRecipe [skillName[Number]]");
                 } else {
+                    CraftingRecipes craftingRecipes = new CraftingRecipes();
+                    ConfigLoad configLoad = new ConfigLoad();
+                    ArrayList<Object> alchemyInfo = configLoad.getAlchemyInfo();
                     String craftingLabel = args[1];
-                    ItemStack[] cowEgg = {new ItemStack(Material.LEATHER,1), new ItemStack(Material.BEEF,1),new ItemStack(Material.LEATHER,1),
-                            new ItemStack(Material.BEEF,1), new ItemStack(Material.BONE,1), new ItemStack(Material.BEEF,1),
-                            new ItemStack(Material.LEATHER,1), new ItemStack(Material.BEEF,1),new ItemStack(Material.LEATHER,1)};
-                    ItemStack[] beeEgg = {new ItemStack(Material.AIR,0), new ItemStack(Material.OXEYE_DAISY,1),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.DANDELION,1), new ItemStack(Material.HONEY_BOTTLE,1), new ItemStack(Material.POPPY,1),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.AZURE_BLUET,1),new ItemStack(Material.AIR,0)};
-                    ItemStack[] mooshroomEgg1 = {new ItemStack(Material.LEATHER,1), new ItemStack(Material.RED_MUSHROOM,1),new ItemStack(Material.LEATHER,1),
-                            new ItemStack(Material.BEEF,1), new ItemStack(Material.BONE,1), new ItemStack(Material.BEEF,1),
-                            new ItemStack(Material.LEATHER,1), new ItemStack(Material.BEEF,1),new ItemStack(Material.LEATHER,1)};
-                    ItemStack[] mooshroomEgg2 = {new ItemStack(Material.LEATHER,1), new ItemStack(Material.BROWN_MUSHROOM,1),new ItemStack(Material.LEATHER,1),
-                            new ItemStack(Material.BEEF,1), new ItemStack(Material.BONE,1), new ItemStack(Material.BEEF,1),
-                            new ItemStack(Material.LEATHER,1), new ItemStack(Material.BEEF,1),new ItemStack(Material.LEATHER,1)};
-                    ItemStack[] horseEgg = {new ItemStack(Material.LEATHER,1), new ItemStack(Material.SADDLE,1),new ItemStack(Material.LEATHER,1),
-                            new ItemStack(Material.LEATHER,1), new ItemStack(Material.BONE,1), new ItemStack(Material.LEATHER,1),
-                            new ItemStack(Material.HAY_BLOCK,1), new ItemStack(Material.HAY_BLOCK,1),new ItemStack(Material.HAY_BLOCK,1)};
-                    ItemStack[] slimeEgg = {new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.SLIME_BALL,1),new ItemStack(Material.SLIME_BALL,1),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.SLIME_BALL,1),new ItemStack(Material.SLIME_BALL,1)};
-                    ItemStack[] tippedArrow = {new ItemStack(Material.ARROW,1), new ItemStack(Material.ARROW,1),new ItemStack(Material.ARROW,1),
-                            new ItemStack(Material.ARROW,1), new ItemStack(Material.POTION,1),new ItemStack(Material.ARROW,1),
-                            new ItemStack(Material.ARROW,1), new ItemStack(Material.ARROW,1),new ItemStack(Material.ARROW,1)};
-
-                    ItemStack[] power = {new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.BOW,1)};
-
-                    ItemStack[] efficiency = {new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.IRON_PICKAXE,1)};
-
-                    ItemStack[] sharpness = {new ItemStack(Material.IRON_INGOT,1), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.IRON_SWORD,1)};
-
-                    ItemStack[] protection = {new ItemStack(Material.AIR,0), new ItemStack(Material.IRON_INGOT,1),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.IRON_INGOT,1), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.IRON_INGOT,1)};
-
-                    ItemStack[] luck = {new ItemStack(Material.RABBIT_FOOT,1), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.FISHING_ROD,1)};
-
-                    ItemStack[] lure = {new ItemStack(Material.COD_BUCKET,1), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.FISHING_ROD,1)};
-
-                    ItemStack[] frost = {new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.BLUE_ICE,1)};
-
-                    ItemStack[] depth = {new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.NAUTILUS_SHELL,1)};
-
-                    ItemStack[] mending = {new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.DIAMOND_BLOCK,1)};
-
-                    ItemStack[] fortune = {new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.PAPER,1),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.PAPER,1),new ItemStack(Material.GOLD_BLOCK,1)};
-
-                    ItemStack[] waterBreathing = {new ItemStack(Material.AIR,0), new ItemStack(Material.PUFFERFISH,1),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.GLASS_BOTTLE,1),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0)};
-
-                    ItemStack[] speed = {new ItemStack(Material.AIR,0), new ItemStack(Material.SUGAR,1),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.GLASS_BOTTLE,1),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0)};
-
-                    ItemStack[] fireResistance = {new ItemStack(Material.AIR,0), new ItemStack(Material.MAGMA_CREAM,1),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.GLASS_BOTTLE,1),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0)};
-
-                    ItemStack[] healing = {new ItemStack(Material.AIR,0), new ItemStack(Material.GLISTERING_MELON_SLICE,1),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.GLASS_BOTTLE,1),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0)};
-
-                    ItemStack[] strength = {new ItemStack(Material.AIR,0), new ItemStack(Material.BLAZE_POWDER,1),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.GLASS_BOTTLE,1),new ItemStack(Material.AIR,0),
-                            new ItemStack(Material.AIR,0), new ItemStack(Material.AIR,0),new ItemStack(Material.AIR,0)};
-
+                    ItemStack[] cowEgg = craftingRecipes.getCowEggRecipe();
+                    ItemStack[] beeEgg = craftingRecipes.getBeeEggRecipe();
+                    ItemStack[] mooshroomEgg1 = craftingRecipes.getMooshroomEgg1Recipe();
+                    ItemStack[] mooshroomEgg2 = craftingRecipes.getMooshroomEgg2Recipe();
+                    ItemStack[] horseEgg = craftingRecipes.getHorseEggRecipe();
+                    ItemStack[] slimeEgg = craftingRecipes.getSlimeEggRecipe();
+                    ItemStack[] tippedArrow = craftingRecipes.getTippedArrowRecipe();
+                    ItemStack[] power = craftingRecipes.getPowerRecipe();
+                    ItemStack[] efficiency = craftingRecipes.getEfficiencyRecipe();
+                    ItemStack[] sharpness = craftingRecipes.getSharpnessRecipe();
+                    ItemStack[] protection = craftingRecipes.getProtectionRecipe();
+                    ItemStack[] luck = craftingRecipes.getLuckRecipe();
+                    ItemStack[] lure = craftingRecipes.getLureRecipe();
+                    ItemStack[] frost = craftingRecipes.getFrostRecipe();
+                    ItemStack[] depth = craftingRecipes.getDepthRecipe();
+                    ItemStack[] mending = craftingRecipes.getMendingRecipe();
+                    ItemStack[] fortune = craftingRecipes.getFortuneRecipe();
+                    ItemStack[] waterBreathing = craftingRecipes.getWaterBreathingRecipe();
+                    ItemStack[] speed = craftingRecipes.getSpeedRecipe();
+                    ItemStack[] fireResistance = craftingRecipes.getFireResistanceRecipe();
+                    ItemStack[] healing = craftingRecipes.getHealingRecipe();
+                    ItemStack[] strength = craftingRecipes.getStrengthRecipe();
                     ItemStack[] recipe = {new ItemStack(Material.AIR,1), new ItemStack(Material.AIR,1),new ItemStack(Material.AIR,1),
                             new ItemStack(Material.AIR,1), new ItemStack(Material.AIR,1),new ItemStack(Material.AIR,1),
                             new ItemStack(Material.AIR,1), new ItemStack(Material.AIR,1),new ItemStack(Material.AIR,1)};
@@ -1974,35 +2266,35 @@ public class FrpgCommands implements CommandExecutor {
                             recipe = waterBreathing;
                             output.setType(Material.POTION);
                             PotionMeta pm1 = (PotionMeta) output.getItemMeta();
-                            pm1.setBasePotionData(new PotionData(PotionType.WATER_BREATHING,false,false));
+                            pm1.setBasePotionData(new PotionData((PotionType) alchemyInfo.get(20),false,false));
                             output.setItemMeta(pm1);
                             break;
                         case "alchemy2":
                             recipe = speed;
                             output.setType(Material.POTION);
                             PotionMeta pm2 = (PotionMeta) output.getItemMeta();
-                            pm2.setBasePotionData(new PotionData(PotionType.SPEED,false,false));
+                            pm2.setBasePotionData(new PotionData((PotionType) alchemyInfo.get(22),false,false));
                             output.setItemMeta(pm2);
                             break;
                         case "alchemy3":
                             recipe = fireResistance;
                             output.setType(Material.POTION);
                             PotionMeta pm3 = (PotionMeta) output.getItemMeta();
-                            pm3.setBasePotionData(new PotionData(PotionType.FIRE_RESISTANCE,false,false));
+                            pm3.setBasePotionData(new PotionData((PotionType) alchemyInfo.get(24),false,false));
                             output.setItemMeta(pm3);
                             break;
                         case "alchemy4":
                             recipe = healing;
                             output.setType(Material.POTION);
                             PotionMeta pm4 = (PotionMeta) output.getItemMeta();
-                            pm4.setBasePotionData(new PotionData(PotionType.INSTANT_HEAL,false,false));
+                            pm4.setBasePotionData(new PotionData((PotionType) alchemyInfo.get(26),false,false));
                             output.setItemMeta(pm4);
                             break;
                         case "alchemy5":
                             recipe = strength;
                             output.setType(Material.POTION);
                             PotionMeta pm5 = (PotionMeta) output.getItemMeta();
-                            pm5.setBasePotionData(new PotionData(PotionType.STRENGTH,false,false));
+                            pm5.setBasePotionData(new PotionData((PotionType) alchemyInfo.get(28),false,false));
                             output.setItemMeta(pm5);
                             break;
                         default:
@@ -2060,7 +2352,7 @@ public class FrpgCommands implements CommandExecutor {
 
         /*
         This next argument is the biggest by far
-        It handles all the skill tree GUIs, which are the most adaptable with themost unqiue buttons
+        It handles all the skill tree GUIs, which are the most adaptable with the most unique buttons
         */
 
 
@@ -2074,192 +2366,11 @@ public class FrpgCommands implements CommandExecutor {
                     return true;
                 }
             }
-            Map<String, String[]> perksMap = new HashMap<>();
-            Map<String, String[]> descriptionsMap = new HashMap<>();
-            Map<String, String[]> passivePerksMap = new HashMap<>();
-            Map<String, String[]> passiveDescriptionsMap = new HashMap<>();
-
-            String s_Name = "";
-            String[] perks = {};
-            String[] descriptions = {};
-            String[] passivePerks = {};
-            String[] passiveDescriptions = {};
-
-            //digging
-            s_Name = "digging";
-            perks = new String[]{"Mo' drops", "Double Treasure", "Rarer Drops", "Soul Stealer", "Flint Finder", "Shovel Knight", "Mega Dig"};
-            descriptions = new String[]{"Expands treasure drop table by 1 item per level","+5% chance of receiving double treasure drop per level (when treasure is rolled)","Further expands drop table by item per level","Soul sand is +5% more likely to drop treasure per level","Gravel has 100% flint drop rate (toggleable  by /flintToggle)","Shovels do double damage","When using ability, you now break a 3x3 block section (20% of normal treasure rate when active)"};
-            passivePerks = new String[]{"Passive Tokens","Back","Skill Tokens","Big Dig Duration","Treasure Chance"};
-            passiveDescriptions = new String[]{"Tokens to invest in passive skills (dyes)","Takes you back to the main skills menu","Tokens to invest in skill tree","Increases duration of Big Dig by 0.02 s","Increases chance of digging up treasure by 0.005%"};
-            perksMap.put(s_Name,perks);
-            descriptionsMap.put(s_Name,descriptions);
-            passivePerksMap.put(s_Name,passivePerks);
-            passiveDescriptionsMap.put(s_Name,passiveDescriptions);
-
-            //woodcutting
-            s_Name = "woodcutting";
-            perks = new String[]{"Zealous Roots", "Fresh Arms", "Hidden Knowledge", "Leaf Scavenger", "Timber+", "Leaf Blower", "Able Axe"};
-            descriptions = new String[]{"+20% chance for logs to drop 1 XP per level","+12 s per level of Haste I after first log broken in 5 minutes","Logs have a +0.2% chance per level to drop an enchanted book","Leaves have a 1% chance to drop +1 treasure item per level","Timber break limit increased from 64 to 128","Instantly break leaves by holding left click with an axe","Double drops, Zealous Roots, and Hidden Knowledge all now apply to timber (at half effectiveness)"};
-            passivePerks = new String[]{"Passive Tokens","Back","Skill Tokens","Timber Duration","Double Drops"};
-            passiveDescriptions = new String[]{"Tokens to invest in passive skills (dyes)","Takes you back to the main skills menu","Tokens to invest in skill tree","Increases duration of Timber by 0.02 s","Increases chance to receive a double drop by 0.05%"};
-            perksMap.put(s_Name,perks);
-            descriptionsMap.put(s_Name,descriptions);
-            passivePerksMap.put(s_Name,passivePerks);
-            passiveDescriptionsMap.put(s_Name,passiveDescriptions);
-
-            //mining
-            s_Name = "mining";
-            perks = new String[]{"Wasteless Haste", "More Bombs", "Treasure Seeker", "Bomb-boyage", "Vein Miner", "Demolition Man", "Triple Trouble"};
-            descriptions = new String[]{"Gain haste after mining ores for each level","The crafting recipe for TNT produces +1 TNT block per level","When using ability on stones, +1% per level chance for an ore to drop (extra exp is earned from dropped ores)","Increases TNT blast radius (when lit by flint and steel) each level","Ore veins are instantly mined upon breaking one block (toggle-able)","No damage is taken from TNT explosions","Double drops are now triple drops"};
-            passivePerks = new String[]{"Passive Tokens","Back","Skill Tokens","Berserk Pick Duration","Double Drops","Blast Mining"};
-            passiveDescriptions = new String[]{"Tokens to invest in passive skills (dyes)","Takes you back to the main skills menu","Tokens to invest in skill tree","Increases duration of Berserk Pick by 0.02s","Increases chance to receive a double drop from ores by 0.05%","Increases chances for ore to be created from TNT explosions by 0.01% (rolled 10 times per explosion)"};
-            perksMap.put(s_Name,perks);
-            descriptionsMap.put(s_Name,descriptions);
-            passivePerksMap.put(s_Name,passivePerks);
-            passiveDescriptionsMap.put(s_Name,passiveDescriptions);
-
-            //farming
-            s_Name = "farming";
-            perks = new String[]{"Better Fertilizer", "Animal Farm", "Farmer's Diet", "Carnivore", "Green Thumb", "Growth Hormones", "One with Nature"};
-            descriptions = new String[]{"+10% chance to not consume bonemeal on use","Can craft an additional spawn egg per level","Farm food is +20% more effective at restoring hunger and saturation per level","Meat is +20% more effective at restoring hunger and saturation per level","Ability may replant crops fully grown with higher chance of replanting in later growth stages; ability now effects Melons and Pumpkins","Sugar can be used on baby animals to make them grow instantly","Gain Regeneration I when standing still on grass"};
-            passivePerks = new String[]{"Passive Tokens","Back","Skill Tokens","Natural Regeneration Duration","Double Drops (Crops)","Double Drops (Animals)"};
-            passiveDescriptions = new String[]{"Tokens to invest in passive skills (dyes)","Takes you back to the main skills menu","Tokens to invest in skill tree","Increases duration of Natural Regeneration by 0.02s","Increases chance to receive a double drop from crops by 0.05%","Increases chance to receive a double drop from most passive animals by 0.05%"};
-            perksMap.put(s_Name,perks);
-            descriptionsMap.put(s_Name,descriptions);
-            passivePerksMap.put(s_Name,passivePerks);
-            passiveDescriptionsMap.put(s_Name,passiveDescriptions);
-
-            //fishing
-            s_Name = "fishing";
-            perks = new String[]{"Rob", "Scavenger", "Fisherman's Diet", "Filtration", "Grappling Hook", "Hot Rod", "Fish Person"};
-            descriptions = new String[]{"+15% chance to pull item off a mob per level","Unlocks new tier of fishing treasure","Fish restore +20% hunger per level","Higher tier (II-V) loot becomes more common, lower tier (I) becomes less common","Fishing rod now acts as a grappling hook (toggleable with /grappleToggle )","Fish are now cooked when caught, some fishing treasures are changed (toggleable with /hotRodToggle)","Infinite night vision when underwater, infinite dolphin's grace when in the water"};
-            passivePerks = new String[]{"Passive Tokens","Back","Skill Tokens","Super Bait Duration","Double catches","Treasure Finder"};
-            passiveDescriptions = new String[]{"Tokens to invest in passive skills (dyes)","Takes you back to the main skills menu","Tokens to invest in skill tree","Increases duration of Super Bait by 0.01s","Increases chance to receive a double drop by 0.05%","Decreases chance of finding junk by 0.005%, increases chance of finding treasure by 0.005%"};
-            perksMap.put(s_Name,perks);
-            descriptionsMap.put(s_Name,descriptions);
-            passivePerksMap.put(s_Name,passivePerks);
-            passiveDescriptionsMap.put(s_Name,passiveDescriptions);
-
-            //archery
-            s_Name = "archery";
-            perks = new String[]{"Extra Arrows", "Sniper", "Arrow of Light", "Explosive Arrows", "Dragon-less Arrows", "Crossbow Rapid Load", "Deadly Strike"};
-            descriptions = new String[]{"+1 arrow gained from crafting per level","Arrow speed increases by +2% per level (~4% damage increase/level)","Spectral arrows get a +5% damage boost per level","Arrows have a +1% of creating an explosion on hit","Allows crafting all tipped arrows with regular potions instead of lingering potions","Ability can now be used with crossbows, making all shots load instantly","Fireworks shot from crossbows do double damage (up to 16 hearts of damage)"};
-            passivePerks = new String[]{"Passive Tokens","Back","Skill Tokens","Rapid Fire Duration","Retrieval"};
-            passiveDescriptions = new String[]{"Tokens to invest in passive skills (dyes)","Takes you back to the main skills menu","Tokens to invest in skill tree","Increases duration of Rapid Fire by 0.02s","Increases chance for arrow shot to not consume arrow by 0.05% per level"};
-            perksMap.put(s_Name,perks);
-            descriptionsMap.put(s_Name,descriptions);
-            passivePerksMap.put(s_Name,passivePerks);
-            passiveDescriptionsMap.put(s_Name,passiveDescriptions);
-
-            //beastMastery
-            s_Name = "beastMastery";
-            perks = new String[]{"Thick Fur","Sharp Teeth","Healthy Bites","Keep Away","Acro-Dog","Identify","Adrenaline Boost"};
-            descriptions = new String[]{"Dogs take -10% damage per level","Dogs do +10% more damage per level","Dogs heal +1/2 heart per level from killing","Dogs have gain +5% chance of knocking back foes","Dogs do not take fall damage","Using a compass on a horse or wolf now shows their stats","Spur kick buff is now speed III"};
-            passivePerks = new String[]{"Passive Tokens","Back","Skill Tokens","Spur Kick Duration","Critical Bite"};
-            passiveDescriptions = new String[]{"Tokens to invest in passive skills (dyes)","Takes you back to the main skills menu","Tokens to invest in skill tree","Increases duration of Spur Kick by 0.02s","Increases chance for a dog to have a critical hit by 0.025%"};
-            perksMap.put(s_Name,perks);
-            descriptionsMap.put(s_Name,descriptions);
-            passivePerksMap.put(s_Name,passivePerks);
-            passiveDescriptionsMap.put(s_Name,passiveDescriptions);
-
-            //swordsmanship
-            s_Name = "swordsmanship";
-            perks = new String[]{"Adrenaline","Killing Dpree","Adrenaline+","Killing Frenzy","Thirst for Blood","Sharper!","Sword Mastery"};
-            descriptions = new String[]{"Killing hostile mobs with a sword provides +2 s of speed per level","Killing hostile mobs with a sword provides +2 s of strength per level","+20% of speed I buff from Adrenaline is now speed II","+20% of strength I buff from Killing Spree is now strength II","Killing certain aggressive mobs with a sword restores hunger","Swift strikes now adds a level of sharpness to your sword","Swords permanently do +1 heart of damage"};
-            passivePerks = new String[]{"Passive Tokens","Back","Skill Tokens","Swift Strikes Duration","Double Hit"};
-            passiveDescriptions = new String[]{"Tokens to invest in passive skills (dyes)","Takes you back to the main skills menu","Tokens to invest in skill tree","Increases duration of Swift Strikes by 0.02s","Increases chance to hit mob twice (second hit does 50% damage) by 0.02%"};
-            perksMap.put(s_Name,perks);
-            descriptionsMap.put(s_Name,descriptions);
-            passivePerksMap.put(s_Name,passivePerks);
-            passiveDescriptionsMap.put(s_Name,passiveDescriptions);
-
-            //defense
-            s_Name = "defense";
-            perks = new String[]{"Healer","Stiffen","Hard Headed","Stiffen+","Gift From Above","Stronger Legs","Hearty"};
-            descriptions = new String[]{"Gain +3s of regen per level on kill","+2% chance to gain resistance I for 5s when hit","Hard Body decreases damage by an additional 6.6% per level","+2% chance to gain resistance II for 5s when hit","Stone Solid now grants 4 absorption hearts for ability length +1 minute","Stone Solid now gives slowness I instead of slowness IV","+2 hearts permanently"};
-            passivePerks = new String[]{"Passive Tokens","Back","Skill Tokens","Stone Solid Duration","Hard Body","Double Drops (Hostile Mobs)"};
-            passiveDescriptions = new String[]{"Tokens to invest in passive skills (dyes)","Takes you back to the main skills menu","Tokens to invest in skill tree","Increases duration of Stone Solid by 0.02s","Increases chance to take reduced (base -33%) damage by 0.01% per level","Increases chance to receive double drops from aggressive mobs by 0.05%"};
-            perksMap.put(s_Name,perks);
-            descriptionsMap.put(s_Name,descriptions);
-            passivePerksMap.put(s_Name,passivePerks);
-            passiveDescriptionsMap.put(s_Name,passiveDescriptions);
-
-            //axeMastery
-            s_Name = "axeMastery";
-            perks = new String[]{"Greater Axe","Holy Axe","Revitalized","Warrior Blood","Earthquake","Better Crits","Axe Man"};
-            descriptions = new String[]{"Great Axe damage radius increases by 1 block per level","+2% chance for lighting to strike mobs on axe hit","+1% chance for full heal on kill per level","+3 s per level of Strength I on kills with an axe","Ability's AOE damage is doubled (25% -> 50% of damage)","Divine Crits now have 1.6x multiplier instead of 1.25x","Axes permanently do +1 heart of damage"};
-            passivePerks = new String[]{"Passive Tokens","Back","Skill Tokens","Great Axe Duration","Divine Crits"};
-            passiveDescriptions = new String[]{"Tokens to invest in passive skills (dyes)","Takes you back to the main skills menu","Tokens to invest in skill tree","Increases duration of Great Axe by 0.02s","Increases random crit chance (base 1.25x damage) by 0.01%"};
-            perksMap.put(s_Name,perks);
-            descriptionsMap.put(s_Name,descriptions);
-            passivePerksMap.put(s_Name,passivePerks);
-            passiveDescriptionsMap.put(s_Name,passiveDescriptions);
-
-            //Repair
-            s_Name = "repair";
-            perks = new String[]{"Salvaging","Resourceful","Magic Repair Mastery"};
-            descriptions = new String[]{"Get more materials on average from salvaging","+10% chance of keeping material used when repairing","Guarenteed to keep enchants on repair"};
-            passivePerks = new String[]{"Back","Skill Tokens","Proficiency"};
-            passiveDescriptions = new String[]{"Takes you back to the main skills menu","Tokens to invest in skill tree","Materials restore more durability on repair"};
-            perksMap.put(s_Name,perks);
-            descriptionsMap.put(s_Name,descriptions);
-            passivePerksMap.put(s_Name,passivePerks);
-            passiveDescriptionsMap.put(s_Name,passiveDescriptions);
-
-            //Agility
-            s_Name = "agility";
-            perks = new String[]{"Dodge","Steel Bones","Graceful Feet"};
-            descriptions = new String[]{"+4% chance to dodge attacks per level","-10% fall damage per level","Permanent speed I buff (toggleable by /speedToggle)"};
-            passivePerks = new String[]{"Back","Skill Tokens","Roll"};
-            passiveDescriptions = new String[]{"Takes you back to the main skills menu","Tokens to invest in skill tree","Chance to roll and take reduced fall damage"};
-            perksMap.put(s_Name,perks);
-            descriptionsMap.put(s_Name,descriptions);
-            passivePerksMap.put(s_Name,passivePerks);
-            passiveDescriptionsMap.put(s_Name,passiveDescriptions);
-
-            //Alchemy
-            s_Name = "alchemy";
-            perks = new String[]{"Alchemical Summoning","Ancient Knowledge","Potion Master"};
-            descriptions = new String[]{"Allows crafting of some potions without a brewing stand","Unlocks ability to brew new potions","All used potions are increased in level by 1 (toggleable with /togglePotion)"};
-            passivePerks = new String[]{"Back","Skill Tokens","Half-life+"};
-            passiveDescriptions = new String[]{"Takes you back to the main skills menu","Tokens to invest in skill tree","Increase in duration of potions when used"};
-            perksMap.put(s_Name,perks);
-            descriptionsMap.put(s_Name,descriptions);
-            passivePerksMap.put(s_Name,passivePerks);
-            passiveDescriptionsMap.put(s_Name,passiveDescriptions);
-
-            //Smelting
-            s_Name = "smelting";
-            perks = new String[]{"Fuel Efficiency","Double Smelt","Flame Pickaxe"};
-            descriptions = new String[]{"Fuel last +20% longer per level","+5% chance for smelted ore to be doubled per level","Mined ores are instantly smelted (toggleable with /toggleFlamePick)"};
-            passivePerks = new String[]{"Back","Skill Tokens","Fuel Speed"};
-            passiveDescriptions = new String[]{"Takes you back to the main skills menu","Tokens to invest in skill tree","Increasing cooking speed"};
-            perksMap.put(s_Name,perks);
-            descriptionsMap.put(s_Name,descriptions);
-            passivePerksMap.put(s_Name,passivePerks);
-            passiveDescriptionsMap.put(s_Name,passiveDescriptions);
-
-            //Enchanting
-            s_Name = "enchanting";
-            perks = new String[]{"Efficient Enchanting","Booksmart","Immortal Experience"};
-            descriptions = new String[]{"Levels needed to enchant -1 per level, anvil repair costs -1 (minimum of 2) XP levels per level","Unlocks crafting recipes for some enchanted books","Keep xp on death"};
-            passivePerks = new String[]{"Back","Skill Tokens","Quicker Development"};
-            passiveDescriptions = new String[]{"Takes you back to the main skills menu","Tokens to invest in skill tree","All xp received increased"};
-            perksMap.put(s_Name,perks);
-            descriptionsMap.put(s_Name,descriptions);
-            passivePerksMap.put(s_Name,passivePerks);
-            passiveDescriptionsMap.put(s_Name,passiveDescriptions);
-
-            //Enchanting
-            s_Name = "global";
-            perks = new String[]{"Gatherer","Scholar","Fighter","Hard Work","Research","Training","Reincarnation+","Soul Harvesting","Avatar","Master of the Arts"};
-            descriptions = new String[]{"+20% exp gained in Digging, Woodcutting, Mining, Farming, and Fishing","+20% exp gained in Repair, Agility, Brewing, Smelting, and Enchanting","+20% exp gained in Archery, Beast Mastery, Swordsmanship, Defense, and Axe Mastery","+1 skill token in all Gatherer skills","+1 skill token in all Scholar skills","+1 skill token in all Fighter skills","On death, 50% chance to keep some of each valuable item in your inventory","You now harvest souls from killing aggressive mobs, which can be used to refund skill trees","10% chance to take no damage and gain all in-game buffs for 10s on a hit that would normallu kill you","Ability cooldowns decreased by 33%"};
-            passivePerks = new String[]{"Global Tokens","Back"};
-            passiveDescriptions = new String[]{"Tokens to invest in skill tree","Takes you back to the main skills menu"};
-            perksMap.put(s_Name,perks);
-            descriptionsMap.put(s_Name,descriptions);
-            passivePerksMap.put(s_Name,passivePerks);
-            passiveDescriptionsMap.put(s_Name,passiveDescriptions);
+            StringsAndOtherData getMaps = new StringsAndOtherData();
+            Map<String, String[]> perksMap = getMaps.getPerksMap();
+            Map<String, String[]> descriptionsMap = getMaps.getDescriptionsMap();
+            Map<String, String[]> passivePerksMap = getMaps.getPassivePerksMap();
+            Map<String, String[]> passiveDescriptionsMap = getMaps.getPassiveDescriptionsMap();
 
             String[] titles_0 = {"Digging","Woodcutting","Mining","Farming","Fishing","Archery","Beast Mastery","Swordsmanship","Defense","Axe Mastery","Repair","Agility","Alchemy","Smelting","Enchanting","Global"};
             String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting","global"};
@@ -2275,6 +2386,10 @@ public class FrpgCommands implements CommandExecutor {
                         Player p = (Player) sender;
                         LanguageSelector langManager = new LanguageSelector(p);
                         String skName = labels_0[labels_arr.indexOf(args[1])];
+                        if (!loadConfig.getAllowedSkillsMap().get(skName)) {
+                            p.sendMessage(ChatColor.RED + langManager.getString("disabledSkill"));
+                            return true;
+                        }
                         String[] newTitles = perksMap.get(skName);
                         String[] newDescs = descriptionsMap.get(skName);
                         String[] newPassiveTitles = passivePerksMap.get(skName);
@@ -2950,29 +3065,18 @@ public class FrpgCommands implements CommandExecutor {
 
                 Integer[] indices_2 = {0,45,9,18,27,36};
                 for (int i = 0; i < labels_2.length; i++) {
-                    ArrayList<String> splitDescs = new ArrayList<>();
                     ItemMeta meta = menu_items_2[i].getItemMeta();
                     meta.setDisplayName(ChatColor.BOLD + labels_2[i]);
                     ArrayList<String> lore = new ArrayList<>();
-                    splitDescs.add(lores_line2_2[i]);
-                    int iter = 0;
-                    while (splitDescs.get(splitDescs.size()-1).length() > 30) {
-                        int lastIndex = splitDescs.size()-1;
-                        boolean foundSpace = false;
-                        int counter = 30;
-                        while (foundSpace == false && counter > 0){
-                            if (splitDescs.get(lastIndex).charAt(counter) == ' ') {
-                                splitDescs.add(splitDescs.get(lastIndex).substring(0, counter));
-                                splitDescs.add(splitDescs.get(lastIndex).substring(counter+1));
-                                splitDescs.remove(iter);
-                                iter += 1;
-                                foundSpace = true;
-                                if (iter > 6) {
-                                    break;
-                                }
-                            }
-                            counter = counter - 1;
-                        }
+                    String longString = lores_line2_2[i];
+                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                    ArrayList<String> splitDescs = stringsAndOtherData.getStringLines(longString);
+
+                    if (i == 3) {
+                        splitDescs.add("");
+                        splitDescs.add(ChatColor.UNDERLINE + lang.getString("abilityDescription"));
+                        ArrayList<String> appendingDesc = stringsAndOtherData.getStringLines(lang.getString("abilityDescription_"+skillName));
+                        splitDescs.addAll(appendingDesc);
                     }
                     lore.add(lores_line1_2[i]);
                     for (int j = 0; j < splitDescs.size(); j++) {
@@ -3025,147 +3129,6 @@ public class FrpgCommands implements CommandExecutor {
                         gui.setItem(indices_crafting[i],crafting[i]);
                     }
                 }
-                //Toggle Buttons
-                if (skillName.equalsIgnoreCase("digging")) {
-                    //Flint Finder Toggle
-                    ItemStack flintFinder = new ItemStack(Material.GRAY_WOOL);
-                    ItemMeta flintFinderMeta = flintFinder.getItemMeta();
-                    ArrayList<String> flintFinderLore = new ArrayList<>();
-                    flintFinderMeta.setDisplayName(ChatColor.BOLD + lang.getString("diggingPerkTitle4") + " " + lang.getString("toggle"));
-                    if (skill_3a_level < 1) {
-                        flintFinderLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
-                        flintFinderMeta.setLore(flintFinderLore);
-                        flintFinder.setItemMeta(flintFinderMeta);
-                        gui.setItem(47,flintFinder);
-                    }
-                    else {
-                        if ((int) pStatAll.get("global").get(12) < 1) {
-                            flintFinderLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
-                            flintFinderMeta.setLore(flintFinderLore);
-                            flintFinder.setItemMeta(flintFinderMeta);
-                            gui.setItem(47,flintFinder);
-                        }
-                        else {
-                            flintFinderLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("on0") );
-                            flintFinderMeta.setLore(flintFinderLore);
-                            flintFinder.setItemMeta(flintFinderMeta);
-                            flintFinder.setType(Material.LIME_WOOL);
-                            gui.setItem(47,flintFinder);
-                        }
-                    }
-
-                    //Mega Dig Toggle
-                    ItemStack megaDig = new ItemStack(Material.GRAY_WOOL);
-                    ItemMeta megaDigMeta = megaDig.getItemMeta();
-                    ArrayList<String> megaDigLore = new ArrayList<>();
-                    megaDigMeta.setDisplayName(ChatColor.BOLD + lang.getString("diggingPerkTitle6") + " " + lang.getString("toggle"));
-                    if (skill_M_level < 1) {
-                        megaDigLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
-                        megaDigMeta.setLore(megaDigLore);
-                        megaDig.setItemMeta(megaDigMeta);
-                        gui.setItem(48,megaDig);
-                    }
-                    else {
-                        if ((int) pStatAll.get("global").get(19) < 1) {
-                            megaDigLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
-                            megaDigMeta.setLore(megaDigLore);
-                            megaDig.setItemMeta(megaDigMeta);
-                            gui.setItem(48,megaDig);
-                        }
-                        else {
-                            megaDigLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("on0") );
-                            megaDigMeta.setLore(megaDigLore);
-                            megaDig.setItemMeta(megaDigMeta);
-                            megaDig.setType(Material.LIME_WOOL);
-                            gui.setItem(48,megaDig);
-                        }
-                    }
-
-                }
-                else if (skillName.equalsIgnoreCase("mining")) {
-                    //Vein Miner Toggle
-                    ItemStack veinMiner = new ItemStack(Material.GRAY_WOOL);
-                    ItemMeta veinMinerMeta = veinMiner.getItemMeta();
-                    ArrayList<String> veinMinerLore = new ArrayList<>();
-                    veinMinerMeta.setDisplayName(ChatColor.BOLD + lang.getString("miningPerkTitle4") + " " + lang.getString("toggle"));
-                    if (skill_3a_level < 1) {
-                        veinMinerLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
-                        veinMinerMeta.setLore(veinMinerLore);
-                        veinMiner.setItemMeta(veinMinerMeta);
-                        gui.setItem(47,veinMiner);
-                    }
-                    else {
-                        if ((int) pStatAll.get("global").get(18) < 1) {
-                            veinMinerLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
-                            veinMinerMeta.setLore(veinMinerLore);
-                            veinMiner.setItemMeta(veinMinerMeta);
-                            gui.setItem(47,veinMiner);
-                        }
-                        else {
-                            veinMinerLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("on0") );
-                            veinMinerMeta.setLore(veinMinerLore);
-                            veinMiner.setItemMeta(veinMinerMeta);
-                            veinMiner.setType(Material.LIME_WOOL);
-                            gui.setItem(47,veinMiner);
-                        }
-                    }
-
-                }
-                else if (skillName.equalsIgnoreCase("fishing")) {
-                    //Grappling Hook Toggle
-                    ItemStack grapplingHook = new ItemStack(Material.GRAY_WOOL);
-                    ItemMeta grapplingHookMeta = grapplingHook.getItemMeta();
-                    ArrayList<String> grapplingHookLore = new ArrayList<>();
-                    grapplingHookMeta.setDisplayName(ChatColor.BOLD + lang.getString("fishingPerkTitle4") + " " + lang.getString("toggle"));
-                    if (skill_3a_level < 1) {
-                        grapplingHookLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
-                        grapplingHookMeta.setLore(grapplingHookLore);
-                        grapplingHook.setItemMeta(grapplingHookMeta);
-                        gui.setItem(47,grapplingHook);
-                    }
-                    else {
-                        if ((int) pStatAll.get("global").get(16) < 1) {
-                            grapplingHookLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
-                            grapplingHookMeta.setLore(grapplingHookLore);
-                            grapplingHook.setItemMeta(grapplingHookMeta);
-                            gui.setItem(47,grapplingHook);
-                        }
-                        else {
-                            grapplingHookLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("on0") );
-                            grapplingHookMeta.setLore(grapplingHookLore);
-                            grapplingHook.setItemMeta(grapplingHookMeta);
-                            grapplingHook.setType(Material.LIME_WOOL);
-                            gui.setItem(47,grapplingHook);
-                        }
-                    }
-
-                    //Hot rod Toggle
-                    ItemStack hotRod = new ItemStack(Material.GRAY_WOOL);
-                    ItemMeta hotRodMeta = hotRod.getItemMeta();
-                    ArrayList<String> hotRodLore = new ArrayList<>();
-                    hotRodMeta.setDisplayName(ChatColor.BOLD + lang.getString("fishingPerkTitle5") + " " + lang.getString("toggle"));
-                    if (skill_3b_level < 1) {
-                        hotRodLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
-                        hotRodMeta.setLore(hotRodLore);
-                        hotRod.setItemMeta(hotRodMeta);
-                        gui.setItem(48,hotRod);
-                    }
-                    else {
-                        if ((int) pStatAll.get("global").get(17) < 1) {
-                            hotRodLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
-                            hotRodMeta.setLore(hotRodLore);
-                            hotRod.setItemMeta(hotRodMeta);
-                            gui.setItem(48,hotRod);
-                        }
-                        else {
-                            hotRodLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("on0") );
-                            hotRodMeta.setLore(hotRodLore);
-                            hotRod.setItemMeta(hotRodMeta);
-                            hotRod.setType(Material.LIME_WOOL);
-                            gui.setItem(48,hotRod);
-                        }
-                    }
-                }
 
                 //Soul Bucket (Refunding)
                 ItemStack soul = new ItemStack(Material.COMPOSTER);
@@ -3185,7 +3148,18 @@ public class FrpgCommands implements CommandExecutor {
                 }
                 soulMeta.setLore(soulLore);
                 soul.setItemMeta(soulMeta);
-                gui.setItem(53,soul);
+                gui.setItem(47,soul);
+
+                //Configuration Menu:
+                ItemStack configItem = new ItemStack(Material.REDSTONE);
+                ItemMeta configItemMeta = configItem.getItemMeta();
+                ArrayList<String> configItemLore = new ArrayList<>();
+                configItemMeta.setDisplayName(ChatColor.BOLD + lang.getString("configuration"));
+                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                configItemLore.addAll(stringsAndOtherData.getStringLines(lang.getString("skillConfigDesc")));
+                configItemMeta.setLore(configItemLore);
+                configItem.setItemMeta(configItemMeta);
+                gui.setItem(53,configItem);
 
 
                 //Connectors
@@ -3255,30 +3229,31 @@ public class FrpgCommands implements CommandExecutor {
                 switch (skillName) {
                     case "alchemy":
                         special_index = 1;
+                        StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
                         switch (skill_2a_level) {
                             case 0:
                                 desc = lang.getString("alchemyPerkDesc1_0") + " ";
-                                desc += lang.getString("alchemyPerkDesc1_1");
+                                desc += stringsAndOtherData.getPotionEffectTypeString(1,p);
                                 lores_line2[special_index] = desc;
                                 break;
                             case 1:
                                 desc = lang.getString("alchemyPerkDesc1_0") + " ";
-                                desc += lang.getString("alchemyPerkDesc1_2");
+                                desc += stringsAndOtherData.getPotionEffectTypeString(2,p);
                                 lores_line2[special_index] = desc;
                                 break;
                             case 2:
                                 desc = lang.getString("alchemyPerkDesc1_0") + " ";
-                                desc += lang.getString("alchemyPerkDesc1_3");
+                                desc += stringsAndOtherData.getPotionEffectTypeString(3,p);
                                 lores_line2[special_index] = desc;
                                 break;
                             case 3:
                                 desc = lang.getString("alchemyPerkDesc1_0") + " ";
-                                desc += lang.getString("alchemyPerkDesc1_4");
+                                desc += stringsAndOtherData.getPotionEffectTypeString(4,p);
                                 lores_line2[special_index] = desc;
                                 break;
                             case 4:
                                 desc = lang.getString("alchemyPerkDesc1_0") + " ";
-                                desc += lang.getString("alchemyPerkDesc1_5");
+                                desc += stringsAndOtherData.getPotionEffectTypeString(5,p);
                                 lores_line2[special_index] = desc;
                                 break;
                             default:
@@ -3287,27 +3262,27 @@ public class FrpgCommands implements CommandExecutor {
                         switch (skill_1a_level) {
                             case 0:
                                 desc = lang.getString("alchemyPerkDesc0_0") + " ";
-                                desc += lang.getString("alchemyPerkDesc0_1");
+                                desc += stringsAndOtherData.getPotionTypeString(1,p);
                                 lores_line2[0] = desc;
                                 break;
                             case 1:
                                 desc = lang.getString("alchemyPerkDesc0_0") + " ";
-                                desc += lang.getString("alchemyPerkDesc0_2");
+                                desc += stringsAndOtherData.getPotionTypeString(2,p);
                                 lores_line2[0] = desc;
                                 break;
                             case 2:
                                 desc = lang.getString("alchemyPerkDesc0_0") + " ";
-                                desc += lang.getString("alchemyPerkDesc0_3");
+                                desc += stringsAndOtherData.getPotionTypeString(3,p);
                                 lores_line2[0] = desc;
                                 break;
                             case 3:
                                 desc = lang.getString("alchemyPerkDesc0_0") + " ";
-                                desc += lang.getString("alchemyPerkDesc0_4");
+                                desc += stringsAndOtherData.getPotionTypeString(4,p);
                                 lores_line2[0] = desc;
                                 break;
                             case 4:
                                 desc = lang.getString("alchemyPerkDesc0_0") + " ";
-                                desc += lang.getString("alchemyPerkDesc0_5");
+                                desc += stringsAndOtherData.getPotionTypeString(5,p);
                                 lores_line2[0] = desc;
                                 break;
                             default:
@@ -3525,8 +3500,12 @@ public class FrpgCommands implements CommandExecutor {
                     ItemStack[] crafting = {new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE),
                             new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE),
                             new ItemStack(Material.CRAFTING_TABLE)};
-                    String[] craftingNames = {lang.getString("alchemyCraft0"),lang.getString("alchemyCraft1"),lang.getString("alchemyCraft2"),
-                            lang.getString("alchemyCraft3"),lang.getString("alchemyCraft4")};
+                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                    String[] craftingNames = {stringsAndOtherData.getPotionTypeString(1,p),
+                            stringsAndOtherData.getPotionTypeString(2,p),
+                            stringsAndOtherData.getPotionTypeString(3,p),
+                            stringsAndOtherData.getPotionTypeString(4,p),
+                            stringsAndOtherData.getPotionTypeString(5,p)};
                     int alchemicalSummoningLevel = (int) pStats.get(7);
                     for (int i=0; i < craftingNames.length; i++) {
                         ArrayList<String> lore = new ArrayList<>();
@@ -3542,91 +3521,35 @@ public class FrpgCommands implements CommandExecutor {
                         crafting[i].setItemMeta(craftingMeta);
                         gui.setItem(indices_crafting[i],crafting[i]);
                     }
-                }
+                    Integer[] indices_brewing = {39,40,41,42,43};
+                    ItemStack[] brewing = {new ItemStack(Material.IRON_BARS),new ItemStack(Material.IRON_BARS),
+                            new ItemStack(Material.IRON_BARS),new ItemStack(Material.IRON_BARS),
+                            new ItemStack(Material.IRON_BARS)};
+                    ItemGroups itemGroups = new ItemGroups();
+                    List<Material> brewingUnlocked = itemGroups.getNewIngredients();
+                    int ancientKnowledgeLevel = (int) pStats.get(9);
+                    for (int i=0; i < brewing.length; i++) {
+                        String lvl = String.valueOf(i+1);
+                        ArrayList<String> lore = new ArrayList<>();
+                        ItemStack brewingItem = brewing[i];
+                        ItemMeta brewingMeta = brewingItem.getItemMeta();
+                        brewingMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+                        brewingMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                        brewingMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                        String brewingName = lang.getString("alchemyPerkTitle1") + " " + lang.getString("lvl") + " " + lvl + " " + lang.getString("ingredient");
+                        if (ancientKnowledgeLevel > i) {
+                            brewingItem.setType(brewingUnlocked.get(i));
+                            lore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + lang.getString("usedToBrew") );
+                            lore.add(ChatColor.GRAY + stringsAndOtherData.getPotionEffectTypeString(i+1,p));
+                        }
+                        else {
+                            lore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
+                        }
+                        brewingMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() +brewingName);
+                        brewingMeta.setLore(lore);
+                        brewingItem.setItemMeta(brewingMeta);
+                        gui.setItem(indices_brewing[i],brewingItem);
 
-                //Toggle Buttons
-                if (skillName.equalsIgnoreCase("smelting")) {
-                    //Flame Pick Toggle
-                    ItemStack flamePick = new ItemStack(Material.GRAY_WOOL);
-                    ItemMeta flamePickMeta = flamePick.getItemMeta();
-                    ArrayList<String> flamePickLore = new ArrayList<>();
-                    flamePickMeta.setDisplayName(ChatColor.BOLD + lang.getString("smeltingPerkTitle2") + " " + lang.getString("toggle"));
-                    if (skill_M_level < 1) {
-                        flamePickLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
-                        flamePickMeta.setLore(flamePickLore);
-                        flamePick.setItemMeta(flamePickMeta);
-                        gui.setItem(47,flamePick);
-                    }
-                    else {
-                        if ((int) pStatAll.get("global").get(13) < 1) {
-                            flamePickLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
-                            flamePickMeta.setLore(flamePickLore);
-                            flamePick.setItemMeta(flamePickMeta);
-                            gui.setItem(47,flamePick);
-                        }
-                        else {
-                            flamePickLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("on0") );
-                            flamePickMeta.setLore(flamePickLore);
-                            flamePick.setItemMeta(flamePickMeta);
-                            flamePick.setType(Material.LIME_WOOL);
-                            gui.setItem(47,flamePick);
-                        }
-                    }
-                }
-                else if (skillName.equalsIgnoreCase("agility")) {
-                    //graceful Feet Toggle
-                    ItemStack gracefulFeet = new ItemStack(Material.GRAY_WOOL);
-                    ItemMeta gracefulFeetMeta = gracefulFeet.getItemMeta();
-                    ArrayList<String> gracefulFeetLore = new ArrayList<>();
-                    gracefulFeetMeta.setDisplayName(ChatColor.BOLD + lang.getString("agilityPerkTitle2") + " " + lang.getString("toggle"));
-                    if (skill_M_level < 1) {
-                        gracefulFeetLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
-                        gracefulFeetMeta.setLore(gracefulFeetLore);
-                        gracefulFeet.setItemMeta(gracefulFeetMeta);
-                        gui.setItem(47,gracefulFeet);
-                    }
-                    else {
-                        if ((int) pStatAll.get("global").get(14) < 1) {
-                            gracefulFeetLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
-                            gracefulFeetMeta.setLore(gracefulFeetLore);
-                            gracefulFeet.setItemMeta(gracefulFeetMeta);
-                            gui.setItem(47,gracefulFeet);
-                        }
-                        else {
-                            gracefulFeetLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("on0") );
-                            gracefulFeetMeta.setLore(gracefulFeetLore);
-                            gracefulFeet.setItemMeta(gracefulFeetMeta);
-                            gracefulFeet.setType(Material.LIME_WOOL);
-                            gui.setItem(47,gracefulFeet);
-                        }
-                    }
-                }
-                else if (skillName.equalsIgnoreCase("alchemy")) {
-                    //Potion Master Toggle
-                    ItemStack potionMaster = new ItemStack(Material.GRAY_WOOL);
-                    ItemMeta potionMasterMeta = potionMaster.getItemMeta();
-                    ArrayList<String> potionMasterLore = new ArrayList<>();
-                    potionMasterMeta.setDisplayName(ChatColor.BOLD + lang.getString("alchemyPerkTitle2") + " " + lang.getString("toggle"));
-                    if (skill_M_level < 1) {
-                        potionMasterLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("locked") );
-                        potionMasterMeta.setLore(potionMasterLore);
-                        potionMaster.setItemMeta(potionMasterMeta);
-                        gui.setItem(47,potionMaster);
-                    }
-                    else {
-                        if ((int) pStatAll.get("global").get(15) < 1) {
-                            potionMasterLore.add(ChatColor.RED + ChatColor.ITALIC.toString() + lang.getString("off0") );
-                            potionMasterMeta.setLore(potionMasterLore);
-                            potionMaster.setItemMeta(potionMasterMeta);
-                            gui.setItem(47,potionMaster);
-                        }
-                        else {
-                            potionMasterLore.add(ChatColor.GREEN + ChatColor.ITALIC.toString() + lang.getString("on0") );
-                            potionMasterMeta.setLore(potionMasterLore);
-                            potionMaster.setItemMeta(potionMasterMeta);
-                            potionMaster.setType(Material.LIME_WOOL);
-                            gui.setItem(47,potionMaster);
-                        }
                     }
                 }
 
@@ -3648,7 +3571,17 @@ public class FrpgCommands implements CommandExecutor {
                 }
                 soulMeta.setLore(soulLore);
                 soul.setItemMeta(soulMeta);
-                gui.setItem(53,soul);
+                gui.setItem(47,soul);
+
+                ItemStack configItem = new ItemStack(Material.REDSTONE);
+                ItemMeta configItemMeta = configItem.getItemMeta();
+                ArrayList<String> configItemLore = new ArrayList<>();
+                configItemMeta.setDisplayName(ChatColor.BOLD + lang.getString("configuration"));
+                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                configItemLore.addAll(stringsAndOtherData.getStringLines(lang.getString("skillConfigDesc")));
+                configItemMeta.setLore(configItemLore);
+                configItem.setItemMeta(configItemMeta);
+                gui.setItem(53,configItem);
 
                 //Connectors
                 ItemStack connector = new ItemStack(Material.GLASS_PANE);

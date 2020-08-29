@@ -44,7 +44,7 @@ public class ConfigurationGUIClick implements Listener {
             if (e.getCurrentItem() != null) {
                 PlayerStats languageChange = new PlayerStats(p);
                 switch (e.getRawSlot()) {
-                    case 21:
+                    case 20:
                         if ((int)pStat.get("global").get(21) > 0) {
                             pStat.get("global").set(21, 0);
                         }
@@ -55,12 +55,34 @@ public class ConfigurationGUIClick implements Listener {
                         pStatClass.setData(statAll);
                         p.performCommand("frpg configurationGUI");
                         break;
-                    case 23:
+                    case 21:
                         if ((int)pStat.get("global").get(22) > 0) {
                             pStat.get("global").set(22, 0);
                         }
                         else {
                             pStat.get("global").set(22, 1);
+                        }
+                        statAll.put(p.getUniqueId(), pStat);
+                        pStatClass.setData(statAll);
+                        p.performCommand("frpg configurationGUI");
+                        break;
+                    case 22:
+                        if ((int)pStat.get("global").get(24) > 0) {
+                            pStat.get("global").set(24, 0);
+                        }
+                        else {
+                            pStat.get("global").set(24, 1);
+                        }
+                        statAll.put(p.getUniqueId(), pStat);
+                        pStatClass.setData(statAll);
+                        p.performCommand("frpg configurationGUI");
+                        break;
+                    case 23:
+                        if ((int)pStat.get("global").get(25) > 0) {
+                            pStat.get("global").set(25, 0);
+                        }
+                        else {
+                            pStat.get("global").set(25, 1);
                         }
                         statAll.put(p.getUniqueId(), pStat);
                         pStatClass.setData(statAll);

@@ -2,6 +2,7 @@ package mc.carlton.freerpg.clickEvents;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
+import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import net.royawesome.jlibnoise.module.combiner.Min;
@@ -44,45 +45,15 @@ public class PlayerRightClick implements Listener {
             Integer[] pAbilities = abilities.getPlayerAbilities();
             ItemStack itemInHand = p.getInventory().getItemInMainHand();
             Material itemInHandType = itemInHand.getType();
+            ItemGroups itemGroups = new ItemGroups();
+            List<Material> pickaxes = itemGroups.getPickaxes();
+            List<Material> axes = itemGroups.getAxes();
+            List<Material> hoes = itemGroups.getHoes();
+            List<Material> swords = itemGroups.getSwords();
+            List<Material> shovels = itemGroups.getShovels();
+            List<Material> noRightClick = itemGroups.getNoRightClick();
+            List<Material> actionableBlocks = itemGroups.getActionableBlocks();
 
-            Material[] pickaxes0 = {Material.NETHERITE_PICKAXE,Material.DIAMOND_PICKAXE, Material.GOLDEN_PICKAXE, Material.IRON_PICKAXE, Material.STONE_PICKAXE, Material.WOODEN_PICKAXE};
-            List<Material> pickaxes = Arrays.asList(pickaxes0);
-            Material[] axes0 = {Material.NETHERITE_AXE,Material.DIAMOND_AXE,Material.GOLDEN_AXE,Material.IRON_AXE, Material.STONE_AXE,Material.WOODEN_AXE};
-            List<Material> axes = Arrays.asList(axes0);
-            Material[] shovels0 = {Material.NETHERITE_SHOVEL,Material.DIAMOND_SHOVEL,Material.GOLDEN_SHOVEL,Material.IRON_SHOVEL, Material.STONE_SHOVEL,Material.WOODEN_SHOVEL};
-            List<Material> shovels = Arrays.asList(shovels0);
-            Material[] hoes0 = {Material.NETHERITE_HOE,Material.DIAMOND_HOE,Material.GOLDEN_HOE,Material.IRON_HOE, Material.STONE_HOE,Material.WOODEN_HOE};
-            List<Material> hoes = Arrays.asList(hoes0);
-            Material[] swords0 = {Material.NETHERITE_SWORD,Material.WOODEN_SWORD,Material.STONE_SWORD,Material.GOLDEN_SWORD,Material.DIAMOND_SWORD,Material.IRON_SWORD};
-            List<Material> swords = Arrays.asList(swords0);
-            Material[] noRightClick0 = {Material.AIR,Material.ARROW,Material.SPECTRAL_ARROW, Material.TIPPED_ARROW,Material.BLAZE_POWDER,
-                                        Material.BLAZE_ROD, Material.BONE,Material.BOOK,Material.BOWL, Material.CHARCOAL,
-                                        Material.COAL,Material.CLAY,Material.BRICK,Material.COMPASS,Material.DIAMOND_HORSE_ARMOR,Material.DRAGON_BREATH,
-                                        Material.MAP,Material.ENCHANTED_BOOK,Material.FEATHER,Material.FERMENTED_SPIDER_EYE,Material.FIREWORK_STAR,
-                                        Material.FLINT,Material.GHAST_TEAR,Material.GLISTERING_MELON_SLICE,Material.GLOWSTONE_DUST,Material.GOLDEN_HORSE_ARMOR,
-                                        Material.GOLD_NUGGET,Material.GOLD_INGOT,Material.GUNPOWDER,Material.INK_SAC,Material.IRON_HORSE_ARMOR,
-                                        Material.MAGMA_CREAM,Material.NETHER_BRICK,Material.NETHER_WART,Material.PAPER,Material.PRISMARINE_SHARD,Material.PRISMARINE_CRYSTALS,
-                                        Material.RABBIT_HIDE,Material.LEATHER,Material.LEATHER_HORSE_ARMOR,Material.RABBIT_FOOT,Material.SADDLE,Material.SHEARS,
-                                        Material.SLIME_BALL,Material.SHULKER_SHELL,Material.SPIDER_EYE,Material.STICK,Material.STRING,Material.TOTEM_OF_UNDYING,
-                                        Material.CLOCK,Material.WRITTEN_BOOK};
-            List<Material> noRightClick = Arrays.asList(noRightClick0);
-            Material[] actionableBlocks0 = {Material.ANVIL, Material.BLACK_BED, Material.BLUE_BED, Material.BROWN_BED, Material.CYAN_BED, Material.GRAY_BED,
-                                           Material.GREEN_BED,Material.LIGHT_BLUE_BED,Material.LIGHT_GRAY_BED,Material.LIME_BED,Material.MAGENTA_BED,
-                                           Material.ORANGE_BED,Material.PINK_BED,Material.PURPLE_BED,Material.RED_BED,Material.WHITE_BED,Material.YELLOW_BED,
-                                           Material.BELL,Material.BLAST_FURNACE,Material.BREWING_STAND,Material.CARTOGRAPHY_TABLE,Material.CHEST,Material.COMPOSTER,
-                                           Material.CRAFTING_TABLE,Material.ACACIA_DOOR,Material.BIRCH_DOOR,Material.DARK_OAK_DOOR,Material.IRON_DOOR,Material.JUNGLE_DOOR,
-                                           Material.OAK_DOOR,Material.SPRUCE_DOOR,Material.ENCHANTING_TABLE,Material.ACACIA_FENCE_GATE,Material.BIRCH_FENCE_GATE,
-                                           Material.DARK_OAK_FENCE_GATE,Material.JUNGLE_FENCE_GATE,Material.OAK_FENCE_GATE,Material.SPRUCE_FENCE_GATE,Material.FURNACE,
-                                           Material.GRINDSTONE,Material.JUKEBOX,Material.LECTERN,Material.LOOM,Material.NOTE_BLOCK,Material.SMOKER,Material.STONECUTTER,
-                                           Material.TRAPPED_CHEST,Material.ACACIA_TRAPDOOR,Material.BIRCH_TRAPDOOR,Material.DARK_OAK_TRAPDOOR,Material.IRON_TRAPDOOR,
-                                           Material.JUNGLE_TRAPDOOR,Material.OAK_TRAPDOOR,Material.SPRUCE_TRAPDOOR,Material.BARREL,Material.ACACIA_BUTTON,Material.BIRCH_BUTTON,
-                                           Material.DARK_OAK_BUTTON,Material.OAK_BUTTON,Material.JUNGLE_BUTTON,Material.SPRUCE_BUTTON,Material.STONE_BUTTON,Material.REPEATER,
-                                           Material.COMPARATOR,Material.HOPPER,Material.HOPPER_MINECART,Material.DAYLIGHT_DETECTOR,Material.LEVER,Material.FURNACE_MINECART,
-                                           Material.DISPENSER,Material.DROPPER,Material.CHIPPED_ANVIL,Material.DAMAGED_ANVIL,Material.SHULKER_BOX,Material.ENDER_CHEST,Material.BLACK_SHULKER_BOX,
-                                           Material.BLUE_SHULKER_BOX,Material.BROWN_SHULKER_BOX,Material.CYAN_SHULKER_BOX,Material.GRAY_SHULKER_BOX,Material.GREEN_SHULKER_BOX,Material.LIGHT_BLUE_SHULKER_BOX,
-                                           Material.LIGHT_GRAY_SHULKER_BOX,Material.LIME_SHULKER_BOX,Material.MAGENTA_SHULKER_BOX, Material.RED_SHULKER_BOX,Material.WHITE_SHULKER_BOX,Material.YELLOW_SHULKER_BOX,
-                                           Material.ORANGE_SHULKER_BOX, Material.PURPLE_SHULKER_BOX,Material.PINK_SHULKER_BOX};
-            List<Material> actionableBlocks = Arrays.asList(actionableBlocks0);
             LanguageSelector langManager = new LanguageSelector(p);
 
 
@@ -238,7 +209,9 @@ public class PlayerRightClick implements Listener {
                         Farming farmingClass = new Farming(p);
                         farmingClass.initiateAbility();
                     } else {
-                        increaseStats.changeEXP("farming", 15);
+                        ConfigLoad configLoad = new ConfigLoad();
+                        Map<String,Integer> expMap = configLoad.getExpMapForSkill("farming");
+                        increaseStats.changeEXP("farming", expMap.get("tillLand"));
                     }
                 } else {
                     Farming farmingClass = new Farming(p);
@@ -248,7 +221,9 @@ public class PlayerRightClick implements Listener {
             } else if (itemInHandType == Material.BONE_MEAL && a.equals(Action.RIGHT_CLICK_BLOCK)) {
                 Farming farmingClass = new Farming(p);
                 farmingClass.fertilizerSave(e.getClickedBlock());
-                increaseStats.changeEXP("farming", 40);
+                ConfigLoad configLoad = new ConfigLoad();
+                Map<String,Integer> expMap = configLoad.getExpMapForSkill("farming");
+                increaseStats.changeEXP("farming", expMap.get("useBonemeal"));
             }
 
             //Archery

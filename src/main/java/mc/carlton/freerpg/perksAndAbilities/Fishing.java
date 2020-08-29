@@ -4,6 +4,7 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
+import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -27,8 +28,11 @@ public class Fishing {
     private Player p;
     private String pName;
     private ItemStack itemInHand;
+    private String skillName = "fishing";
     static Map<Player,Integer> fishPersonMap = new HashMap<>();
     static Map<Player,Integer> fishPersonCounters = new HashMap<>();
+    Map<String,Integer> expMap;
+
     ChangeStats increaseStats; //Changing Stats
 
     AbilityTracker abilities; //Abilities class
@@ -45,9 +49,10 @@ public class Fishing {
 
     Random rand = new Random(); //Random class Import
 
-    Map<Material,Integer> fishFood = new HashMap<Material,Integer>();
-    Map<Material,Double> fishFoodSaturation = new HashMap<Material,Double>();
+
     ArrayList<UUID> superBaitBlock = new ArrayList<>();
+
+    private boolean runMethods;
 
 
 
@@ -61,26 +66,21 @@ public class Fishing {
         this.pStatClass=  new PlayerStats(p);
         this.actionMessage = new ActionBarMessages(p);
         this.lang = new LanguageSelector(p);
-
-        fishFood.put(Material.COOKED_SALMON,6);
-        fishFoodSaturation.put(Material.COOKED_SALMON,1.6);
-        fishFood.put(Material.COOKED_COD,5);
-        fishFoodSaturation.put(Material.COOKED_COD,1.2);
-        fishFood.put(Material.COD,2);
-        fishFoodSaturation.put(Material.COD,0.4);
-        fishFood.put(Material.SALMON,2);
-        fishFoodSaturation.put(Material.SALMON,0.4);
-        fishFood.put(Material.TROPICAL_FISH,1);
-        fishFoodSaturation.put(Material.TROPICAL_FISH,0.2);
-        fishFood.put(Material.PUFFERFISH,1);
-        fishFoodSaturation.put(Material.PUFFERFISH,0.2);
-        fishFood.put(Material.DRIED_KELP,1);
-        fishFoodSaturation.put(Material.DRIED_KELP,0.6);
+        ConfigLoad configLoad = new ConfigLoad();
+        this.runMethods = configLoad.getAllowedSkillsMap().get(skillName);
+        expMap = configLoad.getExpMapForSkill(skillName);
     }
 
 
     public void initiateAbility() {
+        if (!runMethods) {
+            return;
+        }
         if (!p.hasPermission("freeRPG.fishingAbility")) {
+            return;
+        }
+        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+        if ((int) pStat.get("global").get(24) < 1 || !pStatClass.isPlayerSkillAbilityOn(skillName)) {
             return;
         }
         Integer[] pTimers = timers.getPlayerTimers();
@@ -99,14 +99,14 @@ public class Fishing {
                             actionMessage.sendMessage(ChatColor.GRAY + ">>>..." + lang.getString("rest") + " " +lang.getString("fishingRod") + "<<<");
                         }
                         try {
-                            abilities.setPlayerAbility( "fishing", -1);
+                            abilities.setPlayerAbility( skillName, -1);
                         }
                         catch (Exception e) {
 
                         }
                     }
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
-                abilities.setPlayerAbility( "fishing", taskID);
+                abilities.setPlayerAbility( skillName, taskID);
             } else {
                 actionMessage.sendMessage(ChatColor.RED +lang.getString("superBait") + " " + lang.getString("cooldown") + ": " + cooldown+ "s");
             }
@@ -114,10 +114,13 @@ public class Fishing {
     }
 
     public void enableAbility() {
+        if (!runMethods) {
+            return;
+        }
         Integer[] pAbilities = abilities.getPlayerAbilities();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>" + lang.getString("superBait") + " " + lang.getString("activated") + "<<<");
-        int durationLevel = (int) pStat.get("fishing").get(4);
+        int durationLevel = (int) pStat.get(skillName).get(4);
         double duration0 = Math.ceil(durationLevel * 0.2) + 20;
         int cooldown = 300;
         if ((int) pStat.get("global").get(11) > 0) {
@@ -125,20 +128,20 @@ public class Fishing {
         }
         int finalCooldown = cooldown;
         long duration = (long) duration0;
-        timers.setPlayerTimer( "fishing", finalCooldown);
+        timers.setPlayerTimer( skillName, finalCooldown);
         Bukkit.getScheduler().cancelTask(pAbilities[4]);
-        abilities.setPlayerAbility( "fishing", -2);
+        abilities.setPlayerAbility( skillName, -2);
         int taskID = new BukkitRunnable() {
             @Override
             public void run() {
                 actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("superBait") + " " + lang.getString("ended") + "<<<");
-                abilities.setPlayerAbility( "fishing", -1);
+                abilities.setPlayerAbility( skillName, -1);
                 for (int i = 1; i < finalCooldown+1; i++) {
                     int timeRemaining = finalCooldown - i;
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            timers.setPlayerTimer( "fishing", timeRemaining);
+                            timers.setPlayerTimer( skillName, timeRemaining);
                             AbilityTimers timers2 = new AbilityTimers(p);
                             if (timeRemaining ==0) {
                                 if (!p.isOnline()) {
@@ -156,20 +159,23 @@ public class Fishing {
     }
 
     public void killFishEXP(Entity fish) {
+        if (!runMethods) {
+            return;
+        }
         Map<EntityType,Integer> fishMap = new HashMap<>();
-        fishMap.put(EntityType.COD,750);
-        fishMap.put(EntityType.SALMON,1000);
-        fishMap.put(EntityType.PUFFERFISH,2500);
-        fishMap.put(EntityType.TROPICAL_FISH,1250);
+        fishMap.put(EntityType.COD,expMap.get("killCod"));
+        fishMap.put(EntityType.SALMON,expMap.get("killSalmon"));
+        fishMap.put(EntityType.PUFFERFISH,expMap.get("killPufferfish"));
+        fishMap.put(EntityType.TROPICAL_FISH,expMap.get("killTropical_Fish"));
         if (fishMap.containsKey(fish.getType())) {
-            increaseStats.changeEXP("fishing",fishMap.get(fish.getType()));
+            increaseStats.changeEXP(skillName,fishMap.get(fish.getType()));
         }
     }
 
     /* Old Perk
     public void waterBreather() {
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int waterBreatherLevel = (int) pStat.get("fishing").get(11);
+        int waterBreatherLevel = (int) pStat.get(skillName).get(11);
         if (waterBreatherLevel > 0) {
             boolean addEffect = true;
             boolean hasEffect = false;
@@ -195,8 +201,11 @@ public class Fishing {
      */
 
     public void grapplingHook(FishHook fishhook,World world) {
+        if (!runMethods) {
+            return;
+        }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int grapplingHookLevel = (int) pStat.get("fishing").get(11);
+        int grapplingHookLevel = (int) pStat.get(skillName).get(11);
         int grappleToggle = (int) pStat.get("global").get(16);
         if (grapplingHookLevel < 1) {
             return;
@@ -215,6 +224,9 @@ public class Fishing {
     }
 
     public void superBait(FishHook fishhook, Entity hookedEntity,World world) {
+        if (!runMethods) {
+            return;
+        }
         if (hookedEntity instanceof Item) {
             ((Item) hookedEntity).setItemStack(new ItemStack(Material.DIRT,0));
             ItemStack drop = dropTable(false);
@@ -272,6 +284,9 @@ public class Fishing {
     }
 
     public void normalCatch(FishHook fishhook, Entity hookedEntity,World world) {
+        if (!runMethods) {
+            return;
+        }
         if (hookedEntity == null) {
             return;
         }
@@ -283,8 +298,11 @@ public class Fishing {
     }
 
     public void fishPersonStart() {
+        if (!runMethods) {
+            return;
+        }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int fishPersonLevel = (int) pStat.get("fishing").get(13);
+        int fishPersonLevel = (int) pStat.get(skillName).get(13);
         if (fishPersonLevel > 0) {
             int fishID = new BukkitRunnable() {
                 @Override
@@ -360,8 +378,11 @@ public class Fishing {
     }
 
     public void fishPersonEnd(){
+        if (!runMethods) {
+            return;
+        }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int fishPersonLevel = (int) pStat.get("fishing").get(13);
+        int fishPersonLevel = (int) pStat.get(skillName).get(13);
         if (fishPersonLevel > 0) {
             Bukkit.getScheduler().cancelTask(fishPersonMap.get(p));
             fishPersonMap.remove(p);
@@ -371,17 +392,23 @@ public class Fishing {
     }
 
     public void eatFishFood(ItemStack food) {
+        if (!runMethods) {
+            return;
+        }
+        ItemGroups itemGroups = new ItemGroups();
+        Map<Material,Integer> fishFood = itemGroups.getFishFood();
         if (!(fishFood.containsKey(food.getType()) )) {
             return;
         }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int fishDietLevel = (int) pStat.get("fishing").get(9);
+        int fishDietLevel = (int) pStat.get(skillName).get(9);
         if (fishDietLevel < 1) {
             return;
         }
         Material foodType = food.getType();
         if (fishFood.containsKey(food.getType())) {
             double foodMultiplier = fishDietLevel*0.2;
+            Map<Material,Double> fishFoodSaturation = itemGroups.getFishFoodSaturation();
             p.setFoodLevel((int)Math.min(20,p.getFoodLevel() + Math.round(foodMultiplier * fishFood.get(foodType)) ));
             p.setSaturation((float)Math.min(p.getFoodLevel(),p.getSaturation()+(foodMultiplier*fishFoodSaturation.get(foodType)) ));
         }
@@ -390,6 +417,9 @@ public class Fishing {
 
 
     public void rob(FishHook fishhook, Entity hookedEntity,World world) {
+        if (!runMethods) {
+            return;
+        }
         if (hookedEntity == null) {
             return;
         }
@@ -407,14 +437,14 @@ public class Fishing {
             return;
         }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int robLevel = (int) pStat.get("fishing").get(7);
+        int robLevel = (int) pStat.get(skillName).get(7);
         if (robLevel * .15 < rand.nextDouble()) {
             return;
         }
         ItemStack drop = new ItemStack(Material.DIRT, 1);
         if (hookedEntity.getType() == EntityType.BLAZE) {
             drop.setType(Material.BLAZE_ROD);
-            increaseStats.changeEXP("fishing",800);
+            increaseStats.changeEXP(skillName,expMap.get("robBlaze"));
         } else if (hookedEntity.getType() == EntityType.GHAST) {
             double randomNum = rand.nextDouble();
             if (randomNum < .5) {
@@ -422,7 +452,7 @@ public class Fishing {
             } else {
                 drop.setType(Material.GUNPOWDER);
             }
-            increaseStats.changeEXP("fishing",800);
+            increaseStats.changeEXP(skillName,expMap.get("robGhast"));
         } else if (hookedEntity.getType() == EntityType.ZOMBIFIED_PIGLIN) {
             double randomNum = rand.nextDouble();
             if (randomNum < .5) {
@@ -430,7 +460,7 @@ public class Fishing {
             } else {
                 drop.setType(Material.GOLD_NUGGET);
             }
-            increaseStats.changeEXP("fishing",800);
+            increaseStats.changeEXP(skillName,expMap.get("robZombie_Pigman"));
         } else if (hookedEntity.getType() == EntityType.ZOMBIE) {
             double randomNum = rand.nextDouble();
             if (randomNum < .98) {
@@ -438,7 +468,7 @@ public class Fishing {
             } else {
                 drop.setType(Material.ZOMBIE_HEAD);
             }
-            increaseStats.changeEXP("fishing",1000);
+            increaseStats.changeEXP(skillName,expMap.get("robZombie"));
         } else if (hookedEntity.getType() == EntityType.SPIDER) {
             double randomNum = rand.nextDouble();
             if (randomNum < .5) {
@@ -446,7 +476,7 @@ public class Fishing {
             } else {
                 drop.setType(Material.SPIDER_EYE);
             }
-            increaseStats.changeEXP("fishing",1000);
+            increaseStats.changeEXP(skillName,expMap.get("robSpider"));
         } else if (hookedEntity.getType() == EntityType.CAVE_SPIDER) {
             double randomNum = rand.nextDouble();
             if (randomNum < .49) {
@@ -464,10 +494,10 @@ public class Fishing {
             } else {
                 drop.setType(Material.COBWEB);
             }
-            increaseStats.changeEXP("fishing",1000);
+            increaseStats.changeEXP(skillName,expMap.get("robCave_Spider"));
         } else if (hookedEntity.getType() == EntityType.PIG) {
             drop.setType(Material.PORKCHOP);
-            increaseStats.changeEXP("fishing",600);
+            increaseStats.changeEXP(skillName,expMap.get("robPig"));
         } else if (hookedEntity.getType() == EntityType.CHICKEN) {
             double randomNum = rand.nextDouble();
             if (randomNum < .33) {
@@ -477,7 +507,7 @@ public class Fishing {
             } else {
                 drop.setType(Material.FEATHER);
             }
-            increaseStats.changeEXP("fishing",600);
+            increaseStats.changeEXP(skillName,expMap.get("robChicken"));
         } else if (hookedEntity.getType() == EntityType.CREEPER) {
             double randomNum = rand.nextDouble();
             if (randomNum < .99) {
@@ -485,7 +515,7 @@ public class Fishing {
             } else {
                 drop.setType(Material.CREEPER_HEAD);
             }
-            increaseStats.changeEXP("fishing",1000);
+            increaseStats.changeEXP(skillName,expMap.get("robCreeper"));
         } else if (hookedEntity.getType() == EntityType.SKELETON) {
             double randomNum = rand.nextDouble();
             if (randomNum < .49) {
@@ -496,7 +526,7 @@ public class Fishing {
             } else {
                 drop.setType(Material.SKELETON_SKULL);
             }
-            increaseStats.changeEXP("fishing",1000);
+            increaseStats.changeEXP(skillName,expMap.get("robSkeleton"));
         } else if (hookedEntity.getType() == EntityType.WITHER_SKELETON) {
             double randomNum = rand.nextDouble();
             if (randomNum < .50) {
@@ -507,13 +537,13 @@ public class Fishing {
             } else {
                 drop.setType(Material.WITHER_SKELETON_SKULL);
             }
-            increaseStats.changeEXP("fishing",120);
+            increaseStats.changeEXP(skillName,expMap.get("robWither_Skeleton"));
         } else if (hookedEntity.getType() == EntityType.SLIME) {
             drop.setType(Material.SLIME_BALL);
-            increaseStats.changeEXP("fishing",800);
+            increaseStats.changeEXP(skillName,expMap.get("robSlime"));
         } else if (hookedEntity.getType() == EntityType.MAGMA_CUBE) {
             drop.setType(Material.MAGMA_CREAM);
-            increaseStats.changeEXP("fishing",1000);
+            increaseStats.changeEXP(skillName,expMap.get("robMagma_Cube"));
         } else if (hookedEntity.getType() == EntityType.COW) {
             double randomNum = rand.nextDouble();
             if (randomNum < .49) {
@@ -523,7 +553,7 @@ public class Fishing {
             } else {
                 drop.setType(Material.MILK_BUCKET);
             }
-            increaseStats.changeEXP("fishing",600);
+            increaseStats.changeEXP(skillName,expMap.get("robCow"));
         } else if (hookedEntity.getType() == EntityType.MUSHROOM_COW) {
             double randomNum = rand.nextDouble();
             if (randomNum < .05) {
@@ -538,13 +568,13 @@ public class Fishing {
                 drop.setType(Material.RED_MUSHROOM);
                 drop.setAmount(rand.nextInt(3) + 1);
             }
-            increaseStats.changeEXP("fishing",600);
+            increaseStats.changeEXP(skillName,expMap.get("robMooshroom"));
         } else if (hookedEntity.getType() == EntityType.ENDERMAN) {
             drop.setType(Material.ENDER_PEARL);
-            increaseStats.changeEXP("fishing",1000);
+            increaseStats.changeEXP(skillName,expMap.get("robEnderman"));
         } else if (hookedEntity.getType() == EntityType.SHEEP) {
             drop.setType(Material.WHITE_WOOL);
-            increaseStats.changeEXP("fishing",600);
+            increaseStats.changeEXP(skillName,expMap.get("robSheep"));
         } else if (hookedEntity.getType() == EntityType.IRON_GOLEM) {
             double randomNum = rand.nextDouble();
             if (randomNum < .03) {
@@ -554,7 +584,7 @@ public class Fishing {
             } else {
                 drop.setType(Material.POPPY);
             }
-            increaseStats.changeEXP("fishing",600);
+            increaseStats.changeEXP(skillName,expMap.get("robIron_Golem"));
         } else if (hookedEntity.getType() == EntityType.SNOWMAN) {
             double randomNum = rand.nextDouble();
             if (randomNum < .03) {
@@ -562,7 +592,7 @@ public class Fishing {
             } else {
                 drop.setType(Material.SNOWBALL);
             }
-            increaseStats.changeEXP("fishing",600);
+            increaseStats.changeEXP(skillName,expMap.get("robSnowman"));
         } else if (hookedEntity.getType() == EntityType.WITCH) {
             double randomNum = rand.nextDouble();
             if (randomNum < 0.01) {
@@ -603,7 +633,7 @@ public class Fishing {
             } else {
                 drop.setType(Material.STICK);
             }
-            increaseStats.changeEXP("fishing",1200);
+            increaseStats.changeEXP(skillName,expMap.get("robWitch"));
         } else if (hookedEntity.getType() == EntityType.SHULKER) {
             double randomNum = rand.nextDouble();
             if (randomNum < .25) {
@@ -611,7 +641,7 @@ public class Fishing {
             } else {
                 drop.setType(Material.PURPUR_BLOCK);
             }
-            increaseStats.changeEXP("fishing",800);
+            increaseStats.changeEXP(skillName,expMap.get("robShulker"));
         }
 
         Location location = hookedEntity.getLocation();
@@ -644,45 +674,23 @@ public class Fishing {
     public ItemStack dropTable(boolean superBaitOn) {
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         Integer[] pAbilities = abilities.getPlayerAbilities();
-        int doubleFishLevel = (int) pStat.get("fishing").get(5);
-        int treasureFinderLevel = (int) pStat.get("fishing").get(6);
-        int scavengerLevel = (int) pStat.get("fishing").get(8);
-        int filtrationLevel = (int) pStat.get("fishing").get(10);
-        int hotRodLevel = (int) pStat.get("fishing").get(12);
+        int doubleFishLevel = (int) pStat.get(skillName).get(5);
+        int treasureFinderLevel = (int) pStat.get(skillName).get(6);
+        int scavengerLevel = (int) pStat.get(skillName).get(8);
+        int filtrationLevel = (int) pStat.get(skillName).get(10);
+        int hotRodLevel = (int) pStat.get(skillName).get(12);
         int hotRodToggle = (int) pStat.get("global").get(17);
         int hotRod = 0;
+        double expMultiplier = 1.0;
+        if (superBaitOn) {
+            ConfigLoad configLoad = new ConfigLoad();
+            expMultiplier = configLoad.getSpecialMultiplier().get("superBaitEXPMultiplier");
+        }
         if (hotRodLevel > 0 && hotRodToggle > 0) {
             hotRod = 1;
         }
         double roll = rand.nextDouble();
         ItemStack item = new ItemStack(Material.COD, 1);
-        if (roll > 0.4) {
-            double roll2 = rand.nextDouble();
-            if (roll2 < 0.6) {
-                item.setType(Material.COD);
-                if (hotRod > 0) {
-                    item.setType(Material.COOKED_COD);
-                }
-            }
-            else if (roll2 < 0.85) {
-                item.setType(Material.SALMON);
-                if (hotRod > 0) {
-                    item.setType(Material.COOKED_SALMON);
-                }
-            }
-            else if (roll2 < 0.87) {
-                item.setType(Material.TROPICAL_FISH);
-            }
-            else {
-                item.setType(Material.PUFFERFISH);
-            }
-            double roll3 = rand.nextDouble();
-            if (doubleFishLevel*0.0005 > roll3) {
-                item.setAmount(2);
-            }
-            increaseStats.changeEXP("fishing",2000);
-            return item;
-        }
 
         //Load Fishing config
         ConfigLoad loadConfig = new ConfigLoad();
@@ -923,7 +931,7 @@ public class Fishing {
                     return junkItems[i];
                 }
             }
-            increaseStats.changeEXP("fishing",3000);
+            increaseStats.changeEXP(skillName,(int) Math.round(expMultiplier*expMap.get("catchJunk")));
         }
         else if (roll < rollBrackets[1]) { //Natural Tier (0)
             double roll2 = rand.nextDouble();
@@ -953,7 +961,7 @@ public class Fishing {
                     return items[i];
                 }
             }
-            increaseStats.changeEXP("fishing",4000);
+            increaseStats.changeEXP(skillName,(int) Math.round(expMultiplier*expMap.get("catchTier0")));
 
 
         }
@@ -1019,7 +1027,7 @@ public class Fishing {
                     item = getTieredLoot(1);
                 }
             }
-            increaseStats.changeEXP("fishing",4000);
+            increaseStats.changeEXP(skillName,(int) Math.round(expMultiplier*expMap.get("catchTier1")));
         }
         else if (roll < rollBrackets[3]) { //Uncommon Tier (2)
             double roll2 = rand.nextDouble();
@@ -1096,7 +1104,7 @@ public class Fishing {
                     item = getTieredLoot(2);
                 }
             }
-            increaseStats.changeEXP("fishing",5000);
+            increaseStats.changeEXP(skillName,(int) Math.round(expMultiplier*expMap.get("catchTier2")));
         }
         else if (roll < rollBrackets[4]) { //Rare Tier (3)
             double roll2 = rand.nextDouble();
@@ -1143,7 +1151,7 @@ public class Fishing {
                     item = getTieredLoot(3);
                 }
             }
-            increaseStats.changeEXP("fishing",7500);
+            increaseStats.changeEXP(skillName,(int) Math.round(expMultiplier*expMap.get("catchTier3")));
         }
         else if (roll < rollBrackets[5]) { //Very Rare Tier (4)
             double roll2 = rand.nextDouble();
@@ -1193,7 +1201,7 @@ public class Fishing {
                     item = getTieredLoot(4);
                 }
             }
-            increaseStats.changeEXP("fishing",10000);
+            increaseStats.changeEXP(skillName,(int) Math.round(expMultiplier*expMap.get("catchTier4")));
         }
         else if (roll < rollBrackets[6]) { //Legendary Tier (5)
             double roll2 = rand.nextDouble();
@@ -1240,7 +1248,7 @@ public class Fishing {
                     item = getTieredLoot(5);
                 }
             }
-            increaseStats.changeEXP("fishing",15000);
+            increaseStats.changeEXP(skillName,(int) Math.round(expMultiplier*expMap.get("catchTier5")));
         }
         else { //fish roll
             double roll2 = rand.nextDouble();
@@ -1266,7 +1274,7 @@ public class Fishing {
             if (doubleFishLevel*0.0005 > roll3) {
                 item.setAmount(2);
             }
-            increaseStats.changeEXP("fishing",2000);
+            increaseStats.changeEXP(skillName,(int) Math.round(expMultiplier*expMap.get("catchFish")));
             return item;
         }
 
