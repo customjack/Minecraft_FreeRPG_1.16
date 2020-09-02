@@ -29,6 +29,8 @@ public class PlayerStatsLoadIn {
         this.p = player;
         this.pUUID = p.getUniqueId();
         this.f = new File(plugin.getDataFolder(), File.separator + "PlayerDatabase" + File.separator + pUUID.toString() + ".yml");
+        this.f.setReadable(true,false);
+        this.f.setWritable(true,false);
         this.playerData = YamlConfiguration.loadConfiguration(f);
     }
 
@@ -80,51 +82,52 @@ public class PlayerStatsLoadIn {
         String[] labels = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
         ArrayList<Number> stats = new ArrayList<Number>();
         if(f.exists()) {
-            stats.add(Integer.valueOf((playerData.get("globalStats.totalLevel").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.globalTokens").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.skill_1a").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.skill_1b").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.skill_1c").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.skill_2a").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.skill_2b").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.skill_2c").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.skill_3a").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.skill_3b").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.skill_3c").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.skill_M").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.flintToggle").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.oreToggle").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.speedToggle").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.potionToggle").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.grappleToggle").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.hotRodToggle").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.veinMinerToggle").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.megaDigToggle").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.souls").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.levelUpMessageToggle").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.abilityPrepareMessageToggle").toString())));
-            stats.add(Double.valueOf((playerData.get("globalStats.personalEXPMultiplier").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.triggerAbilitiesToggle").toString())));
-            stats.add(Integer.valueOf((playerData.get("globalStats.showEXPBarToggle").toString())));
+            stats.add(playerData.getInt("globalStats.totalLevel"));
+            stats.add(playerData.getInt("globalStats.globalTokens"));
+            stats.add(playerData.getInt("globalStats.skill_1a"));
+            stats.add(playerData.getInt("globalStats.skill_1b"));
+            stats.add(playerData.getInt("globalStats.skill_1c"));
+            stats.add(playerData.getInt("globalStats.skill_2a"));
+            stats.add(playerData.getInt("globalStats.skill_2b"));
+            stats.add(playerData.getInt("globalStats.skill_2c"));
+            stats.add(playerData.getInt("globalStats.skill_3a"));
+            stats.add(playerData.getInt("globalStats.skill_3b"));
+            stats.add(playerData.getInt("globalStats.skill_3c"));
+            stats.add(playerData.getInt("globalStats.skill_M"));
+            stats.add(playerData.getInt("globalStats.flintToggle"));
+            stats.add(playerData.getInt("globalStats.oreToggle"));
+            stats.add(playerData.getInt("globalStats.speedToggle"));
+            stats.add(playerData.getInt("globalStats.potionToggle"));
+            stats.add(playerData.getInt("globalStats.grappleToggle"));
+            stats.add(playerData.getInt("globalStats.hotRodToggle"));
+            stats.add(playerData.getInt("globalStats.veinMinerToggle"));
+            stats.add(playerData.getInt("globalStats.megaDigToggle"));
+            stats.add(playerData.getInt("globalStats.souls"));
+            stats.add(playerData.getInt("globalStats.levelUpMessageToggle"));
+            stats.add(playerData.getInt("globalStats.abilityPrepareMessageToggle"));
+            stats.add(playerData.getDouble("globalStats.personalEXPMultiplier"));
+            stats.add(playerData.getInt("globalStats.triggerAbilitiesToggle"));
+            stats.add(playerData.getInt("globalStats.showEXPBarToggle"));
             statsMap.put("global", stats);
 
             for (int i = 0; i < labels.length; i++) {
                 String skillName = labels[i];
                 ArrayList<Number> statsi = new ArrayList<Number>();
-                statsi.add(Integer.valueOf((playerData.get(labels[i] + ".level").toString())));
-                statsi.add(Integer.valueOf((playerData.get(labels[i] + ".experience").toString())));
-                statsi.add(Integer.valueOf((playerData.get(labels[i] + ".passiveTokens").toString())));
-                statsi.add(Integer.valueOf((playerData.get(labels[i] + ".skillTokens").toString())));
-                statsi.add(Integer.valueOf((playerData.get(labels[i] + ".passive1").toString())));
-                statsi.add(Integer.valueOf((playerData.get(labels[i] + ".passive2").toString())));
-                statsi.add(Integer.valueOf((playerData.get(labels[i] + ".passive3").toString())));
-                statsi.add(Integer.valueOf((playerData.get(labels[i] + ".skill_1a").toString())));
-                statsi.add(Integer.valueOf((playerData.get(labels[i] + ".skill_1b").toString())));
-                statsi.add(Integer.valueOf((playerData.get(labels[i] + ".skill_2a").toString())));
-                statsi.add(Integer.valueOf((playerData.get(labels[i] + ".skill_2b").toString())));
-                statsi.add(Integer.valueOf((playerData.get(labels[i] + ".skill_3a").toString())));
-                statsi.add(Integer.valueOf((playerData.get(labels[i] + ".skill_3b").toString())));
-                statsi.add(Integer.valueOf((playerData.get(labels[i] + ".skill_M").toString())));
+                statsi.add(playerData.getInt(labels[i] + ".level"));
+                statsi.add(playerData.getInt(labels[i] + ".experience"));
+                statsi.add(playerData.getInt(labels[i] + ".passiveTokens"));
+                statsi.add(playerData.getInt(labels[i] + ".skillTokens"));
+                statsi.add(playerData.getInt(labels[i] + ".passive1"));
+                statsi.add(playerData.getInt(labels[i] + ".passive2"));
+                statsi.add(playerData.getInt(labels[i] + ".passive3"));
+                statsi.add(playerData.getInt(labels[i] + ".skill_1a"));
+                statsi.add(playerData.getInt(labels[i] + ".skill_1b"));
+                statsi.add(playerData.getInt(labels[i] + ".skill_2a"));
+                statsi.add(playerData.getInt(labels[i] + ".skill_2b"));
+                statsi.add(playerData.getInt(labels[i] + ".skill_3a"));
+                statsi.add(playerData.getInt(labels[i] + ".skill_3b"));
+                statsi.add(playerData.getInt(labels[i] + ".skill_M"));
+
                 statsMap.put(skillName, statsi);
             }
 

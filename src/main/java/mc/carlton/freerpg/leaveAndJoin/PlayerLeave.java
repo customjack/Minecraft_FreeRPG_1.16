@@ -14,7 +14,7 @@ public class PlayerLeave implements Listener {
         Player p = e.getPlayer();
         p.leaveVehicle();
         LogoutProcedure logout = new LogoutProcedure(p);
-        logout.playerLogout();
+        logout.playerLogout(false);
 
     }
 }

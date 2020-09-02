@@ -57,9 +57,13 @@ public class ConfigLoad {
 
     public void setConfig(){
         File f = new File(plugin.getDataFolder(),"config.yml");
+        f.setReadable(true,false);
+        f.setWritable(true,false);
         FileConfiguration config = YamlConfiguration.loadConfiguration(f);
         LanguagesYMLManager getFile = new LanguagesYMLManager();
         File f1 = getFile.inputStreamToFile(plugin.getResource("config.yml"),"TEMP_config.yml");
+        f1.setReadable(true,false);
+        f1.setWritable(true,false);
         FileConfiguration configTrue = YamlConfiguration.loadConfiguration(f1);
         if (!config.getKeys(true).equals(configTrue.getKeys(true))) {
             updateConfigYML();
@@ -78,10 +82,16 @@ public class ConfigLoad {
 
         //Loads the new files
         File f = new File(plugin.getDataFolder(),"config.yml");
+        f.setReadable(true,false);
+        f.setWritable(true,false);
         File outdatedYAML = new File(plugin.getDataFolder(),File.separator + "OutdatedYMLFiles");
         File f2 = new File(outdatedYAML,"OUTDATED_config.yml");
+        f2.setReadable(true,false);
+        f2.setWritable(true,false);
         FileConfiguration oldConfig = YamlConfiguration.loadConfiguration(f2);
         File f3 = new File(plugin.getDataFolder(),"TEMP_config.yml");
+        f3.setReadable(true,false);
+        f3.setWritable(true,false);
         FileConfiguration newConfig = YamlConfiguration.loadConfiguration(f3);
         boolean changeMade = false;
 
@@ -117,6 +127,8 @@ public class ConfigLoad {
 
     public void setConfigData() {
         File f = new File(plugin.getDataFolder(),"config.yml");
+        f.setReadable(true,false);
+        f.setWritable(true,false);
         FileConfiguration config = YamlConfiguration.loadConfiguration(f);
 
         saveRunTimeData = config.getBoolean("general.saveRunTimeData");

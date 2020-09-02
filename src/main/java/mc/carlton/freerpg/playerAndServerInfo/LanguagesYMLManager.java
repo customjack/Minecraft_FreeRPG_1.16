@@ -21,8 +21,12 @@ public class LanguagesYMLManager {
     public void checkLanguagesYML() {
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
         File f = new File(plugin.getDataFolder(),"languages.yml");
+        f.setReadable(true,false);
+        f.setWritable(true,false);
         FileConfiguration languages = YamlConfiguration.loadConfiguration(f);
         File f1 = inputStreamToFile(plugin.getResource("languages.yml"),"TEMP_languages.yml");
+        f1.setReadable(true,false);
+        f1.setWritable(true,false);
         FileConfiguration languagesTrue = YamlConfiguration.loadConfiguration(f1);
         if (!languages.getKeys(true).equals(languagesTrue.getKeys(true))) {
             updateLanguagesYML();
@@ -42,6 +46,8 @@ public class LanguagesYMLManager {
     public void storeOldFile(String fileName) {
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
         File f = new File(plugin.getDataFolder(),fileName);
+        f.setReadable(true,false);
+        f.setWritable(true,false);
         File oldLanguagesYMLFolder = new File(plugin.getDataFolder(), File.separator + "OutdatedYMLFiles");
         if(!oldLanguagesYMLFolder.exists()){
             oldLanguagesYMLFolder.mkdir();

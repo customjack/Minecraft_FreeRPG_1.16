@@ -55,7 +55,7 @@ public class LoginProcedure {
         allStats.put(uuid,playerStats0);
         pStatsClass.setData(allStats);
 
-        //Makes sure player's attack speed is normal (TODO make base value a adjustable paramater in config)
+        //Makes sure player's attack speed is normal
         ((Attributable) p).getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4.0);
 
         //Initiates player abilities

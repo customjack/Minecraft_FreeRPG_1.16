@@ -292,8 +292,15 @@ public class Mining {
                 increaseStats.changeEXP(skillName,expMap.get("breakDiamond_Ore"));
             }
             else {
-                world.dropItemNaturally(loc, new ItemStack(Material.NETHERITE_SCRAP,1));
-                increaseStats.changeEXP(skillName,expMap.get("breakAncient_Debris"));
+                MinecraftVersion minecraftVersion = new MinecraftVersion();
+                if (minecraftVersion.getMinecraftVersion_Double() >= 1.16) {
+                    world.dropItemNaturally(loc, new ItemStack(Material.NETHERITE_SCRAP, 1));
+                    increaseStats.changeEXP(skillName, expMap.get("breakAncient_Debris"));
+                }
+                else{
+                    world.dropItemNaturally(loc, new ItemStack(Material.DIAMOND,1));
+                    increaseStats.changeEXP(skillName,expMap.get("breakDiamond_Ore"));
+                }
             }
         }
     }
@@ -571,43 +578,40 @@ public class Mining {
         if (!runMethods) {
             return 0;
         }
+        MinecraftVersion minecraftVersion = new MinecraftVersion();
         int EXP = 0;
-        switch (brokenOre) {
-            case COAL_ORE:
-                EXP = expMap.get("breakCoal_Ore");
-                break;
-            case NETHER_QUARTZ_ORE:
-                EXP = expMap.get("breakNether_Quartz_Ore");
-                break;
-            case IRON_ORE:
-                EXP = expMap.get("breakIron_Ore");
-                break;
-            case GOLD_ORE:
-                EXP = expMap.get("breakGold_Ore");
-                break;
-            case EMERALD_ORE:
-                EXP = expMap.get("breakEmerald_Ore");
-                break;
-            case REDSTONE_ORE:
-                EXP = expMap.get("breakRedstone_Ore");
-                break;
-            case LAPIS_ORE:
-                EXP = expMap.get("breakLapis_Ore");
-                break;
-            case DIAMOND_ORE:
-                EXP = expMap.get("breakDiamond_Ore");
-                break;
-            case ANCIENT_DEBRIS:
+        if(brokenOre.equals(Material.COAL_ORE)) {
+            EXP = expMap.get("breakCoal_Ore");
+        }
+        else if(brokenOre.equals(Material.NETHER_QUARTZ_ORE)) {
+            EXP = expMap.get("breakNether_Quartz_Ore");
+        }
+        else if(brokenOre.equals(Material.IRON_ORE)) {
+            EXP = expMap.get("breakIron_Ore");
+        }
+        else if(brokenOre.equals(Material.GOLD_ORE)) {
+            EXP = expMap.get("breakGold_Ore");
+        }
+        else if(brokenOre.equals(Material.EMERALD_ORE)) {
+            EXP = expMap.get("breakEmerald_Ore");
+        }
+        else if(brokenOre.equals(Material.REDSTONE_ORE)) {
+            EXP = expMap.get("breakRedstone_Ore");
+        }
+        else if(brokenOre.equals(Material.LAPIS_ORE)) {
+            EXP = expMap.get("breakLapis_Ore");
+        }
+        else if(brokenOre.equals(Material.DIAMOND_ORE)) {
+            EXP = expMap.get("breakDiamond_Ore");
+        }
+        else if (minecraftVersion.getMinecraftVersion_Double() >= 1.16) {
+            if (brokenOre.equals(Material.ANCIENT_DEBRIS)) {
                 EXP = expMap.get("breakAncient_Debris");
-                break;
-            case GILDED_BLACKSTONE:
+            } else if (brokenOre.equals(Material.GILDED_BLACKSTONE)) {
                 EXP = expMap.get("breakGilded_Blackstone");
-                break;
-            case NETHER_GOLD_ORE:
+            } else if (brokenOre.equals(Material.NETHER_GOLD_ORE)) {
                 EXP = expMap.get("breakNether_Gold_Ore");
-                break;
-            default:
-                break;
+            }
         }
         return EXP;
     }

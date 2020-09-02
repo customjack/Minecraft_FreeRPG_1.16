@@ -28,6 +28,8 @@ public class PlayerStatsFilePreparation {
             userdata.mkdir();
         }
         File f = new File(userdata, File.separator + pUUID.toString() + ".yml");
+        f.setReadable(true);
+        f.setWritable(true);
         FileConfiguration playerData = YamlConfiguration.loadConfiguration(f);
 
         String[] labels = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};

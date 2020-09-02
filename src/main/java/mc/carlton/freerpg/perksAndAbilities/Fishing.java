@@ -4,6 +4,7 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
+import mc.carlton.freerpg.globalVariables.EntityGroups;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
@@ -423,12 +424,10 @@ public class Fishing {
         if (hookedEntity == null) {
             return;
         }
-        EntityType[] hookableEntities0 = {EntityType.BLAZE,EntityType.ZOMBIFIED_PIGLIN,EntityType.GHAST,EntityType.ZOMBIE,EntityType.SPIDER,
-                                         EntityType.CAVE_SPIDER,EntityType.PIG,EntityType.CREEPER,EntityType.WITCH,EntityType.CHICKEN,
-                                         EntityType.SKELETON,EntityType.WITHER_SKELETON,EntityType.MAGMA_CUBE,EntityType.COW,EntityType.MUSHROOM_COW,
-                                         EntityType.ENDERMAN,EntityType.SHEEP,EntityType.IRON_GOLEM,EntityType.SNOWMAN,EntityType.SHULKER};
-        List<EntityType> hookableEntities = Arrays.asList(hookableEntities0);
+        MinecraftVersion minecraftVersion = new MinecraftVersion();
         Integer[] pTimers = timers.getPlayerTimers();
+        EntityGroups entityGroups = new EntityGroups();
+        List<EntityType> hookableEntities = entityGroups.getHookableEntities();
         if (!hookableEntities.contains(hookedEntity.getType())) {
             return;
         }
@@ -453,14 +452,6 @@ public class Fishing {
                 drop.setType(Material.GUNPOWDER);
             }
             increaseStats.changeEXP(skillName,expMap.get("robGhast"));
-        } else if (hookedEntity.getType() == EntityType.ZOMBIFIED_PIGLIN) {
-            double randomNum = rand.nextDouble();
-            if (randomNum < .5) {
-                drop.setType(Material.ROTTEN_FLESH);
-            } else {
-                drop.setType(Material.GOLD_NUGGET);
-            }
-            increaseStats.changeEXP(skillName,expMap.get("robZombie_Pigman"));
         } else if (hookedEntity.getType() == EntityType.ZOMBIE) {
             double randomNum = rand.nextDouble();
             if (randomNum < .98) {
@@ -642,6 +633,16 @@ public class Fishing {
                 drop.setType(Material.PURPUR_BLOCK);
             }
             increaseStats.changeEXP(skillName,expMap.get("robShulker"));
+        }  else if (minecraftVersion.getMinecraftVersion_Double() >= 1.16) {
+            if (hookedEntity.getType() == EntityType.ZOMBIFIED_PIGLIN) {
+                double randomNum = rand.nextDouble();
+                if (randomNum < .5) {
+                    drop.setType(Material.ROTTEN_FLESH);
+                } else {
+                    drop.setType(Material.GOLD_NUGGET);
+                }
+                increaseStats.changeEXP(skillName, expMap.get("robZombie_Pigman"));
+            }
         }
 
         Location location = hookedEntity.getLocation();

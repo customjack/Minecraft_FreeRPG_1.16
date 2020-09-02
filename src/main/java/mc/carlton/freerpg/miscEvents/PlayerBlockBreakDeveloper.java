@@ -181,9 +181,7 @@ public class PlayerBlockBreakDeveloper implements Listener {
             runTimeData.addTime(miningEXPTime,"changeEXP");
 
 
-            Material[] ores0 = {Material.COAL_ORE, Material.DIAMOND_ORE, Material.EMERALD_ORE, Material.GOLD_ORE,
-                    Material.IRON_ORE, Material.LAPIS_ORE, Material.NETHER_QUARTZ_ORE, Material.REDSTONE_ORE,Material.NETHER_GOLD_ORE,Material.ANCIENT_DEBRIS,Material.GILDED_BLACKSTONE};
-            List<Material> ores = Arrays.asList(ores0);
+            List<Material> ores = itemGroups.getOres();
             Mining miningClass = new Mining(p);
             if (pAbilities[2] == -2) {
                 long timer2 = System.currentTimeMillis();
@@ -217,8 +215,6 @@ public class PlayerBlockBreakDeveloper implements Listener {
                 increaseStats.changeEXP("archery", miningEXP.get(blockType));
                 increaseStats.changeEXP("axeMastery", miningEXP.get(blockType));
             }
-            long timeTaken = System.currentTimeMillis() - timer1;
-            System.out.println("Time taken for broken mining block: " + timeTaken);
         }
         else if (farmingEXP.containsKey(blockType) && natural) {
             BlockData block_data = block.getBlockData();

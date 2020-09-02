@@ -19,18 +19,10 @@ public class LogoutProcedure {
         this.pName = p.getDisplayName();
     }
 
-    public void playerLogout() throws IOException {
+    public void playerLogout(boolean disablePlugin) throws IOException {
         //Saves Player Stats to file
         PlayerStatsLoadIn saveStats = new PlayerStatsLoadIn(p);
         saveStats.setPlayerStatsMap();
-
-        //Removes tracked player data
-        BrewingStandUserTracker brewDelete = new BrewingStandUserTracker();
-        brewDelete.removeAllPlayerStands(p);
-        FurnaceUserTracker furnaceDelete = new FurnaceUserTracker();
-        furnaceDelete.removeAllPlayerfurnaceLocations(p);
-        BlockFaceTracker blockFaceDelete = new BlockFaceTracker();
-        blockFaceDelete.removePlayerBlockFace(p);
 
         //Ensures no items stay permanently altered from abilities
         AbilityLogoutTracker logoutTracker = new AbilityLogoutTracker(p);
@@ -74,6 +66,22 @@ public class LogoutProcedure {
         Agility agilityClass = new Agility(p);
         agilityClass.gracefulFeetEnd();
 
+        BossBarStorage bossBarStorage = new BossBarStorage();
+        bossBarStorage.removePlayer(p);
+
+        //If the plugin has been disabled, the rest will take care of itself.
+        if (disablePlugin) {
+            return;
+        }
+
+        //Removes tracked player data
+        BrewingStandUserTracker brewDelete = new BrewingStandUserTracker();
+        brewDelete.removeAllPlayerStands(p);
+        FurnaceUserTracker furnaceDelete = new FurnaceUserTracker();
+        furnaceDelete.removeAllPlayerfurnaceLocations(p);
+        BlockFaceTracker blockFaceDelete = new BlockFaceTracker();
+        blockFaceDelete.removePlayerBlockFace(p);
+
         //Removes players stats,abilities,timers,and logout trackers from the hashmaps, all stat information should be saved
         PlayerStats deleteStats = new PlayerStats(p);
         deleteStats.removePlayer();
@@ -86,8 +94,5 @@ public class LogoutProcedure {
 
         AbilityLogoutTracker deleteLogoutTracked = new AbilityLogoutTracker(p);
         deleteLogoutTracked.removePlayer(p);
-
-        BossBarStorage bossBarStorage = new BossBarStorage();
-        bossBarStorage.removePlayer(p);
     }
 }

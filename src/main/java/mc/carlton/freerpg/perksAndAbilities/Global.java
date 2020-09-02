@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.globalVariables.EntityGroups;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
 import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
@@ -119,14 +120,8 @@ public class Global {
         if (!p.hasPermission("freeRPG.getSouls")) {
             return;
         }
-        EntityType[] hostileMobs0 = {EntityType.SPIDER,EntityType.CAVE_SPIDER,EntityType.ENDERMAN,EntityType.ZOMBIFIED_PIGLIN,
-                EntityType.BLAZE,EntityType.CREEPER,EntityType.DROWNED,EntityType.ELDER_GUARDIAN,
-                EntityType.ENDERMITE,EntityType.EVOKER,EntityType.GHAST,EntityType.GUARDIAN,
-                EntityType.HUSK,EntityType.MAGMA_CUBE,EntityType.PHANTOM,EntityType.PILLAGER,
-                EntityType.RAVAGER,EntityType.SHULKER,EntityType.SKELETON,EntityType.SLIME,
-                EntityType.STRAY,EntityType.VEX,EntityType.VINDICATOR,EntityType.WITCH,
-                EntityType.WITHER_SKELETON,EntityType.ZOMBIE,EntityType.ZOMBIE_VILLAGER,EntityType.WITHER,EntityType.ENDER_DRAGON};
-        List<EntityType> hostileMobs = Arrays.asList(hostileMobs0);
+        EntityGroups entityGroups = new EntityGroups();
+        List<EntityType> hostileMobs = entityGroups.getHostileMobs();
         EntityType entityType = entity.getType();
         if (hostileMobs.contains(entityType)) {
             int amountGained = 1;

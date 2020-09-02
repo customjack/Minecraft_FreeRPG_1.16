@@ -3,13 +3,19 @@ package mc.carlton.freerpg.gameTools;
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Container;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -26,7 +32,7 @@ public class ArrowTypes {
                                     "weakness", "long_weakness","luck","turtle_master","strong_turtle_master","long_turtle_master",
                                     "slow_falling","long_slow_falling"};
 
-    public void getArrows(int timesRan) {
+    public void setArrowsFromChest(int timesRan) {
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
         World world = Bukkit.getServer().getWorlds().get(0);
         Block chestBlock = world.getBlockAt(0,0,0);
@@ -45,7 +51,7 @@ public class ArrowTypes {
                 new BukkitRunnable() {
                         @Override
                     public void run() {
-                        getArrows(timesRan+1);
+                        setArrowsFromChest(timesRan+1);
                         return;
                     }
                 }.runTaskLater(plugin, 20);

@@ -19,6 +19,8 @@ public class PlacedBlocksManager {
     public void initializePlacedBlocks(){
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
         File f = new File(plugin.getDataFolder(), "blockLocations.dat");
+        f.setReadable(true,false);
+        f.setWritable(true,false);
         String path = f.getPath();
         if (f.exists()) {
             try (BufferedReader fileReader = new BufferedReader(new FileReader(path))) {
@@ -43,6 +45,8 @@ public class PlacedBlocksManager {
     public void writePlacedBlocks() {
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
         File f = new File(plugin.getDataFolder(), "blockLocations.dat");
+        f.setReadable(true,false);
+        f.setWritable(true,false);
         String path = f.getPath();
         if (f.exists()) {
             try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(path,false))) {
@@ -66,6 +70,8 @@ public class PlacedBlocksManager {
     public void startConditions(){
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
         File f = new File(plugin.getDataFolder(),"blockLocations.dat");
+        f.setReadable(true,false);
+        f.setWritable(true,false);
         String path = f.getPath();
         World world = Bukkit.getServer().getWorlds().get(0);
         String worldName = world.getName();

@@ -184,18 +184,18 @@ woodcutting:
     breakOak_Log: 200
     breakSpruce_Log: 200
     breakJungle_Log: 200
-    breakAcacia_Plank: 200
-    breakBirch_Plank: 200
-    breakDark_Oak_Plank: 200
-    breakOak_Plank: 200
-    breakSpruce_Plank: 200
-    breakJungle_Plank: 200
-    breakAcacia_Leaves: 200
-    breakBirch_Leaves: 200
-    breakDark_Oak_Leaves: 200
-    breakOak_Leaves: 200
-    breakSpruce_Leaves: 200
-    breakJungle_Leaves: 200
+    breakAcacia_Plank: 50
+    breakBirch_Plank: 50
+    breakDark_Oak_Plank: 50
+    breakOak_Plank: 50
+    breakSpruce_Plank: 50
+    breakJungle_Plank: 50
+    breakAcacia_Leaves: 25
+    breakBirch_Leaves: 25
+    breakDark_Oak_Leaves: 25
+    breakOak_Leaves: 25
+    breakSpruce_Leaves: 25
+    breakJungle_Leaves: 25
     breakBrown_Mushroom_Block: 250
     breakRed_Mushroom_Block: 250
     breakCrimson_Stem: 250
@@ -297,7 +297,7 @@ fishing:
     tier1_drop2Name: ghast_tear
     tier1_drop2Amount: 1
     tier1_drop2Random: 0
-    tier1_drop2Name_HotRod: blaze_powder
+    tier1_drop2Name_HotRod: blaze_powdera
     tier1_drop2Amount_HotRod: 1
     tier1_drop2Random_HotRod: 0
     tier1_drop3Name: gold_ingot
@@ -479,7 +479,7 @@ archery:
     killZombie_Horse: 150
     killIllusioner: 250
     killGiant: 250
-    killAnythingElse: 50
+    killAnythingElse: 50 #If you are using 1.15 this is the value used for zombie pigmen
 beastMastery:
   skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
@@ -492,6 +492,7 @@ beastMastery:
     tameParrot: 4500
     horseRiding_EXPperSecondMoving: 75
     breedTameableAnimal: 1250
+    #All of these kill exps are rewarded when a dog kills an entity
     killBat: 200
     killCat: 400
     killChicken: 450
@@ -560,7 +561,7 @@ beastMastery:
     killZombie_Horse: 750
     killIllusioner: 750
     killGiant: 750
-    killAnythingElse: 300
+    killAnythingElse: 300 #If you are using 1.15 this is the value used for zombie pigmen
 swordsmanship:
   skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
@@ -639,7 +640,7 @@ swordsmanship:
     killZombie_Horse: 150
     killIllusioner: 250
     killGiant: 250
-    killAnythingElse: 50
+    killAnythingElse: 50 #If you are using 1.15 this is the value used for zombie pigmen
 defense:
   skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
@@ -720,7 +721,7 @@ defense:
     killZombie_Horse: 150
     killIllusioner: 250
     killGiant: 250
-    killAnythingElse: 50
+    killAnythingElse: 50 #If you are using 1.15 this is the value used for zombie pigmen
 axeMastery:
   skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
@@ -798,7 +799,7 @@ axeMastery:
     killZombie_Horse: 150
     killIllusioner: 250
     killGiant: 250
-    killAnythingElse: 50
+    killAnythingElse: 50 #If you are using 1.15 this is the value used for zombie pigmen
 repair:
   skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1
@@ -859,7 +860,7 @@ agility:
     rollBaseEXP: 250
     roll_EXPperFallDamagePoint: 100
     dodge_EXPperDamagePointAvoided: 100
-    sprint_EXPperSecondSprinted: 36
+    sprint_EXPperSecondSprinted: 112
 alchemy:
   skillAllowed: true #Setting this to false disables all skill features and EXP drops.
   maxLevel: -1

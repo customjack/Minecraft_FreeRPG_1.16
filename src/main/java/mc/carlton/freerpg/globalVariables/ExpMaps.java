@@ -1,12 +1,16 @@
 package mc.carlton.freerpg.globalVariables;
 
 import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
+import mc.carlton.freerpg.playerAndServerInfo.MinecraftVersion;
 import org.bukkit.Material;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ExpMaps {
+    private MinecraftVersion minecraftVersion = new MinecraftVersion();
+    private double mcVersion = minecraftVersion.getMinecraftVersion_Double();
+
     static Map<Material,Integer> diggingEXP = new HashMap<Material,Integer>();
     static Map<Material,Integer> woodcuttingEXP = new HashMap<Material,Integer>();
     static Map<Material,Integer> miningEXP = new HashMap<Material,Integer>();
@@ -79,10 +83,12 @@ public class ExpMaps {
         woodcuttingEXP.put(Material.BROWN_MUSHROOM_BLOCK,expMap.get("breakBrown_Mushroom_Block"));
         woodcuttingEXP.put(Material.RED_MUSHROOM_BLOCK,expMap.get("breakRed_Mushroom_Block"));
         //1.16 Blocks, EXP subject to change
-        woodcuttingEXP.put(Material.CRIMSON_STEM,expMap.get("breakCrimson_Stem"));
-        woodcuttingEXP.put(Material.WARPED_STEM,expMap.get("breakWarped_Stem"));
-        woodcuttingEXP.put(Material.WARPED_PLANKS,expMap.get("breakCrimson_Planks"));
-        woodcuttingEXP.put(Material.CRIMSON_PLANKS,expMap.get("breakWarped_Planks"));
+        if (mcVersion >= 1.16) {
+            woodcuttingEXP.put(Material.CRIMSON_STEM, expMap.get("breakCrimson_Stem"));
+            woodcuttingEXP.put(Material.WARPED_STEM, expMap.get("breakWarped_Stem"));
+            woodcuttingEXP.put(Material.WARPED_PLANKS, expMap.get("breakCrimson_Planks"));
+            woodcuttingEXP.put(Material.CRIMSON_PLANKS, expMap.get("breakWarped_Planks"));
+        }
     }
 
     public void initializeMiningEXP() {
@@ -118,15 +124,16 @@ public class ExpMaps {
         miningEXP.put(Material.GOLD_ORE,expMap.get("breakGold_Ore"));
         miningEXP.put(Material.EMERALD_ORE,expMap.get("breakEmerald_Ore"));
         miningEXP.put(Material.OBSIDIAN,expMap.get("breakObsidian"));
-        //1.16 Additions, Subject to EXP change
-        miningEXP.put(Material.ANCIENT_DEBRIS,expMap.get("breakAncient_Debris"));
-        miningEXP.put(Material.NETHER_GOLD_ORE,expMap.get("breakNether_Gold_Ore"));
-        miningEXP.put(Material.BASALT,expMap.get("breakBasalt"));
-        miningEXP.put(Material.BLACKSTONE,expMap.get("breakBlackstone"));
-        miningEXP.put(Material.CRYING_OBSIDIAN,expMap.get("breakCrying_Obsidian"));
-        miningEXP.put(Material.CRIMSON_NYLIUM,expMap.get("breakCrimson_Nylium"));
-        miningEXP.put(Material.WARPED_NYLIUM,expMap.get("breakWarped_Nylium"));
-        miningEXP.put(Material.GILDED_BLACKSTONE,expMap.get("breakGilded_Blackstone"));
+        if (mcVersion >= 1.16) {
+            miningEXP.put(Material.ANCIENT_DEBRIS, expMap.get("breakAncient_Debris"));
+            miningEXP.put(Material.NETHER_GOLD_ORE, expMap.get("breakNether_Gold_Ore"));
+            miningEXP.put(Material.BASALT, expMap.get("breakBasalt"));
+            miningEXP.put(Material.BLACKSTONE, expMap.get("breakBlackstone"));
+            miningEXP.put(Material.CRYING_OBSIDIAN, expMap.get("breakCrying_Obsidian"));
+            miningEXP.put(Material.CRIMSON_NYLIUM, expMap.get("breakCrimson_Nylium"));
+            miningEXP.put(Material.WARPED_NYLIUM, expMap.get("breakWarped_Nylium"));
+            miningEXP.put(Material.GILDED_BLACKSTONE, expMap.get("breakGilded_Blackstone"));
+        }
     }
 
     public void initializeFarmingEXP() {

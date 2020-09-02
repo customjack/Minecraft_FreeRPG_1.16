@@ -15,6 +15,8 @@ public class PlayerLeaderboard {
         File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder(), File.separator + "PlayerDatabase");
         File[] allUsers = userdata.listFiles();
         for (File f : allUsers) {
+            f.setReadable(true,false);
+            f.setWritable(true,false);
             FileConfiguration playerData = YamlConfiguration.loadConfiguration(f);
             String username = (String) playerData.get("general.username");
             if (!skillName.equals("global")) {

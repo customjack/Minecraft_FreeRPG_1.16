@@ -20,6 +20,15 @@ public class PlayerStats {
         this.uuid = player.getUniqueId();
     }
 
+    public boolean isPlayerRegistered() {
+        if (player_statsMap.containsKey(uuid)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public Map<String, ArrayList<Number>> getPlayerData() {
         if (!player_statsMap.containsKey(uuid)) {
             PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(player);
@@ -47,10 +56,27 @@ public class PlayerStats {
         player_playTime.put(uuid,playTime);
     }
 
+    public long getPlayerLoginTime() {
+        if (!player_LoginTime.containsKey(uuid)) {
+            PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(player);
+            long loginTime = loadInPlayer.getLoginTime();
+            player_LoginTime.put(uuid,loginTime);
+        }
+        return (long) player_LoginTime.get(uuid);
+    }
+    public long getPlayerPlayTime() {
+        if (!player_playTime.containsKey(uuid)) {
+            PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(player);
+            long playTime = loadInPlayer.getPlayTime();
+            player_playTime.put(uuid,playTime);
+        }
+        return (long) player_playTime.get(uuid);
+    }
+
     public String getPlayerPlayTimeString() {
+        long loginTime = getPlayerLoginTime();
+        long playTime = getPlayerPlayTime();
         String playTime_string = "";
-        long loginTime = (long) player_LoginTime.get(uuid);
-        long playTime = (long) player_playTime.get(uuid);
         long currentTime = Instant.now().getEpochSecond();
         long newPlayTime = playTime + (currentTime-loginTime);
         int hours = (int) Math.floor(newPlayTime/3600.0);
@@ -76,6 +102,11 @@ public class PlayerStats {
         player_language.put(uuid,language);
     }
     public String getPlayerLanguage() {
+        if (!player_language.containsKey(uuid)) {
+            PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(player);
+            String language = loadInPlayer.getPlayerLanguage();
+            player_language.put(uuid,language);
+        }
         return player_language.get(uuid);
     }
 
@@ -103,7 +134,7 @@ public class PlayerStats {
     }
 
     public boolean isPlayerSkillExpBarOn(String skillName) {
-        int expBarOn = playerSkillToggleEXPBar.get(uuid).get(skillName);
+        int expBarOn = getSkillToggleExpBar().get(skillName);
         if (expBarOn == 1) {
             return true;
         }
@@ -112,7 +143,7 @@ public class PlayerStats {
         }
     }
     public boolean isPlayerSkillAbilityOn(String skillName){
-        int abilityOn = playerSkillToggleAbility.get(uuid).get(skillName);
+        int abilityOn = getSkillToggleAbility().get(skillName);
         if (abilityOn == 1) {
             return true;
         }
@@ -121,7 +152,7 @@ public class PlayerStats {
         }
     }
     public void togglePlayerSkillExpBar(String skillName) {
-        Map<String,Integer> playerSkillEXPBarMap = playerSkillToggleEXPBar.get(uuid);
+        Map<String,Integer> playerSkillEXPBarMap = getSkillToggleExpBar();
         int expBarOn = playerSkillEXPBarMap.get(skillName);
         if (expBarOn == 1) {
             playerSkillEXPBarMap.put(skillName,0);
@@ -132,7 +163,7 @@ public class PlayerStats {
         playerSkillToggleEXPBar.put(uuid,playerSkillEXPBarMap);
     }
     public void togglePlayerSkillAbility(String skillName) {
-        Map<String,Integer> playerSkillAbiliytMap = playerSkillToggleAbility.get(uuid);
+        Map<String,Integer> playerSkillAbiliytMap = getSkillToggleAbility();
         int abilityOn = playerSkillAbiliytMap.get(skillName);
         if (abilityOn == 1) {
             playerSkillAbiliytMap.put(skillName,0);

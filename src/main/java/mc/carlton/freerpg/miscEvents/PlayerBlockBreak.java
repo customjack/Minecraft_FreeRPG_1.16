@@ -140,9 +140,7 @@ public class PlayerBlockBreak implements Listener {
         }
         else if (miningEXP.containsKey(blockType) && natural) {
             increaseStats.changeEXP("mining", miningEXP.get(blockType));
-            Material[] ores0 = {Material.COAL_ORE, Material.DIAMOND_ORE, Material.EMERALD_ORE, Material.GOLD_ORE,
-                    Material.IRON_ORE, Material.LAPIS_ORE, Material.NETHER_QUARTZ_ORE, Material.REDSTONE_ORE,Material.NETHER_GOLD_ORE,Material.ANCIENT_DEBRIS,Material.GILDED_BLACKSTONE};
-            List<Material> ores = Arrays.asList(ores0);
+            List<Material> ores = itemGroups.getOres();
             Mining miningClass = new Mining(p);
             if (pAbilities[2] == -2) {
                 //Treasure Drops:
@@ -241,7 +239,6 @@ public class PlayerBlockBreak implements Listener {
             else if (pAbilities[3] == -2 && natural && (hoes.contains(itemInHand.getType()))) {
                 farmingClass.naturalRegeneration(block,world);
             }
-
         }
     }
 }

@@ -3,6 +3,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
 import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
+import mc.carlton.freerpg.playerAndServerInfo.MinecraftVersion;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -388,19 +389,21 @@ public class Smelting {
             case GOLD_NUGGET:
                 EXP = expMap.get("smeltGold_Nugget");
                 break;
-                //1.16 Items, Subject to EXP changes
-            case NETHERITE_SCRAP:
-                EXP = expMap.get("smeltNetherite_Scrap");
-                break;
-            case CRACKED_NETHER_BRICKS:
-                EXP = expMap.get("smeltCracked_Nether_Bricks");
-                break;
             case CRACKED_STONE_BRICKS:
                 EXP = expMap.get("smeltCracked_Stone_Bricks");
                 break;
             default:
                 EXP = expMap.get("smeltAnythingElse");
                 break;
+        }
+        MinecraftVersion minecraftVersion = new MinecraftVersion();
+        if (minecraftVersion.getMinecraftVersion_Double() >= 1.16 && EXP != expMap.get("smeltAnythingElse")) {
+            if (smeltedMaterial.equals(Material.NETHERITE_SCRAP)) {
+                EXP = expMap.get("smeltNetherite_Scrap");
+            }
+            if (smeltedMaterial.equals(Material.CRACKED_NETHER_BRICKS)) {
+                EXP = expMap.get("smeltCracked_Nether_Bricks");
+            }
         }
         return EXP;
     }

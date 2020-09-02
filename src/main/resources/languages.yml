@@ -2294,62 +2294,62 @@
       personalMultiplier: Persönlicher Multiplikator
       translators: Übersetzer
       commandDesc13: Legt den persönlichen Multiplikator für einen bestimmten Spieler fest
-      abilityDescription: Ability Description
-      abilityDescription_digging: Temporarily adds 5 levels of effiency to your shovel. Activated by right-clicking a shovel then breaking a block.
-      abilityDescription_woodcutting: Temporarily makes axes break an entire tree with one block break. Activated by right-clicking an axe then breaking a log.
-      abilityDescription_mining: Temporarily adds 5 levels of effiency to your pickaxe. Activated by right-clicking a pickaxe then breaking block.
-      abilityDescription_farming: Temporarily makes crops broken with a hoe automatically replant. Activated by right-clicking a hoe then breaking a crop.
-      abilityDescription_fishing: Temporarily makes fishing rods instantly catch a fish. Activated by left-clicking a fishing rod then fishing in water.
-      abilityDescription_archery: Temporarily makes all arrows fired at max speed. Activated by left-clicking a bow then shooting an arrow.
-      abilityDescription_beastMastery: Temporarily gives your horse a speed buff. Activated by right-clicking while on a horse then left-clicking.
-      abilityDescription_swordsmanship: Temporarily removes swinging cooldown on swords. Activated by right-clicking a sword then hitting a mob.
-      abilityDescription_defense: Temporarily gives the user Resistance and Slowness effects. Activated by right-clicking with an empty hand then hitting a mob.
-      abilityDescription_axeMastery: Temporarily makes axes do damage to all mobs in a certain radius. Activated by right-clicking an axe then hitting a mob.
+      abilityDescription: Skill Beschreibung
+      abilityDescription_digging: Fügt deiner Schaufel vorübergehend 5 Effizienzlevel hinzu. Aktivierung durch Rechts-Klick auf eine Schaufel und anschließend einen Block abbauen.
+      abilityDescription_woodcutting: Lässt vorübergehend Äxte einen ganzen Baum mit einem Block fällen. Aktivierung durch Rechts-Klick auf eine Axt und anschließend einen Stamm abbauen.
+      abilityDescription_mining: Fügt deiner Spitzhacke vorübergehend 5 Effizienzlevel hinzu. Aktivierung durch Rechts-Klick auf einer Spitzhacke und anschließende einen Block abbaust.
+      abilityDescription_farming: Vorübergehend werden mit einer Hacke geerntete Items automatisch neu gepflanzt. Wird aktiviert, indem du mit einer Hacke Rechts-Klick auf die Ernte machst.
+      abilityDescription_fishing: Lässt vorübergehend Angelruten sofort einen Fisch fangen. Aktivierung durch Links-Klick auf eine Angelrute und anschließendes Angeln im Wasser.
+      abilityDescription_archery: Lässt vorübergehend alle Pfeile mit maximaler Geschwindigkeit abfeuern. Aktivierung durch Links-Klick auf einen Bogen und dann einen Pfeil abschießen.
+      abilityDescription_beastMastery: Verleiht deinem Pferd vorübergehend einen Geschwindigkeitsschub. Aktivierung durch Rechts-Klick auf einem Pferd und anschließendes Klicken mit der linken Maustaste.
+      abilityDescription_swordsmanship: Entfernt vorübergehend die schwingende Abklingzeit von Schwertern. Aktivierung durch Rechts-Klick auf ein Schwert und dann einen Mob schlagen.
+      abilityDescription_defense: Gibt dem Spieler vorübergehend Widerstands- und Langsamkeitseffekte. Aktivierung durch Rechts-Klick mit einer leeren Hand und dann einen Mob schlagen.
+      abilityDescription_axeMastery: Lässt Äxte vorübergehend alle Mobs in einem bestimmten Radius beschädigen. Aktivierung durch Rechts-Klick auf eine Axt klicken und dann einen Mob schlagen.
       alchemyPerkDesc1_0: Schaltet die Fähigkeit zum Brauen frei
       alchemyPerkDesc0_0: Ein Crafting Table kann verwendet werden, um folgende Tränke herzustellen
-      triggerAbilities: Trigger Abilities
-      showEXPBar: Show EXP Bar
-      disabledSkill: This skill is disabled
-      skillConfigDesc: Takes you to configuration menu for this skill
-      lvl: Lvl. #Abbreviation for "Level" If your language has no abbreviation, please put the translation for "Level"
-      exp: EXP #Abbreviation for "experience" if your language has no abbreviation, please put the translation for "experience"
-      potionAbsorption: Potion of Absorption
-      potionBadOmen: Potion of Bad Omen
-      potionBlindess: Potion of Blindess
-      potionConduitPower: Potion of Conduit Power
-      potionResistance: Potion of Resistance
-      potionDolphinsGrace: Potion of Dolphins Grace
-      potionHaste: Potion of Haste
-      potionFireResistance: Potion of Fire Resistance
-      potionGlowing: Potion of Glowing
-      potionHarm: Potion of Harm
-      potionHealing: Potion of Healing
-      potionHealthBoost: Potion of Health Boost
-      potiontheHero: Potion of the Hero
-      potionHunger: Potion of Hunger
-      potionStrength: Potion of Strength
-      potionInvsibility: Potion of Invsibility
-      potionJump: Potion of Jump
-      potionLuck: Potion of Luck
-      potionNightVision: Potion of Night Vision
-      potionRegeneration: Potion of Regeneration
-      potionSaturation: Potion of Saturation
-      potionSlowness: Potion of Slowness
-      potionFatigue: Potion of Fatigue
-      potionSlowFalling: Potion of Slow Falling
-      potionSpeed: Potion of Speed
-      potionBadLuck: Potion of Bad Luck
-      potionWaterBreathing: Potion of Water Breathing
-      potionWeakness: Potion of Weakness
-      potionDecay: Potion of Decay
-      potionAwkward: Awkward Potion
-      potionUncraftable: Uncraftable Potion
-      potionMundane: Mundane Potion
-      potionTurtleMaster: Potion of the Turtle Master
-      potionThick: Thick Potion
-      potionWater: Water Bottle
-      ingredient: Ingredient
-      usedToBrew: Is used to brew
+      triggerAbilities: Fähigkeiten auslösen
+      showEXPBar: Zeige EXP Bar
+      disabledSkill: Dieser Skill ist deaktiviert
+      skillConfigDesc: Führt dich zum Konfigurationsmenü für diesen Skill
+      lvl: Lvl. #Abkürzung für "Level" Wenn deine Sprache keine Abkürzung hat, gebe bitte die Übersetzung für "Level" ein.
+      exp: EXP #Abkürzung für "Erfahrung" Wenn deine Sprache keine Abkürzung hat, gebe bitte die Übersetzung für "Erfahrung" ein.
+      potionAbsorption: Trank der Absorption
+      potionBadOmen: Trank des schlechten Omens
+      potionBlindess: Trank der Blindheit
+      potionConduitPower: Trank der Leitungskraft
+      potionResistance: Trank des Widerstands
+      potionDolphinsGrace: Trank der Delfine Gnade
+      potionHaste: Trank der Eile
+      potionFireResistance: Trank der Feuerresistenz
+      potionGlowing: Trank des Leuchten
+      potionHarm: Trank der Schadens
+      potionHealing: Trank der Heilung
+      potionHealthBoost: Trank des Gesundheitsschub
+      potiontheHero: Trank des Heldens
+      potionHunger: Trank des Hungers
+      potionStrength: Trank der Stärke
+      potionInvsibility: Trank der Unsichtbarkeit
+      potionJump: Trank der Sprungkraft
+      potionLuck: Trank des Glücks
+      potionNightVision: Trank der Nachtsicht
+      potionRegeneration: Trank der Regeneration
+      potionSaturation: Trank der Sättigung
+      potionSlowness: Trank der Lngsamskeit
+      potionFatigue: Trank der Abbaulähmung
+      potionSlowFalling: Trank des langsamen Fallens
+      potionSpeed: Trank der Geschwindigkeit
+      potionBadLuck: Trank des Pechs
+      potionWaterBreathing: Trank der Unterwasseratmung
+      potionWeakness: Trank der Schwäche
+      potionDecay: Trank des Zerfallens
+      potionAwkward: Komischer Trank
+      potionUncraftable: Nicht herstellbarer Trank
+      potionMundane: Mundanischer Trank
+      potionTurtleMaster: Trank der Schildkrötenmeister
+      potionThick: Dicker Trank
+      potionWater: Wasserflasche
+      ingredient: Zutat
+      usedToBrew: Wird zum Brauen verwendet
 
     plPL:
       global: Globalny

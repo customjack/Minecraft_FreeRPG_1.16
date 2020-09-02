@@ -2,7 +2,6 @@ package mc.carlton.freerpg.globalVariables;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
-import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
 import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -41,6 +40,8 @@ public class StringsAndOtherData {
     public void initializeLanguagesData() {
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
         File languagesYML = new File(plugin.getDataFolder()+"/languages.yml");
+        languagesYML.setReadable(true,false);
+        languagesYML.setWritable(true,false);
         FileConfiguration languages = YamlConfiguration.loadConfiguration(languagesYML);
         for (String language : languages.getConfigurationSection("lang").getKeys(false)) {
             for (String id : languages.getConfigurationSection("lang." + language).getKeys(false)) {

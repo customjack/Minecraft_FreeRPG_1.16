@@ -10,12 +10,9 @@ import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -23,14 +20,11 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
-import javax.management.openmbean.OpenMBeanConstructorInfo;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -1647,7 +1641,7 @@ public class FrpgCommands implements CommandExecutor {
                     ArrayList<String> frenchLore = new ArrayList<>();
                     frenchLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"(French)");
                     frenchLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("status")+": "+
-                            ChatColor.RESET + ChatColor.GREEN + "99% " +lang.getString("complete"));
+                            ChatColor.RESET + ChatColor.GREEN + "95% " +lang.getString("complete"));
                     frenchMeta.setLore(frenchLore);
                     french.setItemMeta(frenchMeta);
                     gui.setItem(31,french);
@@ -1671,7 +1665,7 @@ public class FrpgCommands implements CommandExecutor {
                     ArrayList<String> germanLore = new ArrayList<>();
                     germanLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"(German)");
                     germanLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("status")+": "+
-                            ChatColor.RESET + ChatColor.GREEN + "99% " +lang.getString("complete"));
+                            ChatColor.RESET + ChatColor.GREEN + "95% " +lang.getString("complete"));
                     germanMeta.setLore(germanLore);
                     german.setItemMeta(germanMeta);
                     gui.setItem(32,german);
@@ -1695,7 +1689,7 @@ public class FrpgCommands implements CommandExecutor {
                     ArrayList<String> polishLore = new ArrayList<>();
                     polishLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"(Polish)");
                     polishLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("status")+": "+
-                            ChatColor.RESET + ChatColor.GREEN + "99% " +lang.getString("complete"));
+                            ChatColor.RESET + ChatColor.GREEN + "95% " +lang.getString("complete"));
                     polishMeta.setLore(polishLore);
                     polish.setItemMeta(polishMeta);
                     gui.setItem(33,polish);

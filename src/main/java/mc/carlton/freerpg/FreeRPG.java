@@ -71,17 +71,9 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         WorldGuardChecks CheckWorldGuardExistence = new WorldGuardChecks();
         CheckWorldGuardExistence.initializeWorldGuardPresent();
 
-
-        //Gets minecraft tipped arrows that will stack with vanilla minecraft tipped arrows
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                ArrowTypes getTippedArrows = new ArrowTypes();
-                getTippedArrows.getArrows(0);
-            }
-        }.runTaskLater(plugin, 20);
-
         //Initializes all "global" variables
+        MinecraftVersion minecraftVersion = new MinecraftVersion();
+        minecraftVersion.initializeVersion();
         ItemGroups itemGroups =  new ItemGroups();
         itemGroups.initializeItemGroups();
         EntityGroups entityGroups = new EntityGroups();
@@ -158,30 +150,6 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         getCommand("frpg").setExecutor(new FrpgCommands());
         getCommand("spite").setExecutor(new SpiteQuote());
 
-        /*
-
-        Old unique commands, replaced by new command /frpg [...]
-
-        getCommand("skills").setExecutor(new MainGUI());
-        getCommand("skillTreeGUI").setExecutor(new SkillTreeGUI());
-        getCommand("craftingGUI").setExecutor(new CraftingGUI());
-        getCommand("confirmationGUI").setExecutor(new ConfirmationGUI());
-        getCommand("configurationGUI").setExecutor(new ConfigurationGUI());
-        getCommand("giveEXP").setExecutor(new GiveEXP());
-        getCommand("setStatLevel").setExecutor(new SetLevel());
-        getCommand("statReset").setExecutor(new StatReset());
-        getCommand("flintToggle").setExecutor(new FlintToggle());
-        getCommand("enchantItem").setExecutor(new EnchantItem());
-        getCommand("speedToggle").setExecutor(new SpeedToggle());
-        getCommand("potionToggle").setExecutor(new PotionToggle());
-        getCommand("flamePickToggle").setExecutor(new FlamePickToggle());
-        getCommand("grappleToggle").setExecutor(new GrappleToggle());
-        getCommand("hotRodToggle").setExecutor(new HotRodToggle());
-        getCommand("veinMinerToggle").setExecutor(new VeinMinerToggle());
-        getCommand("megaDigToggle").setExecutor(new MegaDigToggle());
-        getCommand("statLeaders").setExecutor(new Leaderboard());
-        */
-
         //Recipes
         cowEgg();
         beeEgg();
@@ -209,10 +177,10 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         //If the plugin starts with players online
         for (Player p : Bukkit.getOnlinePlayers()) {
             PlayerStats pStatClass = new PlayerStats(p);
-            if (pStatClass.getData().containsKey(p.getUniqueId())) {
+            if (pStatClass.isPlayerRegistered()) {
                 LogoutProcedure logout = new LogoutProcedure(p);
                 try {
-                    logout.playerLogout();
+                    logout.playerLogout(false);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -223,12 +191,11 @@ public final class FreeRPG extends JavaPlugin implements Listener {
     }
 
     public void onDisable() {
-
         //Does everything that would normally be done if a player were to log out
         for (Player p : Bukkit.getOnlinePlayers()) {
             LogoutProcedure logout = new LogoutProcedure(p);
             try {
-                logout.playerLogout();
+                logout.playerLogout(true);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -310,7 +277,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
     }
 
     private void dragonLessArrows() {
-        ItemStack item = new ItemStack(Material.TIPPED_ARROW, 1);
+        ItemStack item = new ItemStack(Material.TIPPED_ARROW, 8);
         NamespacedKey key = new NamespacedKey(this, "frpgTippedArrows");
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("AAA", "APA", "AAA");

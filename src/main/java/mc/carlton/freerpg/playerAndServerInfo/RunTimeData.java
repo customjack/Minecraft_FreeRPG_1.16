@@ -46,6 +46,8 @@ public class RunTimeData {
         String strDate0 = sdfDate.format(now);
         String strDate = strDate0.replaceAll(" ","_");
         File f = new File(runTimeDataFolder, "RunTimeData_"+strDate+".dat");
+        f.setReadable(true,false);
+        f.setWritable(true,false);
         String path = f.getPath();
         try {
             if (!f.exists()) {
@@ -136,11 +138,11 @@ public class RunTimeData {
             }
         }
         double average = sum/times.size();
-        double var = 0;
+        double sqAvgDiff = 0;
         for (double time : times) {
-            var += (time-average)*(time-average);
+            sqAvgDiff += (time-average)*(time-average);
         }
-        var = var/sum;
+        double var = sqAvgDiff/times.size();
         double stDev = Math.sqrt(var);
         Map<String,Double> data = new HashMap<>();
         data.put("total",Double.valueOf(times.size()));
