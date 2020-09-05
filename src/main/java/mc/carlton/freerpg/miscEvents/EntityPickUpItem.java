@@ -23,7 +23,9 @@ public class EntityPickUpItem implements Listener {
         }
         LivingEntity entity= e.getEntity();
         ItemStack item = e.getItem().getItemStack();
-        EntityPickedUpItemStorage entityPickedUpItemStorage = new EntityPickedUpItemStorage();
-        entityPickedUpItemStorage.addItemKey(item,entity);
+        if (!(entity instanceof Player)) {
+            EntityPickedUpItemStorage entityPickedUpItemStorage = new EntityPickedUpItemStorage();
+            entityPickedUpItemStorage.addItemKey(item, entity);
+        }
     }
 }

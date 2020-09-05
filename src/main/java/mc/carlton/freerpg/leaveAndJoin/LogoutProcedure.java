@@ -3,6 +3,7 @@ package mc.carlton.freerpg.leaveAndJoin;
 import mc.carlton.freerpg.gameTools.*;
 import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.playerAndServerInfo.*;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
