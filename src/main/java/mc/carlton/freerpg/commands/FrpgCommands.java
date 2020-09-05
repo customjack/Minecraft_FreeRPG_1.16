@@ -7,6 +7,7 @@ import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
 import mc.carlton.freerpg.globalVariables.CraftingRecipes;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
+import mc.carlton.freerpg.perksAndAbilities.Agility;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -1378,12 +1379,16 @@ public class FrpgCommands implements CommandExecutor {
                                     p.removePotionEffect(PotionEffectType.SPEED);
                                 }
                             }
+                            Agility agility = new Agility(p);
+                            agility.gracefulFeetEnd();
                         }
                         else {
                             p.sendMessage(ChatColor.GREEN + lang.getString("agilityPerkTitle2") + ": " + lang.getString("on0"));
                             pStat.get("global").set(14,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
+                            Agility agility = new Agility(p);
+                            agility.gracefulFeetStart();
                         }
                     } else if (args.length == 2) {
                         if (args[1].equalsIgnoreCase("off")) {
@@ -1396,12 +1401,16 @@ public class FrpgCommands implements CommandExecutor {
                                     p.removePotionEffect(PotionEffectType.SPEED);
                                 }
                             }
+                            Agility agility = new Agility(p);
+                            agility.gracefulFeetEnd();
                         }
                         else if (args[1].equalsIgnoreCase("on")) {
                             p.sendMessage(ChatColor.GREEN + lang.getString("agilityPerkTitle2") + ": " + lang.getString("on0"));
                             pStat.get("global").set(14,1);
                             statAll.put(p.getUniqueId(), pStat);
                             pStatClass.setData(statAll);
+                            Agility agility = new Agility(p);
+                            agility.gracefulFeetStart();
                         }
                         else {
                             p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg speedToggle");

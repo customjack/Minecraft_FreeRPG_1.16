@@ -93,7 +93,7 @@ public class PlayerBlockBreak implements Listener {
             int veinMinerToggle = (int) pStat.get("global").get(18);
             if ((blockType == Material.IRON_ORE || blockType == Material.GOLD_ORE)) {
                 Mining miningClass = new Mining(p);
-                miningClass.wastelessHaste();
+                miningClass.wastelessHaste(blockType);
                 if (veinMinerLevel > 0 && veinMinerToggle > 0) {
                     miningClass.veinMiner(block,blockType);
                 }
@@ -140,20 +140,17 @@ public class PlayerBlockBreak implements Listener {
         }
         else if (miningEXP.containsKey(blockType) && natural) {
             increaseStats.changeEXP("mining", miningEXP.get(blockType));
-            List<Material> ores = itemGroups.getOres();
             Mining miningClass = new Mining(p);
+            miningClass.wastelessHaste(blockType);
+            miningClass.miningDoubleDrop(block, world);
+            miningClass.veinMiner(block,blockType);
             if (pAbilities[2] == -2) {
                 //Treasure Drops:
                 int passive2_mining = (int) pStat.get("mining").get(9);
                 double treasureDropChance = passive2_mining * 0.01;
                 miningClass.miningTreasureDrop(treasureDropChance, world, loc);
             }
-            if (ores.contains(blockType)) {
-                miningClass.wastelessHaste();
-                miningClass.miningDoubleDrop(block, world);
-                miningClass.veinMiner(block,blockType);
 
-            }
             if (blockType == Material.SPAWNER) {
                 increaseStats.changeEXP("defense", miningEXP.get(blockType));
                 increaseStats.changeEXP("swordsmanship", miningEXP.get(blockType));

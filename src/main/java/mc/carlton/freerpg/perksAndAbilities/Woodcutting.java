@@ -218,15 +218,7 @@ public class Woodcutting {
                 return;
             }
         }
-        ItemMeta toolMeta = itemInHand.getItemMeta();
-        if (toolMeta instanceof Damageable) {
-            ((Damageable) toolMeta).setDamage(((Damageable) toolMeta).getDamage()+numLogs);
-            itemInHand.setItemMeta(toolMeta);
-            if (((Damageable) toolMeta).getDamage() > itemInHand.getType().getMaxDurability()) {
-                itemInHand.setAmount(0);
-                p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, 1);
-            }
-        }
+        damageTool(numLogs);
         for (Block block : timberLogs) {
             Location blockLoc = block.getLocation();
             //Checks if any of the blocks weren't natural
@@ -234,7 +226,7 @@ public class Woodcutting {
             boolean natural = !placedBlocksManager.isBlockTracked(block);
             if (!natural) {
                 placedBlocksManager.removeBlock(block);
-                numLogs += 1;
+                numLogs -= 1;
             }
 
             Collection<ItemStack> drops = block.getDrops(itemInHand);
@@ -555,5 +547,17 @@ public class Woodcutting {
             isBlacklisted = true;
         }
         return isBlacklisted;
+    }
+
+    public void damageTool(int damage) {
+        ItemMeta toolMeta = itemInHand.getItemMeta();
+        if (toolMeta instanceof Damageable) {
+            ((Damageable) toolMeta).setDamage(((Damageable) toolMeta).getDamage()+damage);
+            itemInHand.setItemMeta(toolMeta);
+            if (((Damageable) toolMeta).getDamage() > itemInHand.getType().getMaxDurability()) {
+                itemInHand.setAmount(0);
+                p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, 1);
+            }
+        }
     }
 }

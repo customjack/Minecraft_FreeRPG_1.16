@@ -98,7 +98,7 @@ public class PlayerBlockBreakDeveloper implements Listener {
             int veinMinerToggle = (int) pStat.get("global").get(18);
             if ((blockType == Material.IRON_ORE || blockType == Material.GOLD_ORE)) {
                 Mining miningClass = new Mining(p);
-                miningClass.wastelessHaste();
+                miningClass.wastelessHaste(blockType);
                 if (veinMinerLevel > 0 && veinMinerToggle > 0) {
                     miningClass.veinMiner(block,blockType);
                 }
@@ -192,23 +192,21 @@ public class PlayerBlockBreakDeveloper implements Listener {
                 long miningTreasureDropTime = System.currentTimeMillis() - timer2;
                 runTimeData.addTime(miningTreasureDropTime,"miningTreasureDrop");
             }
-            if (ores.contains(blockType)) {
-                long timer2 = System.currentTimeMillis();
-                miningClass.wastelessHaste();
-                long miningWastelessHasteTime = System.currentTimeMillis() - timer2;
-                runTimeData.addTime(miningWastelessHasteTime,"wastelessHaste");
+            long timer2 = System.currentTimeMillis();
+            miningClass.wastelessHaste(blockType);
+            long miningWastelessHasteTime = System.currentTimeMillis() - timer2;
+            runTimeData.addTime(miningWastelessHasteTime,"wastelessHaste");
 
-                timer2 = System.currentTimeMillis();
-                miningClass.miningDoubleDrop(block, world);
-                long miningDoubleDropTime = System.currentTimeMillis() - timer2;
-                runTimeData.addTime(miningDoubleDropTime,"doubleDrop");
+            timer2 = System.currentTimeMillis();
+            miningClass.miningDoubleDrop(block, world);
+            long miningDoubleDropTime = System.currentTimeMillis() - timer2;
+            runTimeData.addTime(miningDoubleDropTime,"doubleDrop");
 
-                timer2 = System.currentTimeMillis();
-                miningClass.veinMiner(block,blockType);
-                long veinMinerTimes = System.currentTimeMillis() - timer2;
-                runTimeData.addTime(veinMinerTimes,"veinMiner");
+            timer2 = System.currentTimeMillis();
+            miningClass.veinMiner(block,blockType);
+            long veinMinerTimes = System.currentTimeMillis() - timer2;
+            runTimeData.addTime(veinMinerTimes,"veinMiner");
 
-            }
             if (blockType == Material.SPAWNER) {
                 increaseStats.changeEXP("defense", miningEXP.get(blockType));
                 increaseStats.changeEXP("swordsmanship", miningEXP.get(blockType));

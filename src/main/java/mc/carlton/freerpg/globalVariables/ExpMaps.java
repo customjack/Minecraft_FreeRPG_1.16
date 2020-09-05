@@ -124,6 +124,7 @@ public class ExpMaps {
         miningEXP.put(Material.GOLD_ORE,expMap.get("breakGold_Ore"));
         miningEXP.put(Material.EMERALD_ORE,expMap.get("breakEmerald_Ore"));
         miningEXP.put(Material.OBSIDIAN,expMap.get("breakObsidian"));
+        miningEXP.put(Material.GLOWSTONE,0);
         if (mcVersion >= 1.16) {
             miningEXP.put(Material.ANCIENT_DEBRIS, expMap.get("breakAncient_Debris"));
             miningEXP.put(Material.NETHER_GOLD_ORE, expMap.get("breakNether_Gold_Ore"));

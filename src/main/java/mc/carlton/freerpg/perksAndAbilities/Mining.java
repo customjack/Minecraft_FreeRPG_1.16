@@ -1,5 +1,6 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
+import jdk.javadoc.internal.doclets.formats.html.markup.HtmlTag;
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
@@ -305,8 +306,13 @@ public class Mining {
         }
     }
 
-    public void wastelessHaste() {
+    public void wastelessHaste(Material blockType) {
         if (!runMethods) {
+            return;
+        }
+        ItemGroups itemGroups = new ItemGroups();
+        List<Material> ores = itemGroups.getOres();
+        if (!(ores.contains(blockType))) {
             return;
         }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
@@ -357,6 +363,11 @@ public class Mining {
     }
 
     public void miningDoubleDrop(Block block, World world) {
+        ItemGroups itemGroups = new ItemGroups();
+        List<Material> ores = itemGroups.getOres();
+        if (!(ores.contains(block.getType()))) {
+            return;
+        }
         if (!runMethods) {
             return;
         }
@@ -447,13 +458,29 @@ public class Mining {
         }
     }
 
+    public void vanillaVeinMiner(Block initialBlock) {
+        getVeinOres(initialBlock,initialBlock.getX(),initialBlock.getY(),initialBlock.getZ(),initialBlock.getType()); //Get Ores in Vein
+        int numOres = veinOres.size();
+        World world = initialBlock.getWorld();
+        damageTool(numOres);
+        for (Block block : veinOres) {
+            Location blockLoc = block.getLocation();
+            Collection<ItemStack> drops = block.getDrops(itemInHand);
+            block.setType(Material.AIR);
+            for (ItemStack drop : drops) {
+                world.dropItemNaturally(blockLoc, drop);
+            }
+        }
+
+    }
+
     public void veinMiner(Block initialBlock,Material blockType) {
         if (!runMethods) {
             return;
         }
         ItemGroups itemGroups = new ItemGroups();
         List<Material> ores = itemGroups.getOres();
-        if (!(ores.contains(blockType))) {
+        if (!(ores.contains(blockType)) && !blockType.equals(Material.GLOWSTONE)) {
             return;
         }
         World world = initialBlock.getWorld();
@@ -466,21 +493,18 @@ public class Mining {
         if (veinMinerToggle < 1) {
             return;
         }
+        if (blockType.equals(Material.GLOWSTONE)) {
+            vanillaVeinMiner(initialBlock);
+            return;
+        }
         getVeinOres(initialBlock,initialBlock.getX(),initialBlock.getY(),initialBlock.getZ(),initialBlock.getType()); //Get Ores in Vein
         int numOres = veinOres.size();
         int totalOres = numOres;
         int doubleDropsLevel = (int)pStat.get(skillName).get(5);
         double chance = 0.0005*doubleDropsLevel;
 
-        ItemMeta toolMeta = itemInHand.getItemMeta();
-        if (toolMeta instanceof Damageable) {
-            ((Damageable) toolMeta).setDamage(((Damageable) toolMeta).getDamage()+numOres);
-            itemInHand.setItemMeta(toolMeta);
-            if (((Damageable) toolMeta).getDamage() > itemInHand.getType().getMaxDurability()) {
-                itemInHand.setAmount(0);
-                p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, 1);
-            }
-        }
+        damageTool(numOres);
+
         for (Block block : veinOres) {
             Location blockLoc = block.getLocation();
             //Checks if any of the blocks weren't natural
@@ -488,7 +512,7 @@ public class Mining {
             boolean natural = !placedBlocksManager.isBlockTracked(block);
             if (!natural) {
                 placedBlocksManager.removeBlock(block);
-                numOres += 1;
+                numOres -= 1;
             }
             //Flame Pick Conditional
             if ((int) pStat.get("global").get(13) > 0 && (int) pStat.get("smelting").get(13) > 0 && (block.getType() == Material.IRON_ORE || block.getType() == Material.GOLD_ORE)) {
@@ -510,7 +534,7 @@ public class Mining {
                             }
                         }
                         world.dropItemNaturally(block.getLocation(), new ItemStack(Material.IRON_INGOT, dropAmount));
-                        damageTool();
+                        damageTool(1);
                         if (0.7 > rand.nextDouble()) {
                             ((ExperienceOrb) world.spawn(block.getLocation(), ExperienceOrb.class)).setExperience(1);
                         }
@@ -525,7 +549,7 @@ public class Mining {
                             }
                         }
                         world.dropItemNaturally(block.getLocation(), new ItemStack(Material.GOLD_INGOT, dropAmount));
-                        damageTool();
+                        damageTool(1);
                         ((ExperienceOrb) world.spawn(block.getLocation(), ExperienceOrb.class)).setExperience(1);
                         break;
                     default:
@@ -563,10 +587,10 @@ public class Mining {
         }
         increaseStats.changeEXP(skillName,getEXP(blockType)*numOres);
     }
-    public void damageTool() {
+    public void damageTool(int damage) {
         ItemMeta toolMeta = itemInHand.getItemMeta();
         if (toolMeta instanceof Damageable) {
-            ((Damageable) toolMeta).setDamage(((Damageable) toolMeta).getDamage()+1);
+            ((Damageable) toolMeta).setDamage(((Damageable) toolMeta).getDamage()+damage);
             itemInHand.setItemMeta(toolMeta);
             if (((Damageable) toolMeta).getDamage() > itemInHand.getType().getMaxDurability()) {
                 itemInHand.setAmount(0);

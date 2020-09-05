@@ -101,7 +101,8 @@ public class Agility {
         }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         int gracefulFeetLevel = (int) pStat.get(skillName).get(13);
-        if (gracefulFeetLevel > 0) {
+        int gracefulFeetToggle = (int) pStat.get("global").get(14);
+        if (gracefulFeetLevel > 0 && gracefulFeetToggle > 0) {
             if (p.getPotionEffect(PotionEffectType.SPEED) == null) {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 60 * 20, 0));
             }
@@ -133,8 +134,10 @@ public class Agility {
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         int gracefulFeetLevel = (int) pStat.get(skillName).get(13);
         if (gracefulFeetLevel > 0) {
-            Bukkit.getScheduler().cancelTask(gracefulFeetMap.get(p));
-            gracefulFeetMap.remove(p);
+            if (gracefulFeetMap.containsKey(p)) {
+                Bukkit.getScheduler().cancelTask(gracefulFeetMap.get(p));
+                gracefulFeetMap.remove(p);
+            }
         }
 
     }
