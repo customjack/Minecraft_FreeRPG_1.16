@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.globalVariables;
 
 import com.google.common.collect.Lists;
+import mc.carlton.freerpg.gameTools.CustomPotion;
 import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.MinecraftVersion;
 import org.bukkit.ChatColor;
@@ -57,8 +58,11 @@ public class ItemGroups {
     static Map<Material,Material> repairItems = new HashMap<>();
     static Map<Material,Integer> repairItemsAmount = new HashMap<>();
     static List<Material> strippedLogs;
+    static List<Material> wood;
+    static List<Material> strippedWood;
     static List<Material> leaves;
     static Map<String, ItemStack> effectArrows = new HashMap<>();
+    static Map<Material, Material> smeltableItemsMap = new HashMap<>();
 
 
     public void initializeItemGroups(){
@@ -70,11 +74,12 @@ public class ItemGroups {
         initializeActionItems();
         initializeHarmfulPotions();
         initializeBlocks();
-        initializeTrackedBlocks();
         initializeEnchantmentLevelMap();
         initializeFoodMaps();
         initializeValuableItems();
         initalizeArrows();
+        initializeSmeltableItemsMap();
+        initializeTrackedBlocks();
     }
 
     public void initializeEnchantmentLevelMap() {
@@ -135,6 +140,22 @@ public class ItemGroups {
         for (Material mat : trackedBlocks1) {
             trackedBlocks.putIfAbsent(mat,true);
         }
+        ConfigLoad configLoad = new ConfigLoad();
+        ExpMaps expMaps = new ExpMaps();
+        if (!configLoad.isTrackFewerBlocks()) {
+            for (Material mat : expMaps.getWoodcuttingEXP().keySet()) {
+                trackedBlocks.putIfAbsent(mat,true);
+            }
+            for (Material mat : expMaps.getDiggingEXP().keySet()) {
+                trackedBlocks.putIfAbsent(mat,true);
+            }
+            for (Material mat : expMaps.getFlamePickEXP().keySet()) {
+                trackedBlocks.putIfAbsent(mat,true);
+            }
+            for (Material mat : expMaps.getMiningEXP().keySet()) {
+                trackedBlocks.putIfAbsent(mat,true);
+            }
+        }
     }
 
     public void initializeBlocks() {
@@ -163,6 +184,10 @@ public class ItemGroups {
         }
         Material[] strippedLogs0 = {Material.STRIPPED_SPRUCE_LOG,Material.STRIPPED_OAK_LOG,Material.STRIPPED_JUNGLE_LOG,Material.STRIPPED_DARK_OAK_LOG,Material.STRIPPED_BIRCH_LOG,Material.STRIPPED_ACACIA_LOG};
         strippedLogs = Arrays.asList(strippedLogs0);
+        Material[] wood0 = {Material.SPRUCE_WOOD,Material.OAK_WOOD,Material.JUNGLE_WOOD,Material.DARK_OAK_WOOD,Material.BIRCH_WOOD,Material.ACACIA_WOOD};
+        wood = Arrays.asList(wood0);
+        Material[] strippedWood0 = {Material.STRIPPED_SPRUCE_WOOD,Material.STRIPPED_OAK_WOOD,Material.STRIPPED_JUNGLE_WOOD,Material.STRIPPED_DARK_OAK_WOOD,Material.STRIPPED_BIRCH_WOOD,Material.STRIPPED_ACACIA_WOOD};
+        strippedWood = Arrays.asList(strippedWood0);
         Material[] leaves0 = {Material.ACACIA_LEAVES,Material.BIRCH_LEAVES,Material.DARK_OAK_LEAVES,Material.OAK_LEAVES,Material.SPRUCE_LEAVES,Material.JUNGLE_LEAVES};
         leaves = Arrays.asList(leaves0);
 
@@ -242,8 +267,9 @@ public class ItemGroups {
 
     public void initializeIngredients() {
         ConfigLoad configLoad = new ConfigLoad();
-        ArrayList<Object> alchemyInfo = configLoad.getAlchemyInfo();
-        Material[] newIngredients0 = {(Material)alchemyInfo.get(1),(Material)alchemyInfo.get(5),(Material)alchemyInfo.get(9),(Material)alchemyInfo.get(13),(Material)alchemyInfo.get(17)};
+        Map<String, CustomPotion> alchemyInfo = configLoad.getAlchemyInfo();
+        Material[] newIngredients0 = {alchemyInfo.get("customPotion1").getIngredient(),alchemyInfo.get("customPotion2").getIngredient(),alchemyInfo.get("customPotion3").getIngredient(),
+                                      alchemyInfo.get("customPotion4").getIngredient(),alchemyInfo.get("customPotion5").getIngredient()};
         newIngredients = Arrays.asList(newIngredients0);
         Material[] oldIngredients0 = {Material.NETHER_WART,Material.GUNPOWDER,Material.GLOWSTONE_DUST,Material.SPIDER_EYE,Material.GHAST_TEAR,
                 Material.RABBIT_FOOT,Material.BLAZE_POWDER,Material.GLISTERING_MELON_SLICE,Material.SUGAR,Material.MAGMA_CREAM,
@@ -254,63 +280,22 @@ public class ItemGroups {
 
     public void initializeCustomPostions() {
         ConfigLoad configLoad = new ConfigLoad();
-        ArrayList<Object> alchemyInfo = configLoad.getAlchemyInfo();
-        StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-        String potion1Name = stringsAndOtherData.getPotionNameFromEffect((PotionEffectType) alchemyInfo.get(0));
-        String potion2Name = stringsAndOtherData.getPotionNameFromEffect((PotionEffectType) alchemyInfo.get(4));
-        String potion3Name = stringsAndOtherData.getPotionNameFromEffect((PotionEffectType) alchemyInfo.get(8));
-        String potion4Name = stringsAndOtherData.getPotionNameFromEffect((PotionEffectType) alchemyInfo.get(12));
-        String potion5Name = stringsAndOtherData.getPotionNameFromEffect((PotionEffectType) alchemyInfo.get(16));
+        Map<String, CustomPotion> alchemyInfo = configLoad.getAlchemyInfo();
 
         //Hero Potion
-        heroPotion = new ItemStack(Material.POTION,1);
-        heroPotion.addUnsafeEnchantment(Enchantment.LOYALTY,1);
-        PotionMeta heroMeta = (PotionMeta) heroPotion.getItemMeta();
-        heroMeta.addCustomEffect(new PotionEffect((PotionEffectType) alchemyInfo.get(0),20*(int)alchemyInfo.get(2),0),true);
-        heroMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        heroMeta.setColor((Color) alchemyInfo.get(3));
-        heroMeta.setDisplayName(ChatColor.RESET + potion1Name);
-        heroPotion.setItemMeta(heroMeta);
+        heroPotion = alchemyInfo.get("customPotion1").getPotionItemStack();
 
         //Mining Fatigue Potion
-        fatiguePotion = new ItemStack(Material.POTION,1);
-        fatiguePotion.addUnsafeEnchantment(Enchantment.LOYALTY,1);
-        PotionMeta fatigueMeta = (PotionMeta) fatiguePotion.getItemMeta();
-        fatigueMeta.addCustomEffect(new PotionEffect((PotionEffectType) alchemyInfo.get(4),20*(int)alchemyInfo.get(6),0),true);
-        fatigueMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        fatigueMeta.setColor((Color) alchemyInfo.get(7));
-        fatigueMeta.setDisplayName(ChatColor.RESET + potion2Name);
-        fatiguePotion.setItemMeta(fatigueMeta);
+        fatiguePotion = alchemyInfo.get("customPotion2").getPotionItemStack();
 
         //Haste Potion
-        hastePotion = new ItemStack(Material.POTION,1);
-        hastePotion.addUnsafeEnchantment(Enchantment.LOYALTY,1);
-        PotionMeta hasteMeta = (PotionMeta) hastePotion.getItemMeta();
-        hasteMeta.addCustomEffect(new PotionEffect((PotionEffectType) alchemyInfo.get(8),20*(int)alchemyInfo.get(10),0),true);
-        hasteMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        hasteMeta.setColor((Color) alchemyInfo.get(11));
-        hasteMeta.setDisplayName(ChatColor.RESET + potion3Name);
-        hastePotion.setItemMeta(hasteMeta);
+        hastePotion = alchemyInfo.get("customPotion3").getPotionItemStack();
 
         //decay Potion
-        decayPotion = new ItemStack(Material.POTION,1);
-        decayPotion.addUnsafeEnchantment(Enchantment.LOYALTY,1);
-        PotionMeta decayMeta = (PotionMeta) decayPotion.getItemMeta();
-        decayMeta.addCustomEffect(new PotionEffect((PotionEffectType) alchemyInfo.get(12),20*(int)alchemyInfo.get(14),0),true);
-        decayMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        decayMeta.setColor((Color) alchemyInfo.get(15));
-        decayMeta.setDisplayName(ChatColor.RESET + potion4Name);
-        decayPotion.setItemMeta(decayMeta);
+        decayPotion = alchemyInfo.get("customPotion4").getPotionItemStack();
 
         //resistance Potion
-        resistancePotion = new ItemStack(Material.POTION,1);
-        resistancePotion.addUnsafeEnchantment(Enchantment.LOYALTY,1);
-        PotionMeta resistanceMeta = (PotionMeta) resistancePotion.getItemMeta();
-        resistanceMeta.addCustomEffect(new PotionEffect((PotionEffectType) alchemyInfo.get(16),20*(int)alchemyInfo.get(18),0),true);
-        resistanceMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        resistanceMeta.setColor((Color) alchemyInfo.get(19));
-        resistanceMeta.setDisplayName(ChatColor.RESET + potion5Name);
-        resistancePotion.setItemMeta(resistanceMeta);
+        resistancePotion = alchemyInfo.get("customPotion5").getPotionItemStack();
     }
 
     public void initializeFoodMaps(){
@@ -591,6 +576,102 @@ public class ItemGroups {
 
     }
 
+    public void initializeSmeltableItemsMap(){
+        smeltableItemsMap.put(Material.BEEF,Material.COOKED_BEEF);
+        smeltableItemsMap.put(Material.CHICKEN,Material.COOKED_CHICKEN);
+        smeltableItemsMap.put(Material.COD,Material.COOKED_COD);
+        smeltableItemsMap.put(Material.SALMON,Material.COOKED_SALMON);
+        smeltableItemsMap.put(Material.POTATO,Material.BAKED_POTATO);
+        smeltableItemsMap.put(Material.MUTTON,Material.COOKED_MUTTON);
+        smeltableItemsMap.put(Material.RABBIT,Material.COOKED_RABBIT);
+        smeltableItemsMap.put(Material.KELP,Material.DRIED_KELP);
+        smeltableItemsMap.put(Material.IRON_ORE,Material.IRON_INGOT);
+        smeltableItemsMap.put(Material.GOLD_ORE,Material.GOLD_INGOT);
+        smeltableItemsMap.put(Material.SAND,Material.GLASS);
+        smeltableItemsMap.put(Material.RED_SAND,Material.GLASS);
+        smeltableItemsMap.put(Material.COBBLESTONE,Material.STONE);
+        smeltableItemsMap.put(Material.SANDSTONE,Material.SMOOTH_SANDSTONE);
+        smeltableItemsMap.put(Material.RED_SANDSTONE,Material.SMOOTH_RED_SANDSTONE);
+        smeltableItemsMap.put(Material.STONE,Material.SMOOTH_STONE);
+        smeltableItemsMap.put(Material.QUARTZ_BLOCK,Material.SMOOTH_QUARTZ);
+        smeltableItemsMap.put(Material.CLAY_BALL,Material.BRICK);
+        smeltableItemsMap.put(Material.NETHERRACK,Material.NETHER_BRICK);
+        smeltableItemsMap.put(Material.CLAY,Material.TERRACOTTA);
+        smeltableItemsMap.put(Material.STONE_BRICKS,Material.CRACKED_STONE_BRICKS);
+        smeltableItemsMap.put(Material.BLACK_TERRACOTTA,Material.BLACK_GLAZED_TERRACOTTA);
+        smeltableItemsMap.put(Material.WHITE_TERRACOTTA,Material.WHITE_GLAZED_TERRACOTTA);
+        smeltableItemsMap.put(Material.LIGHT_GRAY_TERRACOTTA,Material.LIGHT_GRAY_GLAZED_TERRACOTTA);
+        smeltableItemsMap.put(Material.GRAY_TERRACOTTA,Material.LIGHT_GRAY_GLAZED_TERRACOTTA);
+        smeltableItemsMap.put(Material.BROWN_TERRACOTTA,Material.BROWN_GLAZED_TERRACOTTA);
+        smeltableItemsMap.put(Material.RED_TERRACOTTA,Material.RED_GLAZED_TERRACOTTA);
+        smeltableItemsMap.put(Material.ORANGE_TERRACOTTA,Material.ORANGE_GLAZED_TERRACOTTA);
+        smeltableItemsMap.put(Material.YELLOW_TERRACOTTA,Material.YELLOW_GLAZED_TERRACOTTA);
+        smeltableItemsMap.put(Material.LIME_TERRACOTTA,Material.LIME_GLAZED_TERRACOTTA);
+        smeltableItemsMap.put(Material.GREEN_TERRACOTTA,Material.GREEN_GLAZED_TERRACOTTA);
+        smeltableItemsMap.put(Material.CYAN_TERRACOTTA,Material.CYAN_GLAZED_TERRACOTTA);
+        smeltableItemsMap.put(Material.LIGHT_BLUE_TERRACOTTA,Material.LIGHT_BLUE_GLAZED_TERRACOTTA);
+        smeltableItemsMap.put(Material.BLUE_TERRACOTTA,Material.BLUE_GLAZED_TERRACOTTA);
+        smeltableItemsMap.put(Material.PURPLE_TERRACOTTA,Material.PURPLE_GLAZED_TERRACOTTA);
+        smeltableItemsMap.put(Material.MAGENTA_TERRACOTTA,Material.MAGENTA_GLAZED_TERRACOTTA);
+        smeltableItemsMap.put(Material.PINK_TERRACOTTA,Material.PINK_GLAZED_TERRACOTTA);
+        smeltableItemsMap.put(Material.CACTUS,Material.GREEN_DYE);
+        for (Material log : logs) {
+            smeltableItemsMap.put(log,Material.CHARCOAL);
+        }
+        for (Material strippedLog : strippedLogs) {
+            smeltableItemsMap.put(strippedLog,Material.CHARCOAL);
+        }
+        for (Material strippedLog : wood) {
+            smeltableItemsMap.put(strippedLog,Material.CHARCOAL);
+        }
+        for (Material strippedLog : strippedWood) {
+            smeltableItemsMap.put(strippedLog,Material.CHARCOAL);
+        }
+        smeltableItemsMap.put(Material.CHORUS_FRUIT,Material.POPPED_CHORUS_FRUIT);
+        smeltableItemsMap.put(Material.WET_SPONGE,Material.SPONGE);
+        smeltableItemsMap.put(Material.SEA_PICKLE,Material.LIME_DYE);
+        smeltableItemsMap.put(Material.DIAMOND_ORE,Material.DIAMOND);
+        smeltableItemsMap.put(Material.LAPIS_ORE,Material.LAPIS_LAZULI);
+        smeltableItemsMap.put(Material.REDSTONE_ORE,Material.REDSTONE);
+        smeltableItemsMap.put(Material.COAL_ORE,Material.COAL);
+        smeltableItemsMap.put(Material.EMERALD_ORE,Material.EMERALD);
+        smeltableItemsMap.put(Material.NETHER_QUARTZ_ORE,Material.QUARTZ);
+
+        smeltableItemsMap.put(Material.IRON_SWORD,Material.IRON_NUGGET);
+        smeltableItemsMap.put(Material.IRON_PICKAXE,Material.IRON_NUGGET);
+        smeltableItemsMap.put(Material.IRON_AXE,Material.IRON_NUGGET);
+        smeltableItemsMap.put(Material.IRON_SHOVEL,Material.IRON_NUGGET);
+        smeltableItemsMap.put(Material.IRON_HOE,Material.IRON_NUGGET);
+        smeltableItemsMap.put(Material.CHAINMAIL_HELMET,Material.IRON_NUGGET);
+        smeltableItemsMap.put(Material.CHAINMAIL_CHESTPLATE,Material.IRON_NUGGET);
+        smeltableItemsMap.put(Material.CHAINMAIL_LEGGINGS,Material.IRON_NUGGET);
+        smeltableItemsMap.put(Material.CHAINMAIL_BOOTS,Material.IRON_NUGGET);
+        smeltableItemsMap.put(Material.IRON_HELMET,Material.IRON_NUGGET);
+        smeltableItemsMap.put(Material.IRON_CHESTPLATE,Material.IRON_NUGGET);
+        smeltableItemsMap.put(Material.IRON_LEGGINGS,Material.IRON_NUGGET);
+        smeltableItemsMap.put(Material.IRON_BOOTS,Material.IRON_NUGGET);
+        smeltableItemsMap.put(Material.IRON_HORSE_ARMOR,Material.IRON_NUGGET);
+
+        smeltableItemsMap.put(Material.GOLDEN_SWORD,Material.GOLD_NUGGET);
+        smeltableItemsMap.put(Material.GOLDEN_PICKAXE,Material.GOLD_NUGGET);
+        smeltableItemsMap.put(Material.GOLDEN_AXE,Material.GOLD_NUGGET);
+        smeltableItemsMap.put(Material.GOLDEN_SHOVEL,Material.GOLD_NUGGET);
+        smeltableItemsMap.put(Material.GOLDEN_HOE,Material.GOLD_NUGGET);
+        smeltableItemsMap.put(Material.GOLDEN_HELMET,Material.GOLD_NUGGET);
+        smeltableItemsMap.put(Material.GOLDEN_CHESTPLATE,Material.GOLD_NUGGET);
+        smeltableItemsMap.put(Material.GOLDEN_LEGGINGS,Material.GOLD_NUGGET);
+        smeltableItemsMap.put(Material.GOLDEN_BOOTS,Material.GOLD_NUGGET);
+        smeltableItemsMap.put(Material.GOLDEN_HORSE_ARMOR,Material.GOLD_NUGGET);
+
+
+        if (mcVersion >= 1.16) {
+            smeltableItemsMap.put(Material.ANCIENT_DEBRIS,Material.NETHERITE_SCRAP);
+            smeltableItemsMap.put(Material.NETHER_GOLD_ORE,Material.GOLD_INGOT);
+            smeltableItemsMap.put(Material.NETHER_BRICK,Material.CRACKED_NETHER_BRICKS);
+        }
+
+    }
+
 
 
     //Getters
@@ -694,6 +775,10 @@ public class ItemGroups {
 
     public List<Material> getStrippedLogs() {
         return strippedLogs;
+    }
+
+    public Map<Material,Material> getSmeltableItemsMap() {
+        return smeltableItemsMap;
     }
 
     public ItemStack getArrow(String type) {

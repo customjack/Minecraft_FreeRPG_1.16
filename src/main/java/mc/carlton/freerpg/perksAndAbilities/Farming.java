@@ -492,6 +492,7 @@ public class Farming {
             public void run() {
                 int newAmount = itemInHand.getAmount();
                 if (amount > newAmount) {
+                    increaseStats.changeEXP("farming", expMap.get("useBonemeal"));
                     Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
                     int betterFertilizerLevel = (int) pStat.get(skillName).get(7);
                     double refundChance = betterFertilizerLevel*0.1;

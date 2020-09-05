@@ -1,6 +1,5 @@
 package mc.carlton.freerpg.miscEvents;
 
-import mc.carlton.freerpg.gameTools.ArrowTypes;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
@@ -195,10 +194,10 @@ public class PlayerPrepareCrafting implements Listener {
                     }
                     break;
                 default:
+                    arrow = new ItemStack(Material.AIR);
                     break;
             }
-            ItemMeta itemMeta = arrow.getItemMeta();
-            firstInContents.setItemMeta(itemMeta);
+            event.getInventory().setResult(arrow);
         }
 
 

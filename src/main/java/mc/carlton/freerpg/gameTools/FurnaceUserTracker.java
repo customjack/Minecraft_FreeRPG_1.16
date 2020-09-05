@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class FurnaceUserTracker {
     static Map<Location, Player> furnaceLocationPlayerMap = new ConcurrentHashMap<>();
     static Map<UUID, Integer> playerRemoveFurnacesTaskIdMap = new ConcurrentHashMap<>();
+    static Map<Location,Boolean> waitingOnTaskMap = new ConcurrentHashMap<>();
 
     public void addfurnaceLocation(Location furnaceLocation, Player player) {
         if (furnaceLocation instanceof Location && player instanceof Player) {
@@ -30,6 +31,24 @@ public class FurnaceUserTracker {
             }
         }
         return null;
+    }
+
+    public boolean getWaitingOnTask(Location furnaceLoc) {
+        if (waitingOnTaskMap.containsKey(furnaceLoc)) {
+            return waitingOnTaskMap.get(furnaceLoc);
+        }
+        else {
+            return false;
+        }
+    }
+
+    public void setWaitingOnTaskMap(boolean isWaiting,Location furnaceLoc) {
+        waitingOnTaskMap.put(furnaceLoc,isWaiting);
+    }
+    public void removeWaitingOnTaskMap(Location furnaceLoc) {
+        if (waitingOnTaskMap.containsKey(furnaceLoc)) {
+            waitingOnTaskMap.remove(furnaceLoc);
+        }
     }
 
     public void removefurnaceLocation(Location furnaceLocation) {

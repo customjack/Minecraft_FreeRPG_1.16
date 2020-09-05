@@ -1,12 +1,15 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.FurnaceUserTracker;
+import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
 import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
 import mc.carlton.freerpg.playerAndServerInfo.MinecraftVersion;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Furnace;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
@@ -17,7 +20,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Random;
 
@@ -66,32 +72,66 @@ public class Smelting {
         }
         double speedUpFactor = 1 + fastFuelLevel*0.002;
 
-        FurnaceInventory furnaceInv = furnace.getInventory();
+
+        World world =furnace.getWorld();
+        Location furnaceLoc = furnace.getLocation();
+        Material smeltingMaterial = furnace.getInventory().getSmelting().getType();
         double finalDefaultCookTime = defaultCookTime;
         boolean finalDoubleSmelt = doubleSmelt;
+
+        int waitTicks = 1;
+        FurnaceUserTracker furnaceUserTracker = new FurnaceUserTracker();
+        if (furnaceUserTracker.getWaitingOnTask(furnaceLoc)) {
+            waitTicks = 2;
+        }
+        furnaceUserTracker.setWaitingOnTaskMap(true,furnaceLoc);
+
+        //Stat Increase
+        ItemGroups itemGroups = new ItemGroups();
+        Map<Material,Material> smeltingMap = itemGroups.getSmeltableItemsMap();
+        if (smeltingMap.containsKey(smeltingMaterial)) {
+            increaseStats.changeEXP(skillName, getEXP(smeltingMap.get(smeltingMaterial)));
+        }
+        else {
+            increaseStats.changeEXP(skillName, expMap.get("smeltAnythingElse"));
+        }
+
         new BukkitRunnable() {
             @Override
             public void run() {
-                furnace.setCookTimeTotal((int) Math.round(finalDefaultCookTime / speedUpFactor));
-                FurnaceInventory oldInv = furnace.getSnapshotInventory();
-                if (furnaceInv.getResult() == null) {
-                    increaseStats.changeEXP(skillName, expMap.get("smeltAnythingElse"));
-                }
-                else {
-                    oldInv.setSmelting(furnaceInv.getSmelting());
-                    ItemStack result = furnaceInv.getResult();
-                    if (finalDoubleSmelt) {
-                        int resultAmount = result.getAmount();
-                        result.setAmount(resultAmount + 1);
+                if (checkIfBlockIsFurnace(world, furnaceLoc)) {
+                    Furnace FurnaceOneTickLater = (Furnace) world.getBlockAt(furnaceLoc).getState();
+                    FurnaceInventory furnaceInventory = FurnaceOneTickLater.getSnapshotInventory();
+                    FurnaceOneTickLater.setCookTimeTotal((int) Math.round(finalDefaultCookTime / speedUpFactor));
+                    if (furnaceInventory.getResult() != null) {
+                        ItemStack result = furnaceInventory.getResult();
+                        if (finalDoubleSmelt) {
+                            int resultAmount = result.getAmount();
+                            result.setAmount(Math.min(64,resultAmount + 1));
+                        }
+                        furnaceInventory.setResult(result);
                     }
-                    oldInv.setResult(result);
-                    increaseStats.changeEXP(skillName, getEXP(oldInv.getResult().getType()));
-                    furnace.update();
+                    FurnaceOneTickLater.update();
                 }
+                furnaceUserTracker.removeWaitingOnTaskMap(furnaceLoc);
             }
-        }.runTaskLater(plugin, 1);
+        }.runTaskLater(plugin, waitTicks);
 
 
+    }
+    public void printContents(ItemStack[] contents) {
+        ArrayList<ItemStack> newContents = new ArrayList<>(Arrays.asList(contents));
+        System.out.println(newContents);
+    }
+
+    public boolean checkIfBlockIsFurnace(World world,Location location) {
+        Block block =world.getBlockAt(location);
+        if (block.getState() instanceof Furnace) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public void fuelBurn(Furnace furnace,boolean isBlastFurnace) {
@@ -109,22 +149,38 @@ public class Smelting {
         double speedUpFactor = 1 + fastFuelLevel*0.002;
         double burnLengthMultiplier = 1 + fuelEfficiencyLevel*0.2;
         Location furnaceLoc = furnace.getLocation();
+        int cookTimeTotal = (int)Math.floor(defaultCookTime /speedUpFactor);
+        int cookTimeSoFar = (int) furnace.getCookTime();
+        int newCookTime = Math.min(cookTimeSoFar,cookTimeTotal-1);
 
-        furnace.setCookTimeTotal((int)Math.floor(defaultCookTime /speedUpFactor));
+
+        //Set furnace data
+        furnace.setCookTimeTotal(cookTimeTotal);
+        furnace.setCookTime((short)newCookTime);
         ItemStack fuel = furnace.getSnapshotInventory().getFuel();
         fuel.setAmount(fuel.getAmount()-1);
         furnace.getSnapshotInventory().setFuel(fuel);
         furnace.update();
 
+        int waitTicks = 1;
+        FurnaceUserTracker furnaceUserTracker = new FurnaceUserTracker();
+        if (furnaceUserTracker.getWaitingOnTask(furnaceLoc)) {
+            waitTicks = 2;
+        }
+        furnaceUserTracker.setWaitingOnTaskMap(true,furnaceLoc);
+
         new BukkitRunnable() {
             @Override
             public void run() {
-                Furnace runningFurnace = (Furnace) world.getBlockAt(furnaceLoc).getState();
-                double defaultBurnTime = runningFurnace.getBurnTime();
-                runningFurnace.setBurnTime((short) Math.ceil(3 + (burnLengthMultiplier*defaultBurnTime/speedUpFactor)));
-                runningFurnace.update();
+                if (checkIfBlockIsFurnace(world,furnaceLoc)) {
+                    Furnace runningFurnace = (Furnace) world.getBlockAt(furnaceLoc).getState();
+                    double defaultBurnTime = runningFurnace.getBurnTime();
+                    runningFurnace.setBurnTime((short) Math.ceil(3 + (burnLengthMultiplier * defaultBurnTime / speedUpFactor)));
+                    runningFurnace.update();
+                    furnaceUserTracker.removeWaitingOnTaskMap(furnaceLoc);
+                }
             }
-        }.runTaskLater(plugin, 1);
+        }.runTaskLater(plugin, waitTicks);
     }
 
     public void flamePick(Block block,World world,Material blockType) {

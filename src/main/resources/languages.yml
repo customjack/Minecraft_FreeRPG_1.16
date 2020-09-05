@@ -407,9 +407,6 @@
       requiredGlobalPerks2: is required to unlock this perk
       requiredGlobalPerks3: You need every global perk to unlock this perk
       craftRequirement: is required to craft this recipe!
-      craftXPRequirement0: You need at least 1 XP level to craft this
-      craftXPRequirement1: You need at least 10 XP levels to craft this
-      craftXPRequirement2: You need at least 2 XP levels to craft this
       roll: ROLL
       dodge: DODGE
       prepare: You prepare your
@@ -522,7 +519,7 @@
       refundSkillTitle: Refund Skill
       refundSkillTreeDesc: Click to refund this skill tree
       enchantingPerkDesc1_0: Unlocks ability to craft
-      enchantingPerkDesc1_1: Power I and Efficiency I enchanted books (costs 1 level to craft)"
+      enchantingPerkDesc1_1: Power I and Efficiency I enchanted books (costs 1 level to craft)
       enchantingPerkDesc1_2: Sharpness I and Protection I enchanted books (costs 1 level to craft)
       enchantingPerkDesc1_3: Luck of the Sea I and Lure I enchanted books (costs 1 level to craft)
       enchantingPerkDesc1_4: Depth Strider I and Frost Walker I enchanted books (costs 1 level to craft)
@@ -612,6 +609,11 @@
       potionWater: Water Bottle
       ingredient: Ingredient
       usedToBrew: Is used to brew
+      costs: costs
+      xpLevel: Minecraft XP Level
+      xpLevels: Minecraft XP Levels
+      craftXPRequirement: This recipe requires at least
+      bedGUI: You cannot use this command while in bed!
 
     huHU: #Translated by vERKE
       global: Globális
@@ -989,9 +991,6 @@
       requiredGlobalPerks2: képességre szükség van, hogy ezt is felold
       requiredGlobalPerks3: Minden globális képességre szükséged van, hogy ezt is felold
       craftRequirement: tudásra is szükséged van, hogy össze tudd barkácsolni ezt
-      craftXPRequirement0: Minimum 1 TP szintre van szükséged, hogy összed tudd barkácsolni ezt
-      craftXPRequirement1: Minimum 10 TP szintre van szükséged, hogy összed tudd barkácsolni ezt
-      craftXPRequirement2: Minimum 2 TP szintre van szükséged, hogy összed tudd barkácsolni ezt
       roll: PÖRGETÉS
       dodge: KITÉRÉS
       prepare: Előkészíted
@@ -1194,6 +1193,11 @@
       potionWater: Water Bottle
       ingredient: Ingredient
       usedToBrew: Is used to brew
+      costs: costs
+      xpLevel: Minecraft XP Level
+      xpLevels: Minecraft XP Levels
+      craftXPRequirement: This recipe requires at least
+      bedGUI: You cannot use this command while in bed!
 
     frFR: #Translated by Temuel
       global: Global
@@ -1566,9 +1570,6 @@
       requiredGlobalPerks2: est requi pour débloquer cette compétence
       requiredGlobalPerks3: Vous avez besoin de toutes les compétences globales pour la débloquer
       craftRequirement: est requis pour faire cette recette !
-      craftXPRequirement0: Vous avez besoin d'au moins 1 niveau (Minecraft) pour fabriquer ca
-      craftXPRequirement1: Vous avez besoin d'au moins 10 niveaux (Minecraft) pour fabriquer ca
-      craftXPRequirement2: Vous avez besoin d'au moins 2 niveaux (Minecraft) pour fabriquer ca
       roll: ROULADE
       dodge: ESQUIVE
       prepare: Vous préparez votre
@@ -1771,6 +1772,11 @@
       potionWater: Water Bottle
       ingredient: Ingredient
       usedToBrew: Is used to brew
+      costs: costs
+      xpLevel: Minecraft XP Level
+      xpLevels: Minecraft XP Levels
+      craftXPRequirement: This recipe requires at least
+      bedGUI: You cannot use this command while in bed!
 
     deDE:
       global: Global
@@ -2145,9 +2151,6 @@
       requiredGlobalPerks2: ist erforderlich, um diesen Perk freizuschalten
       requiredGlobalPerks3: Du benötigst jeden globalen Perk, um diesen Perk freizuschalten
       craftRequirement: wird benötigt, um dieses Rezept herzustellen!
-      craftXPRequirement0: Du benötigst mindestens 1 EXP-Level, um dies herzustellen
-      craftXPRequirement1: Du benötigst mindestens 10 EXP-Level, um dies herzustellen
-      craftXPRequirement2: Du benötigst mindestens 2 EXP-Level, um dies herzustellen
       roll: ROLLEN
       dodge: AUSWEICHEN
       prepare: Du bereitest deinen
@@ -2350,6 +2353,11 @@
       potionWater: Wasserflasche
       ingredient: Zutat
       usedToBrew: Wird zum Brauen verwendet
+      costs: costs
+      xpLevel: Minecraft XP Level
+      xpLevels: Minecraft XP Levels
+      craftXPRequirement: This recipe requires at least
+      bedGUI: You cannot use this command while in bed!
 
     plPL:
       global: Globalny
@@ -2751,9 +2759,6 @@
       requiredGlobalPerks2: jest wymagany, aby odblokować tą zdolność
       requiredGlobalPerks3: Aby odblokować tą zdolność, potrzebujesz każdej globalnej zdolności
       craftRequirement: jest wymagany do stworzenia tego przepisu!
-      craftXPRequirement0: Potrzebujesz co najmniej 1 poziomów PD, aby to stworzyć
-      craftXPRequirement1: Potrzebujesz co najmniej 10 poziomów PD, aby to stworzyć
-      craftXPRequirement2: Potrzebujesz co najmniej 2 poziomów PD, aby to stworzyć
       roll: PRZEWRÓT
       dodge: UNIK
       prepare: Przygotowujesz swój
@@ -2956,3 +2961,8 @@
       potionWater: Water Bottle
       ingredient: Ingredient
       usedToBrew: Is used to brew
+      costs: costs
+      xpLevel: Minecraft XP Level
+      xpLevels: Minecraft XP Levels
+      craftXPRequirement: This recipe requires at least
+      bedGUI: You cannot use this command while in bed!

@@ -1,24 +1,22 @@
 package mc.carlton.freerpg.playerAndServerInfo;
 
 import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.gameTools.ArrowTypes;
-import org.bukkit.Bukkit;
+import mc.carlton.freerpg.gameTools.CustomPotion;
+import mc.carlton.freerpg.gameTools.CustomRecipe;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ConfigLoad {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
@@ -32,6 +30,7 @@ public class ConfigLoad {
     static boolean allowHurtAnimals;
     static int furnaceDeleteTimer;
     static boolean getEXPFromEnchantingBottles;
+    static boolean trackFewerBlocks;
     static Map<String,Double> specialMultiplier = new HashMap<>();
     static ArrayList<Integer> maxLevels = new ArrayList<>();
     static ArrayList<Integer> soulsInfo = new ArrayList<>();
@@ -46,8 +45,9 @@ public class ConfigLoad {
     static ArrayList<Object> fishingInfoEnchants = new ArrayList<>();
     static Map<String,Boolean> allowedSkillsMap = new HashMap<>();
     static Map<String,Boolean> allowedSkillGainEXPMap = new HashMap<>();
-    static ArrayList<Object> alchemyInfo = new ArrayList<>();
+    static Map<String, CustomPotion> alchemyInfo = new HashMap<>();
     static Map<String,Map<String,Integer>> expMap = new HashMap<>();
+    static Map<String,CustomRecipe> craftingRecipes = new HashMap<>();
 
 
     public void initializeConfig(){
@@ -140,6 +140,8 @@ public class ConfigLoad {
         allowPvP = config.getBoolean("general.allowPvP");
         allowHurtAnimals = config.getBoolean("general.allowHurtAnimals");
         furnaceDeleteTimer = config.getInt("smelting.removePlayerFurnacesTimer");
+        trackFewerBlocks = config.getBoolean("general.trackFewerBlocks");
+
 
         String[] labels = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
         maxLevels.add(Integer.valueOf(config.getString("leveling.maxLevel")));
@@ -154,21 +156,9 @@ public class ConfigLoad {
         soulsInfo.add(Integer.valueOf(config.getString("souls.refundCost")));
 
         multipliers.add(Double.valueOf(config.getString("multipliers.globalMultiplier")));
-        multipliers.add(Double.valueOf(config.getString("multipliers.diggingMultiplier")));
-        multipliers.add(Double.valueOf(config.getString("multipliers.woodcuttingMultiplier")));
-        multipliers.add(Double.valueOf(config.getString("multipliers.miningMultiplier")));
-        multipliers.add(Double.valueOf(config.getString("multipliers.farmingMultiplier")));
-        multipliers.add(Double.valueOf(config.getString("multipliers.fishingMultiplier")));
-        multipliers.add(Double.valueOf(config.getString("multipliers.archeryMultiplier")));
-        multipliers.add(Double.valueOf(config.getString("multipliers.beastMasteryMultiplier")));
-        multipliers.add(Double.valueOf(config.getString("multipliers.swordsmanshipMultiplier")));
-        multipliers.add(Double.valueOf(config.getString("multipliers.defenseMultiplier")));
-        multipliers.add(Double.valueOf(config.getString("multipliers.axeMasteryMultiplier")));
-        multipliers.add(Double.valueOf(config.getString("multipliers.repairMultiplier")));
-        multipliers.add(Double.valueOf(config.getString("multipliers.agilityMultiplier")));
-        multipliers.add(Double.valueOf(config.getString("multipliers.alchemyMultiplier")));
-        multipliers.add(Double.valueOf(config.getString("multipliers.smeltingMultiplier")));
-        multipliers.add(Double.valueOf(config.getString("multipliers.enchantingMultiplier")));
+        for (String label : labels) {
+            multipliers.add(config.getDouble("multipliers."+label+"Multiplier"));
+        }
 
         tokensInfo.add(Double.valueOf(config.getString("tokens.automaticPassiveUpgradesPerLevel")));
         tokensInfo.add(Double.valueOf(config.getString("tokens.levelsPerPassiveToken")));
@@ -243,14 +233,13 @@ public class ConfigLoad {
 
         //Alchemy Info
         for (int i = 1; i<= 5; i++) {
-            alchemyInfo.add(PotionEffectType.getByName(config.getString("alchemy.customPotions.potionType"+i)));
-            alchemyInfo.add(Material.matchMaterial(config.getString("alchemy.customPotions.potionIngredient"+i)));
-            alchemyInfo.add(config.getInt("alchemy.customPotions.potionDuration"+i));
-            alchemyInfo.add(getColorFromString(config.getString("alchemy.customPotions.potionColor"+i)));
-        }
-        for (int i = 1; i<= 5; i++) {
-            alchemyInfo.add(PotionType.valueOf(config.getString("alchemy.craftablePotions.potionType"+i)));
-            alchemyInfo.add(Material.matchMaterial(config.getString("alchemy.craftablePotions.potionIngredient"+i)));
+            CustomPotion customPotion = new CustomPotion();
+            customPotion.setPotionEffectType(PotionEffectType.getByName(config.getString("alchemy.customPotions.potionType"+i)));
+            customPotion.setIngredient(Material.matchMaterial(config.getString("alchemy.customPotions.potionIngredient"+i)));
+            customPotion.setPotionDuration(config.getInt("alchemy.customPotions.potionDuration"+i));
+            customPotion.setColor(getColorFromString(config.getString("alchemy.customPotions.potionColor"+i)));
+            customPotion.setPotionName();
+            alchemyInfo.put("customPotion"+i,customPotion);
         }
 
         //Enchanting Bottle info
@@ -272,6 +261,56 @@ public class ConfigLoad {
         specialMultiplier.put("megaDigEXPMultiplier",config.getDouble("digging.megaDigEXPMultiplier"));
         specialMultiplier.put("superBaitEXPMultiplier",config.getDouble("fishing.superBaitEXPMultiplier"));
         specialMultiplier.put("timberEXPMultiplier",config.getDouble("woodcutting.timberEXPMultiplier"));
+
+        //Crafting arrays
+        for (int i = 1; i <= 5; i++) {
+            CustomRecipe customRecipe = new CustomRecipe();
+            customRecipe.setOutput(Material.matchMaterial(config.getString("farming.crafting.recipeOutput"+i)));
+            customRecipe.setOutputAmount(config.getInt("farming.crafting.recipeOutputAmount"+i));
+            List<String> recipeStrings = config.getStringList("farming.crafting.recipe"+i);
+            ArrayList<Material> recipeMaterials = new ArrayList<>();
+            for (String item : recipeStrings) {
+                recipeMaterials.add(Material.matchMaterial(item));
+            }
+            customRecipe.setRecipe(recipeMaterials);
+            craftingRecipes.put("farming"+i,customRecipe);
+        }
+        for (int i = 1; i <= 10; i++) {
+            CustomRecipe customRecipe = new CustomRecipe();
+            customRecipe.setOutput(Material.matchMaterial(config.getString("enchanting.crafting.recipeOutput"+i)));
+            customRecipe.setOutputAmount(config.getInt("enchanting.crafting.recipeOutputAmount"+i));
+            String enchantType = config.getString("enchanting.crafting.recipeEnchant"+i);
+            if (!enchantType.equalsIgnoreCase("none")) {
+                customRecipe.setEnchantment(EnchantmentWrapper.getByKey(NamespacedKey.minecraft(enchantType)));
+                customRecipe.setEnchantmentLevel(config.getInt("enchanting.crafting.recipeEnchantLevel"+i));
+                customRecipe.setXPcraftCost(config.getInt("enchanting.crafting.XPcostToCraft"+i));
+            }
+            List<String> recipeStrings = config.getStringList("enchanting.crafting.recipe"+i);
+            ArrayList<Material> recipeMaterials = new ArrayList<>();
+            for (String item : recipeStrings) {
+                recipeMaterials.add(Material.matchMaterial(item));
+            }
+            customRecipe.setRecipe(recipeMaterials);
+            craftingRecipes.put("enchanting"+i,customRecipe);
+        }
+        for (int i = 1; i <= 5; i++) {
+            CustomRecipe customRecipe = new CustomRecipe();
+            String materialString = config.getString("alchemy.crafting.recipeOutput"+i);
+            customRecipe.setOutput(Material.matchMaterial(materialString));
+            customRecipe.setOutputAmount(config.getInt("alchemy.crafting.recipeOutputAmount"+i));
+            if (materialString.equalsIgnoreCase("POTION")) {
+                customRecipe.setPotionType(PotionType.valueOf(config.getString("alchemy.crafting.recipePotionType"+i)));
+                customRecipe.setExtended(config.getBoolean("alchemy.crafting.recipePotionExtended"+i));
+                customRecipe.setUpgraded(config.getBoolean("alchemy.crafting.recipePotionUpgraded"+i));
+            }
+            List<String> recipeStrings = config.getStringList("alchemy.crafting.recipe"+i);
+            ArrayList<Material> recipeMaterials = new ArrayList<>();
+            for (String item : recipeStrings) {
+                recipeMaterials.add(Material.matchMaterial(item));
+            }
+            customRecipe.setRecipe(recipeMaterials);
+            craftingRecipes.put("alchemy"+i,customRecipe);
+        }
 
     }
 
@@ -334,7 +373,7 @@ public class ConfigLoad {
     public int getFurnaceDeleteTimer() {return furnaceDeleteTimer;}
     public Map<String,Boolean> getAllowedSkillsMap() {return allowedSkillsMap;}
     public Map<String,Boolean> getAllowedSkillGainEXPMap() {return allowedSkillGainEXPMap;}
-    public  ArrayList<Object> getAlchemyInfo() { return alchemyInfo; }
+    public  Map<String, CustomPotion> getAlchemyInfo() { return alchemyInfo; }
     public Map<String,Map<String,Integer>> getExpMap() {return expMap;}
     public Map<String,Integer> getExpMapForSkill(String skillName) {
         if (expMap.containsKey(skillName)) {
@@ -343,4 +382,12 @@ public class ConfigLoad {
         return null;
     }
     public Map<String,Double> getSpecialMultiplier(){return specialMultiplier;}
+
+    public Map<String,CustomRecipe> getCraftingRecipes() {
+        return craftingRecipes;
+    }
+
+    public boolean isTrackFewerBlocks() {
+        return trackFewerBlocks;
+    }
 }

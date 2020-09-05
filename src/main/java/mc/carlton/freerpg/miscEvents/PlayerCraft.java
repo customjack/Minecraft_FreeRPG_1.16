@@ -1,5 +1,6 @@
 package mc.carlton.freerpg.miscEvents;
 
+import mc.carlton.freerpg.gameTools.CustomRecipe;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.globalVariables.CraftingRecipes;
 import mc.carlton.freerpg.perksAndAbilities.Defense;
@@ -19,21 +20,18 @@ import java.util.Map;
 
 public class PlayerCraft implements Listener {
 
-    public boolean craftingMatch(ItemStack[] customRecipe, ItemStack[] crafting) {
-        if (customRecipe.length != 9 || crafting.length != 9) {
+    public boolean craftingMatch(ArrayList<Material> customRecipe, ArrayList<Material> crafting) {
+        if (customRecipe.size() != 9 || crafting.size() != 9) {
             return false;
         }
-        for (int i = 0; i<9; i++) {
-            if (crafting[i] == null) {
-                crafting[i] = new ItemStack(Material.AIR,0);
+        CraftingRecipes craftingRecipes = new CraftingRecipes();
+        ArrayList<ArrayList<Material>> allCustomRecipes = craftingRecipes.getTranslatedVariants(customRecipe);
+        for (ArrayList<Material> customRecipeVariant : allCustomRecipes) {
+            if (customRecipeVariant.equals(crafting)) {
+                return true;
             }
         }
-        for (int i = 0; i<9; i++){
-            if (!(customRecipe[i].getType().equals(crafting[i].getType()))) {
-                return false;
-            }
-        }
-        return true;
+        return false;
     }
 
     @EventHandler
@@ -48,29 +46,38 @@ public class PlayerCraft implements Listener {
         defenseClass.armorEXP(e.getRecipe().getResult());
 
         CraftingRecipes craftingRecipes = new CraftingRecipes();
-        ItemStack[] crafting = e.getInventory().getMatrix();
-        ItemStack[] cowEgg = craftingRecipes.getCowEggRecipe();
-        ItemStack[] beeEgg = craftingRecipes.getBeeEggRecipe();
-        ItemStack[] mooshroomEgg1 = craftingRecipes.getMooshroomEgg1Recipe();
-        ItemStack[] mooshroomEgg2 = craftingRecipes.getMooshroomEgg2Recipe();
-        ItemStack[] horseEgg = craftingRecipes.getHorseEggRecipe();
-        ItemStack[] slimeEgg = craftingRecipes.getSlimeEggRecipe();
-        ItemStack[] tippedArrow = craftingRecipes.getTippedArrowRecipe();
-        ItemStack[] power = craftingRecipes.getPowerRecipe();
-        ItemStack[] efficiency = craftingRecipes.getEfficiencyRecipe();
-        ItemStack[] sharpness = craftingRecipes.getSharpnessRecipe();
-        ItemStack[] protection = craftingRecipes.getProtectionRecipe();
-        ItemStack[] luck = craftingRecipes.getLuckRecipe();
-        ItemStack[] lure = craftingRecipes.getLureRecipe();
-        ItemStack[] depth = craftingRecipes.getDepthRecipe();
-        ItemStack[] frost = craftingRecipes.getFrostRecipe();
-        ItemStack[] mending = craftingRecipes.getMendingRecipe();
-        ItemStack[] fortune = craftingRecipes.getFortuneRecipe();
-        ItemStack[] waterBreathing = craftingRecipes.getWaterBreathingRecipe();
-        ItemStack[] speed = craftingRecipes.getSpeedRecipe();
-        ItemStack[] fireResistance = craftingRecipes.getFireResistanceRecipe();
-        ItemStack[] healing = craftingRecipes.getHealingRecipe();
-        ItemStack[] strength = craftingRecipes.getStrengthRecipe();
+        ItemStack[] craftingMatrix = e.getInventory().getMatrix();
+        ArrayList<Material> crafting = new ArrayList<>();
+        for (int i=0; i<9;i++) {
+            if (craftingMatrix[i] == null) {
+                crafting.add(Material.AIR);
+            }
+            else {
+                crafting.add(craftingMatrix[i].getType());
+            }
+        }
+        Map<String, CustomRecipe> craftingRecipeClasses = configLoad.getCraftingRecipes();
+        ArrayList<Material> cowEgg = craftingRecipes.getCowEggRecipe();
+        ArrayList<Material> beeEgg = craftingRecipes.getBeeEggRecipe();
+        ArrayList<Material> mooshroomEgg = craftingRecipes.getMooshroomEggRecipe();
+        ArrayList<Material> horseEgg = craftingRecipes.getHorseEggRecipe();
+        ArrayList<Material> slimeEgg = craftingRecipes.getSlimeEggRecipe();
+        ArrayList<Material> tippedArrow = craftingRecipes.getTippedArrowRecipe();
+        ArrayList<Material> power = craftingRecipes.getPowerRecipe();
+        ArrayList<Material> efficiency = craftingRecipes.getEfficiencyRecipe();
+        ArrayList<Material> sharpness = craftingRecipes.getSharpnessRecipe();
+        ArrayList<Material> protection = craftingRecipes.getProtectionRecipe();
+        ArrayList<Material> luck = craftingRecipes.getLuckRecipe();
+        ArrayList<Material> lure = craftingRecipes.getLureRecipe();
+        ArrayList<Material> depth = craftingRecipes.getDepthRecipe();
+        ArrayList<Material> frost = craftingRecipes.getFrostRecipe();
+        ArrayList<Material> mending = craftingRecipes.getMendingRecipe();
+        ArrayList<Material> fortune = craftingRecipes.getFortuneRecipe();
+        ArrayList<Material> waterBreathing = craftingRecipes.getWaterBreathingRecipe();
+        ArrayList<Material> speed = craftingRecipes.getSpeedRecipe();
+        ArrayList<Material> fireResistance = craftingRecipes.getFireResistanceRecipe();
+        ArrayList<Material> healing = craftingRecipes.getHealingRecipe();
+        ArrayList<Material> strength = craftingRecipes.getStrengthRecipe();
 
 
 
@@ -86,7 +93,7 @@ public class PlayerCraft implements Listener {
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("farmingPerkTitle1") + " (2/5)"   + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
         }
-        else if (craftingMatch(mooshroomEgg1,crafting) || craftingMatch(mooshroomEgg2,crafting)) {
+        else if (craftingMatch(mooshroomEgg,crafting)) {
             if ((int)pStat.get("farming").get(8) < 3 || !configLoad.getAllowedSkillsMap().get("farming")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("farmingPerkTitle1") + " (3/5)"   + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
@@ -111,86 +118,128 @@ public class PlayerCraft implements Listener {
             }
         }
         else if (craftingMatch(power,crafting) || craftingMatch(efficiency,crafting)) {
+            int xpLevelCost = 0;
+            if (craftingMatch(power,crafting)) {
+                xpLevelCost = craftingRecipeClasses.get("enchanting1").getXPcraftCost();
+            }
+            else {
+                xpLevelCost = craftingRecipeClasses.get("enchanting2").getXPcraftCost();
+            }
+            String xpLevel_Id = "xpLevel";
+            if (xpLevelCost != 1) {
+                xpLevel_Id+="s";
+            }
             if ((int)pStat.get("enchanting").get(9) < 1 || !configLoad.getAllowedSkillsMap().get("enchanting")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (1/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
-            else if (p.getLevel() < 1) {
+
+            else if (p.getLevel() < xpLevelCost) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement0"));
+                p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement") + " " + xpLevelCost + " " + lang.getString(xpLevel_Id));
             }
             else {
-                p.setLevel(p.getLevel()-1);
+                p.setLevel(p.getLevel()-xpLevelCost);
                 p.getWorld().playEffect(p.getLocation(), Effect.ANVIL_USE,1);
             }
         }
         else if (craftingMatch(sharpness,crafting) || craftingMatch(protection,crafting)) {
+            int xpLevelCost = 0;
+            if (craftingMatch(sharpness,crafting)) {
+                xpLevelCost = craftingRecipeClasses.get("enchanting3").getXPcraftCost();
+            }
+            else {
+                xpLevelCost = craftingRecipeClasses.get("enchanting4").getXPcraftCost();
+            }
+            String xpLevel_Id = "xpLevel";
+            if (xpLevelCost != 1) {
+                xpLevel_Id+="s";
+            }
             if ((int)pStat.get("enchanting").get(9) < 2 || !configLoad.getAllowedSkillsMap().get("enchanting")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (2/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
-            else if (p.getLevel() < 1) {
+            else if (p.getLevel() < xpLevelCost) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement0"));
+                p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement") + " " + xpLevelCost + " " + lang.getString(xpLevel_Id));
             }
             else {
-                p.setLevel(p.getLevel()-1);
+                p.setLevel(p.getLevel()-xpLevelCost);
                 p.getWorld().playEffect(p.getLocation(), Effect.ANVIL_USE,1);
             }
         }
         else if (craftingMatch(luck,crafting) || craftingMatch(lure,crafting)) {
+            int xpLevelCost = 0;
+            if (craftingMatch(luck,crafting)) {
+                xpLevelCost = craftingRecipeClasses.get("enchanting5").getXPcraftCost();
+            }
+            else {
+                xpLevelCost = craftingRecipeClasses.get("enchanting6").getXPcraftCost();
+            }
+            String xpLevel_Id = "xpLevel";
+            if (xpLevelCost != 1) {
+                xpLevel_Id+="s";
+            }
             if ((int)pStat.get("enchanting").get(9) < 3 || !configLoad.getAllowedSkillsMap().get("enchanting")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (3/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
-            else if (p.getLevel() < 1) {
+            else if (p.getLevel() < xpLevelCost) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement0"));
+                p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement") + " " + xpLevelCost + " " + lang.getString(xpLevel_Id));
             }
             else {
-                p.setLevel(p.getLevel()-1);
+                p.setLevel(p.getLevel()-xpLevelCost);
                 p.getWorld().playEffect(p.getLocation(), Effect.ANVIL_USE,1);
             }
         }
         else if (craftingMatch(depth,crafting) || craftingMatch(frost,crafting)) {
+            int xpLevelCost = 0;
+            if (craftingMatch(frost,crafting)) {
+                xpLevelCost = craftingRecipeClasses.get("enchanting7").getXPcraftCost();
+            }
+            else {
+                xpLevelCost = craftingRecipeClasses.get("enchanting8").getXPcraftCost();
+            }
+            String xpLevel_Id = "xpLevel";
+            if (xpLevelCost != 1) {
+                xpLevel_Id+="s";
+            }
             if ((int)pStat.get("enchanting").get(9) < 4 || !configLoad.getAllowedSkillsMap().get("enchanting")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (4/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
-            else if (p.getLevel() < 1) {
+            else if (p.getLevel() < xpLevelCost) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement0"));
+                p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement") + " " + xpLevelCost + " " + lang.getString(xpLevel_Id));
             }
             else {
-                p.setLevel(p.getLevel()-1);
+                p.setLevel(p.getLevel()-xpLevelCost);
                 p.getWorld().playEffect(p.getLocation(), Effect.ANVIL_USE,1);
             }
         }
-        else if (craftingMatch(mending,crafting)) {
+        else if (craftingMatch(mending,crafting) || craftingMatch(fortune,crafting)) {
+            int xpLevelCost = 0;
+            if (craftingMatch(mending,crafting)) {
+                xpLevelCost = craftingRecipeClasses.get("enchanting9").getXPcraftCost();
+            }
+            else {
+                xpLevelCost = craftingRecipeClasses.get("enchanting10").getXPcraftCost();
+            }
+            String xpLevel_Id = "xpLevel";
+            if (xpLevelCost != 1) {
+                xpLevel_Id+="s";
+            }
             if ((int)pStat.get("enchanting").get(9) < 5 || !configLoad.getAllowedSkillsMap().get("enchanting")) {
                 e.setCancelled(true);
                 p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (5/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
             }
-            else if (p.getLevel() < 10) {
+            else if (p.getLevel() < xpLevelCost) {
                 e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement1"));
+                p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement") + " " + xpLevelCost + " " + lang.getString(xpLevel_Id));
             }
             else {
-                p.setLevel(p.getLevel()-10);
-                p.getWorld().playEffect(p.getLocation(), Effect.ANVIL_USE,1);
-            }
-        }
-        else if (craftingMatch(fortune,crafting)) {
-            if ((int)pStat.get("enchanting").get(9) < 5 || !configLoad.getAllowedSkillsMap().get("enchanting")) {
-                e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + lang.getString("enchantingPerkTitle1") + " (5/5)"  + ChatColor.RESET + ChatColor.RED.toString() + " " + lang.getString("craftRequirement"));
-            }
-            else if (p.getLevel() < 2) {
-                e.setCancelled(true);
-                p.sendMessage(ChatColor.RED + lang.getString("craftXPRequirement2"));
-            }
-            else {
-                p.setLevel(p.getLevel()-2);
+                p.setLevel(p.getLevel()-xpLevelCost);
                 p.getWorld().playEffect(p.getLocation(), Effect.ANVIL_USE,1);
             }
         }

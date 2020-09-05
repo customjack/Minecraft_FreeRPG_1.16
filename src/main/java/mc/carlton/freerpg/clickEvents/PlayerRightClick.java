@@ -221,9 +221,6 @@ public class PlayerRightClick implements Listener {
             } else if (itemInHandType == Material.BONE_MEAL && a.equals(Action.RIGHT_CLICK_BLOCK)) {
                 Farming farmingClass = new Farming(p);
                 farmingClass.fertilizerSave(e.getClickedBlock());
-                ConfigLoad configLoad = new ConfigLoad();
-                Map<String,Integer> expMap = configLoad.getExpMapForSkill("farming");
-                increaseStats.changeEXP("farming", expMap.get("useBonemeal"));
             }
 
             //Archery

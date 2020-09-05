@@ -108,12 +108,12 @@ public class PlayerBlockBreak implements Listener {
             }
         }
 
-        else if(diggingEXP.containsKey(blockType)) {
+        else if(diggingEXP.containsKey(blockType) &&natural) {
             ConfigLoad configLoad = new ConfigLoad();
             if (!configLoad.getAllowedSkillsMap().get("digging")) {
                 return;
             }
-            increaseStats.changeEXP("digging",diggingEXP.get(blockType));
+                increaseStats.changeEXP("digging", diggingEXP.get(blockType));
             Material[] treasureBlocks0 = {Material.CLAY,Material.GRASS_BLOCK,Material.GRAVEL,Material.MYCELIUM, Material.PODZOL,Material.COARSE_DIRT,
                                           Material.DIRT,Material.RED_SAND,Material.SAND,Material.SOUL_SAND,Material.SNOW_BLOCK};
             List<Material> treasureBlocks = Arrays.asList(treasureBlocks0);

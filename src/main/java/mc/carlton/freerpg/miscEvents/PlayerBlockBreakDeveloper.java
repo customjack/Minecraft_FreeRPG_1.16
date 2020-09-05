@@ -109,7 +109,7 @@ public class PlayerBlockBreakDeveloper implements Listener {
             }
         }
 
-        else if(diggingEXP.containsKey(blockType)) {
+        else if(diggingEXP.containsKey(blockType) &&natural) {
             ConfigLoad configLoad = new ConfigLoad();
             if (!configLoad.getAllowedSkillsMap().get("digging")) {
                 return;

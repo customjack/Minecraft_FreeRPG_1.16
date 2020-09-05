@@ -1,10 +1,14 @@
 package mc.carlton.freerpg.globalVariables;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.CustomPotion;
+import mc.carlton.freerpg.gameTools.CustomRecipe;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
@@ -255,23 +259,133 @@ public class StringsAndOtherData {
                     splitDescs.remove(iter);
                     iter += 1;
                     foundSpace = true;
-                    if (iter > 6) {
-                        break;
-                    }
+                }
+                else if (counter == 1) {
+                    splitDescs.add(splitDescs.get(lastIndex).substring(0, 30)+"-");
+                    splitDescs.add(splitDescs.get(lastIndex).substring(30+1));
+                    splitDescs.remove(iter);
+                    iter += 1;
+                    foundSpace = true;
                 }
                 counter = counter - 1;
+            }
+            if (iter > 20) {
+                break;
             }
         }
         return splitDescs;
     }
 
-    public String getPotionEffectTypeString(int level, Player p) {
-        String effectType = "";
+    public String cleanUpTitleString(String string) {
+        String cleanString = string.toLowerCase();
+        cleanString = cleanString.replaceAll("\\[","");
+        cleanString = cleanString.replaceAll("]","");
+        cleanString = cleanString.replaceAll("_"," ");
+        String[] cleanStringPieces = cleanString.split(" ");
+        cleanString = "";
+        for (int i = 0; i < cleanStringPieces.length; i++) {
+            String piece = cleanStringPieces[i];
+            String capitalizedPiece = piece.substring(0, 1).toUpperCase() + piece.substring(1);
+            if ((i+1) == cleanStringPieces.length) {
+                cleanString += capitalizedPiece;
+            }
+            else {
+                cleanString += capitalizedPiece + " ";
+            }
+        }
+        cleanString = replaceNumberInStringWithRomanNumeralUptoTen(cleanString); //Roman Numeral Business
+        return cleanString;
+    }
+
+    public String replaceNumberInStringWithRomanNumeralUptoTen(String string) {
+        string = string.replaceAll("10","X");
+        string = string.replaceAll("9","IX");
+        string = string.replaceAll("8","VIII");
+        string = string.replaceAll("7","VII");
+        string = string.replaceAll("6","VI");
+        string = string.replaceAll("5","V");
+        string = string.replaceAll("4","IV");
+        string = string.replaceAll("3","III");
+        string = string.replaceAll("2","II");
+        string = string.replaceAll("1","I");
+        return string;
+    }
+    public String[] getEnchantingCraftingNames(Player p){
         LanguageSelector lang = new LanguageSelector(p);
+        String[] craftingNames = {lang.getString("enchantingCraft0"),lang.getString("enchantingCraft1"),
+                lang.getString("enchantingCraft2"),lang.getString("enchantingCraft3"),lang.getString("enchantingCraft4"),
+                lang.getString("enchantingCraft5"),lang.getString("enchantingCraft6"),lang.getString("enchantingCraft7"),
+                lang.getString("enchantingCraft8"),lang.getString("enchantingCraft9")};
         ConfigLoad configLoad = new ConfigLoad();
-        ArrayList<Object> alchemyInfo = configLoad.getAlchemyInfo();
-        String name = getPotionNameFromEffect((PotionEffectType) alchemyInfo.get(4*(level-1)));
+        Map<String,CustomRecipe> customRecipeMap = configLoad.getCraftingRecipes();
+        Enchantment[] defaultEnchants = {Enchantment.ARROW_DAMAGE,Enchantment.DIG_SPEED,Enchantment.DAMAGE_ALL,Enchantment.PROTECTION_ENVIRONMENTAL,Enchantment.LUCK,
+                Enchantment.LURE,Enchantment.FROST_WALKER,Enchantment.DEPTH_STRIDER,Enchantment.MENDING,Enchantment.LOOT_BONUS_BLOCKS};
+        for (int i = 0; i < craftingNames.length; i++) {
+            int stringIndex = i+1;
+            CustomRecipe customRecipe = customRecipeMap.get("enchanting"+stringIndex);
+            Material output = customRecipe.getOutput();
+            if (customRecipe.outputIsEnchanted()) {
+                Enchantment enchantment = customRecipe.getEnchantment();
+                if (!enchantment.equals(defaultEnchants[i]) || !output.equals(Material.ENCHANTED_BOOK)) {
+                    craftingNames[i] = cleanUpTitleString(getBetterEnchantmentString(enchantment.toString())+ " " + customRecipe.getEnchantmentLevel() + " " + output.toString());
+                }
+            }
+            else {
+                craftingNames[i] = cleanUpTitleString(output.toString());
+            }
+        }
+        return craftingNames;
+    }
+
+    public String getBetterEnchantmentString(String enchantmentString) {
+        int i = enchantmentString.indexOf(":");
+        int j = enchantmentString.indexOf(",");
+        if (j == -1) {
+            j = enchantmentString.length();
+        }
+        return  enchantmentString.substring(i+1,j);
+    }
+    public String getEnchantmentPerkDescString(int level,Player p) {
+        ConfigLoad configLoad = new ConfigLoad();
+        Map<String,CustomRecipe> customRecipeMap = configLoad.getCraftingRecipes();
+        String[] craftingNames = getEnchantingCraftingNames(p);
+        LanguageSelector lang = new LanguageSelector(p);
+        int index1 = 2*(level-1);
+        int index2 = 2*(level-1)+1;
+        String name1 = craftingNames[index1];
+        String name2 = craftingNames[index2];
+        if ( name1.equalsIgnoreCase(lang.getString("enchantingCraft"+index1)) && name2.equalsIgnoreCase(lang.getString("enchantingCraft"+index2)) ) {
+            return lang.getString("enchantingPerkDesc1_"+level);
+        }
+        else {
+            index1 += 1;
+            index2 += 1;
+            CustomRecipe customRecipe1 = customRecipeMap.get("enchanting"+index1);
+            CustomRecipe customRecipe2 = customRecipeMap.get("enchanting"+index2);
+            String newString = "";
+            int cost1 = customRecipe1.getXPcraftCost();
+            int cost2 = customRecipe2.getXPcraftCost();
+            String id1 = "xpLevel";
+            String id2 = "xpLevel";
+            if (cost1 != 1) {
+                id1+="s";
+            }
+            if (cost2 != 1) {
+                id2+="s";
+            }
+
+            newString = name1 + " (" + lang.getString("costs") + " "+cost1+" " + lang.getString(id1) + ")" + " & " + name2 + " (" + lang.getString("costs") + " "+cost2+" " + lang.getString(id2) + ")";
+            return newString;
+        }
+    }
+
+    public String getPotionEffectTypeString(int level, Player p) {
+        ConfigLoad configLoad = new ConfigLoad();
+        Map<String, CustomPotion> alchemyInfo = configLoad.getAlchemyInfo();
+        String name = getPotionNameFromEffect(alchemyInfo.get("customPotion"+level).getPotionEffectType());
+        String effectType = "";
         if (!name.equalsIgnoreCase("Potion")) {
+            LanguageSelector lang = new LanguageSelector(p);
             String id = "potion" + name.substring(10).replace(" ","");
             effectType = lang.getString(id);
         }
@@ -282,9 +396,15 @@ public class StringsAndOtherData {
         String effectType = "";
         LanguageSelector lang = new LanguageSelector(p);
         ConfigLoad configLoad = new ConfigLoad();
-        ArrayList<Object> alchemyInfo = configLoad.getAlchemyInfo();
-        String id = getPotionNameIDFromPotionType((PotionType) alchemyInfo.get(20 + 2*(level-1)));
+        Map<String, CustomRecipe> customRecipeMap = configLoad.getCraftingRecipes();
+        CustomRecipe customRecipe = customRecipeMap.get("alchemy"+level);
+        if (customRecipe.outputIsPotion()) {
+        String id = getPotionNameIDFromPotionType(customRecipe.getPotionType());
         effectType = lang.getString(id);
+        }
+        else {
+            effectType = cleanUpTitleString(customRecipe.getOutput().toString());
+        }
         return effectType;
     }
 

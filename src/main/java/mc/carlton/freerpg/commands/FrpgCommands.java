@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.commands;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.gameTools.CustomRecipe;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
 import mc.carlton.freerpg.globalVariables.CraftingRecipes;
@@ -19,11 +20,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionType;
 
 import java.io.IOException;
 import java.util.*;
@@ -37,6 +35,10 @@ public class FrpgCommands implements CommandExecutor {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
                 LanguageSelector lang = new LanguageSelector(p);
+                if (p.isSleeping()) {
+                    p.sendMessage(ChatColor.RED + lang.getString("bedGUI"));
+                    return true;
+                }
                 if (!p.hasPermission("freeRPG.mainGUI")) {
                     p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
                     return true;
@@ -1479,6 +1481,10 @@ public class FrpgCommands implements CommandExecutor {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
                 LanguageSelector lang = new LanguageSelector(p);
+                if (p.isSleeping()) {
+                    p.sendMessage(ChatColor.RED + lang.getString("bedGUI"));
+                    return true;
+                }
                 if (!p.hasPermission("freeRPG.configGUI")) {
                     p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
                     return true;
@@ -1716,10 +1722,15 @@ public class FrpgCommands implements CommandExecutor {
             }
         }
 
+        //SkillConfigGUI
         else if (args[0].equalsIgnoreCase("skillConfigGUI") || args[0].equalsIgnoreCase("skillConfigurationGUI") || args[0].equalsIgnoreCase("skillConfig")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
                 LanguageSelector lang = new LanguageSelector(p);
+                if (p.isSleeping()) {
+                    p.sendMessage(ChatColor.RED + lang.getString("bedGUI"));
+                    return true;
+                }
                 if (!p.hasPermission("freeRPG.skillConfigGUI")) {
                     p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
                     return true;
@@ -2024,6 +2035,10 @@ public class FrpgCommands implements CommandExecutor {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
                 LanguageSelector lang = new LanguageSelector(p);
+                if (p.isSleeping()) {
+                    p.sendMessage(ChatColor.RED + lang.getString("bedGUI"));
+                    return true;
+                }
                 if (!p.hasPermission("freeRPG.confirmGUI")) {
                     p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
                     return true;
@@ -2144,6 +2159,10 @@ public class FrpgCommands implements CommandExecutor {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
                 LanguageSelector lang = new LanguageSelector(p);
+                if (p.isSleeping()) {
+                    p.sendMessage(ChatColor.RED + lang.getString("bedGUI"));
+                    return true;
+                }
                 if (!p.hasPermission("freeRPG.craftGUI")) {
                     p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
                     return true;
@@ -2160,36 +2179,38 @@ public class FrpgCommands implements CommandExecutor {
                 } else {
                     CraftingRecipes craftingRecipes = new CraftingRecipes();
                     ConfigLoad configLoad = new ConfigLoad();
-                    ArrayList<Object> alchemyInfo = configLoad.getAlchemyInfo();
+                    Map<String, CustomRecipe> customCraftingRecipes = configLoad.getCraftingRecipes();
                     String craftingLabel = args[1];
-                    ItemStack[] cowEgg = craftingRecipes.getCowEggRecipe();
-                    ItemStack[] beeEgg = craftingRecipes.getBeeEggRecipe();
-                    ItemStack[] mooshroomEgg1 = craftingRecipes.getMooshroomEgg1Recipe();
-                    ItemStack[] mooshroomEgg2 = craftingRecipes.getMooshroomEgg2Recipe();
-                    ItemStack[] horseEgg = craftingRecipes.getHorseEggRecipe();
-                    ItemStack[] slimeEgg = craftingRecipes.getSlimeEggRecipe();
-                    ItemStack[] tippedArrow = craftingRecipes.getTippedArrowRecipe();
-                    ItemStack[] power = craftingRecipes.getPowerRecipe();
-                    ItemStack[] efficiency = craftingRecipes.getEfficiencyRecipe();
-                    ItemStack[] sharpness = craftingRecipes.getSharpnessRecipe();
-                    ItemStack[] protection = craftingRecipes.getProtectionRecipe();
-                    ItemStack[] luck = craftingRecipes.getLuckRecipe();
-                    ItemStack[] lure = craftingRecipes.getLureRecipe();
-                    ItemStack[] frost = craftingRecipes.getFrostRecipe();
-                    ItemStack[] depth = craftingRecipes.getDepthRecipe();
-                    ItemStack[] mending = craftingRecipes.getMendingRecipe();
-                    ItemStack[] fortune = craftingRecipes.getFortuneRecipe();
-                    ItemStack[] waterBreathing = craftingRecipes.getWaterBreathingRecipe();
-                    ItemStack[] speed = craftingRecipes.getSpeedRecipe();
-                    ItemStack[] fireResistance = craftingRecipes.getFireResistanceRecipe();
-                    ItemStack[] healing = craftingRecipes.getHealingRecipe();
-                    ItemStack[] strength = craftingRecipes.getStrengthRecipe();
-                    ItemStack[] recipe = {new ItemStack(Material.AIR,1), new ItemStack(Material.AIR,1),new ItemStack(Material.AIR,1),
-                            new ItemStack(Material.AIR,1), new ItemStack(Material.AIR,1),new ItemStack(Material.AIR,1),
-                            new ItemStack(Material.AIR,1), new ItemStack(Material.AIR,1),new ItemStack(Material.AIR,1)};
+                    ArrayList<Material> cowEgg = craftingRecipes.getCowEggRecipe();
+                    ArrayList<Material> beeEgg = craftingRecipes.getBeeEggRecipe();
+                    ArrayList<Material> mooshroomEgg = craftingRecipes.getMooshroomEggRecipe();
+                    ArrayList<Material> horseEgg = craftingRecipes.getHorseEggRecipe();
+                    ArrayList<Material> slimeEgg = craftingRecipes.getSlimeEggRecipe();
+                    ArrayList<Material> tippedArrow = craftingRecipes.getTippedArrowRecipe();
+                    ArrayList<Material> power = craftingRecipes.getPowerRecipe();
+                    ArrayList<Material> efficiency = craftingRecipes.getEfficiencyRecipe();
+                    ArrayList<Material> sharpness = craftingRecipes.getSharpnessRecipe();
+                    ArrayList<Material> protection = craftingRecipes.getProtectionRecipe();
+                    ArrayList<Material> luck = craftingRecipes.getLuckRecipe();
+                    ArrayList<Material> lure = craftingRecipes.getLureRecipe();
+                    ArrayList<Material> frost = craftingRecipes.getFrostRecipe();
+                    ArrayList<Material> depth = craftingRecipes.getDepthRecipe();
+                    ArrayList<Material> mending = craftingRecipes.getMendingRecipe();
+                    ArrayList<Material> fortune = craftingRecipes.getFortuneRecipe();
+                    ArrayList<Material> waterBreathing = craftingRecipes.getWaterBreathingRecipe();
+                    ArrayList<Material> speed = craftingRecipes.getSpeedRecipe();
+                    ArrayList<Material> fireResistance = craftingRecipes.getFireResistanceRecipe();
+                    ArrayList<Material> healing = craftingRecipes.getHealingRecipe();
+                    ArrayList<Material> strength = craftingRecipes.getStrengthRecipe();
+                    ArrayList<Material> recipe = new ArrayList<>();
+                    for (int i = 0; i < 9; i++) {
+                        recipe.add(Material.AIR);
+                    }
 
-
-                    ItemStack output = new ItemStack(Material.ENCHANTED_BOOK);
+                    ItemStack output = new ItemStack(Material.TIPPED_ARROW,8);
+                    if (!craftingLabel.equalsIgnoreCase("archery1")) {
+                        output = customCraftingRecipes.get(craftingLabel).getItemStack();
+                    }
                     switch (craftingLabel) {
                         case "archery1":
                             recipe = tippedArrow;
@@ -2198,98 +2219,63 @@ public class FrpgCommands implements CommandExecutor {
                             break;
                         case "farming1":
                             recipe = cowEgg;
-                            output.setType(Material.COW_SPAWN_EGG);
                             break;
                         case "farming2":
                             recipe = beeEgg;
-                            output.setType(Material.BEE_SPAWN_EGG);
                             break;
                         case "farming3":
-                            recipe = mooshroomEgg1;
-                            output.setType(Material.MOOSHROOM_SPAWN_EGG);
+                            recipe = mooshroomEgg;
                             break;
                         case "farming4":
                             recipe = horseEgg;
-                            output.setType(Material.HORSE_SPAWN_EGG);
                             break;
                         case "farming5":
                             recipe = slimeEgg;
-                            output.setType(Material.SLIME_SPAWN_EGG);
                             break;
                         case "enchanting1":
                             recipe = power;
-                            output.addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 1);
                             break;
                         case "enchanting2":
                             recipe = efficiency;
-                            output.addUnsafeEnchantment(Enchantment.DIG_SPEED, 1);
                             break;
                         case "enchanting3":
                             recipe = sharpness;
-                            output.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 1);
                             break;
                         case "enchanting4":
                             recipe = protection;
-                            output.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
                             break;
                         case "enchanting5":
                             recipe = luck;
-                            output.addUnsafeEnchantment(Enchantment.LUCK, 1);
                             break;
                         case "enchanting6":
                             recipe = lure;
-                            output.addUnsafeEnchantment(Enchantment.LURE, 1);
                             break;
                         case "enchanting7":
                             recipe = frost;
-                            output.addUnsafeEnchantment(Enchantment.FROST_WALKER, 1);
                             break;
                         case "enchanting8":
                             recipe = depth;
-                            output.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 1);
                             break;
                         case "enchanting9":
                             recipe = mending;
-                            output.addUnsafeEnchantment(Enchantment.MENDING, 1);
                             break;
                         case "enchanting10":
                             recipe = fortune;
-                            output.addUnsafeEnchantment(Enchantment.LOOT_BONUS_BLOCKS, 1);
                             break;
                         case "alchemy1":
                             recipe = waterBreathing;
-                            output.setType(Material.POTION);
-                            PotionMeta pm1 = (PotionMeta) output.getItemMeta();
-                            pm1.setBasePotionData(new PotionData((PotionType) alchemyInfo.get(20),false,false));
-                            output.setItemMeta(pm1);
                             break;
                         case "alchemy2":
                             recipe = speed;
-                            output.setType(Material.POTION);
-                            PotionMeta pm2 = (PotionMeta) output.getItemMeta();
-                            pm2.setBasePotionData(new PotionData((PotionType) alchemyInfo.get(22),false,false));
-                            output.setItemMeta(pm2);
                             break;
                         case "alchemy3":
                             recipe = fireResistance;
-                            output.setType(Material.POTION);
-                            PotionMeta pm3 = (PotionMeta) output.getItemMeta();
-                            pm3.setBasePotionData(new PotionData((PotionType) alchemyInfo.get(24),false,false));
-                            output.setItemMeta(pm3);
                             break;
                         case "alchemy4":
                             recipe = healing;
-                            output.setType(Material.POTION);
-                            PotionMeta pm4 = (PotionMeta) output.getItemMeta();
-                            pm4.setBasePotionData(new PotionData((PotionType) alchemyInfo.get(26),false,false));
-                            output.setItemMeta(pm4);
                             break;
                         case "alchemy5":
                             recipe = strength;
-                            output.setType(Material.POTION);
-                            PotionMeta pm5 = (PotionMeta) output.getItemMeta();
-                            pm5.setBasePotionData(new PotionData((PotionType) alchemyInfo.get(28),false,false));
-                            output.setItemMeta(pm5);
                             break;
                         default:
                             break;
@@ -2316,7 +2302,7 @@ public class FrpgCommands implements CommandExecutor {
                     //Inputs and Output
                     Integer[] recipeIndices = {11,12,13,20,21,22,29,30,31};
                     for (int i=0; i <9; i++) {
-                        gui.setItem(recipeIndices[i],recipe[i]);
+                        gui.setItem(recipeIndices[i],new ItemStack(recipe.get(i),1));
                     }
                     gui.setItem(25,output);
 
@@ -2355,6 +2341,10 @@ public class FrpgCommands implements CommandExecutor {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
                 LanguageSelector lang = new LanguageSelector(p);
+                if (p.isSleeping()) {
+                    p.sendMessage(ChatColor.RED + lang.getString("bedGUI"));
+                    return true;
+                }
                 if (!p.hasPermission("freeRPG.skillsGUI")) {
                     p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
                     return true;
@@ -2545,6 +2535,8 @@ public class FrpgCommands implements CommandExecutor {
                 String[] labels = perksMap.get(skillName);
                 String[] lores_line2 = descriptionsMap.get(skillName);
                 String desc = "";
+                Map<String,CustomRecipe> customRecipeMap = loadConfig.getCraftingRecipes();
+                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
                 int special_index = 0;
                 switch (skillName){
                     case "mining":
@@ -2676,23 +2668,53 @@ public class FrpgCommands implements CommandExecutor {
                         desc = lang.getString("farmingPerkDesc1_1")  + " ";
                         switch (skill_1b_level) {
                             case 0:
-                                desc += lang.getString("cowSpawnEgg");
+                                Material output1 = customRecipeMap.get("farming"+1).getOutput();
+                                if (output1.equals(Material.COW_SPAWN_EGG)) {
+                                    desc += lang.getString("cowSpawnEgg");
+                                }
+                                else {
+                                    desc += stringsAndOtherData.cleanUpTitleString(output1.toString());
+                                }
                                 lores_line2[special_index] = desc;
                                 break;
                             case 1:
-                                desc += lang.getString("beeSpawnEgg");
+                                Material output2 = customRecipeMap.get("farming"+2).getOutput();
+                                if (output2.equals(Material.BEE_SPAWN_EGG)) {
+                                    desc += lang.getString("beeSpawnEgg");
+                                }
+                                else {
+                                    desc += stringsAndOtherData.cleanUpTitleString(output2.toString());
+                                }
                                 lores_line2[special_index] = desc;
                                 break;
                             case 2:
-                                desc += lang.getString("mooshroomSpawnEgg");
+                                Material output3 = customRecipeMap.get("farming"+3).getOutput();
+                                if (output3.equals(Material.MOOSHROOM_SPAWN_EGG)) {
+                                    desc += lang.getString("mooshroomSpawnEgg");
+                                }
+                                else {
+                                    desc += stringsAndOtherData.cleanUpTitleString(output3.toString());
+                                }
                                 lores_line2[special_index] = desc;
                                 break;
                             case 3:
-                                desc += lang.getString("horseSpawnEgg");
+                                Material output4 = customRecipeMap.get("farming"+4).getOutput();
+                                if (output4.equals(Material.HORSE_SPAWN_EGG)) {
+                                    desc += lang.getString("horseSpawnEgg");
+                                }
+                                else {
+                                    desc += stringsAndOtherData.cleanUpTitleString(output4.toString());
+                                }
                                 lores_line2[special_index] = desc;
                                 break;
                             case 4:
-                                desc += lang.getString("slimeSpawnEgg");
+                                Material output5 = customRecipeMap.get("farming"+5).getOutput();
+                                if (output5.equals(Material.SLIME_SPAWN_EGG)) {
+                                    desc += lang.getString("slimeSpawnEgg");
+                                }
+                                else {
+                                    desc += stringsAndOtherData.cleanUpTitleString(output5.toString());
+                                }
                                 lores_line2[special_index] = desc;
                                 break;
                             default:
@@ -2881,31 +2903,12 @@ public class FrpgCommands implements CommandExecutor {
                 Integer[] indices = {11,29,13,31,7,43,26};
                 //
                 for (int i = 0; i < labels.length; i++) {
-                    int iter = 0;
-                    ArrayList<String> splitDescs = new ArrayList<>();
                     ItemMeta meta = menu_items[i].getItemMeta();
                     meta.setDisplayName(ChatColor.BOLD + labels[i]);
                     ArrayList<String> lore = new ArrayList<>();
                     lore.add(lores_line1[i]);
-                    splitDescs.add(lores_line2[i]);
-                    while (splitDescs.get(splitDescs.size()-1).length() > 30) {
-                        int lastIndex = splitDescs.size()-1;
-                        boolean foundSpace = false;
-                        int counter = 30;
-                        while (foundSpace == false && counter > 0){
-                            if (splitDescs.get(lastIndex).charAt(counter) == ' ') {
-                                splitDescs.add(splitDescs.get(lastIndex).substring(0, counter));
-                                splitDescs.add(splitDescs.get(lastIndex).substring(counter+1));
-                                splitDescs.remove(iter);
-                                iter += 1;
-                                foundSpace = true;
-                                if (iter > 4) {
-                                    break;
-                                }
-                            }
-                            counter = counter - 1;
-                        }
-                    }
+                    String longString = lores_line2[i];
+                    ArrayList<String> splitDescs = stringsAndOtherData.getStringLines(longString);
                     for (int j = 0; j < splitDescs.size(); j++) {
                         lore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + splitDescs.get(j));
                     }
@@ -3063,7 +3066,6 @@ public class FrpgCommands implements CommandExecutor {
                     meta.setDisplayName(ChatColor.BOLD + labels_2[i]);
                     ArrayList<String> lore = new ArrayList<>();
                     String longString = lores_line2_2[i];
-                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
                     ArrayList<String> splitDescs = stringsAndOtherData.getStringLines(longString);
 
                     if (i == 3) {
@@ -3087,6 +3089,14 @@ public class FrpgCommands implements CommandExecutor {
                             new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE),
                             new ItemStack(Material.CRAFTING_TABLE)};
                     String[] craftingNames = {lang.getString("cowEgg"),lang.getString("beeEgg"),lang.getString("mooshroomEgg"),lang.getString("horseEgg"),lang.getString("slimeEgg")};
+                    Material[] defaultMaterials = {Material.COW_SPAWN_EGG,Material.BEE_SPAWN_EGG,Material.MOOSHROOM_SPAWN_EGG,Material.HORSE_SPAWN_EGG,Material.SLIME_SPAWN_EGG};
+                    for (int i = 0; i < craftingNames.length; i++) {
+                        int stringIndex = i+1;
+                        Material output = customRecipeMap.get("farming"+stringIndex).getOutput();
+                        if (!output.equals(defaultMaterials[i])) {
+                            craftingNames[i] = stringsAndOtherData.cleanUpTitleString(output.toString());
+                        }
+                    }
                     int animalFarmLevel = (int) pStats.get(8);
                     for (int i=0; i < craftingNames.length; i++) {
                         ArrayList<String> lore = new ArrayList<>();
@@ -3149,7 +3159,6 @@ public class FrpgCommands implements CommandExecutor {
                 ItemMeta configItemMeta = configItem.getItemMeta();
                 ArrayList<String> configItemLore = new ArrayList<>();
                 configItemMeta.setDisplayName(ChatColor.BOLD + lang.getString("configuration"));
-                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
                 configItemLore.addAll(stringsAndOtherData.getStringLines(lang.getString("skillConfigDesc")));
                 configItemMeta.setLore(configItemLore);
                 configItem.setItemMeta(configItemMeta);
@@ -3286,25 +3295,26 @@ public class FrpgCommands implements CommandExecutor {
                     case "enchanting":
                         special_index = 1;
                         desc = lang.getString("enchantingPerkDesc1_0")+" ";
+                        StringsAndOtherData stringsAndOtherData1 = new StringsAndOtherData();
                         switch (skill_2a_level) {
                             case 0:
-                                desc += lang.getString("enchantingPerkDesc1_1");
+                                desc += stringsAndOtherData1.getEnchantmentPerkDescString(1,p);
                                 lores_line2[special_index] = desc;
                                 break;
                             case 1:
-                                desc += lang.getString("enchantingPerkDesc1_2");
+                                desc += stringsAndOtherData1.getEnchantmentPerkDescString(2,p);
                                 lores_line2[special_index] = desc;
                                 break;
                             case 2:
-                                desc += lang.getString("enchantingPerkDesc1_3");
+                                desc += stringsAndOtherData1.getEnchantmentPerkDescString(3,p);
                                 lores_line2[special_index] = desc;
                                 break;
                             case 3:
-                                desc += lang.getString("enchantingPerkDesc1_4");
+                                desc += stringsAndOtherData1.getEnchantmentPerkDescString(4,p);
                                 lores_line2[special_index] = desc;
                                 break;
                             case 4:
-                                desc += lang.getString("enchantingPerkDesc1_5");
+                                desc += stringsAndOtherData1.getEnchantmentPerkDescString(5,p);
                                 lores_line2[special_index] = desc;
                                 break;
                             default:
@@ -3341,31 +3351,13 @@ public class FrpgCommands implements CommandExecutor {
                 Integer[] indices = {20,23,26};
                 //Set skills
                 for (int i = 0; i < labels.length; i++) {
-                    int iter = 0;
-                    ArrayList<String> splitDescs = new ArrayList<>();
                     ItemMeta meta = menu_items[i].getItemMeta();
                     meta.setDisplayName(ChatColor.BOLD + labels[i]);
                     ArrayList<String> lore = new ArrayList<>();
                     lore.add(lores_line1[i]);
-                    splitDescs.add(lores_line2[i]);
-                    while (splitDescs.get(splitDescs.size()-1).length() > 30) {
-                        int lastIndex = splitDescs.size()-1;
-                        boolean foundSpace = false;
-                        int counter = 30;
-                        while (foundSpace == false && counter > 0){
-                            if (splitDescs.get(lastIndex).charAt(counter) == ' ') {
-                                splitDescs.add(splitDescs.get(lastIndex).substring(0, counter));
-                                splitDescs.add(splitDescs.get(lastIndex).substring(counter+1));
-                                splitDescs.remove(iter);
-                                iter += 1;
-                                foundSpace = true;
-                                if (iter > 4) {
-                                    break;
-                                }
-                            }
-                            counter = counter - 1;
-                        }
-                    }
+                    String longString = lores_line2[i];
+                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                    ArrayList<String> splitDescs = stringsAndOtherData.getStringLines(longString);
                     for (int j = 0; j < splitDescs.size(); j++) {
                         lore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + splitDescs.get(j));
                     }
@@ -3428,31 +3420,13 @@ public class FrpgCommands implements CommandExecutor {
 
                 Integer[] indices_2 = {45,0,18};
                 for (int i = 0; i < labels_2.length; i++) {
-                    ArrayList<String> splitDescs = new ArrayList<>();
                     ItemMeta meta = menu_items_2[i].getItemMeta();
                     meta.setDisplayName(ChatColor.BOLD + labels_2[i]);
                     ArrayList<String> lore = new ArrayList<>();
-                    splitDescs.add(lores_line2_2[i]);
-                    int iter = 0;
-                    while (splitDescs.get(splitDescs.size()-1).length() > 30) {
-                        int lastIndex = splitDescs.size()-1;
-                        boolean foundSpace = false;
-                        int counter = 30;
-                        while (foundSpace == false && counter > 0){
-                            if (splitDescs.get(lastIndex).charAt(counter) == ' ') {
-                                splitDescs.add(splitDescs.get(lastIndex).substring(0, counter));
-                                splitDescs.add(splitDescs.get(lastIndex).substring(counter+1));
-                                splitDescs.remove(iter);
-                                iter += 1;
-                                foundSpace = true;
-                                if (iter > 6) {
-                                    break;
-                                }
-                            }
-                            counter = counter - 1;
-                        }
-                    }
                     lore.add(lores_line1_2[i]);
+                    String longString = lores_line2_2[i];
+                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                    ArrayList<String> splitDescs = stringsAndOtherData.getStringLines(longString);
                     for (int j = 0; j < splitDescs.size(); j++) {
                         lore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + splitDescs.get(j));
                     };
@@ -3463,16 +3437,14 @@ public class FrpgCommands implements CommandExecutor {
 
                 //Crafting
                 if (skillName.equalsIgnoreCase("enchanting")) {
+                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
                     Integer[] indices_crafting = {39,40,41,42,43,48,49,50,51,52};
                     ItemStack[] crafting = {new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE),
                             new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE),
                             new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE),
                             new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE),
                             new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE)};
-                    String[] craftingNames = {lang.getString("enchantingCraft0"),lang.getString("enchantingCraft1"),
-                            lang.getString("enchantingCraft2"),lang.getString("enchantingCraft3"),lang.getString("enchantingCraft4"),
-                            lang.getString("enchantingCraft5"),lang.getString("enchantingCraft6"),lang.getString("enchantingCraft7"),
-                            lang.getString("enchantingCraft8"),lang.getString("enchantingCraft9")};
+                    String[] craftingNames = stringsAndOtherData.getEnchantingCraftingNames(p);
                     int bookSmartLevel = (int) pStats.get(9);
                     for (int i=0; i < craftingNames.length; i++) {
                         ArrayList<String> lore = new ArrayList<>();
@@ -3744,31 +3716,13 @@ public class FrpgCommands implements CommandExecutor {
                 Integer[] indices = {1,19,37,3,21,39,6,24,42,26};
                 //
                 for (int i = 0; i < labels.length; i++) {
-                    int iter = 0;
-                    ArrayList<String> splitDescs = new ArrayList<>();
                     ItemMeta meta = menu_items[i].getItemMeta();
                     meta.setDisplayName(ChatColor.BOLD + labels[i]);
                     ArrayList<String> lore = new ArrayList<>();
                     lore.add(lores_line1[i]);
-                    splitDescs.add(lores_line2[i]);
-                    while (splitDescs.get(splitDescs.size()-1).length() > 30) {
-                        int lastIndex = splitDescs.size()-1;
-                        boolean foundSpace = false;
-                        int counter = 30;
-                        while (foundSpace == false && counter > 0){
-                            if (splitDescs.get(lastIndex).charAt(counter) == ' ') {
-                                splitDescs.add(splitDescs.get(lastIndex).substring(0, counter));
-                                splitDescs.add(splitDescs.get(lastIndex).substring(counter+1));
-                                splitDescs.remove(iter);
-                                iter += 1;
-                                foundSpace = true;
-                                if (iter > 4) {
-                                    break;
-                                }
-                            }
-                            counter = counter - 1;
-                        }
-                    }
+                    String longString = lores_line2[i];
+                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                    ArrayList<String> splitDescs = stringsAndOtherData.getStringLines(longString);
                     for (int j = 0; j < splitDescs.size(); j++) {
                         lore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + splitDescs.get(j));
                     }
@@ -3793,31 +3747,13 @@ public class FrpgCommands implements CommandExecutor {
                 }
                 Integer[] indices_2 = {0,45};
                 for (int i = 0; i < labels_2.length; i++) {
-                    ArrayList<String> splitDescs = new ArrayList<>();
                     ItemMeta meta = menu_items_2[i].getItemMeta();
                     meta.setDisplayName(ChatColor.BOLD + labels_2[i]);
                     ArrayList<String> lore = new ArrayList<>();
-                    splitDescs.add(lores_line2_2[i]);
-                    int iter = 0;
-                    while (splitDescs.get(splitDescs.size()-1).length() > 30) {
-                        int lastIndex = splitDescs.size()-1;
-                        boolean foundSpace = false;
-                        int counter = 30;
-                        while (foundSpace == false && counter > 0){
-                            if (splitDescs.get(lastIndex).charAt(counter) == ' ') {
-                                splitDescs.add(splitDescs.get(lastIndex).substring(0, counter));
-                                splitDescs.add(splitDescs.get(lastIndex).substring(counter+1));
-                                splitDescs.remove(iter);
-                                iter += 1;
-                                foundSpace = true;
-                                if (iter > 6) {
-                                    break;
-                                }
-                            }
-                            counter = counter - 1;
-                        }
-                    }
                     lore.add(lores_line1_2[i]);
+                    String longString = lores_line2_2[i];
+                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                    ArrayList<String> splitDescs = stringsAndOtherData.getStringLines(longString);
                     for (int j = 0; j < splitDescs.size(); j++) {
                         lore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + splitDescs.get(j));
                     }

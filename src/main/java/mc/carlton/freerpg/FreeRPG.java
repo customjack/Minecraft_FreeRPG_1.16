@@ -12,36 +12,23 @@ import mc.carlton.freerpg.enchantingEvents.*;
 import mc.carlton.freerpg.furnaceEvents.FurnaceBurn;
 import mc.carlton.freerpg.furnaceEvents.FurnaceInventoryClick;
 import mc.carlton.freerpg.furnaceEvents.FurnaceSmelt;
-import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.globalVariables.*;
 import mc.carlton.freerpg.guiEvents.*;
 import mc.carlton.freerpg.leaveAndJoin.LoginProcedure;
 import mc.carlton.freerpg.leaveAndJoin.LogoutProcedure;
 import mc.carlton.freerpg.miscEvents.*;
-import mc.carlton.freerpg.gameTools.ArrowTypes;
 import mc.carlton.freerpg.leaveAndJoin.PlayerJoin;
 import mc.carlton.freerpg.leaveAndJoin.PlayerLeave;
 import mc.carlton.freerpg.pistonEvents.PistonExtend;
 import mc.carlton.freerpg.pistonEvents.PistonRetract;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionData;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionType;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public final class FreeRPG extends JavaPlugin implements Listener {
 
@@ -74,12 +61,12 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         //Initializes all "global" variables
         MinecraftVersion minecraftVersion = new MinecraftVersion();
         minecraftVersion.initializeVersion();
-        ItemGroups itemGroups =  new ItemGroups();
-        itemGroups.initializeItemGroups();
         EntityGroups entityGroups = new EntityGroups();
         entityGroups.initializeAllEntityGroups();
         ExpMaps expMaps = new ExpMaps();
         expMaps.initializeAllExpMaps();
+        ItemGroups itemGroups =  new ItemGroups();
+        itemGroups.initializeItemGroups();
         CraftingRecipes craftingRecipes = new CraftingRecipes();
         craftingRecipes.initializeAllCraftingRecipes();
         StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
@@ -146,33 +133,10 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerDropItem(), this);
         getServer().getPluginManager().registerEvents(new ExperienceBottleBreak(), this);
         getServer().getPluginManager().registerEvents(new SkillsConfigGUIClick(), this);
+        getServer().getPluginManager().registerEvents(new EntityPickUpItem(), this);
 
         getCommand("frpg").setExecutor(new FrpgCommands());
         getCommand("spite").setExecutor(new SpiteQuote());
-
-        //Recipes
-        cowEgg();
-        beeEgg();
-        mooshroomEgg1();
-        mooshroomEgg2();
-        horseEgg();
-        slimeEgg();
-        dragonLessArrows();
-        powerBook();
-        efficiencyBook();
-        sharpnessBook();
-        protectionBook();
-        luckBook();
-        lureBook();
-        frostBook();
-        depthBook();
-        mendingBook();
-        fortuneBook();
-        waterBreathingPotion();
-        speedPotion();
-        fireResistancePotion();
-        healingPotion();
-        strengthPotion();
 
         //If the plugin starts with players online
         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -209,298 +173,5 @@ public final class FreeRPG extends JavaPlugin implements Listener {
             RunTimeData runTimeData = new RunTimeData();
             runTimeData.logRunTimeData();
         }
-    }
-
-    //Recipe methods
-    private void cowEgg() {
-        ItemStack item = new ItemStack(Material.COW_SPAWN_EGG, 1);
-        NamespacedKey key = new NamespacedKey(this, "frpgCowSpawnEgg");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape("LBL", "BbB", "LBL");
-        recipe.setIngredient('L', Material.LEATHER);
-        recipe.setIngredient('B', Material.BEEF);
-        recipe.setIngredient('b', Material.BONE);
-        Bukkit.addRecipe(recipe);
-    }
-    private void beeEgg() {
-        ItemStack item = new ItemStack(Material.BEE_SPAWN_EGG, 1);
-        NamespacedKey key = new NamespacedKey(this, "frpgBeeSpawnEgg");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape(" O ", "DHR", " A ");
-        recipe.setIngredient('O', Material.OXEYE_DAISY);
-        recipe.setIngredient('D', Material.DANDELION);
-        recipe.setIngredient('H', Material.HONEY_BOTTLE);
-        recipe.setIngredient('R', Material.POPPY);
-        recipe.setIngredient('A', Material.AZURE_BLUET);
-        Bukkit.addRecipe(recipe);
-    }
-    private void mooshroomEgg1() {
-        ItemStack item = new ItemStack(Material.MOOSHROOM_SPAWN_EGG, 1);
-        NamespacedKey key = new NamespacedKey(this, "frpgMooshroomSpawnEgg1");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape("LML", "BbB", "LBL");
-        recipe.setIngredient('L', Material.LEATHER);
-        recipe.setIngredient('B', Material.BEEF);
-        recipe.setIngredient('b', Material.BONE);
-        recipe.setIngredient('M', Material.RED_MUSHROOM);
-        Bukkit.addRecipe(recipe);
-    }
-    private void mooshroomEgg2() {
-        ItemStack item = new ItemStack(Material.MOOSHROOM_SPAWN_EGG, 1);
-        NamespacedKey key = new NamespacedKey(this, "frpgMooshroomSpawnEgg2");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape("LML", "BbB", "LBL");
-        recipe.setIngredient('L', Material.LEATHER);
-        recipe.setIngredient('B', Material.BEEF);
-        recipe.setIngredient('b', Material.BONE);
-        recipe.setIngredient('M', Material.BROWN_MUSHROOM);
-        Bukkit.addRecipe(recipe);
-    }
-    private void horseEgg() {
-        ItemStack item = new ItemStack(Material.HORSE_SPAWN_EGG, 1);
-        NamespacedKey key = new NamespacedKey(this, "frpgHorseSpawnEgg");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape("LSL", "LbL", "HHH");
-        recipe.setIngredient('L', Material.LEATHER);
-        recipe.setIngredient('S', Material.SADDLE);
-        recipe.setIngredient('b', Material.BONE);
-        recipe.setIngredient('H', Material.HAY_BLOCK);
-        Bukkit.addRecipe(recipe);
-    }
-    private void slimeEgg() {
-        ItemStack item = new ItemStack(Material.SLIME_SPAWN_EGG, 1);
-        NamespacedKey key = new NamespacedKey(this, "frpgSlimeSpawnEgg");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape("   ", " SS", " SS");
-        recipe.setIngredient('S', Material.SLIME_BALL);
-        Bukkit.addRecipe(recipe);
-    }
-
-    private void dragonLessArrows() {
-        ItemStack item = new ItemStack(Material.TIPPED_ARROW, 8);
-        NamespacedKey key = new NamespacedKey(this, "frpgTippedArrows");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape("AAA", "APA", "AAA");
-        recipe.setIngredient('A', Material.ARROW);
-        recipe.setIngredient('P', Material.POTION);
-        Bukkit.addRecipe(recipe);
-    }
-
-    private void powerBook() {
-        ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
-        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-        meta.addStoredEnchant(Enchantment.ARROW_DAMAGE,1,true);
-        item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "frpgPowerBook");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape("   ", " PP", " P*");
-        recipe.setIngredient('*', Material.BOW);
-        recipe.setIngredient('P', Material.PAPER);
-        Bukkit.addRecipe(recipe);
-    }
-
-    private void efficiencyBook() {
-        ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
-        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-        meta.addStoredEnchant(Enchantment.DIG_SPEED,1,true);
-        item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "frpgEfficiencyBook");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape("   ", " PP", " P*");
-        recipe.setIngredient('*', Material.IRON_PICKAXE);
-        recipe.setIngredient('P', Material.PAPER);
-        Bukkit.addRecipe(recipe);
-    }
-
-    private void sharpnessBook() {
-        ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
-        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-        meta.addStoredEnchant(Enchantment.DAMAGE_ALL,1,true);
-        item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "frpgSharpnessBook");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape("I  ", " PP", " P*");
-        recipe.setIngredient('*', Material.IRON_SWORD);
-        recipe.setIngredient('I', Material.IRON_INGOT);
-        recipe.setIngredient('P', Material.PAPER);
-        Bukkit.addRecipe(recipe);
-    }
-
-    private void protectionBook() {
-        ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
-        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-        meta.addStoredEnchant(Enchantment.PROTECTION_ENVIRONMENTAL,1,true);
-        item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "frpgProtectionBook");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape(" * ", "*PP", " P*");
-        recipe.setIngredient('*', Material.IRON_INGOT);
-        recipe.setIngredient('P', Material.PAPER);
-        Bukkit.addRecipe(recipe);
-    }
-
-    private void luckBook() {
-        ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
-        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-        meta.addStoredEnchant(Enchantment.LUCK,1,true);
-        item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "frpgLuckBook");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape("R  ", " PP", " P*");
-        recipe.setIngredient('*', Material.FISHING_ROD);
-        recipe.setIngredient('R', Material.RABBIT_FOOT);
-        recipe.setIngredient('P', Material.PAPER);
-        Bukkit.addRecipe(recipe);
-    }
-
-    private void lureBook() {
-        ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
-        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-        meta.addStoredEnchant(Enchantment.LURE,1,true);
-        item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "frpgLureBook");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape("R  ", " PP", " P*");
-        recipe.setIngredient('*', Material.FISHING_ROD);
-        recipe.setIngredient('R', Material.COD_BUCKET);
-        recipe.setIngredient('P', Material.PAPER);
-        Bukkit.addRecipe(recipe);
-    }
-
-    private void frostBook() {
-        ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
-        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-        meta.addStoredEnchant(Enchantment.FROST_WALKER,1,true);
-        item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "frpgFrostBook");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape("   ", " PP", " P*");
-        recipe.setIngredient('*', Material.BLUE_ICE);
-        recipe.setIngredient('P', Material.PAPER);
-        Bukkit.addRecipe(recipe);
-    }
-
-    private void depthBook() {
-        ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
-        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-        meta.addStoredEnchant(Enchantment.DEPTH_STRIDER,1,true);
-        item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "frpgDepthBook");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape("   ", " PP", " P*");
-        recipe.setIngredient('*', Material.NAUTILUS_SHELL);
-        recipe.setIngredient('P', Material.PAPER);
-        Bukkit.addRecipe(recipe);
-    }
-
-    private void mendingBook() {
-        ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
-        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-        meta.addStoredEnchant(Enchantment.MENDING,1,true);
-        item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "frpgMendingBook");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape("   ", " PP", " P*");
-        recipe.setIngredient('*', Material.DIAMOND_BLOCK);
-        recipe.setIngredient('P', Material.PAPER);
-        Bukkit.addRecipe(recipe);
-    }
-
-    private void fortuneBook() {
-        ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
-        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-        meta.addStoredEnchant(Enchantment.LOOT_BONUS_BLOCKS,1,true);
-        item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "frpgFortuneBook");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape("   ", " PP", " P*");
-        recipe.setIngredient('*', Material.GOLD_BLOCK);
-        recipe.setIngredient('P', Material.PAPER);
-        Bukkit.addRecipe(recipe);
-    }
-
-    private void waterBreathingPotion() {
-        ConfigLoad configLoad = new ConfigLoad();
-        ArrayList<Object> alchemyInfo =configLoad.getAlchemyInfo();
-        PotionType potionType = (PotionType) alchemyInfo.get(20);
-        Material potionIngredient = (Material) alchemyInfo.get(21);
-        ItemStack item = new ItemStack(Material.POTION, 1);
-        PotionMeta meta = (PotionMeta) item.getItemMeta();
-        meta.setBasePotionData(new PotionData(potionType,false,false));
-        item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "frpgWaterBreathingPotion");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape(" I ", " W ", "   ");
-        recipe.setIngredient('I', potionIngredient);
-        recipe.setIngredient('W', Material.GLASS_BOTTLE);
-        Bukkit.addRecipe(recipe);
-    }
-
-    private void speedPotion() {
-        ConfigLoad configLoad = new ConfigLoad();
-        ArrayList<Object> alchemyInfo =configLoad.getAlchemyInfo();
-        PotionType potionType = (PotionType) alchemyInfo.get(22);
-        Material potionIngredient = (Material) alchemyInfo.get(23);
-        ItemStack item = new ItemStack(Material.POTION, 1);
-        PotionMeta meta = (PotionMeta) item.getItemMeta();
-        meta.setBasePotionData(new PotionData(potionType,false,false));
-        item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "frpgSpeedPotion");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape(" I ", " W ", "   ");
-        recipe.setIngredient('I', potionIngredient);
-        recipe.setIngredient('W', Material.GLASS_BOTTLE);
-        Bukkit.addRecipe(recipe);
-    }
-
-    private void fireResistancePotion() {
-        ConfigLoad configLoad = new ConfigLoad();
-        ArrayList<Object> alchemyInfo =configLoad.getAlchemyInfo();
-        PotionType potionType = (PotionType) alchemyInfo.get(24);
-        Material potionIngredient = (Material) alchemyInfo.get(25);
-        ItemStack item = new ItemStack(Material.POTION, 1);
-        PotionMeta meta = (PotionMeta) item.getItemMeta();
-        meta.setBasePotionData(new PotionData(potionType,false,false));
-        item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "frpgFireResistancePotion");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape(" I ", " W ", "   ");
-        recipe.setIngredient('I', potionIngredient);
-        recipe.setIngredient('W', Material.GLASS_BOTTLE);
-        Bukkit.addRecipe(recipe);
-    }
-
-    private void healingPotion() {
-        ConfigLoad configLoad = new ConfigLoad();
-        ArrayList<Object> alchemyInfo =configLoad.getAlchemyInfo();
-        PotionType potionType = (PotionType) alchemyInfo.get(26);
-        Material potionIngredient = (Material) alchemyInfo.get(27);
-        ItemStack item = new ItemStack(Material.POTION, 1);
-        PotionMeta meta = (PotionMeta) item.getItemMeta();
-        meta.setBasePotionData(new PotionData(potionType,false,false));
-        item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "frpgHealingPotion");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape(" I ", " W ", "   ");
-        recipe.setIngredient('I', potionIngredient);
-        recipe.setIngredient('W', Material.GLASS_BOTTLE);
-        Bukkit.addRecipe(recipe);
-    }
-
-    private void strengthPotion() {
-        ConfigLoad configLoad = new ConfigLoad();
-        ArrayList<Object> alchemyInfo =configLoad.getAlchemyInfo();
-        PotionType potionType = (PotionType) alchemyInfo.get(28);
-        Material potionIngredient = (Material) alchemyInfo.get(29);
-        ItemStack item = new ItemStack(Material.POTION, 1);
-        PotionMeta meta = (PotionMeta) item.getItemMeta();
-        meta.setBasePotionData(new PotionData(potionType,false,false));
-        item.setItemMeta(meta);
-        NamespacedKey key = new NamespacedKey(this, "frpgStrengthPotion");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape(" I ", " W ", "   ");
-        recipe.setIngredient('I', potionIngredient);
-        recipe.setIngredient('W', Material.GLASS_BOTTLE);
-        Bukkit.addRecipe(recipe);
     }
 }

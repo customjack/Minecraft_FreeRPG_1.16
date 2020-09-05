@@ -1,8 +1,10 @@
 package mc.carlton.freerpg.combatEvents;
 
+import mc.carlton.freerpg.gameTools.EntityPickedUpItemStorage;
 import mc.carlton.freerpg.perksAndAbilities.*;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,7 +16,7 @@ import java.util.List;
 public class PlayerKillEntity implements Listener {
     @EventHandler
     void onEntityDie(EntityDeathEvent e){
-        Entity entity = e.getEntity();
+        LivingEntity entity = e.getEntity();
         Player p = e.getEntity().getKiller();
 
         if (p != null) {
@@ -53,6 +55,9 @@ public class PlayerKillEntity implements Listener {
             globalClass.gainSoul(entity);
 
         }
+
+        EntityPickedUpItemStorage entityPickedUpItemStorage = new EntityPickedUpItemStorage();
+        entityPickedUpItemStorage.removeEntity(entity);
 
 
 

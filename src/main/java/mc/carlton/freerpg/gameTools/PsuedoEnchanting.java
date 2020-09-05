@@ -1,10 +1,14 @@
 package mc.carlton.freerpg.gameTools;
 
+import mc.carlton.freerpg.FreeRPG;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 
@@ -128,6 +132,7 @@ public class PsuedoEnchanting {
         enchantmentWeightMap.put(Enchantment.DURABILITY,5);
         enchantmentWeightMap.put(Enchantment.MENDING,2);
         enchantmentWeightMap.put(Enchantment.VANISHING_CURSE,1);
+
 
         enchantmentBracketMap.put(Enchantment.PROTECTION_ENVIRONMENTAL,new Integer[]{1,12,12,23,23,34,34,45});
         enchantmentBracketMap.put(Enchantment.PROTECTION_FALL,new Integer[]{5,11,11,17,17,23,23,29});

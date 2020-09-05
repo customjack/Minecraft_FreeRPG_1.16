@@ -39,7 +39,6 @@ public class MinecraftVersion {
             minecraftVersion_Double = 1.16;
             System.out.println("[FreeRPG] Could not determine minecraft verison, Assuming 1.16...");
         }
-        System.out.println(minecraftVersion_Double);
     }
 
     public double getMinecraftVersion_Double(){

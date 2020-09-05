@@ -2,6 +2,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
+import mc.carlton.freerpg.gameTools.EntityPickedUpItemStorage;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.globalVariables.EntityGroups;
 import mc.carlton.freerpg.playerAndServerInfo.*;
@@ -12,6 +13,7 @@ import org.bukkit.World;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
@@ -388,7 +390,7 @@ public class Defense {
 
     }
 
-    public void doubleDrops(Entity entity, List<ItemStack> drops, World world) {
+    public void doubleDrops(LivingEntity entity, List<ItemStack> drops, World world) {
         if (!runMethods) {
             return;
         }
@@ -397,9 +399,12 @@ public class Defense {
         if (hostileMobs.contains(entity.getType())) {
             Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
             int doubleDropsLevel = (int) pStat.get(skillName).get(6);
+            EntityPickedUpItemStorage entityPickedUpItemStorage = new EntityPickedUpItemStorage();
             if (doubleDropsLevel*0.0005 > rand.nextDouble()) {
                 for (ItemStack drop : drops) {
-                    world.dropItemNaturally(entity.getLocation().add(0, 0.5, 0), drop);
+                    if (!entityPickedUpItemStorage.wasItemPickedUp(drop,entity)) {
+                        world.dropItemNaturally(entity.getLocation().add(0, 0.5, 0), drop);
+                    }
                 }
             }
         }
