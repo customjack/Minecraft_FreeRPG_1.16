@@ -929,10 +929,10 @@ public class Fishing {
                                       new ItemStack(Material.GLASS_BOTTLE,1),new ItemStack(Material.BONE,1), junkInk, new ItemStack(Material.TRIPWIRE_HOOK,1)};
             for (int i=0; i < naturalJunkBrackets.length;i++) {
                 if (roll2 < naturalJunkBrackets[i]) {
+                    increaseStats.changeEXP(skillName,(int) Math.round(expMultiplier*expMap.get("catchJunk")));
                     return junkItems[i];
                 }
             }
-            increaseStats.changeEXP(skillName,(int) Math.round(expMultiplier*expMap.get("catchJunk")));
         }
         else if (roll < rollBrackets[1]) { //Natural Tier (0)
             double roll2 = rand.nextDouble();
@@ -959,10 +959,10 @@ public class Fishing {
             ItemStack[] items =  {rareBow,rareRod,enchantedBook,new ItemStack(Material.NAME_TAG,1), new ItemStack(Material.NAUTILUS_SHELL,1),new ItemStack(Material.SADDLE,1), new ItemStack(Material.LILY_PAD,1)};
             for (int i=0; i < naturalRareBrackets.length;i++) {
                 if (roll2 < naturalRareBrackets[i]) {
+                    increaseStats.changeEXP(skillName,(int) Math.round(expMultiplier*expMap.get("catchTier0")));
                     return items[i];
                 }
             }
-            increaseStats.changeEXP(skillName,(int) Math.round(expMultiplier*expMap.get("catchTier0")));
 
 
         }

@@ -21,7 +21,7 @@
 
 general:
   playerBaseHP: 20.0 #Player max health will reset to this value on login (or this value plus 4 if the player has the Hearty perk)
-  defaultLanguage: enUs #Choices: enUs, huHU, frFR, deDE, plPL
+  defaultLanguage: enUs #Choices: enUs, huHU, frFR, deDE, plPL, esCL, and custom
   allowCustomExplosions: true #If false, some mining perks won't work
   allowBuild: true #Keep true in most cases (If you use world guard to deny build permissions in entire worlds, set to false)
   allowPvP: true #Set to false to disable skills from activating during PvP
@@ -30,6 +30,8 @@ general:
   saveRunTimeData: false #Logs some run time information in /.../FreeRPG/RunTimes
   verboseRunTimeData: false #Logs additional run time information /.../FreeRPG/RunTimes
   trackFewerBlocks: false #Reduces the number of blocks tracked in blockLocations.dat to a few essential blocks
+  autoUpdateConfig: true #Disables config.yml automatically updating when it is missing information. NOT RECOMMEND TO CHANGE
+  autoUpdateLanguages: true #Disables languages.yml automatically updating when it is missing information. NOT RECOMMENDED TO CHANGE
 multipliers: #Multipliers multiply EXP earned
   globalMultiplier: 1.0 #global Multiplier increases EXP in all skills and STACKS with all other multipliers
   diggingMultiplier: 1.0

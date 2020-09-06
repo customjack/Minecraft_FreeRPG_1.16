@@ -36,17 +36,21 @@ public final class FreeRPG extends JavaPlugin implements Listener {
     public void onEnable() {
         // Plugin startup logic
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
+
+        //Saves Resources if they aren't there
         getConfig().options().copyDefaults();
         saveDefaultConfig();
+        saveResource("languages.yml",false);
 
-        //config Load
+        //Checks config.yml and languages.yml for updates, and update them if needed (while trying to keep any edits)
+        YMLManager ymlManager = new YMLManager();
+        ymlManager.updateCheckYML("config.yml");
+        ymlManager.updateCheckYML("languages.yml");
+
+        //Loads config to into memory
         ConfigLoad loadConfig = new ConfigLoad();
         loadConfig.initializeConfig();
 
-        //Saves Custom Languages YAML file
-        saveResource("languages.yml",false);
-        LanguagesYMLManager languagesYMLManager = new LanguagesYMLManager();
-        languagesYMLManager.checkLanguagesYML();
 
         //Initialize Placed Blocks Map
         PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();

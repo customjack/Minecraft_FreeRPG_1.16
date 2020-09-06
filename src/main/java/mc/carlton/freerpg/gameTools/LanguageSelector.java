@@ -15,11 +15,13 @@ public class LanguageSelector {
 
 
     public LanguageSelector(Player player) {
-        this.p = player;
-        PlayerStats languageStat = new PlayerStats(p);
-        this.playerLanguage = languageStat.getPlayerLanguage();
-        StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-        this.idToStringMap = stringsAndOtherData.getIdToStringMap();
+        if (player != null) {
+            this.p = player;
+            PlayerStats languageStat = new PlayerStats(p);
+            this.playerLanguage = languageStat.getPlayerLanguage();
+            StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+            this.idToStringMap = stringsAndOtherData.getIdToStringMap();
+        }
     }
 
     public String getLanguage(){
@@ -29,6 +31,15 @@ public class LanguageSelector {
     public String getString(String id) {
         String text = "";
         Object text0 = idToStringMap.get(playerLanguage + "." + id);
+        if (text0 != null) {
+            text = text0.toString();
+        }
+        return text;
+    }
+
+    public String getString(String id,String languageCode) { //Used if we want to ignore the player's language choice
+        String text = "";
+        Object text0 = idToStringMap.get(languageCode + "." + id);
         if (text0 != null) {
             text = text0.toString();
         }

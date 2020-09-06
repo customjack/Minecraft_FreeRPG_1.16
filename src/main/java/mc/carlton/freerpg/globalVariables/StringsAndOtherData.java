@@ -5,18 +5,24 @@ import mc.carlton.freerpg.gameTools.CustomPotion;
 import mc.carlton.freerpg.gameTools.CustomRecipe;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class StringsAndOtherData {
@@ -26,6 +32,10 @@ public class StringsAndOtherData {
     static Map<String, String[]> passiveDescriptionsMap = new HashMap<>();
     static public String version;
     static Map<String,String> idToStringMap = new HashMap<>();
+    static Map<String,Double> languageProgress = new HashMap<>();
+    static ArrayList<String> languageCodes = new ArrayList<>();
+    static Map<Integer,String> bookIndexes = new HashMap<>();
+    static Map<Integer,String> dyeIndexes = new HashMap<>();
 
     ArrayList<Double> levelingInfo;
 
@@ -38,6 +48,8 @@ public class StringsAndOtherData {
         initializeSkillDescriptions();
         initializeVersion();
         initializeLanguagesData();
+        initializeConfigGUIIndexInfo();
+        initializeLanguageCompletions();
 
     }
 
@@ -48,10 +60,66 @@ public class StringsAndOtherData {
         languagesYML.setWritable(true,false);
         FileConfiguration languages = YamlConfiguration.loadConfiguration(languagesYML);
         for (String language : languages.getConfigurationSection("lang").getKeys(false)) {
+            languageCodes.add(language);
             for (String id : languages.getConfigurationSection("lang." + language).getKeys(false)) {
                 String fullId = language +"." + id;
                 idToStringMap.put(fullId,languages.getString("lang." + language + "." + id));
             }
+        }
+        if (languageCodes.size() > 14) {
+            System.out.println("[FreeRPG] WARNING: Player configuration currently only supports the first 12 language options!");
+        }
+    }
+
+    public void initializeConfigGUIIndexInfo() {
+        int totalIndexes = Math.min(languageCodes.size(),12);
+        int[] possibleBookIndexes = {19,20,21,22,23,24,25,37,38,49,40,41,42,43};
+        int[] possibleDyeIndexes = {28,29,30,31,32,33,34,46,47,48,49,50,51,52};
+        for (int i = 0; i < totalIndexes; i++) {
+            bookIndexes.put(possibleBookIndexes[i],languageCodes.get(i));
+            dyeIndexes.put(possibleDyeIndexes[i],languageCodes.get(i));
+        }
+    }
+
+    public void initializeLanguageCompletions() {
+        if (!languageCodes.contains("enUs")) {
+            System.out.println("[FreeRPG] Languages.yml is missing enUs! Some features may be broken");
+            for (String language : languageCodes) {
+                languageProgress.put(language,1.0);
+            }
+            return;
+        }
+        languageProgress.put("enUs",1.0);
+        Map<String, Integer> totalLanguageString = new HashMap<>();
+        Map<String, Integer> totalIncompleteLanguageString = new HashMap<>();
+        for (String language : languageCodes) {
+            totalLanguageString.put(language,0);
+            totalIncompleteLanguageString.put(language,0);
+        }
+        for (String partialYamlKey : idToStringMap.keySet()) {
+            languagesLoop:
+            for (String language : languageCodes) {
+                if (language.equalsIgnoreCase("enUs")) {
+                    continue;
+                }
+                if (partialYamlKey.contains(language)) {
+                    int indexOfDot = partialYamlKey.indexOf(".");
+                    String englishKey = "enUs" + partialYamlKey.substring(indexOfDot);
+                    totalLanguageString.put(language,totalLanguageString.get(language)+1);
+                    if (idToStringMap.get(partialYamlKey).equalsIgnoreCase(idToStringMap.get(englishKey))) {
+                        totalIncompleteLanguageString.put(language,totalIncompleteLanguageString.get(language)+1);
+                    }
+                    break languagesLoop;
+                }
+            }
+        }
+        for (String language : languageCodes) {
+            if (language.equalsIgnoreCase("enUs")) {
+                continue;
+            }
+            double totalStrings = totalLanguageString.get(language);
+            double totalIncomplete = totalIncompleteLanguageString.get(language);
+            languageProgress.put(language,(totalStrings - totalIncomplete)/totalStrings);
         }
     }
 
@@ -392,6 +460,62 @@ public class StringsAndOtherData {
         return effectType;
     }
 
+    public void setLanguageItems(Player p,Inventory gui) {
+        int[] indexes = {19,20,21,22,23,24,25,37,38,39,40,41,42,43};
+        int maxIndex = Math.min(indexes.length,languageCodes.size());
+        for (int i = 0; i<maxIndex;  i++) {
+            String languageCode = languageCodes.get(i);
+            String nativeNameKey = languageCode + "." + "languageName";
+            String englishNameKey = languageCode + "." + "englishLanguageName";
+            String nativeName = "";
+            String englishName = "";
+            if (idToStringMap.containsKey(nativeNameKey)) {
+                nativeName = idToStringMap.get(nativeNameKey);
+            }
+            if (idToStringMap.containsKey(englishNameKey)) {
+                englishName = idToStringMap.get(englishNameKey);
+            }
+            double progress = languageProgress.get(languageCode);
+            String progressString = (int) Math.floor(progress * 100) + "%"; //Turn progress double into string
+            ChatColor color = ChatColor.GREEN;
+            if (0.7 <= progress && progress < 0.9) {
+                color = ChatColor.YELLOW;
+            }
+            if (0.5 <= progress && progress < 0.7) {
+                color = ChatColor.RED;
+            }
+            if (0.2 <= progress && progress < 0.5) {
+                color = ChatColor.DARK_RED;
+            }
+            if (progress < 0.2) {
+                color = ChatColor.DARK_GRAY;
+            }
+            LanguageSelector lang = new LanguageSelector(p);
+            String language = lang.getLanguage();
+            ItemStack langItem = new ItemStack(Material.BOOK);
+            ItemMeta langItemMeta = langItem.getItemMeta();
+            langItemMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + nativeName);
+            ArrayList<String> langItemLore = new ArrayList<>();
+            langItemLore.add(ChatColor.ITALIC + ChatColor.GRAY.toString() + "(" + englishName + ")");
+            langItemLore.add(ChatColor.ITALIC + ChatColor.GRAY.toString() + lang.getString("status") + ": " +
+                    ChatColor.RESET + color + progressString + " " + lang.getString("complete"));
+            langItemMeta.setLore(langItemLore);
+            langItem.setItemMeta(langItemMeta);
+            gui.setItem(indexes[i], langItem);
+
+            ItemStack langItemToggle = new ItemStack(Material.LIME_DYE);
+            ItemMeta langItemToggleMeta = langItemToggle.getItemMeta();
+            if (language.equalsIgnoreCase(languageCode)) {
+                langItemToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
+            } else {
+                langItemToggle.setType(Material.GRAY_DYE);
+                langItemToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
+            }
+            langItemToggle.setItemMeta(langItemToggleMeta);
+            gui.setItem(indexes[i] + 9, langItemToggle);
+        }
+    }
+
     public String getPotionTypeString(int level,Player p) {
         String effectType = "";
         LanguageSelector lang = new LanguageSelector(p);
@@ -558,5 +682,13 @@ public class StringsAndOtherData {
 
     public Map<String, String> getIdToStringMap() {
         return idToStringMap;
+    }
+
+    public Map<Integer, String> getBookIndexes() {
+        return bookIndexes;
+    }
+
+    public Map<Integer, String> getDyeIndexes() {
+        return dyeIndexes;
     }
 }

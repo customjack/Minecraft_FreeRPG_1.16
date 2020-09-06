@@ -1521,7 +1521,7 @@ public class FrpgCommands implements CommandExecutor {
                     ItemMeta levelUpMeta = levelUp.getItemMeta();
                     levelUpMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("levelUpNotif"));
                     levelUp.setItemMeta(levelUpMeta);
-                    gui.setItem(11,levelUp);
+                    gui.setItem(1,levelUp);
 
                     ItemStack levelUpToggle = new ItemStack(Material.LIME_DYE);
                     ItemMeta levelUpToggleMeta = levelUpToggle.getItemMeta();
@@ -1533,14 +1533,14 @@ public class FrpgCommands implements CommandExecutor {
                         levelUpToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
                     }
                     levelUpToggle.setItemMeta(levelUpToggleMeta);
-                    gui.setItem(20,levelUpToggle);
+                    gui.setItem(10,levelUpToggle);
 
                     //Ability Notifications
                     ItemStack abilityNotifications = new ItemStack(Material.OAK_SIGN);
                     ItemMeta abilityNotificationsMeta = abilityNotifications.getItemMeta();
                     abilityNotificationsMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("abilityPreparationNotif"));
                     abilityNotifications.setItemMeta(abilityNotificationsMeta);
-                    gui.setItem(12,abilityNotifications);
+                    gui.setItem(2,abilityNotifications);
 
                     ItemStack abilityNotificationsToggle = new ItemStack(Material.LIME_DYE);
                     ItemMeta abilityNotificationsToggleMeta = abilityNotificationsToggle.getItemMeta();
@@ -1552,7 +1552,7 @@ public class FrpgCommands implements CommandExecutor {
                         abilityNotificationsToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
                     }
                     abilityNotificationsToggle.setItemMeta(abilityNotificationsToggleMeta);
-                    gui.setItem(21,abilityNotificationsToggle);
+                    gui.setItem(11,abilityNotificationsToggle);
 
 
                     //Trigger Abilities
@@ -1561,7 +1561,7 @@ public class FrpgCommands implements CommandExecutor {
                     triggerAbilitiesMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
                     triggerAbilitiesMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("triggerAbilities"));
                     triggerAbilities.setItemMeta(triggerAbilitiesMeta);
-                    gui.setItem(13,triggerAbilities);
+                    gui.setItem(3,triggerAbilities);
 
                     ItemStack triggerAbilitiesToggle = new ItemStack(Material.LIME_DYE);
                     ItemMeta triggerAbilitiesToggleMeta = triggerAbilitiesToggle.getItemMeta();
@@ -1573,7 +1573,7 @@ public class FrpgCommands implements CommandExecutor {
                         triggerAbilitiesToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
                     }
                     triggerAbilitiesToggle.setItemMeta(triggerAbilitiesToggleMeta);
-                    gui.setItem(22,triggerAbilitiesToggle);
+                    gui.setItem(12,triggerAbilitiesToggle);
 
 
                     //Experience Bar
@@ -1581,7 +1581,7 @@ public class FrpgCommands implements CommandExecutor {
                     ItemMeta expBarMeta = expBar.getItemMeta();
                     expBarMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("showEXPBar"));
                     expBar.setItemMeta(expBarMeta);
-                    gui.setItem(14,expBar);
+                    gui.setItem(4,expBar);
 
                     ItemStack expBarToggle = new ItemStack(Material.LIME_DYE);
                     ItemMeta expBarToggleMeta = expBarToggle.getItemMeta();
@@ -1593,133 +1593,13 @@ public class FrpgCommands implements CommandExecutor {
                         expBarToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
                     }
                     expBarToggle.setItemMeta(expBarToggleMeta);
-                    gui.setItem(23,expBarToggle);
+                    gui.setItem(13,expBarToggle);
 
 
                     //LANGUAGES
-                    LanguageSelector langManager = new LanguageSelector(p);
-                    String language = langManager.getLanguage();
+                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                    stringsAndOtherData.setLanguageItems(p,gui);
 
-                    //English
-                    ItemStack english = new ItemStack(Material.BOOK);
-                    ItemMeta englishMeta = english.getItemMeta();
-                    ArrayList<String> englishLore = new ArrayList<>();
-                    englishMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + "English");
-                    englishLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"(American English)");
-                    englishLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("status")+": "+
-                                    ChatColor.RESET + ChatColor.GREEN + "100% " +lang.getString("complete"));
-                    englishMeta.setLore(englishLore);
-                    english.setItemMeta(englishMeta);
-                    gui.setItem(29,english);
-
-                    ItemStack englishToggle = new ItemStack(Material.LIME_DYE);
-                    ItemMeta englishToggleMeta = englishToggle.getItemMeta();
-                    if (language.equalsIgnoreCase("enUs")) {
-                        englishToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                    }
-                    else {
-                        englishToggle.setType(Material.GRAY_DYE);
-                        englishToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                    }
-                    englishToggle.setItemMeta(englishToggleMeta);
-                    gui.setItem(38,englishToggle);
-
-
-                    //Hungarian
-                    ItemStack hungary = new ItemStack(Material.BOOK);
-                    ItemMeta hungaryMeta = hungary.getItemMeta();
-                    hungaryMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + "Magyar Nyelv");
-                    ArrayList<String> hungaryLore = new ArrayList<>();
-                    hungaryLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"(Hungarian)");
-                    hungaryLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("status")+": "+
-                            ChatColor.RESET + ChatColor.YELLOW + "75% " +lang.getString("complete"));
-                    hungaryMeta.setLore(hungaryLore);
-                    hungary.setItemMeta(hungaryMeta);
-                    gui.setItem(30,hungary);
-
-                    ItemStack hungaryToggle = new ItemStack(Material.LIME_DYE);
-                    ItemMeta hungaryToggleMeta = hungaryToggle.getItemMeta();
-                    if (language.equalsIgnoreCase("huHU")) {
-                        hungaryToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                    }
-                    else {
-                        hungaryToggle.setType(Material.GRAY_DYE);
-                        hungaryToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                    }
-                    hungaryToggle.setItemMeta(hungaryToggleMeta);
-                    gui.setItem(39,hungaryToggle);
-
-                    //French
-                    ItemStack french = new ItemStack(Material.BOOK);
-                    ItemMeta frenchMeta = french.getItemMeta();
-                    frenchMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + "Français");
-                    ArrayList<String> frenchLore = new ArrayList<>();
-                    frenchLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"(French)");
-                    frenchLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("status")+": "+
-                            ChatColor.RESET + ChatColor.GREEN + "95% " +lang.getString("complete"));
-                    frenchMeta.setLore(frenchLore);
-                    french.setItemMeta(frenchMeta);
-                    gui.setItem(31,french);
-
-                    ItemStack frenchToggle = new ItemStack(Material.LIME_DYE);
-                    ItemMeta frenchToggleMeta = frenchToggle.getItemMeta();
-                    if (language.equalsIgnoreCase("frFR")) {
-                        frenchToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                    }
-                    else {
-                        frenchToggle.setType(Material.GRAY_DYE);
-                        frenchToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                    }
-                    frenchToggle.setItemMeta(frenchToggleMeta);
-                    gui.setItem(40,frenchToggle);
-
-                    //German
-                    ItemStack german = new ItemStack(Material.BOOK);
-                    ItemMeta germanMeta = german.getItemMeta();
-                    germanMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + "Deutsch");
-                    ArrayList<String> germanLore = new ArrayList<>();
-                    germanLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"(German)");
-                    germanLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("status")+": "+
-                            ChatColor.RESET + ChatColor.GREEN + "95% " +lang.getString("complete"));
-                    germanMeta.setLore(germanLore);
-                    german.setItemMeta(germanMeta);
-                    gui.setItem(32,german);
-
-                    ItemStack germanToggle = new ItemStack(Material.LIME_DYE);
-                    ItemMeta germanToggleMeta = germanToggle.getItemMeta();
-                    if (language.equalsIgnoreCase("deDE")) {
-                        germanToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                    }
-                    else {
-                        germanToggle.setType(Material.GRAY_DYE);
-                        germanToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                    }
-                    germanToggle.setItemMeta(germanToggleMeta);
-                    gui.setItem(41,germanToggle);
-
-                    //Polish
-                    ItemStack polish = new ItemStack(Material.BOOK);
-                    ItemMeta polishMeta = polish.getItemMeta();
-                    polishMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + "Polski");
-                    ArrayList<String> polishLore = new ArrayList<>();
-                    polishLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+"(Polish)");
-                    polishLore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("status")+": "+
-                            ChatColor.RESET + ChatColor.GREEN + "95% " +lang.getString("complete"));
-                    polishMeta.setLore(polishLore);
-                    polish.setItemMeta(polishMeta);
-                    gui.setItem(33,polish);
-
-                    ItemStack polishToggle = new ItemStack(Material.LIME_DYE);
-                    ItemMeta polishToggleMeta = polishToggle.getItemMeta();
-                    if (language.equalsIgnoreCase("plPL")) {
-                        polishToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                    }
-                    else {
-                        polishToggle.setType(Material.GRAY_DYE);
-                        polishToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                    }
-                    polishToggle.setItemMeta(polishToggleMeta);
-                    gui.setItem(42,polishToggle);
 
 
                     //Put the items in the inventory

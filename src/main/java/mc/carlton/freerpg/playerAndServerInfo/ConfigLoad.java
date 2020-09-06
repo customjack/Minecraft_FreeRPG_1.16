@@ -51,79 +51,9 @@ public class ConfigLoad {
 
 
     public void initializeConfig(){
-        setConfig();
         setConfigData();
     }
 
-    public void setConfig(){
-        File f = new File(plugin.getDataFolder(),"config.yml");
-        f.setReadable(true,false);
-        f.setWritable(true,false);
-        FileConfiguration config = YamlConfiguration.loadConfiguration(f);
-        LanguagesYMLManager getFile = new LanguagesYMLManager();
-        File f1 = getFile.inputStreamToFile(plugin.getResource("config.yml"),"TEMP_config.yml");
-        f1.setReadable(true,false);
-        f1.setWritable(true,false);
-        FileConfiguration configTrue = YamlConfiguration.loadConfiguration(f1);
-        if (!config.getKeys(true).equals(configTrue.getKeys(true))) {
-            updateConfigYML();
-        }
-        f1.delete();
-    }
-
-    public void updateConfigYML() {
-        Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-        System.out.println("[FreeRPG] config.yml is not up to date or is missing a key");
-        LanguagesYMLManager languagesYMLManager = new LanguagesYMLManager();
-        languagesYMLManager.storeOldFile("config.yml");
-        System.out.println("[FreeRPG] Old config.yml stored in /.../FreeRPG/OutdatedYMLFiles");
-
-        plugin.saveResource("config.yml",true); //Saves default config
-
-        //Loads the new files
-        File f = new File(plugin.getDataFolder(),"config.yml");
-        f.setReadable(true,false);
-        f.setWritable(true,false);
-        File outdatedYAML = new File(plugin.getDataFolder(),File.separator + "OutdatedYMLFiles");
-        File f2 = new File(outdatedYAML,"OUTDATED_config.yml");
-        f2.setReadable(true,false);
-        f2.setWritable(true,false);
-        FileConfiguration oldConfig = YamlConfiguration.loadConfiguration(f2);
-        File f3 = new File(plugin.getDataFolder(),"TEMP_config.yml");
-        f3.setReadable(true,false);
-        f3.setWritable(true,false);
-        FileConfiguration newConfig = YamlConfiguration.loadConfiguration(f3);
-        boolean changeMade = false;
-
-        ArrayList<String> lastLevelKeys = getAllLastLevelKeys(newConfig);
-        for (String key : lastLevelKeys) {
-            if (oldConfig.contains(key) && newConfig.contains(key)) {
-                if (!oldConfig.get(key).equals(newConfig.get(key))) {
-                    newConfig.set(key, oldConfig.get(key)); //Sets the new config to whatever data was in the old config
-                    changeMade = true;
-                }
-            }
-        }
-
-        if (changeMade) {
-            try {
-                newConfig.save(f);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        System.out.println("[FreeRPG] config.yml updated succesfully");
-    }
-
-    public ArrayList<String> getAllLastLevelKeys(FileConfiguration configuration) {
-        ArrayList<String> lastLevelKeys = new ArrayList<>();
-        for (String key : configuration.getKeys(true)) {
-            if (configuration.getConfigurationSection(key) == null) {
-                lastLevelKeys.add(key);
-            }
-        }
-        return lastLevelKeys;
-    }
 
     public void setConfigData() {
         File f = new File(plugin.getDataFolder(),"config.yml");

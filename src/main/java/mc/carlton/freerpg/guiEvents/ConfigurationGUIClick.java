@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.guiEvents;
 
 import mc.carlton.freerpg.gameTools.LanguageSelector;
+import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
 import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,6 +13,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class ConfigurationGUIClick implements Listener {
@@ -37,14 +39,60 @@ public class ConfigurationGUIClick implements Listener {
             }
             Player p = (Player) e.getWhoClicked();
             LanguageSelector lang = new LanguageSelector(p);
-            Inventory inv = e.getClickedInventory();
             PlayerStats pStatClass = new PlayerStats(p);
+            StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
             Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
             Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+            Map<Integer,String> bookIndexes = stringsAndOtherData.getBookIndexes();
+            Map<Integer,String> dyeIndexes = stringsAndOtherData.getDyeIndexes();
             if (e.getCurrentItem() != null) {
                 PlayerStats languageChange = new PlayerStats(p);
+                for (int index : bookIndexes.keySet()){
+                    if (e.getRawSlot() == index) {
+                        String languageCode = bookIndexes.get(index);
+                        switch (languageCode) {
+                            case "enUs":
+                                break;
+                            case "huHU":
+                                p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
+                                        ChatColor.WHITE + "vERKE");
+                                break;
+                            case "frFR":
+                                p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
+                                        ChatColor.WHITE + "Temuel");
+                                break;
+                            case "deDE":
+                                p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
+                                        ChatColor.WHITE + "FruitLab.gg");
+                                break;
+                            case "plPL":
+                                p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
+                                        ChatColor.WHITE + "QuarVey");
+                                break;
+                            case "esCl":
+                                p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
+                                        ChatColor.WHITE + "PibeChileno");
+                                break;
+                            default:
+                                p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
+                                        ChatColor.WHITE + lang.getString(languageCode +"." + "translationCredit"));
+                                break;
+                        }
+                        e.setCancelled(true);
+                        return;
+                    }
+                }
+                for (int index : dyeIndexes.keySet()) {
+                    if (e.getRawSlot() == index) {
+                        String languageCode = dyeIndexes.get(index);
+                        languageChange.setPlayerLanguage(languageCode);
+                        p.performCommand("frpg configurationGUI");
+                        e.setCancelled(true);
+                        return;
+                    }
+                }
                 switch (e.getRawSlot()) {
-                    case 20:
+                    case 10:
                         if ((int)pStat.get("global").get(21) > 0) {
                             pStat.get("global").set(21, 0);
                         }
@@ -55,7 +103,7 @@ public class ConfigurationGUIClick implements Listener {
                         pStatClass.setData(statAll);
                         p.performCommand("frpg configurationGUI");
                         break;
-                    case 21:
+                    case 11:
                         if ((int)pStat.get("global").get(22) > 0) {
                             pStat.get("global").set(22, 0);
                         }
@@ -66,7 +114,7 @@ public class ConfigurationGUIClick implements Listener {
                         pStatClass.setData(statAll);
                         p.performCommand("frpg configurationGUI");
                         break;
-                    case 22:
+                    case 12:
                         if ((int)pStat.get("global").get(24) > 0) {
                             pStat.get("global").set(24, 0);
                         }
@@ -77,7 +125,7 @@ public class ConfigurationGUIClick implements Listener {
                         pStatClass.setData(statAll);
                         p.performCommand("frpg configurationGUI");
                         break;
-                    case 23:
+                    case 13:
                         if ((int)pStat.get("global").get(25) > 0) {
                             pStat.get("global").set(25, 0);
                         }
@@ -86,42 +134,6 @@ public class ConfigurationGUIClick implements Listener {
                         }
                         statAll.put(p.getUniqueId(), pStat);
                         pStatClass.setData(statAll);
-                        p.performCommand("frpg configurationGUI");
-                        break;
-                    case 30:
-                        p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
-                                ChatColor.WHITE + "vERKE");
-                        break;
-                    case 31:
-                        p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
-                                ChatColor.WHITE + "Temuel");
-                        break;
-                    case 32:
-                        p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
-                                ChatColor.WHITE + "FruitLab.gg");
-                        break;
-                    case 33:
-                        p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
-                                ChatColor.WHITE + "QuarVey");
-                        break;
-                    case 38:
-                        languageChange.setPlayerLanguage("enUs");
-                        p.performCommand("frpg configurationGUI");
-                        break;
-                    case 39:
-                        languageChange.setPlayerLanguage("huHU");
-                        p.performCommand("frpg configurationGUI");
-                        break;
-                    case 40:
-                        languageChange.setPlayerLanguage("frFR");
-                        p.performCommand("frpg configurationGUI");
-                        break;
-                    case 41:
-                        languageChange.setPlayerLanguage("deDE");
-                        p.performCommand("frpg configurationGUI");
-                        break;
-                    case 42:
-                        languageChange.setPlayerLanguage("plPL");
                         p.performCommand("frpg configurationGUI");
                         break;
                     case 45:
