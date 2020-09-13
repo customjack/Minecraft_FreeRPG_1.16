@@ -57,7 +57,9 @@ public class PlayerLeftClick implements Listener {
                 }
             }
             else if (p.getVehicle() != null) {
-                if (!leftClickItems.contains(itemType) && p.getVehicle().getType() == EntityType.HORSE) {
+                EntityType[] acceptableVehicles0 = {EntityType.HORSE,EntityType.SKELETON_HORSE,EntityType.ZOMBIE_HORSE,EntityType.PIG,EntityType.DONKEY,EntityType.MULE,EntityType.LLAMA};
+                List<EntityType> acceptableVehicles = Arrays.asList(acceptableVehicles0);
+                if (!leftClickItems.contains(itemType) && acceptableVehicles.contains(p.getVehicle().getType())) {
                     AbilityTracker abilities = new AbilityTracker(p);
                     Integer[] pAbilities = abilities.getPlayerAbilities();
                     if (pAbilities[6] > -1) {
@@ -69,10 +71,6 @@ public class PlayerLeftClick implements Listener {
 
 
             if (a.equals(Action.LEFT_CLICK_BLOCK)) {
-                Block clickedBlock = e.getClickedBlock();
-                Woodcutting woodcuttingClass = new Woodcutting(p);
-                woodcuttingClass.leafBlower(clickedBlock,world);
-
                 BlockFace blockface = e.getBlockFace();
                 Digging diggingClass = new Digging(p);
                 diggingClass.storeBlockFace(blockface);

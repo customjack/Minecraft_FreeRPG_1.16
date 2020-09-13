@@ -1,6 +1,5 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
-import com.google.gson.internal.$Gson$Preconditions;
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
@@ -50,8 +49,10 @@ public class Woodcutting {
     Random rand = new Random(); //Random class Import
 
     List<Material> logs;
+    List<Material> leaves;
 
     ArrayList<Block> timberLogs = new ArrayList<Block>();
+    ArrayList<Block> treeLeaves = new ArrayList<Block>();
 
     private boolean runMethods;
 
@@ -68,6 +69,7 @@ public class Woodcutting {
 
         ItemGroups itemGroups = new ItemGroups();
         this.logs = itemGroups.getLogs();
+        this.leaves = itemGroups.getLeaves();
 
         ExpMaps expMaps = new ExpMaps();
         this.woodcuttingEXP = expMaps.getWoodcuttingEXP();
@@ -88,13 +90,13 @@ public class Woodcutting {
         if ((int) pStat.get("global").get(24) < 1 || !pStatClass.isPlayerSkillAbilityOn(skillName)) {
             return;
         }
-        Integer[] pTimers = timers.getPlayerTimers();
+        Integer[] pTimers = timers.getPlayerCooldownTimes();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[1] == -1) {
             int cooldown = pTimers[1];
             if (cooldown < 1) {
                 int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
-                if (prepMessages > 0) {
+                if (pAbilities[9] != -2 && prepMessages > 0) {
                     actionMessage.sendMessage(ChatColor.GRAY + ">>>" + lang.getString("prepare") + " " + lang.getString("axe") + "...<<<");
                 }
                 int taskID = new BukkitRunnable() {
@@ -114,7 +116,7 @@ public class Woodcutting {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( skillName, taskID);
             } else {
-                actionMessage.sendMessage(ChatColor.RED +lang.getString("timber") + " " + lang.getString("cooldown") + ": " + cooldown+ "s");
+                actionMessage.sendMessage(ChatColor.RED +lang.getString("timber") + " " + lang.getString("cooldown") + ": " + ChatColor.WHITE + cooldown+ ChatColor.RED + "s");
             }
         }
     }
@@ -127,40 +129,12 @@ public class Woodcutting {
         actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>" + lang.getString("timber") + " " + lang.getString("activated") + "<<<");
         int durationLevel = (int) pStat.get(skillName).get(4);
         double duration0 = Math.ceil(durationLevel*0.4) + 40;
-        int cooldown = 300;
-        if ((int) pStat.get("global").get(11) > 0) {
-            cooldown = 200;
-        }
-        int finalCooldown = cooldown;
         long duration = (long) duration0;
         Bukkit.getScheduler().cancelTask(pAbilities[1]);
         abilities.setPlayerAbility( skillName, -2);
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("timber") + " " + lang.getString("ended") + "<<<");
-                abilities.setPlayerAbility( skillName, -1);
-                timers.setPlayerTimer( skillName, finalCooldown);
-                for(int i = 1; i < finalCooldown+1; i++) {
-                    int timeRemaining = finalCooldown - i;
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            timers.setPlayerTimer( skillName, timeRemaining);
-                            AbilityTimers timers2 = new AbilityTimers(p);
-                            if (timeRemaining ==0) {
-                                if (!p.isOnline()) {
-                                    timers2.removePlayer();
-                                }
-                                else {
-                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>" + lang.getString("timber") + " " + lang.getString("readyToUse") + "<<<");
-                                }
-                            }
-                        }
-                    }.runTaskLater(plugin, 20*i);
-                }
-            }
-        }.runTaskLater(plugin, duration);
+        String coolDownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("timber") + " " + lang.getString("readyToUse") + "<<<";
+        String endMessage = ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("timber") + " " + lang.getString("ended") + "<<<";
+        timers.abilityDurationTimer(skillName,duration,endMessage,coolDownEndMessage);
     }
     public void getTimberLogs(Block b1, final int x1, final int z1) {
         if (!runMethods) {
@@ -203,17 +177,18 @@ public class Woodcutting {
         int doubleDropsLevel = (int)pStat.get(skillName).get(5);
         int timber_plus = (int)pStat.get(skillName).get(11);
         int able_axe = (int)pStat.get(skillName).get(13);
-        int hiddenKnowledgeLevel = (int) pStat.get(skillName).get(9);
         getTimberLogs(initialBlock,initialBlock.getX(),initialBlock.getZ());
         int numLogs = timberLogs.size();
+        ConfigLoad configLoad =new ConfigLoad();
+        ArrayList<Integer> timberLimits = configLoad.getTimberBreakLimits();
         if (timber_plus < 1) {
-            if (numLogs > 64) {
+            if (numLogs > timberLimits.get(0)) {
                 actionMessage.sendMessage(ChatColor.RED + lang.getString("treeTooBig0"));
                 return;
             }
         }
         else {
-            if (numLogs > 128) {
+            if (numLogs > timberLimits.get(1)) {
                 actionMessage.sendMessage(ChatColor.RED + lang.getString("treeTooBig1"));
                 return;
             }
@@ -243,28 +218,9 @@ public class Woodcutting {
                     }
                 }
                 //Book spawns
-                double bookDropChance = hiddenKnowledgeLevel*0.001;
-                if (bookDropChance > rand.nextDouble()) {
-                    ItemGroups itemGroups = new ItemGroups();
-                    Map<Enchantment, Integer> enchantmentLevelMap = itemGroups.getEnchantmentLevelMap();
-                    List<Enchantment> keysAsArray = new ArrayList<Enchantment>(enchantmentLevelMap.keySet());
-                    Enchantment randomEnchant = keysAsArray.get(rand.nextInt(keysAsArray.size()));
-                    int randomLevel = rand.nextInt(enchantmentLevelMap.get(randomEnchant)) + 1;
-                    ItemStack enchantedBook = new ItemStack(Material.ENCHANTED_BOOK, 1);
-                    EnchantmentStorageMeta meta = ((EnchantmentStorageMeta) enchantedBook.getItemMeta());
-                    meta.addStoredEnchant(randomEnchant,randomLevel,true);
-                    enchantedBook.setItemMeta(meta);
-                    if (randomEnchant == Enchantment.BINDING_CURSE || randomEnchant == Enchantment.VANISHING_CURSE) {
-                        Map<Enchantment,Integer> enchantmentLevelMapGood = enchantmentLevelMap;
-                        enchantmentLevelMapGood.remove(Enchantment.BINDING_CURSE);
-                        enchantmentLevelMapGood.remove(Enchantment.VANISHING_CURSE);
-                        keysAsArray = new ArrayList<Enchantment>(enchantmentLevelMapGood.keySet());
-                        randomEnchant = keysAsArray.get(rand.nextInt(keysAsArray.size()));
-                        randomLevel = rand.nextInt(enchantmentLevelMap.get(randomEnchant)) + 1;
-                        meta.addStoredEnchant(randomEnchant,randomLevel,true);
-                        enchantedBook.setItemMeta(meta);
-                    }
-                    world.dropItemNaturally(block.getLocation(), enchantedBook);
+                double rollBookDropChance = 0.5; //50% chance to roll for a book, book then has 0-1% chance of being rolled.
+                if (rollBookDropChance > rand.nextDouble()) {
+                    logBookDrop(block,world);
                 }
             }
         }
@@ -284,7 +240,6 @@ public class Woodcutting {
             ((ExperienceOrb)world.spawn(initialBlock.getLocation(), ExperienceOrb.class)).setExperience(xpDrop);
 
         }
-        ConfigLoad configLoad = new ConfigLoad();
         increaseStats.changeEXP(skillName, (int) Math.round(woodcuttingEXP.get(initialBlock.getType()) * numLogs * configLoad.getSpecialMultiplier().get("timberEXPMultiplier")));
         timberLogs.clear();
 
@@ -333,10 +288,26 @@ public class Woodcutting {
             double bookChance = hiddenKnowledgeLevel*0.002;
             double randomNum = rand.nextDouble();
             if (bookChance > randomNum) {
+                //Get enchant Map
                 ItemGroups itemGroups = new ItemGroups();
                 Map<Enchantment, Integer> enchantmentLevelMap = itemGroups.getEnchantmentLevelMap();
+
+                int choppingInt = 0;
+                if (hiddenKnowledgeLevel >= 5) {
+                    choppingInt = 1;
+                }
+
+                //Get random enchant
                 List<Enchantment> keysAsArray = new ArrayList<Enchantment>(enchantmentLevelMap.keySet());
-                Enchantment randomEnchant = keysAsArray.get(rand.nextInt(keysAsArray.size()));
+                int randInt = rand.nextInt(keysAsArray.size() + choppingInt);
+                Enchantment randomEnchant;
+                if (randInt < keysAsArray.size()) {
+                    randomEnchant = keysAsArray.get(randInt);
+                }
+                else { //Enchantment will be chopping
+                    randomEnchant = Enchantment.getByKey(new NamespacedKey(FreeRPG.getPlugin(FreeRPG.class),"chopping"));
+                }
+
                 int randomLevel = rand.nextInt(enchantmentLevelMap.get(randomEnchant)) + 1;
                 ItemStack enchantedBook = new ItemStack(Material.ENCHANTED_BOOK, 1);
                 EnchantmentStorageMeta meta = ((EnchantmentStorageMeta) enchantedBook.getItemMeta());
@@ -358,7 +329,7 @@ public class Woodcutting {
         }
 
     }
-    public void leavesDrops(Block block, World world) {
+    public void leavesDrops(Block block, World world,double probMultiplier,double expMultiplier) {
         if (!runMethods) {
             return;
         }
@@ -371,6 +342,9 @@ public class Woodcutting {
             int leafLevel = (int) pStat.get(skillName).get(10);
             double randomNum = rand.nextDouble();
             Double[] prob = {(double)leafDropData.get(2),(double)leafDropData.get(5),(double)leafDropData.get(8),(double)leafDropData.get(11),(double)leafDropData.get(14)};
+            for (int i = 0; i < prob.length ; i++) {
+                prob[i] = prob[i]*probMultiplier;
+            }
             Double[] dropChanceSums = {prob[0],prob[0]+prob[1],prob[0]+prob[1]+prob[2],prob[0]+prob[1]+prob[2]+prob[3],
                                        prob[0]+prob[1]+prob[2]+prob[3]+prob[4]};
             if (randomNum < dropChanceSums[0] && leafLevel >= 1)  {
@@ -383,7 +357,7 @@ public class Woodcutting {
                     drop.setAmount((int)leafDropData.get(1));
                 }
                 world.dropItemNaturally(block.getLocation(), drop);
-                increaseStats.changeEXP(skillName, expMap.get("leafDrop1"));
+                increaseStats.changeEXP(skillName, (int) Math.round(expMap.get("leafDrop1")*expMultiplier));
             }
             else if (randomNum < dropChanceSums[1] && leafLevel >= 2) {
                 ItemStack drop = new ItemStack(Material.DIRT, 1);
@@ -395,7 +369,7 @@ public class Woodcutting {
                     drop.setAmount((int)leafDropData.get(4));
                 }
                 world.dropItemNaturally(block.getLocation(), drop);
-                increaseStats.changeEXP(skillName,expMap.get("leafDrop2"));
+                increaseStats.changeEXP(skillName, (int) Math.round(expMap.get("leafDrop2")*expMultiplier));
             }
             else if (randomNum < dropChanceSums[2] && leafLevel >= 3) {
                 ItemStack drop = new ItemStack(Material.DIRT, 1);
@@ -407,7 +381,7 @@ public class Woodcutting {
                     drop.setAmount((int)leafDropData.get(7));
                 }
                 world.dropItemNaturally(block.getLocation(), drop);
-                increaseStats.changeEXP(skillName,expMap.get("leafDrop3"));
+                increaseStats.changeEXP(skillName, (int) Math.round(expMap.get("leafDrop3")*expMultiplier));
             }
             else if (randomNum < dropChanceSums[3] && leafLevel >= 4) {
                 ItemStack drop = new ItemStack(Material.DIRT, 1);
@@ -419,7 +393,7 @@ public class Woodcutting {
                     drop.setAmount((int)leafDropData.get(10));
                 }
                 world.dropItemNaturally(block.getLocation(), drop);
-                increaseStats.changeEXP(skillName,expMap.get("leafDrop4"));
+                increaseStats.changeEXP(skillName, (int) Math.round(expMap.get("leafDrop4")*expMultiplier));
             }
             else if (randomNum < dropChanceSums[4] && leafLevel >= 5) {
                 ItemStack drop = new ItemStack(Material.DIRT, 1);
@@ -431,11 +405,84 @@ public class Woodcutting {
                     drop.setAmount((int)leafDropData.get(13));
                 }
                 world.dropItemNaturally(block.getLocation(), drop);
-                increaseStats.changeEXP(skillName,expMap.get("leafDrop5"));
+                increaseStats.changeEXP(skillName, (int) Math.round(expMap.get("leafDrop5")*expMultiplier));
             }
         }
 
     }
+
+    public void getTreeLeaves(Block b1,final int x1, final int y1, final int z1,Material leafType) {
+        if (!runMethods) {
+            return;
+        }
+        WorldGuardChecks BuildingCheck = new WorldGuardChecks();
+        int searchCubeSize = 7;
+        if (treeLeaves.size() > 63) {
+            return;
+        }
+        for (int x = -1; x <= 1; x++) {
+            for (int y = -1; y <= 1; y++) {
+                for (int z = -1; z <= 1; z++) {
+                    if (x == 0 && y == 0 && z == 0) {
+                        continue;
+                    }
+                    Block b2 = b1.getRelative(x, y, z);
+                    if (b2.getType().equals(leafType)) {
+                        if (b2.getX() > x1 + searchCubeSize || b2.getX() < x1 - searchCubeSize || b2.getY() > y1 + searchCubeSize || b2.getY() < y1 - searchCubeSize || b2.getZ() > z1 + searchCubeSize || b2.getZ() < z1 - searchCubeSize) {
+                            break;
+                        }
+                        else if (!(treeLeaves.contains(b2))) {
+                            if (treeLeaves.size() > 63) {
+                                return;
+                            }
+                            if (BuildingCheck.canBuild(p, b2.getLocation())) {
+                                treeLeaves.add(b2);
+                                this.getTreeLeaves(b2, x1, y1, z1,leafType);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void leafBlower(Block initialBlock) {
+        if (!runMethods) {
+            return;
+        }
+        if (!(leaves.contains(initialBlock.getType()))) { //Block must be a leaf
+            return;
+        }
+        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+        int leafBlowerLevel = (int)pStat.get(skillName).get(12);
+        if (leafBlowerLevel < 1 || (int)pStat.get("global").get(26) < 1) { //Must have high enough level and have leaf blower toggled on
+            return;
+        }
+        getTreeLeaves(initialBlock,initialBlock.getX(),initialBlock.getY(),initialBlock.getZ(),initialBlock.getType()); //Get Leaves in tree leaf chunk
+        int numLeaves = treeLeaves.size();
+        World world = initialBlock.getWorld();
+        damageTool(numLeaves);
+        PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();
+        for (Block block : treeLeaves) {
+            Location blockLoc = block.getLocation();
+            if (placedBlocksManager.isBlockTracked(block)) {
+                placedBlocksManager.removeBlock(block);
+                numLeaves -= 1; //Less EXP rewarded for nonnatural broken leaves
+            }
+            else{
+                leavesDrops(block,world,0.2,0.4); //Nerfed drop rates are EXP from special drops
+            }
+            Collection<ItemStack> drops = block.getDrops(itemInHand);
+            block.setType(Material.AIR);
+            for (ItemStack drop : drops) { //Drop whatever that leaf would have dropped normally
+                world.dropItemNaturally(blockLoc, drop);
+            }
+        }
+        increaseStats.changeEXP(skillName,numLeaves*expMap.get("useLeafBlower")); //Gives all EXP
+
+    }
+
+    /* OLD leaf blower skill
     public void leafBlower(Block block, World world) {
         if (!runMethods) {
             return;
@@ -506,6 +553,8 @@ public class Woodcutting {
             }
         }
     }
+        */
+
     public void timedHaste(Block block){
         if (!runMethods) {
             return;

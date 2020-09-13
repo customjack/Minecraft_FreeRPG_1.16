@@ -2,6 +2,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.FurnaceUserTracker;
+import mc.carlton.freerpg.globalVariables.ExpMaps;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
 import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
@@ -146,19 +147,19 @@ public class Smelting {
         if (isBlastFurnace) {
             defaultCookTime = 100.0;
         }
-        double speedUpFactor = 1 + fastFuelLevel*0.002;
-        double burnLengthMultiplier = 1 + fuelEfficiencyLevel*0.2;
+        double speedUpFactor = 1 + fastFuelLevel * 0.002;
+        double burnLengthMultiplier = 1 + fuelEfficiencyLevel * 0.2;
         Location furnaceLoc = furnace.getLocation();
-        int cookTimeTotal = (int)Math.floor(defaultCookTime /speedUpFactor);
+        int cookTimeTotal = (int) Math.floor(defaultCookTime / speedUpFactor);
         int cookTimeSoFar = (int) furnace.getCookTime();
-        int newCookTime = Math.min(cookTimeSoFar,cookTimeTotal-1);
+        int newCookTime = Math.min(cookTimeSoFar, cookTimeTotal - 1);
 
 
         //Set furnace data
         furnace.setCookTimeTotal(cookTimeTotal);
-        furnace.setCookTime((short)newCookTime);
+        furnace.setCookTime((short) newCookTime);
         ItemStack fuel = furnace.getSnapshotInventory().getFuel();
-        fuel.setAmount(fuel.getAmount()-1);
+        fuel.setAmount(fuel.getAmount() - 1);
         furnace.getSnapshotInventory().setFuel(fuel);
         furnace.update();
 
@@ -167,12 +168,12 @@ public class Smelting {
         if (furnaceUserTracker.getWaitingOnTask(furnaceLoc)) {
             waitTicks = 2;
         }
-        furnaceUserTracker.setWaitingOnTaskMap(true,furnaceLoc);
+        furnaceUserTracker.setWaitingOnTaskMap(true, furnaceLoc);
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (checkIfBlockIsFurnace(world,furnaceLoc)) {
+                if (checkIfBlockIsFurnace(world, furnaceLoc)) {
                     Furnace runningFurnace = (Furnace) world.getBlockAt(furnaceLoc).getState();
                     double defaultBurnTime = runningFurnace.getBurnTime();
                     runningFurnace.setBurnTime((short) Math.ceil(3 + (burnLengthMultiplier * defaultBurnTime / speedUpFactor)));
@@ -183,133 +184,58 @@ public class Smelting {
         }.runTaskLater(plugin, waitTicks);
     }
 
-    public void flamePick(Block block,World world,Material blockType) {
+    public boolean flamePick(Block block,World world,Material blockType,boolean giveEXP) {
         if (!runMethods) {
-            return;
+            return false;
+        }
+        ExpMaps expMaps = new ExpMaps();
+        if (!expMaps.getFlamePickEXP().containsKey(blockType)) {
+            return false;
         }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+        if ((int) pStat.get("global").get(13) < 1 || (int) pStat.get("smelting").get(13) < 1) {
+            return false;
+        }
+        ItemGroups itemGroups = new ItemGroups();
         int doubleDropLevel = (int) pStat.get("mining").get(5);
         int doubleDropWoodcuttingLevel = (int) pStat.get("woodcutting").get(5);
         int doubleSmeltLevel = (int) pStat.get(skillName).get(9);
-        double chanceDrop = 0.0005*doubleDropLevel;
-        double chanceSmelt = doubleSmeltLevel*0.05;
-        double chanceLogDrop = 0.0005*doubleDropWoodcuttingLevel;
+        double chanceDoubleOreDrop = 0.0005*doubleDropLevel;
+        double chanceDoubleSmelt = doubleSmeltLevel*0.05;
+        double chanceDoubleLogDrop = 0.0005*doubleDropWoodcuttingLevel;
         int dropAmount = 1;
-        if (chanceSmelt > rand.nextDouble()) {
+        if (chanceDoubleSmelt > rand.nextDouble()) {
             dropAmount *= 2;
         }
         world.spawnParticle(Particle.FLAME, block.getLocation(), 5);
-        switch (blockType) {
-            case IRON_ORE:
-                block.setType(Material.AIR);
-                if (chanceDrop > rand.nextDouble()) {
-                    if ((int) pStat.get("mining").get(13) > 0) {
-                        dropAmount *= 3;
-                    }
-                    else {
-                        dropAmount *= 2;
-                    }
+        block.setType(Material.AIR);
+        damageTool();
+        if (giveEXP) {
+            increaseStats.changeEXP(skillName, getEXP(blockType));
+        }
+        dropXP(itemGroups.getSmeltingXPMap().get(blockType),block.getLocation());
+        if (itemGroups.getOres().contains(blockType)) {
+            if (chanceDoubleOreDrop > rand.nextDouble()) {
+                if ((int) pStat.get("mining").get(13) > 0) {
+                    dropAmount *= 3;
                 }
-                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.IRON_INGOT, dropAmount));
-                increaseStats.changeEXP(skillName,getEXP(Material.IRON_INGOT));
-                damageTool();
-                if (0.7 > rand.nextDouble()) {
-                    ((ExperienceOrb) world.spawn(block.getLocation(), ExperienceOrb.class)).setExperience(1);
-                }
-                break;
-            case GOLD_ORE:
-                block.setType(Material.AIR);
-                if (chanceDrop > rand.nextDouble()) {
-                    if ((int) pStat.get("mining").get(13) > 0) {
-                        dropAmount *= 3;
-                    }
-                    else {
-                        dropAmount *= 2;
-                    }
-                }
-                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.GOLD_INGOT, dropAmount));
-                increaseStats.changeEXP(skillName,getEXP(Material.GOLD_INGOT));
-                damageTool();
-                ((ExperienceOrb) world.spawn(block.getLocation(), ExperienceOrb.class)).setExperience(1);
-                break;
-            case COBBLESTONE:
-                block.setType(Material.AIR);
-                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.STONE, dropAmount));
-                increaseStats.changeEXP(skillName,getEXP(Material.STONE));
-                damageTool();
-                break;
-            case SANDSTONE:
-                block.setType(Material.AIR);
-                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.SMOOTH_SANDSTONE, dropAmount));
-                increaseStats.changeEXP(skillName,getEXP(Material.SMOOTH_SANDSTONE));
-                damageTool();
-                break;
-            case RED_SANDSTONE:
-                block.setType(Material.AIR);
-                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.SMOOTH_RED_SANDSTONE, dropAmount));
-                increaseStats.changeEXP(skillName,getEXP(Material.SMOOTH_RED_SANDSTONE));
-                damageTool();
-                break;
-            case STONE:
-                block.setType(Material.AIR);
-                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.SMOOTH_STONE, dropAmount));
-                increaseStats.changeEXP(skillName,getEXP(Material.SMOOTH_STONE));
-                damageTool();
-                break;
-            case SAND:
-                block.setType(Material.AIR);
-                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.GLASS, dropAmount));
-                increaseStats.changeEXP(skillName,getEXP(Material.GLASS));
-                damageTool();
-                break;
-            case QUARTZ_BLOCK:
-                block.setType(Material.AIR);
-                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.SMOOTH_QUARTZ, dropAmount));
-                increaseStats.changeEXP(skillName,getEXP(Material.SMOOTH_QUARTZ));
-                damageTool();
-                break;
-            case NETHERRACK:
-                block.setType(Material.AIR);
-                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.NETHER_BRICK, dropAmount));
-                increaseStats.changeEXP(skillName,getEXP(Material.NETHER_BRICK));
-                damageTool();
-                break;
-            case CLAY:
-                block.setType(Material.AIR);
-                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.TERRACOTTA, dropAmount));
-                increaseStats.changeEXP(skillName,getEXP(Material.TERRACOTTA));
-                damageTool();
-                break;
-            case WET_SPONGE:
-                block.setType(Material.AIR);
-                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.SPONGE, dropAmount));
-                increaseStats.changeEXP(skillName,getEXP(Material.SPONGE));
-                damageTool();
-                break;
-            case CACTUS:
-                block.setType(Material.AIR);
-                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.GREEN_DYE, dropAmount));
-                increaseStats.changeEXP(skillName,getEXP(Material.GREEN_DYE));
-                damageTool();
-                break;
-            case ACACIA_LOG:
-            case BIRCH_LOG:
-            case DARK_OAK_LOG:
-            case JUNGLE_LOG:
-            case OAK_LOG:
-            case SPRUCE_LOG:
-                block.setType(Material.AIR);
-                if (chanceLogDrop > rand.nextDouble()) {
+                else {
                     dropAmount *= 2;
                 }
-                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.CHARCOAL, dropAmount));
-                increaseStats.changeEXP(skillName,getEXP(Material.CHARCOAL));
-                damageTool();
-                break;
-            default:
-                break;
+            }
         }
-
+        else if (itemGroups.getAllLogs().contains(blockType)) {
+            if (chanceDoubleLogDrop > rand.nextDouble()) {
+                dropAmount *= 2;
+            }
+        }
+        for (int i = 0; i < dropAmount; i++) {
+            if (chanceDoubleSmelt > rand.nextDouble()) {
+                dropAmount += 1;
+            }
+        }
+        world.dropItemNaturally(block.getLocation(),new ItemStack(itemGroups.getSmeltableItemsMap().get(blockType),dropAmount));
+        return true;
 
     }
 
@@ -322,6 +248,22 @@ public class Smelting {
                 itemInHand.setAmount(0);
                 p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, 1);
             }
+        }
+    }
+
+    public void dropXP(double avgEXP,Location loc) {
+        ConfigLoad configLoad = new ConfigLoad();
+        if (!configLoad.isFlamePickGiveXP()) {
+            return;
+        }
+        World world = loc.getWorld();
+        int minXPDrop = (int) Math.floor(avgEXP);
+        double chanceToRoundUp = avgEXP - minXPDrop;
+        if (chanceToRoundUp > rand.nextDouble()) {
+            ((ExperienceOrb) world.spawn(loc, ExperienceOrb.class)).setExperience(minXPDrop+1);
+        }
+        else {
+            ((ExperienceOrb) world.spawn(loc, ExperienceOrb.class)).setExperience(minXPDrop);
         }
     }
 

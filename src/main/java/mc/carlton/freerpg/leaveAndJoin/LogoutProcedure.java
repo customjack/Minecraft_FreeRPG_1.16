@@ -46,18 +46,18 @@ public class LogoutProcedure {
 
         if (itemInHand_digging != null) {
             Digging diggingClass = new Digging(p);
-            diggingClass.preventLogoutTheft(taskID_digging, itemInHand_digging);
+            diggingClass.preventLogoutTheft(taskID_digging, itemInHand_digging,key_digging,disablePlugin);
         }
         if (itemInHand_mining != null) {
             Mining miningClass = new Mining(p);
-            miningClass.preventLogoutTheft(taskID_mining, itemInHand_mining);
+            miningClass.preventLogoutTheft(taskID_mining, itemInHand_mining,key_mining,disablePlugin);
         }
         if (itemInHand_swordsmanship != null) {
             Swordsmanship swordsmanshipClass = new Swordsmanship(p);
-            swordsmanshipClass.preventLogoutTheft(taskID_swordsmanship, itemInHand_swordsmanship);
+            swordsmanshipClass.preventLogoutTheft(taskID_swordsmanship, itemInHand_swordsmanship,key_swordsmanship,disablePlugin);
         }
         Defense defenseClass = new Defense(p);
-        defenseClass.preventLogoutTheft(taskID_defense);
+        defenseClass.preventLogoutTheft(taskID_defense,disablePlugin);
 
         //Ends all tasks that track players' buffs gained from some skills
         Farming farmingClass =  new Farming(p);

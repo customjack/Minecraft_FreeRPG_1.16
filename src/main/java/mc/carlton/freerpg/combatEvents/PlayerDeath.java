@@ -46,7 +46,7 @@ public class PlayerDeath implements Listener {
                 if (drop.getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
                     ItemStack abilityItem = drop;
                     Digging diggingClass = new Digging(p);
-                    diggingClass.preventLogoutTheft(taskID_digging, abilityItem);
+                    diggingClass.preventLogoutTheft(taskID_digging, abilityItem,key,false);
                     break;
                 }
             }
@@ -59,7 +59,7 @@ public class PlayerDeath implements Listener {
                 if (drop.getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
                     ItemStack abilityItem = drop;
                     Mining miningClass = new Mining(p);
-                    miningClass.preventLogoutTheft(taskID_mining, abilityItem);
+                    miningClass.preventLogoutTheft(taskID_mining, abilityItem,key,false);
                     break;
                 }
             }
@@ -72,7 +72,7 @@ public class PlayerDeath implements Listener {
                 if (drop.getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
                     ItemStack abilityItem = drop;
                     Swordsmanship swordsmanshipClass = new Swordsmanship(p);
-                    swordsmanshipClass.preventLogoutTheft(taskID_swordsmanship, abilityItem);
+                    swordsmanshipClass.preventLogoutTheft(taskID_swordsmanship, abilityItem,key,false);
                     break;
                 }
             }

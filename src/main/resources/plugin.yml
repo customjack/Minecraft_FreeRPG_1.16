@@ -58,6 +58,7 @@ permissions:
       freeRPG.toggleHotRod: true
       freeRPG.toggleVeinMiner: true
       freeRPG.toggleMegaDig: true
+      freeRPG.toggleLeafBlower: true
   freeRPG.changeStats:
     description: Gives access to all stat changing commands
     default: op
@@ -69,6 +70,7 @@ permissions:
       freeRPG.setTokens: true
       freeRPG.saveStats: true
       freeRPG.setMultiplier: true
+      freeRPG.resetCooldown: true
   freeRPG.getEXP:
     description: Allows player to gain every type of EXP
     default: true
@@ -258,9 +260,18 @@ permissions:
   freeRPG.toggleMegaDig:
     description: allows to player to toggle the mega dig perk
     default: true
+  freeRPG.toggleLeafBlower:
+    description: allows to player to toggle the leaf blower perk
+    default: true
+  freeRPG.toggleHolyAxe:
+    description: allows to player to toggle the holy axe perk
+    default: true
   freeRPG.saveStats:
     description: allows player to save any or all player's stats to their stat file
     default: op
   freeRPG.skillConfigGUI:
     description: allows player to open the config gui for each individual skill
     default: true
+  freeRPG.resetCooldown:
+    description: allows player to reset any other player's cooldown
+    default: op

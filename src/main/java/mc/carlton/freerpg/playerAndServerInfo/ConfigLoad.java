@@ -31,6 +31,7 @@ public class ConfigLoad {
     static int furnaceDeleteTimer;
     static boolean getEXPFromEnchantingBottles;
     static boolean trackFewerBlocks;
+    static boolean flamePickGiveXP;
     static Map<String,Double> specialMultiplier = new HashMap<>();
     static ArrayList<Integer> maxLevels = new ArrayList<>();
     static ArrayList<Integer> soulsInfo = new ArrayList<>();
@@ -48,6 +49,10 @@ public class ConfigLoad {
     static Map<String, CustomPotion> alchemyInfo = new HashMap<>();
     static Map<String,Map<String,Integer>> expMap = new HashMap<>();
     static Map<String,CustomRecipe> craftingRecipes = new HashMap<>();
+    static HashSet<Material> veinMinerBlocks = new HashSet<>();
+    static int veinMinerMaxBreakSize;
+    static ArrayList<Integer> timberBreakLimits = new ArrayList<>();
+    static Map<String,Integer> abilityCooldowns = new HashMap<>();
 
 
     public void initializeConfig(){
@@ -60,18 +65,31 @@ public class ConfigLoad {
         f.setReadable(true,false);
         f.setWritable(true,false);
         FileConfiguration config = YamlConfiguration.loadConfiguration(f);
+        File f1 = new File(plugin.getDataFolder(),"advancedConfig.yml");
+        f.setReadable(true,false);
+        f.setWritable(true,false);
+        FileConfiguration advancedConfig = YamlConfiguration.loadConfiguration(f1);
 
-        saveRunTimeData = config.getBoolean("general.saveRunTimeData");
-        verboseRunTimeData = config.getBoolean("general.verboseRunTimeData");
-        saveStatsTimer = config.getInt("general.saveStatsTimer");
+        //General Config and Config that has no real category
         defaultLanguage = config.getString("general.defaultLanguage");
-        allowExplosions = config.getBoolean("general.allowCustomExplosions");
-        allowBuild = config.getBoolean("general.allowBuild");
-        allowPvP = config.getBoolean("general.allowPvP");
-        allowHurtAnimals = config.getBoolean("general.allowHurtAnimals");
-        furnaceDeleteTimer = config.getInt("smelting.removePlayerFurnacesTimer");
-        trackFewerBlocks = config.getBoolean("general.trackFewerBlocks");
-
+        saveRunTimeData = advancedConfig.getBoolean("general.saveRunTimeData");
+        verboseRunTimeData = advancedConfig.getBoolean("general.verboseRunTimeData");
+        saveStatsTimer = advancedConfig.getInt("general.saveStatsTimer");
+        allowExplosions = advancedConfig.getBoolean("general.allowCustomExplosions");
+        allowBuild = advancedConfig.getBoolean("general.allowBuild");
+        allowPvP = advancedConfig.getBoolean("general.allowPvP");
+        allowHurtAnimals = advancedConfig.getBoolean("general.allowHurtAnimals");
+        furnaceDeleteTimer = advancedConfig.getInt("smelting.removePlayerFurnacesTimer");
+        trackFewerBlocks = advancedConfig.getBoolean("general.trackFewerBlocks");
+        getEXPFromEnchantingBottles = advancedConfig.getBoolean("enchanting.gainEXPfromEnchantingBottles");
+        flamePickGiveXP = advancedConfig.getBoolean("smelting.flamePickGiveMinecraftXP");
+        List<String> veinMinerBlockStrings = advancedConfig.getStringList("mining.veinMinerBlocks");
+        for (String matString : veinMinerBlockStrings) {
+            veinMinerBlocks.add(Material.matchMaterial(matString));
+        }
+        veinMinerMaxBreakSize = advancedConfig.getInt("mining.veinMinerMaximumBlocksBroken");
+        timberBreakLimits.add(advancedConfig.getInt("woodcutting.timberMaxBreakInitial"));
+        timberBreakLimits.add(advancedConfig.getInt("woodcutting.timberMaxBreakUpgraded"));
 
         String[] labels = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
         maxLevels.add(Integer.valueOf(config.getString("leveling.maxLevel")));
@@ -79,125 +97,125 @@ public class ConfigLoad {
         for (String label : labels) {
             maxLevels.add(Integer.valueOf(config.getString(label+".maxLevel")));
             allowedSkillsMap.put(label,config.getBoolean(label+".skillAllowed"));
-            allowedSkillGainEXPMap.put(label,config.getBoolean(label+".expDrops.enableEXPDrops"));
+            abilityCooldowns.put(label,config.getInt(label+".abilityCooldown"));
+            allowedSkillGainEXPMap.put(label,advancedConfig.getBoolean(label+".expDrops.enableEXPDrops"));
         }
 
-        soulsInfo.add(Integer.valueOf(config.getString("souls.startingSouls")));
-        soulsInfo.add(Integer.valueOf(config.getString("souls.refundCost")));
+        abilityCooldowns.put("fishingRob",config.getInt(".robCooldown"));
 
-        multipliers.add(Double.valueOf(config.getString("multipliers.globalMultiplier")));
+        soulsInfo.add(Integer.valueOf(advancedConfig.getString("souls.startingSouls")));
+        soulsInfo.add(Integer.valueOf(advancedConfig.getString("souls.refundCost")));
+
+        multipliers.add(Double.valueOf(config.getString("global.EXP_Multiplier")));
         for (String label : labels) {
-            multipliers.add(config.getDouble("multipliers."+label+"Multiplier"));
+            multipliers.add(config.getDouble(label+".EXP_Multiplier"));
         }
 
-        tokensInfo.add(Double.valueOf(config.getString("tokens.automaticPassiveUpgradesPerLevel")));
-        tokensInfo.add(Double.valueOf(config.getString("tokens.levelsPerPassiveToken")));
-        tokensInfo.add(Double.valueOf(config.getString("tokens.levelPerSkillToken")));
-        tokensInfo.add(Double.valueOf(config.getString("tokens.levelsPerGlobalToken")));
-        tokensInfo.add(Double.valueOf(config.getString("tokens.startingPassiveTokens")));
-        tokensInfo.add(Double.valueOf(config.getString("tokens.startingSkillTokens")));
-        tokensInfo.add(Double.valueOf(config.getString("tokens.startingGlobalTokens")));
-        tokensInfo.add(Double.valueOf(config.getString("tokens.skillTokenToPassiveTokenConversion")));
-        tokensInfo.add(Double.valueOf(config.getString("tokens.globalTokenToEXPbuff")));
-        tokensInfo.add(Double.valueOf(config.getString("tokens.passiveRightClickInvestment")));
-        tokensInfo.add(Double.valueOf(config.getString("tokens.passiveShiftClickInvestment")));
+        tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.automaticPassiveUpgradesPerLevel")));
+        tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.levelsPerPassiveToken")));
+        tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.levelPerSkillToken")));
+        tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.levelsPerGlobalToken")));
+        tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.startingPassiveTokens")));
+        tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.startingSkillTokens")));
+        tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.startingGlobalTokens")));
+        tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.skillTokenToPassiveTokenConversion")));
+        tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.globalTokenToEXPbuff")));
+        tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.passiveRightClickInvestment")));
+        tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.passiveShiftClickInvestment")));
 
         levelingInfo.add(Double.valueOf(config.getString("leveling.maxLevel")));
-        levelingInfo.add(Double.valueOf(config.getString("leveling.exponentialGrowthFactor")));
-        levelingInfo.add(Double.valueOf(config.getString("leveling.exponentialReferenceLevel")));
-        levelingInfo.add(Double.valueOf(config.getString("leveling.exponentialReferenceEXP")));
-        levelingInfo.add(Double.valueOf(config.getString("leveling.levelBeginLinear")));
-        levelingInfo.add(Double.valueOf(config.getString("leveling.LinearEXPperLevel")));
+        levelingInfo.add(Double.valueOf(advancedConfig.getString("leveling.exponentialGrowthFactor")));
+        levelingInfo.add(Double.valueOf(advancedConfig.getString("leveling.exponentialReferenceLevel")));
+        levelingInfo.add(Double.valueOf(advancedConfig.getString("leveling.exponentialReferenceEXP")));
+        levelingInfo.add(Double.valueOf(advancedConfig.getString("leveling.levelBeginLinear")));
+        levelingInfo.add(Double.valueOf(advancedConfig.getString("leveling.LinearEXPperLevel")));
 
         for (int i = 1; i<= 9; i++) {
-            diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop"+i+"Name")));
-            diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop"+i+"Amount")));
+            diggingInfo.add(Material.matchMaterial(advancedConfig.getString("digging.drops.drop"+i+"Name")));
+            diggingInfo.add(Integer.valueOf(advancedConfig.getString("digging.drops.drop"+i+"Amount")));
         }
         for (int i = 10; i<=15;i++) {
-            diggingInfo.add(Material.matchMaterial(config.getString("digging.drops.drop"+i+"Name")));
-            diggingInfo.add(Integer.valueOf(config.getString("digging.drops.drop"+i+"Amount")));
-            diggingInfo.add(Double.valueOf(config.getString("digging.drops.drop"+i+"BaseChance")));
+            diggingInfo.add(Material.matchMaterial(advancedConfig.getString("digging.drops.drop"+i+"Name")));
+            diggingInfo.add(Integer.valueOf(advancedConfig.getString("digging.drops.drop"+i+"Amount")));
+            diggingInfo.add(Double.valueOf(advancedConfig.getString("digging.drops.drop"+i+"BaseChance")));
         }
 
         for (int i = 1; i<=5 ; i++) {
-            woodcuttingInfo.add(Material.matchMaterial(config.getString("woodcutting.drops.leavesDrop"+i+"Name")));
-            woodcuttingInfo.add(Integer.valueOf(config.getString("woodcutting.drops.leavesDrop"+i+"Amount")));
-            woodcuttingInfo.add(Double.valueOf(config.getString("woodcutting.drops.leavesDrop"+i+"Chance")));
+            woodcuttingInfo.add(Material.matchMaterial(advancedConfig.getString("woodcutting.drops.leavesDrop"+i+"Name")));
+            woodcuttingInfo.add(Integer.valueOf(advancedConfig.getString("woodcutting.drops.leavesDrop"+i+"Amount")));
+            woodcuttingInfo.add(Double.valueOf(advancedConfig.getString("woodcutting.drops.leavesDrop"+i+"Chance")));
         }
 
-        fishingInfoBaseChances.add(Double.valueOf(config.getString("fishing.drops.tier1_baseChance")));
-        fishingInfoBaseChances.add(Double.valueOf(config.getString("fishing.drops.tier2_baseChance")));
-        fishingInfoBaseChances.add(Double.valueOf(config.getString("fishing.drops.tier3_baseChance")));
-        fishingInfoBaseChances.add(Double.valueOf(config.getString("fishing.drops.tier4_baseChance")));
-        fishingInfoBaseChances.add(Double.valueOf(config.getString("fishing.drops.tier5_baseChance")));
+        fishingInfoBaseChances.add(Double.valueOf(advancedConfig.getString("fishing.drops.tier1_baseChance")));
+        fishingInfoBaseChances.add(Double.valueOf(advancedConfig.getString("fishing.drops.tier2_baseChance")));
+        fishingInfoBaseChances.add(Double.valueOf(advancedConfig.getString("fishing.drops.tier3_baseChance")));
+        fishingInfoBaseChances.add(Double.valueOf(advancedConfig.getString("fishing.drops.tier4_baseChance")));
+        fishingInfoBaseChances.add(Double.valueOf(advancedConfig.getString("fishing.drops.tier5_baseChance")));
 
-        fishingInfoEnchants.add(Integer.valueOf(config.getString("fishing.drops.tier1_enchantedArmor")));
-        fishingInfoEnchants.add(Integer.valueOf(config.getString("fishing.drops.tier2_enchantedArmor")));
-        fishingInfoEnchants.add(Integer.valueOf(config.getString("fishing.drops.tier3_enchantedArmor")));
-        fishingInfoEnchants.add(Integer.valueOf(config.getString("fishing.drops.tier4_enchantedArmor")));
-        fishingInfoEnchants.add(Integer.valueOf(config.getString("fishing.drops.tier5_enchantedArmor")));
+        fishingInfoEnchants.add(Integer.valueOf(advancedConfig.getString("fishing.drops.tier1_enchantedArmor")));
+        fishingInfoEnchants.add(Integer.valueOf(advancedConfig.getString("fishing.drops.tier2_enchantedArmor")));
+        fishingInfoEnchants.add(Integer.valueOf(advancedConfig.getString("fishing.drops.tier3_enchantedArmor")));
+        fishingInfoEnchants.add(Integer.valueOf(advancedConfig.getString("fishing.drops.tier4_enchantedArmor")));
+        fishingInfoEnchants.add(Integer.valueOf(advancedConfig.getString("fishing.drops.tier5_enchantedArmor")));
 
         for (int i = 1; i<=5; i++) {
             for (int j = 1; j<=4; j++) {
-                fishingInfo.add(Material.matchMaterial(config.getString("fishing.drops.tier"+i+"_drop"+j+"Name")));
-                fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier"+i+"_drop"+j+"Amount")));
-                fishingInfo.add(Integer.valueOf(config.getString("fishing.drops.tier"+i+"_drop"+j+"Random")));
+                fishingInfo.add(Material.matchMaterial(advancedConfig.getString("fishing.drops.tier"+i+"_drop"+j+"Name")));
+                fishingInfo.add(Integer.valueOf(advancedConfig.getString("fishing.drops.tier"+i+"_drop"+j+"Amount")));
+                fishingInfo.add(Integer.valueOf(advancedConfig.getString("fishing.drops.tier"+i+"_drop"+j+"Random")));
             }
         }
 
-        fishingInfoHotRod.add(Material.matchMaterial(config.getString("fishing.drops.tier1_drop1Name_HotRod")));
-        fishingInfoHotRod.add(Integer.valueOf(config.getString("fishing.drops.tier1_drop1Amount_HotRod")));
-        fishingInfoHotRod.add(Integer.valueOf(config.getString("fishing.drops.tier1_drop1Random_HotRod")));
-        fishingInfoHotRod.add(Material.matchMaterial(config.getString("fishing.drops.tier1_drop2Name_HotRod")));
-        fishingInfoHotRod.add(Integer.valueOf(config.getString("fishing.drops.tier1_drop2Amount_HotRod")));
-        fishingInfoHotRod.add(Integer.valueOf(config.getString("fishing.drops.tier1_drop2Random_HotRod")));
-        fishingInfoHotRod.add(Material.matchMaterial(config.getString("fishing.drops.tier2_drop1Name_HotRod")));
-        fishingInfoHotRod.add(Integer.valueOf(config.getString("fishing.drops.tier2_drop1Amount_HotRod")));
-        fishingInfoHotRod.add(Integer.valueOf(config.getString("fishing.drops.tier2_drop1Random_HotRod")));
-        fishingInfoHotRod.add(Material.matchMaterial(config.getString("fishing.drops.tier2_drop3Name_HotRod")));
-        fishingInfoHotRod.add(Integer.valueOf(config.getString("fishing.drops.tier2_drop3Amount_HotRod")));
-        fishingInfoHotRod.add(Integer.valueOf(config.getString("fishing.drops.tier2_drop3Random_HotRod")));
-        fishingInfoHotRod.add(Material.matchMaterial(config.getString("fishing.drops.tier2_drop4Name_HotRod")));
-        fishingInfoHotRod.add(Integer.valueOf(config.getString("fishing.drops.tier2_drop4Amount_HotRod")));
-        fishingInfoHotRod.add(Integer.valueOf(config.getString("fishing.drops.tier2_drop4Random_HotRod")));
+        fishingInfoHotRod.add(Material.matchMaterial(advancedConfig.getString("fishing.drops.tier1_drop1Name_HotRod")));
+        fishingInfoHotRod.add(Integer.valueOf(advancedConfig.getString("fishing.drops.tier1_drop1Amount_HotRod")));
+        fishingInfoHotRod.add(Integer.valueOf(advancedConfig.getString("fishing.drops.tier1_drop1Random_HotRod")));
+        fishingInfoHotRod.add(Material.matchMaterial(advancedConfig.getString("fishing.drops.tier1_drop2Name_HotRod")));
+        fishingInfoHotRod.add(Integer.valueOf(advancedConfig.getString("fishing.drops.tier1_drop2Amount_HotRod")));
+        fishingInfoHotRod.add(Integer.valueOf(advancedConfig.getString("fishing.drops.tier1_drop2Random_HotRod")));
+        fishingInfoHotRod.add(Material.matchMaterial(advancedConfig.getString("fishing.drops.tier2_drop1Name_HotRod")));
+        fishingInfoHotRod.add(Integer.valueOf(advancedConfig.getString("fishing.drops.tier2_drop1Amount_HotRod")));
+        fishingInfoHotRod.add(Integer.valueOf(advancedConfig.getString("fishing.drops.tier2_drop1Random_HotRod")));
+        fishingInfoHotRod.add(Material.matchMaterial(advancedConfig.getString("fishing.drops.tier2_drop3Name_HotRod")));
+        fishingInfoHotRod.add(Integer.valueOf(advancedConfig.getString("fishing.drops.tier2_drop3Amount_HotRod")));
+        fishingInfoHotRod.add(Integer.valueOf(advancedConfig.getString("fishing.drops.tier2_drop3Random_HotRod")));
+        fishingInfoHotRod.add(Material.matchMaterial(advancedConfig.getString("fishing.drops.tier2_drop4Name_HotRod")));
+        fishingInfoHotRod.add(Integer.valueOf(advancedConfig.getString("fishing.drops.tier2_drop4Amount_HotRod")));
+        fishingInfoHotRod.add(Integer.valueOf(advancedConfig.getString("fishing.drops.tier2_drop4Random_HotRod")));
 
         //Alchemy Info
         for (int i = 1; i<= 5; i++) {
             CustomPotion customPotion = new CustomPotion();
-            customPotion.setPotionEffectType(PotionEffectType.getByName(config.getString("alchemy.customPotions.potionType"+i)));
-            customPotion.setIngredient(Material.matchMaterial(config.getString("alchemy.customPotions.potionIngredient"+i)));
-            customPotion.setPotionDuration(config.getInt("alchemy.customPotions.potionDuration"+i));
-            customPotion.setColor(getColorFromString(config.getString("alchemy.customPotions.potionColor"+i)));
+            customPotion.setPotionEffectType(PotionEffectType.getByName(advancedConfig.getString("alchemy.customPotions.potionType"+i)));
+            customPotion.setIngredient(Material.matchMaterial(advancedConfig.getString("alchemy.customPotions.potionIngredient"+i)));
+            customPotion.setPotionDuration(advancedConfig.getInt("alchemy.customPotions.potionDuration"+i));
+            customPotion.setColor(getColorFromString(advancedConfig.getString("alchemy.customPotions.potionColor"+i)));
             customPotion.setPotionName();
             alchemyInfo.put("customPotion"+i,customPotion);
         }
 
-        //Enchanting Bottle info
-        getEXPFromEnchantingBottles = config.getBoolean("enchanting.gainEXPfromEnchantingBottles");
-
         //EXP Info
         for (String label : labels) {
             Map<String,Integer> skillExpMap = new HashMap<>();
-            ConfigurationSection skillExpDrops = config.getConfigurationSection(label+".expDrops");
+            ConfigurationSection skillExpDrops = advancedConfig.getConfigurationSection(label+".expDrops");
             for (String id : skillExpDrops.getKeys(false)) {
                 if (!id.equalsIgnoreCase("enableEXPDrops")) {
-                    skillExpMap.put(id,config.getInt(label+".expDrops." + id));
+                    skillExpMap.put(id,advancedConfig.getInt(label+".expDrops." + id));
                 }
             }
             expMap.put(label,skillExpMap);
         }
 
         //Special Multipliers
-        specialMultiplier.put("megaDigEXPMultiplier",config.getDouble("digging.megaDigEXPMultiplier"));
-        specialMultiplier.put("superBaitEXPMultiplier",config.getDouble("fishing.superBaitEXPMultiplier"));
-        specialMultiplier.put("timberEXPMultiplier",config.getDouble("woodcutting.timberEXPMultiplier"));
+        specialMultiplier.put("megaDigEXPMultiplier",advancedConfig.getDouble("digging.megaDigEXPMultiplier"));
+        specialMultiplier.put("superBaitEXPMultiplier",advancedConfig.getDouble("fishing.superBaitEXPMultiplier"));
+        specialMultiplier.put("timberEXPMultiplier",advancedConfig.getDouble("woodcutting.timberEXPMultiplier"));
 
         //Crafting arrays
         for (int i = 1; i <= 5; i++) {
             CustomRecipe customRecipe = new CustomRecipe();
-            customRecipe.setOutput(Material.matchMaterial(config.getString("farming.crafting.recipeOutput"+i)));
-            customRecipe.setOutputAmount(config.getInt("farming.crafting.recipeOutputAmount"+i));
-            List<String> recipeStrings = config.getStringList("farming.crafting.recipe"+i);
+            customRecipe.setOutput(Material.matchMaterial(advancedConfig.getString("farming.crafting.recipeOutput"+i)));
+            customRecipe.setOutputAmount(advancedConfig.getInt("farming.crafting.recipeOutputAmount"+i));
+            List<String> recipeStrings = advancedConfig.getStringList("farming.crafting.recipe"+i);
             ArrayList<Material> recipeMaterials = new ArrayList<>();
             for (String item : recipeStrings) {
                 recipeMaterials.add(Material.matchMaterial(item));
@@ -207,15 +225,15 @@ public class ConfigLoad {
         }
         for (int i = 1; i <= 10; i++) {
             CustomRecipe customRecipe = new CustomRecipe();
-            customRecipe.setOutput(Material.matchMaterial(config.getString("enchanting.crafting.recipeOutput"+i)));
-            customRecipe.setOutputAmount(config.getInt("enchanting.crafting.recipeOutputAmount"+i));
-            String enchantType = config.getString("enchanting.crafting.recipeEnchant"+i);
+            customRecipe.setOutput(Material.matchMaterial(advancedConfig.getString("enchanting.crafting.recipeOutput"+i)));
+            customRecipe.setOutputAmount(advancedConfig.getInt("enchanting.crafting.recipeOutputAmount"+i));
+            String enchantType = advancedConfig.getString("enchanting.crafting.recipeEnchant"+i);
             if (!enchantType.equalsIgnoreCase("none")) {
                 customRecipe.setEnchantment(EnchantmentWrapper.getByKey(NamespacedKey.minecraft(enchantType)));
-                customRecipe.setEnchantmentLevel(config.getInt("enchanting.crafting.recipeEnchantLevel"+i));
-                customRecipe.setXPcraftCost(config.getInt("enchanting.crafting.XPcostToCraft"+i));
+                customRecipe.setEnchantmentLevel(advancedConfig.getInt("enchanting.crafting.recipeEnchantLevel"+i));
+                customRecipe.setXPcraftCost(advancedConfig.getInt("enchanting.crafting.XPcostToCraft"+i));
             }
-            List<String> recipeStrings = config.getStringList("enchanting.crafting.recipe"+i);
+            List<String> recipeStrings = advancedConfig.getStringList("enchanting.crafting.recipe"+i);
             ArrayList<Material> recipeMaterials = new ArrayList<>();
             for (String item : recipeStrings) {
                 recipeMaterials.add(Material.matchMaterial(item));
@@ -225,15 +243,15 @@ public class ConfigLoad {
         }
         for (int i = 1; i <= 5; i++) {
             CustomRecipe customRecipe = new CustomRecipe();
-            String materialString = config.getString("alchemy.crafting.recipeOutput"+i);
+            String materialString = advancedConfig.getString("alchemy.crafting.recipeOutput"+i);
             customRecipe.setOutput(Material.matchMaterial(materialString));
-            customRecipe.setOutputAmount(config.getInt("alchemy.crafting.recipeOutputAmount"+i));
+            customRecipe.setOutputAmount(advancedConfig.getInt("alchemy.crafting.recipeOutputAmount"+i));
             if (materialString.equalsIgnoreCase("POTION")) {
-                customRecipe.setPotionType(PotionType.valueOf(config.getString("alchemy.crafting.recipePotionType"+i)));
-                customRecipe.setExtended(config.getBoolean("alchemy.crafting.recipePotionExtended"+i));
-                customRecipe.setUpgraded(config.getBoolean("alchemy.crafting.recipePotionUpgraded"+i));
+                customRecipe.setPotionType(PotionType.valueOf(advancedConfig.getString("alchemy.crafting.recipePotionType"+i)));
+                customRecipe.setExtended(advancedConfig.getBoolean("alchemy.crafting.recipePotionExtended"+i));
+                customRecipe.setUpgraded(advancedConfig.getBoolean("alchemy.crafting.recipePotionUpgraded"+i));
             }
-            List<String> recipeStrings = config.getStringList("alchemy.crafting.recipe"+i);
+            List<String> recipeStrings = advancedConfig.getStringList("alchemy.crafting.recipe"+i);
             ArrayList<Material> recipeMaterials = new ArrayList<>();
             for (String item : recipeStrings) {
                 recipeMaterials.add(Material.matchMaterial(item));
@@ -319,5 +337,25 @@ public class ConfigLoad {
 
     public boolean isTrackFewerBlocks() {
         return trackFewerBlocks;
+    }
+
+    public boolean isFlamePickGiveXP() {
+        return flamePickGiveXP;
+    }
+
+    public HashSet<Material> getVeinMinerBlocks() {
+        return veinMinerBlocks;
+    }
+
+    public int getVeinMinerMaxBreakSize() {
+        return veinMinerMaxBreakSize;
+    }
+
+    public ArrayList<Integer> getTimberBreakLimits() {
+        return timberBreakLimits;
+    }
+
+    public static Map<String, Integer> getAbilityCooldowns() {
+        return abilityCooldowns;
     }
 }

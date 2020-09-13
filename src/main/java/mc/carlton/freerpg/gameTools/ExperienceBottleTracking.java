@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -12,17 +13,18 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ExperienceBottleTracking {
-    static Map<Location,Boolean> expBottleBreakLocation = new ConcurrentHashMap<>();
-    static Map<ExperienceOrb,Boolean> trackedEXPOrbs = new ConcurrentHashMap<>();
+    static Map<Location,Object> trackedEXPOrbs = new ConcurrentHashMap<>();
 
     public void addLocation(Location location){
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
+        removeDeadEntities();
+        trackedEXPOrbs.putIfAbsent(location,false);
         new BukkitRunnable() {
             @Override
             public void run() {
                 for (Entity entity : location.getWorld().getNearbyEntities(location,1,1,1)) {
                     if (entity.getType().equals(EntityType.EXPERIENCE_ORB)) {
-                        trackedEXPOrbs.putIfAbsent((ExperienceOrb) entity,true);
+                        trackedEXPOrbs.put(location,entity);
                     }
                 }
             }
@@ -30,7 +32,25 @@ public class ExperienceBottleTracking {
     }
 
 
-    public boolean fromEnchantingBottle(){ //Bug: False true for first exp picked up after throwing 2+(?) enchanting bottles and not collecting exp
+    public boolean fromEnchantingBottle(Entity entity){ //Bug: False true for first exp picked up after throwing 2+(?) enchanting bottles and not collecting exp
+        Location orbLoc = entity.getLocation();
+        for (Location originLocation : trackedEXPOrbs.keySet()) {
+            if (originLocation.distance(orbLoc) <=  0.5) {
+                removeCloseOriginLocations(originLocation);
+                removeDeadEntities();
+                return true;
+            }
+            else if ( !(trackedEXPOrbs.get(originLocation) instanceof Boolean) ) {
+                if (entity.equals(trackedEXPOrbs.get(originLocation))) {
+                    removeCloseOriginLocations(originLocation);
+                    removeDeadEntities();
+                    return true;
+                }
+            }
+        }
+        removeDeadEntities();
+        return false;
+        /*
         boolean fromBottle = false;
         for (ExperienceOrb experienceOrb : trackedEXPOrbs.keySet()) {
             if (experienceOrb.isDead()) {
@@ -39,6 +59,27 @@ public class ExperienceBottleTracking {
             }
         }
         return fromBottle;
+
+         */
+    }
+
+    public void removeCloseOriginLocations(Location location) {
+        for (Location originLocation : trackedEXPOrbs.keySet()) {
+            if (location.distance(originLocation) <= 1) {
+                trackedEXPOrbs.remove(originLocation);
+            }
+        }
+    }
+
+    public void removeDeadEntities() {
+        for (Location originLocation : trackedEXPOrbs.keySet()) {
+            Object trackedObject = trackedEXPOrbs.get(originLocation);
+            if (trackedObject instanceof Entity) {
+                if ( ((ExperienceOrb)trackedObject).isDead()) {
+                    trackedEXPOrbs.remove(originLocation);
+                }
+            }
+        }
     }
 
 }

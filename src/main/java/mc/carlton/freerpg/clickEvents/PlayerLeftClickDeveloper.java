@@ -72,13 +72,6 @@ public class PlayerLeftClickDeveloper implements Listener {
 
             if (a.equals(Action.LEFT_CLICK_BLOCK)) {
                 long timer1 = System.currentTimeMillis();
-                Block clickedBlock = e.getClickedBlock();
-                Woodcutting woodcuttingClass = new Woodcutting(p);
-                woodcuttingClass.leafBlower(clickedBlock,world);
-                long leafBlowerTime = System.currentTimeMillis() - timer1;
-                runTimeData.addTime(leafBlowerTime,"leafBlower");
-
-                timer1 = System.currentTimeMillis();
                 BlockFace blockface = e.getBlockFace();
                 Digging diggingClass = new Digging(p);
                 diggingClass.storeBlockFace(blockface);

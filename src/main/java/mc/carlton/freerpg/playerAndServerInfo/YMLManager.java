@@ -25,7 +25,7 @@ public class YMLManager {
         f0.setReadable(true,false);
         f0.setWritable(true,false);
         FileConfiguration config = YamlConfiguration.loadConfiguration(f0);
-        if (fileName.equalsIgnoreCase("config.yml")) {
+        if (fileName.equalsIgnoreCase("config.yml") || fileName.equalsIgnoreCase("advancedConfig.yml")) {
             if (config.contains("general.autoUpdateConfig")) {
                 if (!config.getBoolean("general.autoUpdateConfig")) {
                     return;
@@ -48,7 +48,12 @@ public class YMLManager {
         f1.setWritable(true,false);
         FileConfiguration yamlConfigurationTrue = YamlConfiguration.loadConfiguration(f1);
         if (!yamlConfiguration.getKeys(true).equals(yamlConfigurationTrue.getKeys(true))) {
-            updateYML(fileName);
+            if (fileName.equalsIgnoreCase("languages.yml")) {
+                updateLanguagesYML(fileName);
+            }
+            else {
+                updateYML(fileName);
+            }
         }
         f1.delete();
     }
@@ -89,6 +94,85 @@ public class YMLManager {
         return lastLevelKeys;
     }
 
+    public void updateLanguagesYML(String fileName) {
+        Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
+        System.out.println("[FreeRPG] "+fileName+" keys mismatch the current version's keys. The file may be updated... ");
+        storeOldFile(fileName);
+        System.out.println("[FreeRPG] Old "+fileName+" stored in /.../FreeRPG/OutdatedYMLFiles");
+
+        plugin.saveResource(fileName,true); //Saves default file (with comments)
+
+        File f = new File(plugin.getDataFolder(),fileName);
+        f.setReadable(true,false);
+        f.setWritable(true,false);
+        File outdatedYAML = new File(plugin.getDataFolder(),File.separator + "OutdatedYMLFiles");
+        File f2 = new File(outdatedYAML,"OUTDATED_"+fileName);
+        f2.setReadable(true,false);
+        f2.setWritable(true,false);
+        FileConfiguration oldYAML = YamlConfiguration.loadConfiguration(f2);
+        File f3 = new File(plugin.getDataFolder(),"TEMP_"+fileName);
+        f3.setReadable(true,false);
+        f3.setWritable(true,false);
+        FileConfiguration newYAML = YamlConfiguration.loadConfiguration(f3);
+        boolean needToSave = false;
+        boolean addedLines = false;
+        boolean overWroteData = false;
+        for (String key : oldYAML.getConfigurationSection("lang").getKeys(false)) { //Checks all languages in the old file
+            if (!newYAML.contains("lang." + key) || key.equalsIgnoreCase("custom")) { //Checks for new languages in the old file
+                if (!key.equalsIgnoreCase("custom")) { //If there is a new language, add it to the new file
+                    newYAML.createSection("lang." + key); //Creates new language section
+                    needToSave = true;
+                }
+                for (String lastLevelKey : newYAML.getConfigurationSection("lang.enUs").getKeys(false)) { //For every key...
+                    String customKey = "lang." + key + "." + lastLevelKey;
+                    String enUsKey = "lang.enUs." + lastLevelKey;
+                    if (oldYAML.contains(customKey)) {
+                        newYAML.set(customKey, oldYAML.get(customKey)); //Add the custom language's key to the new file
+                    } else {
+                        newYAML.set(customKey, newYAML.get(enUsKey)); //Set the custom language's missing key to the new file
+                        addedLines = true;
+                        needToSave = true;
+                    }
+                }
+            } else { //Checks other languages to see if they were changed, overwrites any changes
+                for (String lastLevelKey : newYAML.getConfigurationSection("lang."+key).getKeys(false)) { //for all language keys
+                    String fullKey = "lang." + key + "." + lastLevelKey;
+                    if (oldYAML.contains(fullKey)) { //if the old file has this key
+                        if (!(oldYAML.get(fullKey).equals(newYAML.get(fullKey))) ) { //and that key is different from the resource file's key
+                            overWroteData = true; //This line tells the plugin what to output
+                            needToSave = true; //This line tells the plugin it must be saved over
+                        }
+                    } else { //If oldYAML is completely missing the key
+                        overWroteData = true; //This line tells the plugin what to output
+                        needToSave = true; //This line tells the plugin it must be saved over
+                        addedLines = true; //Keys were added
+                    }
+                }
+            }
+        }
+
+
+        if (needToSave) {
+            try {
+                newYAML.save(f); //Changes file (comments are lost)
+                if (addedLines) {
+                    System.out.println("[FreeRPG] " + fileName + " updated to include new keys.");
+                }
+                else {
+                    System.out.println("[FreeRPG] " + fileName + " no new keys were added.");
+                }
+                if (overWroteData) {
+                    System.out.println("[FreeRPG] Overwrote some data in " + fileName + " (You may not edit previously defined languages).");
+                }
+                else {
+                    System.out.println("[FreeRPG] No data was overwritten in " + fileName);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void updateYML(String fileName) {
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
         System.out.println("[FreeRPG] "+fileName+" keys mismatch the current version's keys. The file may be updated... ");
@@ -124,40 +208,13 @@ public class YMLManager {
 
         int keyAdded = 0; //Keys might have been added
         if (fileName.equalsIgnoreCase("languages.yml")) {
-            for (String key : oldYAML.getConfigurationSection("lang").getKeys(false)) { //Checks for new languages
-                if (!newYAML.contains("lang."+key)) {
-                    if (keyAdded == 0) {
-                        keyAdded = -1; //Keys probably haven't been added
-                    }
-                    changeMade = true;
-                    newYAML.createSection("lang." + key); //Creates new language section
-                    for (String lastLevelKey : newYAML.getConfigurationSection("lang.enUs").getKeys(false)) {
-                        String customKey = "lang." + key + "." + lastLevelKey;
-                        String enUsKey = "lang.enUs." + lastLevelKey;
-                        if (oldYAML.contains(customKey)) {
-                            newYAML.set(customKey,oldYAML.get(customKey));
-                        }
-                        else {
-                            newYAML.set(customKey,newYAML.get(enUsKey));
-                            keyAdded = 1; //Keys were definetly added
-                        }
-                    }
-                }
-            }
+
         }
 
         if (changeMade) {
             try {
                 newYAML.save(f); //Changes file (comments are lost)
-                if (keyAdded == 1) {
-                    System.out.println("[FreeRPG] " + fileName + " updated to include new keys.");
-                }
-                else if (keyAdded == 0) {
-                    System.out.println("[FreeRPG] " + fileName + " updated. New keys may have been added.");
-                }
-                else {
-                    System.out.println("[FreeRPG] No change were made to " + fileName);
-                }
+                System.out.println("[FreeRPG] " + fileName + " updated to include new keys.");
             } catch (IOException e) {
                 e.printStackTrace();
             }

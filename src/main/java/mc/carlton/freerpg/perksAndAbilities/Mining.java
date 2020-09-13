@@ -1,6 +1,5 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
-import jdk.javadoc.internal.doclets.formats.html.markup.HtmlTag;
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
@@ -10,10 +9,8 @@ import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -79,7 +76,7 @@ public class Mining {
         if ((int) pStat.get("global").get(24) < 1 || !pStatClass.isPlayerSkillAbilityOn(skillName)) {
             return;
         }
-        Integer[] pTimers = timers.getPlayerTimers();
+        Integer[] pTimers = timers.getPlayerCooldownTimes();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[2] == -1) {
             int cooldown = pTimers[2];
@@ -104,7 +101,7 @@ public class Mining {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( skillName, taskID);
             } else {
-                actionMessage.sendMessage(ChatColor.RED +lang.getString("berserkPick") + " " + lang.getString("cooldown") + ": " + cooldown + "s");
+                actionMessage.sendMessage(ChatColor.RED +lang.getString("berserkPick") + " " + lang.getString("cooldown") + ": " + ChatColor.WHITE + cooldown+ ChatColor.RED + "s");
             }
         }
     }
@@ -129,55 +126,14 @@ public class Mining {
         itemInHand.setItemMeta(itemMeta);
 
 
-        //TrackItem trackPickaxe = new TrackItem(itemInHand,ChatColor.RED);
         int durationLevel = (int) pStat.get(skillName).get(4);
         double duration0 = Math.ceil(durationLevel * 0.4) + 40;
-        int cooldown = 300;
-        if ((int) pStat.get("global").get(11) > 0) {
-            cooldown = 200;
-        }
-        int finalCooldown = cooldown;
         long duration = (long) duration0;
-        timers.setPlayerTimer( skillName, finalCooldown);
         Bukkit.getScheduler().cancelTask(pAbilities[2]);
         abilities.setPlayerAbility( skillName, -2);
-        int taskID = new BukkitRunnable() {
-            @Override
-            public void run() {
-                TrackItem trackItem = new TrackItem();
-                ItemStack potentialAbilityItem = trackItem.findTrackedItemInInventory(p,key);
-                if (potentialAbilityItem != null) {
-                    itemInHand = potentialAbilityItem;
-                }
-                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("berserkPick") + " " + lang.getString("ended") + "<<<");
-                itemInHand.removeEnchantment(Enchantment.DIG_SPEED);
-                if (effLevel != 0) {
-                    itemInHand.addUnsafeEnchantment(Enchantment.DIG_SPEED, effLevel);
-                }
-                abilities.setPlayerAbility( skillName, -1);
-                for (int i = 1; i < finalCooldown+1; i++) {
-                    int timeRemaining = finalCooldown - i;
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            timers.setPlayerTimer( skillName, timeRemaining);
-                            AbilityTimers timers2 = new AbilityTimers(p);
-                            if (timeRemaining ==0) {
-                                if (!p.isOnline()) {
-                                    timers2.removePlayer();
-                                }
-                                else {
-                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>" + lang.getString("berserkPick") + " " + lang.getString("readyToUse") + "<<<");
-                                }
-                            }
-                        }
-                    }.runTaskLater(plugin, 20 * i);
-                }
-            }
-        }.runTaskLater(plugin, duration).getTaskId();
-        AbilityLogoutTracker incaseLogout = new AbilityLogoutTracker(p);
-        incaseLogout.setPlayerItem(p,skillName,key);
-        incaseLogout.setPlayerTask(p,skillName,taskID);
+        String coolDownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("berserkPick") + " " + lang.getString("readyToUse") + "<<<";
+        String endMessage = ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("berserkPick") + " " + lang.getString("ended") + "<<<";
+        timers.abilityDurationTimer(skillName,duration,endMessage,coolDownEndMessage,key,itemInHand,effLevel,0);
     }
 
     public void tntExplode(Block blockLit) {
@@ -386,7 +342,7 @@ public class Mining {
         }
     }
 
-    public void preventLogoutTheft(int taskID_mining,ItemStack itemInHand_mining) {
+    public void preventLogoutTheft(int taskID_mining,ItemStack itemInHand_mining, NamespacedKey key,boolean isDisabling) {
         if (!runMethods) {
             return;
         }
@@ -395,41 +351,20 @@ public class Mining {
         if (pAbilities[2] == -2) {
             Bukkit.getScheduler().cancelTask(taskID_mining);
             int effLevel = itemInHand_mining.getEnchantmentLevel(Enchantment.DIG_SPEED)-5;
-            itemInHand_mining.removeEnchantment(Enchantment.DIG_SPEED);
-            if (effLevel != 0) {
-                itemInHand_mining.addUnsafeEnchantment(Enchantment.DIG_SPEED, effLevel);
-            }
-            int cooldown = 300;
-            if ((int) pStat.get("global").get(11) > 0) {
-                cooldown = 200;
-            }
-            int finalCooldown = cooldown;
-            abilities.setPlayerAbility( skillName, -1);
-            p.sendMessage(ChatColor.RED+ChatColor.BOLD.toString() + ">>>" + lang.getString("magicForce") + "<<<");
-            for(int i = 1; i < finalCooldown+1; i++) {
-                int timeRemaining = finalCooldown - i;
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        AbilityTimers timers2 = new AbilityTimers(p);
-                        timers2.setPlayerTimer( skillName, timeRemaining);
-                        if (timeRemaining==0 && !p.isOnline()){
-                            timers2.removePlayer();
-                        }
-                    }
-                }.runTaskLater(plugin, 20*i);
-            }
+            String coolDownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("berserkPick") + " " + lang.getString("readyToUse") + "<<<";
+            String endMessage = ChatColor.RED+ChatColor.BOLD.toString() + ">>>" + lang.getString("magicForce");
+            timers.endAbility(skillName,endMessage,coolDownEndMessage,key,itemInHand_mining,effLevel,0,isDisabling);
 
         }
     }
 
-    public void getVeinOres(Block b1,final int x1, final int y1, final int z1,Material oreType) {
+    public void getVeinOres(Block b1,final int x1, final int y1, final int z1,Material oreType,int maxSize) {
         if (!runMethods) {
             return;
         }
         WorldGuardChecks BuildingCheck = new WorldGuardChecks();
         int searchCubeSize = 7;
-        if (veinOres.size() > 29) {
+        if (veinOres.size() > maxSize-1) {
             return;
         }
         for (int x = -1; x <= 1; x++) {
@@ -444,12 +379,12 @@ public class Mining {
                             break;
                         }
                         else if (!(veinOres.contains(b2))) {
-                            if (veinOres.size() > 29) {
+                            if (veinOres.size() > maxSize-1) {
                                 return;
                             }
                             if (BuildingCheck.canBuild(p, b2.getLocation())) {
                                 veinOres.add(b2);
-                                this.getVeinOres(b2, x1, y1, z1,oreType);
+                                this.getVeinOres(b2, x1, y1, z1,oreType,maxSize);
                             }
                         }
                     }
@@ -459,12 +394,18 @@ public class Mining {
     }
 
     public void vanillaVeinMiner(Block initialBlock) {
-        getVeinOres(initialBlock,initialBlock.getX(),initialBlock.getY(),initialBlock.getZ(),initialBlock.getType()); //Get Ores in Vein
+        ConfigLoad configLoad = new ConfigLoad();
+        int maxBreakSize = configLoad.getVeinMinerMaxBreakSize();
+        getVeinOres(initialBlock,initialBlock.getX(),initialBlock.getY(),initialBlock.getZ(),initialBlock.getType(),maxBreakSize); //Get Ores in Vein
         int numOres = veinOres.size();
         World world = initialBlock.getWorld();
         damageTool(numOres);
         for (Block block : veinOres) {
             Location blockLoc = block.getLocation();
+            PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();
+            if (placedBlocksManager.isBlockTracked(block)) {
+                placedBlocksManager.removeBlock(block);
+            }
             Collection<ItemStack> drops = block.getDrops(itemInHand);
             block.setType(Material.AIR);
             for (ItemStack drop : drops) {
@@ -479,8 +420,8 @@ public class Mining {
             return;
         }
         ItemGroups itemGroups = new ItemGroups();
-        List<Material> ores = itemGroups.getOres();
-        if (!(ores.contains(blockType)) && !blockType.equals(Material.GLOWSTONE)) {
+        HashSet<Material> veinMinerBlocks = itemGroups.getVeinMinerBlocks();
+        if (!veinMinerBlocks.contains(blockType)) {
             return;
         }
         World world = initialBlock.getWorld();
@@ -493,18 +434,18 @@ public class Mining {
         if (veinMinerToggle < 1) {
             return;
         }
-        if (blockType.equals(Material.GLOWSTONE)) {
-            vanillaVeinMiner(initialBlock);
-            return;
-        }
-        getVeinOres(initialBlock,initialBlock.getX(),initialBlock.getY(),initialBlock.getZ(),initialBlock.getType()); //Get Ores in Vein
+        List<Material> ores = itemGroups.getOres();
+        ConfigLoad configLoad = new ConfigLoad();
+        int maxBreakSize = configLoad.getVeinMinerMaxBreakSize();
+        getVeinOres(initialBlock,initialBlock.getX(),initialBlock.getY(),initialBlock.getZ(),initialBlock.getType(),maxBreakSize); //Get Ores in Vein
         int numOres = veinOres.size();
-        int totalOres = numOres;
         int doubleDropsLevel = (int)pStat.get(skillName).get(5);
         double chance = 0.0005*doubleDropsLevel;
 
         damageTool(numOres);
 
+        boolean didRun = false;
+        Smelting smeltingClass = new Smelting(p);
         for (Block block : veinOres) {
             Location blockLoc = block.getLocation();
             //Checks if any of the blocks weren't natural
@@ -515,49 +456,9 @@ public class Mining {
                 numOres -= 1;
             }
             //Flame Pick Conditional
-            if ((int) pStat.get("global").get(13) > 0 && (int) pStat.get("smelting").get(13) > 0 && (block.getType() == Material.IRON_ORE || block.getType() == Material.GOLD_ORE)) {
-                int doubleSmeltLevel = (int) pStat.get("smelting").get(9);
-                double chanceSmelt = doubleSmeltLevel*0.05;
-                int dropAmount = 1;
-                if (chanceSmelt > rand.nextDouble()) {
-                    dropAmount *= 2;
-                }
-                world.spawnParticle(Particle.FLAME, block.getLocation(), 5);
-                switch (block.getType()) {
-                    case IRON_ORE:
-                        block.setType(Material.AIR);
-                        if (chance > rand.nextDouble() && natural) {
-                            if ((int) pStat.get(skillName).get(13) > 0) {
-                                dropAmount *= 3;
-                            } else {
-                                dropAmount *= 2;
-                            }
-                        }
-                        world.dropItemNaturally(block.getLocation(), new ItemStack(Material.IRON_INGOT, dropAmount));
-                        damageTool(1);
-                        if (0.7 > rand.nextDouble()) {
-                            ((ExperienceOrb) world.spawn(block.getLocation(), ExperienceOrb.class)).setExperience(1);
-                        }
-                        break;
-                    case GOLD_ORE:
-                        block.setType(Material.AIR);
-                        if (chance > rand.nextDouble() && natural) {
-                            if ((int) pStat.get(skillName).get(13) > 0) {
-                                dropAmount *= 3;
-                            } else {
-                                dropAmount *= 2;
-                            }
-                        }
-                        world.dropItemNaturally(block.getLocation(), new ItemStack(Material.GOLD_INGOT, dropAmount));
-                        damageTool(1);
-                        ((ExperienceOrb) world.spawn(block.getLocation(), ExperienceOrb.class)).setExperience(1);
-                        break;
-                    default:
-                        break;
-                }
-            }
+            didRun = smeltingClass.flamePick(block,world,blockType,false);
             //Not Flame Pick
-            else {
+            if (!didRun && ores.contains(blockType)) {
                 Collection<ItemStack> drops = block.getDrops(itemInHand);
                 block.setType(Material.AIR);
                 for (ItemStack drop : drops) {
@@ -575,15 +476,8 @@ public class Mining {
 
         }
         //Give EXP
-        if ((int) pStat.get("global").get(13) > 0 && (int) pStat.get("smelting").get(13) > 0) {
-            ConfigLoad configLoad1 = new ConfigLoad();
-            Map<String,Integer> smeltingEXPmap = configLoad1.getExpMapForSkill("smelting");
-            if (initialBlock.getType() == Material.IRON_ORE) {
-                increaseStats.changeEXP("smelting",smeltingEXPmap.get("smeltIronIngot")*totalOres);
-            }
-            else if (initialBlock.getType() == Material.GOLD_ORE) {
-                increaseStats.changeEXP("smelting",smeltingEXPmap.get("smeltGoldIngot")*totalOres);
-            }
+        if (didRun) {
+            increaseStats.changeEXP(skillName,numOres*smeltingClass.getEXP(itemGroups.getSmeltableItemsMap().get(blockType)));
         }
         increaseStats.changeEXP(skillName,getEXP(blockType)*numOres);
     }

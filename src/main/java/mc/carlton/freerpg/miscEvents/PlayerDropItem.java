@@ -30,7 +30,7 @@ public class PlayerDropItem implements Listener {
             if (e.getItemDrop().getItemStack().getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
                 ItemStack abilityItem = e.getItemDrop().getItemStack();
                 Digging diggingClass = new Digging(p);
-                diggingClass.preventLogoutTheft(taskID_digging,abilityItem);
+                diggingClass.preventLogoutTheft(taskID_digging,abilityItem,key,false);
             }
         }
         if (pAbilities[2] != -1) {
@@ -40,7 +40,7 @@ public class PlayerDropItem implements Listener {
             if (e.getItemDrop().getItemStack().getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
                 ItemStack abilityItem = e.getItemDrop().getItemStack();
                 Mining miningClass = new Mining(p);
-                miningClass.preventLogoutTheft(taskID_mining,abilityItem);
+                miningClass.preventLogoutTheft(taskID_mining,abilityItem,key,false);
             }
         }
 
@@ -51,7 +51,7 @@ public class PlayerDropItem implements Listener {
             if (e.getItemDrop().getItemStack().getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
                 ItemStack abilityItem = e.getItemDrop().getItemStack();
                 Swordsmanship swordsmanshipClass = new Swordsmanship(p);
-                swordsmanshipClass.preventLogoutTheft(taskID_swordsmanship,abilityItem);
+                swordsmanshipClass.preventLogoutTheft(taskID_swordsmanship,abilityItem,key,false);
             }
         }
 

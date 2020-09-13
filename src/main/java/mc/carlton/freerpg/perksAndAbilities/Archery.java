@@ -67,10 +67,9 @@ public class Archery {
         if ((int) pStat.get("global").get(24) < 1 || !pStatClass.isPlayerSkillAbilityOn(skillName)) {
             return;
         }
-        Integer[] pTimers = timers.getPlayerTimers();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[5] == -1) {
-            int cooldown = pTimers[5];
+            int cooldown = timers.getPlayerCooldownTime(skillName);
             if (cooldown < 1) {
                 int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
                 if (prepMessages > 0) {
@@ -92,7 +91,7 @@ public class Archery {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( skillName, taskID);
             } else {
-                actionMessage.sendMessage(ChatColor.RED +lang.getString("rapidFire") + " " + lang.getString("cooldown") + ": " + cooldown+ "s");
+                actionMessage.sendMessage(ChatColor.RED +lang.getString("rapidFire") + " " + lang.getString("cooldown") + ": " + ChatColor.WHITE + cooldown+ ChatColor.RED + "s");
             }
         }
     }
@@ -106,40 +105,12 @@ public class Archery {
         actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>" + lang.getString("rapidFire") + " " + lang.getString("activated") + "<<<");
         int durationLevel = (int) pStat.get(skillName).get(4);
         double duration0 = Math.ceil(durationLevel * 0.4) + 40;
-        int cooldown = 300;
-        if ((int) pStat.get("global").get(11) > 0) {
-            cooldown = 200;
-        }
-        int finalCooldown = cooldown;
         long duration = (long) duration0;
-        timers.setPlayerTimer( skillName, finalCooldown);
         Bukkit.getScheduler().cancelTask(pAbilities[5]);
         abilities.setPlayerAbility( skillName, -2);
-        int taskID = new BukkitRunnable() {
-            @Override
-            public void run() {
-                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("rapidFire") + " " + lang.getString("ended") + "<<<");
-                abilities.setPlayerAbility( skillName, -1);
-                for (int i = 1; i < finalCooldown +1; i++) {
-                    int timeRemaining = finalCooldown - i;
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            timers.setPlayerTimer( skillName, timeRemaining);
-                            AbilityTimers timers2 = new AbilityTimers(p);
-                            if (timeRemaining ==0) {
-                                if (!p.isOnline()) {
-                                    timers2.removePlayer();
-                                }
-                                else {
-                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>" + lang.getString("rapidFire") + " " + lang.getString("readyToUse") + "<<<");
-                                }
-                            }
-                        }
-                    }.runTaskLater(plugin, 20 * i);
-                }
-            }
-        }.runTaskLater(plugin, duration).getTaskId();
+        String coolDownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("rapidFire") + " " + lang.getString("readyToUse") + "<<<";
+        String endMessage = ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("rapidFire") + " " + lang.getString("ended") + "<<<";
+        timers.abilityDurationTimer(skillName,duration,endMessage,coolDownEndMessage);
     }
 
     public void rapidFire(Entity projectile,ItemStack bow) {

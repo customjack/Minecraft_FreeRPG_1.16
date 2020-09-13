@@ -79,7 +79,7 @@ public class Swordsmanship {
         if ((int) pStat.get("global").get(24) < 1 || !pStatClass.isPlayerSkillAbilityOn(skillName)) {
             return;
         }
-        Integer[] pTimers = timers.getPlayerTimers();
+        Integer[] pTimers = timers.getPlayerCooldownTimes();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[7] == -1) {
             int cooldown = pTimers[7];
@@ -104,7 +104,7 @@ public class Swordsmanship {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( skillName, taskID);
             } else {
-                actionMessage.sendMessage(ChatColor.RED +lang.getString("swiftStrikes") + " " + lang.getString("cooldown") + ": " + cooldown+ "s");
+                actionMessage.sendMessage(ChatColor.RED +lang.getString("swiftStrikes") + " " + lang.getString("cooldown") + ": " + ChatColor.WHITE + cooldown+ ChatColor.RED + "s");
             }
         }
     }
@@ -118,11 +118,6 @@ public class Swordsmanship {
         actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>" + lang.getString("swiftStrikes") + " " + lang.getString("activated") + "<<<");
         int durationLevel = (int) pStat.get(skillName).get(4);
         double duration0 = Math.ceil(durationLevel * 0.4) + 40;
-        int cooldown = 300;
-        if ((int) pStat.get("global").get(11) > 0) {
-            cooldown = 200;
-        }
-        int finalCooldown = cooldown;
         long duration = (long) duration0;
         int sharperLevel = (int) pStat.get(skillName).get(12);
         int sharpLevel = itemInHand.getEnchantmentLevel(Enchantment.DAMAGE_ALL);
@@ -140,54 +135,14 @@ public class Swordsmanship {
         itemInHand.setItemMeta(itemMeta);
 
         ((Attributable) p).getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(1024.0);
-        timers.setPlayerTimer( skillName, finalCooldown);
         Bukkit.getScheduler().cancelTask(pAbilities[7]);
         abilities.setPlayerAbility( skillName, -2);
-        int taskID = new BukkitRunnable() {
-            @Override
-            public void run() {
-                TrackItem trackItem = new TrackItem();
-                ItemStack potentialAbilityItem = trackItem.findTrackedItemInInventory(p,key);
-                if (potentialAbilityItem != null) {
-                    itemInHand = potentialAbilityItem;
-                }
-                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("swiftStrikes") + " " + lang.getString("ended") + "<<<");
-                abilities.setPlayerAbility( skillName, -1);
-                ((Attributable) p).getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4.0);
-                if (sharperLevel > 0) {
-                    if (sharpLevel > 0) {
-                        itemInHand.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, sharpLevel);
-                    }
-                    else {
-                        itemInHand.removeEnchantment(Enchantment.DAMAGE_ALL);
-                    }
-                }
-                for (int i = 1; i < finalCooldown+1; i++) {
-                    int timeRemaining = finalCooldown - i;
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            timers.setPlayerTimer( skillName, timeRemaining);
-                            AbilityTimers timers2 = new AbilityTimers(p);
-                            if (timeRemaining ==0) {
-                                if (!p.isOnline()) {
-                                    timers2.removePlayer();
-                                }
-                                else {
-                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>" + lang.getString("swiftStrikes") + " " + lang.getString("readyToUse") + "<<<");
-                                }
-                            }
-                        }
-                    }.runTaskLater(plugin, 20 * i);
-                }
-            }
-        }.runTaskLater(plugin, duration).getTaskId();
-        AbilityLogoutTracker incaseLogout = new AbilityLogoutTracker(p);
-        incaseLogout.setPlayerItem(p,skillName,key);
-        incaseLogout.setPlayerTask(p,skillName,taskID);
+        String coolDownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("swiftStrikes") + " " + lang.getString("readyToUse") + "<<<";
+        String endMessage = ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("swiftStrikes") + " " + lang.getString("ended") + "<<<";
+        timers.abilityDurationTimer(skillName,duration,endMessage,coolDownEndMessage,key,itemInHand,sharpLevel,sharperLevel);
     }
 
-    public void preventLogoutTheft(int taskID_swordsmanship,ItemStack itemInHand_swords) {
+    public void preventLogoutTheft(int taskID_swordsmanship,ItemStack itemInHand_swords,NamespacedKey key,boolean isDisabling) {
         if (!runMethods) {
             return;
         }
@@ -200,31 +155,9 @@ public class Swordsmanship {
             if (pAbilities[7] == -2) {
                 Bukkit.getScheduler().cancelTask(taskID_swordsmanship);
                 int sharpLevel = itemInHand_swords.getEnchantmentLevel(Enchantment.DAMAGE_ALL)-1;
-                itemInHand_swords.removeEnchantment(Enchantment.DAMAGE_ALL);
-                if (sharpLevel > 0) {
-                    itemInHand_swords.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, sharpLevel);
-                }
-                int cooldown = 300;
-                if ((int) pStat.get("global").get(11) > 0) {
-                    cooldown = 200;
-                }
-                int finalCooldown = cooldown;
-                actionMessage.sendMessage(ChatColor.RED+ChatColor.BOLD.toString() + ">>>"+lang.getString("magicForce")+"<<<");
-                abilities.setPlayerAbility( skillName, -1);
-                for(int i = 1; i < finalCooldown+1; i++) {
-                    int timeRemaining = finalCooldown - i;
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            AbilityTimers timers2 = new AbilityTimers(p);
-                            timers2.setPlayerTimer( skillName, timeRemaining);
-                            if (timeRemaining==0 && !p.isOnline()){
-                                timers2.removePlayer();
-                            }
-                        }
-                    }.runTaskLater(plugin, 20*i);
-                }
-
+                String endMessage = ChatColor.RED+ChatColor.BOLD.toString() + ">>>"+lang.getString("magicForce")+"<<<";
+                String coolDownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("swiftStrikes") + " " + lang.getString("readyToUse") + "<<<";
+                timers.endAbility(skillName,endMessage,coolDownEndMessage,key,itemInHand_swords,sharpLevel,sharperLevel,isDisabling);
             }
         }
     }

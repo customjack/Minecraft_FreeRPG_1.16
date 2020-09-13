@@ -13,7 +13,6 @@ import org.bukkit.World;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
@@ -75,7 +74,7 @@ public class Defense {
         if ((int) pStat.get("global").get(24) < 1 || !pStatClass.isPlayerSkillAbilityOn(skillName)) {
             return;
         }
-        Integer[] pTimers = timers.getPlayerTimers();
+        Integer[] pTimers = timers.getPlayerCooldownTimes();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[8] == -1) {
             int cooldown = pTimers[8];
@@ -100,7 +99,7 @@ public class Defense {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( skillName, taskID);
             } else {
-                actionMessage.sendMessage(ChatColor.RED +lang.getString("stoneSoldier") + " " + lang.getString("cooldown") + ": " + cooldown+ "s");
+                actionMessage.sendMessage(ChatColor.RED +lang.getString("stoneSoldier") + " " + lang.getString("cooldown") + ": " + ChatColor.WHITE + cooldown+ ChatColor.RED + "s");
             }
         }
     }
@@ -114,11 +113,6 @@ public class Defense {
         actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>" + lang.getString("stoneSoldier") + " " + lang.getString("activated") + "<<<");
         int durationLevel = (int) pStat.get(skillName).get(4);
         double duration0 = Math.ceil(durationLevel * 0.4) + 40;
-        int cooldown = 300;
-        if ((int) pStat.get("global").get(11) > 0) {
-            cooldown = 200;
-        }
-        int finalCooldown = cooldown;
         long duration = (long) duration0;
         int strongerLegsLevel = (int) pStat.get(skillName).get(12);
         int giftFromAboveLevel = (int) pStat.get(skillName).get(11);
@@ -161,39 +155,14 @@ public class Defense {
             p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,(int)duration,2));
         }
 
-        timers.setPlayerTimer( skillName, finalCooldown);
         Bukkit.getScheduler().cancelTask(pAbilities[8]);
         abilities.setPlayerAbility( skillName, -2);
-        int taskID = new BukkitRunnable() {
-            @Override
-            public void run() {
-                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("stoneSoldier") + " " + lang.getString("ended") + "<<<");
-                abilities.setPlayerAbility( skillName, -1);
-                for (int i = 1; i < finalCooldown+1; i++) {
-                    int timeRemaining = finalCooldown - i;
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            timers.setPlayerTimer( skillName, timeRemaining);
-                            AbilityTimers timers2 = new AbilityTimers(p);
-                            if (timeRemaining ==0) {
-                                if (!p.isOnline()) {
-                                    timers2.removePlayer();
-                                }
-                                else {
-                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>" + lang.getString("stoneSoldier") + " " + lang.getString("readyToUse") + "<<<");
-                                }
-                            }
-                        }
-                    }.runTaskLater(plugin, 20 * i);
-                }
-            }
-        }.runTaskLater(plugin, duration).getTaskId();
-        AbilityLogoutTracker incaseLogout = new AbilityLogoutTracker(p);
-        incaseLogout.setPlayerTask(p,skillName,taskID);
+        String coolDownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("stoneSoldier") + " " + lang.getString("readyToUse") + "<<<";
+        String endMessage = ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("stoneSoldier") + " " + lang.getString("ended") + "<<<";
+        timers.abilityDurationTimer(skillName,duration,endMessage,coolDownEndMessage);
     }
 
-    public void preventLogoutTheft(int taskID_defense) {
+    public void preventLogoutTheft(int taskID_defense,boolean pluginDisabled) {
         if (!runMethods) {
             return;
         }
@@ -231,20 +200,9 @@ public class Defense {
 
             }
             Bukkit.getScheduler().cancelTask(taskID_defense);
-            abilities.setPlayerAbility( skillName, -1);
-            for(int i = 1; i < 301; i++) {
-                int timeRemaining = 300 - i;
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        AbilityTimers timers2 = new AbilityTimers(p);
-                        timers2.setPlayerTimer( skillName, timeRemaining);
-                        if (timeRemaining==0 && !p.isOnline()){
-                            timers2.removePlayer();
-                        }
-                    }
-                }.runTaskLater(plugin, 20*i);
-            }
+            String coolDownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("stoneSoldier") + " " + lang.getString("readyToUse") + "<<<";
+            String endMessage = ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("stoneSoldier") + " " + lang.getString("ended") + "<<<";
+            timers.endAbility(skillName,endMessage,coolDownEndMessage,pluginDisabled);
         }
     }
 

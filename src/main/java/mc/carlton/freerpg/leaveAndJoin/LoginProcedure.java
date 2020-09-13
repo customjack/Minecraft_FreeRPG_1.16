@@ -33,7 +33,8 @@ public class LoginProcedure {
     public void playerLogin() {
         //If the player is new, creates a new stats file for them,
         //If the player's stat file is not properly formatted, this also fixes that
-        PlayerStatsFilePreparation.playJoinConditions(p);
+        PlayerStatsFilePreparation playerStatsFilePreparation = new PlayerStatsFilePreparation();
+        playerStatsFilePreparation.playJoinConditions(p);
 
         //Read in player's past stats into an the playerStats Class
         PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(p);
@@ -55,6 +56,10 @@ public class LoginProcedure {
         allStats.put(uuid,playerStats0);
         pStatsClass.setData(allStats);
 
+        //Makes sure the player's stats are consistent with the defined EXP curve
+        ChangeStats changeStats = new ChangeStats(p);
+        changeStats.checkPlayerLevelEXPCurveConsistency();
+
         //Makes sure player's attack speed is normal
         ((Attributable) p).getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4.0);
 
@@ -67,7 +72,7 @@ public class LoginProcedure {
 
         //Initiates player timers
         AbilityTimers timersClass = new AbilityTimers(p);
-        Map<UUID, Integer[]> allTimers = timersClass.getTimers();
+        Map<UUID, Integer[]> allTimers = timersClass.getCooldownTimes();
         if (!allTimers.containsKey(uuid)) {
             Integer[] initTimers = {0,0,0,0,0,0,0,0,0,0,0,0};
             allTimers.put(uuid, initTimers);

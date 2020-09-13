@@ -105,6 +105,9 @@ public class PlayerStatsLoadIn {
             stats.add(playerData.getDouble("globalStats.personalEXPMultiplier"));
             stats.add(playerData.getInt("globalStats.triggerAbilitiesToggle"));
             stats.add(playerData.getInt("globalStats.showEXPBarToggle"));
+            stats.add(playerData.getInt("globalStats.leafBlowerToggle"));
+            stats.add(playerData.getInt("globalStats.holyAxeToggle"));
+            stats.add(playerData.getInt("globalStats.numberOfCooldownBars"));
             statsMap.put("global", stats);
 
             for (int i = 0; i < labels.length; i++) {
@@ -179,6 +182,9 @@ public class PlayerStatsLoadIn {
                     playerData.set("globalStats.personalEXPMultiplier",pStatAll.get(i).get(23));
                     playerData.set("globalStats.triggerAbilitiesToggle",pStatAll.get(i).get(24));
                     playerData.set("globalStats.showEXPBarToggle",pStatAll.get(i).get(25));
+                    playerData.set("globalStats.leafBlowerToggle",pStatAll.get(i).get(26));
+                    playerData.set("globalStats.holyAxeToggle",pStatAll.get(i).get(27));
+                    playerData.set("globalStats.numberOfCooldownBars",pStatAll.get(i).get(28));
                 }
                 else {
                     playerData.set(i+".level",pStatAll.get(i).get(0));

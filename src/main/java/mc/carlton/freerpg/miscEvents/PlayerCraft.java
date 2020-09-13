@@ -48,6 +48,9 @@ public class PlayerCraft implements Listener {
         CraftingRecipes craftingRecipes = new CraftingRecipes();
         ItemStack[] craftingMatrix = e.getInventory().getMatrix();
         ArrayList<Material> crafting = new ArrayList<>();
+        if (craftingMatrix.length != 9) {
+            return;
+        }
         for (int i=0; i<9;i++) {
             if (craftingMatrix[i] == null) {
                 crafting.add(Material.AIR);

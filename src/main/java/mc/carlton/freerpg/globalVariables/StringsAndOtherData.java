@@ -312,6 +312,15 @@ public class StringsAndOtherData {
         version = plugin.getDescription().getVersion();
     }
 
+    public String replaceIfPresent(String initialString,String searchFor,String replaceWith) {
+        if (initialString.contains(searchFor)) {
+            return initialString.replace(searchFor,replaceWith);
+        }
+        else {
+            return initialString;
+        }
+    }
+
     public ArrayList<String> getStringLines(String string) {
         ArrayList<String> splitDescs = new ArrayList<>();
         splitDescs.add(string);

@@ -14,6 +14,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.Cocoa;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -24,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PlayerBlockBreakDeveloper implements Listener {
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     void onblockBreak(BlockBreakEvent e){
         RunTimeData runTimeData = new RunTimeData();
 
@@ -102,10 +103,14 @@ public class PlayerBlockBreakDeveloper implements Listener {
                 if (veinMinerLevel > 0 && veinMinerToggle > 0) {
                     miningClass.veinMiner(block,blockType);
                 }
+                else {
+                    Smelting smeltingClass = new Smelting(p);
+                    smeltingClass.flamePick(block, world,blockType,true);
+                }
             }
             else {
                 Smelting smeltingClass = new Smelting(p);
-                smeltingClass.flamePick(block, world,blockType);
+                smeltingClass.flamePick(block, world,blockType,false);
             }
         }
 
@@ -163,8 +168,10 @@ public class PlayerBlockBreakDeveloper implements Listener {
             long logBookDropTime = System.currentTimeMillis() - timer1;
             runTimeData.addTime(logBookDropTime,"logBook");
 
+            woodcuttingClass.leafBlower(block);
+
             timer1 = System.currentTimeMillis();
-            woodcuttingClass.leavesDrops(block,world);
+            woodcuttingClass.leavesDrops(block,world,1,1);
             long leavesDropTime = System.currentTimeMillis() - timer1;
             runTimeData.addTime(leavesDropTime,"leaves");
 

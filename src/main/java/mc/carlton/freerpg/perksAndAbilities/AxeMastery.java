@@ -75,7 +75,7 @@ public class AxeMastery {
         if ((int) pStat.get("global").get(24) < 1 || !pStatClass.isPlayerSkillAbilityOn(skillName)) {
             return;
         }
-        Integer[] pTimers = timers.getPlayerTimers();
+        Integer[] pTimers = timers.getPlayerCooldownTimes();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[9] == -1) {
             int cooldown = pTimers[9];
@@ -88,7 +88,7 @@ public class AxeMastery {
                     @Override
                     public void run() {
                         try {
-                            Integer[] pTimers2 = timers.getPlayerTimers();
+                            Integer[] pTimers2 = timers.getPlayerCooldownTimes();
                             Integer[] pAbilities2 = abilities.getPlayerAbilities();
                             int prepMessages = (int) pStatClass.getPlayerData().get("global").get(22); //Toggle for preparation messages
                             if (pAbilities2[1] != -1 && pTimers2[1] >= 1 && prepMessages > 0) {
@@ -103,7 +103,7 @@ public class AxeMastery {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( skillName, taskID);
             } else {
-                actionMessage.sendMessage(ChatColor.RED +lang.getString("greatAxe") + " " + lang.getString("cooldown") + ": " + cooldown+ "s");
+                actionMessage.sendMessage(ChatColor.RED +lang.getString("greatAxe") + " " + lang.getString("cooldown") + ": " + ChatColor.WHITE + cooldown+ ChatColor.RED + "s");
             }
         }
     }
@@ -116,40 +116,12 @@ public class AxeMastery {
         actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>" + lang.getString("greatAxe") + " " + lang.getString("activated") + "<<<");
         int durationLevel = (int) pStat.get(skillName).get(4);
         double duration0 = Math.ceil(durationLevel*0.4) + 40;
-        int cooldown = 300;
-        if ((int) pStat.get("global").get(11) > 0) {
-            cooldown = 200;
-        }
-        int finalCooldown = cooldown;
         long duration = (long) duration0;
         Bukkit.getScheduler().cancelTask(pAbilities[9]);
         abilities.setPlayerAbility( skillName, -2);
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("greatAxe") + " " + lang.getString("ended") + "<<<");
-                abilities.setPlayerAbility( skillName, -1);
-                timers.setPlayerTimer( skillName, finalCooldown);
-                for(int i = 1; i < finalCooldown+1; i++) {
-                    int timeRemaining = finalCooldown - i;
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            timers.setPlayerTimer( skillName, timeRemaining);
-                            AbilityTimers timers2 = new AbilityTimers(p);
-                            if (timeRemaining ==0) {
-                                if (!p.isOnline()) {
-                                    timers2.removePlayer();
-                                }
-                                else {
-                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>" + lang.getString("greatAxe") + " " + lang.getString("readyToUse") + "<<<");
-                                }
-                            }
-                        }
-                    }.runTaskLater(plugin, 20*i);
-                }
-            }
-        }.runTaskLater(plugin, duration);
+        String cooldownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("greatAxe") + " " + lang.getString("readyToUse") + "<<<";
+        String endMessage = ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("greatAxe") + " " + lang.getString("ended") + "<<<";
+        timers.abilityDurationTimer(skillName,duration,endMessage,cooldownEndMessage);
     }
 
     public void greaterAxe(Entity entity, World world,double finalDamage) {
@@ -276,6 +248,9 @@ public class AxeMastery {
                 return;
             }
             Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+            if ((int)pStat.get("global").get(27) < 1) { //Holy axe Toggle
+                return;
+            }
             int holyAxeLevel = (int) pStat.get(skillName).get(8);
             if (holyAxeLevel*0.02 > rand.nextDouble()) {
                 world.strikeLightning(entity.getLocation());

@@ -18,6 +18,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.Cocoa;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -26,7 +27,7 @@ import org.bukkit.plugin.Plugin;
 import java.util.*;
 
 public class PlayerBlockBreak implements Listener {
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     void onblockBreak(BlockBreakEvent e){
         //WorldGuard Check
         if (e.isCancelled()) {
@@ -99,12 +100,12 @@ public class PlayerBlockBreak implements Listener {
                 }
                 else {
                     Smelting smeltingClass = new Smelting(p);
-                    smeltingClass.flamePick(block, world,blockType);
+                    smeltingClass.flamePick(block, world,blockType,true);
                 }
             }
             else {
                 Smelting smeltingClass = new Smelting(p);
-                smeltingClass.flamePick(block, world,blockType);
+                smeltingClass.flamePick(block, world,blockType,true);
             }
         }
 
@@ -134,7 +135,8 @@ public class PlayerBlockBreak implements Listener {
             woodcuttingClass.woodcuttingDoubleDrop(block,world);
             woodcuttingClass.logXPdrop(block,world);
             woodcuttingClass.logBookDrop(block,world);
-            woodcuttingClass.leavesDrops(block,world);
+            woodcuttingClass.leafBlower(block);
+            woodcuttingClass.leavesDrops(block,world,1,1);
             woodcuttingClass.timedHaste(block);
 
         }

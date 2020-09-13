@@ -32,6 +32,7 @@ public class EntityPickedUpItemStorage {
         currentkeys.add(key);
         entityPickedUpItemsMap.put(entity,currentkeys);
     }
+
     public boolean wasItemPickedUp(ItemStack itemStack, LivingEntity entity) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (entityPickedUpItemsMap.containsKey(entity)) {

@@ -23,12 +23,15 @@ import mc.carlton.freerpg.pistonEvents.PistonExtend;
 import mc.carlton.freerpg.pistonEvents.PistonRetract;
 import mc.carlton.freerpg.playerAndServerInfo.*;
 import org.bukkit.*;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.HashMap;
 
 public final class FreeRPG extends JavaPlugin implements Listener {
 
@@ -41,11 +44,13 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         getConfig().options().copyDefaults();
         saveDefaultConfig();
         saveResource("languages.yml",false);
+        saveResource("advancedConfig.yml",false);
 
         //Checks config.yml and languages.yml for updates, and update them if needed (while trying to keep any edits)
         YMLManager ymlManager = new YMLManager();
         ymlManager.updateCheckYML("config.yml");
         ymlManager.updateCheckYML("languages.yml");
+        ymlManager.updateCheckYML("advancedConfig.yml");
 
         //Loads config to into memory
         ConfigLoad loadConfig = new ConfigLoad();
@@ -139,8 +144,10 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new SkillsConfigGUIClick(), this);
         getServer().getPluginManager().registerEvents(new EntityPickUpItem(), this);
 
+        //Registers commands
         getCommand("frpg").setExecutor(new FrpgCommands());
         getCommand("spite").setExecutor(new SpiteQuote());
+
 
         //If the plugin starts with players online
         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -159,6 +166,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
     }
 
     public void onDisable() {
+
         //Does everything that would normally be done if a player were to log out
         for (Player p : Bukkit.getOnlinePlayers()) {
             LogoutProcedure logout = new LogoutProcedure(p);
@@ -178,4 +186,48 @@ public final class FreeRPG extends JavaPlugin implements Listener {
             runTimeData.logRunTimeData();
         }
     }
+
+    //Load custom enchantments
+    public void registerEnchantment(Enchantment enchantment) {
+        boolean registered = true;
+        try {
+            Field f = Enchantment.class.getDeclaredField("acceptingNew");
+            f.setAccessible(true);
+            f.set(null, true);
+            Enchantment.registerEnchantment(enchantment);
+        } catch (Exception e) {
+            registered = false;
+            e.printStackTrace();
+        }
+        if(registered){
+            // It's been registered!
+        }
+    }
+
+    public void unregisterEnchantments(Enchantment enchantment) {
+        try {
+            Field keyField = Enchantment.class.getDeclaredField("byKey");
+
+            keyField.setAccessible(true);
+            @SuppressWarnings("unchecked")
+            HashMap<NamespacedKey, Enchantment> byKey = (HashMap<NamespacedKey, Enchantment>) keyField.get(null);
+
+            if(byKey.containsKey(enchantment.getKey())) {
+                byKey.remove(enchantment.getKey());
+            }
+
+            Field nameField = Enchantment.class.getDeclaredField("byName");
+
+            nameField.setAccessible(true);
+            @SuppressWarnings("unchecked")
+            HashMap<String, Enchantment> byName = (HashMap<String, Enchantment>) nameField.get(null);
+
+            if(byName.containsKey(enchantment.getName())) {
+                byName.remove(enchantment.getName());
+            }
+
+        } catch (Exception ignored) { }
+
+    }
+
 }

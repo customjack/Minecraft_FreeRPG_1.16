@@ -4,6 +4,8 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ExperienceBottleTracking;
 import mc.carlton.freerpg.perksAndAbilities.Enchanting;
 import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,12 +19,25 @@ public class PlayerGetExperience implements Listener {
         if (!configLoad.getAllowedSkillsMap().get("enchanting")) {
             return;
         }
-        Player p = (Player) e.getPlayer();
-        Enchanting enchantingClass = new Enchanting(p);
-        enchantingClass.giveEXP(e.getAmount());
-        int oldAmount = e.getAmount();
-        int newAmount = enchantingClass.xpIncrease(oldAmount);
-        e.setAmount(newAmount);
+        Player p = e.getPlayer();
+        boolean naturalEXPGain = false;
+        boolean fromBottle = false;
+        for(Entity entity: p.getNearbyEntities(1,1,1) ) {
+            if (entity.getType().equals(EntityType.EXPERIENCE_ORB)) {
+                naturalEXPGain = true;
+                if (!configLoad.isGetEXPFromEnchantingBottles()) {
+                    ExperienceBottleTracking experienceBottleTracking = new ExperienceBottleTracking();
+                    fromBottle = experienceBottleTracking.fromEnchantingBottle(entity);
+                }
+            }
+        }
+        if (naturalEXPGain && !fromBottle) {
+            Enchanting enchantingClass = new Enchanting(p);
+            enchantingClass.giveEXP(e.getAmount());
+            int oldAmount = e.getAmount();
+            int newAmount = enchantingClass.xpIncrease(oldAmount);
+            e.setAmount(newAmount);
+        }
 
 
     }

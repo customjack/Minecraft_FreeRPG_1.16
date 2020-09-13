@@ -53,29 +53,9 @@ public class ConfigurationGUIClick implements Listener {
                         switch (languageCode) {
                             case "enUs":
                                 break;
-                            case "huHU":
-                                p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
-                                        ChatColor.WHITE + "vERKE");
-                                break;
-                            case "frFR":
-                                p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
-                                        ChatColor.WHITE + "Temuel");
-                                break;
-                            case "deDE":
-                                p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
-                                        ChatColor.WHITE + "FruitLab.gg");
-                                break;
-                            case "plPL":
-                                p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
-                                        ChatColor.WHITE + "QuarVey");
-                                break;
-                            case "esCl":
-                                p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
-                                        ChatColor.WHITE + "PibeChileno");
-                                break;
                             default:
                                 p.sendMessage(ChatColor.GOLD + lang.getString("translators") + ChatColor.GRAY + ": " +
-                                        ChatColor.WHITE + lang.getString(languageCode +"." + "translationCredit"));
+                                        ChatColor.WHITE + lang.getString("translationCredit",languageCode));
                                 break;
                         }
                         e.setCancelled(true);
@@ -131,6 +111,18 @@ public class ConfigurationGUIClick implements Listener {
                         }
                         else {
                             pStat.get("global").set(25, 1);
+                        }
+                        statAll.put(p.getUniqueId(), pStat);
+                        pStatClass.setData(statAll);
+                        p.performCommand("frpg configurationGUI");
+                        break;
+                    case 14:
+                        int numberOfBars = (int)pStat.get("global").get(28);
+                        if (numberOfBars < 3) {
+                            pStat.get("global").set(28, Math.max(numberOfBars+1,0));
+                        }
+                        else {
+                            pStat.get("global").set(28, 0);
                         }
                         statAll.put(p.getUniqueId(), pStat);
                         pStatClass.setData(statAll);

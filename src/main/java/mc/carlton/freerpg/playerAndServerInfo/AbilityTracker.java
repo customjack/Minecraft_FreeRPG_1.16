@@ -87,6 +87,49 @@ public class AbilityTracker {
         }
         playerAbilities.put(uuid,pAbils);
     }
+
+    public int getPlayerAbility(String ability) {
+        if (!playerAbilities.containsKey(uuid)) {
+            Integer[] initAbils = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+            playerAbilities.put(uuid,initAbils);
+        }
+        Integer[] pAbils = playerAbilities.get(uuid);
+        switch(ability) {
+            case "digging":
+                return pAbils[0];
+            case "woodcutting":
+                return pAbils[1];
+            case "mining":
+                return pAbils[2];
+            case "farming":
+                return pAbils[3];
+            case "fishing":
+                return pAbils[4];
+            case "archery":
+                return pAbils[5];
+            case "beastMastery":
+                return pAbils[6];
+            case "swordsmanship":
+                return pAbils[7];
+            case "defense":
+                return pAbils[8];
+            case "axeMastery":
+                return pAbils[9];
+            case "woodcuttingHaste":
+                return pAbils[10];
+            case "diggingToggle":
+                return pAbils[11];
+            case "archeryCrossbow":
+                return pAbils[12];
+            case "swordsSpeed":
+                return pAbils[13];
+            case "swordsStrength":
+                return pAbils[14];
+            default:
+                return -1;
+        }
+    }
+
     public void setAbilities(Map<UUID, Integer[]> abilities) {
         this.playerAbilities = abilities;
     }

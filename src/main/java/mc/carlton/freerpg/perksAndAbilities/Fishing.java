@@ -84,7 +84,7 @@ public class Fishing {
         if ((int) pStat.get("global").get(24) < 1 || !pStatClass.isPlayerSkillAbilityOn(skillName)) {
             return;
         }
-        Integer[] pTimers = timers.getPlayerTimers();
+        Integer[] pTimers = timers.getPlayerCooldownTimes();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[4] == -1) {
             int cooldown = pTimers[4];
@@ -109,7 +109,7 @@ public class Fishing {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( skillName, taskID);
             } else {
-                actionMessage.sendMessage(ChatColor.RED +lang.getString("superBait") + " " + lang.getString("cooldown") + ": " + cooldown+ "s");
+                actionMessage.sendMessage(ChatColor.RED +lang.getString("superBait") + " " + lang.getString("cooldown") + ": " + ChatColor.WHITE + cooldown+ ChatColor.RED + "s");
             }
         }
     }
@@ -123,40 +123,12 @@ public class Fishing {
         actionMessage.sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + ">>>" + lang.getString("superBait") + " " + lang.getString("activated") + "<<<");
         int durationLevel = (int) pStat.get(skillName).get(4);
         double duration0 = Math.ceil(durationLevel * 0.2) + 20;
-        int cooldown = 300;
-        if ((int) pStat.get("global").get(11) > 0) {
-            cooldown = 200;
-        }
-        int finalCooldown = cooldown;
         long duration = (long) duration0;
-        timers.setPlayerTimer( skillName, finalCooldown);
         Bukkit.getScheduler().cancelTask(pAbilities[4]);
         abilities.setPlayerAbility( skillName, -2);
-        int taskID = new BukkitRunnable() {
-            @Override
-            public void run() {
-                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("superBait") + " " + lang.getString("ended") + "<<<");
-                abilities.setPlayerAbility( skillName, -1);
-                for (int i = 1; i < finalCooldown+1; i++) {
-                    int timeRemaining = finalCooldown - i;
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            timers.setPlayerTimer( skillName, timeRemaining);
-                            AbilityTimers timers2 = new AbilityTimers(p);
-                            if (timeRemaining ==0) {
-                                if (!p.isOnline()) {
-                                    timers2.removePlayer();
-                                }
-                                else {
-                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>" + lang.getString("superBait") + " " + lang.getString("readyToUse") + "<<<");
-                                }
-                            }
-                        }
-                    }.runTaskLater(plugin, 20 * i);
-                }
-            }
-        }.runTaskLater(plugin, duration).getTaskId();
+        String coolDownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("superBait") + " " + lang.getString("readyToUse") + "<<<";
+        String endMessage = ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("superBait") + " " + lang.getString("ended") + "<<<";
+        timers.abilityDurationTimer(skillName,duration,endMessage,coolDownEndMessage);
     }
 
     public void killFishEXP(Entity fish) {
@@ -425,7 +397,7 @@ public class Fishing {
             return;
         }
         MinecraftVersion minecraftVersion = new MinecraftVersion();
-        Integer[] pTimers = timers.getPlayerTimers();
+        Integer[] pTimers = timers.getPlayerCooldownTimes();
         EntityGroups entityGroups = new EntityGroups();
         List<EntityType> hookableEntities = entityGroups.getHookableEntities();
         if (!hookableEntities.contains(hookedEntity.getType())) {
@@ -655,13 +627,15 @@ public class Fishing {
         Vector velocity = new Vector(dx * multiplier, (dy * multiplier) + (double) Math.sqrt(distance) * 0.1, dz * multiplier);
         droppedItem.setVelocity(velocity);
 
-        timers.setPlayerTimer( "fishingRob", 10);
-        for (int i = 1; i <= 10; i++) {
-            int timeRemaining = 10 - i;
+        ConfigLoad configLoad = new ConfigLoad();
+        int cooldownTime = configLoad.getAbilityCooldowns().get("robCooldown");
+        timers.setPlayerCooldownTime( "fishingRob", cooldownTime);
+        for (int i = 1; i <= cooldownTime; i++) {
+            int timeRemaining = cooldownTime - i;
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    timers.setPlayerTimer( "fishingRob", timeRemaining);
+                    timers.setPlayerCooldownTime( "fishingRob", timeRemaining);
                     if (timeRemaining == 0 && !p.isOnline()) {
                         timers.removePlayer();
                     }

@@ -25,9 +25,250 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class FrpgCommands implements CommandExecutor {
+
+    public boolean togglePerk(String id,Player p,String[] args) {
+        String permission;
+        String langID;
+        String skillName;
+        int skillIndex;
+        int globalIndex;
+        switch (id) {
+            case "flintToggle":
+                permission = "toggleFlint";
+                langID = "diggingPerkTitle4";
+                skillName = "digging";
+                skillIndex = 11;
+                globalIndex = 12;
+                break;
+            case "flamePickToggle":
+                permission = "toggleFlamePick";
+                langID = "smeltingPerkTitle2";
+                skillName = "smelting";
+                skillIndex = 13;
+                globalIndex = 13;
+                break;
+            case "speedToggle":
+                permission = "toggleSpeed";
+                langID = "agilityPerkTitle2";
+                skillName = "agility";
+                skillIndex = 13;
+                globalIndex = 14;
+                break;
+            case "potionToggle":
+                permission = "togglePotion";
+                langID = "alchemyPerkTitle2";
+                skillName = "alchemy";
+                skillIndex = 13;
+                globalIndex = 15;
+                break;
+            case "grappleToggle":
+                permission = "toggleGrapple";
+                langID = "fishingPerkTitle4";
+                skillName = "fishing";
+                skillIndex = 11;
+                globalIndex = 16;
+                break;
+            case "hotRodToggle":
+                permission = "toggleHotRod";
+                langID = "fishingPerkTitle5";
+                skillName = "fishing";
+                skillIndex = 12;
+                globalIndex = 17;
+                break;
+            case "veinMinerToggle":
+                permission = "toggleVeinMiner";
+                langID = "miningPerkTitle4";
+                skillName = "mining";
+                skillIndex = 11;
+                globalIndex = 18;
+                break;
+            case "megaDigToggle":
+                permission = "toggleMegaDig";
+                langID = "diggingPerkTitle6";
+                skillName = "digging";
+                skillIndex = 13;
+                globalIndex = 19;
+                break;
+            case "leafBlowerToggle":
+                permission = "toggleLeafBlower";
+                langID = "woodcuttingPerkTitle5";
+                skillName = "woodcutting";
+                skillIndex = 12;
+                globalIndex = 26;
+                break;
+            case "holyAxeToggle":
+                permission = "toggleHolyAxe";
+                langID = "axeMasteryPerkTitle1";
+                skillName = "axeMastery";
+                skillIndex = 8;
+                globalIndex = 27;
+                break;
+            default:
+                return true;
+        }
+
+
+
+        LanguageSelector lang = new LanguageSelector(p);
+        if (!p.hasPermission("freeRPG."+permission)) {
+            p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
+            return true;
+        }
+        PlayerStats pStatClass = new PlayerStats(p);
+        Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
+        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+        int level = (int)pStat.get(skillName).get(skillIndex);
+        if ( level > 0) {
+            if (args.length == 1) {
+                int toggle = (int) pStat.get("global").get(globalIndex);
+                if (toggle > 0) {
+                    p.sendMessage(ChatColor.RED + lang.getString(langID) + ": " + lang.getString("off0"));
+                    pStat.get("global").set(globalIndex,0);
+                }
+                else {
+                    p.sendMessage(ChatColor.GREEN + lang.getString(langID) + ": " + lang.getString("on0"));
+                    pStat.get("global").set(globalIndex,1);
+                }
+                statAll.put(p.getUniqueId(), pStat);
+                pStatClass.setData(statAll);
+            } else if (args.length == 2) {
+                if (args[1].equalsIgnoreCase("off")) {
+                    p.sendMessage(ChatColor.RED + lang.getString(langID) + ": " + lang.getString("off0"));
+                    pStat.get("global").set(globalIndex,0);
+                    statAll.put(p.getUniqueId(), pStat);
+                    pStatClass.setData(statAll);
+                }
+                else if (args[1].equalsIgnoreCase("on")) {
+                    p.sendMessage(ChatColor.GREEN + lang.getString(langID) + ": " + lang.getString("on0"));
+                    pStat.get("global").set(globalIndex,1);
+                    statAll.put(p.getUniqueId(), pStat);
+                    pStatClass.setData(statAll);
+                }
+                else {
+                    p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg "+id);
+                }
+            }
+            else {
+                p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg "+id);
+            }
+        }
+        else {
+            p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString(langID));
+        }
+        return true;
+    }
+    public void togglePerkSetGuiItem(String id, Player p, Inventory gui) {
+        String langID;
+        int globalIndex;
+        int guiIndex = 28;
+        boolean enchanted = false;
+        Material icon;
+        switch (id) {
+            case "flintToggle":
+                langID = "diggingPerkTitle4";
+                globalIndex = 12;
+                icon = Material.FLINT;
+                break;
+            case "flamePickToggle":
+                langID = "smeltingPerkTitle2";
+                globalIndex = 13;
+                icon = Material.BLAZE_POWDER;
+                break;
+            case "speedToggle":
+                langID = "agilityPerkTitle2";
+                globalIndex = 14;
+                icon = Material.LEATHER_BOOTS;
+                break;
+            case "potionToggle":
+                langID = "alchemyPerkTitle2";
+                globalIndex = 15;
+                icon = Material.POTION;
+                break;
+            case "grappleToggle":
+                langID = "fishingPerkTitle4";
+                globalIndex = 16;
+                icon = Material.LEAD;
+                break;
+            case "hotRodToggle":
+                langID = "fishingPerkTitle5";
+                globalIndex = 17;
+                guiIndex = 29;
+                icon = Material.FISHING_ROD;
+                break;
+            case "veinMinerToggle":
+                langID = "miningPerkTitle4";
+                globalIndex = 18;
+                icon = Material.DIAMOND_PICKAXE;
+                break;
+            case "megaDigToggle":
+                langID = "diggingPerkTitle6";
+                globalIndex = 19;
+                guiIndex = 29;
+                icon = Material.DIAMOND_SHOVEL;
+                break;
+            case "leafBlowerToggle":
+                langID = "woodcuttingPerkTitle5";
+                globalIndex = 26;
+                icon = Material.OAK_LEAVES;
+                break;
+            case "holyAxeToggle":
+                langID = "axeMasteryPerkTitle1";
+                globalIndex = 27;
+                icon = Material.DIAMOND_AXE;
+                enchanted = true;
+                break;
+            default:
+                return;
+        }
+
+
+        PlayerStats pStatClass = new PlayerStats(p);
+        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+        //item
+        LanguageSelector lang = new LanguageSelector(p);
+        ItemStack item = new ItemStack(icon);
+        if (enchanted) {
+            item.addUnsafeEnchantment(Enchantment.LOYALTY,1);
+        }
+        ItemMeta itemMeta = item.getItemMeta();
+        itemMeta.setDisplayName(ChatColor.BOLD + lang.getString(langID) + " " + lang.getString("toggle"));
+        itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        item.setItemMeta(itemMeta);
+        gui.setItem(guiIndex,item);
+
+        ItemStack itemToggle = new ItemStack(Material.LIME_DYE);
+        ItemMeta itemToggleMeta = itemToggle.getItemMeta();
+        if ( (int) pStat.get("global").get(globalIndex) > 0) {
+            itemToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
+        }
+        else {
+            itemToggle.setType(Material.GRAY_DYE);
+            itemToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
+        }
+        itemToggle.setItemMeta(itemToggleMeta);
+        gui.setItem(guiIndex+9,itemToggle);
+    }
+    public boolean isTargetOnline(Player target,CommandSender sender) {
+        if (target == null) {
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
+                LanguageSelector lang = new LanguageSelector(p);
+                p.sendMessage(ChatColor.RED + lang.getString("playerOffline"));
+            }
+            else {
+                System.out.println("Player not online");
+            }
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
@@ -158,7 +399,7 @@ public class FrpgCommands implements CommandExecutor {
         //Help
         else if (args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) {
             if (args.length >= 1) {
-                int totalPages = 3;
+                int totalPages = 4;
                 int page = 1;
                 if (args.length == 2) {
                     try {
@@ -226,6 +467,10 @@ public class FrpgCommands implements CommandExecutor {
                                         ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("diggingPerkTitle6"));
                                 break;
                             case 3:
+                                p.sendMessage(ChatColor.GOLD  + "/frpg leafBlowerToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("woodcuttingPerkTitle5"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg holyAxeToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("axeMasteryPerkTitle1"));
                                 p.sendMessage(ChatColor.GOLD  + "/frpg enchantItem ["+lang.getString("level")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
                                         ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc8"));
                                 p.sendMessage(ChatColor.GOLD  + "/frpg setSouls" + " ["+lang.getString("playerName")+"]" + " ["+lang.getString("amount")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
@@ -239,6 +484,9 @@ public class FrpgCommands implements CommandExecutor {
                                 p.sendMessage(ChatColor.GOLD  + "/frpg setMultiplier ["+lang.getString("playerName")+"] " + "[" + lang.getString("expIncrease")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
                                         ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc13"));
                                 break;
+                            case 4:
+                                p.sendMessage(ChatColor.GOLD  + "/frpg resetCooldown ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() +" - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc14"));
                             default:
                                 break;
                         }
@@ -279,15 +527,9 @@ public class FrpgCommands implements CommandExecutor {
             else if (args.length == 2) {
                 String playerName = args[1];
                 Player target = plugin.getServer().getPlayer(playerName);
-                if (target == null) {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED + lang.getString("playerOffline"));
-                    }
-                    else {
-                        System.out.println("Player not online");
-                    }
+                boolean targetOnline = isTargetOnline(target,sender);
+                if (!targetOnline) {
+                    return true;
                 }
                 else {
                     if (sender instanceof Player) {
@@ -478,20 +720,64 @@ public class FrpgCommands implements CommandExecutor {
             }
         }
 
+        //CooldownReset
+        else if (args[0].equalsIgnoreCase("resetCooldown") || args[0].equalsIgnoreCase("cooldownReset")) {
+            //Permission Check
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.resetCooldown")) {
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
+                    return true;
+                }
+            }
+            //Argument length check
+            if (args.length != 3) {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg resetCooldown ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"]");
+                } else {
+                    System.out.println("Improper Arguments, try /frpg resetCooldown [playerName] [skillName]");
+                }
+                return true;
+            }
+            //Target online check
+            String playerName = args[1];
+            Player target = plugin.getServer().getPlayer(playerName);
+            boolean targetOnline = isTargetOnline(target,sender);
+            if (!targetOnline) {
+                return true;
+            }
+
+            //Skill name match check
+            String skillName = args[2];
+            String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery"};
+            List<String> labels = Arrays.asList(labels_0);
+            if (!labels.contains(skillName)) {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg resetCooldown ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"]");
+                } else {
+                    System.out.println("Improper Arguments, try /frpg resetCooldown [playerName] [skillName]");
+                }
+                return true;
+            }
+
+            AbilityTimers abilityTimers = new AbilityTimers(target);
+            abilityTimers.setPlayerCooldownTime(skillName,0);
+
+        }
+
         //GiveEXP
         else if (args[0].equalsIgnoreCase("giveEXP") || args[0].equalsIgnoreCase("expGive")) {
             if (args.length == 4) {
                 String playerName = args[1];
                 Player target = plugin.getServer().getPlayer(playerName);
-                if (target == null) {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED + lang.getString("playerOffline"));
-                    }
-                    else {
-                        System.out.println("Player not online");
-                    }
+                boolean targetOnline = isTargetOnline(target,sender);
+                if (!targetOnline) {
+                    return true;
                 }
                 String skillName = args[2];
                 int exp = 0;
@@ -576,15 +862,9 @@ public class FrpgCommands implements CommandExecutor {
             if (args.length == 4) {
                 String playerName = args[1];
                 Player target = plugin.getServer().getPlayer(playerName);
-                if (target == null) {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED + lang.getString("playerOffline"));
-                    }
-                    else {
-                        System.out.println("Player not online");
-                    }
+                boolean targetOnline = isTargetOnline(target,sender);
+                if (!targetOnline) {
+                    return true;
                 }
                 String skillName = args[2];
                 int level = 0;
@@ -677,15 +957,9 @@ public class FrpgCommands implements CommandExecutor {
             if (args.length == 3) {
                 String playerName = args[1];
                 Player target = plugin.getServer().getPlayer(playerName);
-                if (target == null) {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED+lang.getString("playerOffline"));
-                    }
-                    else {
-                        System.out.println("Player not online");
-                    }
+                boolean targetOnline = isTargetOnline(target,sender);
+                if (!targetOnline) {
+                    return true;
                 }
                 String skillName = args[2];
                 String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
@@ -695,17 +969,7 @@ public class FrpgCommands implements CommandExecutor {
                         Player p = (Player) sender;
                         if (p.hasPermission("freeRPG.statReset")) {
                             ChangeStats increaseStats = new ChangeStats(target);
-                            PlayerStats pStatClass = new PlayerStats(target);
-                            Map<UUID,Map<String, ArrayList<Number>>> allStats = pStatClass.getData();
-                            Map<String, ArrayList<Number>> pStats = allStats.get(target.getUniqueId());
-                            ArrayList<Number> pSpecificStat = pStats.get(skillName);
-                            for (int i=0; i < pSpecificStat.size() ;i++) {
-                                pSpecificStat.set(i,0);
-                            }
-                            pStats.put(skillName,pSpecificStat);
-                            allStats.put(target.getUniqueId(),pStats);
-                            pStatClass.setData(allStats);
-                            increaseStats.setTotalLevel();
+                            increaseStats.resetStat(skillName);
 
                         } else {
                             LanguageSelector lang = new LanguageSelector(p);
@@ -713,17 +977,7 @@ public class FrpgCommands implements CommandExecutor {
                         }
                     } else {
                         ChangeStats increaseStats = new ChangeStats(target);
-                        PlayerStats pStatClass = new PlayerStats(target);
-                        Map<UUID,Map<String, ArrayList<Number>>> allStats = pStatClass.getData();
-                        Map<String, ArrayList<Number>> pStats = allStats.get(target.getUniqueId());
-                        ArrayList<Number> pSpecificStat = pStats.get(skillName);
-                        for (int i=0; i < pSpecificStat.size() ;i++) {
-                            pSpecificStat.set(i,0);
-                        }
-                        pStats.put(skillName,pSpecificStat);
-                        allStats.put(target.getUniqueId(),pStats);
-                        pStatClass.setData(allStats);
-                        increaseStats.setTotalLevel();
+                        increaseStats.resetStat(skillName);
                     }
                 }
                 else {
@@ -766,14 +1020,8 @@ public class FrpgCommands implements CommandExecutor {
 
                 //Checks if target is online and exists
                 Player target = plugin.getServer().getPlayer(playerName);
-                if (target == null) {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED + lang.getString("playerOffline"));
-                    } else {
-                        System.out.println("Player not online");
-                    }
+                boolean targetOnline = isTargetOnline(target,sender);
+                if (!targetOnline) {
                     return true;
                 }
                 if (target.isOnline()) { //THis may be redudant but I'm doing it to be safe
@@ -833,14 +1081,8 @@ public class FrpgCommands implements CommandExecutor {
 
                 //Checks if target is online and exists
                 Player target = plugin.getServer().getPlayer(playerName);
-                if (target == null) {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED+lang.getString("playerOffline"));
-                    } else {
-                        System.out.println("Player not online");
-                    }
+                boolean targetOnline = isTargetOnline(target,sender);
+                if (!targetOnline) {
                     return true;
                 }
 
@@ -956,14 +1198,8 @@ public class FrpgCommands implements CommandExecutor {
 
                 //Checks if target is online and exists
                 Player target = plugin.getServer().getPlayer(playerName);
-                if (target == null) {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED+lang.getString("playerOffline"));
-                    } else {
-                        System.out.println("Player not online");
-                    }
+                boolean targetOnline = isTargetOnline(target,sender);
+                if (!targetOnline) {
                     return true;
                 }
 
@@ -1014,54 +1250,8 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleFlamePick") || args[0].equalsIgnoreCase("flamePickToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                if (!p.hasPermission("freeRPG.toggleFlamePick")) { ;
-                    p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-                    return true;
-                }
-                PlayerStats pStatClass = new PlayerStats(p);
-                Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
-                Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-                int flamePickLevel = (int) pStat.get("smelting").get(13);
-                if (flamePickLevel > 0) {
-                    if (args.length == 1) {
-                        int flamePickToggle = (int) pStat.get("global").get(13);
-                        if (flamePickToggle > 0) {
-                            p.sendMessage(ChatColor.RED + lang.getString("smeltingPerkTitle2") + ": " + lang.getString("off0"));
-                            pStat.get("global").set(13,0);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else {
-                            p.sendMessage(ChatColor.GREEN + lang.getString("smeltingPerkTitle2") + ": " + lang.getString("on0"));
-                            pStat.get("global").set(13,1);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                    } else if (args.length == 2) {
-                        if (args[1].equalsIgnoreCase("off")) {
-                            p.sendMessage(ChatColor.RED + lang.getString("smeltingPerkTitle2") + ": " + lang.getString("off0"));
-                            pStat.get("global").set(13,0);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else if (args[1].equalsIgnoreCase("on")) {
-                            p.sendMessage(ChatColor.GREEN + lang.getString("smeltingPerkTitle2") + ": " + lang.getString("on0"));
-                            pStat.get("global").set(13,1);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else {
-                            p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg flamePickToggle");
-                        }
-                    }
-                    else {
-                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg flamePickToggle");
-                    }
-                }
-                else {
-                    p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString("smeltingPerkTitle2"));
-                }
+                return togglePerk("flamePickToggle",p,args);
+
             } else {
                 System.out.println("You need to be a player to cast this command");
             }
@@ -1071,55 +1261,8 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleFlint") || args[0].equalsIgnoreCase("flintToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                if (!p.hasPermission("freeRPG.toggleFlint")) {
-                    p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-                    return true;
-                }
-                PlayerStats pStatClass = new PlayerStats(p);
-                Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
-                Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-                int flintFinderLevel = (int) pStat.get("digging").get(11);
-                if (flintFinderLevel > 0) {
-                    if (args.length == 1) {
-                        int flintFinderToggle = (int) pStat.get("global").get(12);
-                        if (flintFinderToggle > 0) {
-                            p.sendMessage(ChatColor.RED + lang.getString("diggingPerkTitle4") + ": " + lang.getString("off0"));
-                            pStat.get("global").set(12,0);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else {
-                            p.sendMessage(ChatColor.GREEN + lang.getString("diggingPerkTitle4") + ": " + lang.getString("on0"));
-                            pStat.get("global").set(12,1);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                    } else if (args.length == 2) {
-                        if (args[1].equalsIgnoreCase("off")) {
-                            p.sendMessage(ChatColor.RED + lang.getString("diggingPerkTitle4") + ": " + lang.getString("off0"));
-                            pStat.get("global").set(12,0);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else if (args[1].equalsIgnoreCase("on")) {
-                            p.sendMessage(ChatColor.GREEN + lang.getString("diggingPerkTitle4") + ": " + lang.getString("on0"));
-                            pStat.get("global").set(12,1);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else {
-                            p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg flintToggle");
-                        }
-                    }
-                    else {
-                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg flintToggle");
-                    }
-                }
-                else {
-                    p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString("diggingPerkTitle4"));
+                return togglePerk("flintToggle",p,args);
 
-                }
             } else {
                 System.out.println("You need to be a player to cast this command");
             }
@@ -1129,111 +1272,20 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleGrapple") || args[0].equalsIgnoreCase("grappleToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                if (!p.hasPermission("freeRPG.toggleGrapple")) {
-                    p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-                    return true;
-                }
-                PlayerStats pStatClass = new PlayerStats(p);
-                Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
-                Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-                int grappleLevel = (int) pStat.get("fishing").get(11);
-                if (grappleLevel > 0) {
-                    if (args.length == 1) {
-                        int grappleToggle = (int) pStat.get("global").get(16);
-                        if (grappleToggle > 0) {
-                            p.sendMessage(ChatColor.RED + lang.getString("fishingPerkTitle4") + ": " + lang.getString("off0"));
-                            pStat.get("global").set(16,0);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else {
-                            p.sendMessage(ChatColor.GREEN + lang.getString("fishingPerkTitle4") + ": " + lang.getString("on0"));
-                            pStat.get("global").set(16,1);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                    } else if (args.length == 2) {
-                        if (args[1].equalsIgnoreCase("off")) {
-                            p.sendMessage(ChatColor.RED + lang.getString("fishingPerkTitle4") + ": " + lang.getString("off0"));
-                            pStat.get("global").set(16,0);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else if (args[1].equalsIgnoreCase("on")) {
-                            p.sendMessage(ChatColor.GREEN + lang.getString("fishingPerkTitle4") + ": " + lang.getString("on0"));
-                            pStat.get("global").set(16,1);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else {
-                            p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg grappleToggle");
-                        }
-                    }
-                    else {
-                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg grappleToggle");
-                    }
-                }
-                else {
-                    p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString("fishingPerkTitle4"));
-                }
+                return togglePerk("grappleToggle",p,args);
+
             } else {
                 System.out.println("You need to be a player to cast this command");
             }
+
         }
 
         //HotRodToggle
         else if (args[0].equalsIgnoreCase("toggleHotRod") || args[0].equalsIgnoreCase("hotRodToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                if (!p.hasPermission("freeRPG.toggleHotRod")) {
-                    p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-                    return true;
-                }
-                PlayerStats pStatClass = new PlayerStats(p);
-                Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
-                Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-                int hotRodLevel = (int) pStat.get("fishing").get(12);
-                if (hotRodLevel > 0) {
-                    if (args.length == 1) {
-                        int hotRodToggle = (int) pStat.get("global").get(17);
-                        if (hotRodToggle > 0) {
-                            p.sendMessage(ChatColor.RED + lang.getString("fishingPerkTitle5") + ": " + lang.getString("off0"));
-                            pStat.get("global").set(17,0);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else {
-                            p.sendMessage(ChatColor.GREEN + lang.getString("fishingPerkTitle5") + ": " + lang.getString("on0"));
-                            pStat.get("global").set(17,1);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                    } else if (args.length == 2) {
-                        if (args[1].equalsIgnoreCase("off")) {
-                            p.sendMessage(ChatColor.RED + lang.getString("fishingPerkTitle5") + ": " + lang.getString("off0"));
-                            pStat.get("global").set(17,0);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else if (args[1].equalsIgnoreCase("on")) {
-                            p.sendMessage(ChatColor.GREEN + lang.getString("fishingPerkTitle5") + ": " + lang.getString("on0"));
-                            pStat.get("global").set(17,1);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else {
-                            p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg hotRodToggle");
-                        }
-                    }
-                    else {
-                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg hotRodToggle");
-                    }
-                }
-                else {
-                    p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString("fishingPerkTitle5"));
-                }
+                return togglePerk("hotRodToggle",p,args);
+
             } else {
                 System.out.println("You need to be a player to cast this command");
             }
@@ -1243,54 +1295,8 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleMegaDig") || args[0].equalsIgnoreCase("megaDigToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                if (!p.hasPermission("freeRPG.toggleMegaDig")) {
-                    p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-                    return true;
-                }
-                PlayerStats pStatClass = new PlayerStats(p);
-                Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
-                Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-                int megaDigLevel = (int) pStat.get("digging").get(13);
-                if (megaDigLevel > 0) {
-                    if (args.length == 1) {
-                        int megaDigToggle = (int) pStat.get("global").get(19);
-                        if (megaDigToggle > 0) {
-                            p.sendMessage(ChatColor.RED + lang.getString("diggingPerkTitle6") + ": " + lang.getString("off0"));
-                            pStat.get("global").set(19,0);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else {
-                            p.sendMessage(ChatColor.GREEN + lang.getString("diggingPerkTitle6") + ": " + lang.getString("on0"));
-                            pStat.get("global").set(19,1);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                    } else if (args.length == 2) {
-                        if (args[1].equalsIgnoreCase("off")) {
-                            p.sendMessage(ChatColor.RED + lang.getString("diggingPerkTitle6") + ": " + lang.getString("off0"));
-                            pStat.get("global").set(19,0);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else if (args[1].equalsIgnoreCase("on")) {
-                            p.sendMessage(ChatColor.GREEN + lang.getString("diggingPerkTitle6") + ": " + lang.getString("on0"));
-                            pStat.get("global").set(19,1);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else {
-                            p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg megaDigToggle");
-                        }
-                    }
-                    else {
-                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg megaDigToggle");
-                    }
-                }
-                else {
-                    p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString("diggingPerkTitle6"));
-                }
+                return togglePerk("megaDigToggle",p,args);
+
             } else {
                 System.out.println("You need to be a player to cast this command");
             }
@@ -1300,54 +1306,8 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("togglePotion") || args[0].equalsIgnoreCase("potionToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                if (!p.hasPermission("freeRPG.togglePotion")) {
-                    p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-                    return true;
-                }
-                PlayerStats pStatClass = new PlayerStats(p);
-                Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
-                Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-                int potionLevel = (int) pStat.get("fishing").get(12);
-                if (potionLevel > 0) {
-                    if (args.length == 1) {
-                        int potionToggle = (int) pStat.get("global").get(5);
-                        if (potionToggle > 0) {
-                            p.sendMessage(ChatColor.RED + lang.getString("alchemyPerkTitle2") + ": " + lang.getString("off0"));
-                            pStat.get("global").set(5,0);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else {
-                            p.sendMessage(ChatColor.GREEN + lang.getString("alchemyPerkTitle2") + ": " + lang.getString("on0"));
-                            pStat.get("global").set(5,1);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                    } else if (args.length == 2) {
-                        if (args[1].equalsIgnoreCase("off")) {
-                            p.sendMessage(ChatColor.RED + lang.getString("alchemyPerkTitle2") + ": " + lang.getString("off0"));
-                            pStat.get("global").set(5,0);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else if (args[1].equalsIgnoreCase("on")) {
-                            p.sendMessage(ChatColor.GREEN + lang.getString("alchemyPerkTitle2") + ": " + lang.getString("on0"));
-                            pStat.get("global").set(5,1);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else {
-                            p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg potionToggle");
-                        }
-                    }
-                    else {
-                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg potionToggle");
-                    }
-                }
-                else {
-                    p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString("alchemyPerkTitle2"));
-                }
+                return togglePerk("potionToggle",p,args);
+
             } else {
                 System.out.println("You need to be a player to cast this command");
             }
@@ -1357,72 +1317,8 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleSpeed") || args[0].equalsIgnoreCase("speedToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                if (!p.hasPermission("freeRPG.toggleSpeed")) {
-                    p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-                    return true;
-                }
-                PlayerStats pStatClass = new PlayerStats(p);
-                Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
-                Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-                int gracefulFeetLevel = (int) pStat.get("agility").get(13);
-                if (gracefulFeetLevel > 0) {
-                    if (args.length == 1) {
-                        int gracefulFeetToggle = (int) pStat.get("global").get(14);
-                        if (gracefulFeetToggle > 0) {
-                            p.sendMessage(ChatColor.RED + lang.getString("agilityPerkTitle2") + ": " + lang.getString("off0"));
-                            pStat.get("global").set(14,0);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                            if (p.getPotionEffect(PotionEffectType.SPEED) != null) {
-                                if (p.getPotionEffect(PotionEffectType.SPEED).getAmplifier() < 1) {
-                                    p.removePotionEffect(PotionEffectType.SPEED);
-                                }
-                            }
-                            Agility agility = new Agility(p);
-                            agility.gracefulFeetEnd();
-                        }
-                        else {
-                            p.sendMessage(ChatColor.GREEN + lang.getString("agilityPerkTitle2") + ": " + lang.getString("on0"));
-                            pStat.get("global").set(14,1);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                            Agility agility = new Agility(p);
-                            agility.gracefulFeetStart();
-                        }
-                    } else if (args.length == 2) {
-                        if (args[1].equalsIgnoreCase("off")) {
-                            p.sendMessage(ChatColor.RED + lang.getString("agilityPerkTitle2") + ": " + lang.getString("off0"));
-                            pStat.get("global").set(14,0);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                            if (p.getPotionEffect(PotionEffectType.SPEED) != null) {
-                                if (p.getPotionEffect(PotionEffectType.SPEED).getAmplifier() < 1) {
-                                    p.removePotionEffect(PotionEffectType.SPEED);
-                                }
-                            }
-                            Agility agility = new Agility(p);
-                            agility.gracefulFeetEnd();
-                        }
-                        else if (args[1].equalsIgnoreCase("on")) {
-                            p.sendMessage(ChatColor.GREEN + lang.getString("agilityPerkTitle2") + ": " + lang.getString("on0"));
-                            pStat.get("global").set(14,1);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                            Agility agility = new Agility(p);
-                            agility.gracefulFeetStart();
-                        }
-                        else {
-                            p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg speedToggle");
-                        }
-                    }
-                    else {
-                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg speedToggle");
-                    }
-                }
-                else {
-                    p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString("agilityPerkTitle2"));
-                }
+                return togglePerk("speedToggle",p,args);
+
             } else {
                 System.out.println("You need to be a player to cast this command");
             }
@@ -1432,54 +1328,30 @@ public class FrpgCommands implements CommandExecutor {
         else if (args[0].equalsIgnoreCase("toggleVeinMiner") || args[0].equalsIgnoreCase("veinMinerToggle")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                if (!p.hasPermission("freeRPG.toggleVeinMiner")) {
-                    p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-                    return true;
-                }
-                PlayerStats pStatClass = new PlayerStats(p);
-                Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
-                Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-                int veinMinerLevel = (int)pStat.get("mining").get(11);
-                if ( veinMinerLevel > 0) {
-                    if (args.length == 1) {
-                        int veinMinerToggle = (int) pStat.get("global").get(18);
-                        if (veinMinerToggle > 0) {
-                            p.sendMessage(ChatColor.RED + lang.getString("miningPerkTitle4") + ": " + lang.getString("off0"));
-                            pStat.get("global").set(18,0);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else {
-                            p.sendMessage(ChatColor.GREEN + lang.getString("miningPerkTitle4") + ": " + lang.getString("on0"));
-                            pStat.get("global").set(18,1);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                    } else if (args.length == 2) {
-                        if (args[1].equalsIgnoreCase("off")) {
-                            p.sendMessage(ChatColor.RED + lang.getString("miningPerkTitle4") + ": " + lang.getString("off0"));
-                            pStat.get("global").set(18,0);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else if (args[1].equalsIgnoreCase("on")) {
-                            p.sendMessage(ChatColor.GREEN + lang.getString("miningPerkTitle4") + ": " + lang.getString("on0"));
-                            pStat.get("global").set(18,1);
-                            statAll.put(p.getUniqueId(), pStat);
-                            pStatClass.setData(statAll);
-                        }
-                        else {
-                            p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg veinMinerToggle");
-                        }
-                    }
-                    else {
-                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg veinMinerToggle");
-                    }
-                }
-                else {
-                    p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString("miningPerkTitle4"));
-                }
+                return togglePerk("veinMinerToggle",p,args);
+
+            } else {
+                System.out.println("You need to be a player to cast this command");
+            }
+        }
+
+        //LeafBlowerToggle
+        else if (args[0].equalsIgnoreCase("toggleLeafBlower") || args[0].equalsIgnoreCase("leafBlowerToggle")) {
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
+                return togglePerk("leafBlowerToggle",p,args);
+
+            } else {
+                System.out.println("You need to be a player to cast this command");
+            }
+        }
+
+        //holyAxeToggle
+        else if (args[0].equalsIgnoreCase("toggleHolyAxe") || args[0].equalsIgnoreCase("holyAxeToggle")) {
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
+                return togglePerk("holyAxeToggle",p,args);
+
             } else {
                 System.out.println("You need to be a player to cast this command");
             }
@@ -1595,6 +1467,27 @@ public class FrpgCommands implements CommandExecutor {
                     expBarToggle.setItemMeta(expBarToggleMeta);
                     gui.setItem(13,expBarToggle);
 
+                    //Ability Duration Bar
+                    ItemStack durationBar = new ItemStack(Material.CLOCK,1);
+                    ItemMeta durationBarMeta = durationBar.getItemMeta();
+                    durationBarMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("numberOfAbilityTimersDisplayed"));
+                    durationBar.setItemMeta(durationBarMeta);
+                    gui.setItem(5,durationBar);
+
+                    ItemStack durationBarToggle = new ItemStack(Material.LIME_DYE);
+                    ItemMeta durationBarToggleMeta = durationBarToggle.getItemMeta();
+                    int numberOfBars = (int) pStat.get("global").get(28);
+                    if (numberOfBars  > 0) {
+                        durationBarToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + numberOfBars);
+                    }
+                    else {
+                        durationBarToggle.setType(Material.GRAY_DYE);
+                        durationBarToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + 0);
+                    }
+                    durationBarToggle.setAmount(Math.max(1,numberOfBars));
+                    durationBarToggle.setItemMeta(durationBarToggleMeta);
+                    gui.setItem(14,durationBarToggle);
+
 
                     //LANGUAGES
                     StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
@@ -1709,67 +1602,23 @@ public class FrpgCommands implements CommandExecutor {
                     case "digging":
                         skillIcon.setType(Material.IRON_SHOVEL);
                         //flintFinder
-                        ItemStack flintFinder = new ItemStack(Material.FLINT);
-                        ItemMeta flintFinderMeta = flintFinder.getItemMeta();
-                        flintFinderMeta.setDisplayName(ChatColor.BOLD + lang.getString("diggingPerkTitle4") + " " + lang.getString("toggle"));
-                        flintFinder.setItemMeta(flintFinderMeta);
-                        gui.setItem(28,flintFinder);
-
-                        ItemStack flintFinderToggle = new ItemStack(Material.LIME_DYE);
-                        ItemMeta flintFinderToggleMeta = flintFinderToggle.getItemMeta();
-                        if ( (int) pStat.get("global").get(12) > 0) {
-                            flintFinderToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                        }
-                        else {
-                            flintFinderToggle.setType(Material.GRAY_DYE);
-                            flintFinderToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                        }
-                        flintFinderToggle.setItemMeta(flintFinderToggleMeta);
-                        gui.setItem(37,flintFinderToggle);
+                        togglePerkSetGuiItem("flintToggle",p,gui);
 
                         //Mega Dig
-                        ItemStack megaDig = new ItemStack(Material.DIAMOND_SHOVEL);
-                        ItemMeta megaDigMeta = megaDig.getItemMeta();
-                        megaDigMeta.setDisplayName(ChatColor.BOLD + lang.getString("diggingPerkTitle6") + " " + lang.getString("toggle"));
-                        megaDig.setItemMeta(megaDigMeta);
-                        gui.setItem(29,megaDig);
-
-                        ItemStack megaDigToggle = new ItemStack(Material.LIME_DYE);
-                        ItemMeta megaDigToggleMeta = megaDigToggle.getItemMeta();
-                        if ( (int) pStat.get("global").get(19) > 0) {
-                            megaDigToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                        }
-                        else {
-                            megaDigToggle.setType(Material.GRAY_DYE);
-                            megaDigToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                        }
-                        megaDigToggle.setItemMeta(megaDigToggleMeta);
-                        gui.setItem(38,megaDigToggle);
+                        togglePerkSetGuiItem("megaDigToggle",p,gui);
                         break;
                     case "woodcutting":
                         skillIcon.setType(Material.IRON_AXE);
+
+                        //leafBlower
+                        togglePerkSetGuiItem("leafBlowerToggle",p,gui);
                         break;
                     case "mining":
                         skillIcon.setType(Material.IRON_PICKAXE);
 
                         //veinMiner
-                        ItemStack veinMiner = new ItemStack(Material.DIAMOND_PICKAXE);
-                        ItemMeta veinMinerMeta = veinMiner.getItemMeta();
-                        veinMinerMeta.setDisplayName(ChatColor.BOLD + lang.getString("miningPerkTitle4") + " " + lang.getString("toggle"));
-                        veinMiner.setItemMeta(veinMinerMeta);
-                        gui.setItem(28,veinMiner);
+                        togglePerkSetGuiItem("veinMinerToggle",p,gui);
 
-                        ItemStack veinMinerToggle = new ItemStack(Material.LIME_DYE);
-                        ItemMeta veinMinerToggleMeta = veinMinerToggle.getItemMeta();
-                        if ( (int) pStat.get("global").get(18) > 0) {
-                            veinMinerToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                        }
-                        else {
-                            veinMinerToggle.setType(Material.GRAY_DYE);
-                            veinMinerToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                        }
-                        veinMinerToggle.setItemMeta(veinMinerToggleMeta);
-                        gui.setItem(37,veinMinerToggle);
                         break;
                     case "farming":
                         skillIcon.setType(Material.IRON_HOE);
@@ -1778,42 +1627,10 @@ public class FrpgCommands implements CommandExecutor {
                         skillIcon.setType(Material.FISHING_ROD);
 
                         //grappling Hook
-                        ItemStack grapple = new ItemStack(Material.LEAD);
-                        ItemMeta grappleMeta = grapple.getItemMeta();
-                        grappleMeta.setDisplayName(ChatColor.BOLD + lang.getString("fishingPerkTitle4") + " " + lang.getString("toggle"));
-                        grapple.setItemMeta(grappleMeta);
-                        gui.setItem(28,grapple);
-
-                        ItemStack grappleToggle = new ItemStack(Material.LIME_DYE);
-                        ItemMeta grappleToggleMeta = grappleToggle.getItemMeta();
-                        if ( (int) pStat.get("global").get(16) > 0) {
-                            grappleToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                        }
-                        else {
-                            grappleToggle.setType(Material.GRAY_DYE);
-                            grappleToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                        }
-                        grappleToggle.setItemMeta(grappleToggleMeta);
-                        gui.setItem(37,grappleToggle);
+                        togglePerkSetGuiItem("grappleToggle",p,gui);
 
                         //hot Rod
-                        ItemStack hotRod = new ItemStack(Material.BLAZE_POWDER);
-                        ItemMeta hotRodMeta = hotRod.getItemMeta();
-                        hotRodMeta.setDisplayName(ChatColor.BOLD + lang.getString("fishingPerkTitle5") + " " + lang.getString("toggle"));
-                        hotRod.setItemMeta(hotRodMeta);
-                        gui.setItem(29,hotRod);
-
-                        ItemStack hotRodToggle = new ItemStack(Material.LIME_DYE);
-                        ItemMeta hotRodToggleMeta = hotRodToggle.getItemMeta();
-                        if ( (int) pStat.get("global").get(17) > 0) {
-                            hotRodToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                        }
-                        else {
-                            hotRodToggle.setType(Material.GRAY_DYE);
-                            hotRodToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                        }
-                        hotRodToggle.setItemMeta(hotRodToggleMeta);
-                        gui.setItem(38,hotRodToggle);
+                        togglePerkSetGuiItem("hotRodToggle",p,gui);
                         break;
                     case "archery":
                         skillIcon.setType(Material.BOW);
@@ -1829,6 +1646,9 @@ public class FrpgCommands implements CommandExecutor {
                         break;
                     case "axeMastery":
                         skillIcon.setType(Material.GOLDEN_AXE);
+
+                        //Holy Axe
+                        togglePerkSetGuiItem("holyAxeToggle",p,gui);
                         break;
                     case "repair":
                         skillIcon.setType(Material.ANVIL);
@@ -1837,67 +1657,20 @@ public class FrpgCommands implements CommandExecutor {
                         skillIcon.setType(Material.LEATHER_LEGGINGS);
 
                         //gracefulFeet
-                        ItemStack gracefulFeet = new ItemStack(Material.LEATHER_BOOTS);
-                        ItemMeta gracefulFeetMeta = gracefulFeet.getItemMeta();
-                        gracefulFeetMeta.setDisplayName(ChatColor.BOLD + lang.getString("agilityPerkTitle2") + " " + lang.getString("toggle"));
-                        gracefulFeet.setItemMeta(gracefulFeetMeta);
-                        gui.setItem(28,gracefulFeet);
+                        togglePerkSetGuiItem("speedToggle",p,gui);
 
-                        ItemStack gracefulFeetToggle = new ItemStack(Material.LIME_DYE);
-                        ItemMeta gracefulFeetToggleMeta = gracefulFeetToggle.getItemMeta();
-                        if ( (int) pStat.get("global").get(14) > 0) {
-                            gracefulFeetToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                        }
-                        else {
-                            gracefulFeetToggle.setType(Material.GRAY_DYE);
-                            gracefulFeetToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                        }
-                        gracefulFeetToggle.setItemMeta(gracefulFeetToggleMeta);
-                        gui.setItem(37,gracefulFeetToggle);
                         break;
                     case "alchemy":
                         skillIcon.setType(Material.POTION);
 
                         //potionMaster
-                        ItemStack potionMaster = new ItemStack(Material.GLOWSTONE_DUST);
-                        ItemMeta potionMasterMeta = potionMaster.getItemMeta();
-                        potionMasterMeta.setDisplayName(ChatColor.BOLD + lang.getString("alchemyPerkTitle2") + " " + lang.getString("toggle"));
-                        potionMaster.setItemMeta(potionMasterMeta);
-                        gui.setItem(28,potionMaster);
-
-                        ItemStack potionMasterToggle = new ItemStack(Material.LIME_DYE);
-                        ItemMeta potionMasterToggleMeta = potionMasterToggle.getItemMeta();
-                        if ( (int) pStat.get("global").get(15) > 0) {
-                            potionMasterToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                        }
-                        else {
-                            potionMasterToggle.setType(Material.GRAY_DYE);
-                            potionMasterToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                        }
-                        potionMasterToggle.setItemMeta(potionMasterToggleMeta);
-                        gui.setItem(37,potionMasterToggle);
+                        togglePerkSetGuiItem("potionToggle",p,gui);
                         break;
                     case "smelting":
                         skillIcon.setType(Material.COAL);
 
                         //flamePick
-                        ItemStack flamePick = new ItemStack(Material.BLAZE_POWDER);
-                        ItemMeta flamePickMeta = flamePick.getItemMeta();
-                        flamePickMeta.setDisplayName(ChatColor.BOLD + lang.getString("smeltingPerkTitle2") + " " + lang.getString("toggle"));
-                        flamePick.setItemMeta(flamePickMeta);
-                        gui.setItem(28,flamePick);
-
-                        ItemStack flamePickToggle = new ItemStack(Material.LIME_DYE);
-                        ItemMeta flamePickToggleMeta = flamePickToggle.getItemMeta();
-                        if ( (int) pStat.get("global").get(13) > 0) {
-                            flamePickToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                        }
-                        else {
-                            flamePickToggle.setType(Material.GRAY_DYE);
-                            flamePickToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                        }
-                        flamePickToggle.setItemMeta(flamePickToggleMeta);
-                        gui.setItem(37,flamePickToggle);
+                        togglePerkSetGuiItem("flamePickToggle",p,gui);
                         break;
                     case "enchanting":
                         skillIcon.setType(Material.ENCHANTING_TABLE);
@@ -2218,7 +1991,6 @@ public class FrpgCommands implements CommandExecutor {
 
 
 
-
         /*
         This next argument is the biggest by far
         It handles all the skill tree GUIs, which are the most adaptable with the most unique buttons
@@ -2419,13 +2191,26 @@ public class FrpgCommands implements CommandExecutor {
                 }
 
 
-
+                //Beginning state of the menu
                 ItemStack[] menu_items = {skill_1a,skill_1b,skill_2a,skill_2b,skill_3a,skill_3b,skill_M};
                 String[] labels = perksMap.get(skillName);
                 String[] lores_line2 = descriptionsMap.get(skillName);
+
+                //Initialize some varibales for use
                 String desc = "";
                 Map<String,CustomRecipe> customRecipeMap = loadConfig.getCraftingRecipes();
                 StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+
+                //Make changes to some skills independent of level
+                if (skillName.equalsIgnoreCase("woodcutting")) {
+                    ArrayList<Integer> timberBreakLimits = loadConfig.getTimberBreakLimits();
+                    String timberBreakLimitInitial = String.valueOf(timberBreakLimits.get(0));
+                    String timberBreakLimitUpgraded = String.valueOf(timberBreakLimits.get(1));
+                    String newLore0 = stringsAndOtherData.replaceIfPresent(lores_line2[4],"64",timberBreakLimitInitial);
+                    String newLore1 = stringsAndOtherData.replaceIfPresent(newLore0,"128",timberBreakLimitUpgraded);
+                    lores_line2[4] = newLore1;
+                }
+
                 int special_index = 0;
                 switch (skillName){
                     case "mining":

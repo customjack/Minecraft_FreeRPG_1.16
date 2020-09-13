@@ -31,6 +31,10 @@ public class EntityHitEntity implements Listener {
             return;
         }
 
+        if (e.getEntity().isInvulnerable()) { //Godmode check
+            return;
+        }
+
         //removes PvP effects if PvP is disabled
         if (e.getEntity() instanceof Player) {
             ConfigLoad loadConfig = new ConfigLoad();

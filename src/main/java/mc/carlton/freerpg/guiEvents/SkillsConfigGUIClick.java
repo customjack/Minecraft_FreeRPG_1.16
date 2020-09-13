@@ -76,6 +76,12 @@ public class SkillsConfigGUIClick implements Listener {
                                     p.performCommand("frpg skillConfigGUI " + skillName);
                                 }
                                 break;
+                            case "woodcutting":
+                                if (e.getSlot() == 37) {
+                                    p.performCommand("frpg leafBlowerToggle");
+                                    p.performCommand("frpg skillConfigGUI " + skillName);
+                                }
+                                break;
                             case "mining":
                                 if (e.getSlot() == 37) {
                                     p.performCommand("frpg veinMinerToggle");
@@ -88,6 +94,12 @@ public class SkillsConfigGUIClick implements Listener {
                                     p.performCommand("frpg skillConfigGUI " + skillName);
                                 } else if (e.getSlot() == 38) {
                                     p.performCommand("frpg hotRodToggle");
+                                    p.performCommand("frpg skillConfigGUI " + skillName);
+                                }
+                                break;
+                            case "axeMastery":
+                                if (e.getSlot() == 37) {
+                                    p.performCommand("frpg holyAxeToggle");
                                     p.performCommand("frpg skillConfigGUI " + skillName);
                                 }
                                 break;

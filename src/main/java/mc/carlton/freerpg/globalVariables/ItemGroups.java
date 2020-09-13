@@ -55,14 +55,17 @@ public class ItemGroups {
     static Map<Material,Double> fishFoodSaturation = new HashMap<Material,Double>();
     static List<Material> valuableItems;
     static List<Material> ores;
+    static HashSet<Material> veinMinerBlocks = new HashSet<>();
     static Map<Material,Material> repairItems = new HashMap<>();
     static Map<Material,Integer> repairItemsAmount = new HashMap<>();
     static List<Material> strippedLogs;
     static List<Material> wood;
     static List<Material> strippedWood;
+    static ArrayList<Material> allLogs = new ArrayList<>();
     static List<Material> leaves;
     static Map<String, ItemStack> effectArrows = new HashMap<>();
     static Map<Material, Material> smeltableItemsMap = new HashMap<>();
+    static Map<Material, Double> smeltingXPMap = new HashMap<>();
 
 
     public void initializeItemGroups(){
@@ -79,6 +82,7 @@ public class ItemGroups {
         initializeValuableItems();
         initalizeArrows();
         initializeSmeltableItemsMap();
+        initializeSmeltingXPMap();
         initializeTrackedBlocks();
     }
 
@@ -188,10 +192,15 @@ public class ItemGroups {
         wood = Arrays.asList(wood0);
         Material[] strippedWood0 = {Material.STRIPPED_SPRUCE_WOOD,Material.STRIPPED_OAK_WOOD,Material.STRIPPED_JUNGLE_WOOD,Material.STRIPPED_DARK_OAK_WOOD,Material.STRIPPED_BIRCH_WOOD,Material.STRIPPED_ACACIA_WOOD};
         strippedWood = Arrays.asList(strippedWood0);
+        allLogs.addAll(logs);
+        allLogs.addAll(strippedLogs);
+        allLogs.addAll(wood);
+        allLogs.addAll(strippedWood);
         Material[] leaves0 = {Material.ACACIA_LEAVES,Material.BIRCH_LEAVES,Material.DARK_OAK_LEAVES,Material.OAK_LEAVES,Material.SPRUCE_LEAVES,Material.JUNGLE_LEAVES};
         leaves = Arrays.asList(leaves0);
 
-
+        ConfigLoad configLoad = new ConfigLoad();
+        veinMinerBlocks = configLoad.getVeinMinerBlocks();
     }
 
     public void initializeHarmfulPotions(){
@@ -668,6 +677,103 @@ public class ItemGroups {
             smeltableItemsMap.put(Material.ANCIENT_DEBRIS,Material.NETHERITE_SCRAP);
             smeltableItemsMap.put(Material.NETHER_GOLD_ORE,Material.GOLD_INGOT);
             smeltableItemsMap.put(Material.NETHER_BRICK,Material.CRACKED_NETHER_BRICKS);
+
+        }
+
+    }
+
+    public void initializeSmeltingXPMap() {
+        smeltingXPMap.put(Material.BEEF,0.35);
+        smeltingXPMap.put(Material.CHICKEN,0.35);
+        smeltingXPMap.put(Material.COD,0.35);
+        smeltingXPMap.put(Material.SALMON,0.35);
+        smeltingXPMap.put(Material.POTATO,0.35);
+        smeltingXPMap.put(Material.MUTTON,0.35);
+        smeltingXPMap.put(Material.RABBIT,0.35);
+        smeltingXPMap.put(Material.KELP,0.35);
+
+        smeltingXPMap.put(Material.IRON_ORE,0.7);
+        smeltingXPMap.put(Material.GOLD_ORE,1.0);
+        smeltingXPMap.put(Material.SAND,0.1);
+        smeltingXPMap.put(Material.RED_SAND,0.1);
+        smeltingXPMap.put(Material.COBBLESTONE,0.1);
+        smeltingXPMap.put(Material.SANDSTONE,0.1);
+        smeltingXPMap.put(Material.RED_SANDSTONE,0.1);
+        smeltingXPMap.put(Material.STONE,0.1);
+        smeltingXPMap.put(Material.CLAY_BALL,0.3);
+        smeltingXPMap.put(Material.NETHERRACK,0.1);
+        smeltingXPMap.put(Material.CLAY,0.35);
+        smeltingXPMap.put(Material.STONE_BRICKS,0.1);
+        smeltingXPMap.put(Material.BLACK_TERRACOTTA,0.1);
+        smeltingXPMap.put(Material.WHITE_TERRACOTTA,0.1);
+        smeltingXPMap.put(Material.LIGHT_GRAY_TERRACOTTA,0.1);
+        smeltingXPMap.put(Material.GRAY_TERRACOTTA,0.1);
+        smeltingXPMap.put(Material.BROWN_TERRACOTTA,0.1);
+        smeltingXPMap.put(Material.RED_TERRACOTTA,0.1);
+        smeltingXPMap.put(Material.ORANGE_TERRACOTTA,0.1);
+        smeltingXPMap.put(Material.YELLOW_TERRACOTTA,0.1);
+        smeltingXPMap.put(Material.LIME_TERRACOTTA,0.1);
+        smeltingXPMap.put(Material.GREEN_TERRACOTTA,0.1);
+        smeltingXPMap.put(Material.CYAN_TERRACOTTA,0.1);
+        smeltingXPMap.put(Material.LIGHT_BLUE_TERRACOTTA,0.1);
+        smeltingXPMap.put(Material.BLUE_TERRACOTTA,0.1);
+        smeltingXPMap.put(Material.PURPLE_TERRACOTTA,0.1);
+        smeltingXPMap.put(Material.MAGENTA_TERRACOTTA,0.1);
+        smeltingXPMap.put(Material.PINK_TERRACOTTA,0.1);
+        smeltingXPMap.put(Material.CACTUS,1.0);
+        for (Material log : logs) {
+            smeltingXPMap.put(log,0.15);
+        }
+        for (Material strippedLog : strippedLogs) {
+            smeltingXPMap.put(strippedLog,0.15);
+        }
+        for (Material strippedLog : wood) {
+            smeltingXPMap.put(strippedLog,0.15);
+        }
+        for (Material strippedLog : strippedWood) {
+            smeltingXPMap.put(strippedLog,0.15);
+        }
+        smeltingXPMap.put(Material.CHORUS_FRUIT,0.1);
+        smeltingXPMap.put(Material.WET_SPONGE,0.15);
+        smeltingXPMap.put(Material.SEA_PICKLE,0.1);
+        smeltingXPMap.put(Material.DIAMOND_ORE,1.0);
+        smeltingXPMap.put(Material.LAPIS_ORE,0.2);
+        smeltingXPMap.put(Material.REDSTONE_ORE,0.3);
+        smeltingXPMap.put(Material.COAL_ORE,0.1);
+        smeltingXPMap.put(Material.EMERALD_ORE,1.0);
+        smeltingXPMap.put(Material.NETHER_QUARTZ_ORE,0.2);
+
+        smeltingXPMap.put(Material.IRON_SWORD,0.1);
+        smeltingXPMap.put(Material.IRON_PICKAXE,0.1);
+        smeltingXPMap.put(Material.IRON_AXE,0.1);
+        smeltingXPMap.put(Material.IRON_SHOVEL,0.1);
+        smeltingXPMap.put(Material.IRON_HOE,0.1);
+        smeltingXPMap.put(Material.CHAINMAIL_HELMET,0.1);
+        smeltingXPMap.put(Material.CHAINMAIL_CHESTPLATE,0.1);
+        smeltingXPMap.put(Material.CHAINMAIL_LEGGINGS,0.1);
+        smeltingXPMap.put(Material.CHAINMAIL_BOOTS,0.1);
+        smeltingXPMap.put(Material.IRON_HELMET,0.1);
+        smeltingXPMap.put(Material.IRON_CHESTPLATE,0.1);
+        smeltingXPMap.put(Material.IRON_LEGGINGS,0.1);
+        smeltingXPMap.put(Material.IRON_BOOTS,0.1);
+        smeltingXPMap.put(Material.IRON_HORSE_ARMOR,0.1);
+
+        smeltingXPMap.put(Material.GOLDEN_SWORD,0.1);
+        smeltingXPMap.put(Material.GOLDEN_PICKAXE,0.1);
+        smeltingXPMap.put(Material.GOLDEN_AXE,0.1);
+        smeltingXPMap.put(Material.GOLDEN_SHOVEL,0.1);
+        smeltingXPMap.put(Material.GOLDEN_HOE,0.1);
+        smeltingXPMap.put(Material.GOLDEN_HELMET,0.1);
+        smeltingXPMap.put(Material.GOLDEN_CHESTPLATE,0.1);
+        smeltingXPMap.put(Material.GOLDEN_LEGGINGS,0.1);
+        smeltingXPMap.put(Material.GOLDEN_BOOTS,0.1);
+        smeltingXPMap.put(Material.GOLDEN_HORSE_ARMOR,0.1);
+
+        if (mcVersion >= 1.16) {
+            smeltingXPMap.put(Material.ANCIENT_DEBRIS,2.0);
+            smeltingXPMap.put(Material.NETHER_GOLD_ORE,1.0);
+            smeltingXPMap.put(Material.NETHER_BRICK,0.1);
+
         }
 
     }
@@ -787,5 +893,17 @@ public class ItemGroups {
             return effectArrows.get(type);
         }
         return new ItemStack(Material.ARROW,8);
+    }
+
+    public Map<Material, Double> getSmeltingXPMap() {
+        return smeltingXPMap;
+    }
+
+    public static ArrayList<Material> getAllLogs() {
+        return allLogs;
+    }
+
+    public HashSet<Material> getVeinMinerBlocks() {
+        return veinMinerBlocks;
     }
 }

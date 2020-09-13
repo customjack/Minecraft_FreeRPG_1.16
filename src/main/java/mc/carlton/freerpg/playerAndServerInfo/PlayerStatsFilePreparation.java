@@ -16,7 +16,9 @@ import java.util.UUID;
 
 
 public class PlayerStatsFilePreparation {
-    public static void playJoinConditions(Player p) {
+    FileConfiguration playerData;
+
+    public void playJoinConditions(Player p) {
         String pName = p.getName();
         UUID pUUID = p.getUniqueId();
 
@@ -30,7 +32,7 @@ public class PlayerStatsFilePreparation {
         File f = new File(userdata, File.separator + pUUID.toString() + ".yml");
         f.setReadable(true);
         f.setWritable(true);
-        FileConfiguration playerData = YamlConfiguration.loadConfiguration(f);
+        playerData = YamlConfiguration.loadConfiguration(f);
 
         String[] labels = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
 
@@ -85,6 +87,9 @@ public class PlayerStatsFilePreparation {
                 playerData.set("globalStats.personalEXPMultiplier",1.0);
                 playerData.set("globalStats.triggerAbilitiesToggle",1);
                 playerData.set("globalStats.showEXPBarToggle",1);
+                playerData.set("globalStats.leafBlowerToggle",1);
+                playerData.set("globalStats.holyAxeToggle",1);
+                playerData.set("globalStats.numberOfCooldownBars",1);
 
                 // Skill Type Data
                 for (int i = 0; i < labels.length; i++) {
@@ -120,19 +125,14 @@ public class PlayerStatsFilePreparation {
                 if (!playerData.contains("general.username") || !p.getDisplayName().equals(pName) ) {
                     playerData.set("general.username", pName);
                 }
-                if (!playerData.contains("general.firstLogin")) {
-                    playerData.set("general.firstLogin", "\"" + simpleDateFormat.format(now)+ "\"");
-                }
+                addIfMissing("general.firstLogin","\"" + simpleDateFormat.format(now)+ "\"");
 
-                //Whether it exists or no, the last login will be set to the current unix timestamp
+                //Whether it exists or not, the last login will be set to the current unix timestamp
                 playerData.set("general.lastLogin", unixTime);
 
-                if (!playerData.contains("general.lastLogout")) {
-                    playerData.set("general.lastLogout", unixTime);
-                }
-                if (!playerData.contains("general.playTime")) {
-                    playerData.set("general.playTime", 0);
-                }
+                addIfMissing("general.lastLogout",unixTime);
+                addIfMissing("general.playTime",0);
+
                 if (!playerData.contains("general.language")) {
                     ConfigLoad loadConfig = new ConfigLoad();
                     String defaultLanguage = loadConfig.getDefaultLanguage();
@@ -143,138 +143,58 @@ public class PlayerStatsFilePreparation {
                 if (!playerData.contains("globalStats")) {
                    playerData.createSection("globalStats");
                 }
-                if (!playerData.contains("globalStats.totalLevel")) {
-                    playerData.set("globalStats.totalLevel", 0);
-                }
-                if (!playerData.contains("globalStats.globalTokens")) {
-                    playerData.set("globalStats.globalTokens", 0);
-                }
-                if (!playerData.contains("globalStats.skill_1a")) {
-                    playerData.set("globalStats.skill_1a", 0);
-                }
-                if (!playerData.contains("globalStats.skill_1b")) {
-                    playerData.set("globalStats.skill_1b", 0);
-                }
-                if (!playerData.contains("globalStats.skill_1c")) {
-                    playerData.set("globalStats.skill_1c", 0);
-                }
-                if (!playerData.contains("globalStats.skill_2a")) {
-                    playerData.set("globalStats.skill_2a", 0);
-                }
-                if (!playerData.contains("globalStats.skill_2b")) {
-                    playerData.set("globalStats.skill_2b", 0);
-                }
-                if (!playerData.contains("globalStats.skill_2c")) {
-                    playerData.set("globalStats.skill_2c", 0);
-                }
-                if (!playerData.contains("globalStats.skill_3a")) {
-                    playerData.set("globalStats.skill_3a", 0);
-                }
-                if (!playerData.contains("globalStats.skill_3b")) {
-                    playerData.set("globalStats.skill_3b", 0);
-                }
-                if (!playerData.contains("globalStats.skill_3c")) {
-                    playerData.set("globalStats.skill_3c", 0);
-                }
-                if (!playerData.contains("globalStats.skill_M")) {
-                    playerData.set("globalStats.skill_M", 0);
-                }
-                if (!playerData.contains("globalStats.flintToggle")) {
-                    playerData.set("globalStats.flintToggle", 1);
-                }
-                if (!playerData.contains("globalStats.oreToggle")) {
-                    playerData.set("globalStats.oreToggle", 1);
-                }
-                if (!playerData.contains("globalStats.speedToggle")) {
-                    playerData.set("globalStats.speedToggle", 1);
-                }
-                if (!playerData.contains("globalStats.potionToggle")) {
-                    playerData.set("globalStats.potionToggle", 1);
-                }
-                if (!playerData.contains("globalStats.grappleToggle")) {
-                    playerData.set("globalStats.grappleToggle", 1);
-                }
-                if (!playerData.contains("globalStats.hotRodToggle")) {
-                    playerData.set("globalStats.hotRodToggle", 1);
-                }
-                if (!playerData.contains("globalStats.veinMinerToggle")) {
-                    playerData.set("globalStats.veinMinerToggle", 1);
-                }
-                if (!playerData.contains("globalStats.megaDigToggle")) {
-                    playerData.set("globalStats.megaDigToggle", 1);
-                }
-                if (!playerData.contains("globalStats.souls")) {
-                    playerData.set("globalStats.souls", 0);
-                }
-                if (!playerData.contains("globalStats.levelUpMessageToggle")) {
-                    playerData.set("globalStats.levelUpMessageToggle", 1);
-                }
-                if (!playerData.contains("globalStats.abilityPrepareMessageToggle")) {
-                    playerData.set("globalStats.abilityPrepareMessageToggle", 1);
-                }
-                if (!playerData.contains("globalStats.personalEXPMultiplier")) {
-                    playerData.set("globalStats.personalEXPMultiplier", 1.0);
-                }
-                if (!playerData.contains("globalStats.triggerAbilitiesToggle")) {
-                    playerData.set("globalStats.triggerAbilitiesToggle", 1);
-                }
-                if (!playerData.contains("globalStats.showEXPBarToggle")) {
-                    playerData.set("globalStats.showEXPBarToggle", 1);
-                }
+                addIfMissing("globalStats.totalLevel",0);
+                addIfMissing("globalStats.globalTokens",0);
+                addIfMissing("globalStats.skill_1a",0);
+                addIfMissing("globalStats.skill_1b",0);
+                addIfMissing("globalStats.skill_1c",0);
+                addIfMissing("globalStats.skill_2a",0);
+                addIfMissing("globalStats.skill_2b",0);
+                addIfMissing("globalStats.skill_2c",0);
+                addIfMissing("globalStats.skill_3a",0);
+                addIfMissing("globalStats.skill_3b",0);
+                addIfMissing("globalStats.skill_3c", 0);
+                addIfMissing("globalStats.skill_M", 0);
+                addIfMissing("globalStats.flintToggle", 1);
+                addIfMissing("globalStats.oreToggle", 1);
+                addIfMissing("globalStats.speedToggle", 1);
+                addIfMissing("globalStats.potionToggle", 1);
+                addIfMissing("globalStats.grappleToggle", 1);
+                addIfMissing("globalStats.hotRodToggle", 1);
+                addIfMissing("globalStats.veinMinerToggle", 1);
+                addIfMissing("globalStats.megaDigToggle", 1);
+                addIfMissing("globalStats.souls", 0);
+                addIfMissing("globalStats.levelUpMessageToggle", 1);
+                addIfMissing("globalStats.abilityPrepareMessageToggle", 1);
+                addIfMissing("globalStats.personalEXPMultiplier", 1.0);
+                addIfMissing("globalStats.triggerAbilitiesToggle", 1);
+                addIfMissing("globalStats.showEXPBarToggle", 1);
+                addIfMissing("globalStats.leafBlowerToggle",1);
+                addIfMissing("globalStats.holyAxeToggle",1);
+                addIfMissing("globalStats.numberOfCooldownBars",1);
+
 
                 // Skill Type Data
                 for (int i = 0; i < labels.length; i++) {
                     if (!playerData.contains(labels[i] + "")) {
                         playerData.createSection(labels[i] + "");
                     }
-                    if (!playerData.contains(labels[i] + ".level")) {
-                        playerData.set(labels[i] + ".level", 0);
-                    }
-                    if (!playerData.contains(labels[i] + ".experience")) {
-                        playerData.set(labels[i] + ".experience", 0);
-                    }
-                    if (!playerData.contains(labels[i] + ".passiveTokens")) {
-                        playerData.set(labels[i] + ".passiveTokens", 0);
-                    }
-                    if (!playerData.contains(labels[i] + ".skillTokens")) {
-                        playerData.set(labels[i] + ".skillTokens", 0);
-                    }
-                    if (!playerData.contains(labels[i] + ".passive1")) {
-                        playerData.set(labels[i] + ".passive1", 0);
-                    }
-                    if (!playerData.contains(labels[i] + ".passive2")) {
-                        playerData.set(labels[i] + ".passive2", 0);
-                    }
-                    if (!playerData.contains(labels[i] + ".passive3")) {
-                        playerData.set(labels[i] + ".passive3", 0);
-                    }
-                    if (!playerData.contains(labels[i] + ".skill_1a")) {
-                        playerData.set(labels[i] + ".skill_1a", 0);
-                    }
-                    if (!playerData.contains(labels[i] + ".skill_1b")) {
-                        playerData.set(labels[i] + ".skill_1b", 0);
-                    }
-                    if (!playerData.contains(labels[i] + ".skill_2a")) {
-                        playerData.set(labels[i] + ".skill_2a", 0);
-                    }
-                    if (!playerData.contains(labels[i] + ".skill_2b")) {
-                        playerData.set(labels[i] + ".skill_2b", 0);
-                    }
-                    if (!playerData.contains(labels[i] + ".skill_3a")) {
-                        playerData.set(labels[i] + ".skill_3a", 0);
-                    }
-                    if (!playerData.contains(labels[i] + ".skill_3b")) {
-                        playerData.set(labels[i] + ".skill_3b", 0);
-                    }
-                    if (!playerData.contains(labels[i] + ".skill_M")) {
-                        playerData.set(labels[i] + ".skill_M", 0);
-                    }
-                    if (!playerData.contains(labels[i] + ".triggerAbilityToggle")) {
-                        playerData.set(labels[i] + ".triggerAbilityToggle", 1);
-                    }
-                    if (!playerData.contains(labels[i] + ".showEXPBarToggle")) {
-                        playerData.set(labels[i] + ".showEXPBarToggle", 1);
-                    }
+                        addIfMissing(labels[i] + ".level", 0);
+                        addIfMissing(labels[i] + ".experience", 0);
+                        addIfMissing(labels[i] + ".passiveTokens", 0);
+                        addIfMissing(labels[i] + ".skillTokens", 0);
+                        addIfMissing(labels[i] + ".passive1", 0);
+                        addIfMissing(labels[i] + ".passive2", 0);
+                        addIfMissing(labels[i] + ".passive3", 0);
+                        addIfMissing(labels[i] + ".skill_1a", 0);
+                        addIfMissing(labels[i] + ".skill_1b", 0);
+                        addIfMissing(labels[i] + ".skill_2a", 0);
+                        addIfMissing(labels[i] + ".skill_2b", 0);
+                        addIfMissing(labels[i] + ".skill_3a", 0);
+                        addIfMissing(labels[i] + ".skill_3b", 0);
+                        addIfMissing(labels[i] + ".skill_M", 0);
+                        addIfMissing(labels[i] + ".triggerAbilityToggle", 1);
+                        addIfMissing(labels[i] + ".showEXPBarToggle", 1);
                 }
 
                 playerData.save(f);
@@ -283,5 +203,11 @@ public class PlayerStatsFilePreparation {
             }
         }
 
+    }
+
+    public void addIfMissing(String key,Object value) {
+        if (!playerData.contains(key)) {
+            playerData.set(key, value);
+        }
     }
 }

@@ -4,8 +4,6 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.BossBarStorage;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
-import mc.carlton.freerpg.gameTools.ScoreboardOperations;
-import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
 import mc.carlton.freerpg.guiEvents.MaxPassiveLevels;
 import mc.carlton.freerpg.perksAndAbilities.Global;
 import org.bukkit.Bukkit;
@@ -16,7 +14,6 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,6 +23,7 @@ public class ChangeStats {
     private String pName;
     private UUID uuid;
     private boolean isCommand;
+    private boolean isSilent;
     ArrayList<Double> multipliers;
     ArrayList<Double> tokensInfo;
     ArrayList<Double> levelingInfo;
@@ -46,6 +44,7 @@ public class ChangeStats {
         tokensInfo = loadConfig.getTokensInfo();
         levelingInfo = loadConfig.getLevelingInfo();
         this.isCommand = false;
+        this.isSilent = false;
         this.actionMessage = new ActionBarMessages(p);
         this.allowedSkillsMap = loadConfig.getAllowedSkillsMap();
         this.allowedSkillGainEXPMap = loadConfig.getAllowedSkillGainEXPMap();
@@ -54,6 +53,7 @@ public class ChangeStats {
     public void set_isCommand(boolean isFromCommand) {
         this.isCommand = isFromCommand;
     }
+    public void set_silent(boolean isSilentExectuion) {this.isSilent = isSilentExectuion;}
 
     public boolean checkPerms(String skillName) {
         boolean hasPerms = true;
@@ -205,7 +205,7 @@ public class ChangeStats {
                 for (int i=0; i < spaces/2.0; i++) {
                     sbSpace += " ";
                 }
-                if ((int)pGlobalStats.get(21) > 0) { //Level Up Message Toggle Conditional
+                if ((int)pGlobalStats.get(21) > 0 && !isSilent) { //Level Up Message Toggle Conditional
                     if (gainedGlobalToken) {
                         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
                         if (newTokens_G>0 && extraGlobalTokens <= 0) {
@@ -266,6 +266,56 @@ public class ChangeStats {
             statAll.put(uuid, pStatAll);
             pStatClass.setData(statAll);
         }
+    }
+
+    public void checkPlayerLevelEXPCurveConsistency() {
+        String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
+        set_silent(true);
+        set_isCommand(true);
+        PlayerStats pStatClass = new PlayerStats(p);
+        Map<UUID,Map<String, ArrayList<Number>>> allStats = pStatClass.getData();
+        Map<String, ArrayList<Number>> pStats = allStats.get(p.getUniqueId());
+        Map<String, Integer> expTotalMap = new HashMap<>();
+        boolean statsChanged= false;
+        for (String label : labels_0) {
+            ArrayList<Number> pStat = pStats.get(label);
+            int exp = (int) pStat.get(1);
+            expTotalMap.put(label,exp);
+            int level = (int) pStat.get(0);
+            int expectedLevel = getLevelfromEXP(exp);
+            if (level != expectedLevel) {
+                statsChanged = true;
+            }
+        }
+        if (statsChanged) {
+            resetStat("global");
+            String[] labels_1 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
+            for (String label : labels_1) {
+                resetStat(label);
+                changeEXP(label, expTotalMap.get(label));
+            }
+            setTotalLevel();
+            LanguageSelector lang = new LanguageSelector(p);
+            p.sendMessage(ChatColor.RED + lang.getString("statsUpdated"));
+        }
+    }
+
+    public void resetStat(String skillName) {
+        PlayerStats pStatClass = new PlayerStats(p);
+        Map<UUID,Map<String, ArrayList<Number>>> allStats = pStatClass.getData();
+        Map<String, ArrayList<Number>> pStats = allStats.get(p.getUniqueId());
+        ArrayList<Number> pStat = pStats.get(skillName);
+        int maxIndex = 13;
+        if (skillName == "global") {
+            maxIndex = 11;
+        }
+        for (int i = 0; i <= maxIndex; i++) {
+            pStat.set(i, 0);
+        }
+        pStats.put(skillName, pStat);
+        allStats.put(p.getUniqueId(), pStats);
+        pStatClass.setData(allStats);
+        setTotalLevel();
     }
 
     public int areSkillsMaxed(String skillName,int skillTokensGained){
@@ -445,7 +495,7 @@ public class ChangeStats {
         LanguageSelector lang = new LanguageSelector(p);
         if (newLevel > oldLevel) {
             BossBarStorage bossBarStorage = new BossBarStorage();
-            BossBar expBar = bossBarStorage.getPlayerBossBar(p);
+            BossBar expBar = bossBarStorage.getPlayerExpBar(p);
             expBar.setProgress(1.0);
             String message = skillTitle.toUpperCase() + " " + lang.getString("level").toUpperCase() + " " + newLevel + "!";
             expBar.setVisible(true);
@@ -459,7 +509,7 @@ public class ChangeStats {
             double neededEXP = nextLevelEXP-lastLevelEXP;
             double percentProgress = Math.min(progressEXP/neededEXP,1.0);
             BossBarStorage bossBarStorage = new BossBarStorage();
-            BossBar expBar = bossBarStorage.getPlayerBossBar(p);
+            BossBar expBar = bossBarStorage.getPlayerExpBar(p);
             expBar.setProgress(percentProgress);
             expBar.setTitle(ChatColor.GRAY + skillTitle + ChatColor.GOLD + " " + lang.getString("lvl") + " " + newLevel +
                             ChatColor.YELLOW + " (+" + expChange + " " + lang.getString("exp") + ")");

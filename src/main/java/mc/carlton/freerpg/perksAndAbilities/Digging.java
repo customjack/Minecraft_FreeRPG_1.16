@@ -77,7 +77,7 @@ public class Digging {
         if ((int) pStat.get("global").get(24) < 1 || !pStatClass.isPlayerSkillAbilityOn(skillName)) {
             return;
         }
-        Integer[] pTimers = timers.getPlayerTimers();
+        Integer[] pTimers = timers.getPlayerCooldownTimes();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[0] == -1) {
             int cooldown = pTimers[0];
@@ -102,7 +102,7 @@ public class Digging {
                 }.runTaskLater(plugin, 20 * 4).getTaskId();
                 abilities.setPlayerAbility( skillName, taskID);
             } else {
-                actionMessage.sendMessage(ChatColor.RED +lang.getString("bigDig") + " " + lang.getString("cooldown") + ": " + cooldown+ "s");
+                actionMessage.sendMessage(ChatColor.RED +lang.getString("bigDig") + " " + lang.getString("cooldown") + ": " + ChatColor.WHITE + cooldown+ ChatColor.RED + "s");
             }
         }
     }
@@ -128,52 +128,12 @@ public class Digging {
 
         int durationLevel = (int) pStat.get(skillName).get(4);
         double duration0 = Math.ceil(durationLevel*0.4) + 40;
-        int cooldown = 300;
-        if ((int) pStat.get("global").get(11) > 0) {
-            cooldown = 200;
-        }
-        int finalCooldown = cooldown;
         long duration = (long) duration0;
-        timers.setPlayerTimer( skillName, finalCooldown);
         Bukkit.getScheduler().cancelTask(pAbilities[0]);
         abilities.setPlayerAbility( skillName, -2);
-        int taskID = new BukkitRunnable() {
-            @Override
-            public void run() {
-                TrackItem trackItem = new TrackItem();
-                ItemStack potentialAbilityItem = trackItem.findTrackedItemInInventory(p,key);
-                if (potentialAbilityItem != null) {
-                    itemInHand = potentialAbilityItem;
-                }
-                actionMessage.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("bigDig") + " " + lang.getString("ended") + "<<<");
-                itemInHand.removeEnchantment(Enchantment.DIG_SPEED);
-                if (effLevel != 0) {
-                    itemInHand.addUnsafeEnchantment(Enchantment.DIG_SPEED, effLevel);
-                }
-                abilities.setPlayerAbility( skillName, -1);
-                for(int i = 1; i < finalCooldown+1; i++) {
-                    int timeRemaining = finalCooldown - i;
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            timers.setPlayerTimer( skillName, timeRemaining);
-                            AbilityTimers timers2 = new AbilityTimers(p);
-                            if (timeRemaining ==0) {
-                                if (!p.isOnline()) {
-                                    timers2.removePlayer();
-                                }
-                                else {
-                                    actionMessage.sendMessage(ChatColor.GREEN + ">>>" + lang.getString("bigDig") + " " + lang.getString("readyToUse") + "<<<");
-                                }
-                            }
-                        }
-                    }.runTaskLater(plugin, 20*i);
-                }
-            }
-        }.runTaskLater(plugin, duration).getTaskId();
-        AbilityLogoutTracker incaseLogout = new AbilityLogoutTracker(p);
-        incaseLogout.setPlayerItem(p,skillName,key);
-        incaseLogout.setPlayerTask(p,skillName,taskID);
+        String coolDownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("bigDig") + " " + lang.getString("readyToUse") + "<<<";
+        String endMessage = ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("bigDig") + " " + lang.getString("ended") + "<<<";
+        timers.abilityDurationTimer(skillName,duration,endMessage,coolDownEndMessage,key,itemInHand,effLevel,0);
     }
 
     public void storeBlockFace(BlockFace blockFace) {
@@ -617,39 +577,17 @@ public class Digging {
         return false;
     }
 
-    public void preventLogoutTheft(int taskID_digging, ItemStack itemInHand_digging){
+    public void preventLogoutTheft(int taskID_digging, ItemStack itemInHand_digging,NamespacedKey key,boolean pluginDisabled){
         if (!runMethods) {
             return;
         }
-        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[0] == -2) {
             Bukkit.getScheduler().cancelTask(taskID_digging);
             int effLevel = itemInHand_digging.getEnchantmentLevel(Enchantment.DIG_SPEED)-5;
-            itemInHand_digging.removeEnchantment(Enchantment.DIG_SPEED);
-            if (effLevel != 0) {
-                itemInHand_digging.addUnsafeEnchantment(Enchantment.DIG_SPEED, effLevel);
-            }
-            int cooldown = 300;
-            if ((int) pStat.get("global").get(11) > 0) {
-                cooldown = 200;
-            }
-            int finalCooldown = cooldown;
-            actionMessage.sendMessage(ChatColor.RED+ChatColor.BOLD.toString() + ">>>" + lang.getString("magicForce") + "<<<");
-            abilities.setPlayerAbility( skillName, -1);
-            for(int i = 1; i < finalCooldown+1; i++) {
-                int timeRemaining = finalCooldown - i;
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        AbilityTimers timers2 = new AbilityTimers(p);
-                        timers2.setPlayerTimer( skillName, timeRemaining);
-                        if (timeRemaining==0 && !p.isOnline()){
-                            timers2.removePlayer();
-                        }
-                    }
-                }.runTaskLater(plugin, 20*i);
-            }
+            String endMessage = ChatColor.RED+ChatColor.BOLD.toString() + ">>>" + lang.getString("magicForce") + "<<<";
+            String coolDownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("bigDig") + " " + lang.getString("readyToUse") + "<<<";
+            timers.endAbility(skillName,endMessage,coolDownEndMessage,key,itemInHand_digging,effLevel,0,pluginDisabled);
 
         }
     }

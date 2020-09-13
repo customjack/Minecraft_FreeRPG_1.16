@@ -41,6 +41,8 @@ public class Enchanting {
 
     private boolean runMethods;
 
+    private boolean fromEXPBottle;
+
 
 
     public Enchanting(Player p) {
@@ -124,24 +126,7 @@ public class Enchanting {
     }
 
     public void giveEXP(int exp) {
-        if (!runMethods) {
-            return;
-        }
-        int taskID = new BukkitRunnable() {
-            @Override
-            public void run() {
-                ConfigLoad configLoad = new ConfigLoad();
-                boolean giveEXP = true;
-                if (!configLoad.isGetEXPFromEnchantingBottles()) {
-                    ExperienceBottleTracking experienceBottleTracking = new ExperienceBottleTracking();
-                    giveEXP = !experienceBottleTracking.fromEnchantingBottle();
-                }
-                if (giveEXP) {
-                    increaseStats.changeEXP(skillName, expMap.get("EXPperMinecraftXPGained") * exp);
-                }
-            }
-        }.runTaskLater(plugin, 2).getTaskId();
-
+        increaseStats.changeEXP(skillName, expMap.get("EXPperMinecraftXPGained") * exp);
     }
 
 }
