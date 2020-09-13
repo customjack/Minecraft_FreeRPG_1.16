@@ -40,7 +40,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         // Plugin startup logic
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
 
-        //Saves Resources if they aren't there
+        //Saves Resources if they aren't there.
         getConfig().options().copyDefaults();
         saveDefaultConfig();
         saveResource("languages.yml",false);
