@@ -1,6 +1,9 @@
 package mc.carlton.freerpg.gameTools;
 
+import com.google.gson.internal.$Gson$Preconditions;
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
+import mc.carlton.freerpg.playerAndServerInfo.MinecraftVersion;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -22,6 +25,9 @@ public class PsuedoEnchanting {
 
     public PsuedoEnchanting() {
         //toolEnchantMao
+        MinecraftVersion minecraftVersion = new MinecraftVersion();
+        double mcVersion = minecraftVersion.getMinecraftVersion_Double();
+
         toolEnchantMap.put("chestplate",new Enchantment[]{Enchantment.DURABILITY,Enchantment.MENDING,Enchantment.VANISHING_CURSE,Enchantment.PROTECTION_ENVIRONMENTAL,Enchantment.PROTECTION_EXPLOSIONS,Enchantment.PROTECTION_FIRE,Enchantment.PROTECTION_PROJECTILE,Enchantment.THORNS,Enchantment.BINDING_CURSE});
         toolEnchantMap.put("leggings",new Enchantment[]{Enchantment.DURABILITY,Enchantment.MENDING,Enchantment.VANISHING_CURSE,Enchantment.PROTECTION_ENVIRONMENTAL, Enchantment.PROTECTION_EXPLOSIONS, Enchantment.PROTECTION_FIRE, Enchantment.PROTECTION_PROJECTILE, Enchantment.BINDING_CURSE});
         toolEnchantMap.put("boots",new Enchantment[]{Enchantment.DURABILITY,Enchantment.MENDING,Enchantment.VANISHING_CURSE,Enchantment.PROTECTION_ENVIRONMENTAL, Enchantment.PROTECTION_EXPLOSIONS, Enchantment.PROTECTION_FIRE, Enchantment.PROTECTION_PROJECTILE, Enchantment.BINDING_CURSE,Enchantment.DEPTH_STRIDER,Enchantment.FROST_WALKER, Enchantment.PROTECTION_FALL});
@@ -39,25 +45,22 @@ public class PsuedoEnchanting {
         toolEnchantMap.put("book",holder);
 
         //itemEnchantMap
-        itemEnchantTypeMap.put(Material.NETHERITE_SWORD,new Object[]{"sword",15});
+
         itemEnchantTypeMap.put(Material.DIAMOND_SWORD,new Object[]{"sword",10});
         itemEnchantTypeMap.put(Material.STONE_SWORD,new Object[]{"sword",5});
         itemEnchantTypeMap.put(Material.GOLDEN_SWORD,new Object[]{"sword",22});
         itemEnchantTypeMap.put(Material.IRON_SWORD,new Object[]{"sword",14});
         itemEnchantTypeMap.put(Material.WOODEN_SWORD,new Object[]{"sword",15});
-        itemEnchantTypeMap.put(Material.NETHERITE_AXE,new Object[]{"tool",15});
         itemEnchantTypeMap.put(Material.DIAMOND_AXE,new Object[]{"tool",10});
         itemEnchantTypeMap.put(Material.STONE_AXE,new Object[]{"tool",5});
         itemEnchantTypeMap.put(Material.GOLDEN_AXE,new Object[]{"tool",22});
         itemEnchantTypeMap.put(Material.IRON_AXE,new Object[]{"tool",14});
         itemEnchantTypeMap.put(Material.WOODEN_AXE,new Object[]{"tool",15});
-        itemEnchantTypeMap.put(Material.NETHERITE_PICKAXE,new Object[]{"tool",15});
         itemEnchantTypeMap.put(Material.DIAMOND_PICKAXE,new Object[]{"tool",10});
         itemEnchantTypeMap.put(Material.STONE_PICKAXE,new Object[]{"tool",5});
         itemEnchantTypeMap.put(Material.GOLDEN_PICKAXE,new Object[]{"tool",22});
         itemEnchantTypeMap.put(Material.IRON_PICKAXE,new Object[]{"tool",14});
         itemEnchantTypeMap.put(Material.WOODEN_PICKAXE,new Object[]{"tool",15});
-        itemEnchantTypeMap.put(Material.NETHERITE_SHOVEL,new Object[]{"tool",15});
         itemEnchantTypeMap.put(Material.DIAMOND_SHOVEL,new Object[]{"tool",10});
         itemEnchantTypeMap.put(Material.STONE_SHOVEL,new Object[]{"tool",5});
         itemEnchantTypeMap.put(Material.GOLDEN_SHOVEL,new Object[]{"tool",22});
@@ -69,31 +72,38 @@ public class PsuedoEnchanting {
         itemEnchantTypeMap.put(Material.FISHING_ROD,new Object[]{"rod",1});
         itemEnchantTypeMap.put(Material.TRIDENT,new Object[]{"trident",1});
         itemEnchantTypeMap.put(Material.CROSSBOW,new Object[]{"crossbow",1});
-        itemEnchantTypeMap.put(Material.NETHERITE_HELMET,new Object[]{"helmet",15});
         itemEnchantTypeMap.put(Material.CHAINMAIL_HELMET,new Object[]{"helmet",12});
         itemEnchantTypeMap.put(Material.DIAMOND_HELMET,new Object[]{"helmet",10});
         itemEnchantTypeMap.put(Material.GOLDEN_HELMET,new Object[]{"helmet",25});
         itemEnchantTypeMap.put(Material.IRON_HELMET,new Object[]{"helmet",9});
         itemEnchantTypeMap.put(Material.LEATHER_HELMET,new Object[]{"helmet",15});
         itemEnchantTypeMap.put(Material.TURTLE_HELMET,new Object[]{"helmet",1});
-        itemEnchantTypeMap.put(Material.NETHERITE_CHESTPLATE,new Object[]{"chestplate",15});
         itemEnchantTypeMap.put(Material.CHAINMAIL_CHESTPLATE,new Object[]{"chestplate",12});
         itemEnchantTypeMap.put(Material.DIAMOND_CHESTPLATE,new Object[]{"chestplate",10});
         itemEnchantTypeMap.put(Material.GOLDEN_CHESTPLATE,new Object[]{"chestplate",25});
         itemEnchantTypeMap.put(Material.IRON_CHESTPLATE,new Object[]{"chestplate",9});
         itemEnchantTypeMap.put(Material.LEATHER_CHESTPLATE,new Object[]{"chestplate",15});
-        itemEnchantTypeMap.put(Material.NETHERITE_LEGGINGS,new Object[]{"leggings",15});
         itemEnchantTypeMap.put(Material.LEATHER_LEGGINGS,new Object[]{"leggings",15});
         itemEnchantTypeMap.put(Material.CHAINMAIL_LEGGINGS,new Object[]{"leggings",12});
         itemEnchantTypeMap.put(Material.DIAMOND_LEGGINGS,new Object[]{"leggings",10});
         itemEnchantTypeMap.put(Material.GOLDEN_LEGGINGS,new Object[]{"leggings",25});
         itemEnchantTypeMap.put(Material.IRON_LEGGINGS,new Object[]{"leggings",9});
-        itemEnchantTypeMap.put(Material.NETHERITE_BOOTS,new Object[]{"boots",15});
         itemEnchantTypeMap.put(Material.CHAINMAIL_BOOTS,new Object[]{"boots",12});
         itemEnchantTypeMap.put(Material.DIAMOND_BOOTS,new Object[]{"boots",10});
         itemEnchantTypeMap.put(Material.GOLDEN_BOOTS,new Object[]{"boots",25});
         itemEnchantTypeMap.put(Material.IRON_BOOTS,new Object[]{"boots",9});
         itemEnchantTypeMap.put(Material.LEATHER_BOOTS,new Object[]{"boots",15});
+
+        if (mcVersion >= 1.16) {
+            itemEnchantTypeMap.put(Material.NETHERITE_SWORD, new Object[]{"sword", 15});
+            itemEnchantTypeMap.put(Material.NETHERITE_AXE, new Object[]{"tool", 15});
+            itemEnchantTypeMap.put(Material.NETHERITE_PICKAXE, new Object[]{"tool", 15});
+            itemEnchantTypeMap.put(Material.NETHERITE_SHOVEL, new Object[]{"tool", 15});
+            itemEnchantTypeMap.put(Material.NETHERITE_HELMET, new Object[]{"helmet", 15});
+            itemEnchantTypeMap.put(Material.NETHERITE_CHESTPLATE, new Object[]{"chestplate", 15});
+            itemEnchantTypeMap.put(Material.NETHERITE_LEGGINGS, new Object[]{"leggings", 15});
+            itemEnchantTypeMap.put(Material.NETHERITE_BOOTS, new Object[]{"boots", 15});
+        }
 
         enchantmentWeightMap.put(Enchantment.PROTECTION_ENVIRONMENTAL,10);
         enchantmentWeightMap.put(Enchantment.PROTECTION_FALL,5);

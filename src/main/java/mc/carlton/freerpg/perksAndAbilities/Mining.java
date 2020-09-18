@@ -367,15 +367,21 @@ public class Mining {
         if (veinOres.size() > maxSize-1) {
             return;
         }
-        for (int x = -1; x <= 1; x++) {
+        for (int x = -1; x <= 1; x++) { //These 3 for loops check a 3x3x3 cube around the block in question
             for (int y = -1; y <= 1; y++) {
                 for (int z = -1; z <= 1; z++) {
-                    if (x == 0 && y == 0 && z == 0) {
+                    if (x == 0 && y == 0 && z == 0) { //We can skip the 0,0,0 case because that is the block in question
                         continue;
                     }
                     Block b2 = b1.getRelative(x, y, z);
+                    int blockX = b2.getX();
+                    int blockY = b2.getY();
+                    int blockZ = b2.getZ();
+                    if (blockX == x1 && blockY == y1 && blockZ == z1) { //Makes sure the original block is never added to veinOres
+                        continue;
+                    }
                     if (b2.getType().equals(oreType)) {
-                        if (b2.getX() > x1 + searchCubeSize || b2.getX() < x1 - searchCubeSize || b2.getY() > y1 + searchCubeSize || b2.getY() < y1 - searchCubeSize || b2.getZ() > z1 + searchCubeSize || b2.getZ() < z1 - searchCubeSize) {
+                        if (blockX > x1 + searchCubeSize || blockX < x1 - searchCubeSize || blockY > y1 + searchCubeSize || blockY < y1 - searchCubeSize || blockZ > z1 + searchCubeSize || blockZ < z1 - searchCubeSize) {
                             break;
                         }
                         else if (!(veinOres.contains(b2))) {

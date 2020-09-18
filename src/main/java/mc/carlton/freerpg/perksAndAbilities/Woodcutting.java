@@ -136,7 +136,7 @@ public class Woodcutting {
         String endMessage = ChatColor.RED + ChatColor.BOLD.toString() + ">>>" + lang.getString("timber") + " " + lang.getString("ended") + "<<<";
         timers.abilityDurationTimer(skillName,duration,endMessage,coolDownEndMessage);
     }
-    public void getTimberLogs(Block b1, final int x1, final int z1) {
+    public void getTimberLogs(Block b1, final int x1, final int y1, final int z1) {
         if (!runMethods) {
             return;
         }
@@ -149,6 +149,12 @@ public class Woodcutting {
                         continue;
                     }
                     Block b2 = b1.getRelative(x, y, z);
+                    int blockX = b2.getX();
+                    int blockY = b2.getY();
+                    int blockZ = b2.getZ();
+                    if (blockX == x1 && blockY == y1 && blockZ == z1) { //Makes sure the original block is never added to timberLogs
+                        continue;
+                    }
                     if (logs.contains(b2.getType())) {
                         if (b2.getX() > x1 + searchSquareSize || b2.getX() < x1 - searchSquareSize || b2.getZ() > z1 + searchSquareSize || b2.getZ() < z1 - searchSquareSize) {
                             break;
@@ -156,7 +162,7 @@ public class Woodcutting {
                         else if (!(timberLogs.contains(b2))) {
                             if (BuildingCheck.canBuild(p, b2.getLocation())) {
                                 timberLogs.add(b2);
-                                this.getTimberLogs(b2, x1, z1);
+                                this.getTimberLogs(b2, x1, y1, z1);
                             }
                         }
                     }
@@ -177,7 +183,7 @@ public class Woodcutting {
         int doubleDropsLevel = (int)pStat.get(skillName).get(5);
         int timber_plus = (int)pStat.get(skillName).get(11);
         int able_axe = (int)pStat.get(skillName).get(13);
-        getTimberLogs(initialBlock,initialBlock.getX(),initialBlock.getZ());
+        getTimberLogs(initialBlock,initialBlock.getX(),initialBlock.getY(),initialBlock.getZ());
         int numLogs = timberLogs.size();
         ConfigLoad configLoad =new ConfigLoad();
         ArrayList<Integer> timberLimits = configLoad.getTimberBreakLimits();
@@ -427,8 +433,14 @@ public class Woodcutting {
                         continue;
                     }
                     Block b2 = b1.getRelative(x, y, z);
+                    int blockX = b2.getX();
+                    int blockY = b2.getY();
+                    int blockZ = b2.getZ();
+                    if (blockX == x1 && blockY == y1 && blockZ == z1) { //Makes sure the original block is never added to treeLeaves
+                        continue;
+                    }
                     if (b2.getType().equals(leafType)) {
-                        if (b2.getX() > x1 + searchCubeSize || b2.getX() < x1 - searchCubeSize || b2.getY() > y1 + searchCubeSize || b2.getY() < y1 - searchCubeSize || b2.getZ() > z1 + searchCubeSize || b2.getZ() < z1 - searchCubeSize) {
+                        if (blockX > x1 + searchCubeSize || blockX < x1 - searchCubeSize || blockY > y1 + searchCubeSize || blockY < y1 - searchCubeSize || blockZ > z1 + searchCubeSize || blockZ < z1 - searchCubeSize) {
                             break;
                         }
                         else if (!(treeLeaves.contains(b2))) {

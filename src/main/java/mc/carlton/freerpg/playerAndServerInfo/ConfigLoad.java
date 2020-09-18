@@ -32,6 +32,7 @@ public class ConfigLoad {
     static boolean getEXPFromEnchantingBottles;
     static boolean trackFewerBlocks;
     static boolean flamePickGiveXP;
+    static boolean shiftRightClickInvestAll;
     static Map<String,Double> specialMultiplier = new HashMap<>();
     static ArrayList<Integer> maxLevels = new ArrayList<>();
     static ArrayList<Integer> soulsInfo = new ArrayList<>();
@@ -85,11 +86,13 @@ public class ConfigLoad {
         flamePickGiveXP = advancedConfig.getBoolean("smelting.flamePickGiveMinecraftXP");
         List<String> veinMinerBlockStrings = advancedConfig.getStringList("mining.veinMinerBlocks");
         for (String matString : veinMinerBlockStrings) {
+            if (Material.matchMaterial(matString) != null)
             veinMinerBlocks.add(Material.matchMaterial(matString));
         }
         veinMinerMaxBreakSize = advancedConfig.getInt("mining.veinMinerMaximumBlocksBroken");
         timberBreakLimits.add(advancedConfig.getInt("woodcutting.timberMaxBreakInitial"));
         timberBreakLimits.add(advancedConfig.getInt("woodcutting.timberMaxBreakUpgraded"));
+        shiftRightClickInvestAll = advancedConfig.getBoolean("tokens.passiveShiftClickAndRightClickInvestAll");
 
         String[] labels = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
         maxLevels.add(Integer.valueOf(config.getString("leveling.maxLevel")));
@@ -357,5 +360,9 @@ public class ConfigLoad {
 
     public static Map<String, Integer> getAbilityCooldowns() {
         return abilityCooldowns;
+    }
+
+    public boolean isShiftRightClickInvestAll() {
+        return shiftRightClickInvestAll;
     }
 }

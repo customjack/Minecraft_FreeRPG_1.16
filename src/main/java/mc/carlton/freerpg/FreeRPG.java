@@ -22,6 +22,7 @@ import mc.carlton.freerpg.leaveAndJoin.PlayerLeave;
 import mc.carlton.freerpg.pistonEvents.PistonExtend;
 import mc.carlton.freerpg.pistonEvents.PistonRetract;
 import mc.carlton.freerpg.playerAndServerInfo.*;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -66,6 +67,11 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         //Check if the server uses world guard
         WorldGuardChecks CheckWorldGuardExistence = new WorldGuardChecks();
         CheckWorldGuardExistence.initializeWorldGuardPresent();
+
+        //Checks if the server has PlaceHolderAPI
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new FreeRPGPlaceHolders(this).register();
+        }
 
         //Initializes all "global" variables
         MinecraftVersion minecraftVersion = new MinecraftVersion();

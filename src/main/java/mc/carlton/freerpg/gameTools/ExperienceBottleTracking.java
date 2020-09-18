@@ -35,16 +35,17 @@ public class ExperienceBottleTracking {
     public boolean fromEnchantingBottle(Entity entity){ //Bug: False true for first exp picked up after throwing 2+(?) enchanting bottles and not collecting exp
         Location orbLoc = entity.getLocation();
         for (Location originLocation : trackedEXPOrbs.keySet()) {
-            if (originLocation.distance(orbLoc) <=  0.5) {
-                removeCloseOriginLocations(originLocation);
-                removeDeadEntities();
-                return true;
-            }
-            else if ( !(trackedEXPOrbs.get(originLocation) instanceof Boolean) ) {
-                if (entity.equals(trackedEXPOrbs.get(originLocation))) {
+            if (originLocation.getWorld().equals(orbLoc.getWorld())) {
+                if (originLocation.distance(orbLoc) <= 0.5) {
                     removeCloseOriginLocations(originLocation);
                     removeDeadEntities();
                     return true;
+                } else if (!(trackedEXPOrbs.get(originLocation) instanceof Boolean)) {
+                    if (entity.equals(trackedEXPOrbs.get(originLocation))) {
+                        removeCloseOriginLocations(originLocation);
+                        removeDeadEntities();
+                        return true;
+                    }
                 }
             }
         }

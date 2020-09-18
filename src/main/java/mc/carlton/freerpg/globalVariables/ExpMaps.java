@@ -104,6 +104,8 @@ public class ExpMaps {
         if (mcVersion >= 1.16) {
             woodcuttingEXP.put(Material.CRIMSON_STEM, expMap.get("breakCrimson_Stem"));
             woodcuttingEXP.put(Material.WARPED_STEM, expMap.get("breakWarped_Stem"));
+            woodcuttingEXP.put(Material.STRIPPED_CRIMSON_STEM, expMap.get("breakCrimson_Stem"));
+            woodcuttingEXP.put(Material.STRIPPED_WARPED_STEM, expMap.get("breakWarped_Stem"));
             woodcuttingEXP.put(Material.WARPED_PLANKS, expMap.get("breakCrimson_Planks"));
             woodcuttingEXP.put(Material.CRIMSON_PLANKS, expMap.get("breakWarped_Planks"));
         }

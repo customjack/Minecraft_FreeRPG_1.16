@@ -49,6 +49,7 @@ tokens:
   globalTokenToEXPbuff: 0.01 #The automatic conversion rate for global tokens to EXP multiplier boost when global tokens become useless
   passiveRightClickInvestment: 10
   passiveShiftClickInvestment: 100
+  passiveShiftClickAndRightClickInvestAll: true #Shift+RightClick invests all current tokens if true
 souls:
   startingSouls: 0
   refundCost: 250
@@ -185,7 +186,7 @@ woodcutting:
     breakWarped_Planks: 28
 mining:
   # All Blocks affected by the Vein Miner perk. Putting something like "DIRT" will break your server if maximum blocks broken is very high or -1.
-  veinMinerBlocks: [REDSTONE_ORE,NETHER_QUARTZ_ORE,LAPIS_ORE,IRON_ORE,GOLD_ORE,EMERALD_ORE,DIAMOND_ORE,COAL_ORE,GLOWSTONE]
+  veinMinerBlocks: [REDSTONE_ORE,NETHER_QUARTZ_ORE,LAPIS_ORE,IRON_ORE,GOLD_ORE,EMERALD_ORE,DIAMOND_ORE,COAL_ORE,GLOWSTONE,NETHER_GOLD_ORE,ANCIENT_DEBRIS,GILDED_BLACKSTONE]
   veinMinerMaximumBlocksBroken: 30 #Set to -1 for no limit (not recommended)
   expDrops:
     enableEXPDrops: true

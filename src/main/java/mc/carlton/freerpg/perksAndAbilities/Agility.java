@@ -151,6 +151,9 @@ public class Agility {
         }
         else {
             try {
+                if (p.isFlying()) {
+                    return;
+                }
                 long oldTime = playerSprintMap.get(p);
                 long newTime = (new java.util.Date()).getTime();
                 long timeSprint = newTime-oldTime;

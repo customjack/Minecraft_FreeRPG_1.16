@@ -274,16 +274,18 @@ public class BeastMastery {
                             HorseRiding data = new HorseRiding();
                             Location oldLocation = data.getOldLocation(p);
                             Location currentLocation = p.getLocation();
-                            int dx = oldLocation.getBlockX()-currentLocation.getBlockX();
-                            int dy = oldLocation.getBlockY()-currentLocation.getBlockY();
-                            int dz = oldLocation.getBlockZ()-currentLocation.getBlockZ();
-                            double distance = Math.sqrt(dx*dx + dy*dy + dz*dz);
-                            data.setPlayerLocationMap(p);
-                            if (distance > 5 && distance < 200) { //Moved far enough, but also not teleportation
-                                Block waterCheck1 = currentLocation.getBlock().getRelative(BlockFace.DOWN);
-                                Block waterCheck2 = currentLocation.getBlock();
-                                if (waterCheck1.getType() != Material.WATER && waterCheck2.getType() != Material.WATER) { //Prevents water afk machines
-                                    increaseStats.changeEXP(skillName,expMap.get("horseRiding_EXPperSecondMoving")*5);
+                            if (oldLocation.getWorld().equals(currentLocation.getWorld())) {
+                                int dx = oldLocation.getBlockX() - currentLocation.getBlockX();
+                                int dy = oldLocation.getBlockY() - currentLocation.getBlockY();
+                                int dz = oldLocation.getBlockZ() - currentLocation.getBlockZ();
+                                double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                                data.setPlayerLocationMap(p);
+                                if (distance > 5 && distance < 200) { //Moved far enough, but also not teleportation
+                                    Block waterCheck1 = currentLocation.getBlock().getRelative(BlockFace.DOWN);
+                                    Block waterCheck2 = currentLocation.getBlock();
+                                    if (waterCheck1.getType() != Material.WATER && waterCheck2.getType() != Material.WATER) { //Prevents water afk machines
+                                        increaseStats.changeEXP(skillName, expMap.get("horseRiding_EXPperSecondMoving") * 5);
+                                    }
                                 }
                             }
                         }

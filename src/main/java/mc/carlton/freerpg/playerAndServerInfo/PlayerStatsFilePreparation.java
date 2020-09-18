@@ -21,7 +21,10 @@ public class PlayerStatsFilePreparation {
     public void playJoinConditions(Player p) {
         String pName = p.getName();
         UUID pUUID = p.getUniqueId();
+        preparePlayerFile(pName,pUUID);
+    }
 
+    public void preparePlayerFile(String pName, UUID pUUID) {
         Date now = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
@@ -122,8 +125,14 @@ public class PlayerStatsFilePreparation {
                 if (!playerData.contains("general")) {
                     playerData.createSection("general");
                 }
-                if (!playerData.contains("general.username") || !p.getDisplayName().equals(pName) ) {
+                if (!playerData.contains("general.username")) {
                     playerData.set("general.username", pName);
+                }
+                else {
+                    String registeredName = playerData.getString("general.username");
+                    if (!registeredName.equalsIgnoreCase(pName)) {
+                        playerData.set("general.username", pName);
+                    }
                 }
                 addIfMissing("general.firstLogin","\"" + simpleDateFormat.format(now)+ "\"");
 
@@ -141,7 +150,7 @@ public class PlayerStatsFilePreparation {
 
                 //Global stats data
                 if (!playerData.contains("globalStats")) {
-                   playerData.createSection("globalStats");
+                    playerData.createSection("globalStats");
                 }
                 addIfMissing("globalStats.totalLevel",0);
                 addIfMissing("globalStats.globalTokens",0);
@@ -179,22 +188,22 @@ public class PlayerStatsFilePreparation {
                     if (!playerData.contains(labels[i] + "")) {
                         playerData.createSection(labels[i] + "");
                     }
-                        addIfMissing(labels[i] + ".level", 0);
-                        addIfMissing(labels[i] + ".experience", 0);
-                        addIfMissing(labels[i] + ".passiveTokens", 0);
-                        addIfMissing(labels[i] + ".skillTokens", 0);
-                        addIfMissing(labels[i] + ".passive1", 0);
-                        addIfMissing(labels[i] + ".passive2", 0);
-                        addIfMissing(labels[i] + ".passive3", 0);
-                        addIfMissing(labels[i] + ".skill_1a", 0);
-                        addIfMissing(labels[i] + ".skill_1b", 0);
-                        addIfMissing(labels[i] + ".skill_2a", 0);
-                        addIfMissing(labels[i] + ".skill_2b", 0);
-                        addIfMissing(labels[i] + ".skill_3a", 0);
-                        addIfMissing(labels[i] + ".skill_3b", 0);
-                        addIfMissing(labels[i] + ".skill_M", 0);
-                        addIfMissing(labels[i] + ".triggerAbilityToggle", 1);
-                        addIfMissing(labels[i] + ".showEXPBarToggle", 1);
+                    addIfMissing(labels[i] + ".level", 0);
+                    addIfMissing(labels[i] + ".experience", 0);
+                    addIfMissing(labels[i] + ".passiveTokens", 0);
+                    addIfMissing(labels[i] + ".skillTokens", 0);
+                    addIfMissing(labels[i] + ".passive1", 0);
+                    addIfMissing(labels[i] + ".passive2", 0);
+                    addIfMissing(labels[i] + ".passive3", 0);
+                    addIfMissing(labels[i] + ".skill_1a", 0);
+                    addIfMissing(labels[i] + ".skill_1b", 0);
+                    addIfMissing(labels[i] + ".skill_2a", 0);
+                    addIfMissing(labels[i] + ".skill_2b", 0);
+                    addIfMissing(labels[i] + ".skill_3a", 0);
+                    addIfMissing(labels[i] + ".skill_3b", 0);
+                    addIfMissing(labels[i] + ".skill_M", 0);
+                    addIfMissing(labels[i] + ".triggerAbilityToggle", 1);
+                    addIfMissing(labels[i] + ".showEXPBarToggle", 1);
                 }
 
                 playerData.save(f);

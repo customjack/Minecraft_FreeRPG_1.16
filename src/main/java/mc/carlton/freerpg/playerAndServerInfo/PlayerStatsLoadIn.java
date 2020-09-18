@@ -5,9 +5,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.graalvm.util.ObjectSizeEstimate;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.instrument.Instrumentation;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -132,7 +134,9 @@ public class PlayerStatsLoadIn {
             }
 
         }
-    return statsMap;
+
+        System.out.println();
+        return statsMap;
     }
     public void setPlayerStatsMap() throws IOException {
         PlayerStats pStatClass = new PlayerStats(p);

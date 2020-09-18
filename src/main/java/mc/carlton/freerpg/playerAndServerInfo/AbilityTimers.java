@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import javax.xml.stream.events.Namespace;
 import java.text.DecimalFormat;
@@ -28,9 +29,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AbilityTimers {
     private Player player;
     private UUID uuid;
-    static Map<UUID, Integer[]> cooldownTimes = new HashMap<UUID, Integer[]>();
-    static Map<UUID,Map<String,Integer>> cooldownTaskIds = new ConcurrentHashMap<>();
-    static Map<UUID,Map<String,Integer>> abilityDurationTaskIds = new ConcurrentHashMap<>();
+    static Map<UUID, Integer[]> cooldownTimes = new ConcurrentHashMap<>();
+    static Map<UUID,Integer> cooldownTaskIds = new ConcurrentHashMap<>();
+    static Map<UUID,Integer> abilityDurationTaskIds = new ConcurrentHashMap<>();
     static Map<UUID,Map<String,Integer>> abilityDurationTimes = new ConcurrentHashMap<>();
     static Map<UUID,Map<String,BossBar>> abilityDurationBossBar = new ConcurrentHashMap<>();
     ItemStack itemInHand;
@@ -148,28 +149,15 @@ public class AbilityTimers {
         }
         if (allZero) {
             cooldownTimes.remove(uuid);
-            cooldownTaskIds.remove(uuid);
             abilityDurationTimes.remove(uuid);
-            abilityDurationTaskIds.remove(uuid);
             abilityDurationBossBar.remove(uuid);
         }
     }
 
-    public void killCooldownTask(String skillName) {
-        int taskId = cooldownTaskIds.get(uuid).get(skillName);
+    public void killCooldownTask(UUID taskUUID) {
+        int taskId = cooldownTaskIds.get(taskUUID);
         Bukkit.getScheduler().cancelTask(taskId);
-    }
-
-    public void setCooldownTaskId(String skillName, int taskId) {
-        initializePlayerCooldownTaskIdMap();
-        Map<String,Integer> playerCooldownTasks = cooldownTaskIds.get(uuid);
-        playerCooldownTasks.put(skillName,taskId);
-        cooldownTaskIds.put(uuid,playerCooldownTasks);
-    }
-
-    public void initializePlayerCooldownTaskIdMap() {
-        Map<String,Integer> skillTaskId = new ConcurrentHashMap<>();
-        cooldownTaskIds.putIfAbsent(uuid,skillTaskId);
+        cooldownTaskIds.remove(taskUUID);
     }
 
     public void initializeCooldownTimer(String skillName) { //Used to make sure the cooldown if the player logs out before it starts
@@ -186,6 +174,7 @@ public class AbilityTimers {
             cooldown = (int) Math.round(cooldown*2.0/3.0);
         }
         setPlayerCooldownTime( skillName, cooldown);
+        UUID taskUUID = UUID.randomUUID();
         int taskId = new BukkitRunnable() {
             @Override
             public void run() {
@@ -199,14 +188,14 @@ public class AbilityTimers {
                         ActionBarMessages actionMessage = new ActionBarMessages(player);
                         actionMessage.sendMessage(cooldownCompleteMessage);
                     }
-                    killCooldownTask(skillName);
+                    killCooldownTask(taskUUID);
                 }
                 else {
                     setPlayerCooldownTime(skillName,timeRemaining);
                 }
             }
         }.runTaskTimer(plugin, 20,20).getTaskId();
-        setCooldownTaskId(skillName,taskId);
+        cooldownTaskIds.put(taskUUID,taskId);
     }
 
     public void abilityDurationTimer(String skillName,long duration,String endMessage,String cooldownEndMessage) {
@@ -214,6 +203,7 @@ public class AbilityTimers {
         initializeCooldownTimer(skillName);
         setAbilityDurationTime(skillName,(int) duration);
         int refreshTicks = 2;
+        UUID taskUUID = UUID.randomUUID();
         int taskID = new BukkitRunnable() { //The outer task is used for Ability time remaining bars and is accurate to 0.1 seconds on default
             @Override
             public void run() {
@@ -226,14 +216,14 @@ public class AbilityTimers {
                             endAbility(skillName,endMessage,cooldownEndMessage,false);
                         }
                     }.runTaskLater(plugin,timeRemaining);
-                    killDurationTask(skillName); //Kill this task as soon as the new task is scheduled
+                    killDurationTask(taskUUID); //Kill this task as soon as the new task is scheduled
                 }
                 else {
                     setAbilityDurationTime(skillName,timeRemaining);
                 }
             }
         }.runTaskTimer(plugin,refreshTicks,refreshTicks).getTaskId();
-        setAbilityDurationTaskIds(skillName,taskID);
+        abilityDurationTaskIds.put(taskUUID,taskID);
         AbilityLogoutTracker incaseLogout = new AbilityLogoutTracker(player);
         incaseLogout.setPlayerTask(player,skillName,taskID);
     }
@@ -244,6 +234,7 @@ public class AbilityTimers {
         initializeCooldownTimer(skillName);
         setAbilityDurationTime(skillName,(int) duration);
         int refreshTicks = 2;
+        UUID taskUUID = UUID.randomUUID();
         int taskID = new BukkitRunnable() { //The outer task is used for Ability time remaining bars and is accurate to 0.1 seconds on default
             @Override
             public void run() {
@@ -256,14 +247,14 @@ public class AbilityTimers {
                             endAbility(skillName, endMessage, cooldownEndMessage, key, itemHeldInHand, enchantLevel, levelReqLevel,false);
                         }
                     }.runTaskLater(plugin,timeRemaining);
-                    killDurationTask(skillName); //Kill this task as soon as the new task is scheduled
+                    killDurationTask(taskUUID); //Kill this task as soon as the new task is scheduled
                 }
                 else {
                     setAbilityDurationTime(skillName,timeRemaining);
                 }
             }
         }.runTaskTimer(plugin,refreshTicks,refreshTicks).getTaskId();
-        setAbilityDurationTaskIds(skillName,taskID);
+        abilityDurationTaskIds.put(taskUUID,taskID);
         AbilityLogoutTracker incaseLogout = new AbilityLogoutTracker(player);
         incaseLogout.setPlayerItem(player,skillName,key);
         incaseLogout.setPlayerTask(player,skillName,taskID);
@@ -323,21 +314,10 @@ public class AbilityTimers {
     }
 
 
-    public void setAbilityDurationTaskIds(String skillName, int taskId) {
-        initializeAbilityDurationTaskIds();
-        Map<String,Integer> playerAbilityDurationTaskIds = abilityDurationTaskIds.get(uuid);
-        playerAbilityDurationTaskIds.put(skillName,taskId);
-        abilityDurationTaskIds.put(uuid,playerAbilityDurationTaskIds);
-    }
-
-    public void initializeAbilityDurationTaskIds() {
-        Map<String,Integer> skillTaskId = new ConcurrentHashMap<>();
-        abilityDurationTaskIds.putIfAbsent(uuid,skillTaskId);
-    }
-
-    public void killDurationTask(String skillName) {
-        int taskId = abilityDurationTaskIds.get(uuid).get(skillName);
+    public void killDurationTask(UUID taskID) {
+        int taskId = abilityDurationTaskIds.get(taskID);
         Bukkit.getScheduler().cancelTask(taskId);
+        abilityDurationTaskIds.remove(taskID);
     }
 
     public void setAbilityDurationTime(String skillName, int duration) {

@@ -54,7 +54,7 @@ public class SkillsGUIclick implements Listener {
                 Map<String, ArrayList<Number>> pStatAll = statAll.get(uuid);
                 ArrayList<Number> pStats = pStatAll.get(skillName);
                 MaxPassiveLevels passiveMax = new MaxPassiveLevels();
-
+                int passiveTokens = pStats.get(2).intValue();
                 //Determine what they selected and what to do
                 if (e.getCurrentItem() != null) {
                     switch (e.getCurrentItem().getType()) {
@@ -156,21 +156,26 @@ public class SkillsGUIclick implements Listener {
                             p.sendMessage(ChatColor.RED + langManager.getString("maxedOutPerk"));
                             break;
                         case RED_DYE:
-                            if (pStats.get(2).intValue() > 0) {
+                            if (passiveTokens > 0) {
                                 ConfigLoad configLoad = new ConfigLoad();
                                 ArrayList<Double> tokensInfo = configLoad.getTokensInfo();
                                 int rightClickInvestment = (int) Math.round(tokensInfo.get(9));
                                 int shiftClickInvestment = (int) Math.round(tokensInfo.get(10));
-                                if (e.isShiftClick() && pStats.get(2).intValue() >= shiftClickInvestment) {
-                                    pStats.set(2, pStats.get(2).intValue() - shiftClickInvestment);
+                                if (e.isShiftClick() && e.isRightClick() && passiveTokens >= shiftClickInvestment && configLoad.isShiftRightClickInvestAll()) {
+                                    int investment = passiveTokens;
+                                    pStats.set(2, passiveTokens - investment);
+                                    pStats.set(4, pStats.get(4).intValue() + investment);
+                                }
+                                else if (e.isShiftClick() && passiveTokens >= shiftClickInvestment) {
+                                    pStats.set(2, passiveTokens - shiftClickInvestment);
                                     pStats.set(4, pStats.get(4).intValue() + shiftClickInvestment);
                                 }
-                                else if (e.isRightClick() && pStats.get(2).intValue() >= rightClickInvestment) {
-                                    pStats.set(2, pStats.get(2).intValue() - rightClickInvestment);
+                                else if (e.isRightClick() && passiveTokens >= rightClickInvestment) {
+                                    pStats.set(2, passiveTokens - rightClickInvestment);
                                     pStats.set(4, pStats.get(4).intValue() + rightClickInvestment);
                                 }
                                 else {
-                                    pStats.set(2, pStats.get(2).intValue() - 1);
+                                    pStats.set(2, passiveTokens - 1);
                                     pStats.set(4, pStats.get(4).intValue() + 1);
                                 }
                                 pStatAll.put(skillName, pStats);
@@ -184,25 +189,37 @@ public class SkillsGUIclick implements Listener {
                             break;
                         case GREEN_DYE:
                             int maxLevel2 = passiveMax.findMaxLevel(skillName,2);
-                            if (pStats.get(5).intValue() >= maxLevel2) {
+                            int currentLevel2 =pStats.get(5).intValue();
+                            if (currentLevel2 >= maxLevel2) {
                                 p.sendMessage(ChatColor.RED + langManager.getString("maxedOutPerk"));
                             }
                             else {
-                                if (pStats.get(2).intValue() > 0) {
+                                if (passiveTokens > 0) {
                                     ConfigLoad configLoad = new ConfigLoad();
                                     ArrayList<Double> tokensInfo = configLoad.getTokensInfo();
                                     int rightClickInvestment = (int) Math.round(tokensInfo.get(9));
                                     int shiftClickInvestment = (int) Math.round(tokensInfo.get(10));
-                                    if (e.isShiftClick() && pStats.get(2).intValue() >= shiftClickInvestment) {
-                                        pStats.set(2, pStats.get(2).intValue() - shiftClickInvestment);
+                                    if (e.isShiftClick() && e.isRightClick() && passiveTokens >= shiftClickInvestment && configLoad.isShiftRightClickInvestAll()) {
+                                        int investment = Math.min(maxLevel2 - currentLevel2,passiveTokens);
+                                        pStats.set(2, passiveTokens - investment);
+                                        pStats.set(5, pStats.get(5).intValue() + investment);
+                                    }
+                                    else if (e.isShiftClick() && passiveTokens >= shiftClickInvestment) {
+                                        if (currentLevel2 + shiftClickInvestment > maxLevel2 ) {
+                                            shiftClickInvestment = maxLevel2 - currentLevel2;
+                                        }
+                                        pStats.set(2, passiveTokens - shiftClickInvestment);
                                         pStats.set(5, pStats.get(5).intValue() + shiftClickInvestment);
                                     }
-                                    else if (e.isRightClick() && pStats.get(2).intValue() >= rightClickInvestment) {
-                                        pStats.set(2, pStats.get(2).intValue() - rightClickInvestment);
+                                    else if (e.isRightClick() && passiveTokens >= rightClickInvestment) {
+                                        if (currentLevel2 + rightClickInvestment > maxLevel2 ) {
+                                            rightClickInvestment = maxLevel2 - currentLevel2;
+                                        }
+                                        pStats.set(2, passiveTokens - rightClickInvestment);
                                         pStats.set(5, pStats.get(5).intValue() + rightClickInvestment);
                                     }
                                     else {
-                                        pStats.set(2, pStats.get(2).intValue() - 1);
+                                        pStats.set(2, passiveTokens - 1);
                                         pStats.set(5, pStats.get(5).intValue() + 1);
                                     }
                                     pStatAll.put(skillName, pStats);
@@ -216,25 +233,37 @@ public class SkillsGUIclick implements Listener {
                             break;
                         case BLUE_DYE:
                             int maxLevel3 = passiveMax.findMaxLevel(skillName,3);
-                            if (pStats.get(6).intValue() >= maxLevel3) {
+                            int currentLevel3 = pStats.get(6).intValue();
+                            if (currentLevel3 >= maxLevel3) {
                                 p.sendMessage(ChatColor.RED + langManager.getString("maxedOutPerk"));
                             }
                             else {
-                                if (pStats.get(2).intValue() > 0) {
+                                if (passiveTokens > 0) {
                                     ConfigLoad configLoad = new ConfigLoad();
                                     ArrayList<Double> tokensInfo = configLoad.getTokensInfo();
                                     int rightClickInvestment = (int) Math.round(tokensInfo.get(9));
                                     int shiftClickInvestment = (int) Math.round(tokensInfo.get(10));
-                                    if (e.isShiftClick() && pStats.get(2).intValue() >= shiftClickInvestment) {
-                                        pStats.set(2, pStats.get(2).intValue() - shiftClickInvestment);
+                                    if (e.isShiftClick() && e.isRightClick() && passiveTokens >= shiftClickInvestment && configLoad.isShiftRightClickInvestAll()) {
+                                        int investment = Math.min(maxLevel3 - currentLevel3,passiveTokens);
+                                        pStats.set(2, passiveTokens - investment);
+                                        pStats.set(6, pStats.get(6).intValue() + investment);
+                                    }
+                                    else if (e.isShiftClick() && passiveTokens >= shiftClickInvestment) {
+                                        if (currentLevel3 + shiftClickInvestment > maxLevel3 ) {
+                                            shiftClickInvestment = maxLevel3 - currentLevel3;
+                                        }
+                                        pStats.set(2, passiveTokens - shiftClickInvestment);
                                         pStats.set(6, pStats.get(6).intValue() + shiftClickInvestment);
                                     }
-                                    else if (e.isRightClick() && pStats.get(2).intValue() >= rightClickInvestment) {
-                                        pStats.set(2, pStats.get(2).intValue() - rightClickInvestment);
+                                    else if (e.isRightClick() && passiveTokens >= rightClickInvestment) {
+                                        if (currentLevel3 + rightClickInvestment > maxLevel3 ) {
+                                            rightClickInvestment = maxLevel3 - currentLevel3;
+                                        }
+                                        pStats.set(2, passiveTokens - rightClickInvestment);
                                         pStats.set(6, pStats.get(6).intValue() + rightClickInvestment);
                                     }
                                     else {
-                                        pStats.set(2, pStats.get(2).intValue() - 1);
+                                        pStats.set(2, passiveTokens - 1);
                                         pStats.set(6, pStats.get(6).intValue() + 1);
                                     }
                                     pStatAll.put(skillName, pStats);

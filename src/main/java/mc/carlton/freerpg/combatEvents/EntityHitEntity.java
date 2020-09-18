@@ -15,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -278,12 +279,20 @@ public class EntityHitEntity implements Listener {
             if (dodge) {
                 e.setCancelled(true);
             }
-            Defense defenseClass = new Defense(p);
-            double multiplier = defenseClass.hardBody();
-            e.setDamage(e.getDamage()*multiplier);
-            defenseClass.reactions(e.getFinalDamage());
-            defenseClass.giveHitEXP(e.getDamage());
+            if (e.getDamage() != 0 && !e.getCause().equals(EntityDamageEvent.DamageCause.HOT_FLOOR) &&
+                    !e.getCause().equals(EntityDamageEvent.DamageCause.STARVATION) &&
+                    !e.getCause().equals(EntityDamageEvent.DamageCause.VOID) &&
+                    !e.getCause().equals(EntityDamageEvent.DamageCause.SUFFOCATION) &&
+                    !e.getCause().equals(EntityDamageEvent.DamageCause.CUSTOM) &&
+                    !e.getCause().equals(EntityDamageEvent.DamageCause.CONTACT)
+                ) {
 
+                Defense defenseClass = new Defense(p);
+                double multiplier = defenseClass.hardBody();
+                e.setDamage(e.getDamage() * multiplier);
+                defenseClass.reactions(e.getFinalDamage());
+                defenseClass.giveHitEXP(e.getDamage());
+            }
         }
 
     }

@@ -24,6 +24,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.*;
@@ -767,6 +768,87 @@ public class FrpgCommands implements CommandExecutor {
 
             AbilityTimers abilityTimers = new AbilityTimers(target);
             abilityTimers.setPlayerCooldownTime(skillName,0);
+
+        }
+
+        //createFakePlayers
+        else if (args[0].equalsIgnoreCase("createFakePlayers") || args[0].equalsIgnoreCase("createFakeProfiles")) {
+            //Permission Check
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.createFakePlayers")) {
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
+                    return true;
+                }
+            }
+            //Argument length check
+            if (args.length != 2) {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg createFakePlayers [#]");
+                } else {
+                    System.out.println("Improper Arguments, try /frpg createFakePlayers [#]");
+                }
+                return true;
+            }
+
+            int numPlayers = 0;
+            try {
+                numPlayers = Integer.valueOf(args[1]);
+            }
+            catch (NumberFormatException e) {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg createFakePlayers [#]");
+                } else {
+                    System.out.println("Improper Arguments, try /frpg createFakePlayers [#]");
+                }
+                return true;
+            }
+
+            PlayerStatsFilePreparation playerStatsFilePreparation = new PlayerStatsFilePreparation();
+            Random rand = new Random();
+            for (int i = 0; i < numPlayers; i++) {
+                String fakeName = "FakePlayer" + rand.nextInt(100000);
+                UUID fakeUUID = UUID.fromString("badf"+UUID.randomUUID().toString().substring(4)); //"badf" hexadecimal identifier for "bad files"
+                playerStatsFilePreparation.preparePlayerFile(fakeName,fakeUUID);
+            }
+
+        }
+
+        //createFakePlayers
+        else if (args[0].equalsIgnoreCase("deleteFakePlayers") || args[0].equalsIgnoreCase("deleteFakeProfiles")) {
+            //Permission Check
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.createFakePlayers")) {
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
+                    return true;
+                }
+            }
+            //Argument length check
+            if (args.length != 1) {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg deleteFakePlayers");
+                } else {
+                    System.out.println("Improper Arguments, try /frpg deleteFakePlayers");
+                }
+                return true;
+            }
+
+            File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder(), File.separator + "PlayerDatabase");
+            File[] allUsers = userdata.listFiles();
+            for (File f : allUsers) {
+                if (f.getName().substring(0,4).equalsIgnoreCase("badf")) {
+                    f.delete();
+                }
+            }
 
         }
 

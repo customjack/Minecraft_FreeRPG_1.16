@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.gameTools;
 
 import mc.carlton.freerpg.FreeRPG;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -10,44 +11,30 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class EntityPickedUpItemStorage {
-    public static Map<LivingEntity, ArrayList<NamespacedKey>> entityPickedUpItemsMap = new ConcurrentHashMap<>();
+    public static Map<LivingEntity, HashSet<Material>> entityPickedUpItemsMap = new ConcurrentHashMap<>();
 
     public void addEntity(LivingEntity entity) {
-        entityPickedUpItemsMap.putIfAbsent(entity,new ArrayList<>());
+        entityPickedUpItemsMap.putIfAbsent(entity,new HashSet<>());
     }
     public void addItemKey(ItemStack itemStack,LivingEntity entity) {
-        Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        NamespacedKey key = new NamespacedKey(plugin,"frpg_"+ UUID.randomUUID().toString());
-        itemMeta.getPersistentDataContainer().set(key, PersistentDataType.STRING,"HeldItem");
-        itemStack.setItemMeta(itemMeta);
+        Material material = itemStack.getType();
         addEntity(entity);
-        ArrayList<NamespacedKey> currentkeys = entityPickedUpItemsMap.get(entity);
-        currentkeys.add(key);
-        entityPickedUpItemsMap.put(entity,currentkeys);
+        HashSet<Material> currentItemsPickedUp = entityPickedUpItemsMap.get(entity);
+        currentItemsPickedUp.add(material);
+        entityPickedUpItemsMap.put(entity,currentItemsPickedUp);
     }
 
     public boolean wasItemPickedUp(ItemStack itemStack, LivingEntity entity) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
         if (entityPickedUpItemsMap.containsKey(entity)) {
-            for (NamespacedKey key : entityPickedUpItemsMap.get(entity)) {
-                if (itemMeta.getPersistentDataContainer().has(key,PersistentDataType.STRING)) {
-                    itemMeta.getPersistentDataContainer().remove(key);
-                    itemStack.setItemMeta(itemMeta);
-                    return true;
-                }
+            if (entityPickedUpItemsMap.get(entity).contains(itemStack.getType())) {
+                return true;
             }
-            return true;
         }
-        else {
-            return false;
-        }
+        return false;
     }
     public void removeEntity(LivingEntity entity) {
         if (entityPickedUpItemsMap.containsKey(entity)) {

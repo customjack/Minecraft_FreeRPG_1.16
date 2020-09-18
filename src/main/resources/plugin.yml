@@ -4,7 +4,7 @@ main: mc.carlton.freerpg.FreeRPG
 api-version: 1.13
 authors: [JackCarlton]
 description: Made from Spite
-softdepend: [WorldGuard]
+softdepend: [WorldGuard,PlaceholderAPI]
 commands:
   frpg:
     description: Main FreeRPG command, type /frpg help for more info
@@ -275,3 +275,6 @@ permissions:
   freeRPG.resetCooldown:
     description: allows player to reset any other player's cooldown
     default: op
+  freeRPG.createFakePlayers:
+    description: allows player to use command to create any number of fake player files
+    default: false
