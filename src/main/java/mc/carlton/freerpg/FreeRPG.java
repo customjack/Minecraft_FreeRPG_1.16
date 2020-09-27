@@ -59,9 +59,13 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         ConfigLoad loadConfig = new ConfigLoad();
         loadConfig.initializeConfig();
 
-        //Makes SeverDataFolder
+        //Makes SeverData Folder
         ServerDataFolderPreparation serverDataFolderPreparation = new ServerDataFolderPreparation();
         serverDataFolderPreparation.initializeServerDataFolder();
+
+        //Makes PlayerData Folder
+        PlayerStatsFilePreparation playerStatsFilePreparation = new PlayerStatsFilePreparation();
+        playerStatsFilePreparation.initializePlayerDataBase();
 
         //Initialize Placed Blocks Map
         PlacedBlockFileManager placedBlockFileManager = new PlacedBlockFileManager();

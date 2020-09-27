@@ -1,10 +1,12 @@
 package mc.carlton.freerpg.serverFileManagement;
 
+import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.serverInfo.ConfigLoad;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 
 import java.io.File;
@@ -19,6 +21,14 @@ import java.util.UUID;
 public class PlayerStatsFilePreparation {
     FileConfiguration playerData;
 
+    public void initializePlayerDataBase() {
+        Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
+        File userdata = new File(plugin.getDataFolder(), File.separator + "PlayerDatabase");
+        if(!userdata.exists()){
+            userdata.mkdir();
+        }
+    }
+
     public void playJoinConditions(Player p) {
         String pName = p.getName();
         UUID pUUID = p.getUniqueId();
@@ -28,11 +38,11 @@ public class PlayerStatsFilePreparation {
     public void preparePlayerFile(String pName, UUID pUUID,boolean isRealLogin) {
         Date now = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
 
-        File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder(), File.separator + "PlayerDatabase");
-        if(!userdata.exists()){
-            userdata.mkdir();
-        }
+        File userdata = new File(plugin.getDataFolder(), File.separator + "PlayerDatabase");
+
+
         PlayerFilesManager playerFilesManager = new PlayerFilesManager();
         File f = playerFilesManager.getPlayerFile(pUUID);
         playerData = YamlConfiguration.loadConfiguration(f);
