@@ -66,10 +66,10 @@ public class ConfirmationGUIClick implements Listener {
                     case FISHING_ROD:
                         skillName = labels_0[4];
                         break;
-                    case BONE:
+                    case BOW:
                         skillName = labels_0[5];
                         break;
-                    case BOW:
+                    case BONE:
                         skillName = labels_0[6];
                         break;
                     case IRON_SWORD:
