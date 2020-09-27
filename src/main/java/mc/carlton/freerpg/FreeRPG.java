@@ -40,7 +40,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
+        //Plugin startup logic
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
 
         //Saves Resources if they aren't there.
