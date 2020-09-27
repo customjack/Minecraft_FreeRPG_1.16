@@ -1,4 +1,4 @@
-package mc.carlton.freerpg.playerAndServerInfo;
+package mc.carlton.freerpg.playerInfo;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
@@ -6,6 +6,7 @@ import mc.carlton.freerpg.gameTools.BossBarStorage;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.guiEvents.MaxPassiveLevels;
 import mc.carlton.freerpg.perksAndAbilities.Global;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -76,7 +77,6 @@ public class ChangeStats {
             return;
         }
         if (!skillName.equals("global")) {
-            Global globalClass = new Global(p);
             LanguageSelector lang = new LanguageSelector(p);
             String[] titles_0 = {lang.getString("digging"),lang.getString("woodcutting"),lang.getString("mining"),lang.getString("farming"),lang.getString("fishing"),lang.getString("archery"),lang.getString("beastMastery"),lang.getString("swordsmanship"),lang.getString("defense"),lang.getString("axeMastery"),lang.getString("repair"),lang.getString("agility"),lang.getString("alchemy"),lang.getString("smelting"),lang.getString("enchanting"),lang.getString("global")};
             String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting","global"};
@@ -97,7 +97,7 @@ public class ChangeStats {
 
             //Multipliers
             if (!isCommand) {
-                expChange = (int) Math.ceil(expChange * ((double)pGlobalStats.get(23) * multipliers.get(0)) * (multipliers.get(labels_arr.indexOf(skillName) + 1)) * (globalClass.expBoost(skillName))); //multiplies exp by all mutlipliers
+                expChange = (int) Math.ceil(expChange * getSkillMultiplier(skillName)); //multiplies exp by all mutlipliers
             }
 
             //Get Corresponding maxLevel
@@ -131,6 +131,7 @@ public class ChangeStats {
 
             // set new stats
             exp += expChange;
+            int totalEXP = (int)pGlobalStats.get(29)+expChange;
             int level = 0;
             int newTokens_S = 0;
             int newTokens_P = 0;
@@ -259,13 +260,31 @@ public class ChangeStats {
             }
 
             pStats.set(1, exp);
+            pGlobalStats.set(29,totalEXP);
 
             // Sets stats
             pStatAll.put(skillName, pStats);
             pStatAll.put("global", pGlobalStats);
             statAll.put(uuid, pStatAll);
             pStatClass.setData(statAll);
+
+            //Update Player Leaderboard
+            ConfigLoad configLoad = new ConfigLoad();
+            if (configLoad.isLeaderboardDyanmicUpdate()) {
+                Leaderboards leaderboards = new Leaderboards();
+                leaderboards.updatePlayerStats(p, skillName, exp, level); //Updates skill
+                leaderboards.updatePlayerStats(p, "global", globalLevel, totalEXP); //Updates Global
+            }
         }
+    }
+
+    public double getSkillMultiplier(String skillName) {
+        PlayerStats pStatClass = new PlayerStats(p);
+        ArrayList<Number> pGlobalStats = pStatClass.getPlayerData().get("global");
+        Global globalClass = new Global(p);
+        String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting","global"};
+        List<String> labels_arr = Arrays.asList(labels_0);
+        return ((double)pGlobalStats.get(23) * multipliers.get(0)) * (multipliers.get(labels_arr.indexOf(skillName) + 1)) * (globalClass.expBoost(skillName));
     }
 
     public void checkPlayerLevelEXPCurveConsistency() {
@@ -294,7 +313,6 @@ public class ChangeStats {
                 resetStat(label);
                 changeEXP(label, expTotalMap.get(label));
             }
-            setTotalLevel();
             LanguageSelector lang = new LanguageSelector(p);
             p.sendMessage(ChatColor.RED + lang.getString("statsUpdated"));
         }
@@ -459,7 +477,7 @@ public class ChangeStats {
         pStatClass.setData(statAll);
     }
 
-    public void setTotalLevel() {
+    public int setTotalLevel() {
         int totalLevel = 0;
         String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
         //Get stats
@@ -479,6 +497,30 @@ public class ChangeStats {
         statAll.put(uuid, pStatAll);
         pStatClass.setData(statAll);
 
+        return totalLevel;
+    }
+
+    public int setTotalExperience() {
+        int totalExperience = 0;
+        String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
+        //Get stats
+        PlayerStats pStatClass = new PlayerStats(p);
+        Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
+        Map<String, ArrayList<Number>> pStatAll = statAll.get(uuid);
+        ArrayList<Number> pStats = pStatAll.get("global");
+
+        //Calculate total Level
+        for (String skillName : labels_0) {
+            totalExperience += (int) pStatAll.get(skillName).get(1);
+        }
+
+        //set total Level
+        pStats.set(29,totalExperience);
+        pStatAll.put("global", pStats);
+        statAll.put(uuid, pStatAll);
+        pStatClass.setData(statAll);
+
+        return totalExperience;
     }
 
     public void setupBossBar(int exp, int oldLevel,int newLevel,String skillTitle,String skillName,int expChange){

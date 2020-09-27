@@ -2,14 +2,12 @@ package mc.carlton.freerpg.clickEvents;
 
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.perksAndAbilities.*;
-import mc.carlton.freerpg.playerAndServerInfo.AbilityTracker;
-import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
-import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
-import mc.carlton.freerpg.playerAndServerInfo.RunTimeData;
+import mc.carlton.freerpg.playerInfo.AbilityTracker;
+import mc.carlton.freerpg.playerInfo.PlayerStats;
+import mc.carlton.freerpg.serverInfo.RunTimeData;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;

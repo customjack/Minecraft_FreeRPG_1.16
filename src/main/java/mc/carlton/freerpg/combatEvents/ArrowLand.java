@@ -1,8 +1,6 @@
 package mc.carlton.freerpg.combatEvents;
 
 import mc.carlton.freerpg.perksAndAbilities.Archery;
-import mc.carlton.freerpg.playerAndServerInfo.WorldGuardChecks;
-import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

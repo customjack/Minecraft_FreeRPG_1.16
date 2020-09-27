@@ -1,10 +1,6 @@
-package mc.carlton.freerpg.playerAndServerInfo;
+package mc.carlton.freerpg.serverInfo;
 
 import mc.carlton.freerpg.FreeRPG;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;

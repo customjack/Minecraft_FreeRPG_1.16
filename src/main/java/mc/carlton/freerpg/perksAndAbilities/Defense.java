@@ -3,9 +3,12 @@ package mc.carlton.freerpg.perksAndAbilities;
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.EntityPickedUpItemStorage;
+import mc.carlton.freerpg.gameTools.ExpFarmTracker;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.globalVariables.EntityGroups;
-import mc.carlton.freerpg.playerAndServerInfo.*;
+import mc.carlton.freerpg.playerInfo.*;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverInfo.MinecraftVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -329,13 +332,15 @@ public class Defense {
 
     public void hearty() {
         if (!runMethods) {
-            double HP = Double.valueOf(plugin.getConfig().getString("general.playerBaseHP"));
+            ConfigLoad configLoad = new ConfigLoad();
+            double HP = configLoad.getBasePlayerHP();
             ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(HP);
             return;
         }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         int heartyLevel = (int) pStat.get(skillName).get(13);
-        double HP = Double.valueOf(plugin.getConfig().getString("general.playerBaseHP"));
+        ConfigLoad configLoad = new ConfigLoad();
+        double HP = configLoad.getBasePlayerHP();
         if (heartyLevel > 0) {
             if (((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() <= HP + 4.0) {
                 ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(HP + 4.0);
@@ -395,12 +400,13 @@ public class Defense {
         increaseStats.changeEXP(skillName, expMap.get("healerHealActivate"));
     }
 
-    public void giveHitEXP(double damage) {
+    public void giveHitEXP(double damage,Entity entity) {
         if (!runMethods) {
             return;
         }
-        increaseStats.changeEXP(skillName,expMap.get("takeDamage"));
-        increaseStats.changeEXP(skillName, (int) Math.round(damage * expMap.get("takeDamage_EXPperDamagePointDone")));
+        ExpFarmTracker expFarmTracker = new ExpFarmTracker();
+        double multiplier = expFarmTracker.getExpFarmAndSpawnerCombinedMultiplier(entity,skillName);
+        increaseStats.changeEXP(skillName, (int) Math.round((damage * expMap.get("takeDamage_EXPperDamagePointDone") + expMap.get("takeDamage"))*multiplier));
     }
 
     public void giveKillEXP(Entity entity) {

@@ -1,14 +1,12 @@
-package mc.carlton.freerpg.playerAndServerInfo;
+package mc.carlton.freerpg.serverFileManagement;
 
 import mc.carlton.freerpg.FreeRPG;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.FileUtil;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;

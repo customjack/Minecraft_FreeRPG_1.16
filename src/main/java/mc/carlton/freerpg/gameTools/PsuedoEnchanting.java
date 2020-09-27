@@ -1,17 +1,11 @@
 package mc.carlton.freerpg.gameTools;
 
-import com.google.gson.internal.$Gson$Preconditions;
-import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
-import mc.carlton.freerpg.playerAndServerInfo.MinecraftVersion;
+import mc.carlton.freerpg.serverInfo.MinecraftVersion;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 

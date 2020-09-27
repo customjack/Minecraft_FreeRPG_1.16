@@ -1,4 +1,4 @@
-package mc.carlton.freerpg.playerAndServerInfo;
+package mc.carlton.freerpg.serverInfo;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.CustomPotion;
@@ -15,11 +15,12 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 public class ConfigLoad {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
+    static int playerStatFilesLoadedInOnStartup;
+    static double basePlayerHP;
     static boolean saveRunTimeData;
     static boolean verboseRunTimeData;
     static int saveStatsTimer;
@@ -33,6 +34,12 @@ public class ConfigLoad {
     static boolean trackFewerBlocks;
     static boolean flamePickGiveXP;
     static boolean shiftRightClickInvestAll;
+    static int veinMinerMaxBreakSize;
+    static int superBaitCooldown;
+    static boolean leaderboardDyanmicUpdate;
+    static int leaderboardUpdateTimer;
+    static boolean preventUnsafeRepair;
+    static boolean preventUnsafeSalvage;
     static Map<String,Double> specialMultiplier = new HashMap<>();
     static ArrayList<Integer> maxLevels = new ArrayList<>();
     static ArrayList<Integer> soulsInfo = new ArrayList<>();
@@ -51,9 +58,10 @@ public class ConfigLoad {
     static Map<String,Map<String,Integer>> expMap = new HashMap<>();
     static Map<String,CustomRecipe> craftingRecipes = new HashMap<>();
     static HashSet<Material> veinMinerBlocks = new HashSet<>();
-    static int veinMinerMaxBreakSize;
     static ArrayList<Integer> timberBreakLimits = new ArrayList<>();
     static Map<String,Integer> abilityCooldowns = new HashMap<>();
+    static Map<String,Double> spawnerEXPMultipliers = new HashMap<>();
+    static Map<String,Double> mobFarmEXPMultipliers = new HashMap<>();
 
 
     public void initializeConfig(){
@@ -71,8 +79,14 @@ public class ConfigLoad {
         f.setWritable(true,false);
         FileConfiguration advancedConfig = YamlConfiguration.loadConfiguration(f1);
 
+        //Useful Label Groups:
+        String[] labels = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
+        String[] combatLabels = {"archery","beastMastery","swordsmanship","defense","axeMastery"};
+
         //General Config and Config that has no real category
         defaultLanguage = config.getString("general.defaultLanguage");
+        basePlayerHP = config.getDouble("general.playerBaseHP");
+        playerStatFilesLoadedInOnStartup = advancedConfig.getInt("general.playerStatFilesLoadedInOnStartup");
         saveRunTimeData = advancedConfig.getBoolean("general.saveRunTimeData");
         verboseRunTimeData = advancedConfig.getBoolean("general.verboseRunTimeData");
         saveStatsTimer = advancedConfig.getInt("general.saveStatsTimer");
@@ -82,8 +96,12 @@ public class ConfigLoad {
         allowHurtAnimals = advancedConfig.getBoolean("general.allowHurtAnimals");
         furnaceDeleteTimer = advancedConfig.getInt("smelting.removePlayerFurnacesTimer");
         trackFewerBlocks = advancedConfig.getBoolean("general.trackFewerBlocks");
+        leaderboardDyanmicUpdate = advancedConfig.getBoolean("general.leaderboardDynamicUpdate");
+        leaderboardUpdateTimer = advancedConfig.getInt("general.leaderboardUpdateTimer");
         getEXPFromEnchantingBottles = advancedConfig.getBoolean("enchanting.gainEXPfromEnchantingBottles");
         flamePickGiveXP = advancedConfig.getBoolean("smelting.flamePickGiveMinecraftXP");
+        preventUnsafeRepair = advancedConfig.getBoolean("repair.preventRepairOfItemsWithUnsafeEnchantments");
+        preventUnsafeSalvage = advancedConfig.getBoolean("repair.preventSalvageOfItemsWithUnsafeEnchantments");
         List<String> veinMinerBlockStrings = advancedConfig.getStringList("mining.veinMinerBlocks");
         for (String matString : veinMinerBlockStrings) {
             if (Material.matchMaterial(matString) != null)
@@ -93,8 +111,9 @@ public class ConfigLoad {
         timberBreakLimits.add(advancedConfig.getInt("woodcutting.timberMaxBreakInitial"));
         timberBreakLimits.add(advancedConfig.getInt("woodcutting.timberMaxBreakUpgraded"));
         shiftRightClickInvestAll = advancedConfig.getBoolean("tokens.passiveShiftClickAndRightClickInvestAll");
+        superBaitCooldown = advancedConfig.getInt("fishing.superBaitCooldown");
 
-        String[] labels = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
+        //Config that is skill dependant
         maxLevels.add(Integer.valueOf(config.getString("leveling.maxLevel")));
         allowedSkillsMap.put("global",config.getBoolean("global.skillAllowed"));
         for (String label : labels) {
@@ -103,8 +122,13 @@ public class ConfigLoad {
             abilityCooldowns.put(label,config.getInt(label+".abilityCooldown"));
             allowedSkillGainEXPMap.put(label,advancedConfig.getBoolean(label+".expDrops.enableEXPDrops"));
         }
-
         abilityCooldowns.put("fishingRob",config.getInt(".robCooldown"));
+
+        //config that is skill dependent (for not all skills)
+        for (String label : combatLabels) {
+            spawnerEXPMultipliers.put(label,advancedConfig.getDouble(label+".spawnerMobsEXPMultiplier"));
+            mobFarmEXPMultipliers.put(label,advancedConfig.getDouble(label+".mobFarmEXPMultiplier"));
+        }
 
         soulsInfo.add(Integer.valueOf(advancedConfig.getString("souls.startingSouls")));
         soulsInfo.add(Integer.valueOf(advancedConfig.getString("souls.refundCost")));
@@ -358,11 +382,47 @@ public class ConfigLoad {
         return timberBreakLimits;
     }
 
-    public static Map<String, Integer> getAbilityCooldowns() {
+    public Map<String, Integer> getAbilityCooldowns() {
         return abilityCooldowns;
     }
 
     public boolean isShiftRightClickInvestAll() {
         return shiftRightClickInvestAll;
+    }
+
+    public Map<String, Double> getMobFarmEXPMultipliers() {
+        return mobFarmEXPMultipliers;
+    }
+
+    public Map<String, Double> getSpawnerEXPMultipliers() {
+        return spawnerEXPMultipliers;
+    }
+
+    public int getPlayerStatFilesLoadedInOnStartup() {
+        return playerStatFilesLoadedInOnStartup;
+    }
+
+    public double getBasePlayerHP() {
+        return basePlayerHP;
+    }
+
+    public int getSuperBaitCooldown() {
+        return superBaitCooldown;
+    }
+
+    public int getLeaderboardUpdateTimer() {
+        return leaderboardUpdateTimer;
+    }
+
+    public boolean isLeaderboardDyanmicUpdate() {
+        return leaderboardDyanmicUpdate;
+    }
+
+    public boolean isPreventUnsafeRepair() {
+        return preventUnsafeRepair;
+    }
+
+    public boolean isPreventUnsafeSalvage() {
+        return preventUnsafeSalvage;
     }
 }

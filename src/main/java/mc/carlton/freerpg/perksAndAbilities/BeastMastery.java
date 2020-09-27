@@ -2,10 +2,12 @@ package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
+import mc.carlton.freerpg.gameTools.ExpFarmTracker;
 import mc.carlton.freerpg.gameTools.HorseRiding;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.globalVariables.EntityGroups;
-import mc.carlton.freerpg.playerAndServerInfo.*;
+import mc.carlton.freerpg.playerInfo.*;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
 import org.bukkit.*;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
@@ -315,6 +317,15 @@ public class BeastMastery {
         EntityGroups entityGroups = new EntityGroups();
         entityGroups.killEntity(entity,skillName,expMap,increaseStats);
 
+    }
+
+    public void giveHitEXP(double finalDamage,Entity entity) {
+        if (!runMethods) {
+            return;
+        }
+        ExpFarmTracker expFarmTracker = new ExpFarmTracker();
+        double multiplier = expFarmTracker.getExpFarmAndSpawnerCombinedMultiplier(entity,skillName);
+        increaseStats.changeEXP(skillName, (int) Math.round((finalDamage * expMap.get("dogDamage_EXPperDamagePointDone")+expMap.get("dogDealDamage"))*multiplier));
     }
 
 

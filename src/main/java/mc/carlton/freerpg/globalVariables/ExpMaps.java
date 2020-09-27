@@ -1,7 +1,7 @@
 package mc.carlton.freerpg.globalVariables;
 
-import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
-import mc.carlton.freerpg.playerAndServerInfo.MinecraftVersion;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverInfo.MinecraftVersion;
 import org.bukkit.Material;
 
 import java.util.HashMap;

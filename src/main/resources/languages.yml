@@ -623,6 +623,13 @@
       timeRemaining: Time Remaining
       numberOfAbilityTimersDisplayed: Number of Ability Timers Displayed
       commandDesc14: Resets the cooldown period for a skill to 0 seconds
+      commandDesc15: Looks up a player's FreeRPG stats
+      repairUnsafeEnchant: This item is too powerful to be repaired
+      salvageUnsafeEnchant: This item is too powerful to be salvaged
+      rank: Rank
+      stats: stats
+      outOf: out of
+      playerNotInLeaderboard: That player is not on any leaderboards
 
     huHU: #Translated by vERKE
       languageName: Magyar Nyelv
@@ -1215,6 +1222,13 @@
       timeRemaining: Time Remaining
       numberOfAbilityTimersDisplayed: Number of Ability Timers Displayed
       commandDesc14: Resets the cooldown period for a skill to 0 seconds
+      commandDesc15: Looks up a player's FreeRPG stats
+      repairUnsafeEnchant: This item is too powerful to be repaired
+      salvageUnsafeEnchant: This item is too powerful to be salvaged
+      rank: Rank
+      stats: stats
+      outOf: out of
+      playerNotInLeaderboard: That player is not on any leaderboards
 
     frFR: #Translated by Temuel
       languageName: Français
@@ -1802,6 +1816,13 @@
       timeRemaining: Time Remaining
       numberOfAbilityTimersDisplayed: Number of Ability Timers Displayed
       commandDesc14: Resets the cooldown period for a skill to 0 seconds
+      commandDesc15: Looks up a player's FreeRPG stats
+      repairUnsafeEnchant: This item is too powerful to be repaired
+      salvageUnsafeEnchant: This item is too powerful to be salvaged
+      rank: Rank
+      stats: stats
+      outOf: out of
+      playerNotInLeaderboard: That player is not on any leaderboards
 
     deDE: #Translated by KlenerTeufel96 of FruitLab.gg
       languageName: Deutsch
@@ -2391,6 +2412,13 @@
       timeRemaining: Time Remaining
       numberOfAbilityTimersDisplayed: Number of Ability Timers Displayed
       commandDesc14: Resets the cooldown period for a skill to 0 seconds
+      commandDesc15: Looks up a player's FreeRPG stats
+      repairUnsafeEnchant: This item is too powerful to be repaired
+      salvageUnsafeEnchant: This item is too powerful to be salvaged
+      rank: Rank
+      stats: stats
+      outOf: out of
+      playerNotInLeaderboard: That player is not on any leaderboards
 
     plPL: #Translated by QuarVey
       languageName: Polski
@@ -3007,6 +3035,13 @@
       timeRemaining: Time Remaining
       numberOfAbilityTimersDisplayed: Number of Ability Timers Displayed
       commandDesc14: Resets the cooldown period for a skill to 0 seconds
+      commandDesc15: Looks up a player's FreeRPG stats
+      repairUnsafeEnchant: This item is too powerful to be repaired
+      salvageUnsafeEnchant: This item is too powerful to be salvaged
+      rank: Rank
+      stats: stats
+      outOf: out of
+      playerNotInLeaderboard: That player is not on any leaderboards
 
     esCl: #Translated by PibeChileno
       languageName: Español
@@ -3693,6 +3728,13 @@
       timeRemaining: Time Remaining
       numberOfAbilityTimersDisplayed: Number of Ability Timers Displayed
       commandDesc14: Resets the cooldown period for a skill to 0 seconds
+      commandDesc15: Looks up a player's FreeRPG stats
+      repairUnsafeEnchant: This item is too powerful to be repaired
+      salvageUnsafeEnchant: This item is too powerful to be salvaged
+      rank: Rank
+      stats: stats
+      outOf: out of
+      playerNotInLeaderboard: That player is not on any leaderboards
 
     ruRU:
       languageName: Pусский Язык
@@ -4359,6 +4401,13 @@
       timeRemaining: Time Remaining
       numberOfAbilityTimersDisplayed: Number of Ability Timers Displayed
       commandDesc14: Resets the cooldown period for a skill to 0 seconds
+      commandDesc15: Looks up a player's FreeRPG stats
+      repairUnsafeEnchant: This item is too powerful to be repaired
+      salvageUnsafeEnchant: This item is too powerful to be salvaged
+      rank: Rank
+      stats: stats
+      outOf: out of
+      playerNotInLeaderboard: That player is not on any leaderboards
 
     custom:
       languageName: Čûşŧøm Ľãņğŭågè
@@ -4982,3 +5031,10 @@
       timeRemaining: Time Remaining
       numberOfAbilityTimersDisplayed: Number of Ability Timers Displayed
       commandDesc14: Resets the cooldown period for a skill to 0 seconds
+      commandDesc15: Looks up a player's FreeRPG stats
+      repairUnsafeEnchant: This item is too powerful to be repaired
+      salvageUnsafeEnchant: This item is too powerful to be salvaged
+      rank: Rank
+      stats: stats
+      outOf: out of
+      playerNotInLeaderboard: That player is not on any leaderboards

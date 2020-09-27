@@ -3,9 +3,9 @@ package mc.carlton.freerpg.guiEvents;
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.perksAndAbilities.*;
-import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
-import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
-import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
+import mc.carlton.freerpg.playerInfo.ChangeStats;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.playerInfo.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attributable;
@@ -127,9 +127,8 @@ public class ConfirmationGUIClick implements Listener {
                             agilityClass.gracefulFeetEnd();
                         }
                         else if (skillName.equals("defense") && (int) pStats.get(13) > 0) {
-                            Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-                            double HP = Double.valueOf(plugin.getConfig().getString("multipliers.globalMultiplier"));
-                            ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(HP);
+                            ConfigLoad configLoad = new ConfigLoad();
+                            ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(configLoad.getBasePlayerHP());
                         }
 
                         //Find Skill Tokens, Refund skill tokens, set skills to 0

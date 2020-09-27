@@ -5,7 +5,9 @@ import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.globalVariables.EntityGroups;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
-import mc.carlton.freerpg.playerAndServerInfo.*;
+import mc.carlton.freerpg.playerInfo.*;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverInfo.PlacedBlocksManager;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -580,7 +582,7 @@ public class Farming {
         if (!(entity instanceof Sheep)) {
             return;
         }
-        increaseStats.changeEXP(skillName,expMap.get("sheapSheep"));
+        increaseStats.changeEXP(skillName,expMap.get("shearSheep"));
         Location dropLoc = entity.getLocation().add(0,0.5,0);
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         DyeColor color = ((Sheep) entity).getColor();
@@ -680,7 +682,7 @@ public class Farming {
             return;
         }
         EntityGroups entityGroups = new EntityGroups();
-        List<EntityType> breedingAnimals = entityGroups.getBreedingAnimals();
+        List<EntityType> breedingAnimals = entityGroups.getBreedingAnimalsFarming();
         if (breedingAnimals.contains(entity.getType())) {
             increaseStats.changeEXP(skillName,expMap.get("breedFarmAnimal"));
         }

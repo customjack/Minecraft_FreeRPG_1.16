@@ -2,9 +2,11 @@ package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
+import mc.carlton.freerpg.gameTools.ExpFarmTracker;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.globalVariables.EntityGroups;
-import mc.carlton.freerpg.playerAndServerInfo.*;
+import mc.carlton.freerpg.playerInfo.*;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
@@ -271,12 +273,13 @@ public class Archery {
         }
     }
 
-    public void giveHitEXP(double finalDamage) {
+    public void giveHitEXP(double finalDamage,Entity entity) {
         if (!runMethods) {
             return;
         }
-        increaseStats.changeEXP(skillName,expMap.get("hitArrow"));
-        increaseStats.changeEXP(skillName, (int) Math.round(finalDamage *expMap.get("arrowDamage_EXPperDamagePointDone")));
+        ExpFarmTracker expFarmTracker = new ExpFarmTracker();
+        double multiplier = expFarmTracker.getExpFarmAndSpawnerCombinedMultiplier(entity,skillName);
+        increaseStats.changeEXP(skillName, (int) Math.round((finalDamage *expMap.get("arrowDamage_EXPperDamagePointDone")+expMap.get("hitArrow"))*multiplier));
     }
 
     public void giveKillEXP(Entity entity) {

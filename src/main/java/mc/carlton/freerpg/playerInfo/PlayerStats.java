@@ -1,12 +1,19 @@
-package mc.carlton.freerpg.playerAndServerInfo;
+package mc.carlton.freerpg.playerInfo;
 
+import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.leaveAndJoin.LoginProcedure;
+import mc.carlton.freerpg.serverFileManagement.PlayerStatsFilePreparation;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
 
 public class PlayerStats {
-    private Player player;
+    //This class is very messy, it would be better if I created a class to store all these stats for each player,
+    // And used a hashmap to assign that class to a UUID, but that would take major restructuring
     private UUID uuid;
     static Map<UUID, Map<String, ArrayList<Number>>> player_statsMap = new HashMap<UUID, Map<String, ArrayList<Number>>>();
     static Map<UUID,Number> player_LoginTime = new HashMap<>();
@@ -14,12 +21,16 @@ public class PlayerStats {
     static Map<UUID,String> player_language = new HashMap<>();
     static Map<UUID,Map<String,Integer>> playerSkillToggleEXPBar = new HashMap<>();
     static Map<UUID,Map<String,Integer>> playerSkillToggleAbility = new HashMap<>();
+    static Map<UUID,Boolean> playerAreStatsSaved = new HashMap<>();
 
     public PlayerStats(Player p) {
-        this.player = p;
-        this.uuid = player.getUniqueId();
+        this.uuid = p.getUniqueId();
+    }
+    public PlayerStats(UUID playerUUID) {
+        this.uuid = playerUUID;
     }
 
+    //Common boolean questions asked
     public boolean isPlayerRegistered() {
         if (player_statsMap.containsKey(uuid)) {
             return true;
@@ -29,28 +40,45 @@ public class PlayerStats {
         }
     }
 
-    public Map<String, ArrayList<Number>> getPlayerData() {
-        if (!player_statsMap.containsKey(uuid)) {
-            PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(player);
-            Map<String, ArrayList<Number>> playerStats0 = loadInPlayer.getPlayerStatsMap();
-            player_statsMap.put(uuid,playerStats0);
-        }
-        return player_statsMap.get(uuid);
-    }
-
+    //Getters and setters for entire playerbase map
     public void setData(Map<UUID, Map<String, ArrayList<Number>>> playerStatsMap) {
         this.player_statsMap = playerStatsMap;
     }
 
     public Map<UUID, Map<String, ArrayList<Number>>> getData() {
         if (!player_statsMap.containsKey(uuid)) {
-            PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(player);
+            PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(uuid);
             Map<String, ArrayList<Number>> playerStats0 = loadInPlayer.getPlayerStatsMap();
             player_statsMap.put(uuid,playerStats0);
         }
         return player_statsMap;
     }
 
+    //Getters and setters for single player stats
+    public Map<String, ArrayList<Number>> getPlayerData() {
+        if (!player_statsMap.containsKey(uuid)) {
+            PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(uuid);
+            Map<String, ArrayList<Number>> playerStats0 = loadInPlayer.getPlayerStatsMap();
+            player_statsMap.put(uuid,playerStats0);
+        }
+        return player_statsMap.get(uuid);
+    }
+
+    //Getters and setters for if they player's data has been saved
+    public void setPlayerAreStatsSaved(boolean areStatsSaved) {
+        playerAreStatsSaved.put(uuid,areStatsSaved);
+    }
+
+    public boolean arePlayerStatsSaved(){
+        if (playerAreStatsSaved.containsKey(uuid)){
+            return playerAreStatsSaved.get(uuid);
+        }
+        else {
+            return true;
+        }
+    }
+
+    //Getters and setters for player times
     public void addPlayerTimes(long loginTime,long playTime) {
         player_LoginTime.put(uuid,loginTime);
         player_playTime.put(uuid,playTime);
@@ -58,7 +86,7 @@ public class PlayerStats {
 
     public long getPlayerLoginTime() {
         if (!player_LoginTime.containsKey(uuid)) {
-            PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(player);
+            PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(uuid);
             long loginTime = loadInPlayer.getLoginTime();
             player_LoginTime.put(uuid,loginTime);
         }
@@ -66,19 +94,17 @@ public class PlayerStats {
     }
     public long getPlayerPlayTime() {
         if (!player_playTime.containsKey(uuid)) {
-            PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(player);
+            PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(uuid);
             long playTime = loadInPlayer.getPlayTime();
             player_playTime.put(uuid,playTime);
         }
         return (long) player_playTime.get(uuid);
     }
 
+    //Turns player play time to a string
     public String getPlayerPlayTimeString() {
-        long loginTime = getPlayerLoginTime();
-        long playTime = getPlayerPlayTime();
         String playTime_string = "";
-        long currentTime = Instant.now().getEpochSecond();
-        long newPlayTime = playTime + (currentTime-loginTime);
+        long newPlayTime = getNewPlayTime();
         int hours = (int) Math.floor(newPlayTime/3600.0);
         int minutes = (int) Math.floor( (newPlayTime-(hours*3600))/60.0 );
         int seconds =  (int) Math.floor((newPlayTime - (hours*3600) - (minutes*60)));
@@ -98,18 +124,28 @@ public class PlayerStats {
         return playTime_string;
     }
 
+    public long getNewPlayTime(){
+        long loginTime = getPlayerLoginTime();
+        long playTime = getPlayerPlayTime();
+        long currentTime = Instant.now().getEpochSecond();
+        long newPlayTime = playTime + (currentTime-loginTime);
+        return newPlayTime;
+    }
+
+    //Getters and setters for player language
     public void setPlayerLanguage(String language) {
         player_language.put(uuid,language);
     }
     public String getPlayerLanguage() {
         if (!player_language.containsKey(uuid)) {
-            PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(player);
+            PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(uuid);
             String language = loadInPlayer.getPlayerLanguage();
             player_language.put(uuid,language);
         }
         return player_language.get(uuid);
     }
 
+    //Getters and setters for toggle ability/exp bar
     public void addPlayerSkillToggleExpBar(Map<String,Integer> skillToggles){
         playerSkillToggleEXPBar.put(uuid,skillToggles);
     }
@@ -118,7 +154,7 @@ public class PlayerStats {
     }
     public Map<String,Integer> getSkillToggleExpBar(){
         if (!playerSkillToggleEXPBar.containsKey(uuid)) {
-            PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(player);
+            PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(uuid);
             Map<String,Integer> playerStats0 = loadInPlayer.getSkillExpBarToggles();
             playerSkillToggleEXPBar.put(uuid,playerStats0);
         }
@@ -126,13 +162,14 @@ public class PlayerStats {
     }
     public Map<String,Integer> getSkillToggleAbility(){
         if (!playerSkillToggleAbility.containsKey(uuid)) {
-            PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(player);
+            PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(uuid);
             Map<String,Integer> playerStats0 = loadInPlayer.getSkillAbilityToggles();
             playerSkillToggleAbility.put(uuid,playerStats0);
         }
         return playerSkillToggleAbility.get(uuid);
     }
 
+    //expbar/skillability boolean information
     public boolean isPlayerSkillExpBarOn(String skillName) {
         int expBarOn = getSkillToggleExpBar().get(skillName);
         if (expBarOn == 1) {
@@ -151,6 +188,8 @@ public class PlayerStats {
             return false;
         }
     }
+
+    //Methods to toggle expbar/skillability
     public void togglePlayerSkillExpBar(String skillName) {
         Map<String,Integer> playerSkillEXPBarMap = getSkillToggleExpBar();
         int expBarOn = playerSkillEXPBarMap.get(skillName);
@@ -175,6 +214,7 @@ public class PlayerStats {
     }
 
 
+    //Used to delete all player data from memory
     public void removePlayer() {
         player_statsMap.remove(uuid);
         player_LoginTime.remove(uuid);
@@ -182,6 +222,7 @@ public class PlayerStats {
         player_language.remove(uuid);
         playerSkillToggleEXPBar.remove(uuid);
         playerSkillToggleAbility.remove(uuid);
+        playerAreStatsSaved.remove(uuid);
     }
 
 }

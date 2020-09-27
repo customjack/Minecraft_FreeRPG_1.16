@@ -1,10 +1,10 @@
 package mc.carlton.freerpg.combatEvents;
 
 import mc.carlton.freerpg.perksAndAbilities.*;
-import mc.carlton.freerpg.playerAndServerInfo.AbilityLogoutTracker;
-import mc.carlton.freerpg.playerAndServerInfo.AbilityTracker;
-import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
-import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
+import mc.carlton.freerpg.playerInfo.AbilityLogoutTracker;
+import mc.carlton.freerpg.playerInfo.AbilityTracker;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.playerInfo.PlayerStats;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -7,8 +7,10 @@ import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
 import mc.carlton.freerpg.globalVariables.CraftingRecipes;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
-import mc.carlton.freerpg.perksAndAbilities.Agility;
-import mc.carlton.freerpg.playerAndServerInfo.*;
+import mc.carlton.freerpg.playerInfo.*;
+import mc.carlton.freerpg.serverFileManagement.PeriodicSaving;
+import mc.carlton.freerpg.serverFileManagement.PlayerStatsFilePreparation;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -22,11 +24,10 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class FrpgCommands implements CommandExecutor {
@@ -274,6 +275,8 @@ public class FrpgCommands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
 
+
+        // /frpg aka MainGUI
         if (args.length == 0) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
@@ -316,6 +319,7 @@ public class FrpgCommands implements CommandExecutor {
                 Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
 
                 //Set item positions and lore for all items in the GUI
+                Leaderboards leaderboards = new Leaderboards();
                 for (int i = 0; i < labels.length; i++) {
                     ItemStack item = menu_items[i];
                     ArrayList<String> lore_skills = new ArrayList<>();
@@ -327,18 +331,27 @@ public class FrpgCommands implements CommandExecutor {
                         }
                         int level = pStat.get(labels0[i]).get(0).intValue();
                         int EXP = pStat.get(labels0[i]).get(1).intValue();
-                        lore_skills.add(ChatColor.GRAY + lang.getString("level") + ": " + ChatColor.BLUE + String.valueOf(level));
-                        lore_skills.add(ChatColor.GRAY + lang.getString("experience") + ": " + ChatColor.BLUE + String.valueOf(EXP));
+                        int totalPlayers = leaderboards.getLeaderboardSize(labels0[i]);
+                        int rank = leaderboards.getLeaderboardPosition(p,labels0[i]);
+                        lore_skills.add(ChatColor.GRAY + lang.getString("level") + ": " + ChatColor.BLUE + String.format("%,d",level));
+                        lore_skills.add(ChatColor.GRAY + lang.getString("experience") + ": " + ChatColor.BLUE + String.format("%,d",EXP));
                         ChangeStats getEXP = new ChangeStats(p);
                         int nextEXP = getEXP.getEXPfromLevel(level+1);
                         int EXPtoNext = nextEXP - EXP;
-                        lore_skills.add(ChatColor.GRAY + lang.getString("expToLevel") + ": " + ChatColor.GREEN + String.valueOf(EXPtoNext));
+                        lore_skills.add(ChatColor.GRAY + lang.getString("expToLevel") + ": " + ChatColor.GREEN + String.format("%,d",EXPtoNext));
+                        lore_skills.add(ChatColor.GRAY + lang.getString("rank") +": " +ChatColor.WHITE+ChatColor.BOLD.toString() + "" + String.format("%,d",rank) + ChatColor.RESET + ChatColor.GRAY +" " + lang.getString("outOf")+ " "  + ChatColor.WHITE + String.format("%,d",totalPlayers));
+
 
                     }
                     else if (i==0) {
                         int globalTokens = (int) pStat.get(labels0[i]).get(1);
                         int totalLevel = pStat.get("global").get(0).intValue();
-                        lore_skills.add(ChatColor.GRAY + lang.getString("total") + " " + lang.getString("level") +": " + ChatColor.GOLD + String.valueOf(totalLevel));
+                        int totalExperience = (int) pStat.get("global").get(29);
+                        int totalPlayers = leaderboards.getLeaderboardSize("global");
+                        int rank = leaderboards.getLeaderboardPosition(p,"global");
+                        lore_skills.add(ChatColor.GRAY + lang.getString("total") + " " + lang.getString("level") +": " + ChatColor.GOLD + String.format("%,d",totalLevel));
+                        lore_skills.add(ChatColor.GRAY + lang.getString("total") + " " + lang.getString("exp") +": " + ChatColor.GOLD + String.format("%,d",totalExperience));
+                        lore_skills.add(ChatColor.GRAY + lang.getString("rank") +": " + ChatColor.WHITE+ChatColor.BOLD.toString()  + "" + String.format("%,d",rank) + ChatColor.RESET + ChatColor.GRAY +" " + lang.getString("outOf")+ " "  + ChatColor.WHITE + String.format("%,d",totalPlayers));
                         if (globalTokens > 0) {
                             item.addUnsafeEnchantment(Enchantment.DURABILITY,1);
                         }
@@ -373,10 +386,10 @@ public class FrpgCommands implements CommandExecutor {
                         ArrayList<String> lore = new ArrayList<>();
                         lore.add(ChatColor.GRAY + lang.getString("totalPlayTime")+ ": " + ChatColor.GOLD + playTimeString);
                         lore.add(ChatColor.GRAY + lang.getString("personalMultiplier")+": " + ChatColor.GOLD + String.valueOf(personalMultiplier)+"x");
-                        lore.add(ChatColor.GRAY + lang.getString("globalPassiveTitle0")+ ": " + ChatColor.GOLD + String.valueOf(gTokens));
-                        lore.add(ChatColor.GRAY + lang.getString("diggingPassiveTitle2")+": " + ChatColor.GOLD + String.valueOf(totTokens_S));
-                        lore.add(ChatColor.GRAY + lang.getString("diggingPassiveTitle0")+": " + ChatColor.GOLD + String.valueOf(totTokens_P));
-                        lore.add(ChatColor.GRAY + soulsString +": " + ChatColor.GOLD + String.valueOf(souls));
+                        lore.add(ChatColor.GRAY + lang.getString("globalPassiveTitle0")+ ": " + ChatColor.GOLD + String.format("%,d",gTokens));
+                        lore.add(ChatColor.GRAY + lang.getString("diggingPassiveTitle2")+": " + ChatColor.GOLD + String.format("%,d",totTokens_S));
+                        lore.add(ChatColor.GRAY + lang.getString("diggingPassiveTitle0")+": " + ChatColor.GOLD + String.format("%,d",totTokens_P));
+                        lore.add(ChatColor.GRAY + soulsString +": " + ChatColor.GOLD + String.format("%,d",souls));
                         meta.setLore(lore);
                     }
                     else if (indices[i] == 44) {
@@ -488,6 +501,8 @@ public class FrpgCommands implements CommandExecutor {
                             case 4:
                                 p.sendMessage(ChatColor.GOLD  + "/frpg resetCooldown ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() +" - " +
                                         ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc14"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg statLookup ["+lang.getString("playerName")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() +" - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc15"));
                             default:
                                 break;
                         }
@@ -512,7 +527,7 @@ public class FrpgCommands implements CommandExecutor {
                     Player p = (Player) sender;
                     if (p.hasPermission("saveStats")) {
                         PeriodicSaving saveAll = new PeriodicSaving();
-                        saveAll.saveAllStats();
+                        saveAll.saveAllStats(false);
                     }
                     else {
                         LanguageSelector lang = new LanguageSelector(p);
@@ -522,7 +537,7 @@ public class FrpgCommands implements CommandExecutor {
                 }
                 else {
                     PeriodicSaving saveAll = new PeriodicSaving();
-                    saveAll.saveAllStats();
+                    saveAll.saveAllStats(false);
                 }
             }
             else if (args.length == 2) {
@@ -655,11 +670,24 @@ public class FrpgCommands implements CommandExecutor {
                         return true;
                     }
                 }
-                String[] labels_0 = {"digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting","global"};
+                String[] labels_0 = {"digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting","global","playTime"};
                 List<String> labels_arr = Arrays.asList(labels_0);
                 if (labels_arr.contains(skillName)) {
-                    PlayerLeaderboard getStats = new PlayerLeaderboard();
-                    ArrayList<HeldStats> sortedStats = getStats.getLeaders(skillName);
+                    Leaderboards getStats = new Leaderboards();
+                    if (!getStats.isLeaderboardsLoaded()) {
+                        if (sender instanceof Player) {
+                            Player p = (Player) sender;
+                            LanguageSelector lang = new LanguageSelector(p);
+                            p.sendMessage(ChatColor.RED +"Leaderboard is not yet loaded, try again soon");
+                        } else {
+                            System.out.println("Leaderboard is not yet loaded, try again soon");
+                        }
+                    }
+                    if (skillName.equalsIgnoreCase("playTime")) {
+                        getStats.updatePlayerPlayTimes();
+                    }
+                    getStats.sortLeaderBoard(skillName);
+                    ArrayList<PlayerLeaderboardStat> sortedStats = getStats.getLeaderboard(skillName);
                     int totalPlayers = sortedStats.size();
                     int totalPages = (int) Math.ceil(totalPlayers / 10.0);
                     if (page > totalPages) {
@@ -669,14 +697,26 @@ public class FrpgCommands implements CommandExecutor {
                         Player p = (Player) sender;
                         if (p.hasPermission("freeRPG.leaderboard")) {
                             LanguageSelector lang = new LanguageSelector(p);
-                            String[] titles_0 = {lang.getString("digging"),lang.getString("woodcutting"),lang.getString("mining"),lang.getString("farming"),lang.getString("fishing"),lang.getString("archery"),lang.getString("beastMastery"),lang.getString("swordsmanship"),lang.getString("defense"),lang.getString("axeMastery"),lang.getString("repair"),lang.getString("agility"),lang.getString("alchemy"),lang.getString("smelting"),lang.getString("enchanting"),lang.getString("global")};
+                            String[] titles_0 = {lang.getString("digging"),lang.getString("woodcutting"),lang.getString("mining"),lang.getString("farming"),
+                                    lang.getString("fishing"),lang.getString("archery"),lang.getString("beastMastery"),lang.getString("swordsmanship"),
+                                    lang.getString("defense"),lang.getString("axeMastery"),lang.getString("repair"),lang.getString("agility"),lang.getString("alchemy"),
+                                    lang.getString("smelting"),lang.getString("enchanting"),lang.getString("global"),lang.getString("totalPlayTime")};
                             String skillTitle = titles_0[labels_arr.indexOf(skillName)];
-                            p.sendMessage(ChatColor.RED + "------| " + ChatColor.GREEN + ChatColor.BOLD.toString() + skillTitle + " "+lang.getString("leaderboard")+"" +
-                                    ChatColor.RESET + ChatColor.GREEN.toString() + " "+lang.getString("page")+" [" + Integer.toString(page) + "/" + Integer.toString(totalPages) + "]" +
-                                    ChatColor.RED.toString() + " |-----");
+                            p.sendMessage(ChatColor.AQUA + "------| " + ChatColor.WHITE + ChatColor.BOLD.toString() + skillTitle + " "+lang.getString("leaderboard")+"" +
+                                    ChatColor.RESET + ChatColor.WHITE.toString() + " "+lang.getString("page")+" [" + Integer.toString(page) + "/" + Integer.toString(totalPages) + "]" +
+                                    ChatColor.AQUA.toString() + " |-----");
                             for (int i = 10 * (page - 1); i < (int) Math.min(10 * page, totalPlayers); i++) {
-                                HeldStats info = sortedStats.get(i);
-                                p.sendMessage(ChatColor.GREEN + Integer.toString(i + 1) + ". " + ChatColor.YELLOW + info.get_pName() + " (" + ChatColor.BLUE + Integer.toString(info.get_level()) + ChatColor.YELLOW + ")");
+                                PlayerLeaderboardStat info = sortedStats.get(i);
+                                if (skillName.equalsIgnoreCase("global")) {
+                                    p.sendMessage(ChatColor.WHITE + Integer.toString(i + 1) + ". " + ChatColor.AQUA + info.get_pName() + ChatColor.WHITE.toString() + " - " + ChatColor.WHITE + String.format("%,d", info.get_sortedStat()) + ChatColor.WHITE + " (" + ChatColor.GRAY + String.format("%,d", info.get_stat2()) + ChatColor.WHITE + ")");
+                                }
+                                else if (skillName.equalsIgnoreCase("playTime")){
+                                    p.sendMessage(ChatColor.WHITE + Integer.toString(i + 1) + ". " + ChatColor.AQUA + info.get_pName() + ChatColor.WHITE.toString() + " - " + ChatColor.WHITE + info.get_playTimeString() );
+
+                                }
+                                else {
+                                    p.sendMessage(ChatColor.WHITE + Integer.toString(i + 1) + ". " + ChatColor.AQUA + info.get_pName() + ChatColor.WHITE.toString() + " - " + ChatColor.WHITE + String.format("%,d", info.get_stat2()) + ChatColor.WHITE + " (" + ChatColor.GRAY + String.format("%,d", info.get_sortedStat()) + ChatColor.WHITE + ")");
+                                }
                             }
                         } else {
                             LanguageSelector lang = new LanguageSelector(p);
@@ -687,8 +727,18 @@ public class FrpgCommands implements CommandExecutor {
                         String skillTitle = titles_0[labels_arr.indexOf(skillName)];
                         System.out.println("------| " + skillTitle + " Leaderboard" + " Page [" + Integer.toString(page) + "/" + Integer.toString(totalPages) + "]" + " |-----");
                         for (int i = 10 * (page - 1); i < (int) Math.min(10 * page, totalPlayers); i++) {
-                            HeldStats info = sortedStats.get(i);
-                            System.out.println(Integer.toString(i + 1) + ". " + info.get_pName() + " (" + Integer.toString(info.get_level()) + ")");
+                            PlayerLeaderboardStat info = sortedStats.get(i);
+                            if (skillName.equalsIgnoreCase("global")) {
+                                System.out.println(Integer.toString(i + 1) + ". " + info.get_pName() + " - " + Integer.toString((int)info.get_sortedStat()) + " (" + info.get_stat2() + ")");
+                            }
+                            else if (skillName.equalsIgnoreCase("playTime")) {
+                                System.out.println(Integer.toString(i + 1) + ". " + info.get_pName() + " - " + info.get_playTimeString());
+
+                            }
+                            else {
+                                System.out.println(Integer.toString(i + 1) + ". " + info.get_pName() + " - " + Integer.toString((int)info.get_stat2()) + " (" + info.get_sortedStat() + ")");
+                            }
+
                         }
                     }
                 } else {
@@ -719,6 +769,111 @@ public class FrpgCommands implements CommandExecutor {
                     System.out.println("Improper Arguments, try /frpg statLeaders [skillName] [(Optional) page]");
                 }
             }
+        }
+
+        //Stat Lookup
+        else if (args[0].equalsIgnoreCase("statLookup") || args[0].equalsIgnoreCase("lookupStats") || args[0].equalsIgnoreCase("stats")) {
+            //Permission Check
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.statLookup")) {
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
+                    return true;
+                }
+            }
+            if (args.length == 1) {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    p.performCommand("frpg statLookup " + p.getName());
+                }
+                else {
+                    System.out.println("Improper Arguments, try /frpg statLookup [playerName]");
+                }
+            }
+            else if (args.length == 2) {
+                String playerName = args[1];
+                Leaderboards leaderboards = new Leaderboards();
+                if (!leaderboards.isPlayerOnLeaderboards(playerName)) {
+                    if (sender instanceof Player) {
+                        Player p = (Player) sender;
+                        LanguageSelector lang = new LanguageSelector(p);
+                        p.sendMessage(ChatColor.RED + lang.getString("playerNotInLeaderboard"));
+                    } else {
+                        System.out.println("That player is not on any leaderboards");
+                    }
+                    return true;
+                }
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    LanguageSelector lang = new LanguageSelector(p);
+                    List<String> leaderboardNames = leaderboards.getLeaderboardNames();
+                    p.sendMessage(ChatColor.AQUA + "--------| " + ChatColor.WHITE + ChatColor.BOLD.toString() + playerName + ChatColor.RESET + ChatColor.WHITE.toString() + " " + lang.getString("stats") +
+                            ChatColor.AQUA.toString() + " |-------");
+                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                    for (String leaderboardName : leaderboardNames) {
+                        int rank = leaderboards.getLeaderboardPosition(playerName, leaderboardName);
+                        PlayerLeaderboardStat playerStat = leaderboards.getPlayerStat(playerName, leaderboardName);
+                        String displayedStat;
+                        String displayTitle;
+                        String rankString = stringsAndOtherData.rankToString(rank);
+                        if (rankString.equals("1st")) {
+                            rankString = ChatColor.YELLOW + rankString;
+                        } else if (rankString.equals("2nd")) {
+                            rankString = ChatColor.WHITE + rankString;
+                        } else if (rankString.equals("3rd")) {
+                            rankString = ChatColor.GOLD + rankString;
+                        } else {
+                            rankString = ChatColor.GRAY + rankString;
+                        }
+                        if (leaderboardName.equalsIgnoreCase("playTime")) {
+                            displayedStat = playerStat.get_playTimeString();
+                            displayTitle = "Play Time";
+                        } else if (leaderboardName.equalsIgnoreCase("global")) {
+                            displayedStat = String.format("%,d", playerStat.get_sortedStat());
+                            displayTitle = "Global Level";
+                        } else {
+                            displayedStat = String.format("%,d", playerStat.get_stat2());
+                            displayTitle = stringsAndOtherData.camelCaseToTitle(leaderboardName);
+                        }
+                        p.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + displayTitle + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                ChatColor.WHITE + displayedStat + " (" + rankString + ChatColor.WHITE + ")");
+                    }
+
+                } else {
+                    List<String> leaderboardNames = leaderboards.getLeaderboardNames();
+                    System.out.println("--------| " + playerName + " stats |-------");
+                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                    for (String leaderboardName : leaderboardNames) {
+                        int rank = leaderboards.getLeaderboardPosition(playerName, leaderboardName);
+                        PlayerLeaderboardStat playerStat = leaderboards.getPlayerStat(playerName, leaderboardName);
+                        String displayedStat;
+                        String displayTitle;
+                        String rankString = stringsAndOtherData.rankToString(rank);
+                        if (leaderboardName.equalsIgnoreCase("playTime")) {
+                            displayedStat = playerStat.get_playTimeString();
+                            displayTitle = "Play Time";
+                        } else if (leaderboardName.equalsIgnoreCase("global")) {
+                            displayedStat = String.format("%,d", playerStat.get_sortedStat());
+                            displayTitle = "Global Level";
+                        } else {
+                            displayedStat = String.format("%,d", playerStat.get_stat2());
+                            displayTitle = stringsAndOtherData.camelCaseToTitle(leaderboardName);
+                        }
+                        System.out.println(displayTitle  + " - " + displayedStat + " (" + rankString +")");
+                    }
+                }
+            }
+            else {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg resetCooldown ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"]");
+                } else {
+                    System.out.println("Improper Arguments, try /frpg statLookup [playerName]");
+                }
+            }
+            return true;
         }
 
         //CooldownReset
@@ -814,13 +969,13 @@ public class FrpgCommands implements CommandExecutor {
             for (int i = 0; i < numPlayers; i++) {
                 String fakeName = "FakePlayer" + rand.nextInt(100000);
                 UUID fakeUUID = UUID.fromString("badf"+UUID.randomUUID().toString().substring(4)); //"badf" hexadecimal identifier for "bad files"
-                playerStatsFilePreparation.preparePlayerFile(fakeName,fakeUUID);
+                playerStatsFilePreparation.preparePlayerFile(fakeName,fakeUUID,false);
             }
 
         }
 
-        //createFakePlayers
-        else if (args[0].equalsIgnoreCase("deleteFakePlayers") || args[0].equalsIgnoreCase("deleteFakeProfiles")) {
+        //removeFakePlayers
+        else if (args[0].equalsIgnoreCase("deleteFakePlayers") || args[0].equalsIgnoreCase("deleteFakeProfiles") ||  args[0].equalsIgnoreCase("removeFakePlayers") ||  args[0].equalsIgnoreCase("removeFakeProfiles")) {
             //Permission Check
             if (sender instanceof Player) {
                 Player p = (Player) sender;
@@ -849,6 +1004,56 @@ public class FrpgCommands implements CommandExecutor {
                     f.delete();
                 }
             }
+
+        }
+
+        //Save FRPG Data
+        else if (args[0].equalsIgnoreCase("thoroughSave")) {
+            //Permission Check
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.saveStats")) {
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
+                    return true;
+                }
+            }
+            //Argument length check
+            if (args.length != 1) {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg save");
+                } else {
+                    System.out.println("Improper Arguments, try /frpg save");
+                }
+                return true;
+            }
+
+            PeriodicSaving periodicSaving = new PeriodicSaving();
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    periodicSaving.saveAllStats(true);
+                }
+            }.runTaskAsynchronously(plugin);
+
+        }
+
+        //Load in all players
+        else if (args[0].equalsIgnoreCase("loadInAllPlayerFiles") || args[0].equalsIgnoreCase("loadInPlayerFiles")) {
+            //Permission Check
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
+                if (!p.hasPermission("freeRPG.saveData")) {
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
+                    return true;
+                }
+            }
+
+            OfflinePlayerStatLoadIn offlinePlayerStatLoadIn = new OfflinePlayerStatLoadIn();
+            offlinePlayerStatLoadIn.loadInAllOfflinePlayers();
 
         }
 
@@ -892,6 +1097,7 @@ public class FrpgCommands implements CommandExecutor {
                             }
                             increaseStats.changeEXP(skillName, exp);
                             increaseStats.setTotalLevel();
+                            increaseStats.setTotalExperience();
                         } else {
                             p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
                         }
@@ -904,6 +1110,7 @@ public class FrpgCommands implements CommandExecutor {
                         }
                         increaseStats.changeEXP(skillName, exp);
                         increaseStats.setTotalLevel();
+                        increaseStats.setTotalExperience();
                     }
                 }
                 else {
@@ -982,6 +1189,7 @@ public class FrpgCommands implements CommandExecutor {
                             }
                             increaseStats.changeEXP(skillName,exp-currentExp+1);
                             increaseStats.setTotalLevel();
+                            increaseStats.setTotalExperience();
                         } else {
                             LanguageSelector lang = new LanguageSelector(p);
                             p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
@@ -999,6 +1207,7 @@ public class FrpgCommands implements CommandExecutor {
                         }
                         increaseStats.changeEXP(skillName,exp-currentExp+1);
                         increaseStats.setTotalLevel();
+                        increaseStats.setTotalExperience();
                     }
                 }
                 else {

@@ -28,16 +28,28 @@ general:
   allowHurtAnimals: true #Set ot false to disable skills form activating on Animals
   saveStatsTimer: 900 #Time (in seconds) between each time the server saves all player stats
   saveRunTimeData: false #Logs some run time information in /.../FreeRPG/RunTimes
-  verboseRunTimeData: false #Logs additional run time information /.../FreeRPG/RunTimes
+  verboseRunTimeData: false #Logs additional run time information /.../FreeRPG/RunTimes, will do nothing unless saveRunTimeData = true
   trackFewerBlocks: false #Reduces the number of blocks tracked in blockLocations.dat to a few essential blocks
-  autoUpdateConfig: true #Disables config.yml automatically updating when it is missing information. NOT RECOMMEND TO CHANGE
+  autoUpdateConfig: true #Disables config.yml automatically updating when it is missing information. NOT RECOMMENDED TO CHANGE
   autoUpdateLanguages: true #Disables languages.yml automatically updating when it is missing information. NOT RECOMMENDED TO CHANGE
+  leaderboardDynamicUpdate: true #Updates leaderboard every time it is requested. Set this to false if you see performance issues.
+  leaderboardUpdateTimer: 600  #Time (in seconds) of how often leaderboards update (will do nothing unless leaderboardDynamicUpdate = false)
+  # Let playerStatFilesLoadedInOnStartup = n
+  # Your server will load in at most n player files asynchronously into memory at start-up. These are the last n people to log out of the server (or just random people before the list is created).
+  # If your server has less than n player files, ALL of the files will be loaded in on start-up asynchronously
+  # Loading in many players may help with performance issues if your server has high frequency of logins
+  # The cost is RAM, each player takes up <= 10KB of ram, so loading in the default (100) players will cost <= 1MB of server RAM that will only be used once the player logs on
+  playerStatFilesLoadedInOnStartup: 100
 tokens:
   #For any option with "per" in the name:
-  #If set to a decimal (ex. 0.5), the server will reward the player every x levels.
-  #Example:
-  # levelsPerPassiveToken: = .667
-  # means the player will get +1 passive token at level 1, +2 passive tokens at level 2, +1 passive token at level 3, and so on...
+  # If set to a decimal (ex. x = 0.4), the server will give the player t = floor(level/x) - floor((oldLevel)/x) tokens
+  # In other words,the player will get 1/x tokens per level ON AVERAGE
+  #Example 1:
+  # levelsPerPassiveToken: = .666
+  # Level from 0 to 1 => t = floor(1/.666) - floor(0/.666) = 1 - 0 = 1 token rewarded at leveling 0 -> 1
+  # Level from 1 to 2 => t = floor(2/.666) - floor(1/.666) = 3 - 1 = 2 tokens rewarded from leveling 1 -> 2
+  # Level from 30 to 100 => t = floor(100/.666) - floor(30/.666) = 150 - 45 = 105
+  # As you can see, this is identical to getting 1.5 tokens per level on average, which is the value of 1/x
   automaticPassiveUpgradesPerLevel: 1.0
   levelsPerPassiveToken: 1.0
   levelPerSkillToken: 100.0
@@ -55,7 +67,7 @@ souls:
   refundCost: 250
 leveling:
   # Please use this interactive graph to visualize the effect of each parameter:
-  #  https://www.desmos.com/calculator/wmg69smflt
+  #  https://www.desmos.com/calculator/cpphmtzhw9
   exponentialGrowthFactor: 1.00282543
   exponentialReferenceLevel: 1000
   exponentialReferenceEXP: 1.0E7
@@ -230,7 +242,7 @@ farming:
     useBonemeal: 25
     useComposter: 75 #Rewarded when composter level rises
     maximizeComposter: 100 #Rewarded when composter becomes full
-    sheapSheep: 125
+    shearSheep: 125
     milkAnimal: 125
     breedFarmAnimal: 150
     killSheep: 100
@@ -288,6 +300,7 @@ farming:
 fishing:
   superBaitEXPMultiplier: 1.0 #EXP nerf when using the Super Bait skill
   robCooldown: 10 #Time in seconds a player must wait between using rob twice
+  superBaitCooldown: 5 #Numbr of Ticks (0.05 s) in between super bait uses. Prevents auto-clicking the skill
   drops:
     #Tier chances are fairly complicated, but as a rule of thumb, their sum should not exceed 0.5
     tier1_baseChance: 0.045
@@ -411,11 +424,14 @@ fishing:
     robWitch: 300
     robShulker: 300
 archery:
+  spawnerMobsEXPMultiplier: 1.0 #Nerfs EXP recieved from mobs that spawned from a spawner
+  #mobFarmEXPMutliplier is circumventable as it relies on mob density. It does stack with spawnerMobsEXPMultiplier
+  mobFarmEXPMultiplier: 0.2  #Nerfs EXP recieved from high density mob grinders (Mob grinders are determined by mob density around mob in question)
   expDrops:
     enableEXPDrops: true
     explosiveArrowEXP: 200
     hitArrow: 20
-    arrowDamage_EXPperDamagePointDone: 25
+    arrowDamage_EXPperDamagePointDone: 16
     killBat: 15
     killCat: 25
     killChicken: 30
@@ -486,9 +502,13 @@ archery:
     killGiant: 125
     killAnythingElse: 30 #If you are using 1.15 this is the value used for zombie pigmen
 beastMastery:
+  spawnerMobsEXPMultiplier: 1.0 #Nerfs EXP recieved from mobs that spawned from a spawner
+  #mobFarmEXPMutliplier is circumventable as it relies on mob density. It does stack with spawnerMobsEXPMultiplier
+  mobFarmEXPMultiplier: 0.2  #Nerfs EXP recieved from high density mob grinders (Mob grinders are determined by mob density around mob in question)
   expDrops:
     enableEXPDrops: true
-    dogDamage_EXPperDamagePointDone: 80
+    dogDealDamage: 50
+    dogDamage_EXPperDamagePointDone: 40
     tameHorse: 1500
     tameWolf: 1600
     tameCat: 1400
@@ -566,12 +586,15 @@ beastMastery:
     killGiant: 750
     killAnythingElse: 300 #If you are using 1.15 this is the value used for zombie pigmen
 swordsmanship:
+  spawnerMobsEXPMultiplier: 1.0 #Nerfs EXP recieved from mobs that spawned from a spawner
+  #mobFarmEXPMutliplier is circumventable as it relies on mob density. It does stack with spawnerMobsEXPMultiplier
+  mobFarmEXPMultiplier: 0.2  #Nerfs EXP recieved from high density mob grinders (Mob grinders are determined by mob density around mob in question)
   expDrops:
     dealDamage: 15
-    dealDamage_EXPperDamagePointDone: 20
+    dealDamage_EXPperDamagePointDone: 12
     thirstForBloodActivate: 50
     doubleHitActivate: 75
-    doubleHit_EXPperDamagePointDone: 15
+    doubleHit_EXPperDamagePointDone: 8
     enableEXPDrops: true
     killBat: 15
     killCat: 25
@@ -643,10 +666,13 @@ swordsmanship:
     killGiant: 125
     killAnythingElse: 30 #If you are using 1.15 this is the value used for zombie pigmen
 defense:
+  spawnerMobsEXPMultiplier: 1.0 #Nerfs EXP recieved from mobs that spawned from a spawner
+  #mobFarmEXPMutliplier is circumventable as it relies on mob density. In other words, it's not surefire but should not hurt normal EXP gain
+  mobFarmEXPMultiplier: 0.2  #Nerfs EXP recieved from high density mob grinders (Mob grinders are determined by mob density around mob in question)
   expDrops:
     enableEXPDrops: true
-    takeDamage: 30
-    takeDamage_EXPperDamagePointDone: 35
+    takeDamage: 15
+    takeDamage_EXPperDamagePointDone: 20
     hardBodyActivate: 100
     reactionsLevel2Activate: 100
     reactionsLevel1Activate: 50
@@ -722,12 +748,16 @@ defense:
     killGiant: 125
     killAnythingElse: 30 #If you are using 1.15 this is the value used for zombie pigmen
 axeMastery:
+  spawnerMobsEXPMultiplier: 1.0 #Nerfs EXP recieved from mobs that spawned from a spawner
+  #mobFarmEXPMutliplier is circumventable as it relies on mob density. It does stack with spawnerMobsEXPMultiplier
+  mobFarmEXPMultiplier: 0.2  #Nerfs EXP recieved from high density mob grinders (Mob grinders are determined by mob density around mob in question)
   expDrops:
     enableEXPDrops: true
-    greaterAxeAEO_EXPperDamagePointDone: 18
+    greaterAxeAEO_EXPperDamagePointDone: 10
     revitalizedActivateEXP: 150
     holyAxeActivateEXP: 100
-    axeDamage_EXPperDamagePointDone: 25
+    dealAxeDamage: 20
+    axeDamage_EXPperDamagePointDone: 14
     killBat: 15
     killCat: 25
     killChicken: 30
@@ -798,6 +828,8 @@ axeMastery:
     killGiant: 125
     killAnythingElse: 30 #If you are using 1.15 this is the value used for zombie pigmen
 repair:
+  preventRepairOfItemsWithUnsafeEnchantments: true #Prevents items with non-vanilla enchants from being repaired when true
+  preventSalvageOfItemsWithUnsafeEnchantments: true #Prevents items with non-vanilla enchants from being salvaged when true
   expDrops:
     # Repair EXP is not straightforward, it follows the following formula for repairing items:
     # Material_baseEXP + (Material_EXPMultiplier*damagePointsRestored*x)

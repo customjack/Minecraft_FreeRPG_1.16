@@ -1,6 +1,6 @@
 package mc.carlton.freerpg.pistonEvents;
 
-import mc.carlton.freerpg.playerAndServerInfo.PlacedBlocksManager;
+import mc.carlton.freerpg.serverInfo.PlacedBlocksManager;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;

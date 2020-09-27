@@ -1,7 +1,8 @@
 package mc.carlton.freerpg.globalVariables;
 
-import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
-import mc.carlton.freerpg.playerAndServerInfo.MinecraftVersion;
+import mc.carlton.freerpg.gameTools.ExpFarmTracker;
+import mc.carlton.freerpg.playerInfo.ChangeStats;
+import mc.carlton.freerpg.serverInfo.MinecraftVersion;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -96,211 +97,212 @@ public class EntityGroups {
             if (entity instanceof Mob) {
                 Mob mob = (Mob) entity;
                 EntityType type = mob.getType();
-                    if(type.equals(EntityType.BAT)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killBat"));
-                    }
-                    else if (type.equals(EntityType.CAT)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killCat"));
-                    }
-                    else if (type.equals(EntityType.CHICKEN)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killChicken"));
-                    }
-                    else if (type.equals(EntityType.COD)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killCod"));
-                    }
-                    else if (type.equals(EntityType.COW)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killCow"));
-                    }
-                    else if (type.equals(EntityType.DONKEY)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killDonkey"));
-                    }
-                    else if (type.equals(EntityType.FOX)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killFox"));
-                    }
-                    else if (type.equals(EntityType.HORSE)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killHorse"));
-                    }
-                    else if (type.equals(EntityType.POLAR_BEAR)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killPolarBear"));
-                    }
-                    else if (type.equals(EntityType.MUSHROOM_COW)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killMooshroom"));
-                    }
-                    else if (type.equals(EntityType.MULE)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killMule"));
-                    }
-                    else if (type.equals(EntityType.OCELOT)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killOcelot"));
-                    }
-                    else if (type.equals(EntityType.PARROT)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killParrot"));
-                    }
-                    else if (type.equals(EntityType.PIG)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killPig"));
-                    }
-                    else if (type.equals(EntityType.RABBIT)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killRabbit"));
-                    }
-                    else if (type.equals(EntityType.SALMON)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killSalmon"));
-                    }
-                    else if (type.equals(EntityType.SHEEP)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killSheep"));
-                    }
-                    else if (type.equals(EntityType.SKELETON_HORSE)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killSkeleton_Horse"));
-                    }
-                    else if (type.equals(EntityType.SNOWMAN)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killSnowman"));
-                    }
-                    else if (type.equals(EntityType.SQUID)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killSquid"));
-                    }
-                    else if (type.equals(EntityType.TROPICAL_FISH)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killTropical_Fish"));
-                    }
-                    else if (type.equals(EntityType.TURTLE)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killTurtle"));
-                    }
-                    else if (type.equals(EntityType.VILLAGER)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killVillager"));
-                    }
-                    else if (type.equals(EntityType.WANDERING_TRADER)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killWandering_Trader"));
-                    }
-                    else if (type.equals(EntityType.BEE)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killBee"));
-                    }
-                    else if (type.equals(EntityType.CAVE_SPIDER)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killCaveSpider"));
-                    }
-                    else if (type.equals(EntityType.DOLPHIN)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killDolphin"));
-                    }
-                    else if (type.equals(EntityType.ENDERMAN)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killEnderman"));
-                    }
-                    else if (type.equals(EntityType.IRON_GOLEM)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killIron_Golem"));
-                    }
-                    else if (type.equals(EntityType.LLAMA)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killLlama"));
-                    }
-                    else if (type.equals(EntityType.PANDA)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killPanda"));
-                    }
-                    else if (type.equals(EntityType.PUFFERFISH)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killPufferfish"));
-                    }
-                    else if (type.equals(EntityType.SPIDER)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killSpider"));
-                    }
-                    else if (type.equals(EntityType.WOLF)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killWolf"));
-                    }
-                    else if (type.equals(EntityType.BLAZE)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killBlaze"));
-                    }
-                    else if (type.equals(EntityType.CREEPER)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killCreeper"));
-                    }
-                    else if (type.equals(EntityType.DROWNED)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killDrowned"));
-                    }
-                    else if (type.equals(EntityType.ELDER_GUARDIAN)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killElder_Guardian"));
-                    }
-                    else if (type.equals(EntityType.ENDERMITE)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killEndermite"));
-                    }
-                    else if (type.equals(EntityType.EVOKER)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killEvoker"));
-                    }
-                    else if (type.equals(EntityType.GHAST)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killGhast"));
-                    }
-                    else if (type.equals(EntityType.GUARDIAN)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killGuardian"));
-                    }
-                    else if (type.equals(EntityType.HUSK)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killHusk"));
-                    }
-                    else if (type.equals(EntityType.MAGMA_CUBE)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killMagma_Cube"));
-                    }
-                    else if (type.equals(EntityType.PHANTOM)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killPhantom"));
-                    }
-                    else if (type.equals(EntityType.PILLAGER)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killPillager"));
-                    }
-                    else if (type.equals(EntityType.RAVAGER)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killRavager"));
-                    }
-                    else if (type.equals(EntityType.SHULKER)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killShulker"));
-                    }
-                    else if (type.equals(EntityType.SILVERFISH)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killSilverfish"));
-                    }
-                    else if (type.equals(EntityType.SKELETON)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killSkeleton"));
-                    }
-                    else if (type.equals(EntityType.SLIME)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killSlime"));
-                    }
-                    else if (type.equals(EntityType.STRAY)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killStray"));
-                    }
-                    else if (type.equals(EntityType.VEX)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killVex"));
-                    }
-                    else if (type.equals(EntityType.VINDICATOR)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killVindicator"));
-                    }
-                    else if (type.equals(EntityType.WITCH)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killWitch"));
-                    }
-                    else if (type.equals(EntityType.WITHER_SKELETON)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killWitherSkeleton"));
-                    }
-                    else if (type.equals(EntityType.ZOMBIE)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killZombie"));
-                    }
-                    else if (type.equals(EntityType.ZOMBIE_VILLAGER)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killZombie_Villager"));
-                    }
-                    else if (type.equals(EntityType.ENDER_DRAGON)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killEnder_Dragon"));
-                    }
-                    else if (type.equals(EntityType.WITHER)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killWither"));
-                    }
-                    else if (type.equals(EntityType.ZOMBIE_HORSE)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killZombie_Horse"));
-                    }
-                    else if (type.equals(EntityType.ILLUSIONER)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killIllusioner"));
-                    }
-                    else if (type.equals(EntityType.GIANT)) {
-                        increaseStats.changeEXP(skillName, expMap.get("killGiant"));
-                    }
-                    if (mcVersion >= 1.16) {
-                        if (type.equals(EntityType.PIGLIN)) {
-                            increaseStats.changeEXP(skillName, expMap.get("killPiglin"));
-                        } else if (type.equals(EntityType.ZOGLIN)) {
-                            increaseStats.changeEXP(skillName, expMap.get("killZoglin"));
-                        } else if (type.equals(EntityType.HOGLIN)) {
-                            increaseStats.changeEXP(skillName, expMap.get("killHoglin"));
-                        } else if (type.equals(EntityType.ZOMBIFIED_PIGLIN)) {
-                            increaseStats.changeEXP(skillName, expMap.get("killZombie_Pigman"));
-                        } else if (type.equals(EntityType.STRIDER)) {
-                            increaseStats.changeEXP(skillName, expMap.get("killStrider"));
-                        }
-
-                    }
-
-                        increaseStats.changeEXP(skillName, expMap.get("killAnythingElse"));
+                int expReward = expMap.get("killAnythingElse");
+                if(type.equals(EntityType.BAT)) {
+                    expReward =  expMap.get("killBat");
+                }
+                else if (type.equals(EntityType.CAT)) {
+                    expReward =  expMap.get("killCat");
+                }
+                else if (type.equals(EntityType.CHICKEN)) {
+                    expReward =  expMap.get("killChicken");
+                }
+                else if (type.equals(EntityType.COD)) {
+                    expReward =  expMap.get("killCod");
+                }
+                else if (type.equals(EntityType.COW)) {
+                    expReward =  expMap.get("killCow");
+                }
+                else if (type.equals(EntityType.DONKEY)) {
+                    expReward =  expMap.get("killDonkey");
+                }
+                else if (type.equals(EntityType.FOX)) {
+                    expReward =  expMap.get("killFox");
+                }
+                else if (type.equals(EntityType.HORSE)) {
+                    expReward =  expMap.get("killHorse");
+                }
+                else if (type.equals(EntityType.POLAR_BEAR)) {
+                    expReward =  expMap.get("killPolarBear");
+                }
+                else if (type.equals(EntityType.MUSHROOM_COW)) {
+                    expReward =  expMap.get("killMooshroom");
+                }
+                else if (type.equals(EntityType.MULE)) {
+                    expReward =  expMap.get("killMule");
+                }
+                else if (type.equals(EntityType.OCELOT)) {
+                    expReward =  expMap.get("killOcelot");
+                }
+                else if (type.equals(EntityType.PARROT)) {
+                    expReward =  expMap.get("killParrot");
+                }
+                else if (type.equals(EntityType.PIG)) {
+                    expReward =  expMap.get("killPig");
+                }
+                else if (type.equals(EntityType.RABBIT)) {
+                    expReward =  expMap.get("killRabbit");
+                }
+                else if (type.equals(EntityType.SALMON)) {
+                    expReward =  expMap.get("killSalmon");
+                }
+                else if (type.equals(EntityType.SHEEP)) {
+                    expReward =  expMap.get("killSheep");
+                }
+                else if (type.equals(EntityType.SKELETON_HORSE)) {
+                    expReward =  expMap.get("killSkeleton_Horse");
+                }
+                else if (type.equals(EntityType.SNOWMAN)) {
+                    expReward =  expMap.get("killSnowman");
+                }
+                else if (type.equals(EntityType.SQUID)) {
+                    expReward =  expMap.get("killSquid");
+                }
+                else if (type.equals(EntityType.TROPICAL_FISH)) {
+                    expReward =  expMap.get("killTropical_Fish");
+                }
+                else if (type.equals(EntityType.TURTLE)) {
+                    expReward =  expMap.get("killTurtle");
+                }
+                else if (type.equals(EntityType.VILLAGER)) {
+                    expReward =  expMap.get("killVillager");
+                }
+                else if (type.equals(EntityType.WANDERING_TRADER)) {
+                    expReward =  expMap.get("killWandering_Trader");
+                }
+                else if (type.equals(EntityType.BEE)) {
+                    expReward =  expMap.get("killBee");
+                }
+                else if (type.equals(EntityType.CAVE_SPIDER)) {
+                    expReward =  expMap.get("killCaveSpider");
+                }
+                else if (type.equals(EntityType.DOLPHIN)) {
+                    expReward =  expMap.get("killDolphin");
+                }
+                else if (type.equals(EntityType.ENDERMAN)) {
+                    expReward =  expMap.get("killEnderman");
+                }
+                else if (type.equals(EntityType.IRON_GOLEM)) {
+                    expReward =  expMap.get("killIron_Golem");
+                }
+                else if (type.equals(EntityType.LLAMA)) {
+                    expReward =  expMap.get("killLlama");
+                }
+                else if (type.equals(EntityType.PANDA)) {
+                    expReward =  expMap.get("killPanda");
+                }
+                else if (type.equals(EntityType.PUFFERFISH)) {
+                    expReward =  expMap.get("killPufferfish");
+                }
+                else if (type.equals(EntityType.SPIDER)) {
+                    expReward =  expMap.get("killSpider");
+                }
+                else if (type.equals(EntityType.WOLF)) {
+                    expReward =  expMap.get("killWolf");
+                }
+                else if (type.equals(EntityType.BLAZE)) {
+                    expReward =  expMap.get("killBlaze");
+                }
+                else if (type.equals(EntityType.CREEPER)) {
+                    expReward =  expMap.get("killCreeper");
+                }
+                else if (type.equals(EntityType.DROWNED)) {
+                    expReward =  expMap.get("killDrowned");
+                }
+                else if (type.equals(EntityType.ELDER_GUARDIAN)) {
+                    expReward =  expMap.get("killElder_Guardian");
+                }
+                else if (type.equals(EntityType.ENDERMITE)) {
+                    expReward =  expMap.get("killEndermite");
+                }
+                else if (type.equals(EntityType.EVOKER)) {
+                    expReward =  expMap.get("killEvoker");
+                }
+                else if (type.equals(EntityType.GHAST)) {
+                    expReward =  expMap.get("killGhast");
+                }
+                else if (type.equals(EntityType.GUARDIAN)) {
+                    expReward =  expMap.get("killGuardian");
+                }
+                else if (type.equals(EntityType.HUSK)) {
+                    expReward =  expMap.get("killHusk");
+                }
+                else if (type.equals(EntityType.MAGMA_CUBE)) {
+                    expReward =  expMap.get("killMagma_Cube");
+                }
+                else if (type.equals(EntityType.PHANTOM)) {
+                    expReward =  expMap.get("killPhantom");
+                }
+                else if (type.equals(EntityType.PILLAGER)) {
+                    expReward =  expMap.get("killPillager");
+                }
+                else if (type.equals(EntityType.RAVAGER)) {
+                    expReward =  expMap.get("killRavager");
+                }
+                else if (type.equals(EntityType.SHULKER)) {
+                    expReward =  expMap.get("killShulker");
+                }
+                else if (type.equals(EntityType.SILVERFISH)) {
+                    expReward =  expMap.get("killSilverfish");
+                }
+                else if (type.equals(EntityType.SKELETON)) {
+                    expReward =  expMap.get("killSkeleton");
+                }
+                else if (type.equals(EntityType.SLIME)) {
+                    expReward =  expMap.get("killSlime");
+                }
+                else if (type.equals(EntityType.STRAY)) {
+                    expReward =  expMap.get("killStray");
+                }
+                else if (type.equals(EntityType.VEX)) {
+                    expReward =  expMap.get("killVex");
+                }
+                else if (type.equals(EntityType.VINDICATOR)) {
+                    expReward =  expMap.get("killVindicator");
+                }
+                else if (type.equals(EntityType.WITCH)) {
+                    expReward =  expMap.get("killWitch");
+                }
+                else if (type.equals(EntityType.WITHER_SKELETON)) {
+                    expReward =  expMap.get("killWitherSkeleton");
+                }
+                else if (type.equals(EntityType.ZOMBIE)) {
+                    expReward =  expMap.get("killZombie");
+                }
+                else if (type.equals(EntityType.ZOMBIE_VILLAGER)) {
+                    expReward =  expMap.get("killZombie_Villager");
+                }
+                else if (type.equals(EntityType.ENDER_DRAGON)) {
+                    expReward =  expMap.get("killEnder_Dragon");
+                }
+                else if (type.equals(EntityType.WITHER)) {
+                    expReward =  expMap.get("killWither");
+                }
+                else if (type.equals(EntityType.ZOMBIE_HORSE)) {
+                    expReward =  expMap.get("killZombie_Horse");
+                }
+                else if (type.equals(EntityType.ILLUSIONER)) {
+                    expReward =  expMap.get("killIllusioner");
+                }
+                else if (type.equals(EntityType.GIANT)) {
+                    expReward =  expMap.get("killGiant");
+                }
+                if (mcVersion >= 1.16) {
+                    if (type.equals(EntityType.PIGLIN)) {
+                        expReward =  expMap.get("killPiglin");
+                    } else if (type.equals(EntityType.ZOGLIN)) {
+                        expReward =  expMap.get("killZoglin");
+                    } else if (type.equals(EntityType.HOGLIN)) {
+                        expReward =  expMap.get("killHoglin");
+                    } else if (type.equals(EntityType.ZOMBIFIED_PIGLIN)) {
+                        expReward =  expMap.get("killZombie_Pigman");
+                    } else if (type.equals(EntityType.STRIDER)) {
+                        expReward =  expMap.get("killStrider");
+                    }
+                }
+                ExpFarmTracker expFarmTracker = new ExpFarmTracker();
+                double multiplier = expFarmTracker.getExpFarmAndSpawnerCombinedMultiplier(entity,skillName);
+                increaseStats.changeEXP(skillName,(int) Math.round(expReward*multiplier));
             }
         }
     }

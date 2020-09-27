@@ -6,7 +6,9 @@ import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
 import mc.carlton.freerpg.globalVariables.EntityGroups;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
-import mc.carlton.freerpg.playerAndServerInfo.*;
+import mc.carlton.freerpg.playerInfo.*;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverInfo.MinecraftVersion;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -51,7 +53,7 @@ public class Fishing {
     Random rand = new Random(); //Random class Import
 
 
-    ArrayList<UUID> superBaitBlock = new ArrayList<>();
+    static HashSet<UUID> superBaitBlock = new HashSet<>();
 
     private boolean runMethods;
 
@@ -228,28 +230,20 @@ public class Fishing {
                             p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, 1);
                         }
                     }
-                    superBaitBlock.add(p.getUniqueId());
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            superBaitBlock.remove(p.getUniqueId());
-                        }
-                    }.runTaskLater(plugin, 5);
-                }
-
-
-                /* I believe the damage is already taken into account
-                ItemMeta toolMeta = itemInHand.getItemMeta();
-                if (toolMeta instanceof Damageable) {
-                    ((Damageable) toolMeta).setDamage(((Damageable) toolMeta).getDamage()+1);
-                    itemInHand.setItemMeta(toolMeta);
-                    if (((Damageable) toolMeta).getDamage() > itemInHand.getType().getMaxDurability()) {
-                        itemInHand.setAmount(0);
-                        p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, 1);
+                    ConfigLoad configLoad = new ConfigLoad();
+                    int superBaitcooldown = configLoad.getSuperBaitCooldown();
+                    if (superBaitcooldown > 0) {
+                        superBaitBlock.add(p.getUniqueId());
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                if (superBaitBlock.contains(p.getUniqueId())) {
+                                    superBaitBlock.remove(p.getUniqueId());
+                                }
+                            }
+                        }.runTaskLater(plugin, superBaitcooldown);
                     }
                 }
-
-                 */
 
             }
         }

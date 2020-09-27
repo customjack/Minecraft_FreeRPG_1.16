@@ -2,7 +2,7 @@ package mc.carlton.freerpg.globalVariables;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.CustomRecipe;
-import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

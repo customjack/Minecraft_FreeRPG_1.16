@@ -4,9 +4,8 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.FireworkShotByPlayerTracker;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.perksAndAbilities.*;
-import mc.carlton.freerpg.playerAndServerInfo.*;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
+import mc.carlton.freerpg.playerInfo.*;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
@@ -112,7 +111,7 @@ public class EntityHitEntity implements Listener {
                 }
                 Entity damagedEntity = e.getEntity();
                 swordsmanshipClass.doubleHit(damagedEntity,damage,p);
-                swordsmanshipClass.giveHitEXP(e.getFinalDamage());
+                swordsmanshipClass.giveHitEXP(e.getFinalDamage(),damagedEntity);
             }
 
             //Defense
@@ -144,7 +143,7 @@ public class EntityHitEntity implements Listener {
                 double multiplier = axeMasteryClass.divineCritical();
                 e.setDamage(e.getDamage()*multiplier);
                 axeMasteryClass.holyAxe(e.getEntity(),p.getWorld(),e.getFinalDamage());
-                axeMasteryClass.giveHitEXP(e.getFinalDamage());
+                axeMasteryClass.giveHitEXP(e.getFinalDamage(),e.getEntity());
 
             }
 
@@ -167,7 +166,7 @@ public class EntityHitEntity implements Listener {
                     double multiplier = Math.min(arrowOfLightLevel * 0.05 + 1.0, 2.0);
                     e.setDamage(Math.min(e.getDamage() * multiplier, 32));
                 }
-                archeryClass.giveHitEXP(e.getFinalDamage());
+                archeryClass.giveHitEXP(e.getFinalDamage(),e.getEntity());
                 if (e.getEntity() instanceof LivingEntity) {
                     if (e.getFinalDamage() > ((LivingEntity) e.getEntity()).getHealth()) {
                         archeryClass.giveKillEXP(e.getEntity());
@@ -191,7 +190,7 @@ public class EntityHitEntity implements Listener {
                 Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
                 if ((int) pStat.get("archery").get(13) > 0) {
                     e.setDamage(Math.min(e.getDamage() * 2, 32));
-                    archeryClass.giveHitEXP(e.getFinalDamage());
+                    archeryClass.giveHitEXP(e.getFinalDamage(),e.getEntity());
                 }
                 if (e.getEntity() instanceof LivingEntity) {
                     if (e.getFinalDamage() > ((LivingEntity) e.getEntity()).getHealth()) {
@@ -211,7 +210,7 @@ public class EntityHitEntity implements Listener {
                 Tameable dog = (Tameable) wolf;
                 if (dog.isTamed()) {
                     Player p = (Player) dog.getOwner();
-                    ChangeStats increaseStats = new ChangeStats(p);
+                    BeastMastery beastMastery = new BeastMastery(p);
                     PlayerStats pStatClass = new PlayerStats(p);
                     Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
 
@@ -237,17 +236,15 @@ public class EntityHitEntity implements Listener {
                             }
                         }.runTaskLater(plugin, 1);
                     }
-                    Map<String,Integer> expMap = configLoad.getExpMapForSkill("beastMastery");
                     LivingEntity livingEnemy = (LivingEntity) enemy;
                     if (e.getFinalDamage() > livingEnemy.getHealth()) {
                         double heartsHealed = (int) pStat.get("beastMastery").get(9);
                         LivingEntity livingDog = (LivingEntity) dog;
                         double maxHealth = ((Attributable) dog).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
                         livingDog.setHealth(Math.min(livingDog.getHealth() + heartsHealed, maxHealth));
-                        BeastMastery beastMastery = new BeastMastery(p);
                         beastMastery.dogKillEntity(enemy);
                     }
-                    increaseStats.changeEXP("beastMastery", (int) Math.round(e.getFinalDamage() * expMap.get("dogDamage_EXPperDamagePointDone")));
+                    beastMastery.giveHitEXP(e.getFinalDamage(),enemy);
 
                 }
             }
@@ -291,7 +288,7 @@ public class EntityHitEntity implements Listener {
                 double multiplier = defenseClass.hardBody();
                 e.setDamage(e.getDamage() * multiplier);
                 defenseClass.reactions(e.getFinalDamage());
-                defenseClass.giveHitEXP(e.getDamage());
+                defenseClass.giveHitEXP(e.getDamage(),e.getDamager());
             }
         }
 

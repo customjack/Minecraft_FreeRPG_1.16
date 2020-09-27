@@ -4,7 +4,7 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.CustomPotion;
 import mc.carlton.freerpg.gameTools.CustomRecipe;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
-import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -19,13 +19,11 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
 import java.io.File;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 public class StringsAndOtherData {
+    static ArrayList<String> skillNames = new ArrayList<>();
+    static ArrayList<String> skillNamesWithGlobal = new ArrayList<>();
     static Map<String, String[]> perksMap = new HashMap<>();
     static Map<String, String[]> descriptionsMap = new HashMap<>();
     static Map<String, String[]> passivePerksMap = new HashMap<>();
@@ -45,13 +43,23 @@ public class StringsAndOtherData {
     }
 
     public void initializeData() {
+        initializeSkillNames();
         initializeSkillDescriptions();
         initializeVersion();
         initializeLanguagesData();
         initializeConfigGUIIndexInfo();
         initializeLanguageCompletions();
-
     }
+
+    public void initializeSkillNames() {
+        String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting","global"};
+        List<String> labels_arr = Arrays.asList(labels_0);
+        skillNamesWithGlobal = new ArrayList<>(labels_arr);
+        String[] labels_1 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
+        List<String> labels_arr1 = Arrays.asList(labels_1);
+        skillNames = new ArrayList<>(labels_arr1);
+    }
+
 
     public void initializeLanguagesData() {
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
@@ -351,6 +359,44 @@ public class StringsAndOtherData {
             }
         }
         return splitDescs;
+    }
+
+    public String camelCaseToTitle(String string) {
+        String newString = "";
+        ArrayList<Integer> splitIndexes = new ArrayList<>();
+        splitIndexes.add(0);
+        for (int i = 0; i<string.length();i++){
+            char c = string.charAt(i);
+            if (Character.isUpperCase(c)){
+                splitIndexes.add(i);
+            }
+        }
+        splitIndexes.add(string.length()-1);
+        if (splitIndexes.size() == 2) {
+            return string.substring(0,1).toUpperCase() + string.substring(1);
+        }
+        for (int i = 0; i < splitIndexes.size()-1; i++) {
+            int begin = splitIndexes.get(i);
+            int end = splitIndexes.get(i+1);
+            newString += string.substring(begin,begin+1).toUpperCase() + string.substring(begin+1,end) + " ";
+        }
+        return newString;
+    }
+
+    public String rankToString(int rank) {
+        String suffix = "th";
+        int lastTwoDigits = rank % 100;
+        int lastDigit = rank % 10;
+        if (!(lastTwoDigits >= 10 && lastTwoDigits <= 19) ) {
+            if (lastDigit == 1) {
+                suffix = "st";
+            } else if (lastDigit == 2) {
+                suffix = "nd";
+            } else if (lastDigit == 3) {
+                suffix = "rd";
+            }
+        }
+        return (String.valueOf(rank) + suffix);
     }
 
     public String cleanUpTitleString(String string) {
@@ -699,5 +745,13 @@ public class StringsAndOtherData {
 
     public Map<Integer, String> getDyeIndexes() {
         return dyeIndexes;
+    }
+
+    public ArrayList<String> getSkillNames() {
+        return skillNames;
+    }
+
+    public ArrayList<String> getSkillNamesWithGlobal() {
+        return skillNamesWithGlobal;
     }
 }

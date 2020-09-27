@@ -278,3 +278,6 @@ permissions:
   freeRPG.createFakePlayers:
     description: allows player to use command to create any number of fake player files
     default: false
+  freeRPG.statLookup:
+    description: allows player to look up any player's stats
+    default: true

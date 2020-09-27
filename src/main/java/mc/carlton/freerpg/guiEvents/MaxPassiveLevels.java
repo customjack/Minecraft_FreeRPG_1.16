@@ -68,7 +68,7 @@ public class MaxPassiveLevels {
             case "defense":
                 switch (index) {
                     case 2:
-                        maxLevel = 9990;
+                        maxLevel = 9900;
                         break;
                     case 3:
                         maxLevel = 2000;

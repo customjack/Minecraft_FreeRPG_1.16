@@ -1,7 +1,7 @@
 package mc.carlton.freerpg.miscEvents;
 
 import mc.carlton.freerpg.perksAndAbilities.Farming;
-import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

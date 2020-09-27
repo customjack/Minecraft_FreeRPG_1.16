@@ -21,12 +21,14 @@ import mc.carlton.freerpg.leaveAndJoin.PlayerJoin;
 import mc.carlton.freerpg.leaveAndJoin.PlayerLeave;
 import mc.carlton.freerpg.pistonEvents.PistonExtend;
 import mc.carlton.freerpg.pistonEvents.PistonRetract;
-import mc.carlton.freerpg.playerAndServerInfo.*;
-import me.clip.placeholderapi.PlaceholderAPI;
+import mc.carlton.freerpg.playerInfo.*;
+import mc.carlton.freerpg.serverFileManagement.*;
+import mc.carlton.freerpg.serverInfo.*;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -57,11 +59,19 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         ConfigLoad loadConfig = new ConfigLoad();
         loadConfig.initializeConfig();
 
+        //Makes SeverDataFolder
+        ServerDataFolderPreparation serverDataFolderPreparation = new ServerDataFolderPreparation();
+        serverDataFolderPreparation.initializeServerDataFolder();
 
         //Initialize Placed Blocks Map
-        PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();
-        placedBlocksManager.startConditions();
-        placedBlocksManager.initializePlacedBlocks();
+        PlacedBlockFileManager placedBlockFileManager = new PlacedBlockFileManager();
+        placedBlockFileManager.initializePlacedBlocksFile(); //Creates blockLocations.dat if not already made
+        placedBlockFileManager.initializePlacedBlocks(); //Imports data from blockLocations.dat into a hashamp
+
+        //Initializes RecentLogouts List
+        RecentPlayersFileManager recentPlayersFileManager = new RecentPlayersFileManager();
+        recentPlayersFileManager.initializeRecentPlayersFile(); //Creates recentPlayers.dat if not already made
+        recentPlayersFileManager.initializeRecentPlayers(); //Imports data from recentPlayters.dat to an arrayList in RecentLogouts
 
 
         //Check if the server uses world guard
@@ -87,6 +97,14 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
         stringsAndOtherData.initializeData();
 
+        //Initializes Player Leaderboard (and may create a file)
+        Leaderboards playerLeaderboard = new Leaderboards();
+        LeaderBoardFilesManager leaderBoardFilesManager = new LeaderBoardFilesManager();
+        playerLeaderboard.initializeLeaderboards();
+        boolean didCreateFile = leaderBoardFilesManager.createLeaderBoardFile(false);
+        if (!didCreateFile) {
+            leaderBoardFilesManager.readInLeaderBoardFile();
+        }
 
         //Initiliazes periodically saving stats
         PeriodicSaving saveStats = new PeriodicSaving();
@@ -149,6 +167,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new ExperienceBottleBreak(), this);
         getServer().getPluginManager().registerEvents(new SkillsConfigGUIClick(), this);
         getServer().getPluginManager().registerEvents(new EntityPickUpItem(), this);
+        getServer().getPluginManager().registerEvents(new CreatureSpawn(), this);
 
         //Registers commands
         getCommand("frpg").setExecutor(new FrpgCommands());
@@ -169,6 +188,11 @@ public final class FreeRPG extends JavaPlugin implements Listener {
             LoginProcedure login = new LoginProcedure(p);
             login.playerLogin();
         }
+
+        //Begin Asynchronous loading of offline player stats
+        OfflinePlayerStatLoadIn offlinePlayerStatLoadIn = new OfflinePlayerStatLoadIn();
+        offlinePlayerStatLoadIn.loadInOfflinePlayers();
+
     }
 
     public void onDisable() {
@@ -183,8 +207,12 @@ public final class FreeRPG extends JavaPlugin implements Listener {
             }
         }
 
-        PlacedBlocksManager saveBlocks = new PlacedBlocksManager();
+        PlacedBlockFileManager saveBlocks = new PlacedBlockFileManager();
         saveBlocks.writePlacedBlocks();
+        RecentPlayersFileManager recentPlayersFileManager = new RecentPlayersFileManager();
+        recentPlayersFileManager.writeRecentPlayers();
+        LeaderBoardFilesManager leaderBoardFilesManager = new LeaderBoardFilesManager();
+        leaderBoardFilesManager.writeOutPlayerLeaderBoardFile();
 
         ConfigLoad configLoad = new ConfigLoad();
         if (configLoad.isSaveRunTimeData()) {

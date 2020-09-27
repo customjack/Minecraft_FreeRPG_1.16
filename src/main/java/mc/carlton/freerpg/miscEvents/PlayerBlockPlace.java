@@ -2,8 +2,8 @@ package mc.carlton.freerpg.miscEvents;
 
 
 import mc.carlton.freerpg.globalVariables.ItemGroups;
-import mc.carlton.freerpg.playerAndServerInfo.PlacedBlocksManager;
-import mc.carlton.freerpg.playerAndServerInfo.WorldGuardChecks;
+import mc.carlton.freerpg.serverInfo.PlacedBlocksManager;
+import mc.carlton.freerpg.serverInfo.WorldGuardChecks;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -13,7 +13,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 

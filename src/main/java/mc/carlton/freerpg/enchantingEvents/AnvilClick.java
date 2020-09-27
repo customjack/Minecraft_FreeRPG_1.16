@@ -1,8 +1,8 @@
 package mc.carlton.freerpg.enchantingEvents;
 
 import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
-import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
+import mc.carlton.freerpg.playerInfo.ChangeStats;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

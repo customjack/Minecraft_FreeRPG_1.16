@@ -1,26 +1,23 @@
-package mc.carlton.freerpg.playerAndServerInfo;
+package mc.carlton.freerpg.serverFileManagement;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.serverInfo.PlacedBlocksManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashSet;
 
-public class PlacedBlocksManager {
-    static Map<Location,Boolean> blocks = new ConcurrentHashMap<>();
+public class PlacedBlockFileManager {
+    static File placedBlocksDat;
 
 
     public void initializePlacedBlocks(){
-        Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-        File f = new File(plugin.getDataFolder(), "blockLocations.dat");
-        f.setReadable(true,false);
-        f.setWritable(true,false);
+        PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();
+        HashSet<Location> blocks = placedBlocksManager.getBlocksMap();
+        File f = placedBlocksDat;
         String path = f.getPath();
         if (f.exists()) {
             try (BufferedReader fileReader = new BufferedReader(new FileReader(path))) {
@@ -33,24 +30,24 @@ public class PlacedBlocksManager {
                     double z = Integer.parseInt(coords_string[3]);
                     World world = Bukkit.getWorld(worldName);
                     Location location = new Location(world,x,y,z);
-                    blocks.putIfAbsent(location,true);
+                    blocks.add(location);
                     line = fileReader.readLine();
                 }
-                fileReader.close();
+                placedBlocksManager.setBlocksMap(blocks);
             } catch (IOException error) {
                 error.printStackTrace();
             }
         }
     }
+
     public void writePlacedBlocks() {
-        Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-        File f = new File(plugin.getDataFolder(), "blockLocations.dat");
-        f.setReadable(true,false);
-        f.setWritable(true,false);
+        File f = placedBlocksDat;
+        PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();
+        HashSet<Location> blocks = placedBlocksManager.getBlocksMap();
         String path = f.getPath();
         if (f.exists()) {
             try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(path,false))) {
-                for (Location location : blocks.keySet()) {
+                for (Location location : blocks) {
                     World world = location.getWorld();
                     if (world != null) {
                         String worldName = world.getName();
@@ -67,11 +64,13 @@ public class PlacedBlocksManager {
         }
     }
 
-    public void startConditions(){
+    public void initializePlacedBlocksFile(){
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-        File f = new File(plugin.getDataFolder(),"blockLocations.dat");
+        File serverData = new File(plugin.getDataFolder(), File.separator + "ServerData");
+        File f = new File(serverData,"blockLocations.dat");
         f.setReadable(true,false);
         f.setWritable(true,false);
+        placedBlocksDat = f;
         String path = f.getPath();
         World world = Bukkit.getServer().getWorlds().get(0);
         String worldName = world.getName();
@@ -93,38 +92,4 @@ public class PlacedBlocksManager {
         }
 
     }
-
-    public boolean isBlockTracked(Block block) {
-        Location location = block.getLocation();
-        return blocks.containsKey(location);
-    }
-
-    public Map<Location,Boolean> getBlocksMap() {
-        return blocks;
-    }
-
-    public void setBlocksMap(Map<Location,Boolean> newblocks) {
-        this.blocks = newblocks;
-    }
-
-    public void addBlock(Block block) {
-        Location location = block.getLocation();
-        blocks.putIfAbsent(location,true);
-    }
-
-    public void addLocation(Location location) {
-        blocks.putIfAbsent(location,true);
-    }
-    public void removeBlock(Block block) {
-        Location location = block.getLocation();
-        if (blocks.containsKey(location)) {
-            blocks.remove(location);
-        }
-    }
-    public void removeLocation(Location location) {
-        if (blocks.containsKey(location)) {
-            blocks.remove(location);
-        }
-    }
-
 }

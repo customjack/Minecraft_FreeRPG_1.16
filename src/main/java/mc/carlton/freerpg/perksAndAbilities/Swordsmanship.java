@@ -2,11 +2,12 @@ package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
+import mc.carlton.freerpg.gameTools.ExpFarmTracker;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
-import mc.carlton.freerpg.gameTools.TrackItem;
 import mc.carlton.freerpg.globalVariables.EntityGroups;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
-import mc.carlton.freerpg.playerAndServerInfo.*;
+import mc.carlton.freerpg.playerInfo.*;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -193,6 +194,9 @@ public class Swordsmanship {
         }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         int doubleHitLevel = (int) pStat.get(skillName).get(5);
+        if (!(entity instanceof LivingEntity)) {
+            return;
+        }
         if (doubleHitLevel * 0.0002 > rand.nextDouble()) {
             new BukkitRunnable() {
                 @Override
@@ -348,12 +352,13 @@ public class Swordsmanship {
 
     }
 
-    public void giveHitEXP(double finalDamage) {
+    public void giveHitEXP(double finalDamage,Entity entity) {
         if (!runMethods) {
             return;
         }
-        increaseStats.changeEXP(skillName,expMap.get("dealDamage"));
-        increaseStats.changeEXP(skillName, (int) Math.round(finalDamage * expMap.get("dealDamage_EXPperDamagePointDone")));
+        ExpFarmTracker expFarmTracker = new ExpFarmTracker();
+        double multiplier = expFarmTracker.getExpFarmAndSpawnerCombinedMultiplier(entity,skillName);
+        increaseStats.changeEXP(skillName, (int) Math.round( (finalDamage * expMap.get("dealDamage_EXPperDamagePointDone") + expMap.get("dealDamage"))*multiplier) );
     }
 
     public void giveKillEXP(Entity entity) {

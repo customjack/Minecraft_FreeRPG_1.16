@@ -1,4 +1,4 @@
-package mc.carlton.freerpg.playerAndServerInfo;
+package mc.carlton.freerpg.serverInfo;
 
 import org.bukkit.Bukkit;
 

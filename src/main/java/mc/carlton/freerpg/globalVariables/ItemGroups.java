@@ -1,24 +1,16 @@
 package mc.carlton.freerpg.globalVariables;
 
-import com.google.common.collect.Lists;
 import mc.carlton.freerpg.gameTools.CustomPotion;
-import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
-import mc.carlton.freerpg.playerAndServerInfo.MinecraftVersion;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverInfo.MinecraftVersion;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -468,15 +460,15 @@ public class ItemGroups {
         repairItems.put(Material.SHIELD,Material.IRON_INGOT);
         repairItems.put(Material.CROSSBOW,Material.STRING);
         if (mcVersion >= 1.16) {
-            repairItems.put(Material.NETHERITE_AXE,Material.NETHERITE_INGOT);
-            repairItems.put(Material.NETHERITE_HOE,Material.NETHERITE_INGOT);
-            repairItems.put(Material.NETHERITE_PICKAXE,Material.NETHERITE_INGOT);
-            repairItems.put(Material.NETHERITE_SWORD,Material.NETHERITE_INGOT);
-            repairItems.put(Material.NETHERITE_SHOVEL,Material.NETHERITE_INGOT);
-            repairItems.put(Material.NETHERITE_HELMET,Material.NETHERITE_INGOT);
-            repairItems.put(Material.NETHERITE_CHESTPLATE,Material.NETHERITE_INGOT);
-            repairItems.put(Material.NETHERITE_LEGGINGS,Material.NETHERITE_INGOT);
-            repairItems.put(Material.NETHERITE_BOOTS,Material.NETHERITE_INGOT);
+            repairItems.put(Material.NETHERITE_AXE,Material.NETHERITE_SCRAP);
+            repairItems.put(Material.NETHERITE_HOE,Material.NETHERITE_SCRAP);
+            repairItems.put(Material.NETHERITE_PICKAXE,Material.NETHERITE_SCRAP);
+            repairItems.put(Material.NETHERITE_SWORD,Material.NETHERITE_SCRAP);
+            repairItems.put(Material.NETHERITE_SHOVEL,Material.NETHERITE_SCRAP);
+            repairItems.put(Material.NETHERITE_HELMET,Material.NETHERITE_SCRAP);
+            repairItems.put(Material.NETHERITE_CHESTPLATE,Material.NETHERITE_SCRAP);
+            repairItems.put(Material.NETHERITE_LEGGINGS,Material.NETHERITE_SCRAP);
+            repairItems.put(Material.NETHERITE_BOOTS,Material.NETHERITE_SCRAP);
         }
 
         repairItemsAmount.put(Material.WOODEN_AXE,3);

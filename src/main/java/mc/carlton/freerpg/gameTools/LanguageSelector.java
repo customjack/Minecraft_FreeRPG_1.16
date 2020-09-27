@@ -1,7 +1,7 @@
 package mc.carlton.freerpg.gameTools;
 
 import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
-import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
+import mc.carlton.freerpg.playerInfo.PlayerStats;
 import org.bukkit.entity.Player;
 
 

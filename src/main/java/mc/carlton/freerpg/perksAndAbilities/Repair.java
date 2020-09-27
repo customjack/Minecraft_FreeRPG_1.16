@@ -4,10 +4,10 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
-import mc.carlton.freerpg.playerAndServerInfo.ChangeStats;
-import mc.carlton.freerpg.playerAndServerInfo.ConfigLoad;
-import mc.carlton.freerpg.playerAndServerInfo.MinecraftVersion;
-import mc.carlton.freerpg.playerAndServerInfo.PlayerStats;
+import mc.carlton.freerpg.playerInfo.ChangeStats;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverInfo.MinecraftVersion;
+import mc.carlton.freerpg.playerInfo.PlayerStats;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -60,6 +60,14 @@ public class Repair {
         }
         if (!p.hasPermission("freeRPG.canRepair")) {
             return false;
+        }
+        if (!isItemVanilla(itemInHand)) {
+            ConfigLoad configLoad = new ConfigLoad();
+            if (configLoad.isPreventUnsafeRepair()) {
+                LanguageSelector lang = new LanguageSelector(p);
+                p.sendMessage(ChatColor.RED +lang.getString("repairUnsafeEnchant"));
+                return false;
+            }
         }
         Material toolType = itemInHand.getType();
         boolean repaired = false;
@@ -408,42 +416,42 @@ public class Repair {
                 else if(MCversion >= 1.16) {
                     if (toolType.equals(Material.NETHERITE_AXE)) {
                         repairPercentage = (0.00 + repairBonus * 0.5) / 3.0;
-                        a = 3.0;
+                        a = 4.0;
                         expToGive += expMap.get("netherite_baseEXP");
                         expRepairMultiplier = expMap.get("netherite_EXPMultiplier");
                     } else if (toolType.equals(Material.NETHERITE_HOE)) {
                         repairPercentage = (0.00 + repairBonus * 0.5) / 2.0;
-                        a = 2.0;
+                        a = 4.0;
                         expToGive += expMap.get("netherite_baseEXP");
                         expRepairMultiplier = expMap.get("netherite_EXPMultiplier");
                     } else if (toolType.equals(Material.NETHERITE_PICKAXE)) {
                         repairPercentage = (0.00 + repairBonus * 0.5) / 3.0;
-                        a = 3.0;
+                        a = 4.0;
                         expToGive += expMap.get("netherite_baseEXP");
                         expRepairMultiplier = expMap.get("netherite_EXPMultiplier");
                     } else if (toolType.equals(Material.NETHERITE_SHOVEL)) {
                         repairPercentage = (0.00 + repairBonus * 0.5) / 1.0;
-                        a = 1.0;
+                        a = 4.0;
                         expToGive += expMap.get("netherite_baseEXP");
                         expRepairMultiplier = expMap.get("netherite_EXPMultiplier");
                     } else if (toolType.equals(Material.NETHERITE_SWORD)) {
                         repairPercentage = (0.00 + repairBonus * 0.5) / 2.0;
-                        a = 2.0;
+                        a = 4.0;
                         expToGive += expMap.get("netherite_baseEXP");
                         expRepairMultiplier = expMap.get("netherite_EXPMultiplier");
                     } else if (toolType.equals(Material.NETHERITE_HELMET)) {
                         repairPercentage = (0.00 + repairBonus * 0.5) / 5.0;
-                        a = 5.0;
+                        a = 4.0;
                         expToGive += expMap.get("netherite_baseEXP");
                         expRepairMultiplier = expMap.get("netherite_EXPMultiplier");
                     } else if (toolType.equals(Material.NETHERITE_CHESTPLATE)) {
                         repairPercentage = (0.00 + repairBonus * 0.5) / 8.0;
-                        a = 8.0;
+                        a = 4.0;
                         expToGive += expMap.get("netherite_baseEXP");
                         expRepairMultiplier = expMap.get("netherite_EXPMultiplier");
                     } else if (toolType.equals(Material.NETHERITE_LEGGINGS)) {
                         repairPercentage = (0.00 + repairBonus * 0.5) / 7.0;
-                        a = 7.0;
+                        a = 4.0;
                         expToGive += expMap.get("netherite_baseEXP");
                         expRepairMultiplier = expMap.get("netherite_EXPMultiplier");
                     } else if (toolType.equals(Material.NETHERITE_BOOTS)) {
@@ -491,6 +499,14 @@ public class Repair {
         if (!p.hasPermission("freeRPG.canSalvage")) {
             return;
         }
+        if (!isItemVanilla(itemInHand)) {
+            ConfigLoad configLoad = new ConfigLoad();
+            if (configLoad.isPreventUnsafeSalvage()) {
+                LanguageSelector lang = new LanguageSelector(p);
+                p.sendMessage(ChatColor.RED +lang.getString("salvageUnsafeEnchant"));
+                return;
+            }
+        }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         int salvageLevel = (int) pStat.get(skillName).get(7);
         ItemGroups itemGroups = new ItemGroups();
@@ -521,7 +537,33 @@ public class Repair {
                 }
             }
             else {
-                p.getInventory().addItem(new ItemStack(type,amountToReturn));
+                if (!type.equals(Material.NETHERITE_SCRAP)) {
+                    p.getInventory().addItem(new ItemStack(type, amountToReturn));
+                }
+                else {
+                    double multiplier1 = 0.1*salvageLevel + (1 - 0.1*salvageLevel)*rand.nextDouble();
+                    double multiplier2 = 0.1*salvageLevel + (1 - 0.1*salvageLevel)*rand.nextDouble();
+                    double amountToReturnGold_pre = 4*percentDurability*multiplier1;
+                    int amountToReturnGold = (int) Math.round(amountToReturnGold_pre);
+                    double amountToReturnScrap_pre = 4*percentDurability*multiplier2;
+                    int amountToReturnScrap = (int) Math.round(amountToReturnScrap_pre);
+                    p.getInventory().addItem(new ItemStack(Material.DIAMOND, amountToReturn));
+                    if (p.getInventory().firstEmpty() == -1) {
+                        World world = p.getWorld();
+                        world.dropItemNaturally(p.getLocation().add(0,0.5,0),new ItemStack(Material.GOLD_INGOT,amountToReturnGold));
+                        world.dropItemNaturally(p.getLocation().add(0,0.5,0),new ItemStack(Material.NETHERITE_SCRAP,amountToReturnScrap));
+                    }
+                    else {
+                        p.getInventory().addItem(new ItemStack(Material.GOLD_INGOT,amountToReturnGold));
+                        if (p.getInventory().firstEmpty() == -1) {
+                            World world = p.getWorld();
+                            world.dropItemNaturally(p.getLocation().add(0,0.5,0),new ItemStack(Material.NETHERITE_SCRAP,amountToReturnScrap));
+                        }
+                        else {
+                            p.getInventory().addItem(new ItemStack(Material.NETHERITE_SCRAP,amountToReturnScrap));
+                        }
+                    }
+                }
             }
             if (salvageLevel >= 5) {
                 if (itemInHandMeta.hasEnchants()) {
@@ -566,7 +608,7 @@ public class Repair {
                 increaseStats.changeEXP(skillName, expMap.get("salvageDiamond"));
             }
             else if(mcVersion >= 1.16) {
-                if (type.equals(Material.NETHERITE_INGOT)) {
+                if (type.equals(Material.NETHERITE_SCRAP)) {
                     increaseStats.changeEXP(skillName, expMap.get("salvageNetherite_Ingot"));
                 }
             }
@@ -600,5 +642,17 @@ public class Repair {
             return 1000;
         }
         return 0;
+    }
+
+    public boolean isItemVanilla(ItemStack itemStack) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        Map<Enchantment,Integer> itemEnchants = itemMeta.getEnchants();
+        try {//Try to create a safe item with those enchants, if it fails, we know the item is not vanilla
+            new ItemStack(itemStack.getType(),itemStack.getAmount()).addEnchantments(itemEnchants);
+        }
+        catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
     }
 }

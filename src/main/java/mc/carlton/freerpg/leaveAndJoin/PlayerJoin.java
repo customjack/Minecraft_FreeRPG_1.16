@@ -19,7 +19,6 @@ public class PlayerJoin implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     void onPlayerJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
-
         LoginProcedure login = new LoginProcedure(p);
         login.playerLogin();
     }

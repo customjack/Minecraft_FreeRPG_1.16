@@ -1,5 +1,6 @@
-package mc.carlton.freerpg.playerAndServerInfo;
+package mc.carlton.freerpg.serverFileManagement;
 
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -21,10 +22,10 @@ public class PlayerStatsFilePreparation {
     public void playJoinConditions(Player p) {
         String pName = p.getName();
         UUID pUUID = p.getUniqueId();
-        preparePlayerFile(pName,pUUID);
+        preparePlayerFile(pName,pUUID,true);
     }
 
-    public void preparePlayerFile(String pName, UUID pUUID) {
+    public void preparePlayerFile(String pName, UUID pUUID,boolean isRealLogin) {
         Date now = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
@@ -32,9 +33,8 @@ public class PlayerStatsFilePreparation {
         if(!userdata.exists()){
             userdata.mkdir();
         }
-        File f = new File(userdata, File.separator + pUUID.toString() + ".yml");
-        f.setReadable(true);
-        f.setWritable(true);
+        PlayerFilesManager playerFilesManager = new PlayerFilesManager();
+        File f = playerFilesManager.getPlayerFile(pUUID);
         playerData = YamlConfiguration.loadConfiguration(f);
 
         String[] labels = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
@@ -93,6 +93,7 @@ public class PlayerStatsFilePreparation {
                 playerData.set("globalStats.leafBlowerToggle",1);
                 playerData.set("globalStats.holyAxeToggle",1);
                 playerData.set("globalStats.numberOfCooldownBars",1);
+                playerData.set("globalStats.totalExperience",0);
 
                 // Skill Type Data
                 for (int i = 0; i < labels.length; i++) {
@@ -129,15 +130,22 @@ public class PlayerStatsFilePreparation {
                     playerData.set("general.username", pName);
                 }
                 else {
-                    String registeredName = playerData.getString("general.username");
-                    if (!registeredName.equalsIgnoreCase(pName)) {
-                        playerData.set("general.username", pName);
+                    if (isRealLogin) {
+                        String registeredName = playerData.getString("general.username");
+                        if (!registeredName.equalsIgnoreCase(pName)) {
+                            playerData.set("general.username", pName);
+                        }
                     }
                 }
                 addIfMissing("general.firstLogin","\"" + simpleDateFormat.format(now)+ "\"");
 
                 //Whether it exists or not, the last login will be set to the current unix timestamp
-                playerData.set("general.lastLogin", unixTime);
+                if (isRealLogin) {
+                    playerData.set("general.lastLogin", unixTime);
+                }
+                else {
+                    addIfMissing("general.lastLogin",unixTime);
+                }
 
                 addIfMissing("general.lastLogout",unixTime);
                 addIfMissing("general.playTime",0);
@@ -181,6 +189,7 @@ public class PlayerStatsFilePreparation {
                 addIfMissing("globalStats.leafBlowerToggle",1);
                 addIfMissing("globalStats.holyAxeToggle",1);
                 addIfMissing("globalStats.numberOfCooldownBars",1);
+                addIfMissing("globalStats.totalExperience",0);
 
 
                 // Skill Type Data
@@ -207,6 +216,7 @@ public class PlayerStatsFilePreparation {
                 }
 
                 playerData.save(f);
+                playerFilesManager.addPlayerFile(pUUID,f);
             } catch (IOException exception){
                 exception.printStackTrace();
             }

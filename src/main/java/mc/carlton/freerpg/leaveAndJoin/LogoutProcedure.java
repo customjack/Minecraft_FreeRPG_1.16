@@ -2,13 +2,12 @@ package mc.carlton.freerpg.leaveAndJoin;
 
 import mc.carlton.freerpg.gameTools.*;
 import mc.carlton.freerpg.perksAndAbilities.*;
-import mc.carlton.freerpg.playerAndServerInfo.*;
-import org.bukkit.Material;
+import mc.carlton.freerpg.playerInfo.*;
+import mc.carlton.freerpg.serverInfo.RecentLogouts;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import javax.sound.midi.Track;
 import java.io.IOException;
 
 public class LogoutProcedure {
@@ -21,9 +20,19 @@ public class LogoutProcedure {
     }
 
     public void playerLogout(boolean disablePlugin) throws IOException {
+        //Adds player to the list of last n logouts ("n" specified in config)
+        RecentLogouts recentLogouts = new RecentLogouts();
+        recentLogouts.playerLogout(p,disablePlugin);
+
         //Saves Player Stats to file
         PlayerStatsLoadIn saveStats = new PlayerStatsLoadIn(p);
-        saveStats.setPlayerStatsMap();
+
+        if (disablePlugin) { //If the plugin is disabled, I don't care about performance (Plus I can't run an async task)
+            saveStats.setPlayerStatsMap();
+        }
+        else { //If the plugin is not disabled, we async remove the player's stats to not affect performance
+            saveStats.asyncStatSave();
+        }
 
         //Ensures no items stay permanently altered from abilities
         AbilityLogoutTracker logoutTracker = new AbilityLogoutTracker(p);
@@ -84,8 +93,11 @@ public class LogoutProcedure {
         blockFaceDelete.removePlayerBlockFace(p);
 
         //Removes players stats,abilities,timers,and logout trackers from the hashmaps, all stat information should be saved
+
+        /*Player stats SHOULD be removed by OfflinePlayerStatLoadIn.
         PlayerStats deleteStats = new PlayerStats(p);
         deleteStats.removePlayer();
+         */
 
         AbilityTracker deleteAbilities = new AbilityTracker(p);
         deleteAbilities.removePlayer();
