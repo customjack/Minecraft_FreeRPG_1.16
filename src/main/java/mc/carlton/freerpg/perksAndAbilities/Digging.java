@@ -121,7 +121,7 @@ public class Digging {
 
         //Mark the item
         long unixTime = Instant.now().getEpochSecond();
-        String keyName = p.getUniqueId().toString() + "-" + String.valueOf(unixTime) + "-" + skillName;
+        String keyName = p.getUniqueId().toString() + "-frpg-" + skillName + "-" + String.valueOf(unixTime);
         NamespacedKey key = new NamespacedKey(plugin,keyName);
         ItemMeta itemMeta = itemInHand.getItemMeta();
         itemMeta.getPersistentDataContainer().set(key, PersistentDataType.STRING,"nothing");

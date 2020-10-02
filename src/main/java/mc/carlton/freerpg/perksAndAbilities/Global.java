@@ -20,7 +20,7 @@ public class Global {
     private Player p;
     private String pName;
     private ItemStack itemInHand;
-    private static Map<Player, ArrayList<ItemStack>> playerSavedDrops = new HashMap<>();
+    private static Map<UUID, ArrayList<ItemStack>> playerSavedDrops = new HashMap<>();
 
     ChangeStats increaseStats; //Changing Stats
 
@@ -191,7 +191,7 @@ public class Global {
                     }
                 }
             }
-            playerSavedDrops.put(p,savedDrops);
+            playerSavedDrops.put(p.getUniqueId(),savedDrops);
         }
     }
 
@@ -200,12 +200,12 @@ public class Global {
             return;
         }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        if ((int) pStat.get("global").get(8) > 0 && playerSavedDrops.containsKey(p)) {
-            ArrayList<ItemStack> savedDrops = playerSavedDrops.get(p);
+        if ((int) pStat.get("global").get(8) > 0 && playerSavedDrops.containsKey(p.getUniqueId())) {
+            ArrayList<ItemStack> savedDrops = playerSavedDrops.get(p.getUniqueId());
             for (ItemStack savedDrop : savedDrops) {
                 p.getInventory().addItem(savedDrop);
             }
-            playerSavedDrops.remove(p);
+            playerSavedDrops.remove(p.getUniqueId());
         }
     }
 

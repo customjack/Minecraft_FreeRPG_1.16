@@ -13,20 +13,31 @@ public class TrackItem {
 
     public ItemStack findTrackedItemInInventory(Player p, NamespacedKey key) {
         for (ItemStack item : p.getInventory().getContents()) {
-            if (item == null) {
-                continue;
-            }
-            if (item.getType() == Material.AIR) {
-                continue;
-            }
-            ItemMeta itemMeta = item.getItemMeta();
-            PersistentDataContainer container = itemMeta.getPersistentDataContainer();
-            if (container.has(key,PersistentDataType.STRING)) {
-                container.remove(key);
-                item.setItemMeta(itemMeta);
-                return item;
-            }
+           if (doesItemHaveKey(item,key)) {
+               return item;
+           }
+        }
+        ItemStack cursorItem = p.getItemOnCursor();
+        if (doesItemHaveKey(cursorItem,key)) {
+            return cursorItem;
         }
         return null;
+    }
+
+    public boolean doesItemHaveKey(ItemStack item,NamespacedKey key) {
+        if (item == null) {
+            return false;
+        }
+        if (item.getType() == Material.AIR) {
+            return false;
+        }
+        ItemMeta itemMeta = item.getItemMeta();
+        PersistentDataContainer container = itemMeta.getPersistentDataContainer();
+        if (container.has(key,PersistentDataType.STRING)) {
+            container.remove(key);
+            item.setItemMeta(itemMeta);
+            return true;
+        }
+        return false;
     }
 }

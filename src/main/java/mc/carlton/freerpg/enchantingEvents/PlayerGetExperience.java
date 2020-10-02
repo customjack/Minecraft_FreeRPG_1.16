@@ -26,6 +26,7 @@ public class PlayerGetExperience implements Listener {
                 if (!configLoad.isGetEXPFromEnchantingBottles()) {
                     ExperienceBottleTracking experienceBottleTracking = new ExperienceBottleTracking();
                     fromBottle = experienceBottleTracking.fromEnchantingBottle(entity);
+                    break;
                 }
             }
         }
