@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class Enchanting {
+public class Enchanting extends Skill{
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     private Player p;
     private String pName;

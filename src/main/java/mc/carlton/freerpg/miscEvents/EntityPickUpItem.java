@@ -25,7 +25,7 @@ public class EntityPickUpItem implements Listener {
         List<EntityType> hostileMobs = entityGroups.getHostileMobs();
         if (hostileMobs.contains(entity.getType())) {
             EntityPickedUpItemStorage entityPickedUpItemStorage = new EntityPickedUpItemStorage();
-            entityPickedUpItemStorage.addItemKey(item, entity);
+            entityPickedUpItemStorage.addPickedUpItem(item, entity);
         }
     }
 }

@@ -28,7 +28,7 @@ import org.bukkit.util.Vector;
 import java.time.Instant;
 import java.util.*;
 
-public class Swordsmanship {
+public class Swordsmanship extends Skill{
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     private Player p;
     private String pName;

@@ -23,7 +23,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
-public class AxeMastery {
+public class AxeMastery extends Skill{
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     private Player p;
     private ItemStack itemInHand;

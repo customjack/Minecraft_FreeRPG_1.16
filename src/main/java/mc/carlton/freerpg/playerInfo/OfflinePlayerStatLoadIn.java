@@ -79,12 +79,6 @@ public class OfflinePlayerStatLoadIn {
     }
 
     public void unloadOfflinePlayer(UUID playerUUID) {
-        if (Bukkit.getPlayer(playerUUID) != null) {
-            Player p = Bukkit.getPlayer(playerUUID);
-            if (!p.isOnline()) {
-                safeRemovePlayer(playerUUID);
-            }
-        }
         safeRemovePlayer(playerUUID);
     }
 
@@ -93,12 +87,24 @@ public class OfflinePlayerStatLoadIn {
             @Override
             public void run() {
                 PlayerStats playerStats = new PlayerStats(playerUUID);
-                if (playerStats.arePlayerStatsSaved()) {
+                if (isPlayerOnline(playerUUID)) { //We don't want to remove the stats of an online player
+                    Bukkit.getScheduler().cancelTask(safeDeleteTaskID);
+                }
+                else if (playerStats.arePlayerStatsSaved()) {
                     playerStats.removePlayer();
                     Bukkit.getScheduler().cancelTask(safeDeleteTaskID);
                 }
             }
         }.runTaskTimer(plugin,1,50).getTaskId();
         safeDeleteTaskID = taskID;
+    }
+
+    public boolean isPlayerOnline(UUID playerUUID) {
+        if (Bukkit.getPlayer(playerUUID) != null) {
+            if (Bukkit.getPlayer(playerUUID).isOnline()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

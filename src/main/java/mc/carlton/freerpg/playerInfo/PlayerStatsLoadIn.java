@@ -2,6 +2,7 @@ package mc.carlton.freerpg.playerInfo;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.serverFileManagement.PlayerFilesManager;
+import mc.carlton.freerpg.serverFileManagement.PlayerStatsFilePreparation;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -143,6 +144,16 @@ public class PlayerStatsLoadIn {
                 statsMap.put(skillName, statsi);
             }
 
+        }
+        else { //If for some reason, the player file doesn't exist, we still want the stat map.
+            if (p != null) {
+                PlayerFilesManager playerFilesManager = new PlayerFilesManager();
+                this.f = playerFilesManager.getPlayerFile(pUUID);
+                this.playerData = YamlConfiguration.loadConfiguration(f);
+                PlayerStatsFilePreparation playerStatsFilePreparation = new PlayerStatsFilePreparation();
+                playerStatsFilePreparation.preparePlayerFile(p.getName(),pUUID,true);
+                return getPlayerStatsMap();
+            }
         }
 
         return statsMap;

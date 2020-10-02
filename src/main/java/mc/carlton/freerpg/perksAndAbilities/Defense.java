@@ -24,7 +24,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
-public class Defense {
+public class Defense extends Skill{
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     private Player p;
     private String pName;
@@ -365,7 +365,7 @@ public class Defense {
             if (doubleDropsLevel*0.0005 > rand.nextDouble()) {
                 for (ItemStack drop : drops) {
                     if (!entityPickedUpItemStorage.wasItemPickedUp(drop,entity)) {
-                        world.dropItemNaturally(entity.getLocation().add(0, 0.5, 0), drop);
+                        dropItemNaturally(entity.getLocation().add(0, 0.5, 0), drop);
                     }
                 }
             }

@@ -19,7 +19,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 
-public class Repair {
+public class Repair extends Skill{
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     private Player p;
     private String pName;

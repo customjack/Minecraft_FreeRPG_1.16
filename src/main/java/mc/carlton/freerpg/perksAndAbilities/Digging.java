@@ -25,7 +25,7 @@ import org.bukkit.util.Vector;
 import java.time.Instant;
 import java.util.*;
 
-public class Digging {
+public class Digging extends Skill{
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     private Player p;
     private String pName;
@@ -187,7 +187,7 @@ public class Digging {
                             increaseStats.changeEXP(skillName,(int) Math.round(diggingEXP.get(blockType)*configLoad.getSpecialMultiplier().get("megaDigEXPMultiplier")));
                             Collection<ItemStack> drops = planeBlock.getDrops(itemInHand);
                             for (ItemStack stack : drops) {
-                                world.dropItemNaturally(blockLocation, stack);
+                                dropItemNaturally(blockLocation, stack);
                             }
                             diggingTreasureDrop(world,blockLocation,blockType);
                             planeBlock.setType(Material.AIR);

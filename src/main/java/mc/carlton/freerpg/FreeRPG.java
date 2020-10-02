@@ -172,6 +172,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new SkillsConfigGUIClick(), this);
         getServer().getPluginManager().registerEvents(new EntityPickUpItem(), this);
         getServer().getPluginManager().registerEvents(new CreatureSpawn(), this);
+        getServer().getPluginManager().registerEvents(new DispenserDispenseItem(), this);
 
         //Registers commands
         getCommand("frpg").setExecutor(new FrpgCommands());

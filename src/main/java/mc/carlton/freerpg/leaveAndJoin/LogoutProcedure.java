@@ -20,6 +20,10 @@ public class LogoutProcedure {
     }
 
     public void playerLogout(boolean disablePlugin) throws IOException {
+        // The player stats have not been saved yet, so we don't want to remove the player
+        PlayerStats playerStats = new PlayerStats(p);
+        playerStats.setPlayerAreStatsSaved(false);
+
         //Adds player to the list of last n logouts ("n" specified in config)
         RecentLogouts recentLogouts = new RecentLogouts();
         recentLogouts.playerLogout(p,disablePlugin);

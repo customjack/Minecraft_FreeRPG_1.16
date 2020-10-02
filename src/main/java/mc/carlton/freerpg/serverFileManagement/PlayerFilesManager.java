@@ -40,11 +40,7 @@ public class PlayerFilesManager {
     }
 
     public File loadPlayerFile(Player p) {
-        File f = new File(plugin.getDataFolder(), File.separator + "PlayerDatabase" + File.separator + p.getUniqueId().toString() + ".yml");
-        f.setReadable(true,false);
-        f.setWritable(true,false);
-        addPlayerFile(p,f);
-        return f;
+        return loadPlayerFile(p.getUniqueId());
     }
 
     public File loadPlayerFile(UUID playerUUID) {

@@ -38,10 +38,6 @@ public class PlayerStatsFilePreparation {
     public void preparePlayerFile(String pName, UUID pUUID,boolean isRealLogin) {
         Date now = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-
-        File userdata = new File(plugin.getDataFolder(), File.separator + "PlayerDatabase");
-
 
         PlayerFilesManager playerFilesManager = new PlayerFilesManager();
         File f = playerFilesManager.getPlayerFile(pUUID);

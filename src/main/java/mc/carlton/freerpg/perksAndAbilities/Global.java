@@ -15,7 +15,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
-public class Global {
+public class Global extends Skill{
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     private Player p;
     private String pName;

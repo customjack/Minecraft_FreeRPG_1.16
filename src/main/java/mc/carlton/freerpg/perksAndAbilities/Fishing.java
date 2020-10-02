@@ -26,7 +26,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public class Fishing {
+public class Fishing extends Skill{
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     private Player p;
     private String pName;

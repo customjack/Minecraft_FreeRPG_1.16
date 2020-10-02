@@ -27,7 +27,7 @@ import org.bukkit.util.Vector;
 import java.time.Instant;
 import java.util.*;
 
-public class Mining {
+public class Mining extends Skill{
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     private Player p;
     private String pName;
@@ -337,9 +337,9 @@ public class Mining {
         double randomNum = rand.nextDouble();
         if (chance > randomNum) {
             for (ItemStack stack : block.getDrops(itemInHand)) {
-                world.dropItemNaturally(block.getLocation(), stack);
+                dropItemNaturally(block.getLocation(), stack);
                 if ((int) pStat.get(skillName).get(13) > 0) {
-                    world.dropItemNaturally(block.getLocation(), stack);
+                    dropItemNaturally(block.getLocation(), stack);
                 }
             }
         }
@@ -418,7 +418,7 @@ public class Mining {
             Collection<ItemStack> drops = block.getDrops(itemInHand);
             block.setType(Material.AIR);
             for (ItemStack drop : drops) {
-                world.dropItemNaturally(blockLoc, drop);
+                dropItemNaturally(blockLoc, drop);
             }
         }
 
@@ -471,13 +471,13 @@ public class Mining {
                 Collection<ItemStack> drops = block.getDrops(itemInHand);
                 block.setType(Material.AIR);
                 for (ItemStack drop : drops) {
-                    world.dropItemNaturally(blockLoc, drop);
+                    dropItemNaturally(blockLoc, drop);
                 }
                 if (chance > rand.nextDouble() && natural) {
                     for (ItemStack drop : drops) {
-                        world.dropItemNaturally(blockLoc, drop);
+                        dropItemNaturally(blockLoc, drop);
                         if ((int) pStat.get(skillName).get(13) > 0) {
-                            world.dropItemNaturally(blockLoc, drop);
+                            dropItemNaturally(blockLoc, drop);
                         }
                     }
                 }

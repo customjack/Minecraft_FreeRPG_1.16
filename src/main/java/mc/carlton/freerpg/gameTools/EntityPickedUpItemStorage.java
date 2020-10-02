@@ -1,15 +1,20 @@
 package mc.carlton.freerpg.gameTools;
 
 import mc.carlton.freerpg.FreeRPG;
+import mc.carlton.freerpg.globalVariables.EntityGroups;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,7 +25,7 @@ public class EntityPickedUpItemStorage {
     public void addEntity(LivingEntity entity) {
         entityPickedUpItemsMap.putIfAbsent(entity,new HashSet<>());
     }
-    public void addItemKey(ItemStack itemStack,LivingEntity entity) {
+    public void addPickedUpItem(ItemStack itemStack, LivingEntity entity) {
         Material material = itemStack.getType();
         addEntity(entity);
         HashSet<Material> currentItemsPickedUp = entityPickedUpItemsMap.get(entity);
@@ -40,5 +45,50 @@ public class EntityPickedUpItemStorage {
         if (entityPickedUpItemsMap.containsKey(entity)) {
             entityPickedUpItemsMap.remove(entity);
         }
+    }
+
+    public void addPickedUpItemFromDispenser(ItemStack item, Location location) {
+        Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
+        EntityGroups entityGroups = new EntityGroups();
+        List<EntityType> hostileMobs = entityGroups.getHostileMobs();
+        Map<LivingEntity,List<ItemStack>> entity_EquipmentMap = new HashMap<>();
+        for (Entity entity : location.getWorld().getNearbyEntities(location,1,1,1)) {
+            if (hostileMobs.contains(entity.getType())) {
+                LivingEntity hostileMob = (LivingEntity) entity;
+                List<ItemStack> equipment = getEntityEquipment(hostileMob);
+                entity_EquipmentMap.put(hostileMob,equipment);
+            }
+        }
+        if (entity_EquipmentMap.isEmpty()) {
+            return;
+        }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (LivingEntity entity : entity_EquipmentMap.keySet()) {
+                    List<ItemStack> equipment = entity_EquipmentMap.get(entity);
+                    List<ItemStack> newEquipment = getEntityEquipment(entity);
+                    for (int i = 0; i < equipment.size(); i++) {
+                        if (!equipment.get(i).equals(newEquipment.get(i))) {
+                            addPickedUpItem(item,entity);
+                            break;
+                        }
+                    }
+
+                }
+            }
+        }.runTaskLater(plugin, 1);
+    }
+
+    public List<ItemStack> getEntityEquipment(LivingEntity entity) {
+        EntityEquipment equipment = entity.getEquipment();
+        List<ItemStack> equipmentItems = new ArrayList<>();
+        equipmentItems.add(equipment.getItemInMainHand());
+        equipmentItems.add(equipment.getItemInOffHand());
+        equipmentItems.add(equipment.getHelmet());
+        equipmentItems.add(equipment.getChestplate());
+        equipmentItems.add(equipment.getLeggings());
+        equipmentItems.add(equipment.getBoots());
+        return equipmentItems;
     }
 }

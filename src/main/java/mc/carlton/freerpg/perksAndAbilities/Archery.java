@@ -18,7 +18,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public class Archery {
+public class Archery extends Skill{
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     private Player p;
     private ItemStack itemInHand;

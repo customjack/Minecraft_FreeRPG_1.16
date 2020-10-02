@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Random;
 
-public class Smelting {
+public class Smelting extends Skill{
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     private Player p;
     private String pName;

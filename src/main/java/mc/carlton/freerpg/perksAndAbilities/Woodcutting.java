@@ -25,7 +25,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
-public class Woodcutting {
+public class Woodcutting extends Skill{
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     private Player p;
     private String pName;
@@ -216,14 +216,14 @@ public class Woodcutting {
             Collection<ItemStack> drops = block.getDrops(itemInHand);
             block.setType(Material.AIR);
             for (ItemStack drop : drops) {
-                world.dropItemNaturally(blockLoc, drop);
+                dropItemNaturally(blockLoc, drop);
             }
             if (able_axe > 0 && natural) {
                 double randomNum = rand.nextDouble();
                 double doubleDropChance = doubleDropsLevel * 0.00025;
                 if (doubleDropChance > randomNum) {
                     for (ItemStack drop : drops) {
-                        world.dropItemNaturally(blockLoc, drop);
+                        dropItemNaturally(blockLoc, drop);
                     }
                 }
                 //Book spawns
@@ -268,7 +268,7 @@ public class Woodcutting {
         double randomNum = rand.nextDouble();
         if (chance > randomNum) {
             for (ItemStack stack : block.getDrops(itemInHand)) {
-                world.dropItemNaturally(block.getLocation(), stack);
+                dropItemNaturally(block.getLocation(),stack);
             }
         }
     }
@@ -332,7 +332,7 @@ public class Woodcutting {
                     meta.addStoredEnchant(randomEnchant,randomLevel,true);
                     enchantedBook.setItemMeta(meta);
                 }
-                world.dropItemNaturally(block.getLocation(), enchantedBook);
+                dropItemNaturally(block.getLocation(), enchantedBook);
             }
 
         }
@@ -365,7 +365,7 @@ public class Woodcutting {
                     drop.setType((Material)leafDropData.get(0));
                     drop.setAmount((int)leafDropData.get(1));
                 }
-                world.dropItemNaturally(block.getLocation(), drop);
+                dropItemNaturally(block.getLocation(), drop);
                 increaseStats.changeEXP(skillName, (int) Math.round(expMap.get("leafDrop1")*expMultiplier));
             }
             else if (randomNum < dropChanceSums[1] && leafLevel >= 2) {
@@ -377,7 +377,7 @@ public class Woodcutting {
                     drop.setType((Material)leafDropData.get(3));
                     drop.setAmount((int)leafDropData.get(4));
                 }
-                world.dropItemNaturally(block.getLocation(), drop);
+                dropItemNaturally(block.getLocation(), drop);
                 increaseStats.changeEXP(skillName, (int) Math.round(expMap.get("leafDrop2")*expMultiplier));
             }
             else if (randomNum < dropChanceSums[2] && leafLevel >= 3) {
@@ -389,7 +389,7 @@ public class Woodcutting {
                     drop.setType((Material)leafDropData.get(6));
                     drop.setAmount((int)leafDropData.get(7));
                 }
-                world.dropItemNaturally(block.getLocation(), drop);
+                dropItemNaturally(block.getLocation(), drop);
                 increaseStats.changeEXP(skillName, (int) Math.round(expMap.get("leafDrop3")*expMultiplier));
             }
             else if (randomNum < dropChanceSums[3] && leafLevel >= 4) {
@@ -401,7 +401,7 @@ public class Woodcutting {
                     drop.setType((Material)leafDropData.get(9));
                     drop.setAmount((int)leafDropData.get(10));
                 }
-                world.dropItemNaturally(block.getLocation(), drop);
+                dropItemNaturally(block.getLocation(), drop);
                 increaseStats.changeEXP(skillName, (int) Math.round(expMap.get("leafDrop4")*expMultiplier));
             }
             else if (randomNum < dropChanceSums[4] && leafLevel >= 5) {
@@ -413,7 +413,7 @@ public class Woodcutting {
                     drop.setType((Material)leafDropData.get(12));
                     drop.setAmount((int)leafDropData.get(13));
                 }
-                world.dropItemNaturally(block.getLocation(), drop);
+                dropItemNaturally(block.getLocation(), drop);
                 increaseStats.changeEXP(skillName, (int) Math.round(expMap.get("leafDrop5")*expMultiplier));
             }
         }
@@ -490,7 +490,7 @@ public class Woodcutting {
             Collection<ItemStack> drops = block.getDrops(itemInHand);
             block.setType(Material.AIR);
             for (ItemStack drop : drops) { //Drop whatever that leaf would have dropped normally
-                world.dropItemNaturally(blockLoc, drop);
+                dropItemNaturally(blockLoc, drop);
             }
         }
         increaseStats.changeEXP(skillName,numLeaves*expMap.get("useLeafBlower")); //Gives all EXP
@@ -532,22 +532,22 @@ public class Woodcutting {
                     if (randomNum2 < 0.5) {
                         switch (block.getType()) {
                             case ACACIA_LEAVES:
-                                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.ACACIA_SAPLING,1));
+                                dropItemNaturally(block.getLocation(), new ItemStack(Material.ACACIA_SAPLING,1));
                                 break;
                             case BIRCH_LEAVES:
-                                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.BIRCH_SAPLING,1));
+                                dropItemNaturally(block.getLocation(), new ItemStack(Material.BIRCH_SAPLING,1));
                                 break;
                             case DARK_OAK_LEAVES:
-                                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.DARK_OAK_SAPLING,1));
+                                dropItemNaturally(block.getLocation(), new ItemStack(Material.DARK_OAK_SAPLING,1));
                                 break;
                             case JUNGLE_LEAVES:
-                                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.JUNGLE_SAPLING,1));
+                                dropItemNaturally(block.getLocation(), new ItemStack(Material.JUNGLE_SAPLING,1));
                                 break;
                             case SPRUCE_LEAVES:
-                                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.SPRUCE_SAPLING,1));
+                                dropItemNaturally(block.getLocation(), new ItemStack(Material.SPRUCE_SAPLING,1));
                                 break;
                             case OAK_LEAVES:
-                                world.dropItemNaturally(block.getLocation(), new ItemStack(Material.OAK_SAPLING,1));
+                                dropItemNaturally(block.getLocation(), new ItemStack(Material.OAK_SAPLING,1));
                                 break;
                             default:
                                 break;
@@ -555,15 +555,15 @@ public class Woodcutting {
 
                     }
                     else if (randomNum2 < 0.75) {
-                        world.dropItemNaturally(block.getLocation(), new ItemStack(Material.STICK,1));
+                        dropItemNaturally(block.getLocation(), new ItemStack(Material.STICK,1));
                     }
                     else {
-                        world.dropItemNaturally(block.getLocation(), new ItemStack(Material.STICK,2));
+                        dropItemNaturally(block.getLocation(), new ItemStack(Material.STICK,2));
                     }
                 }
                 double randomNum3 = rand.nextDouble();
                 if (randomNum3 < 0.005 && (block.getType() == Material.OAK_LEAVES || block.getType() == Material.DARK_OAK_LEAVES)) {
-                    world.dropItemNaturally(block.getLocation(), new ItemStack(Material.APPLE,1));
+                    dropItemNaturally(block.getLocation(), new ItemStack(Material.APPLE,1));
                 }
             }
         }

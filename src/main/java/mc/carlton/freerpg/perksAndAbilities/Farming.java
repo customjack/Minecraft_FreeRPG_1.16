@@ -26,7 +26,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
-public class Farming {
+public class Farming extends Skill{
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     private Player p;
     private String pName;
@@ -319,7 +319,7 @@ public class Farming {
         List<EntityType> animals = entityGroups.getAnimals();
         if (animals.contains(entity.getType())) {
             for (ItemStack drop : drops) {
-                world.dropItemNaturally(entity.getLocation().add(0,0.25,0), drop);
+                dropItemNaturally(entity.getLocation().add(0,0.25,0), drop);
             }
         }
     }
@@ -340,7 +340,7 @@ public class Farming {
         if (crops.contains(block.getType())) {
             Collection<ItemStack> drops = block.getDrops(itemInHand);
             for (ItemStack drop : drops) {
-                world.dropItemNaturally(block.getLocation(), drop);
+                dropItemNaturally(block.getLocation(), drop);
             }
         }
     }
@@ -378,7 +378,7 @@ public class Farming {
                 double randomNum = rand.nextDouble();
                 if (doubleDropChance > randomNum) {
                     for (ItemStack item : b.getDrops(itemInHand)) {
-                        world.dropItemNaturally(b.getLocation(),item);
+                        dropItemNaturally(b.getLocation(),item);
                     }
                 }
             }
