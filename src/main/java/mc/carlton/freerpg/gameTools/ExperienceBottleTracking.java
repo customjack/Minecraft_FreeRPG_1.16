@@ -66,8 +66,10 @@ public class ExperienceBottleTracking {
 
     public void removeCloseOriginLocations(Location location) {
         for (Location originLocation : trackedEXPOrbs.keySet()) {
-            if (location.distance(originLocation) <= 1) {
-                trackedEXPOrbs.remove(originLocation);
+            if (originLocation.getWorld().equals(location.getWorld())) {
+                if (location.distance(originLocation) <= 1) {
+                    trackedEXPOrbs.remove(originLocation);
+                }
             }
         }
     }

@@ -3043,7 +3043,7 @@
       outOf: out of
       playerNotInLeaderboard: That player is not on any leaderboards
 
-    esCl: #Translated by PibeChileno
+    esCl:
       languageName: Español
       englishLanguageName: Chilean Spanish
       translationCredit: PibeChileno
@@ -3113,7 +3113,7 @@
       woodcuttingPerkDesc3: Las hojas tienen un 1% de probabilidad de soltar +1 objeto
         del tesoro por nivel
       woodcuttingPerkDesc4: límite de rotura de madera aumentado de 64 a 128
-      woodcuttingPerkDesc5: Break a large section of leaves using an axe (toggleable
+      woodcuttingPerkDesc5: Romper una gran sección de hojas con un hacha (toggleable
         with /leafBlowerToggle)
       woodcuttingPerkDesc6: Gotas dobles, Raíces celosas y Conocimiento oculto, todo
         ahora aplicar a la madera (a la mitad de efectividad)
@@ -3171,8 +3171,8 @@
       farmingPerkDesc1: Puede crear un huevo de desove adicional por nivel
       farmingPerkDesc2: Los alimentos agrícolas son un 20% más efectivos para restaurar
         el hambre y la saturación por nivel
-      farmingPerkDesc3: La carne es un 20% más efectiva para restaurar el hambre y la saturación.
-        por nivel
+      farmingPerkDesc3: La carne es un 20% más efectiva para restaurar el hambre y la
+        saturación. por nivel
       farmingPerkDesc4: La habilidad puede replantar cultivos completamente desarrollados
         con mayor probabilidad de replantación en etapas posteriores de crecimiento;
         La habilidad ahora afecta a Melones y Calabazas.
@@ -3333,7 +3333,7 @@
       defensePassiveTitle0: Fichas pasivas
       defensePassiveTitle1: Atrás
       defensePassiveTitle2: Fichas de habilidad
-      defensePassiveTitle3: Stone Solid Duration
+      defensePassiveTitle3: Duración de piedra solida
       defensePassiveTitle4: Cuerpo duro
       defensePassiveTitle5: Gotas dobles (Mobs hostiles)
       defensePassiveDesc0: Fichas para invertir en habilidades pasivas (tintes)
@@ -3508,7 +3508,7 @@
       hoe: Azada
       superbait: superbait
       fishingRod: caña de pescar
-      berserkPick: Berserk Pick
+      berserkPick: Pico del Berserker
       pickaxe: pico
       swiftStrikes: Golpes rápidos
       sword: espada
@@ -3527,8 +3527,8 @@
       clickForOptions: Haga clic para ver las opciones
       unknownCommand: Comando desconocido
       expToLevel: EXP al siguiente nivel
-      playerName: playerName
-      skillName: skillName (en inglés)
+      playerName: Nombre del jugador
+      skillName: Nombre de la habilidad (en inglés)
       page: página
       on0: 'ON'
       off0: 'OFF'
@@ -3619,7 +3619,7 @@
       speedBoost: Aumento de velocidad
       timeExtension: Extensión de tiempo
       enchantingCraft0: Libro de Poder I
-      enchantingCraft1: Efficiency I Book
+      enchantingCraft1: Libro de Eficiencia I
       enchantingCraft2: Libro de Filo I
       enchantingCraft3: Libro de Proteccion I
       enchantingCraft4: Libro de Suerte marina I
@@ -3675,7 +3675,7 @@
         y luego golpeando a una mafia.
       alchemyPerkDesc1_0: Desbloquea la capacidad de elaborar cerveza
       alchemyPerkDesc0_0: Se puede usar una mesa de artesanía para
-      triggerAbilities: Trigger Abilities
+      triggerAbilities: Habilidades de activación
       showEXPBar: Mostrar barra EXP
       disabledSkill: Esta habilidad está desactivada
       skillConfigDesc: te lleva al menú de configuración de esta habilidad
@@ -3723,18 +3723,18 @@
       xpLevels: niveles de XP de Minecraft
       craftXPRequirement: Esta receta requiere al menos
       bedGUI: ¡No puedes usar este comando mientras estás en la cama!
-      statsUpdated: Your stats were changed to be consistent with a new EXP curve. All
-        skill trees and passive perks have been reset. All tokens must be re-invested.
-      timeRemaining: Time Remaining
-      numberOfAbilityTimersDisplayed: Number of Ability Timers Displayed
-      commandDesc14: Resets the cooldown period for a skill to 0 seconds
-      commandDesc15: Looks up a player's FreeRPG stats
-      repairUnsafeEnchant: This item is too powerful to be repaired
-      salvageUnsafeEnchant: This item is too powerful to be salvaged
-      rank: Rank
-      stats: stats
-      outOf: out of
-      playerNotInLeaderboard: That player is not on any leaderboards
+      statsUpdated: Sus estadísticas se cambiaron para que sean consistentes con una nueva curva EXP. Todos
+        Se han restablecido los árboles de habilidades y las ventajas pasivas. Todos los tokens deben reinvertirse.
+      timeRemaining: Tiempo restante
+      numberOfAbilityTimersDisplayed: Número de temporizadores de habilidad mostrados
+      commandDesc14: Restablece el período de recuperación de una habilidad a 0 segundos
+      commandDesc15: Busca las estadísticas de FreeRPG de un jugador
+      repairUnsafeEnchant: Este objeto es demasiado poderoso para ser reparado
+      salvageUnsafeEnchant: Este objeto es demasiado poderoso para ser recuperado
+      rank: Rango
+      stats: estadisticas
+      outOf: fuera de
+      playerNotInLeaderboard: Ese jugador no está en ninguna tabla de clasificación
 
     ruRU:
       languageName: Pусский Язык

@@ -642,7 +642,6 @@ public class Fishing extends Skill{
 
     public ItemStack dropTable(boolean superBaitOn) {
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        Integer[] pAbilities = abilities.getPlayerAbilities();
         int doubleFishLevel = (int) pStat.get(skillName).get(5);
         int treasureFinderLevel = (int) pStat.get(skillName).get(6);
         int scavengerLevel = (int) pStat.get(skillName).get(8);

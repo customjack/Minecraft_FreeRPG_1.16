@@ -84,7 +84,9 @@ public final class FreeRPG extends JavaPlugin implements Listener {
 
         //Checks if the server has PlaceHolderAPI
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new FreeRPGPlaceHolders(this).register();
+            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI").isEnabled()) {
+                new FreeRPGPlaceHolders(this).register();
+            }
         }
 
         //Initializes all "global" variables

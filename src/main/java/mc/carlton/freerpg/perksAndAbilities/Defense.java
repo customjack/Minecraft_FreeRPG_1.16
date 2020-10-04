@@ -394,7 +394,7 @@ public class Defense extends Skill{
         if (healerLevel < 4) {
             return;
         }
-        double maxHP = ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+        double maxHP = ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
         int HP_to_add = (healerLevel-3);
         p.setHealth(Math.min(maxHP,p.getHealth()+HP_to_add));
         increaseStats.changeEXP(skillName, expMap.get("healerHealActivate"));

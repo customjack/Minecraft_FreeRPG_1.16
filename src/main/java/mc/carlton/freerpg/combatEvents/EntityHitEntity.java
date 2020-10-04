@@ -271,11 +271,6 @@ public class EntityHitEntity implements Listener {
         //Getting hit (defense)
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
-            Agility agilityClass = new Agility(p);
-            boolean dodge = agilityClass.dodge(e.getFinalDamage());
-            if (dodge) {
-                e.setCancelled(true);
-            }
             if (e.getDamage() != 0 && !e.getCause().equals(EntityDamageEvent.DamageCause.HOT_FLOOR) &&
                     !e.getCause().equals(EntityDamageEvent.DamageCause.STARVATION) &&
                     !e.getCause().equals(EntityDamageEvent.DamageCause.VOID) &&
@@ -283,6 +278,11 @@ public class EntityHitEntity implements Listener {
                     !e.getCause().equals(EntityDamageEvent.DamageCause.CUSTOM) &&
                     !e.getCause().equals(EntityDamageEvent.DamageCause.CONTACT)
                 ) {
+                Agility agilityClass = new Agility(p);
+                boolean dodge = agilityClass.dodge(e.getFinalDamage());
+                if (dodge) {
+                    e.setCancelled(true);
+                }
 
                 Defense defenseClass = new Defense(p);
                 double multiplier = defenseClass.hardBody();
