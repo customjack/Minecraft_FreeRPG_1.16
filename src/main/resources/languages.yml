@@ -3736,7 +3736,7 @@
       outOf: fuera de
       playerNotInLeaderboard: Ese jugador no está en ninguna tabla de clasificación
 
-    ruRU:
+    ruRU: #Transalted by MoKotik, DevilPlay
       languageName: Pусский Язык
       englishLanguageName: Russian
       translationCredit: MoKotik, DevilPlay
@@ -4408,6 +4408,636 @@
       stats: stats
       outOf: out of
       playerNotInLeaderboard: That player is not on any leaderboards
+
+    ptBR: #Translated by gbuueno
+      languageName: Porutgues Brazil
+      englishLanguageName: Porutgues Brazil
+      translationCredit: gbuueno
+      global: Global
+      digging: Escavação
+      woodcutting: Corte de madeira
+      mining: Mineração
+      farming: Agricultura
+      fishing: Pescaria
+      archery: Tiro com arco
+      beastMastery: Domínio da Besta
+      swordsmanship: Esgrima
+      defense: Defesa
+      axeMastery: Maestria de machado
+      repair: Reparar
+      alchemy: Alquimia
+      agility: Agilidade
+      smelting: Fundição
+      enchanting: Encantadora
+      information: Em formação
+      configuration: Configuração
+      level: Level
+      experience: Experiência
+      toNext: para a próxima
+      total: Total
+      diggingPerkTitle0: Mo' drops
+      diggingPerkTitle1: Tesouro duplo
+      diggingPerkTitle2: Drops raros
+      diggingPerkTitle3: Ladrão de almas
+      diggingPerkTitle4: Localizador de flint
+      diggingPerkTitle5: Cavaleiro da pá
+      diggingPerkTitle6: Mega Dig
+      diggingPerkDesc0: Expande a tabela de queda de tesouro em 1 item por nível
+      diggingPerkDesc1: + 5% de chance de receber o dobro da queda de tesouro por nível (quando
+        tesouro é rolado)
+      diggingPerkDesc2: Expande ainda mais a tabela suspensa por item por nível
+      diggingPerkDesc3: A areia da alma tem 5% a mais de probabilidade de soltar tesouros por nível
+      diggingPerkDesc4: Cascalho tem 100% de taxa de queda de pederneira (alternável por /flintToggle)
+      diggingPerkDesc5: Pás causam dano duplo
+      diggingPerkDesc6: Ao usar a habilidade, você agora quebra uma seção de bloqueio 3x3 (20% de
+        taxa de tesouro normal quando ativo)
+      diggingPassiveTitle0: Tokens passivos
+      diggingPassiveTitle1: Voltar
+      diggingPassiveTitle2: Tokens de habilidade
+      diggingPassiveTitle3: Duração do Big Dig
+      diggingPassiveTitle4: Chance de tesouro
+      diggingPassiveDesc0: Tokens para investir em habilidades passivas (corantes)
+      diggingPassiveDesc1: Leva você de volta ao menu principal de habilidades
+      diggingPassiveDesc2: Tokens para investir na árvore de habilidades
+      diggingPassiveDesc3: Aumenta a duração da Big Dig em 0,02 s
+      diggingPassiveDesc4: Aumenta a chance de desenterrar tesouros em 0,005%
+      woodcuttingPerkTitle0: Raizes Zelosas
+      woodcuttingPerkTitle1: Armas frescas
+      woodcuttingPerkTitle2: Conhecimento Oculto
+      woodcuttingPerkTitle3: Leaf Scavenger
+      woodcuttingPerkTitle4: Madeira +
+      woodcuttingPerkTitle5: Soprador de folhas
+      woodcuttingPerkTitle6: Machado capaz
+      woodcuttingPerkDesc0: + 20% de chance de os logs caírem 1 XP por nível
+      woodcuttingPerkDesc1: +12 s por nível de Haste I após o primeiro log quebrado em 5 minutos
+      woodcuttingPerkDesc2: Logs têm + 0,2% de chance por nível de derrubar um encantado
+        livro
+      woodcuttingPerkDesc3: As folhas têm 1% de chance de soltar +1 item de tesouro por nível
+      woodcuttingPerkDesc4: O limite de quebra de madeira aumentou de 64 para 128
+      woodcuttingPerkDesc5: Quebre uma grande seção de folhas usando um machado (alternável com / leafBlowerToggle)
+      woodcuttingPerkDesc6: Gotas duplas, raízes zelosas e conhecimento oculto, tudo agora
+        aplicar à madeira (com metade da eficácia)
+      woodcuttingPassiveTitle0: Tokens passivos
+      woodcuttingPassiveTitle1: Voltar
+      woodcuttingPassiveTitle2: Tokens de habilidade
+      woodcuttingPassiveTitle3: Timber Duration
+      woodcuttingPassiveTitle4: Drops duplos
+      woodcuttingPassiveDesc0: Tokens para investir em habilidades passivas (corantes)
+      woodcuttingPassiveDesc1: Leva você de volta ao menu principal de habilidades
+      woodcuttingPassiveDesc2: Tokens para investir na árvore de habilidades
+      woodcuttingPassiveDesc3: Aumenta a duração da madeira em 0,02 s
+      woodcuttingPassiveDesc4: Aumenta a chance de receber uma queda dupla em 0,05%
+      miningPerkTitle0: Pressa inútil
+      miningPerkTitle1: Mmis bombas
+      miningPerkTitle2: Caçadora de tesouros
+      miningPerkTitle3: Viagem de bomba
+      miningPerkTitle4: Veia mineira
+      miningPerkTitle5: Homem de demolição
+      miningPerkTitle6: Problema triplo
+      miningPerkDesc0: Ganhe pressa após minerar minérios para cada nível
+      miningPerkDesc1: A receita de criação para TNT produz +1 bloco de TNT por nível
+      miningPerkDesc2: Ao usar a habilidade em pedras, + 1% por nível de chance de um minério
+        para descartar (exp extra é ganho com minérios descartados)
+      miningPerkDesc3: Aumenta o raio de explosão TNT (quando iluminado por sílex e aço) cada
+        nível
+      miningPerkDesc4: Os veios de minério são extraídos instantaneamente ao quebrar um bloco (comutável)
+      miningPerkDesc5: Nenhum dano é causado por explosões TNT
+      miningPerkDesc6: Quedas duplas agora são quedas triplas
+      miningPassiveTitle0: Tokens passivos
+      miningPassiveTitle1: Voltar
+      miningPassiveTitle2: Tokens de habilidade
+      miningPassiveTitle3: Duração da escolha furiosa
+      miningPassiveTitle4: Drops duplos
+      miningPassiveTitle5: Explosão de mineração
+      miningPassiveDesc0: Tokens para investir em habilidades passivas (corantes)
+      miningPassiveDesc1: Leva você de volta ao menu principal de habilidades
+      miningPassiveDesc2: Tokens para investir na árvore de habilidades
+      miningPassiveDesc3: Aumenta a duração do Berserk Pick em 0,02s
+      miningPassiveDesc4: Aumenta a chance de receber uma queda dupla de minérios em 0,05%
+      miningPassiveDesc5: Aumenta as chances de o minério ser criado a partir de explosões de TNT
+        em 0,01% (mais blocos quebrados = mais rolos de tesouro)
+      farmingPerkTitle0: Melhor Fertilizante
+      farmingPerkTitle1: Fazenda de animais
+      farmingPerkTitle2: Dieta do Fazendeiro
+      farmingPerkTitle3: Carnívoro
+      farmingPerkTitle4: Polegar verde
+      farmingPerkTitle5: Hormônios de crescimento
+      farmingPerkTitle6: Um com a natureza
+      farmingPerkDesc0: + 10% de chance de não consumir farinha de osso durante o uso
+      farmingPerkDesc1: Pode criar um ovo de desova adicional por nível
+      farmingPerkDesc2: Alimentos agrícolas são 20% mais eficazes para restaurar a fome e a saturação
+        por nível
+      farmingPerkDesc3: A carne é 20% mais eficaz em restaurar a fome e a saturação
+        por nível
+      farmingPerkDesc4: A habilidade pode replantar safras totalmente crescidas com maior chance de
+        replantio em estágios posteriores de crescimento; habilidade agora afeta melões e abóboras
+      farmingPerkDesc5: O açúcar pode ser usado em animais bebês para fazê-los crescer instantaneamente
+      farmingPerkDesc6: Ganhe Regeneração I ao ficar parado na grama
+      farmingPassiveTitle0: Tokens passivos
+      farmingPassiveTitle1: Voltar
+      farmingPassiveTitle2: Tokens de habilidade
+      farmingPassiveTitle3: Duração da regeneração natural
+      farmingPassiveTitle4: Drops duplos (Cultivo)
+      farmingPassiveTitle5: Drops duplos (Animais)
+      farmingPassiveDesc0: Tokens para investir em habilidades passivas (corantes)
+      farmingPassiveDesc1: Leva você de volta ao menu principal de habilidades
+      farmingPassiveDesc2: Tokens para investir na árvore de habilidades
+      farmingPassiveDesc3: Aumenta a duração da regeneração natural em 0,02s
+      farmingPassiveDesc4: Aumenta a chance de receber uma queda dupla das safras em 0,05%
+      farmingPassiveDesc5: Aumenta a chance de receber uma queda dupla da maioria dos passivos
+        animais em 0,05%
+      fishingPerkTitle0: Roubar
+      fishingPerkTitle1: Carniceiro
+      fishingPerkTitle2: Dieta do Pescador
+      fishingPerkTitle3: Filtração
+      fishingPerkTitle4: Gancho
+      fishingPerkTitle5: Vara de pesca quente
+      fishingPerkTitle6: Pessoa Peixe
+      fishingPerkDesc0: + 15% de chance de retirar o item de um mob por nível
+      fishingPerkDesc1: Desbloqueia nova camada de tesouro de pesca
+      fishingPerkDesc2: Restauração de peixes + 20% de fome por nível
+      fishingPerkDesc3: Loot de nível superior (II-V) torna-se mais comum, nível inferior (I)
+        torna-se menos comum
+      fishingPerkDesc4: Vara de pesca agora atua como um gancho (alternável com / grappleToggle
+        )
+      fishingPerkDesc5: Os peixes agora são cozidos quando pescados, alguns tesouros de pesca são
+        alterado (alternável com /hotRodToggle)
+      fishingPerkDesc6: Visão noturna infinita quando debaixo d'água, graça infinita do golfinho
+        quando na água
+      fishingPassiveTitle0: Tokens passivos
+      fishingPassiveTitle1: Voltar
+      fishingPassiveTitle2: Tokens de habilidade
+      fishingPassiveTitle3: Super duração da isca
+      fishingPassiveTitle4: Pegadas duplas
+      fishingPassiveTitle5: Descobridor de tesouro
+      fishingPassiveDesc0: Tokens para investir em habilidades passivas (corantes)
+      fishingPassiveDesc1: Leva você de volta ao menu principal de habilidades
+      fishingPassiveDesc2: Tokens para investir na árvore de habilidades
+      fishingPassiveDesc3: Aumenta a duração do Super Bait em 0,01s
+      fishingPassiveDesc4: Aumenta a chance de receber uma queda dupla em 0,05%
+      fishingPassiveDesc5: Diminui a chance de encontrar lixo em 0,005%, aumenta a chance
+        de encontrar tesouros em 0,005%
+      archeryPerkTitle0: Flechas extras
+      archeryPerkTitle1: Franco-atirador
+      archeryPerkTitle2: Flecha de luz
+      archeryPerkTitle3: Flehas Explosivas
+      archeryPerkTitle4: Flecha Dragon-less
+      archeryPerkTitle5: Carga rápida de besta
+      archeryPerkTitle6: Golpe Mortal
+      archeryPerkDesc0: +1 flecha obtida na fabricação por nível
+      archeryPerkDesc1: A velocidade da flecha aumenta em + 2% por nível (~ 4% de aumento de dano / nível)
+      archeryPerkDesc2: Flechas espectrais recebem um aumento de dano de + 5% por nível
+      archeryPerkDesc3: As flechas têm + 1% de criação de uma explosão ao acertar
+      archeryPerkDesc4: Permite a fabricação de todas as flechas com pontas com poções regulares
+        de poções persistentes
+      archeryPerkDesc5: A habilidade agora pode ser usada com bestas, fazendo com que todos os tiros sejam carregados
+        imediatamente
+      archeryPerkDesc6: Fogos de artifício disparados de bestas causam dano duplo (até 16 corações
+        de dano)
+      archeryPassiveTitle0: Tokens passivos
+      archeryPassiveTitle1: Voltar
+      archeryPassiveTitle2: Tokens de habilidade
+      archeryPassiveTitle3: Duração rápida do fogo
+      archeryPassiveTitle4: Recuperação
+      archeryPassiveDesc0: Tokens para investir em habilidades passivas (corantes)
+      archeryPassiveDesc1: Leva você de volta ao menu principal de habilidades
+      archeryPassiveDesc2: Tokens para investir na árvore de habilidades
+      archeryPassiveDesc3: Aumenta a duração do Fogo Rápido em 0,02s
+      archeryPassiveDesc4: Aumenta a chance de o tiro de flecha não consumir a flecha em 0,05%
+        por nível
+      beastMasteryPerkTitle0: Pelo Grosso
+      beastMasteryPerkTitle1: Dentes afiados
+      beastMasteryPerkTitle2: Mordidas saudáveis
+      beastMasteryPerkTitle3: Mantenha-se afastado
+      beastMasteryPerkTitle4: Acro-Cão
+      beastMasteryPerkTitle5: Identificar
+      beastMasteryPerkTitle6: Impulso de adrenalina
+      beastMasteryPerkDesc0: Os cães sofrem -10% de dano por nível
+      beastMasteryPerkDesc1: Os cães causam + 10% a mais de dano por nível
+      beastMasteryPerkDesc2: Os cães curam +1/2 de coração por nível de matar
+      beastMasteryPerkDesc3: Cães ganham + 5% de chance de derrubar inimigos Voltar
+      beastMasteryPerkDesc4: Os cães não sofrem danos de queda
+      beastMasteryPerkDesc5: Usar uma bússola em um cavalo ou lobo agora mostra suas estatísticas
+      beastMasteryPerkDesc6: Spur kick buff agora é velocidade III
+      beastMasteryPassiveTitle0: Tokens passivos
+      beastMasteryPassiveTitle1: Voltar
+      beastMasteryPassiveTitle2: Tokens de habilidade
+      beastMasteryPassiveTitle3: Duração do chute de esporão
+      beastMasteryPassiveTitle4: Mordida Crítica
+      beastMasteryPassiveDesc0: Tokens para investir em habilidades passivas (corantes)
+      beastMasteryPassiveDesc1: Leva você de volta ao menu principal de habilidades
+      beastMasteryPassiveDesc2: Tokens para investir na árvore de habilidades
+      beastMasteryPassiveDesc3: Aumenta a duração do Spur Kick em 0,02s
+      beastMasteryPassiveDesc4: Aumenta a chance de um cão ter um acerto crítico por
+        0,025%
+      swordsmanshipPerkTitle0: Adrenalina
+      swordsmanshipPerkTitle1: Matança
+      swordsmanshipPerkTitle2: Adrenalina+
+      swordsmanshipPerkTitle3: Frenesi mortal
+      swordsmanshipPerkTitle4: Sede de sangue
+      swordsmanshipPerkTitle5: Mais nítido!
+      swordsmanshipPerkTitle6: Maestria de espada
+      swordsmanshipPerkDesc0: Matar mobs hostis com uma espada fornece +2 s de velocidade
+        por nível
+      swordsmanshipPerkDesc1: Matar mobs hostis com uma espada fornece +2 s de força
+        por nível
+      swordsmanshipPerkDesc2: + 20% do buff de velocidade I da Adrenalina agora é velocidade II
+      swordsmanshipPerkDesc3: + 20% da força que eu buff de Killing Spree agora é força
+        II
+      swordsmanshipPerkDesc4: Matar certos mobs agressivos com uma espada restaura
+        fome
+      swordsmanshipPerkDesc5: Golpes rápidos agora adicionam um nível de nitidez à sua espada
+      swordsmanshipPerkDesc6: Espadas causam permanentemente +1 coração de dano
+      swordsmanshipPassiveTitle0: Tokens passivos
+      swordsmanshipPassiveTitle1: Voltar
+      swordsmanshipPassiveTitle2: Tokens de habilidade
+      swordsmanshipPassiveTitle3: Duração de ataques rápidos
+      swordsmanshipPassiveTitle4: Golpe duplo
+      swordsmanshipPassiveDesc0: Tokens para investir em habilidades passivas (corantes)
+      swordsmanshipPassiveDesc1: Leva você de volta ao menu principal de habilidades
+      swordsmanshipPassiveDesc2: Tokens para investir na árvore de habilidades
+      swordsmanshipPassiveDesc3: Aumenta a duração dos golpes rápidos em 0,02s
+      swordsmanshipPassiveDesc4: Aumenta a chance de acertar o mob duas vezes (o segundo acerto faz
+        50% de dano) em 0,02%
+      defensePerkTitle0: Curador
+      defensePerkTitle1: Endurecer
+      defensePerkTitle2: Cabeça dura
+      defensePerkTitle3: Endurecer+
+      defensePerkTitle4: Presente de cima
+      defensePerkTitle5: Pernas mais fortes
+      defensePerkTitle6: Forte
+      defensePerkDesc0: Ganhe + 3s de regeneração por nível ao matar
+      defensePerkDesc1: + 2% de chance de ganhar resistência I por 5s ao acertar
+      defensePerkDesc2: Corpo rígido diminui o dano em 6,6% adicionais por nível
+      defensePerkDesc3: + 2% de chance de ganhar resistência II por 5s ao acertar
+      defensePerkDesc4: Pedra Sólida agora concede 4 corações de absorção para comprimento de habilidade
+        +1 minuto
+      defensePerkDesc5: Pedra Sólida agora dá lentidão I em vez de lentidão IV
+      defensePerkDesc6: +2 corações permanentemente
+      defensePassiveTitle0: Tokens passivos
+      defensePassiveTitle1: Voltar
+      defensePassiveTitle2: Tokens de habilidade
+      defensePassiveTitle3: Duração da Pedra Sólida
+      defensePassiveTitle4: Corpo duro
+      defensePassiveTitle5: Drops duplos (Mobs Hostis)
+      defensePassiveDesc0: Tokens para investir em habilidades passivas (corantes)
+      defensePassiveDesc1: Leva você de volta ao menu principal de habilidades
+      defensePassiveDesc2: Tokens para investir na árvore de habilidades
+      defensePassiveDesc3: Aumenta a duração da Pedra Sólida em 0,02s
+      defensePassiveDesc4: Aumenta a chance de sofrer dano reduzido (base -33%) em 0,01%
+        por nível
+      defensePassiveDesc5: Aumenta a chance de receber Drops duplos de agressivo
+        mobs em 0,05%
+      axeMasteryPerkTitle0: Otimo machado
+      axeMasteryPerkTitle1: Machado sagrado
+      axeMasteryPerkTitle2: Revitalizado
+      axeMasteryPerkTitle3: Guerreiro sangue
+      axeMasteryPerkTitle4: Tremor de terra
+      axeMasteryPerkTitle5: Melhores créditos
+      axeMasteryPerkTitle6: Homem machado
+      axeMasteryPerkDesc0: O raio de dano do grande machado aumenta em 1 bloco por nível
+      axeMasteryPerkDesc1: + 2% de chance de iluminação para atingir mobs em um golpe de machado
+      axeMasteryPerkDesc2: + 1% de chance de cura total ao matar por nível
+      axeMasteryPerkDesc3: +3 s por nível de Força I em mortes com um machado
+      axeMasteryPerkDesc4: O dano AOE da habilidade é dobrado (25% -> 50% do dano)
+      axeMasteryPerkDesc5: Os Critos Divinos agora têm um multiplicador de 1,6x em vez de 1,25x
+      axeMasteryPerkDesc6: Machados causam permanentemente +1 de dano
+      axeMasteryPassiveTitle0: Tokens passivos
+      axeMasteryPassiveTitle1: Voltar
+      axeMasteryPassiveTitle2: Tokens de habilidade
+      axeMasteryPassiveTitle3: Duração do Grande Machado
+      axeMasteryPassiveTitle4: Critos Divinos
+      axeMasteryPassiveDesc0: Tokens para investir em habilidades passivas (corantes)
+      axeMasteryPassiveDesc1: Leva você de volta ao menu principal de habilidades
+      axeMasteryPassiveDesc2: Tokens para investir na árvore de habilidades
+      axeMasteryPassiveDesc3: Aumenta a duração do Grande Machado em 0,02s
+      axeMasteryPassiveDesc4: Aumenta a chance de crítico aleatório (base 1,25x de dano) em 0,01%
+      repairPerkTitle0: Salvando
+      repairPerkTitle1: Engenhoso
+      repairPerkTitle2: Maestria de reparo mágico
+      repairPerkDesc0: Obtenha mais materiais em média com a recuperação
+      repairPerkDesc1: + 10% de chance de manter o material usado durante o reparo
+      repairPerkDesc2: Garantido para manter os encantos em reparo
+      repairPassiveTitle0: Voltar
+      repairPassiveTitle1: Tokens de habilidade
+      repairPassiveTitle2: Competência
+      repairPassiveDesc0: Leva você de volta ao menu principal de habilidades
+      repairPassiveDesc1: Tokens para investir na árvore de habilidades
+      repairPassiveDesc2: Os materiais restauram mais durabilidade no reparo
+      agilityPerkTitle0: Esquiva
+      agilityPerkTitle1: Ossos de aço
+      agilityPerkTitle2: Pés graciosos
+      agilityPerkDesc0: + 4% de chance de esquivar de ataques por nível
+      agilityPerkDesc1: -10% de dano de queda por nível
+      agilityPerkDesc2: Velocidade permanente I buff (alternável por /speedToggle)
+      agilityPassiveTitle0: Voltar
+      agilityPassiveTitle1: Tokens de habilidade
+      agilityPassiveTitle2: Lista
+      agilityPassiveDesc0: Leva você de volta ao menu principal de habilidades
+      agilityPassiveDesc1: Tokens para investir na árvore de habilidades
+      agilityPassiveDesc2: Chance de rolar e receber dano de queda reduzido
+      alchemyPerkTitle0: Invocação Alquímica
+      alchemyPerkTitle1: Conhecimento Antigo
+      alchemyPerkTitle2: Mestre de Poções
+      alchemyPerkDesc0: Permite a elaboração de algumas poções sem um suporte de fermentação
+      alchemyPerkDesc1: Desbloqueia a capacidade de preparar novas poções
+      alchemyPerkDesc2: Todas as poções usadas são aumentadas de nível em 1 (alternável com
+        /togglePotion)
+      alchemyPassiveTitle0: Voltar
+      alchemyPassiveTitle1: Tokens de habilidade
+      alchemyPassiveTitle2: Meia vida+
+      alchemyPassiveDesc0: Leva você de volta ao menu principais habilidades
+      alchemyPassiveDesc1: Tokens para investir na árvore de habilidades
+      alchemyPassiveDesc2: Aumento na duração das poções quando usadas
+      smeltingPerkTitle0: Eficiência do combustível
+      smeltingPerkTitle1: Cheiro duplo
+      smeltingPerkTitle2: Picareta em chamas
+      smeltingPerkDesc0: O combustível dura + 20% a mais por nível
+      smeltingPerkDesc1: + 5% de chance de o minério fundido dobrar por nível
+      smeltingPerkDesc2: Os minérios extraídos são fundidos instantaneamente (alternável com /toggleFlamePick)
+      smeltingPassiveTitle0: Voltar
+      smeltingPassiveTitle1: Tokens de habilidade
+      smeltingPassiveTitle2: Velocidade de Combustível
+      smeltingPassiveDesc0: Leva você de volta ao menu principal de habilidades
+      smeltingPassiveDesc1: Tokens para investir na árvore de habilidades
+      smeltingPassiveDesc2: Aumentando a velocidade de cozimento
+      enchantingPerkTitle0: Eficiente Encantador
+      enchantingPerkTitle1: Livro inteligente
+      enchantingPerkTitle2: Experiência Imortal
+      enchantingPerkDesc0: Níveis necessários para encantar -1 por nível, custos de reparo da bigorna
+        -1 (mínimo de 2) níveis de XP por nível
+      enchantingPerkDesc1: Desbloqueia a elaboração de receitas para alguns livros encantados
+      enchantingPerkDesc2: Mantenha xp na morte
+      enchantingPassiveTitle0: Voltar
+      enchantingPassiveTitle1: Tokens de habilidade
+      enchantingPassiveTitle2: Desenvolvimento mais rápido
+      enchantingPassiveDesc0: Leva você de volta ao menu principal de habilidades
+      enchantingPassiveDesc1: Tokens para investir na árvore de habilidades
+      enchantingPassiveDesc2: Todos os XP recebidos aumentaram
+      globalPerkTitle0: Coletor
+      globalPerkTitle1: Estudioso
+      globalPerkTitle2: Lutador
+      globalPerkTitle3: Trabalho duro
+      globalPerkTitle4: Pesquisa
+      globalPerkTitle5: Treinamento
+      globalPerkTitle6: Reencarnação+
+      globalPerkTitle7: Colheita de Alma
+      globalPerkTitle8: Avatar
+      globalPerkTitle9: Mestre das artes
+      globalPerkDesc0: + 20% de exp ganho em escavação, corte de lenha, mineração, agricultura e
+        pescaria
+      globalPerkDesc1: + 20% de exp ganho em Reparo, Agilidade, Fabricação, Fundição e Encantamento
+      globalPerkDesc2: + 20% de exp ganho em arco e flecha, maestria de bestas, esgrima, defesa,
+        e maestria de machado
+      globalPerkDesc3: +1 token de habilidade em todas as habilidades de Coletor
+      globalPerkDesc4: +1 token de habilidade em todas as habilidades acadêmicas
+      globalPerkDesc5: +1 token de habilidade em todas as habilidades de lutador
+      globalPerkDesc6: Na morte, 50% de chance de manter alguns de cada item valioso em seu
+        estoques
+      globalPerkDesc7: Você agora colhe almas matando mobs agressivos, que podem
+        ser usado para reembolsar árvores de habilidade
+      globalPerkDesc8: 10% de chance de não sofrer nenhum dano e ganhar todos os buffs do jogo por 10s
+        em um golpe que normalmente te mataria
+      globalPerkDesc9: As habilidades de resfriamentos diminuíram 33%
+      globalPassiveTitle0: Tokens globais
+      globalPassiveTitle1: Voltar
+      globalPassiveDesc0: Tokens para investir na árvore de habilidades
+      globalPassiveDesc1: Leva você de volta ao menu principal de habilidades
+      cannotRepair: Você não pode reparar enquanto esta habilidade estiver ativa!
+      cannotSalvage: Você não pode salvar enquanto esta habilidade estiver ativa!
+      spite: Tudo de bom é feito de rancor
+      refundSkill: são obrigados a reembolsar uma árvore de habilidade
+      refundSkill2: a fim de reembolsar uma árvore de habilidade
+      needToUnlock: Você precisa desbloquear
+      perkRequirement: Você precisa de pelo menos 2 tokens de habilidade investidos nas vantagens anteriores para desbloquear esta vantagem
+      perkRequirementM: Você precisa de pelo menos 10 tokens de habilidade totais investidos na árvore de habilidades para desbloquear este privilégio de maestria
+      noSkillTokens: Você não tem nenhum Tokens de habilidade
+      noPassiveTokens: Você não tem nenhum Tokens passivo
+      maxedOutPerk: Você já atingiu o limite máximo deste benefício!
+      requiredGlobalPerks0: Você precisa do benefício anterior para desbloquear este benefício
+      requiredGlobalPerks1: são necessários para desbloquear este privilégio
+      requiredGlobalPerks2: é necessário para desbloquear este privilégio
+      requiredGlobalPerks3: Você precisa de todos os benefícios globais para desbloquear este benefício
+      craftRequirement: é necessário para criar esta receita!
+      roll: Lista
+      dodge: Esquiva
+      prepare: Você preparou o seu
+      rest: Você descansou seu
+      activated: Ativado!
+      ended: Voce terminou
+      readyToUse: Está pronto para usar novamente
+      cooldown: Esfriou
+      rapidFire: Fogo rápido
+      bow: Arco
+      greatAxe: Grande machado
+      axe: Machado
+      spurKick: Chute com espora
+      leg: Perna
+      stoneSoldier: Soldado de Pedra
+      yourself: Você mesmo
+      bigDig: Grande escavação
+      shovel: Pá
+      naturalRegeneration: Regeneração natural
+      hoe: Enxada
+      superBait: Super isca
+      fishingRod: Vara de pesca
+      berserkPick: Picareta Furiosa
+      pickaxe: Picareta
+      swiftStrikes: Ataques rápidos
+      sword: Espada
+      timber: Madeira
+      hyperHorse: Este cavalo já está hiper!
+      magicForce: Uma força mágica acaba com sua habilidade
+      rob: Roubar
+      repairFail0: Você não é qualificado o suficiente para reparar este item de forma adequada
+      repairFail1: Você falhou em salvar qualquer material
+      repairFail2: Você falhou em manter o poder de encantamento do item
+      treeTooBig0: Esta árvore é muito grande para você cortar de uma vez! "
+      treeTooBig1: Esta árvore nunca pode ser cortada de uma vez como esta ...
+      noPermission: Você não tem permissão para usar este comando!
+      improperArguments: Argumentos impróprios, tente
+      totalPlayTime: Tempo total de jogo
+      clickForOptions: Clique para opções
+      unknownCommand: Comando desconhecido
+      expToLevel: EXP para o próximo nível
+      playerName: nome do jogador
+      skillName: skillName (em inglês)
+      page: página
+      on0: "LIGADO"
+      off0: "DESLIGADO"
+      onOrOff: LIGADO/DESLIGADO
+      manuallyToggles: Alterna manualmente
+      commandDesc0: Abre a GUI principal com todas as habilidades
+      commandDesc1: Abre uma árvore de habilidade GUI de escolha
+      commandDesc2: Abre a GUI de configuração
+      commandDesc3: Dá a um jogador de escolha EXP em uma habilidade específica
+      commandDesc4: Define o nível de um determinado jogador em uma habilidade específica
+      commandDesc5: Redefine as estatísticas de um jogador em uma habilidade especificada (não reembolsa estatísticas)
+      commandDesc6: Exibe uma tabela de classificação para uma estatística especificada
+      commandDesc7: Fornece um link para uma página de informações do plugin
+      commandDesc8: Tenta encantar um item na mão do usuário em um nível especificado
+      informationURL: URL de informação (Google Docs)
+      click: CLIQUE
+      levelArgument: O argumento de nível deve ser inferior a 40
+      leaderboard: Entre os melhores
+      playerOffline: Esse jogador não está online
+      onlyIncrease: Apenas aumente exp com este comando, caso contrário, use /frpg statReset e /frpg giveEXP
+      amount: montante
+      unlockToggle: Para usar este comando você deve desbloquear
+      levelUpNotif: Notificações de subida de nível
+      abilityPreparationNotif: Notificações de preparação de habilidade
+      yes0: "SIM"
+      no0: "NAO"
+      warning: ATENÇÃO
+      souls: almas
+      refundSkillTree0: Reembolsando os custos de uma árvore de habilidade
+      refundSkillTree1: e não é reversível, você tem certeza que quer
+      refundSkillTree2: devolver o
+      skill: habilidade
+      VoltarToSkillTree: Leva você de volta para a árvore de habilidade
+      miningPerkDesc0_1:  2 segundos de aceleração I após minerar qualquer minério
+      miningPerkDesc0_2:  5 segundos de aceleração I após a mineração de qualquer minério
+      miningPerkDesc0_3:  10 segundos de aceleração I após a mineração de qualquer minério
+      miningPerkDesc0_4:  5 segundos de Haste II após a mineração de qualquer minério, seguidos por 5 segundos de Haste I
+      miningPerkDesc0_5:  10 segundos de Haste II após a mineração de qualquer minério
+      woodcuttingPerkDesc3_1: As folhas agora podem cair um
+      common: comum
+      uncommon: incomum
+      rare: raro
+      veryRare: muito raro
+      legendary: lendario
+      fishingPerkDesc1_1: Desbloqueia a camada do tesouro
+      farmingPerkDesc1_1: Ganhe a habilidade de criar
+      cowSpawnEgg: ovo de desova de vaca
+      beeSpawnEgg: ovo de desova de abelha
+      mooshroomSpawnEgg: ovo de desova de mooshroom
+      horseSpawnEgg: ovo de desova de cavalo
+      slimeSpawnEgg: ovo de desova de gosma
+      diggingPerkDesc0_1: Agora você pode desenterrar um
+      defensePerkDesc0_1: Ganhe +3 s de regeneração por nível em mortes
+      defensePerkDesc0_2: Ganhe +0,5 corações por nível instantaneamente ao matar
+      duration: Duração
+      likelihood: Probabilidade
+      junkChance: Chance de lixo
+      locked: BLOQUEADO
+      unlocked: DESBLOQUEADO
+      cowEgg: Ovo de vaca
+      beeEgg: Ovo de abelha
+      mooshroomEgg: Ovo mooshroom
+      horseEgg: Ovo de cavalo
+      slimeEgg: Ovo de limo
+      tippedArrows: Flechas inclinadas
+      toggle: Alternancia
+      refundSkillTitle: Habilidade de Reembolso
+      refundSkillTreeDesc: Clique para reembolsar esta árvore de habilidade
+      enchantingPerkDesc1_0: Desbloqueia a capacidade de criar
+      enchantingPerkDesc1_1: Livros encantados Poder I e Eficiência I (custa 1 nível para fabricar)
+      enchantingPerkDesc1_2: Livros encantados Sharpness I e Protection I (custa 1 nível para fabricar)
+      enchantingPerkDesc1_3: Livros encantados Luck of the Sea I e Lure I (custa 1 nível para fabricar)
+      enchantingPerkDesc1_4: Livros encantados de Depth Strider I e Frost Walker I (custa 1 nível para fabricar)
+      enchantingPerkDesc1_5: Remendando (custa 10 níveis para criar) e Fortune I (custa 2 níveis para criar) livros encantados
+      repairPerkDesc0_1: Ganhe mais materiais de recuperação em média
+      repairPerkDesc0_2: Em média, ganhe mais materiais com a recuperação. A recuperação agora armazena os encantos dos itens em um livro
+      xpBoost: aumento de xp
+      speedBoost: Aumento de velocidade
+      timeExtension: Extensão de tempo
+      enchantingCraft0: Livro Poder I
+      enchantingCraft1: Livro Eficiencia I
+      enchantingCraft2: Livro Afiada I
+      enchantingCraft3: Livro Protecao I
+      enchantingCraft4: Livro Sorte do mar I
+      enchantingCraft5: Livro Atrair I
+      enchantingCraft6: Livro Caminhante de gelo I
+      enchantingCraft7: Livro Profundidade Strider I
+      enchantingCraft8: Livro de remendos
+      enchantingCraft9: Livro Fortuna I
+      commandDesc9: Define as almas de um jogador específico
+      commandDesc10: Define a habilidade ou Tokens passivos na habilidade especificada para um jogador especificado
+      commandDesc11: Define os tokens globais para um jogador específico
+      commandDesc12: Salva estatísticas de todos os jogadores ou de um jogador específico
+      status: STATUS
+      complete: COMPLETO
+      incomplete: INCOMPLETO
+      try0: "tentar"
+      passiveImprove: Suas vantagens passivas melhoram a cada nível!
+      increasedBy: aumentado por
+      expIncrease: Multiplicador EXP
+      personalMultiplier: Multiplicador Pessoal
+      translators: Tradutores
+      commandDesc13: Define o multiplicador pessoal para um jogador específico
+      abilityDescription: Descrição de habilidade
+      abilityDescription_digging: Adiciona temporariamente 5 níveis de eficiência à sua pá. Ativado clicando com o botão direito em uma pá e quebrando um bloco.
+      abilityDescription_woodcutting: Faz com que os eixos quebrem temporariamente uma árvore inteira com uma quebra de bloco. Ativado clicando com o botão direito em um machado e quebrando um tronco.
+      abilityDescription_mining: Adiciona temporariamente 5 níveis de eficiência à sua picareta. Ativado clicando com o botão direito em uma picareta e depois quebrando o bloco.
+      abilityDescription_farming: Faz safras temporariamente quebradas com uma enxada e replanta automaticamente. Ativado ao clicar com o botão direito do mouse em uma enxada e quebrar uma colheita.
+      abilityDescription_fishing: Faz com que as varas de pesca capturem um peixe temporariamente. Ativado ao clicar com o botão esquerdo em uma vara de pescar e pescar na água.
+      abilityDescription_archery: Faz temporariamente todas as flechas serem disparadas na velocidade máxima. Ativado clicando com o botão esquerdo em um arco e depois atirando uma flecha.
+      abilityDescription_beastMastery: Temporariamente dá ao seu cavalo um buff de velocidade. Ativado ao clicar com o botão direito do mouse em um cavalo e depois clicar com o botão esquerdo.
+      abilityDescription_swordsmanship: Remove temporariamente o cooldown oscilante em espadas. Ativado ao clicar com o botão direito do mouse em uma espada e acertar um mob.
+      abilityDescription_defense: Fornece temporariamente ao usuário efeitos de resistência e lentidão. Ativado ao clicar com o botão direito com a mão vazia e acertar um mob.
+      abilityDescription_axeMastery: faz com que os machados causem danos temporariamente a todos os mobs em um determinado raio. Ativado ao clicar com o botão direito do mouse em um machado e acertar uma multidão.
+      alchemyPerkDesc1_0: Desbloqueia a capacidade de preparar
+      alchemyPerkDesc0_0: Uma mesa de artesanato pode ser usada para criar
+      triggerAbilities: Habilidades de gatilho
+      showEXPBar: Mostrar barra de EXP
+      disabledSkill: Esta habilidade está desativada
+      skillConfigDesc: Leva você ao menu de configuração para esta habilidade
+      lvl: Lvl. #Abreviatura para "Nível" Se o seu idioma não tem abreviatura, por favor coloque a tradução para "Nível"
+      exp: EXP #Abreviatura para "experiência" se o seu idioma não tiver abreviatura, coloque a tradução para "experiência"
+      potionAbsorption: Poção de Absorção
+      potionBadOmen: Poção de presságio ruim
+      potionBlindess: Poção dos Cegos
+      potionConduitPower: Poção de Energia do conduíte
+      potionResistance: Poção de Resistência
+      potionDolphinsGrace: Poção da Graça dos Golfinhos
+      potionHaste: Poção da Rapidez
+      potionFireResistance: Poção de Resistência ao Fogo
+      potionGlowing: Poção de brilho
+      potionHarm: Poção de dano
+      potionHealing: Poção de Cura
+      potionHealthBoost: Poção de aumento de saúde
+      potiontheHero: Poção do Herói
+      potionHunger: Poção da Fome
+      potionStrength: Poção de Força
+      potionInvsibility: Poção de Invsibilidade
+      potionJump: Poção de Salto
+      potionLuck: Poção da Sorte
+      potionNightVision: Poção de Visão Noturna
+      potionRegeneration: Poção de Regeneração
+      potionSaturation: Poção de Saturação
+      potionSlowness: Poção da Lentidão
+      potionFatigue: Poção da Fadiga
+      potionSlowFalling: Poção de Queda Lenta
+      potionSpeed: Poção de Velocidade
+      potionBadLuck: Poção da Má Sorte
+      potionWaterBreathing: Poção de Respiração de Água
+      potionWeakness: Poção da Fraqueza
+      potionDecay: Poção da Decadência
+      potionAwkward: Poção estranha
+      potionUncraftable: Poção Incrustável
+      potionMundane: Poção Mundana
+      potionTurtleMaster: Poção do Mestre da Tartaruga
+      potionThick: Poção Grossa
+      potionWater: Garrafa de agua
+      ingredient: Ingrediente
+      usedToBrew: É usado para preparar cerveja
+      costs: custos
+      xpLevel: Minecraft XP nivél
+      xpLevels: Minecraft XP niveís
+      craftXPRequirement: Esta receita requer pelo menos
+      bedGUI: Você não pode usar este comando enquanto está na cama!
+      statsUpdated: Suas estatísticas foram alteradas para serem consistentes com uma nova curva de EXP.
+        Todas as árvores de habilidade e vantagens passivas foram reiniciadas. Todos os tokens devem ser reinvestidos.
+      timeRemaining: Tempo restante
+      numberOfAbilityTimersDisplayed: Número de temporizadores de habilidade exibidos
+      commandDesc14: Redefine o período de espera de uma habilidade para 0 segundos
+      commandDesc15: Procura as estatísticas de FreeRPG de um jogador
+      repairUnsafeEnchant: Este item é muito poderoso para ser reparado
+      salvageUnsafeEnchant: Este item é muito poderoso para ser recuperado
+      rank: Classificação
+      stats: Status
+      outOf: fora de
+      playerNotInLeaderboard: Esse jogador não está em nenhuma tabela de classificação
 
     custom:
       languageName: Čûşŧøm Ľãņğŭågè
