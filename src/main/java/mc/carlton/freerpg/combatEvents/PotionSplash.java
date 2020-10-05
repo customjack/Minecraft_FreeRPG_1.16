@@ -4,6 +4,7 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.serverInfo.ConfigLoad;
 import mc.carlton.freerpg.playerInfo.PlayerStats;
+import org.bukkit.GameMode;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
@@ -37,6 +38,9 @@ public class PotionSplash implements Listener {
             return;
         }
         Player p = (Player) potionEntity.getShooter();
+        if (p.getGameMode() == GameMode.CREATIVE) {
+            return;
+        }
         PlayerStats pStatClass = new PlayerStats(p);
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         int potionMasterLevel = (int) pStat.get("alchemy").get(13);

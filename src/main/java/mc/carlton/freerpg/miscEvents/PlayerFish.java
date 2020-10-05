@@ -2,6 +2,7 @@ package mc.carlton.freerpg.miscEvents;
 
 import mc.carlton.freerpg.perksAndAbilities.Fishing;
 import mc.carlton.freerpg.playerInfo.AbilityTracker;
+import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -21,6 +22,10 @@ public class PlayerFish implements Listener {
         if (!p.hasPermission("freeRPG.fish")) {
             return;
         }
+        if (p.getGameMode() == GameMode.CREATIVE) {
+            return;
+        }
+        
         World world = p.getWorld();
         Entity caughtThing = e.getCaught();
         AbilityTracker abilities = new AbilityTracker(p);

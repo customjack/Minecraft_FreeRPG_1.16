@@ -2,6 +2,7 @@ package mc.carlton.freerpg.combatEvents;
 
 import mc.carlton.freerpg.gameTools.EntityPickedUpItemStorage;
 import mc.carlton.freerpg.perksAndAbilities.*;
+import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -20,6 +21,9 @@ public class PlayerKillEntity implements Listener {
         Player p = e.getEntity().getKiller();
 
         if (p != null) {
+            if (p.getGameMode() == GameMode.CREATIVE) {
+                return;
+            }
             World world = p.getWorld();
             List<ItemStack> drops = e.getDrops();
 

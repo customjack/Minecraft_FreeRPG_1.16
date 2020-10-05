@@ -182,6 +182,7 @@ public class ExpMaps {
         ConfigLoad configLoad = new ConfigLoad();
         Map<String,Map<String,Integer>> expMap = configLoad.getExpMap();
         flamePickEXP.put(Material.IRON_ORE,new Object[]{"mining",expMap.get("mining").get("breakIron_Ore")});
+        flamePickEXP.put(Material.GOLD_ORE,new Object[]{"mining",expMap.get("mining").get("breakGold_Ore")});
         flamePickEXP.put(Material.COBBLESTONE,new Object[]{"mining",0});
         flamePickEXP.put(Material.STONE,new Object[]{"mining",expMap.get("mining").get("breakStone")});
         flamePickEXP.put(Material.SANDSTONE,new Object[]{"mining",expMap.get("mining").get("breakSandstone")});

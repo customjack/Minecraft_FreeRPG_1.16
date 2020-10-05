@@ -6,6 +6,7 @@ import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.playerInfo.*;
 import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
@@ -76,6 +77,9 @@ public class EntityHitEntity implements Listener {
 
 
             Player p = (Player) e.getDamager();
+            if (p.getGameMode() == GameMode.CREATIVE) {
+                return;
+            }
             PlayerStats pStatClass = new PlayerStats(p);
             Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
             AbilityTracker abilities = new AbilityTracker(p);

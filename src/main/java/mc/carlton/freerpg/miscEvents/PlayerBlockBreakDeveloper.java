@@ -38,6 +38,10 @@ public class PlayerBlockBreakDeveloper implements Listener {
         }
 
         Player p = e.getPlayer();
+        if (p.getGameMode() == GameMode.CREATIVE) {
+            return;
+        }
+
         Block block = e.getBlock();
         Location loc = block.getLocation();
         Material blockType = block.getType();

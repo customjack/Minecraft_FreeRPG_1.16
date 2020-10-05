@@ -408,7 +408,14 @@ public class ChangeStats {
         switch (type) {
             case "global":
                 int tokens_G = (int) pGlobalStats.get(1);
-                pGlobalStats.set(1, tokens_G+amount);
+                int extraGlobalTokens = areGlobalPerksMaxed(amount);
+                if (extraGlobalTokens > 0) {
+                    amount -= extraGlobalTokens;
+                    ConfigLoad loadConfig = new ConfigLoad();
+                    double multiplierIncrease = extraGlobalTokens*loadConfig.getTokensInfo().get(8);
+                    changeStat("global",23,multiplierIncrease);
+                }
+                pGlobalStats.set(1, tokens_G + amount);
                 break;
             case "passive":
                 int tokens_P = (int) pStats.get(2);
@@ -416,6 +423,25 @@ public class ChangeStats {
                 break;
             case "skill":
                 int tokens_S = (int) pStats.get(3);
+                int extraSkillTokens = areSkillsMaxed(skillName,amount);
+                if (extraSkillTokens > 0) {
+                    amount -= extraSkillTokens;
+                    if (!skillName.equals("repair") && !skillName.equals("agility") && !skillName.equals("alchemy") && !skillName.equals("smelting") && !skillName.equals("enchanting")) {
+                        int newTokens_P = 0;
+                        if (extraSkillTokens > 0) {
+                            ConfigLoad loadConfig = new ConfigLoad();
+                            newTokens_P += (int) (extraSkillTokens * loadConfig.getTokensInfo().get(7));
+                        }
+                        pStats.set(2, (int) pStats.get(2) + newTokens_P);
+                    } else {
+                        int passiveBoost = 0;
+                        if (extraSkillTokens > 0) {
+                            ConfigLoad loadConfig = new ConfigLoad();
+                            passiveBoost += (int) (extraSkillTokens * loadConfig.getTokensInfo().get(7));
+                        }
+                        pStats.set(4, (int) pStats.get(4) + passiveBoost);
+                    }
+                }
                 pStats.set(3, tokens_S+amount);
                 break;
             default:
