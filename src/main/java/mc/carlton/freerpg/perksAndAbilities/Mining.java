@@ -3,6 +3,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
+import mc.carlton.freerpg.gameTools.TrackItem;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.playerInfo.*;
 import mc.carlton.freerpg.serverInfo.ConfigLoad;
@@ -125,7 +126,7 @@ public class Mining extends Skill{
         String keyName = p.getUniqueId().toString() + "-frpg-" + skillName + "-" + String.valueOf(unixTime);
         NamespacedKey key = new NamespacedKey(plugin,keyName);
         ItemMeta itemMeta = itemInHand.getItemMeta();
-        itemMeta.getPersistentDataContainer().set(key, PersistentDataType.STRING,"nothing");
+        itemMeta.getPersistentDataContainer().set(key, PersistentDataType.STRING,"frpg-mining");
         itemInHand.setItemMeta(itemMeta);
 
 
@@ -357,7 +358,8 @@ public class Mining extends Skill{
             String coolDownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("berserkPick") + " " + lang.getString("readyToUse") + "<<<";
             String endMessage = ChatColor.RED+ChatColor.BOLD.toString() + ">>>" + lang.getString("magicForce");
             timers.endAbility(skillName,endMessage,coolDownEndMessage,key,itemInHand_mining,effLevel,0,isDisabling);
-
+            TrackItem trackItem = new TrackItem();
+            trackItem.removeItemKey(itemInHand_mining,key);
         }
     }
 

@@ -4,6 +4,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -31,13 +33,38 @@ public class TrackItem {
         if (item.getType() == Material.AIR) {
             return false;
         }
+        return removeItemKey(item,key);
+    }
+
+    public NamespacedKey getFreeRPGItemKey(ItemStack item) {
+        if (item == null) {
+            return null;
+        }
+        if (item.getType() == Material.AIR) {
+            return null;
+        }
+        ItemMeta itemMeta = item.getItemMeta();
+        PersistentDataContainer container = itemMeta.getPersistentDataContainer();
+        for (NamespacedKey key : container.getKeys()) {
+            if (container.get(key, PersistentDataType.STRING).contains("frpg")) {
+                return key;
+            }
+        }
+        return null;
+    }
+
+    public boolean removeItemKey(ItemStack item, NamespacedKey key) {
+        if (key == null) {
+            return false;
+        }
+        boolean didRemove = false;
         ItemMeta itemMeta = item.getItemMeta();
         PersistentDataContainer container = itemMeta.getPersistentDataContainer();
         if (container.has(key,PersistentDataType.STRING)) {
             container.remove(key);
             item.setItemMeta(itemMeta);
-            return true;
+            didRemove = true;
         }
-        return false;
+        return didRemove;
     }
 }

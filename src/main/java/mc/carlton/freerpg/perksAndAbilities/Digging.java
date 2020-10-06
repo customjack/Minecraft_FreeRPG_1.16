@@ -4,6 +4,7 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.BlockFaceTracker;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
+import mc.carlton.freerpg.gameTools.TrackItem;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.playerInfo.*;
 import mc.carlton.freerpg.serverInfo.ConfigLoad;
@@ -124,7 +125,7 @@ public class Digging extends Skill{
         String keyName = p.getUniqueId().toString() + "-frpg-" + skillName + "-" + String.valueOf(unixTime);
         NamespacedKey key = new NamespacedKey(plugin,keyName);
         ItemMeta itemMeta = itemInHand.getItemMeta();
-        itemMeta.getPersistentDataContainer().set(key, PersistentDataType.STRING,"nothing");
+        itemMeta.getPersistentDataContainer().set(key, PersistentDataType.STRING,"frpg-digging");
         itemInHand.setItemMeta(itemMeta);
 
         int durationLevel = (int) pStat.get(skillName).get(4);
@@ -589,7 +590,8 @@ public class Digging extends Skill{
             String endMessage = ChatColor.RED+ChatColor.BOLD.toString() + ">>>" + lang.getString("magicForce") + "<<<";
             String coolDownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("bigDig") + " " + lang.getString("readyToUse") + "<<<";
             timers.endAbility(skillName,endMessage,coolDownEndMessage,key,itemInHand_digging,effLevel,0,pluginDisabled);
-
+            TrackItem trackItem = new TrackItem();
+            trackItem.removeItemKey(itemInHand_digging,key);
         }
     }
 }

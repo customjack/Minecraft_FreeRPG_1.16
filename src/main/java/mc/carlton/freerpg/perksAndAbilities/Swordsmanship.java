@@ -4,6 +4,7 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.ExpFarmTracker;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
+import mc.carlton.freerpg.gameTools.TrackItem;
 import mc.carlton.freerpg.globalVariables.EntityGroups;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.playerInfo.*;
@@ -132,7 +133,7 @@ public class Swordsmanship extends Skill{
         String keyName = p.getUniqueId().toString() + "-frpg-" + skillName + "-" + String.valueOf(unixTime);
         NamespacedKey key = new NamespacedKey(plugin,keyName);
         ItemMeta itemMeta = itemInHand.getItemMeta();
-        itemMeta.getPersistentDataContainer().set(key, PersistentDataType.STRING,"nothing");
+        itemMeta.getPersistentDataContainer().set(key, PersistentDataType.STRING,"frpg-swordsmanship");
         itemInHand.setItemMeta(itemMeta);
 
         ((Attributable) p).getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(1024.0);
@@ -159,6 +160,8 @@ public class Swordsmanship extends Skill{
                 String endMessage = ChatColor.RED+ChatColor.BOLD.toString() + ">>>"+lang.getString("magicForce")+"<<<";
                 String coolDownEndMessage = ChatColor.GREEN + ">>>" + lang.getString("swiftStrikes") + " " + lang.getString("readyToUse") + "<<<";
                 timers.endAbility(skillName,endMessage,coolDownEndMessage,key,itemInHand_swords,sharpLevel,sharperLevel,isDisabling);
+                TrackItem trackItem = new TrackItem();
+                trackItem.removeItemKey(itemInHand_swords,key);
             }
         }
     }
