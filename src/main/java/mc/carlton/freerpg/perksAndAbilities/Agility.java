@@ -21,37 +21,18 @@ import java.util.Map;
 import java.util.Random;
 
 public class Agility extends Skill{
-    Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-    private Player p;
-    private String pName;
-    private ItemStack itemInHand;
+
     private String skillName = "agility";
     static Map<Player,Integer> gracefulFeetMap = new HashMap<>();
     static Map<Player,Long> playerSprintMap = new HashMap<>();
-    Map<String,Integer> expMap;
-
-    ChangeStats increaseStats; //Changing Stats
-
-    PlayerStats pStatClass;
-    //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
-
-    ActionBarMessages actionMessage;
-    LanguageSelector lang;
 
     Random rand = new Random(); //Random class Import
 
     private boolean runMethods;
 
 
-
     public Agility(Player p) {
-        this.p = p;
-        this.pName = p.getDisplayName();
-        this.itemInHand = p.getInventory().getItemInMainHand();
-        this.increaseStats = new ChangeStats(p);
-        this.pStatClass = new PlayerStats(p);
-        this.actionMessage = new ActionBarMessages(p);
-        this.lang = new LanguageSelector(p);
+        super(p);
         ConfigLoad configLoad = new ConfigLoad();
         runMethods = configLoad.getAllowedSkillsMap().get(skillName);
         expMap = configLoad.getExpMapForSkill(skillName);

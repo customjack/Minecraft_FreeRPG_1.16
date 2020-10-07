@@ -23,17 +23,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.*;
 
 public class Alchemy extends Skill{
-    Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-    private Player p;
-    private String pName;
-    private ItemStack itemInHand;
     private String skillName = "alchemy";
-    Map<String,Integer> expMap;
-
-    ChangeStats increaseStats; //Changing Stats
-
-    PlayerStats pStatClass;
-    //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
 
     private static Map<BrewerInventory, Integer> counter = new HashMap<>();
     private static Map<BrewerInventory, Integer> failSafe = new HashMap<>();
@@ -41,11 +31,7 @@ public class Alchemy extends Skill{
 
 
     public Alchemy(Player p) {
-        this.p = p;
-        this.pName = p.getDisplayName();
-        this.itemInHand = p.getInventory().getItemInMainHand();
-        this.increaseStats = new ChangeStats(p);
-        this.pStatClass = new PlayerStats(p);
+        super(p);
         ConfigLoad configLoad = new ConfigLoad();
         this.runMethods = configLoad.getAllowedSkillsMap().get(skillName);
         expMap = configLoad.getExpMapForSkill("alchemy");

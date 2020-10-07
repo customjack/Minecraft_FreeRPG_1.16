@@ -16,16 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.*;
 
 public class Global extends Skill{
-    Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-    private Player p;
-    private String pName;
-    private ItemStack itemInHand;
     private static Map<UUID, ArrayList<ItemStack>> playerSavedDrops = new HashMap<>();
-
-    ChangeStats increaseStats; //Changing Stats
-
-    PlayerStats pStatClass;
-    //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
 
     Random rand = new Random(); //Random class Import
 
@@ -34,11 +25,7 @@ public class Global extends Skill{
 
 
     public Global(Player p) {
-        this.p = p;
-        this.pName = p.getDisplayName();
-        this.itemInHand = p.getInventory().getItemInMainHand();
-        this.increaseStats = new ChangeStats(p);
-        this.pStatClass = new PlayerStats(p);
+        super(p);
         ConfigLoad configLoad = new ConfigLoad();
         this.runMethods = configLoad.getAllowedSkillsMap().get("global");
     }

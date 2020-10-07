@@ -21,33 +21,16 @@ import java.util.Map;
 import java.util.Random;
 
 public class Enchanting extends Skill{
-    Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-    private Player p;
-    private String pName;
-    private ItemStack itemInHand;
     private String skillName = "enchanting";
-    Map<String,Integer> expMap;
-
-    ChangeStats increaseStats; //Changing Stats
-
-    PlayerStats pStatClass;
-    //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
-
     Random rand = new Random(); //Random class Import
     static Map<Player,EnchantmentOffer[]> offersHolder = new HashMap<Player, EnchantmentOffer[]>();
 
     private boolean runMethods;
 
-    private boolean fromEXPBottle;
-
 
 
     public Enchanting(Player p) {
-        this.p = p;
-        this.pName = p.getDisplayName();
-        this.itemInHand = p.getInventory().getItemInMainHand();
-        this.increaseStats = new ChangeStats(p);
-        this.pStatClass = new PlayerStats(p);
+        super(p);
         ConfigLoad configLoad = new ConfigLoad();
         this.runMethods = configLoad.getAllowedSkillsMap().get(skillName);
         expMap = configLoad.getExpMapForSkill(skillName);

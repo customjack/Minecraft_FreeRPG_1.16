@@ -27,28 +27,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.*;
 
 public class Farming extends Skill{
-    Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-    private Player p;
-    private String pName;
-    private ItemStack itemInHand;
     private String skillName = "farming";
-    ChangeStats increaseStats; //Changing Stats
     static Map<Player,Integer> oneWithNatureMap = new HashMap<>();
     static Map<Player,Integer> oneWithNatureCounters = new HashMap<>();
-    Map<String,Integer> expMap;
-
-    AbilityTracker abilities; //Abilities class
-    // GET ABILITY STATUSES LIKE THIS:   Integer[] pAbilities = abilities.getPlayerAbilities(p);
-
-    AbilityTimers timers; //Ability Timers class
-    //GET TIMERS LIKE THIS:              Integer[] pTimers = timers.getPlayerTimers(p);
-
-    PlayerStats pStatClass;
-    //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
-
-
-    ActionBarMessages actionMessage;
-    LanguageSelector lang;
 
     Random rand = new Random(); //Random class Import
 
@@ -57,15 +38,7 @@ public class Farming extends Skill{
 
 
     public Farming(Player p) {
-        this.p = p;
-        this.pName = p.getDisplayName();
-        this.itemInHand = p.getInventory().getItemInMainHand();
-        this.increaseStats = new ChangeStats(p);
-        this.abilities = new AbilityTracker(p);
-        this.timers = new AbilityTimers(p);
-        this.pStatClass=  new PlayerStats(p);
-        this.actionMessage = new ActionBarMessages(p);
-        this.lang = new LanguageSelector(p);
+        super(p);
         ConfigLoad configLoad = new ConfigLoad();
         this.runMethods = configLoad.getAllowedSkillsMap().get(skillName);
         expMap = configLoad.getExpMapForSkill(skillName);

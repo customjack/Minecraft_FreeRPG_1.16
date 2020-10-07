@@ -26,28 +26,14 @@ import java.util.Map;
 import java.util.Random;
 
 public class Smelting extends Skill{
-    Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-    private Player p;
-    private String pName;
-    private ItemStack itemInHand;
     private String skillName = "smelting";
-    Map<String,Integer> expMap;
-
-    ChangeStats increaseStats; //Changing Stats
-
-    PlayerStats pStatClass;
-    //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
 
     Random rand = new Random(); //Random class Import
 
     private boolean runMethods;
 
     public Smelting(Player p) {
-        this.p = p;
-        this.pName = p.getDisplayName();
-        this.itemInHand = p.getInventory().getItemInMainHand();
-        this.increaseStats = new ChangeStats(p);
-        this.pStatClass = new PlayerStats(p);
+        super(p);
         ConfigLoad configLoad = new ConfigLoad();
         this.runMethods = configLoad.getAllowedSkillsMap().get(skillName);
         expMap = configLoad.getExpMapForSkill(skillName);
@@ -234,18 +220,6 @@ public class Smelting extends Skill{
         world.dropItemNaturally(block.getLocation(),new ItemStack(itemGroups.getSmeltableItemsMap().get(blockType),dropAmount));
         return true;
 
-    }
-
-    public void damageTool() {
-        ItemMeta toolMeta = itemInHand.getItemMeta();
-        if (toolMeta instanceof Damageable) {
-            ((Damageable) toolMeta).setDamage(((Damageable) toolMeta).getDamage()+1);
-            itemInHand.setItemMeta(toolMeta);
-            if (((Damageable) toolMeta).getDamage() > itemInHand.getType().getMaxDurability()) {
-                itemInHand.setAmount(0);
-                p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, 1);
-            }
-        }
     }
 
     public void dropXP(double avgEXP,Location loc) {

@@ -178,7 +178,7 @@ public class PlayerStatsLoadIn {
 
             //Setting playTime in seconds
             playerData.set("general.lastLogout",unixTime);
-            long lastLoginTime = Long.parseLong(playerData.get("general.lastLogin").toString());
+            long lastLoginTime = pStatClass.getPlayerLoginTime();
             long playTime = unixTime-lastLoginTime;
             playerData.set("general.playTime",playTime);
 
@@ -271,7 +271,7 @@ public class PlayerStatsLoadIn {
             //Setting playTime in seconds
             if (savePlayTime) {
                 playerData.set("general.lastLogout", unixTime);
-                long lastLoginTime = Long.parseLong(playerData.get("general.lastLogin").toString());
+                long lastLoginTime = pStatClass.getPlayerLoginTime();
                 long playTime = unixTime - lastLoginTime;
                 playerData.set("general.playTime", playTime);
             }

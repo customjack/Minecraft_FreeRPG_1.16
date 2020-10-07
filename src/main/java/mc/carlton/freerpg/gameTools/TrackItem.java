@@ -21,6 +21,7 @@ public class TrackItem {
         }
         ItemStack cursorItem = p.getItemOnCursor();
         if (doesItemHaveKey(cursorItem,key)) {
+            removeAllFreeRPGKeys(cursorItem);
             return cursorItem;
         }
         return null;
@@ -66,5 +67,16 @@ public class TrackItem {
             didRemove = true;
         }
         return didRemove;
+    }
+
+    public void removeAllFreeRPGKeys(ItemStack item) {
+        ItemMeta itemMeta = item.getItemMeta();
+        PersistentDataContainer container = itemMeta.getPersistentDataContainer();
+        for (NamespacedKey key : container.getKeys()) {
+            if (container.get(key, PersistentDataType.STRING).contains("frpg")) {
+                container.remove(key);
+            }
+        }
+        item.setItemMeta(itemMeta);
     }
 }

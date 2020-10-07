@@ -336,9 +336,17 @@ public class FrpgCommands implements CommandExecutor {
                         lore_skills.add(ChatColor.GRAY + lang.getString("level") + ": " + ChatColor.BLUE + String.format("%,d",level));
                         lore_skills.add(ChatColor.GRAY + lang.getString("experience") + ": " + ChatColor.BLUE + String.format("%,d",EXP));
                         ChangeStats getEXP = new ChangeStats(p);
-                        int nextEXP = getEXP.getEXPfromLevel(level+1);
-                        int EXPtoNext = nextEXP - EXP;
-                        lore_skills.add(ChatColor.GRAY + lang.getString("expToLevel") + ": " + ChatColor.GREEN + String.format("%,d",EXPtoNext));
+                        int maxLevel = getEXP.getMaxLevel(labels0[i]);
+                        String EXPtoNextString;
+                        if (level < maxLevel) {
+                            int nextEXP = getEXP.getEXPfromLevel(level+1);
+                            int EXPtoNext = nextEXP - EXP;
+                            EXPtoNextString = String.format("%,d",EXPtoNext);
+                        }
+                        else {
+                            EXPtoNextString = "N/A";
+                        }
+                        lore_skills.add(ChatColor.GRAY + lang.getString("expToLevel") + ": " + ChatColor.GREEN + EXPtoNextString);
                         lore_skills.add(ChatColor.GRAY + lang.getString("rank") +": " +ChatColor.WHITE+ChatColor.BOLD.toString() + "" + String.format("%,d",rank) + ChatColor.RESET + ChatColor.GRAY +" " + lang.getString("outOf")+ " "  + ChatColor.WHITE + String.format("%,d",totalPlayers));
 
 

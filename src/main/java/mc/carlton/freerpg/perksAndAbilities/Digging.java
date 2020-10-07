@@ -27,42 +27,14 @@ import java.time.Instant;
 import java.util.*;
 
 public class Digging extends Skill{
-    Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-    private Player p;
-    private String pName;
-    private ItemStack itemInHand;
     private String skillName = "digging";
-    Map<String,Integer> expMap;
-
-
-    ChangeStats increaseStats; //Changing Stats
-
-    AbilityTracker abilities; //Abilities class
-    // GET ABILITY STATUSES LIKE THIS:   Integer[] pAbilities = abilities.getPlayerAbilities(p);
-
-    AbilityTimers timers; //Ability Timers class
-    //GET TIMERS LIKE THIS:              Integer[] pTimers = timers.getPlayerTimers(p);
-
-    PlayerStats pStatClass;
-    //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
-
-    ActionBarMessages actionMessage;
-    LanguageSelector lang;
-
-    Random rand = new Random(); //Random class Import
 
     private boolean runMethods;
 
+    Random rand = new Random(); //Random class Import
+
     public Digging(Player p) {
-        this.p = p;
-        this.pName = p.getDisplayName();
-        this.itemInHand = p.getInventory().getItemInMainHand();
-        this.increaseStats = new ChangeStats(p);
-        this.abilities = new AbilityTracker(p);
-        this.timers = new AbilityTimers(p);
-        this.pStatClass = new PlayerStats(p);
-        this.actionMessage = new ActionBarMessages(p);
-        this.lang = new LanguageSelector(p);
+        super(p);
         ConfigLoad configLoad = new ConfigLoad();
         this.runMethods = configLoad.getAllowedSkillsMap().get(skillName);
         expMap = configLoad.getExpMapForSkill(skillName);
@@ -195,18 +167,6 @@ public class Digging extends Skill{
                         }
                     }
                 }
-            }
-        }
-    }
-
-    public void damageTool() {
-        ItemMeta toolMeta = itemInHand.getItemMeta();
-        if (toolMeta instanceof Damageable) {
-            ((Damageable) toolMeta).setDamage(((Damageable) toolMeta).getDamage()+1);
-            itemInHand.setItemMeta(toolMeta);
-            if (((Damageable) toolMeta).getDamage() > itemInHand.getType().getMaxDurability()) {
-                itemInHand.setAmount(0);
-                p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, 1);
             }
         }
     }

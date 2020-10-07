@@ -23,6 +23,10 @@ leveling:
   # In other words, this value will only affect a skill's max level is that skill's max level is set to -1
   # -1 implies no maximum level
   maxLevel: -1
+
+  #If true exp is earned past the maximum level, but no levels are gained. If false, no additional exp is gained.
+  earnExperiencePastMaxLevel: true
+
 global:
   skillAllowed: true #Setting this to false disables all global skill tree and features
   EXP_Multiplier: 1.0 #global Multiplier increases EXP in all skills and STACKS with all other multipliers

@@ -630,6 +630,7 @@
       stats: stats
       outOf: out of
       playerNotInLeaderboard: That player is not on any leaderboards
+      virtual: Virtual
 
     huHU: #Translated by vERKE
       languageName: Magyar Nyelv
@@ -1229,6 +1230,7 @@
       stats: stats
       outOf: out of
       playerNotInLeaderboard: That player is not on any leaderboards
+      virtual: Virtual
 
     frFR: #Translated by Temuel
       languageName: Français
@@ -1823,6 +1825,7 @@
       stats: stats
       outOf: out of
       playerNotInLeaderboard: That player is not on any leaderboards
+      virtual: Virtual
 
     deDE: #Translated by KlenerTeufel96 of FruitLab.gg
       languageName: Deutsch
@@ -1835,7 +1838,7 @@
       farming: Ackerbau
       fishing: Fischen
       archery: Bogenschießen
-      beastMastery: Bestienbeherrschung
+      beastMastery: Tamer
       swordsmanship: Schwertkunst
       defense: Verteidigung
       axeMastery: Axtkämpfer
@@ -1858,11 +1861,10 @@
       diggingPerkTitle5: Schaufelritter
       diggingPerkTitle6: Mega Grabung
       diggingPerkDesc0: Erweitert die Schatztabelle um 1 Gegenstand pro Level
-      diggingPerkDesc1: + 5% Chance auf doppelten Schatz Drop pro Level (wenn
-        Schatz gerollt wird)
+      diggingPerkDesc1: + 5% Chance auf doppelten Schatz Drop pro Level (wenn Schatz gerollt wird)
       diggingPerkDesc2: Erweitert die Drop-Tabelle um weitere Items pro Level
       diggingPerkDesc3: Seelensand lässt + 5% häufiger Schätze pro Level dropen
-      diggingPerkDesc4: Kies hat eine Feuerstein-Drop-Rate von 100% (umschaltbar durch / flintToggle)
+      diggingPerkDesc4: Kies hat eine Feuerstein-Drop-Rate von 100% (umschaltbar durch /flintToggle)
       diggingPerkDesc5: Schaufeln richten doppelten Schaden an
       diggingPerkDesc6: Wenn du die Fähigkeit verwendest, bricht jetzt ein 3x3-Blockabschnitt (20% von normale Schatzrate, wenn aktiv)
       diggingPassiveTitle0: Passive Token
@@ -1887,7 +1889,7 @@
       woodcuttingPerkDesc2: Stämme haben eine Chance von + 0,2% pro Level, ein verzaubertes Buch fallen zu lassen
       woodcuttingPerkDesc3: Blätter haben eine Chance von 1%, +1 Schatzgegenstand pro Level fallen zu lassen
       woodcuttingPerkDesc4: Die Holzbruchgrenze wurde von 64 auf 128 erhöht
-      woodcuttingPerkDesc5: Break a large section of leaves using an axe (toggleable with /leafBlowerToggle)
+      woodcuttingPerkDesc5: Baut eine großen Abschnitt von Blättern mit einer Axt ab (umschaltbar mit /leafBlowerToggle)
       woodcuttingPerkDesc6: Doppelter Drop, eifrige Wurzeln und verstecktes Wissen wurden auf Holz übertragen (bei halber Wirksamkeit)
       woodcuttingPassiveTitle0: Passive Token
       woodcuttingPassiveTitle1: Zurück
@@ -1936,8 +1938,8 @@
       farmingPerkDesc1: Kann pro Level ein zusätzliches Spawn-Ei herstellen
       farmingPerkDesc2: Farm Essen ist + 20% effektiver bei der Wiederherstellung von Hunger und Sättigung pro Level
       farmingPerkDesc3: Fleisch ist + 20% effektiver bei der Wiederherstellung von Hunger und Sättigung pro Level
-      farmingPerkDesc4: Die Fähigkeit kann Pflanzen, die ausgewachsen sind, mit einer höheren Wahrscheinlichkeit einer
-        Wiederbepflanzung in späteren Wachstumsstadien neu pflanzen. Fähigkeit wirkt sich jetzt auf Melonen und Kürbisse aus
+      farmingPerkDesc4: Die Fähigkeit kann Pflanzen, die ausgewachsen sind, mit einer höheren Wahrscheinlichkeit einer Wiederbepflanzung in späteren Wachstumsstadien
+        neu pflanzen. Fähigkeit wirkt sich jetzt auf Melonen und Kürbisse aus
       farmingPerkDesc5: Zucker kann bei Tierbabys verwendet werden, damit sie sofort wachsen
       farmingPerkDesc6: Erhalte Regeneration I, wenn du auf Gras still stehst
       farmingPassiveTitle0: Passive Token
@@ -2151,7 +2153,7 @@
       enchantingPerkTitle0: Effiziente Verzauberung
       enchantingPerkTitle1: Buchmacher
       enchantingPerkTitle2: Unsterbliche Erfahrung
-      enchantingPerkDesc0: Levels, die zum verzaubern benötigt werden, werden um -1 pro Level gesenkt, Ambossreparaturen kosten -1 XP Level pro Level (mindestens 2)
+      enchantingPerkDesc0: Level, die zum verzaubern benötigt werden, werden um -1 pro Level gesenkt, Ambossreparaturen kosten -1 XP Level pro Level (mindestens 2)
       enchantingPerkDesc1: Schaltet Crafting Rezepte für einige verzauberte Bücher frei
       enchantingPerkDesc2: Behalte EXP beim Tod
       enchantingPassiveTitle0: Zurück
@@ -2202,15 +2204,15 @@
       craftRequirement: wird benötigt, um dieses Rezept herzustellen!
       roll: ROLLEN
       dodge: AUSWEICHEN
-      prepare: Du bereitest deinen
-      rest: Du ruhst deinen
+      prepare: Du bereitest deine
+      rest: Du ruhst deine
       activated: aktiviert!
       ended: ist beendet
       readyToUse: ist wieder einsatzbereit
       cooldown: Abklingzeit
       rapidFire: Schnellfeuer
       bow: Bogen
-      greatAxe: Große Axt
+      greatAxe: Großaxt
       axe: Axt
       spurKick: Sporn Kick
       leg: Bein
@@ -2244,8 +2246,8 @@
       playerName: Spielername
       skillName: Skill Name (auf Englisch)
       page: Seite
-      on0: "AN"
-      off0: "AUS"
+      on0: AN
+      off0: AUS
       onOrOff: AN/AUS
       manuallyToggles: Manuell umschalten
       commandDesc0: Öffnet das Hauptmenü mit allen Fähigkeiten
@@ -2267,8 +2269,8 @@
       unlockToggle: Um diesen Befehl verwenden zu können, musst du folgendes freischalten
       levelUpNotif: Level Up Benachrichtigungen
       abilityPreparationNotif: Benachrichtigungen zur Fähigkeitsvorbereitung
-      yes0: "JA"
-      no0: "NEIN"
+      yes0: JA
+      no0: NEIN
       warning: WARNUNG
       souls: Seelen
       refundSkillTree0: Die Rückerstattung eines Skillbaums kostet
@@ -2276,11 +2278,11 @@
       refundSkillTree2: erstattet die
       skill: Skill
       backToSkillTree: Bringt dich zurück zum Skillbaum
-      miningPerkDesc0_1:  2 Sekunden Eile I nach dem Abbau von Erz
-      miningPerkDesc0_2:  5 Sekunden Eile I nach dem Bergbau mehr
-      miningPerkDesc0_3:  10 Sekunden Eile I nach dem Abbau von Erz
-      miningPerkDesc0_4:  5 Sekunden Eile II nach dem Abbau von Erz, gefolgt von 5 Sekunden Eile I
-      miningPerkDesc0_5:  10 Sekunden Eile II nach dem Abbau von Erz
+      miningPerkDesc0_1: 2 Sekunden Eile I nach dem Abbau von Erz
+      miningPerkDesc0_2: 5 Sekunden Eile I nach dem Bergbau mehr
+      miningPerkDesc0_3: 10 Sekunden Eile I nach dem Abbau von Erz
+      miningPerkDesc0_4: 5 Sekunden Eile II nach dem Abbau von Erz, gefolgt von 5 Sekunden Eile I
+      miningPerkDesc0_5: 10 Sekunden Eile II nach dem Abbau von Erz
       woodcuttingPerkDesc3_1: Blätter könnten dies dropen
       common: verbreitet
       uncommon: ungewöhnlich
@@ -2314,7 +2316,7 @@
       enchantingPerkDesc1_0: Schaltet die Fähigkeit frei, folgendes zu herzustellen
       enchantingPerkDesc1_1: Stärke 1 und Effizienz I verzauberte Bücher (kostet 1 Level zum herstellen)
       enchantingPerkDesc1_2: Schärfe I und Schutz I verzauberte Bücher (kostet 1 Level zum herstellen)
-      enchantingPerkDesc1_3: Glück des Meeres I und Köder I verzauberte Bücher (kostet 1 Level zum herstellen)
+      enchantingPerkDesc1_3: Glück des Meeres I und Köder I verzauberte Bücher (kostet1 Level zum herstellen)
       enchantingPerkDesc1_4: Wasserläufer I und Eisläufer I verzauberte Bücher (kostet 1 Level zum herstellen)
       enchantingPerkDesc1_5: Reparatur Bücher (kostet 10 Level zum herstellen) und Glück I Bücher (kostet 2 Level zum herstellen)
       repairPerkDesc0_1: Gewinne im Durchschnitt mehr Material aus der Bergung
@@ -2339,7 +2341,7 @@
       status: STATUS
       complete: KOMPLETT
       incomplete: UNVOLLSTÄNDIG
-      try0: "versuche"
+      try0: versuche
       passiveImprove: Deine passiven Perks verbessern sich jedes Level!
       increasedBy: erhöht um
       expIncrease: EXP Multiplikator
@@ -2347,24 +2349,44 @@
       translators: Übersetzer
       commandDesc13: Legt den persönlichen Multiplikator für einen bestimmten Spieler fest
       abilityDescription: Skill Beschreibung
-      abilityDescription_digging: Fügt deiner Schaufel vorübergehend 5 Effizienzlevel hinzu. Aktivierung durch Rechts-Klick auf eine Schaufel und anschließend einen Block abbauen.
-      abilityDescription_woodcutting: Lässt vorübergehend Äxte einen ganzen Baum mit einem Block fällen. Aktivierung durch Rechts-Klick auf eine Axt und anschließend einen Stamm abbauen.
-      abilityDescription_mining: Fügt deiner Spitzhacke vorübergehend 5 Effizienzlevel hinzu. Aktivierung durch Rechts-Klick auf einer Spitzhacke und anschließende einen Block abbaust.
-      abilityDescription_farming: Vorübergehend werden mit einer Hacke geerntete Items automatisch neu gepflanzt. Wird aktiviert, indem du mit einer Hacke Rechts-Klick auf die Ernte machst.
-      abilityDescription_fishing: Lässt vorübergehend Angelruten sofort einen Fisch fangen. Aktivierung durch Links-Klick auf eine Angelrute und anschließendes Angeln im Wasser.
-      abilityDescription_archery: Lässt vorübergehend alle Pfeile mit maximaler Geschwindigkeit abfeuern. Aktivierung durch Links-Klick auf einen Bogen und dann einen Pfeil abschießen.
-      abilityDescription_beastMastery: Verleiht deinem Pferd vorübergehend einen Geschwindigkeitsschub. Aktivierung durch Rechts-Klick auf einem Pferd und anschließendes Klicken mit der linken Maustaste.
-      abilityDescription_swordsmanship: Entfernt vorübergehend die schwingende Abklingzeit von Schwertern. Aktivierung durch Rechts-Klick auf ein Schwert und dann einen Mob schlagen.
-      abilityDescription_defense: Gibt dem Spieler vorübergehend Widerstands- und Langsamkeitseffekte. Aktivierung durch Rechts-Klick mit einer leeren Hand und dann einen Mob schlagen.
-      abilityDescription_axeMastery: Lässt Äxte vorübergehend alle Mobs in einem bestimmten Radius beschädigen. Aktivierung durch Rechts-Klick auf eine Axt klicken und dann einen Mob schlagen.
+      abilityDescription_digging: Fügt deiner Schaufel vorübergehend 5 Effizienzlevel
+        hinzu. Aktivierung durch Rechts-Klick auf eine Schaufel und anschließend einen
+        Block abbauen.
+      abilityDescription_woodcutting: Lässt vorübergehend Äxte einen ganzen Baum mit
+        einem Block fällen. Aktivierung durch Rechts-Klick auf eine Axt und anschließend
+        einen Stamm abbauen.
+      abilityDescription_mining: Fügt deiner Spitzhacke vorübergehend 5 Effizienzlevel
+        hinzu. Aktivierung durch Rechts-Klick auf einer Spitzhacke und anschließende
+        einen Block abbaust.
+      abilityDescription_farming: Vorübergehend werden mit einer Hacke geerntete Items
+        automatisch neu gepflanzt. Wird aktiviert, indem du mit einer Hacke Rechts-Klick
+        auf die Ernte machst.
+      abilityDescription_fishing: Lässt vorübergehend Angelruten sofort einen Fisch
+        fangen. Aktivierung durch Links-Klick auf eine Angelrute und anschließendes
+        Angeln im Wasser.
+      abilityDescription_archery: Lässt vorübergehend alle Pfeile mit maximaler Geschwindigkeit
+        abfeuern. Aktivierung durch Links-Klick auf einen Bogen und dann einen Pfeil
+        abschießen.
+      abilityDescription_beastMastery: Verleiht deinem Pferd vorübergehend einen Geschwindigkeitsschub.
+        Aktivierung durch Rechts-Klick auf einem Pferd und anschließendes Klicken mit
+        der linken Maustaste.
+      abilityDescription_swordsmanship: Entfernt vorübergehend die schwingende Abklingzeit
+        von Schwertern. Aktivierung durch Rechts-Klick auf ein Schwert und dann einen
+        Mob schlagen.
+      abilityDescription_defense: Gibt dem Spieler vorübergehend Widerstands- und Langsamkeitseffekte.
+        Aktivierung durch Rechts-Klick mit einer leeren Hand und dann einen Mob schlagen.
+      abilityDescription_axeMastery: Lässt Äxte vorübergehend alle Mobs in einem bestimmten
+        Radius beschädigen. Aktivierung durch Rechts-Klick auf eine Axt klicken und
+        dann einen Mob schlagen.
       alchemyPerkDesc1_0: Schaltet die Fähigkeit zum Brauen frei
-      alchemyPerkDesc0_0: Ein Crafting Table kann verwendet werden, um folgende Tränke herzustellen
+      alchemyPerkDesc0_0: Ein Crafting Table kann verwendet werden, um folgende Tränke
+        herzustellen
       triggerAbilities: Fähigkeiten auslösen
       showEXPBar: Zeige EXP Bar
       disabledSkill: Dieser Skill ist deaktiviert
       skillConfigDesc: Führt dich zum Konfigurationsmenü für diesen Skill
-      lvl: Lvl. #Abkürzung für "Level" Wenn deine Sprache keine Abkürzung hat, gebe bitte die Übersetzung für "Level" ein.
-      exp: EXP #Abkürzung für "Erfahrung" Wenn deine Sprache keine Abkürzung hat, gebe bitte die Übersetzung für "Erfahrung" ein.
+      lvl: Lvl.
+      exp: EXP
       potionAbsorption: Trank der Absorption
       potionBadOmen: Trank des schlechten Omens
       potionBlindess: Trank der Blindheit
@@ -2402,23 +2424,23 @@
       potionWater: Wasserflasche
       ingredient: Zutat
       usedToBrew: Wird zum Brauen verwendet
-      costs: costs
+      costs: kostet
       xpLevel: Minecraft XP Level
-      xpLevels: Minecraft XP Levels
-      craftXPRequirement: This recipe requires at least
-      bedGUI: You cannot use this command while in bed!
-      statsUpdated: Your stats were changed to be consistent with a new EXP curve.
-        All skill trees and passive perks have been reset. All tokens must be re-invested.
-      timeRemaining: Time Remaining
-      numberOfAbilityTimersDisplayed: Number of Ability Timers Displayed
-      commandDesc14: Resets the cooldown period for a skill to 0 seconds
-      commandDesc15: Looks up a player's FreeRPG stats
-      repairUnsafeEnchant: This item is too powerful to be repaired
-      salvageUnsafeEnchant: This item is too powerful to be salvaged
-      rank: Rank
-      stats: stats
-      outOf: out of
-      playerNotInLeaderboard: That player is not on any leaderboards
+      xpLevels: Minecraft XP Level
+      craftXPRequirement: Dieses Rezept benötigt
+      bedGUI: Du kannst diesen Befehl nicht verwenden während du im Bett liegst!
+      statsUpdated: Deine Statistiken wurden geändert um mit der neuen EXP-Kurve übereinzustimmen. Alle Skillbäume und passive Fähigkeiten wurden zurückgesetzt. Alle Punkte mussen neu verteilt.
+      timeRemaining: Verbleibende Zeit
+      numberOfAbilityTimersDisplayed: Anzahl der angezeigten Fähigkeits-Timer
+      commandDesc14: Setzt die Abklingzeit für eine Fertigkeit auf 0 Sekunden zurück
+      commandDesc15: Zeigt die FreeRPG Statistiken eines Spielers
+      repairUnsafeEnchant: Dieses Item ist zu mächtig um es zu reparieren
+      salvageUnsafeEnchant: Dieses Item ist zu mächtig um gerettet zu werden
+      rank: Rang
+      stats: Statistiken
+      outOf: zu wenig
+      playerNotInLeaderboard: Dieser Spieler ist auf keiner Bestenliste
+      virtual: Virtual
 
     plPL: #Translated by QuarVey
       languageName: Polski
@@ -3042,6 +3064,7 @@
       stats: stats
       outOf: out of
       playerNotInLeaderboard: That player is not on any leaderboards
+      virtual: Virtual
 
     esCl:
       languageName: Español
@@ -3735,6 +3758,7 @@
       stats: estadisticas
       outOf: fuera de
       playerNotInLeaderboard: Ese jugador no está en ninguna tabla de clasificación
+      virtual: Virtual
 
     ruRU: #Transalted by MoKotik, DevilPlay
       languageName: Pусский Язык
@@ -4408,6 +4432,7 @@
       stats: stats
       outOf: out of
       playerNotInLeaderboard: That player is not on any leaderboards
+      virtual: Virtual
 
     ptBR: #Translated by gbuueno
       languageName: Porutgues Brazil
@@ -5038,6 +5063,7 @@
       stats: Status
       outOf: fora de
       playerNotInLeaderboard: Esse jogador não está em nenhuma tabela de classificação
+      virtual: Virtual
 
     custom:
       languageName: Čûşŧøm Ľãņğŭågè
@@ -5668,3 +5694,4 @@
       stats: stats
       outOf: out of
       playerNotInLeaderboard: That player is not on any leaderboards
+      virtual: Virtual

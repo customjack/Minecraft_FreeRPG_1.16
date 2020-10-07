@@ -40,8 +40,9 @@ public class ConfigLoad {
     static int leaderboardUpdateTimer;
     static boolean preventUnsafeRepair;
     static boolean preventUnsafeSalvage;
+    static boolean earnExperiencePastMaxLevel;
     static Map<String,Double> specialMultiplier = new HashMap<>();
-    static ArrayList<Integer> maxLevels = new ArrayList<>();
+    static Map<String,Integer> maxLevels = new HashMap<>();
     static ArrayList<Integer> soulsInfo = new ArrayList<>();
     static ArrayList<Double> multipliers = new ArrayList<>();
     static ArrayList<Double> tokensInfo = new ArrayList<>();
@@ -112,12 +113,13 @@ public class ConfigLoad {
         timberBreakLimits.add(advancedConfig.getInt("woodcutting.timberMaxBreakUpgraded"));
         shiftRightClickInvestAll = advancedConfig.getBoolean("tokens.passiveShiftClickAndRightClickInvestAll");
         superBaitCooldown = advancedConfig.getInt("fishing.superBaitCooldown");
+        earnExperiencePastMaxLevel = config.getBoolean("leveling.earnExperiencePastMaxLevel");
 
         //Config that is skill dependant
-        maxLevels.add(Integer.valueOf(config.getString("leveling.maxLevel")));
+        maxLevels.put("global",Integer.valueOf(config.getString("leveling.maxLevel")));
         allowedSkillsMap.put("global",config.getBoolean("global.skillAllowed"));
         for (String label : labels) {
-            maxLevels.add(Integer.valueOf(config.getString(label+".maxLevel")));
+            maxLevels.put(label,Integer.valueOf(config.getString(label+".maxLevel")));
             allowedSkillsMap.put(label,config.getBoolean(label+".skillAllowed"));
             abilityCooldowns.put(label,config.getInt(label+".abilityCooldown"));
             allowedSkillGainEXPMap.put(label,advancedConfig.getBoolean(label+".expDrops.enableEXPDrops"));
@@ -309,7 +311,7 @@ public class ConfigLoad {
     public boolean isAllowBuild() {return allowBuild;}
     public boolean isAllowPvP() {return allowPvP;}
     public boolean isAllowHurtAnimals() {return allowHurtAnimals;}
-    public ArrayList<Integer> getMaxLevels(){
+    public Map<String,Integer> getMaxLevels(){
         return maxLevels;
     }
     public ArrayList<Integer> getSoulsInfo(){
@@ -424,5 +426,9 @@ public class ConfigLoad {
 
     public boolean isPreventUnsafeSalvage() {
         return preventUnsafeSalvage;
+    }
+
+    public boolean isEarnExperiencePastMaxLevel() {
+        return earnExperiencePastMaxLevel;
     }
 }

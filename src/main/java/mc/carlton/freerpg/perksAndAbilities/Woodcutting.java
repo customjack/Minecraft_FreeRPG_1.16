@@ -26,28 +26,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.*;
 
 public class Woodcutting extends Skill{
-    Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-    private Player p;
-    private String pName;
-    private ItemStack itemInHand;
     private String skillName = "woodcutting";
-    Map<String,Integer> expMap;
     Map<Material,Integer> woodcuttingEXP;
-
-    ChangeStats increaseStats; //Changing Stats
-
-    AbilityTracker abilities; //Abilities class
-    // GET ABILITY STATUSES LIKE THIS:   Integer[] pAbilities = abilities.getPlayerAbilities(p);
-
-    AbilityTimers timers; //Ability Timers class
-    //GET TIMERS LIKE THIS:              Integer[] pTimers = timers.getPlayerTimers(p);
-
-    PlayerStats pStatClass;
-    //GET PLAYER STATS LIKE THIS:        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData(p);
-
-
-    ActionBarMessages actionMessage;
-    LanguageSelector lang;
 
     Random rand = new Random(); //Random class Import
 
@@ -60,7 +40,7 @@ public class Woodcutting extends Skill{
     private boolean runMethods;
 
     public Woodcutting(Player p) {
-        this.p = p;
+        super(p);
         this.pName = p.getDisplayName();
         this.itemInHand = p.getInventory().getItemInMainHand();
         this.increaseStats = new ChangeStats(p);
@@ -611,17 +591,5 @@ public class Woodcutting extends Skill{
             isBlacklisted = true;
         }
         return isBlacklisted;
-    }
-
-    public void damageTool(int damage) {
-        ItemMeta toolMeta = itemInHand.getItemMeta();
-        if (toolMeta instanceof Damageable) {
-            ((Damageable) toolMeta).setDamage(((Damageable) toolMeta).getDamage()+damage);
-            itemInHand.setItemMeta(toolMeta);
-            if (((Damageable) toolMeta).getDamage() > itemInHand.getType().getMaxDurability()) {
-                itemInHand.setAmount(0);
-                p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, 1);
-            }
-        }
     }
 }
