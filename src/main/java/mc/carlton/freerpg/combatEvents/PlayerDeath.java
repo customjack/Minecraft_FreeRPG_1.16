@@ -40,8 +40,8 @@ public class PlayerDeath implements Listener {
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[0] != -1) {
             AbilityLogoutTracker logoutTracker = new AbilityLogoutTracker(p);
-            NamespacedKey key = logoutTracker.getPlayerItems(p)[0];
-            int taskID_digging = logoutTracker.getPlayerTasks(p)[0];
+            NamespacedKey key = logoutTracker.getPlayerKeys().get("digging");
+            int taskID_digging = logoutTracker.getPlayerTasks().get("digging");
             for (ItemStack drop : drops) {
                 if (drop.getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
                     ItemStack abilityItem = drop;
@@ -53,8 +53,8 @@ public class PlayerDeath implements Listener {
         }
         if (pAbilities[2] != -1) {
             AbilityLogoutTracker logoutTracker = new AbilityLogoutTracker(p);
-            NamespacedKey key = logoutTracker.getPlayerItems(p)[2];
-            int taskID_mining = logoutTracker.getPlayerTasks(p)[2];
+            NamespacedKey key = logoutTracker.getPlayerKeys().get("mining");
+            int taskID_mining = logoutTracker.getPlayerTasks().get("mining");
             for (ItemStack drop: drops) {
                 if (drop.getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
                     ItemStack abilityItem = drop;
@@ -66,8 +66,8 @@ public class PlayerDeath implements Listener {
         }
         if (pAbilities[7] != -1) {
             AbilityLogoutTracker logoutTracker = new AbilityLogoutTracker(p);
-            NamespacedKey key = logoutTracker.getPlayerItems(p)[7];
-            int taskID_swordsmanship = logoutTracker.getPlayerTasks(p)[7];
+            NamespacedKey key = logoutTracker.getPlayerKeys().get("swordsmanship");
+            int taskID_swordsmanship = logoutTracker.getPlayerTasks().get("swordsmanship");
             for (ItemStack drop: drops) {
                 if (drop.getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
                     ItemStack abilityItem = drop;

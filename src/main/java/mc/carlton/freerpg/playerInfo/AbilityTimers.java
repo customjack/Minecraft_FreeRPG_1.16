@@ -18,9 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AbilityTimers {
@@ -222,7 +220,7 @@ public class AbilityTimers {
         }.runTaskTimer(plugin,refreshTicks,refreshTicks).getTaskId();
         abilityDurationTaskIds.put(taskUUID,taskID);
         AbilityLogoutTracker incaseLogout = new AbilityLogoutTracker(player);
-        incaseLogout.setPlayerTask(player,skillName,taskID);
+        incaseLogout.setPlayerTask(skillName,taskID);
     }
 
     public void abilityDurationTimer(String skillName, long duration, String endMessage, String cooldownEndMessage, NamespacedKey key, ItemStack itemHeldInHand,int enchantLevel, int levelReqLevel) { //OverSpecified for Mining/Digging/Swordsmanship
@@ -253,8 +251,8 @@ public class AbilityTimers {
         }.runTaskTimer(plugin,refreshTicks,refreshTicks).getTaskId();
         abilityDurationTaskIds.put(taskUUID,taskID);
         AbilityLogoutTracker incaseLogout = new AbilityLogoutTracker(player);
-        incaseLogout.setPlayerItem(player,skillName,key);
-        incaseLogout.setPlayerTask(player,skillName,taskID);
+        incaseLogout.setPlayerItem(skillName,key);
+        incaseLogout.setPlayerTask(skillName,taskID);
     }
 
     public void endAbility(String skillName,String endMessage,String cooldownEndMessage,boolean isDisabling) {

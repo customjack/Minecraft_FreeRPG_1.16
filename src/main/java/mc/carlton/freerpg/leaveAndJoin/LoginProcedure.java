@@ -114,17 +114,7 @@ public class LoginProcedure {
 
         //Initiates player abiliyLogoutTracker
         AbilityLogoutTracker abilityLogout = new AbilityLogoutTracker(p);
-        Map<Player, Integer[]> logoutTasks = abilityLogout.getTasks();
-        Map<Player, NamespacedKey[]> logoutItems = abilityLogout.getItems();
-        if (!logoutTasks.containsKey(p)) {
-            Integer[] initTasks = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
-            NamespacedKey key = new NamespacedKey(plugin,"x");
-            NamespacedKey[] initItems = {key,key,key,key,key,key,key,key,key,key,key,key,key,key,key};
-            logoutTasks.put(p, initTasks);
-            abilityLogout.setTasks(logoutTasks);
-            logoutItems.put(p,initItems);
-            abilityLogout.setItems(logoutItems);
-        }
+        abilityLogout.intiializePlayer();
 
         //Initializes Abilities
         Farming farmingClass =  new Farming(p);

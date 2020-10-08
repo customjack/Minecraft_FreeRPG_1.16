@@ -45,7 +45,7 @@ public class PlayerMoveAbilityItem implements Listener {
         if (e.isShiftClick()) {
             ItemStack clickedItem = e.getCurrentItem();
             TrackItem trackItem = new TrackItem();
-            NamespacedKey key = trackItem.getFreeRPGItemKey(clickedItem);
+            NamespacedKey key = trackItem.getFreeRPGItemKey(clickedItem,p);
             if (key != null) {
                 ItemMeta itemMeta = clickedItem.getItemMeta();
                 PersistentDataContainer container = itemMeta.getPersistentDataContainer();
@@ -63,7 +63,7 @@ public class PlayerMoveAbilityItem implements Listener {
             if (!e.getCursor().getType().equals(Material.AIR)) {
                 ItemStack clickedItem = e.getCursor();
                 TrackItem trackItem = new TrackItem();
-                NamespacedKey key = trackItem.getFreeRPGItemKey(clickedItem);
+                NamespacedKey key = trackItem.getFreeRPGItemKey(clickedItem,p);
                 if (key != null) {
                     if (!clickedInventoryType.equals(InventoryType.PLAYER)) {
                         e.setCancelled(true);

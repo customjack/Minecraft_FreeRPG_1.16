@@ -25,8 +25,8 @@ public class PlayerDropItem implements Listener {
         Integer[] pAbilities = abilities.getPlayerAbilities();
         if (pAbilities[0] != -1) {
             AbilityLogoutTracker logoutTracker = new AbilityLogoutTracker(p);
-            NamespacedKey key = logoutTracker.getPlayerItems(p)[0];
-            int taskID_digging = logoutTracker.getPlayerTasks(p)[0];
+            NamespacedKey key = logoutTracker.getPlayerKeys().get("digging");
+            int taskID_digging = logoutTracker.getPlayerTasks().get("digging");
             if (e.getItemDrop().getItemStack().getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
                 ItemStack abilityItem = e.getItemDrop().getItemStack();
                 Digging diggingClass = new Digging(p);
@@ -35,8 +35,8 @@ public class PlayerDropItem implements Listener {
         }
         if (pAbilities[2] != -1) {
             AbilityLogoutTracker logoutTracker = new AbilityLogoutTracker(p);
-            NamespacedKey key = logoutTracker.getPlayerItems(p)[2];
-            int taskID_mining = logoutTracker.getPlayerTasks(p)[2];
+            NamespacedKey key = logoutTracker.getPlayerKeys().get("mining");
+            int taskID_mining = logoutTracker.getPlayerTasks().get("mining");
             if (e.getItemDrop().getItemStack().getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
                 ItemStack abilityItem = e.getItemDrop().getItemStack();
                 Mining miningClass = new Mining(p);
@@ -46,8 +46,8 @@ public class PlayerDropItem implements Listener {
 
         if (pAbilities[7] != -1) {
             AbilityLogoutTracker logoutTracker = new AbilityLogoutTracker(p);
-            NamespacedKey key = logoutTracker.getPlayerItems(p)[7];
-            int taskID_swordsmanship = logoutTracker.getPlayerTasks(p)[7];
+            NamespacedKey key = logoutTracker.getPlayerKeys().get("swordsmanship");
+            int taskID_swordsmanship = logoutTracker.getPlayerTasks().get("swordsmanship");
             if (e.getItemDrop().getItemStack().getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING)) {
                 ItemStack abilityItem = e.getItemDrop().getItemStack();
                 Swordsmanship swordsmanshipClass = new Swordsmanship(p);

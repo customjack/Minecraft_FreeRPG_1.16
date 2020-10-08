@@ -43,19 +43,19 @@ public class LogoutProcedure {
         TrackItem trackItem = new TrackItem();
 
 
-        NamespacedKey key_digging = logoutTracker.getPlayerItems(p)[0];
-        int taskID_digging = logoutTracker.getPlayerTasks(p)[0];
+        NamespacedKey key_digging = logoutTracker.getPlayerKeys().get("digging");
+        int taskID_digging = logoutTracker.getPlayerTasks().get("digging");
         ItemStack itemInHand_digging = trackItem.findTrackedItemInInventory(p,key_digging);
 
-        NamespacedKey key_mining = logoutTracker.getPlayerItems(p)[2];
-        int taskID_mining = logoutTracker.getPlayerTasks(p)[2];
+        NamespacedKey key_mining = logoutTracker.getPlayerKeys().get("mining");
+        int taskID_mining = logoutTracker.getPlayerTasks().get("mining");
         ItemStack itemInHand_mining = trackItem.findTrackedItemInInventory(p,key_mining);
 
-        NamespacedKey key_swordsmanship = logoutTracker.getPlayerItems(p)[7];
-        int taskID_swordsmanship = logoutTracker.getPlayerTasks(p)[7];
+        NamespacedKey key_swordsmanship = logoutTracker.getPlayerKeys().get("swordsmanship");
+        int taskID_swordsmanship = logoutTracker.getPlayerTasks().get("swordsmanship");
         ItemStack itemInHand_swordsmanship = trackItem.findTrackedItemInInventory(p,key_swordsmanship);
 
-        int taskID_defense = logoutTracker.getPlayerTasks(p)[8];
+        int taskID_defense = logoutTracker.getPlayerTasks().get("defense");
 
         if (itemInHand_digging != null) {
             Digging diggingClass = new Digging(p);
@@ -110,6 +110,6 @@ public class LogoutProcedure {
         deleteTimers.removePlayer();
 
         AbilityLogoutTracker deleteLogoutTracked = new AbilityLogoutTracker(p);
-        deleteLogoutTracked.removePlayer(p);
+        deleteLogoutTracked.removePlayer();
     }
 }
