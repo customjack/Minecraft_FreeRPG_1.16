@@ -383,6 +383,24 @@ public class StringsAndOtherData {
         return newString;
     }
 
+    public static boolean containsIgnoreCase(List<String> list,String inputString) {
+        for (String string : list) {
+            if (inputString.equalsIgnoreCase(string)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String convertStringToListCasing(List<String> list,String inputString) {
+        for (String string : list) {
+            if (inputString.equalsIgnoreCase(string)) {
+                return string;
+            }
+        }
+        return "";
+    }
+
     public String rankToString(int rank) {
         String suffix = "th";
         int lastTwoDigits = rank % 100;

@@ -57,7 +57,9 @@ public class TrackItem {
         for (String name : allPlayerKeys.keySet()) {
             NamespacedKey key = allPlayerKeys.get(name);
             if (container.has(key,PersistentDataType.STRING)) {
-                return key;
+                if (key.getKey().contains("frpg")) {
+                    return key;
+                }
             }
         }
         return null;

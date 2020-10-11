@@ -308,10 +308,10 @@ public class FrpgCommands implements CommandExecutor {
                 ItemStack alchemy = new ItemStack(Material.POTION);
                 ItemStack smelting = new ItemStack(Material.COAL);
                 ItemStack enchanting = new ItemStack(Material.ENCHANTING_TABLE);
-                ItemStack tokens = new ItemStack(Material.GOLD_INGOT);
+                ItemStack info = new ItemStack(Material.MAP);
                 ItemStack configuration = new ItemStack(Material.REDSTONE);
 
-                ItemStack[] menu_items = {global,digging,woodcutting,mining,farming,fishing,archery,beastMastery,swords,armor,axes,repair,agility,alchemy,smelting,enchanting,tokens,configuration};
+                ItemStack[] menu_items = {global,digging,woodcutting,mining,farming,fishing,archery,beastMastery,swords,armor,axes,repair,agility,alchemy,smelting,enchanting,info,configuration};
                 String[] labels = {lang.getString("global"),lang.getString("digging"),lang.getString("woodcutting"),lang.getString("mining"),lang.getString("farming"),lang.getString("fishing"),lang.getString("archery"),lang.getString("beastMastery"),lang.getString("swordsmanship"),lang.getString("defense"),lang.getString("axeMastery"),lang.getString("repair"),lang.getString("agility"),lang.getString("alchemy"),lang.getString("smelting"),lang.getString("enchanting"),lang.getString("information"),lang.getString("configuration")};
                 String[] labels0 = {"global","digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting"};
                 Integer[] indices = {4,11,12,13,14,15,20,21,22,23,24,29,30,31,32,33,36,44};
@@ -320,7 +320,7 @@ public class FrpgCommands implements CommandExecutor {
 
                 //Set item positions and lore for all items in the GUI
                 Leaderboards leaderboards = new Leaderboards();
-                for (int i = 0; i < labels.length; i++) {
+                for (int i = 0; i < menu_items.length; i++) {
                     ItemStack item = menu_items[i];
                     ArrayList<String> lore_skills = new ArrayList<>();
                     if (i < 16 && i!=0) {
@@ -661,7 +661,6 @@ public class FrpgCommands implements CommandExecutor {
         //Leader Board
         else if (args[0].equalsIgnoreCase("leaderboard") || args[0].equalsIgnoreCase("statLeaders")) {
             if (args.length >= 2) {
-                String skillName = args[1];
                 int page = 1;
                 if (args.length == 3) {
                     try {
@@ -680,6 +679,8 @@ public class FrpgCommands implements CommandExecutor {
                 }
                 String[] labels_0 = {"digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting","global","playTime"};
                 List<String> labels_arr = Arrays.asList(labels_0);
+                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                String skillName = stringsAndOtherData.convertStringToListCasing(labels_arr,args[1]);
                 if (labels_arr.contains(skillName)) {
                     Leaderboards getStats = new Leaderboards();
                     if (!getStats.isLeaderboardsLoaded()) {
@@ -691,10 +692,9 @@ public class FrpgCommands implements CommandExecutor {
                             System.out.println("Leaderboard is not yet loaded, try again soon");
                         }
                     }
-                    if (skillName.equalsIgnoreCase("playTime")) {
-                        getStats.updatePlayerPlayTimes();
-                    }
+                    //Sorts and Updates leaderboard (if dynamic updates are on)
                     getStats.sortLeaderBoard(skillName);
+
                     ArrayList<PlayerLeaderboardStat> sortedStats = getStats.getLeaderboard(skillName);
                     int totalPlayers = sortedStats.size();
                     int totalPages = (int) Math.ceil(totalPlayers / 10.0);
@@ -720,7 +720,6 @@ public class FrpgCommands implements CommandExecutor {
                                 }
                                 else if (skillName.equalsIgnoreCase("playTime")){
                                     p.sendMessage(ChatColor.WHITE + Integer.toString(i + 1) + ". " + ChatColor.AQUA + info.get_pName() + ChatColor.WHITE.toString() + " - " + ChatColor.WHITE + info.get_playTimeString() );
-
                                 }
                                 else {
                                     p.sendMessage(ChatColor.WHITE + Integer.toString(i + 1) + ". " + ChatColor.AQUA + info.get_pName() + ChatColor.WHITE.toString() + " - " + ChatColor.WHITE + String.format("%,d", info.get_stat2()) + ChatColor.WHITE + " (" + ChatColor.GRAY + String.format("%,d", info.get_sortedStat()) + ChatColor.WHITE + ")");
@@ -915,9 +914,10 @@ public class FrpgCommands implements CommandExecutor {
             }
 
             //Skill name match check
-            String skillName = args[2];
             String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery"};
             List<String> labels = Arrays.asList(labels_0);
+            StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+            String skillName = stringsAndOtherData.convertStringToListCasing(labels,args[2]);
             if (!labels.contains(skillName)) {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
@@ -1074,7 +1074,6 @@ public class FrpgCommands implements CommandExecutor {
                 if (!targetOnline) {
                     return true;
                 }
-                String skillName = args[2];
                 int exp = 0;
                 try {
                     exp = Integer.valueOf(args[3]);
@@ -1092,6 +1091,8 @@ public class FrpgCommands implements CommandExecutor {
 
                 String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
                 List<String> labels_arr = Arrays.asList(labels_0);
+                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                String skillName = stringsAndOtherData.convertStringToListCasing(labels_arr,args[2]);
                 if (labels_arr.contains(skillName) && target.isOnline()) {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
@@ -1163,7 +1164,6 @@ public class FrpgCommands implements CommandExecutor {
                 if (!targetOnline) {
                     return true;
                 }
-                String skillName = args[2];
                 int level = 0;
                 try {
                     level = Integer.valueOf(args[3]);
@@ -1180,6 +1180,8 @@ public class FrpgCommands implements CommandExecutor {
                 }
                 String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
                 List<String> labels_arr = Arrays.asList(labels_0);
+                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                String skillName = stringsAndOtherData.convertStringToListCasing(labels_arr,args[2]);
                 if (labels_arr.contains(skillName) && target.isOnline()) {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
@@ -1260,9 +1262,10 @@ public class FrpgCommands implements CommandExecutor {
                 if (!targetOnline) {
                     return true;
                 }
-                String skillName = args[2];
                 String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
                 List<String> labels_arr = Arrays.asList(labels_0);
+                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                String skillName = stringsAndOtherData.convertStringToListCasing(labels_arr,args[2]);
                 if (labels_arr.contains(skillName) && target.isOnline()) {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
@@ -1376,7 +1379,6 @@ public class FrpgCommands implements CommandExecutor {
 
             if (args.length == 5 || args.length == 4) {
                 String playerName = args[1];
-                String skillName = args[2];
 
                 //Checks if target is online and exists
                 Player target = plugin.getServer().getPlayer(playerName);
@@ -1387,7 +1389,7 @@ public class FrpgCommands implements CommandExecutor {
 
                 //Global tokens case
                 if (args.length == 4) {
-                    if (skillName.equalsIgnoreCase("global")) {
+                    if (args[2].equalsIgnoreCase("global")) {
                         int globalTokens = 0;
                         try {
                             globalTokens = Integer.valueOf(args[3]);
@@ -1428,6 +1430,8 @@ public class FrpgCommands implements CommandExecutor {
                 String tokenType = args[3];
                 String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
                 List<String> labels_arr = Arrays.asList(labels_0);
+                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                String skillName = stringsAndOtherData.convertStringToListCasing(labels_arr,args[2]);
                 if (labels_arr.contains(skillName) && target.isOnline()) { //THis may be redudant but I'm doing it to be safe
                     //Skill/Passive Token Case
                     if (tokenType.equalsIgnoreCase("skill") || tokenType.equalsIgnoreCase("passive")) {
@@ -1825,11 +1829,12 @@ public class FrpgCommands implements CommandExecutor {
                 String[] passiveLabels0 = {"repair","agility","alchemy","smelting","enchanting"};
                 List<String> labels = Arrays.asList(labels_0);
                 List<String> passiveLabels = Arrays.asList(passiveLabels0);
-                if (!labels.contains(args[1])) {
+                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                String skillName = stringsAndOtherData.convertStringToListCasing(labels,args[1]);
+                if (!labels.contains(skillName) ) {
                     p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg skillConfigGUI [" + lang.getString("skillName") + "]");
                     return true;
                 }
-                String skillName = args[1];
                 String skillTitle = titles_0[labels.indexOf(skillName)];
                 Inventory gui = Bukkit.createInventory(p, 54, skillTitle + " Configuration");
                 PlayerStats pStatClass = new PlayerStats(p);
@@ -2326,7 +2331,9 @@ public class FrpgCommands implements CommandExecutor {
 
             if (sender instanceof Player) {
                 if (args.length == 2) {
-                    if (labels_arr.contains(args[1])) {
+                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                    String skillName = stringsAndOtherData.convertStringToListCasing(labels_arr,args[1]);
+                    if (labels_arr.contains(skillName)) {
                         Player p = (Player) sender;
                         LanguageSelector langManager = new LanguageSelector(p);
                         String skName = labels_0[labels_arr.indexOf(args[1])];

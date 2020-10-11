@@ -131,6 +131,9 @@ public class Leaderboards {
         if (!configLoad.isLeaderboardDyanmicUpdate()) {
             return;
         }
+        if (skillName.equalsIgnoreCase("playTime")) { //PlayTime doesn't update dynamically like the others,
+            updateLeaderboard("playTime");
+        }
         ArrayList<PlayerLeaderboardStat> leaderboard = leaderboards.get(skillName);
         leaderboard.sort(new Comparator<PlayerLeaderboardStat>() {
             @Override
@@ -148,6 +151,9 @@ public class Leaderboards {
         if (!forceSort) {
             sortLeaderBoard(skillName);
         }
+        if (skillName.equalsIgnoreCase("playTime")) { //PlayTime doesn't update dynamically like the others,
+            updateLeaderboard("playTime");
+        }
         ArrayList<PlayerLeaderboardStat> leaderboard = leaderboards.get(skillName);
         leaderboard.sort(new Comparator<PlayerLeaderboardStat>() {
             @Override
@@ -161,7 +167,7 @@ public class Leaderboards {
         });
     }
 
-    public void updateAllPlayerStats() {
+    public void updateAllLeaderboards() {
         for (UUID playerUUID : playerUUID_to_personalSkillLeaderboards.keySet()) {
             if (Bukkit.getPlayer(playerUUID) != null) {
                 if (Bukkit.getPlayer(playerUUID).isOnline()) {
@@ -186,7 +192,7 @@ public class Leaderboards {
         }
     }
 
-    public void updatePlayerPlayTimes(){
+    public void updateLeaderboard(String leaderboardName) {
         ConfigLoad configLoad = new ConfigLoad();
         if (!configLoad.isLeaderboardDyanmicUpdate()) {
             return;
@@ -195,8 +201,43 @@ public class Leaderboards {
             if (Bukkit.getPlayer(playerUUID) != null) {
                 if (Bukkit.getPlayer(playerUUID).isOnline()) {
                     PlayerStats playerStats = new PlayerStats(playerUUID);
-                    long playTime = playerStats.getNewPlayTime();
-                    playerUUID_to_personalSkillLeaderboards.get(playerUUID).get("playTime").set_sortedStat(playTime);
+                    Map<String, ArrayList<Number>> pStats = playerStats.getPlayerData();
+                    if (leaderboardName.equalsIgnoreCase("global")) {
+                        playerUUID_to_personalSkillLeaderboards.get(playerUUID).get(leaderboardName).set_sortedStat(pStats.get(leaderboardName).get(0));
+                        playerUUID_to_personalSkillLeaderboards.get(playerUUID).get(leaderboardName).set_stat2(pStats.get(leaderboardName).get(29));
+                    } else if (leaderboardName.equalsIgnoreCase("playTime")) {
+                        long playTime = playerStats.getNewPlayTime();
+                        playerUUID_to_personalSkillLeaderboards.get(playerUUID).get(leaderboardName).set_sortedStat(playTime);
+                    } else {
+                        playerUUID_to_personalSkillLeaderboards.get(playerUUID).get(leaderboardName).set_stat2(pStats.get(leaderboardName).get(0));
+                        playerUUID_to_personalSkillLeaderboards.get(playerUUID).get(leaderboardName).set_sortedStat(pStats.get(leaderboardName).get(1));
+                    }
+                }
+            }
+        }
+    }
+
+    public void updateLeaderboard(String leaderboardName, boolean forceUpdate){
+        if (!forceUpdate) {
+            updateLeaderboard(leaderboardName);
+        }
+        for (UUID playerUUID : playerUUID_to_personalSkillLeaderboards.keySet()) {
+            if (Bukkit.getPlayer(playerUUID) != null) {
+                if (Bukkit.getPlayer(playerUUID).isOnline()) {
+                    PlayerStats playerStats = new PlayerStats(playerUUID);
+                    Map<String,ArrayList<Number>> pStats = playerStats.getPlayerData();
+                    if (leaderboardName.equalsIgnoreCase("global")) {
+                        playerUUID_to_personalSkillLeaderboards.get(playerUUID).get(leaderboardName).set_sortedStat(pStats.get(leaderboardName).get(0));
+                        playerUUID_to_personalSkillLeaderboards.get(playerUUID).get(leaderboardName).set_stat2(pStats.get(leaderboardName).get(29));
+                    }
+                    else if (leaderboardName.equalsIgnoreCase("playTime")) {
+                        long playTime = playerStats.getNewPlayTime();
+                        playerUUID_to_personalSkillLeaderboards.get(playerUUID).get(leaderboardName).set_sortedStat(playTime);
+                    }
+                    else {
+                        playerUUID_to_personalSkillLeaderboards.get(playerUUID).get(leaderboardName).set_stat2(pStats.get(leaderboardName).get(0));
+                        playerUUID_to_personalSkillLeaderboards.get(playerUUID).get(leaderboardName).set_sortedStat(pStats.get(leaderboardName).get(1));
+                    }
                 }
             }
         }
@@ -214,7 +255,8 @@ public class Leaderboards {
             public void run() {
                 if (leaderboardsLoaded) {
                     leaderboardUpdating = true;
-                    updateAllPlayerStats();
+                    updateAllLeaderboards();
+
                     sortAllLeaderBoards(true);
                     leaderboardUpdating = false;
                 }

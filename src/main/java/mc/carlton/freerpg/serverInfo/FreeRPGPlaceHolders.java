@@ -96,7 +96,7 @@ public class FreeRPGPlaceHolders extends PlaceholderExpansion {
         String[] identifierParts = identifier.split("_");
 
         //Checks if the request is a leaderboard request
-        if (identifierParts.length == 4 && identifierParts[0].equalsIgnoreCase("leaderboard")) { //Required for any leaderboard request
+        if (identifierParts.length >= 4 && identifierParts[0].equalsIgnoreCase("leaderboard")) { //Required for any leaderboard request
             Leaderboards leaderboards = new Leaderboards();
             List<String> leaderboardNames = leaderboards.getLeaderboardNames();
             String leaderboardName = "";
@@ -124,15 +124,20 @@ public class FreeRPGPlaceHolders extends PlaceholderExpansion {
                 }
                 else if (stat.equalsIgnoreCase(leaderboardIdentifiers.get(2)) || stat.equalsIgnoreCase("sortedStat")) {
                     if (leaderboardName.equalsIgnoreCase("playTime")) {
-                        return playerStatFromLeaderboard.get_playTimeString();
+                        if (identifierParts.length > 4) {
+                            if (identifierParts[4].equalsIgnoreCase("formatted")) {
+                                return playerStatFromLeaderboard.get_playTimeString();
+                            }
+                        }
+                        return String.valueOf(playerStatFromLeaderboard.get_sortedStat());
                     }
                     else {
-                        return String.format("%,d",playerStatFromLeaderboard.get_sortedStat());
+                        return formatOutput(identifierParts,playerStatFromLeaderboard.get_sortedStat(),4);
                     }
                 }
                 else if (stat.equalsIgnoreCase(leaderboardIdentifiers.get(3)) || stat.equalsIgnoreCase("stat2")) {
                     if (playerStatFromLeaderboard.get_stat2() != null) {
-                        return String.format("%,d",playerStatFromLeaderboard.get_stat2());
+                        return formatOutput(identifierParts,playerStatFromLeaderboard.get_stat2(),4);
                     }
                     else {
                         return null;
@@ -152,47 +157,53 @@ public class FreeRPGPlaceHolders extends PlaceholderExpansion {
 
 
         //Global Parameters (The else-ifs aren't really necessary, but it helps me organize)
-        if (identifier.equalsIgnoreCase("globalLevel")) { //Global Level
-            return String.format("%,d",pStats.get("global").get(0));
+        if (identifierParts[0].equalsIgnoreCase("globalLevel")) {
+            return formatOutput(identifierParts,pStats.get("global").get(0),1);
+
         }
-        else if (identifier.equalsIgnoreCase("globalTokens")) {
-            return String.format("%,d",pStats.get("global").get(1)); //Global Tokens
+        else if (identifierParts[0].equalsIgnoreCase("globalTokens")) {
+            return formatOutput(identifierParts,pStats.get("global").get(1),1);
         }
-        else if (identifier.equalsIgnoreCase("personalMultiplier")) {
-            return String.valueOf(pStats.get("global").get(23)); //Personal Mulitplier
+        else if (identifierParts[0].equalsIgnoreCase("personalMultiplier")) {
+            return formatOutput(identifierParts,pStats.get("global").get(23),1);
         }
-        else if (identifier.equalsIgnoreCase("totalSkillTokens")) {
+        else if (identifierParts[0].equalsIgnoreCase("totalSkillTokens")) {
             int totalSkilTokens = 0;
             for (String skillName : pStats.keySet()){
                 if (!skillName.equalsIgnoreCase("global")){
                     totalSkilTokens += pStats.get(skillName).get(3).intValue();
                 }
             }
-            return String.format("%,d",totalSkilTokens); //Total Skill Tokens
+            return formatOutput(identifierParts,totalSkilTokens,1);
         }
-        else if (identifier.equalsIgnoreCase("totalPassiveTokens")) {
+        else if (identifierParts[0].equalsIgnoreCase("totalPassiveTokens")) {
             int totalPassiveTokens = 0;
             for (String skillName : pStats.keySet()){
                 if (!skillName.equalsIgnoreCase("global")){
                     totalPassiveTokens += pStats.get(skillName).get(2).intValue();
                 }
             }
-            return String.format("%,d",totalPassiveTokens); //Total Passive Tokens
+            return formatOutput(identifierParts,totalPassiveTokens,1);
         }
-        else if (identifier.equalsIgnoreCase("souls")) {
-            return String.format("%,d",pStats.get("global").get(20)); //Souls
+        else if (identifierParts[0].equalsIgnoreCase("souls")) {
+            return formatOutput(identifierParts,pStats.get("global").get(20),1);
         }
-        else if (identifier.equalsIgnoreCase("totalEXP") || identifier.equalsIgnoreCase("totalExperience") ) {
-            return String.format("%,d",pStats.get("global").get(29)); //Total experience
+        else if (identifierParts[0].equalsIgnoreCase("totalEXP") || identifier.equalsIgnoreCase("totalExperience") ) {
+            return formatOutput(identifierParts,pStats.get("global").get(29),1);
         }
-        else if (identifier.equalsIgnoreCase("playTime")) {
-            return playerStats.getPlayerPlayTimeString(); //Total play time (with FreeRPG installed)
+        else if (identifierParts[0].equalsIgnoreCase("playTime")) {
+            if (identifierParts.length > 1) {
+                if (identifierParts[1].equalsIgnoreCase("formatted")) {
+                    return playerStats.getPlayerPlayTimeString();
+                }
+            }
+            return String.valueOf(playerStats.getNewPlayTime());
         }
-        else if (identifier.equalsIgnoreCase("globalLevelRank")) {
+        else if (identifierParts[0].equalsIgnoreCase("globalLevelRank")) {
             Leaderboards leaderboards = new Leaderboards();
             return String.valueOf(leaderboards.getLeaderboardPosition(p,"global")); //Total play time (with FreeRPG installed)
         }
-        else if (identifier.equalsIgnoreCase("playTimeRank")) {
+        else if (identifierParts[0].equalsIgnoreCase("playTimeRank")) {
             Leaderboards leaderboards = new Leaderboards();
             return String.valueOf(leaderboards.getLeaderboardPosition(p,"playTime")); //Total play time (with FreeRPG installed)
         }
@@ -208,32 +219,32 @@ public class FreeRPGPlaceHolders extends PlaceholderExpansion {
         }
 
         //All skill specific requests
-        if (potentialSkillSpecificRequest) {
-            if (identifier.equalsIgnoreCase(skillName+"_Level")) { //Level
-                return String.format("%,d",pStats.get(skillName).get(0));
+        if (potentialSkillSpecificRequest) { //We know identifierParts[0] is a skillName
+            if (identifierParts[1].equalsIgnoreCase("Level")) { //Level
+                return formatOutput(identifierParts,pStats.get(skillName).get(0),2);
             }
-            else if (identifier.equalsIgnoreCase(skillName+"_EXP") || identifier.equalsIgnoreCase(skillName+"experience")) { //Experience
-                return String.format("%,d",pStats.get(skillName).get(1));
+            else if (identifierParts[1].equalsIgnoreCase("EXP") || identifier.equalsIgnoreCase(skillName+"experience")) { //Experience
+                return formatOutput(identifierParts,pStats.get(skillName).get(1),2);
             }
-            else if (identifier.equalsIgnoreCase(skillName+"_passiveTokens")) { //Passive Tokens
-                return String.format("%,d",pStats.get(skillName).get(2));
+            else if (identifierParts[1].equalsIgnoreCase("passiveTokens")) { //Passive Tokens
+                return formatOutput(identifierParts,pStats.get(skillName).get(2),2);
             }
-            else if (identifier.equalsIgnoreCase(skillName+"_skillTokens")) { //Skill Tokens
-                return String.format("%,d",pStats.get(skillName).get(3));
+            else if (identifierParts[1].equalsIgnoreCase("skillTokens")) { //Skill Tokens
+                return formatOutput(identifierParts,pStats.get(skillName).get(3),2);
             }
-            else if (identifier.equalsIgnoreCase(skillName+"_Multiplier")) { //Skill Multiplier
+            else if (identifierParts[1].equalsIgnoreCase("Multiplier")) { //Skill Multiplier
                 ChangeStats changeStats = new ChangeStats(p);
                 return String.valueOf(changeStats.getSkillMultiplier(skillName));
             }
-            else if (identifier.equalsIgnoreCase(skillName+"_EXPtoNext")) { //Skill EXP to next
+            else if (identifierParts[1].equalsIgnoreCase("EXPtoNext")) { //Skill EXP to next
                 int EXP = pStats.get(skillName).get(1).intValue();
                 int level = pStats.get(skillName).get(0).intValue();
                 ChangeStats getEXP = new ChangeStats(p);
                 int nextEXP = getEXP.getEXPfromLevel(level+1);
                 int EXPtoNext = nextEXP - EXP;
-                return String.format("%,d",EXPtoNext);
+                return formatOutput(identifierParts,EXPtoNext,2);
             }
-            else if (identifier.equalsIgnoreCase(skillName+"_rank")) {
+            else if (identifierParts[1].equalsIgnoreCase("rank")) {
                 Leaderboards leaderboards = new Leaderboards();
                 return String.valueOf(leaderboards.getLeaderboardPosition(p,skillName)); //Total play time (with FreeRPG installed)
             }
@@ -260,6 +271,15 @@ public class FreeRPGPlaceHolders extends PlaceholderExpansion {
             identifiers.add("level");
         }
         return identifiers;
+    }
+
+    public String formatOutput(String[] identifierParts,Object value,int formatIdentifierLocation) {
+        if (identifierParts.length > formatIdentifierLocation) {
+            if (identifierParts[formatIdentifierLocation].equalsIgnoreCase("formatted")) {
+                return String.format("%,d", value);
+            }
+        }
+        return String.valueOf(value);
     }
 
 }
