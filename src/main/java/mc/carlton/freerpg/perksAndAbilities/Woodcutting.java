@@ -182,7 +182,7 @@ public class Woodcutting extends Skill{
                 return;
             }
         }
-        damageTool(numLogs);
+        damageTool(numLogs,configLoad.getDurabilityModifiers().get("timber"));
         for (Block block : timberLogs) {
             Location blockLoc = block.getLocation();
             //Checks if any of the blocks weren't natural
@@ -456,7 +456,8 @@ public class Woodcutting extends Skill{
         getTreeLeaves(initialBlock,initialBlock.getX(),initialBlock.getY(),initialBlock.getZ(),initialBlock.getType()); //Get Leaves in tree leaf chunk
         int numLeaves = treeLeaves.size();
         World world = initialBlock.getWorld();
-        damageTool(numLeaves);
+        ConfigLoad configLoad = new ConfigLoad();
+        damageTool(numLeaves,configLoad.getDurabilityModifiers().get("leafBlower"));
         PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();
         for (Block block : treeLeaves) {
             Location blockLoc = block.getLocation();

@@ -11,6 +11,7 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -65,14 +66,43 @@ public class Skill {
     }
 
     public void damageTool() { //Overspecified because I'm lazy
-        damageTool(1);
+        damageTool(1,1.0);
     }
-
-    public void damageTool(int damage) {
+    public void damageTool(double modifier) {
+        damageTool(1,modifier);
+    }
+    public void damageTool(int damage,double modifier) {
         if (itemInHand.getItemMeta().isUnbreakable()) {
             return;
         }
         ItemMeta toolMeta = itemInHand.getItemMeta();
+
+        //Unnbreaking checks
+        int unbreakingLevel = 0;
+        if (toolMeta.hasEnchant(Enchantment.DURABILITY)) {
+            unbreakingLevel = toolMeta.getEnchantLevel(Enchantment.DURABILITY);
+        }
+        if (unbreakingLevel > 0) {
+            double chanceToSaveDurability = 1.0 - (1.0/(unbreakingLevel+1));
+            for (int i = 0; i < damage; i++) { //Roll an unbreaking check for each damage point dealt
+                Random rand = new Random();
+                if (rand.nextDouble() < chanceToSaveDurability) { //Reduce damage dealt
+                    damage = damage - 1;
+                }
+            }
+        }
+
+        //Damage Modifier
+        if (modifier != 1.0) { //Randomly sets damage so the expected value of the durability taken = damage*modifier
+            double damageDouble = damage * modifier;
+            damage = (int) Math.floor(damageDouble); //Round damage down
+            double excessDamage = damageDouble-damage;
+            Random rand = new Random();
+            if (rand.nextDouble() < excessDamage) { //Round up if a random number is less than the excessDamage
+                damage+=1;
+            }
+        }
+
         if (toolMeta instanceof Damageable) {
             ((Damageable) toolMeta).setDamage(((Damageable) toolMeta).getDamage()+damage);
             itemInHand.setItemMeta(toolMeta);

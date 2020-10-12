@@ -184,15 +184,6 @@ public final class FreeRPG extends JavaPlugin implements Listener {
 
         //If the plugin starts with players online
         for (Player p : Bukkit.getOnlinePlayers()) {
-            PlayerStats pStatClass = new PlayerStats(p);
-            if (pStatClass.isPlayerRegistered()) {
-                LogoutProcedure logout = new LogoutProcedure(p);
-                try {
-                    logout.playerLogout(false);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
             LoginProcedure login = new LoginProcedure(p);
             login.playerLogin();
         }

@@ -192,7 +192,8 @@ public class Smelting extends Skill{
         }
         world.spawnParticle(Particle.FLAME, block.getLocation(), 5);
         block.setType(Material.AIR);
-        damageTool();
+        ConfigLoad configLoad = new ConfigLoad();
+        damageTool(configLoad.getDurabilityModifiers().get("flamePick"));
         if (giveEXP) {
             increaseStats.changeEXP(skillName, getEXP(blockType));
         }

@@ -384,7 +384,7 @@ public class Mining extends Skill{
         getVeinOres(initialBlock,initialBlock.getX(),initialBlock.getY(),initialBlock.getZ(),initialBlock.getType(),maxBreakSize); //Get Ores in Vein
         int numOres = veinOres.size();
         World world = initialBlock.getWorld();
-        damageTool(numOres);
+        damageTool(numOres,configLoad.getDurabilityModifiers().get("veinMiner"));
         for (Block block : veinOres) {
             Location blockLoc = block.getLocation();
             PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();
@@ -427,7 +427,7 @@ public class Mining extends Skill{
         int doubleDropsLevel = (int)pStat.get(skillName).get(5);
         double chance = 0.0005*doubleDropsLevel;
 
-        damageTool(numOres);
+        damageTool(numOres,configLoad.getDurabilityModifiers().get("veinMiner"));
 
         boolean didRun = false;
         Smelting smeltingClass = new Smelting(p);

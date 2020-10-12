@@ -64,6 +64,7 @@ public class ConfigLoad {
     static Map<String,Integer> abilityCooldowns = new HashMap<>();
     static Map<String,Double> spawnerEXPMultipliers = new HashMap<>();
     static Map<String,Double> mobFarmEXPMultipliers = new HashMap<>();
+    static Map<String,Double> durabilityModifiers = new HashMap<>();
 
 
     public void initializeConfig(){
@@ -117,7 +118,7 @@ public class ConfigLoad {
         earnExperiencePastMaxLevel = config.getBoolean("leveling.earnExperiencePastMaxLevel");
         agilityMinSprintTimeForExperience = advancedConfig.getDouble("agility.sprintTimeThreshold");
 
-        //Config that is skill dependant
+
         maxLevels.put("global",Integer.valueOf(config.getString("leveling.maxLevel")));
         allowedSkillsMap.put("global",config.getBoolean("global.skillAllowed"));
         for (String label : labels) {
@@ -128,7 +129,14 @@ public class ConfigLoad {
         }
         abilityCooldowns.put("fishingRob",config.getInt(".robCooldown"));
 
-        //config that is skill dependent (for not all skills)
+        durabilityModifiers.put("megaDig",advancedConfig.getDouble("digging.megaDigDurabilityModifier"));
+        durabilityModifiers.put("timber",advancedConfig.getDouble("woodcutting.timberDurabilityModifier"));
+        durabilityModifiers.put("leafBlower",advancedConfig.getDouble("woodcutting.leafBlowerDurabilityModifier"));
+        durabilityModifiers.put("veinMiner",advancedConfig.getDouble("mining.veinMinerDurabilityModifier"));
+        durabilityModifiers.put("flamePick",advancedConfig.getDouble("smelting.smeltingDurabilityModifier"));
+
+
+        //Config that is skill dependant (not used in all skills)
         for (String label : combatLabels) {
             spawnerEXPMultipliers.put(label,advancedConfig.getDouble(label+".spawnerMobsEXPMultiplier"));
             mobFarmEXPMultipliers.put(label,advancedConfig.getDouble(label+".mobFarmEXPMultiplier"));
@@ -439,5 +447,9 @@ public class ConfigLoad {
     }
     public void setDefaultLanguage(String languageCode) {
         defaultLanguage = languageCode;
+    }
+
+    public Map<String, Double> getDurabilityModifiers() {
+        return durabilityModifiers;
     }
 }

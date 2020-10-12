@@ -156,7 +156,7 @@ public class Digging extends Skill{
                             continue;
                         }
                         if (diggingEXP.containsKey(blockType)) {
-                            damageTool();
+                            damageTool(configLoad.getDurabilityModifiers().get("megaDig"));
                             increaseStats.changeEXP(skillName,(int) Math.round(diggingEXP.get(blockType)*configLoad.getSpecialMultiplier().get("megaDigEXPMultiplier")));
                             Collection<ItemStack> drops = planeBlock.getDrops(itemInHand);
                             for (ItemStack stack : drops) {

@@ -75,6 +75,7 @@ leveling:
   LinearEXPperLevel: 30000.0
 digging:
   megaDigEXPMultiplier: 0.2 #EXP nerf when using the Mega Dig skill
+  megaDigDurabilityModifier: 1.0 #Average durability points of damaged removed per block broken (without unbreaking)
   drops:
     drop1Name: glowstone_dust
     drop1Amount: 1
@@ -148,6 +149,8 @@ woodcutting:
   timberEXPMultiplier: 0.4 #EXP nerf when using the Timber skill
   timberMaxBreakInitial: 64 #Max number of logs that can be broken with the without Timber+
   timberMaxBreakUpgraded: 128 #Max number of logs that can be broken with Timber+
+  timberDurabilityModifier: 1.0 #Average durability points of damaged removed per block broken (without unbreaking)
+  leafBlowerDurabilityModifier: 1.0 #Average durability points of damaged removed per block broken (without unbreaking)
   drops:
     leavesDrop1Name: feather
     leavesDrop1Amount: 1
@@ -200,6 +203,7 @@ mining:
   # All Blocks affected by the Vein Miner perk. Putting something like "DIRT" will break your server if maximum blocks broken is very high or -1.
   veinMinerBlocks: [REDSTONE_ORE,NETHER_QUARTZ_ORE,LAPIS_ORE,IRON_ORE,GOLD_ORE,EMERALD_ORE,DIAMOND_ORE,COAL_ORE,GLOWSTONE,NETHER_GOLD_ORE,ANCIENT_DEBRIS,GILDED_BLACKSTONE]
   veinMinerMaximumBlocksBroken: 30 #Set to -1 for no limit (not recommended)
+  veinMinerDurabilityModifier: 1.0 #Average durability points of damaged removed per block broken (without unbreaking)
   expDrops:
     enableEXPDrops: true
     explodeTNT: 200
@@ -997,6 +1001,7 @@ alchemy:
 smelting:
   flamePickGiveMinecraftXP: true #Whether or not using flame pickaxe drops equivalent smelting EXP for ores
   removePlayerFurnacesTimer: 60 #Number of seconds before all player's furances are removed from the server
+  smeltingDurabilityModifier: 1.0 #Average durability points of damaged removed per block broken (without unbreaking)
   expDrops:
     enableEXPDrops: true
     smeltBeef: 100
