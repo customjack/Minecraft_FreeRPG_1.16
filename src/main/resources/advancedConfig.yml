@@ -880,6 +880,7 @@ repair:
     salvageDiamond: 1500
     salvageNetherite_Ingot: 2000
 agility:
+  sprintTimeThreshold: 0.25 #The minimum time (in seconds) a player must sprint to earn experience
   expDrops:
     enableEXPDrops: true
     rollBaseEXP: 250

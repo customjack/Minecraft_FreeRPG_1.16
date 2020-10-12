@@ -5,6 +5,7 @@ import mc.carlton.freerpg.gameTools.CustomPotion;
 import mc.carlton.freerpg.gameTools.CustomRecipe;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.utilities.UtilityMethods;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -77,6 +78,9 @@ public class StringsAndOtherData {
         if (languageCodes.size() > 14) {
             System.out.println("[FreeRPG] WARNING: Player configuration currently only supports the first 12 language options!");
         }
+        ConfigLoad configLoad = new ConfigLoad();
+        String newDefaultLanguageCode = UtilityMethods.convertStringToListCasing(languageCodes,configLoad.getDefaultLanguage());
+        configLoad.setDefaultLanguage(newDefaultLanguageCode);
     }
 
     public void initializeConfigGUIIndexInfo() {
@@ -381,40 +385,6 @@ public class StringsAndOtherData {
             newString += string.substring(begin,begin+1).toUpperCase() + string.substring(begin+1,end) + " ";
         }
         return newString;
-    }
-
-    public static boolean containsIgnoreCase(List<String> list,String inputString) {
-        for (String string : list) {
-            if (inputString.equalsIgnoreCase(string)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public String convertStringToListCasing(List<String> list,String inputString) {
-        for (String string : list) {
-            if (inputString.equalsIgnoreCase(string)) {
-                return string;
-            }
-        }
-        return "";
-    }
-
-    public String rankToString(int rank) {
-        String suffix = "th";
-        int lastTwoDigits = rank % 100;
-        int lastDigit = rank % 10;
-        if (!(lastTwoDigits >= 10 && lastTwoDigits <= 19) ) {
-            if (lastDigit == 1) {
-                suffix = "st";
-            } else if (lastDigit == 2) {
-                suffix = "nd";
-            } else if (lastDigit == 3) {
-                suffix = "rd";
-            }
-        }
-        return (String.valueOf(rank) + suffix);
     }
 
     public String cleanUpTitleString(String string) {

@@ -135,11 +135,16 @@ public class Agility extends Skill{
                 if (p.isFlying()) {
                     return;
                 }
+                ConfigLoad configLoad = new ConfigLoad();
+                double timeThreshold = configLoad.getAgilityMinSprintTimeForExperience();
                 long oldTime = playerSprintMap.get(p);
                 long newTime = (new java.util.Date()).getTime();
                 long timeSprint = newTime-oldTime;
-                int expToGive = (int)Math.round((timeSprint/1000.0)*expMap.get("sprint_EXPperSecondSprinted"));
-                increaseStats.changeEXP(skillName, expToGive);
+                double timeSprintInSeconds = (timeSprint/1000.0);
+                if (timeSprintInSeconds >= timeThreshold) {
+                    int expToGive = (int) Math.round(timeSprintInSeconds* expMap.get("sprint_EXPperSecondSprinted"));
+                    increaseStats.changeEXP(skillName, expToGive);
+                }
             }
             catch (Exception e) {
 

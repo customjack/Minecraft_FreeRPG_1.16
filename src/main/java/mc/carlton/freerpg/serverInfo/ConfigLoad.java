@@ -41,6 +41,7 @@ public class ConfigLoad {
     static boolean preventUnsafeRepair;
     static boolean preventUnsafeSalvage;
     static boolean earnExperiencePastMaxLevel;
+    static double agilityMinSprintTimeForExperience;
     static Map<String,Double> specialMultiplier = new HashMap<>();
     static Map<String,Integer> maxLevels = new HashMap<>();
     static ArrayList<Integer> soulsInfo = new ArrayList<>();
@@ -114,6 +115,7 @@ public class ConfigLoad {
         shiftRightClickInvestAll = advancedConfig.getBoolean("tokens.passiveShiftClickAndRightClickInvestAll");
         superBaitCooldown = advancedConfig.getInt("fishing.superBaitCooldown");
         earnExperiencePastMaxLevel = config.getBoolean("leveling.earnExperiencePastMaxLevel");
+        agilityMinSprintTimeForExperience = advancedConfig.getDouble("agility.sprintTimeThreshold");
 
         //Config that is skill dependant
         maxLevels.put("global",Integer.valueOf(config.getString("leveling.maxLevel")));
@@ -430,5 +432,12 @@ public class ConfigLoad {
 
     public boolean isEarnExperiencePastMaxLevel() {
         return earnExperiencePastMaxLevel;
+    }
+
+    public double getAgilityMinSprintTimeForExperience() {
+        return agilityMinSprintTimeForExperience;
+    }
+    public void setDefaultLanguage(String languageCode) {
+        defaultLanguage = languageCode;
     }
 }

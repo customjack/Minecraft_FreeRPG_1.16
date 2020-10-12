@@ -11,6 +11,7 @@ import mc.carlton.freerpg.playerInfo.*;
 import mc.carlton.freerpg.serverFileManagement.PeriodicSaving;
 import mc.carlton.freerpg.serverFileManagement.PlayerStatsFilePreparation;
 import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.utilities.UtilityMethods;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -390,7 +391,7 @@ public class FrpgCommands implements CommandExecutor {
                         String playTimeString = timeStats.getPlayerPlayTimeString();
                         double personalMultiplier = (double) pStat.get("global").get(23);
                         int souls = (int) pStat.get("global").get(20);
-                        String soulsString = lang.getString("souls").substring(0,1).toUpperCase() + lang.getString("souls").substring(1);
+                        String soulsString = UtilityMethods.capitalizeString(lang.getString("souls"));
                         ArrayList<String> lore = new ArrayList<>();
                         lore.add(ChatColor.GRAY + lang.getString("totalPlayTime")+ ": " + ChatColor.GOLD + playTimeString);
                         lore.add(ChatColor.GRAY + lang.getString("personalMultiplier")+": " + ChatColor.GOLD + String.valueOf(personalMultiplier)+"x");
@@ -679,8 +680,7 @@ public class FrpgCommands implements CommandExecutor {
                 }
                 String[] labels_0 = {"digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting","global","playTime"};
                 List<String> labels_arr = Arrays.asList(labels_0);
-                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-                String skillName = stringsAndOtherData.convertStringToListCasing(labels_arr,args[1]);
+                String skillName = UtilityMethods.convertStringToListCasing(labels_arr,args[1]);
                 if (labels_arr.contains(skillName)) {
                     Leaderboards getStats = new Leaderboards();
                     if (!getStats.isLeaderboardsLoaded()) {
@@ -823,7 +823,7 @@ public class FrpgCommands implements CommandExecutor {
                         PlayerLeaderboardStat playerStat = leaderboards.getPlayerStat(playerName, leaderboardName);
                         String displayedStat;
                         String displayTitle;
-                        String rankString = stringsAndOtherData.rankToString(rank);
+                        String rankString = UtilityMethods.intToRankingString(rank);
                         if (rankString.equals("1st")) {
                             rankString = ChatColor.YELLOW + rankString;
                         } else if (rankString.equals("2nd")) {
@@ -856,7 +856,7 @@ public class FrpgCommands implements CommandExecutor {
                         PlayerLeaderboardStat playerStat = leaderboards.getPlayerStat(playerName, leaderboardName);
                         String displayedStat;
                         String displayTitle;
-                        String rankString = stringsAndOtherData.rankToString(rank);
+                        String rankString = UtilityMethods.intToRankingString(rank);
                         if (leaderboardName.equalsIgnoreCase("playTime")) {
                             displayedStat = playerStat.get_playTimeString();
                             displayTitle = "Play Time";
@@ -916,8 +916,7 @@ public class FrpgCommands implements CommandExecutor {
             //Skill name match check
             String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery"};
             List<String> labels = Arrays.asList(labels_0);
-            StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-            String skillName = stringsAndOtherData.convertStringToListCasing(labels,args[2]);
+            String skillName = UtilityMethods.convertStringToListCasing(labels,args[2]);
             if (!labels.contains(skillName)) {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
@@ -1092,7 +1091,7 @@ public class FrpgCommands implements CommandExecutor {
                 String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
                 List<String> labels_arr = Arrays.asList(labels_0);
                 StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-                String skillName = stringsAndOtherData.convertStringToListCasing(labels_arr,args[2]);
+                String skillName = UtilityMethods.convertStringToListCasing(labels_arr,args[2]);
                 if (labels_arr.contains(skillName) && target.isOnline()) {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
@@ -1181,7 +1180,7 @@ public class FrpgCommands implements CommandExecutor {
                 String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
                 List<String> labels_arr = Arrays.asList(labels_0);
                 StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-                String skillName = stringsAndOtherData.convertStringToListCasing(labels_arr,args[2]);
+                String skillName = UtilityMethods.convertStringToListCasing(labels_arr,args[2]);
                 if (labels_arr.contains(skillName) && target.isOnline()) {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
@@ -1265,7 +1264,7 @@ public class FrpgCommands implements CommandExecutor {
                 String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
                 List<String> labels_arr = Arrays.asList(labels_0);
                 StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-                String skillName = stringsAndOtherData.convertStringToListCasing(labels_arr,args[2]);
+                String skillName = UtilityMethods.convertStringToListCasing(labels_arr,args[2]);
                 if (labels_arr.contains(skillName) && target.isOnline()) {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
@@ -1431,7 +1430,7 @@ public class FrpgCommands implements CommandExecutor {
                 String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
                 List<String> labels_arr = Arrays.asList(labels_0);
                 StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-                String skillName = stringsAndOtherData.convertStringToListCasing(labels_arr,args[2]);
+                String skillName = UtilityMethods.convertStringToListCasing(labels_arr,args[2]);
                 if (labels_arr.contains(skillName) && target.isOnline()) { //THis may be redudant but I'm doing it to be safe
                     //Skill/Passive Token Case
                     if (tokenType.equalsIgnoreCase("skill") || tokenType.equalsIgnoreCase("passive")) {
@@ -1830,7 +1829,7 @@ public class FrpgCommands implements CommandExecutor {
                 List<String> labels = Arrays.asList(labels_0);
                 List<String> passiveLabels = Arrays.asList(passiveLabels0);
                 StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-                String skillName = stringsAndOtherData.convertStringToListCasing(labels,args[1]);
+                String skillName = UtilityMethods.convertStringToListCasing(labels,args[1]);
                 if (!labels.contains(skillName) ) {
                     p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg skillConfigGUI [" + lang.getString("skillName") + "]");
                     return true;
@@ -2332,7 +2331,7 @@ public class FrpgCommands implements CommandExecutor {
             if (sender instanceof Player) {
                 if (args.length == 2) {
                     StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-                    String skillName = stringsAndOtherData.convertStringToListCasing(labels_arr,args[1]);
+                    String skillName = UtilityMethods.convertStringToListCasing(labels_arr,args[1]);
                     if (labels_arr.contains(skillName)) {
                         Player p = (Player) sender;
                         LanguageSelector langManager = new LanguageSelector(p);
@@ -3125,7 +3124,7 @@ public class FrpgCommands implements CommandExecutor {
                 else {
                     int souls = (int) pStatAll.get("global").get(20);
                     String soulsString = lang.getString("souls");
-                    String soulsCapitilized = soulsString.substring(0,1).toUpperCase() + soulsString.substring(1);
+                    String soulsCapitilized = UtilityMethods.capitalizeString(soulsString);
                     soulLore.add(soulsCapitilized +": " + ChatColor.AQUA + ChatColor.ITALIC.toString() + souls + "/" + refundCost);
                     soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + lang.getString("refundSkillTreeDesc"));
                     soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + "(-"+refundCost+" "+ lang.getString("souls")+ ")");
@@ -3510,7 +3509,7 @@ public class FrpgCommands implements CommandExecutor {
                 else {
                     int souls = (int) pStatAll.get("global").get(20);
                     String soulsString = lang.getString("souls");
-                    String soulsCapitilized = soulsString.substring(0,1).toUpperCase() + soulsString.substring(1);
+                    String soulsCapitilized = UtilityMethods.capitalizeString(soulsString);
                     soulLore.add(soulsCapitilized +": " + ChatColor.AQUA + ChatColor.ITALIC.toString() + souls + "/" + refundCost);
                     soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + lang.getString("refundSkillTreeDesc"));
                     soulLore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + "(-"+refundCost+" "+ lang.getString("souls")+ ")");
