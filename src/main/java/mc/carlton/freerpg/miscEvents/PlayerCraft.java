@@ -11,6 +11,7 @@ import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.inventory.ItemStack;
@@ -34,16 +35,39 @@ public class PlayerCraft implements Listener {
         return false;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     void onPlayerCraft(CraftItemEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
         Player p = (Player) e.getWhoClicked();
         PlayerStats pStatClass = new PlayerStats(p);
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         LanguageSelector lang = new LanguageSelector(p);
         ConfigLoad configLoad = new ConfigLoad();
 
-        Defense defenseClass = new Defense(p);
-        defenseClass.armorEXP(e.getRecipe().getResult());
+        if (e.getHotbarButton() != -1 || e.isShiftClick()) {
+            if (p.getInventory().firstEmpty() != -1) {
+                if (e.getHotbarButton() != -1) {
+                    if (p.getInventory().getItem(e.getHotbarButton()) == null) {
+                        Defense defenseClass = new Defense(p);
+                        defenseClass.armorEXP(e.getRecipe().getResult());
+                    }
+                    else if (p.getInventory().getItem(e.getHotbarButton()).getType().equals(Material.AIR)) {
+                        Defense defenseClass = new Defense(p);
+                        defenseClass.armorEXP(e.getRecipe().getResult());
+                    }
+                }
+                else {
+                    Defense defenseClass = new Defense(p);
+                    defenseClass.armorEXP(e.getRecipe().getResult());
+                }
+            }
+        }
+        else {
+            Defense defenseClass = new Defense(p);
+            defenseClass.armorEXP(e.getRecipe().getResult());
+        }
 
         CraftingRecipes craftingRecipes = new CraftingRecipes();
         ItemStack[] craftingMatrix = e.getInventory().getMatrix();

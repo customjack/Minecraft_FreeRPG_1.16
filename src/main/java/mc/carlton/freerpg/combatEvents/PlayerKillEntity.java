@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.combatEvents;
 
 import mc.carlton.freerpg.gameTools.EntityPickedUpItemStorage;
+import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.perksAndAbilities.*;
 import org.bukkit.GameMode;
 import org.bukkit.World;
@@ -24,6 +25,7 @@ public class PlayerKillEntity implements Listener {
             if (p.getGameMode() == GameMode.CREATIVE) {
                 return;
             }
+            ItemGroups itemGroups = new ItemGroups();
             World world = p.getWorld();
             List<ItemStack> drops = e.getDrops();
 
@@ -33,10 +35,12 @@ public class PlayerKillEntity implements Listener {
             farmingClass.killFarmAnimalEXP(entity);
 
             //Swordsmanship
-            Swordsmanship swordsmanshipClass = new Swordsmanship(p);
-            swordsmanshipClass.killBuffs(e.getEntity());
-            swordsmanshipClass.thirstForBlood(e.getEntity());
-            swordsmanshipClass.giveKillEXP(entity);
+            if (itemGroups.getSwords().contains(p.getInventory().getItemInMainHand())) {
+                Swordsmanship swordsmanshipClass = new Swordsmanship(p);
+                swordsmanshipClass.killBuffs(e.getEntity());
+                swordsmanshipClass.thirstForBlood(e.getEntity());
+                swordsmanshipClass.giveKillEXP(entity);
+            }
 
             //Defense
             Defense defenseClass = new Defense(p);
@@ -45,10 +49,12 @@ public class PlayerKillEntity implements Listener {
             defenseClass.giveKillEXP(entity);
 
             //Axe Mastery
-            AxeMastery axeMasteryClass = new AxeMastery(p);
-            axeMasteryClass.revitalized();
-            axeMasteryClass.warriorBlood();
-            axeMasteryClass.giveKillEXP(entity);
+            if (itemGroups.getAxes().contains(p.getInventory().getItemInMainHand())) {
+                AxeMastery axeMasteryClass = new AxeMastery(p);
+                axeMasteryClass.revitalized();
+                axeMasteryClass.warriorBlood();
+                axeMasteryClass.giveKillEXP(entity);
+            }
 
             //Fishing
             Fishing fishingClass = new Fishing(p);

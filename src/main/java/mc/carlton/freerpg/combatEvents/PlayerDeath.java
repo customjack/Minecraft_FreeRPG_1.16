@@ -8,6 +8,7 @@ import mc.carlton.freerpg.playerInfo.PlayerStats;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
@@ -19,7 +20,7 @@ import java.util.Map;
 
 public class PlayerDeath implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     void onPlayerDie(PlayerDeathEvent e){
         Player p = e.getEntity();
         PlayerStats pStatClass = new PlayerStats(p);
@@ -78,9 +79,10 @@ public class PlayerDeath implements Listener {
             }
         }
 
-
-        Global globalClass = new Global(p);
-        globalClass.betterResurrectionDeath(drops);
+        if (!e.getKeepInventory()) {
+            Global globalClass = new Global(p);
+            globalClass.betterResurrectionDeath(drops);
+        }
 
     }
 }

@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PlacedBlocksManager {
-    static HashSet<Location> blocks = new HashSet<>();
+    static ConcurrentHashMap<Location,Boolean> blocks = new ConcurrentHashMap<>();
 
 
     public boolean isBlockTracked(Block block) {
@@ -22,27 +22,25 @@ public class PlacedBlocksManager {
         return blocks.contains(location);
     }
 
-    public HashSet<Location> getBlocksMap() {
+    public ConcurrentHashMap<Location,Boolean> getBlocksMap() {
         return blocks;
     }
 
-    public void setBlocksMap(HashSet<Location> newblocks) {
+    public void setBlocksMap(ConcurrentHashMap<Location,Boolean> newblocks) {
         this.blocks = newblocks;
     }
 
     public void addBlock(Block block) {
         Location location = block.getLocation();
-        blocks.add(location);
+        blocks.put(location,true);
     }
 
     public void addLocation(Location location) {
-        blocks.add(location);
+        blocks.put(location,true);
     }
     public void removeBlock(Block block) {
         Location location = block.getLocation();
-        if (blocks.contains(location)) {
-            blocks.remove(location);
-        }
+        removeLocation(location);
     }
     public void removeLocation(Location location) {
         if (blocks.contains(location)) {

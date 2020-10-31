@@ -73,6 +73,8 @@ leveling:
   exponentialReferenceEXP: 1.0E7
   levelBeginLinear: 1000
   LinearEXPperLevel: 30000.0
+  beginnerLevelUpMessageMaxLevel: 3 #set this to -1 to remove beginner level up messages
+  customBegginerLevelUpMessage: "" #Change this from an empty string to set a custom level up message (will not be translated)
 digging:
   megaDigEXPMultiplier: 0.2 #EXP nerf when using the Mega Dig skill
   megaDigDurabilityModifier: 1.0 #Average durability points of damaged removed per block broken (without unbreaking)

@@ -9,6 +9,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.io.*;
 import java.util.HashSet;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class PlacedBlockFileManager {
     static File placedBlocksDat;
@@ -16,7 +17,7 @@ public class PlacedBlockFileManager {
 
     public void initializePlacedBlocks(){
         PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();
-        HashSet<Location> blocks = placedBlocksManager.getBlocksMap();
+        ConcurrentHashMap<Location,Boolean> blocks = placedBlocksManager.getBlocksMap();
         File f = placedBlocksDat;
         String path = f.getPath();
         if (f.exists()) {
@@ -30,7 +31,7 @@ public class PlacedBlockFileManager {
                     double z = Integer.parseInt(coords_string[3]);
                     World world = Bukkit.getWorld(worldName);
                     Location location = new Location(world,x,y,z);
-                    blocks.add(location);
+                    blocks.put(location,true);
                     line = fileReader.readLine();
                 }
                 placedBlocksManager.setBlocksMap(blocks);
@@ -43,11 +44,11 @@ public class PlacedBlockFileManager {
     public void writePlacedBlocks() {
         File f = placedBlocksDat;
         PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();
-        HashSet<Location> blocks = placedBlocksManager.getBlocksMap();
+        ConcurrentHashMap<Location,Boolean> blocks = placedBlocksManager.getBlocksMap();
         String path = f.getPath();
         if (f.exists()) {
             try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(path,false))) {
-                for (Location location : blocks) {
+                for (Location location : blocks.keySet()) {
                     World world = location.getWorld();
                     if (world != null) {
                         String worldName = world.getName();

@@ -42,6 +42,8 @@ public class ConfigLoad {
     static boolean preventUnsafeSalvage;
     static boolean earnExperiencePastMaxLevel;
     static double agilityMinSprintTimeForExperience;
+    static int maxLevelForBeginnerMessage;
+    static String beginnerLevelUpMessage;
     static Map<String,Double> specialMultiplier = new HashMap<>();
     static Map<String,Integer> maxLevels = new HashMap<>();
     static ArrayList<Integer> soulsInfo = new ArrayList<>();
@@ -105,6 +107,8 @@ public class ConfigLoad {
         flamePickGiveXP = advancedConfig.getBoolean("smelting.flamePickGiveMinecraftXP");
         preventUnsafeRepair = advancedConfig.getBoolean("repair.preventRepairOfItemsWithUnsafeEnchantments");
         preventUnsafeSalvage = advancedConfig.getBoolean("repair.preventSalvageOfItemsWithUnsafeEnchantments");
+        maxLevelForBeginnerMessage = advancedConfig.getInt("leveling.beginnerLevelUpMessageMaxLevel");
+        beginnerLevelUpMessage = advancedConfig.getString("leveling.customBegginerLevelUpMessage");
         List<String> veinMinerBlockStrings = advancedConfig.getStringList("mining.veinMinerBlocks");
         for (String matString : veinMinerBlockStrings) {
             if (Material.matchMaterial(matString) != null)
@@ -452,4 +456,13 @@ public class ConfigLoad {
     public Map<String, Double> getDurabilityModifiers() {
         return durabilityModifiers;
     }
+
+    public int getMaxLevelForBeginnerMessage() {
+        return maxLevelForBeginnerMessage;
+    }
+
+    public String getBeginnerLevelUpMessage() {
+        return beginnerLevelUpMessage;
+    }
+
 }

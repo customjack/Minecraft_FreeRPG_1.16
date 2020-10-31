@@ -52,6 +52,9 @@ public class AbilityLogoutTracker {
     }
 
     public void setPlayerItem(String ability,NamespacedKey key) {
+        if (!playerKeys.containsKey(playerUUID)) { //Assures player is initialized
+            intiializePlayer();
+        }
         Map<String,NamespacedKey> pItems = playerKeys.get(playerUUID);
         pItems.put(ability,key);
         playerKeys.put(playerUUID, pItems);

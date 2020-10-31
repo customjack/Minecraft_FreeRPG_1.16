@@ -507,7 +507,11 @@ public class Repair extends Skill{
             double mcVersion = minecraftVersion.getMinecraftVersion_Double();
 
             double amountToReturn_pre = amount*percentDurability*multiplier;
-            int amountToReturn = (int) Math.round(amountToReturn_pre);
+            double roundUpChance = (amountToReturn_pre-Math.floor(amountToReturn_pre));
+            int amountToReturn = (int) Math.floor(amountToReturn_pre);
+            if (roundUpChance > rand.nextDouble()) { //Round up if a random number is bigger than the excess
+                amountToReturn += 1;
+            }
             if (amountToReturn == 0){
                 if (amountToReturn_pre > rand.nextDouble()) {
                     p.getInventory().addItem(new ItemStack(type,1));

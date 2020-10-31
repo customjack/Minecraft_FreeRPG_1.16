@@ -199,7 +199,9 @@ public class Swordsmanship extends Skill{
                             aliveEntity.damage(Math.min(damage * 0.5,hpRemaining-1));
                             increaseStats.changeEXP(skillName, (int) Math.round(damage * expMap.get("doubleHit_EXPperDamagePointDone")));
                         }
-                        aliveEntity.setVelocity(knockback.multiply(2));
+                        double newKnockback = Math.min(knockback.length()*2,80.0);
+                        double multiplier = newKnockback/knockback.length();
+                        aliveEntity.setVelocity(knockback.multiply(multiplier));
                         aliveEntity.setNoDamageTicks(20);
 
                     }

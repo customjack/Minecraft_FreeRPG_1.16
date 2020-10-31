@@ -130,6 +130,9 @@ public class Agility extends Skill{
         if (beginSprint) {
             playerSprintMap.put(p,(new java.util.Date()).getTime());
         }
+        else if (!playerSprintMap.containsKey(p)) { //Somehow never began sprinting
+            return;
+        }
         else {
             try {
                 if (p.isFlying()) {
@@ -138,6 +141,7 @@ public class Agility extends Skill{
                 ConfigLoad configLoad = new ConfigLoad();
                 double timeThreshold = configLoad.getAgilityMinSprintTimeForExperience();
                 long oldTime = playerSprintMap.get(p);
+                playerSprintMap.remove(p);
                 long newTime = (new java.util.Date()).getTime();
                 long timeSprint = newTime-oldTime;
                 double timeSprintInSeconds = (timeSprint/1000.0);
@@ -146,7 +150,7 @@ public class Agility extends Skill{
                     increaseStats.changeEXP(skillName, expToGive);
                 }
             }
-            catch (Exception e) {
+            catch (Exception e) { //This is terrible practice and I forgot why I did it
 
             }
         }

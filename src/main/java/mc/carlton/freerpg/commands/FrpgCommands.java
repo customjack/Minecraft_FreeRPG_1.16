@@ -504,7 +504,7 @@ public class FrpgCommands implements CommandExecutor {
                                         ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc11"));
                                 p.sendMessage(ChatColor.GOLD  + "/frpg saveStats ["+lang.getString("playerName")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
                                     ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc12"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg setMultiplier ["+lang.getString("playerName")+"] " + "[" + lang.getString("expIncrease")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                p.sendMessage(ChatColor.GOLD  + "/frpg setMultiplier ["+lang.getString("playerName")+"] " + "[" + lang.getString("amount")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
                                         ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc13"));
                                 break;
                             case 4:
@@ -512,6 +512,8 @@ public class FrpgCommands implements CommandExecutor {
                                         ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc14"));
                                 p.sendMessage(ChatColor.GOLD  + "/frpg statLookup ["+lang.getString("playerName")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() +" - " +
                                         ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc15"));
+                                p.sendMessage(ChatColor.GOLD  + "/frpg changeMultiplier ["+lang.getString("playerName")+"] " + "[" + lang.getString("expIncrease")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc16"));
                             default:
                                 break;
                         }
@@ -1532,6 +1534,61 @@ public class FrpgCommands implements CommandExecutor {
                 else {
                     ChangeStats setMultiplier = new ChangeStats(target);
                     setMultiplier.setStat("global",23,multiplier);
+                }
+
+
+            }
+            else {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg setMultiplier [" + lang.getString("playerName") + "] " + "[" + lang.getString("expIncrease")+"]");
+                }
+                else {
+                    System.out.println("Improper arguments, try /frpg setMultiplier [playerName] [EXP Multiplier]");
+                }
+            }
+        }
+
+        //addMultiplier
+        else if (args[0].equalsIgnoreCase("addMultiplier") || args[0].equalsIgnoreCase("changeMultiplier")) {
+            if (args.length == 3) {
+                String playerName = args[1];
+
+                //Checks if target is online and exists
+                Player target = plugin.getServer().getPlayer(playerName);
+                boolean targetOnline = isTargetOnline(target,sender);
+                if (!targetOnline) {
+                    return true;
+                }
+
+                //Checks if value is a double
+                double multiplier = 1.0;
+                try {
+                    multiplier = Double.valueOf(args[2]);
+                }
+                catch (NumberFormatException e) {
+                    if (sender instanceof Player) {
+                        Player p = (Player) sender;
+                        LanguageSelector lang = new LanguageSelector(p);
+                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg setMultiplier [" + lang.getString("playerName") + "] " + "[" + lang.getString("expIncrease")+"]");
+                    }
+                    else {
+                        System.out.println("Improper arguments, try /frpg setMultiplier [playerName] [EXP Multiplier]");
+                    }
+                    return true;
+                }
+
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    if (p.hasPermission("setMultiplier")) {
+                        ChangeStats setMultiplier = new ChangeStats(target);
+                        setMultiplier.changeStat("global",23,multiplier);
+                    }
+                }
+                else {
+                    ChangeStats setMultiplier = new ChangeStats(target);
+                    setMultiplier.changeStat("global",23,multiplier);
                 }
 
 

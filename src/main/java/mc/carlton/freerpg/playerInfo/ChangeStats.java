@@ -35,6 +35,8 @@ public class ChangeStats {
     static Map<Player,Integer> playerRemoveEXPBarTaskIdMap = new ConcurrentHashMap<>();
     Map<String,Boolean> allowedSkillsMap = new HashMap<>();
     Map<String,Boolean> allowedSkillGainEXPMap = new HashMap<>();
+    String beginnerLevelUpMessage;
+    int maxLevelForBeginnerMessage;
 
     public ChangeStats(Player p) {
         this.p = p;
@@ -50,6 +52,8 @@ public class ChangeStats {
         this.actionMessage = new ActionBarMessages(p);
         this.allowedSkillsMap = loadConfig.getAllowedSkillsMap();
         this.allowedSkillGainEXPMap = loadConfig.getAllowedSkillGainEXPMap();
+        this.beginnerLevelUpMessage = loadConfig.getBeginnerLevelUpMessage();
+        this.maxLevelForBeginnerMessage = loadConfig.getMaxLevelForBeginnerMessage();
     }
 
     public void set_isCommand(boolean isFromCommand) {
@@ -232,10 +236,15 @@ public class ChangeStats {
                         if (newTokens_G > 0) {
                             p.sendMessage(ChatColor.DARK_PURPLE + "+" + newTokens_G + " " + lang.getString("globalPassiveTitle0"));
                         }
-                        if (oldLevel < 3) {
+                        if (oldLevel < maxLevelForBeginnerMessage) {
                             p.sendMessage("");
-                            p.sendMessage(ChatColor.ITALIC + lang.getString("passiveImprove"));
-                            p.sendMessage(ChatColor.ITALIC + lang.getString("try0") + " /frpg skillTree " + skillName);
+                            if (!beginnerLevelUpMessage.equalsIgnoreCase("")) {
+                                p.sendMessage(ChatColor.ITALIC + beginnerLevelUpMessage);
+                            }
+                            else {
+                                p.sendMessage(ChatColor.ITALIC + lang.getString("passiveImprove"));
+                                p.sendMessage(ChatColor.ITALIC + lang.getString("try0") + " /frpg skillTree " + skillName);
+                            }
                         }
                         p.sendMessage(bars);
                     } else {

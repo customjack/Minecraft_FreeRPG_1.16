@@ -53,12 +53,44 @@ public class PotionSplash implements Listener {
             for (PotionEffect effect : e.getPotion().getEffects()) {
                 if (p.equals(entity)) {
                     if (harmfulEffects.contains(effect.getType())) {
+                        int finalPotionMasterLevel = potionMasterLevel;
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                entity.addPotionEffect(new PotionEffect(effect.getType(), (int) Math.round(effect.getDuration() * (1.0/durationMultiplier)), effect.getAmplifier()),true);
+                                if (entity.equals(p)) {
+                                    if (!effect.getType().equals(PotionEffectType.HARM)) {
+                                        entity.addPotionEffect(new PotionEffect(effect.getType(), (int) Math.round(effect.getDuration() * (1.0 / durationMultiplier)), effect.getAmplifier()), true);
+                                    }
+                                }
+                                else if (!(entity instanceof Player)){
+                                    if (!effect.getType().equals(PotionEffectType.HARM)) {
+                                        entity.addPotionEffect(new PotionEffect(effect.getType(), (int) Math.round(effect.getDuration()*durationMultiplier), effect.getAmplifier()+ finalPotionMasterLevel), true);
+                                    }
+                                    else {
+                                        if (finalPotionMasterLevel > 0) {
+                                            entity.addPotionEffect(new PotionEffect(effect.getType(), 1, 0)); //Add 3 HP to whatever the damage was
+                                        }
+                                    }
+                                }
+                                else {
+                                    if (configLoad.isAllowPvP()) {
+                                        if (!effect.getType().equals(PotionEffectType.HARM)) {
+                                            entity.addPotionEffect(new PotionEffect(effect.getType(), (int) Math.round(effect.getDuration()*durationMultiplier), effect.getAmplifier()+ finalPotionMasterLevel), true);
+                                        }
+                                        else {
+                                            if (finalPotionMasterLevel > 0) {
+                                                entity.addPotionEffect(new PotionEffect(effect.getType(), 1, 0)); //Add 3 HP to whatever the damage was
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }.runTaskLater(plugin, 2);
+                    }
+                    else if (effect.getType().equals(PotionEffectType.HEAL)) {
+                        if (potionMasterLevel > 0) {
+                            entity.addPotionEffect(new PotionEffect(effect.getType(), 1, 0)); //Add 2 HP to whatever the healing was
+                        }
                     }
                     else {
                         entity.addPotionEffect(new PotionEffect(effect.getType(), (int) Math.round(effect.getDuration() * durationMultiplier), effect.getAmplifier() + potionMasterLevel),true);

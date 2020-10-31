@@ -8,7 +8,7 @@ softdepend: [WorldGuard,PlaceholderAPI]
 commands:
   frpg:
     description: Main FreeRPG command, type /frpg help for more info
-    aliases: [freeRPG]
+    aliases: [rpgFree]
   spite:
     descriptions: Tells you what spite is good for.
 permissions:

@@ -355,7 +355,7 @@ public class Alchemy extends Skill{
                 PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
                 PotionData potionData = potionMeta.getBasePotionData();
                 PotionEffect pEffect = potionToEffect(potionData);
-                if (pEffect.getType() != PotionEffectType.BAD_OMEN) {
+                if (!pEffect.getType().equals(PotionEffectType.BAD_OMEN)) {
                     p.addPotionEffect(pEffect, true);
                 }
 
@@ -425,12 +425,8 @@ public class Alchemy extends Skill{
                 }
                 break;
             case INSTANT_DAMAGE:
-                if (potionData.isExtended()) {
-                    pEffect = new PotionEffect(PotionEffectType.HARM, (int) Math.round(20 * 1 * durationMultiplier), potionMasterLevel);
-                } else if (potionData.isUpgraded()) {
-                    pEffect = new PotionEffect(PotionEffectType.HARM, (int) Math.round(20 * 1 * durationMultiplier), 1 + potionMasterLevel);
-                } else {
-                    pEffect = new PotionEffect(PotionEffectType.HARM, (int) Math.round(20 * 1 * durationMultiplier), potionMasterLevel);
+                if (potionMasterLevel > 0) { //damages an additional 3(?) hearts
+                    pEffect = new PotionEffect(PotionEffectType.HARM, 1, 0);
                 }
                 break;
             case SLOW_FALLING:
@@ -461,12 +457,8 @@ public class Alchemy extends Skill{
                 }
                 break;
             case INSTANT_HEAL:
-                if (potionData.isExtended()) {
-                    pEffect = new PotionEffect(PotionEffectType.HEAL, (int) Math.round(20 * 1 * durationMultiplier), potionMasterLevel);
-                } else if (potionData.isUpgraded()) {
-                    pEffect = new PotionEffect(PotionEffectType.HEAL, (int) Math.round(20 * 1 * durationMultiplier), 1 + potionMasterLevel);
-                } else {
-                    pEffect = new PotionEffect(PotionEffectType.HEAL, (int) Math.round(20 * 1 * durationMultiplier), potionMasterLevel);
+                if (potionMasterLevel > 0) { //heals an additional 2 hearts
+                    pEffect = new PotionEffect(PotionEffectType.HEAL, 1, 0);
                 }
                 break;
             case STRENGTH:

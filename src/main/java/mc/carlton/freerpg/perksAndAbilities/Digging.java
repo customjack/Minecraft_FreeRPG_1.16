@@ -40,6 +40,7 @@ public class Digging extends Skill{
         expMap = configLoad.getExpMapForSkill(skillName);
     }
 
+
     public void initiateAbility() {
         if (!runMethods) {
             return;
