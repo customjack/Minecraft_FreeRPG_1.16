@@ -58,12 +58,12 @@ public class PeriodicSaving {
                 savePlayer(p);
             }
         }
-        PlacedBlockFileManager saveBlocks = new PlacedBlockFileManager();
-        saveBlocks.writePlacedBlocks();
         RecentPlayersFileManager recentPlayersFileManager = new RecentPlayersFileManager();
         recentPlayersFileManager.writeRecentPlayers();
         LeaderBoardFilesManager leaderBoardFilesManager = new LeaderBoardFilesManager();
         leaderBoardFilesManager.writeOutPlayerLeaderBoardFile();
+        PlacedBlockFileManager saveBlocks = new PlacedBlockFileManager();
+        saveBlocks.writePlacedBlocks();
     }
 
     public void savePlayer(Player p) {

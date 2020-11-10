@@ -154,9 +154,9 @@ public class ConfigLoad {
             multipliers.add(config.getDouble(label+".EXP_Multiplier"));
         }
 
-        tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.automaticPassiveUpgradesPerLevel")));
+        tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.levelsPerAutomaticPassiveUpgrade")));
         tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.levelsPerPassiveToken")));
-        tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.levelPerSkillToken")));
+        tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.levelsPerSkillToken")));
         tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.levelsPerGlobalToken")));
         tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.startingPassiveTokens")));
         tokensInfo.add(Double.valueOf(advancedConfig.getString("tokens.startingSkillTokens")));

@@ -50,9 +50,9 @@ tokens:
   # Level from 1 to 2 => t = floor(2/.666) - floor(1/.666) = 3 - 1 = 2 tokens rewarded from leveling 1 -> 2
   # Level from 30 to 100 => t = floor(100/.666) - floor(30/.666) = 150 - 45 = 105
   # As you can see, this is identical to getting 1.5 tokens per level on average, which is the value of 1/x
-  automaticPassiveUpgradesPerLevel: 1.0
+  levelsPerAutomaticPassiveUpgrade: 1.0
   levelsPerPassiveToken: 1.0
-  levelPerSkillToken: 100.0
+  levelsPerSkillToken: 100.0
   levelsPerGlobalToken: 1000.0
   startingPassiveTokens: 0
   startingSkillTokens: 0

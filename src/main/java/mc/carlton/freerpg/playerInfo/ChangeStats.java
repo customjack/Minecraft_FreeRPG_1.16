@@ -251,25 +251,25 @@ public class ChangeStats {
                         actionMessage.sendMessage(ChatColor.YELLOW + skillTitle + " "+lang.getString("increasedBy")+" " + Integer.toString(levelChange) + ". (" + level + ")");
                     }
                 }
-                pStats.set(0, level);
-                pStats.set(2, tokens_P);
-                pStats.set(3, tokens_S);
+                pStats.set(0, level); //Level change
+                pStats.set(2, tokens_P); //Passive token change
+                pStats.set(3, tokens_S); //Skill token change
                 int autoPassivesChange = 0;
                 int oldLevel_auto_p = (int)Math.floor(oldLevel/autoPassive);
                 int level_auto_p = (int) Math.floor(level/autoPassive);
                 autoPassivesChange = level_auto_p-oldLevel_auto_p;
-                pStats.set(4, (int) pStats.get(4) + autoPassivesChange+passiveBoost);
+                pStats.set(4, (int) pStats.get(4) + autoPassivesChange+passiveBoost); //Duration (passive 1) Boost
                 MaxPassiveLevels passiveMax = new MaxPassiveLevels();
                 int passiveMax2 = passiveMax.findMaxLevel(skillName, 2);
                 int passiveMax3 = passiveMax.findMaxLevel(skillName, 3);
-                pStats.set(5, (int) Math.min((int) pStats.get(5) + autoPassivesChange+passiveBoost, passiveMax2));
-                pStats.set(6, (int) Math.min((int) pStats.get(6) + autoPassivesChange+passiveBoost, passiveMax3));
-                pGlobalStats.set(0, globalLevel);
-                pGlobalStats.set(1, tokens_G);
+                pStats.set(5, (int) Math.min((int) pStats.get(5) + autoPassivesChange+passiveBoost, passiveMax2)); //Passive 2 Boost
+                pStats.set(6, (int) Math.min((int) pStats.get(6) + autoPassivesChange+passiveBoost, passiveMax3)); //Passive 3 Boost
+                pGlobalStats.set(0, globalLevel); //Global level change
+                pGlobalStats.set(1, tokens_G); //Global token change
             }
 
-            pStats.set(1, exp);
-            pGlobalStats.set(29,totalEXP);
+            pStats.set(1, exp); //Set skill exp
+            pGlobalStats.set(29,totalEXP); //Set global exp
 
             // Sets stats
             pStatAll.put(skillName, pStats);
