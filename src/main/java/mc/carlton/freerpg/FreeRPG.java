@@ -19,8 +19,7 @@ import mc.carlton.freerpg.leaveAndJoin.LogoutProcedure;
 import mc.carlton.freerpg.miscEvents.*;
 import mc.carlton.freerpg.leaveAndJoin.PlayerJoin;
 import mc.carlton.freerpg.leaveAndJoin.PlayerLeave;
-import mc.carlton.freerpg.pistonEvents.PistonExtend;
-import mc.carlton.freerpg.pistonEvents.PistonRetract;
+import mc.carlton.freerpg.pistonEvents.PistonEvents;
 import mc.carlton.freerpg.playerInfo.*;
 import mc.carlton.freerpg.serverFileManagement.*;
 import mc.carlton.freerpg.serverInfo.*;
@@ -28,7 +27,6 @@ import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -140,8 +138,6 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerCraft(), this);
         getServer().getPluginManager().registerEvents(new PlayerPrepareCrafting(), this);
         getServer().getPluginManager().registerEvents(new EntityHitEntity(), this);
-        getServer().getPluginManager().registerEvents(new PistonExtend(), this);
-        getServer().getPluginManager().registerEvents(new PistonRetract(), this);
         getServer().getPluginManager().registerEvents(new PlayerKillEntity(), this);
         getServer().getPluginManager().registerEvents(new PlayerConsumeItem(), this);
         getServer().getPluginManager().registerEvents(new PlayerRightClickEntity(), this);
@@ -177,6 +173,8 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new DispenserDispenseItem(), this);
         getServer().getPluginManager().registerEvents(new PlayerMoveAbilityItem(), this);
         getServer().getPluginManager().registerEvents(new PlayerEnterVehicle(), this);
+        getServer().getPluginManager().registerEvents(new PistonEvents(), this);
+        //getServer().getPluginManager().registerEvents(new PistonRetract(), this);
 
         //Registers commands
         getCommand("frpg").setExecutor(new FrpgCommands());

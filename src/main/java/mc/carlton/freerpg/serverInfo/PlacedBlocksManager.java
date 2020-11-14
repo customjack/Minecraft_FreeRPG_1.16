@@ -21,6 +21,9 @@ public class PlacedBlocksManager {
         Location location = block.getLocation();
         return blocks.contains(location);
     }
+    public boolean isLocationTracked(Location location) {
+        return blocks.contains(location);
+    }
 
     public HashSet<Location> getBlocksMap() {
         return blocks;
