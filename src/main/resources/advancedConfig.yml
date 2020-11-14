@@ -391,8 +391,8 @@ fishing:
     tier5_drop3Amount: 1
     tier5_drop3Random: 0
     tier5_drop4Name: diamond
-    tier5_drop4Amount: 1
-    tier5_drop4Random: 0
+    tier5_drop4Amount: 2
+    tier5_drop4Random: 3
     tier5_enchantedArmor: 1
   expDrops:
     enableEXPDrops: true

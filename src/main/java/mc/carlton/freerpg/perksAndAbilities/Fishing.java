@@ -654,16 +654,15 @@ public class Fishing extends Skill{
         for (Object chance : fishingInfoBaseChances) {
             baseChances.add((double)chance);
         }
-        for (Object entry : fishingInfo) {
-            int i = fishingInfo.indexOf(entry);
+        for (int i =0; i < fishingInfo.size(); i++) {
             if (i % 3 == 0) {
-                itemNames.add((Material)entry);
+                itemNames.add((Material)fishingInfo.get(i));
             }
             else if (i % 3 == 1) {
-                dropAmounts.add((int)entry);
+                dropAmounts.add((int)fishingInfo.get(i));
             }
             else {
-                dropRandomness.add((int)entry);
+                dropRandomness.add((int)fishingInfo.get(i));
             }
         }
         for (Object entry : fishingInfoHotRod) {
