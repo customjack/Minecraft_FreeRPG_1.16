@@ -3071,7 +3071,7 @@
       virtual: Virtual
       commandDesc16: Changes player's FreeRPG experience multiplier by a specified amount (positive or negative)
 
-    esCl:
+    esCl: #Translated by PibeChileno
       languageName: Español
       englishLanguageName: Chilean Spanish
       translationCredit: PibeChileno
@@ -3766,7 +3766,7 @@
       virtual: Virtual
       commandDesc16: Changes player's FreeRPG experience multiplier by a specified amount (positive or negative)
 
-    ruRU: #Transalted by MoKotik, DevilPlay
+    ruRU: #Translated by MoKotik, DevilPlay
       languageName: Pусский Язык
       englishLanguageName: Russian
       translationCredit: MoKotik, DevilPlay
@@ -5072,6 +5072,601 @@
       playerNotInLeaderboard: Esse jogador não está em nenhuma tabela de classificação
       virtual: Virtual
       commandDesc16: Changes player's FreeRPG experience multiplier by a specified amount (positive or negative)
+
+    csCZ: #Translated by Pieck4444, Fractvival
+      languageName: Čeština
+      englishLanguageName: Czech Language
+      translationCredit: Pieck4444, Fractvival
+      global: Globalní přehled
+      digging: Kopání
+      woodcutting: Dřevorubectví
+      mining: Těžba
+      farming: Zemědělství
+      fishing: Rybaření
+      archery: Lukostřelba
+      beastMastery: Krocení zvěře
+      swordsmanship: Mistrovství mečů
+      defense: Obrana
+      axeMastery: Mistrovství seker
+      repair: Opravování
+      alchemy: Alchymie
+      agility: Obratnost
+      smelting: Tavení
+      enchanting: Čarování
+      information: Informace
+      configuration: Nastavení
+      level: Level
+      experience: Zkušenosti
+      toNext: další
+      total: Celkem
+      diggingPerkTitle0: Kapka dropu
+      diggingPerkTitle1: Dvojitá kapka
+      diggingPerkTitle2: Lepší dropy
+      diggingPerkTitle3: Zloděj duší
+      diggingPerkTitle4: Drtič štěrků
+      diggingPerkTitle5: Král lopaty
+      diggingPerkTitle6: Mega Kopáč
+      diggingPerkDesc0: Rozšíří tabulku dropů o 1 položku na level
+      diggingPerkDesc1: +5% šance dvojitého dropu na level
+      diggingPerkDesc2: Dále rozšiřuje tabulku dropů o 1 na level
+      diggingPerkDesc3: Písek duší je o +5% více dropů na level
+      diggingPerkDesc4: Štěrk má 100% na drop pazourku (přepnutí možno pomoci /flintToggle)
+      diggingPerkDesc5: Lopata má dvojitou sílu
+      diggingPerkDesc6: Při použití schopnosti rozbije 3x3 bloků
+      diggingPassiveTitle0: Pasivní Tokeny
+      diggingPassiveTitle1: Zpět
+      diggingPassiveTitle2: Dovednostní Tokeny
+      diggingPassiveTitle3: Dlouhý Kop
+      diggingPassiveTitle4: Šance dropů
+      diggingPassiveDesc0: Tokeny k rozvoji pasivních dovedností (barviva)
+      diggingPassiveDesc1: Vrátí tě zpět do hlavního menu dovedností
+      diggingPassiveDesc2: Tokeny k rozvoji v seznamu dovedností
+      diggingPassiveDesc3: Zvýšení délku času Dlouhého Kopu o 0.02 s
+      diggingPassiveDesc4: Zvýšení šance na vykopání dropů o 0.005%
+      woodcuttingPerkTitle0: Horlivé kořeny
+      woodcuttingPerkTitle1: Svižné ruce
+      woodcuttingPerkTitle2: Skryté znalosti
+      woodcuttingPerkTitle3: Zametač listí
+      woodcuttingPerkTitle4: Drtička+
+      woodcuttingPerkTitle5: Zvedač listí
+      woodcuttingPerkTitle6: Schopná sekera
+      woodcuttingPerkDesc0: +20% šance že blok kmene dropne 1 XP na level
+      woodcuttingPerkDesc1: +12s Spěch I za pokácení celého stromu do 5 minut od prvního seknutého kmene
+      woodcuttingPerkDesc2: Kmen má +0.2% šanci na level k dropu očarované knihy
+      woodcuttingPerkDesc3: Listy mají 1% šanci +1 drop na level
+      woodcuttingPerkDesc4: Limit Drtičky zvýšen o hodnotu v rozmezí 64 až 128
+      woodcuttingPerkDesc5: Zničí velký kus listí pomocí sekery (přepinání pomocí /leafBlowerToggle)
+      woodcuttingPerkDesc6: Dvojitý drop, Horlivé kořeny a Skryté znalosti se sjednotili (s poloviční účinností)
+      woodcuttingPassiveTitle0: Pasivní Tokeny
+      woodcuttingPassiveTitle1: Zpět
+      woodcuttingPassiveTitle2: Dovednostní Tokeny
+      woodcuttingPassiveTitle3: Čas Drtičky
+      woodcuttingPassiveTitle4: Dvojité dropy
+      woodcuttingPassiveDesc0: Tokeny k rozvoji pasivních dovedností (barviva)
+      woodcuttingPassiveDesc1: Vrátí tě zpět do hlavního menu dovedností
+      woodcuttingPassiveDesc2: Tokeny k rozvoji v seznamu dovedností
+      woodcuttingPassiveDesc3: Zvýšení délku času Drtičky o 0.02 s
+      woodcuttingPassiveDesc4: Zvýšení šance na dvojitý drop o 0.05%
+      miningPerkTitle0: Nuzný Spěch
+      miningPerkTitle1: Více bomb
+      miningPerkTitle2: Hledač pokladů
+      miningPerkTitle3: Bomba akce
+      miningPerkTitle4: Důlní mistr
+      miningPerkTitle5: Ničitel
+      miningPerkTitle6: Trojité šílenství
+      miningPerkDesc0: Získ spěchu po těžbě rud na level
+      miningPerkDesc1: Recept na TNT produkuje +1 TNT na level
+      miningPerkDesc2: Při použití schopnosti na kameny +1% šance dropu rud na level (expy jsou z rud)
+      miningPerkDesc3: Zvyšuje poloměr výbuchu TNT (při použití zapalovače) na level
+      miningPerkDesc4: Instatní těžba rud jedním kliknutím (přepínání-able)
+      miningPerkDesc5: Bez poškození z výbuchu TNT
+      miningPerkDesc6: Proměna z dvojitých dropů na trojité
+      miningPassiveTitle0: Pasivní Tokeny
+      miningPassiveTitle1: Zpět
+      miningPassiveTitle2: Dovednostní Tokeny
+      miningPassiveTitle3: Čas Běsnění
+      miningPassiveTitle4: Dvojité dropy
+      miningPassiveTitle5: Bombová těžba
+      miningPassiveDesc0: Tokeny k rozvoji pasivních dovedností (barviva)
+      miningPassiveDesc1: Vrátí tě zpět do hlavního menu dovedností
+      miningPassiveDesc2: Tokeny k rozvoji v seznamu dovedností
+      miningPassiveDesc3: Zvýšení délky času Běsnění o 0.02s
+      miningPassiveDesc4: Zvýšení šance na dvojitý drop o 0.05%
+      miningPassiveDesc5: Zvýšení šance dropů rud z TNT exploze o 0.01%
+      farmingPerkTitle0: Lepší hnojivo
+      farmingPerkTitle1: Zvířecí farma
+      farmingPerkTitle2: Farmářova dieta
+      farmingPerkTitle3: Masožravec
+      farmingPerkTitle4: Zahradníkův palec
+      farmingPerkTitle5: Růstové hormony
+      farmingPerkTitle6: Spojen s přírodou
+      farmingPerkDesc0: +10% šance na snížení spotřeby bonemealu
+      farmingPerkDesc1: Možnost vycraftit dodatečné vajíčka na level
+      farmingPerkDesc2: Jídlo z farem o +20% snižuje efekt pocitu hladu na level
+      farmingPerkDesc3: Maso o +20% snižuje efekt pocitu hladu na level
+      farmingPerkDesc4: Vyšší šance sadby zralých plodin při znovusadbě později; Schopnost nyní platí na melouny i dýně
+      farmingPerkDesc5: Cukr promění zvířecí mláďata na dospělce
+      farmingPerkDesc6: Umožní Regeneraci I když postojíš na trávě
+      farmingPassiveTitle0: Pasivní Tokeny
+      farmingPassiveTitle1: Zpět
+      farmingPassiveTitle2: Dovednostní Tokeny
+      farmingPassiveTitle3: Čas Regenerace
+      farmingPassiveTitle4: Dvojitý drop (plodiny)
+      farmingPassiveTitle5: Dvojitý drop (zvířata)
+      farmingPassiveDesc0: Tokeny k rozvoji pasivních dovedností (barviva)
+      farmingPassiveDesc1: Vrátí tě zpět do hlavního menu dovedností
+      farmingPassiveDesc2: Tokeny k rozvoji v seznamu dovedností
+      farmingPassiveDesc3: Zvýšení času Regenerace o 0.02s
+      farmingPassiveDesc4: Zvýšení šancí dvojitých dropů z plodin o 0.05%
+      farmingPassiveDesc5: Zvýšení šancí dvojitých dropů ze zvířat (pasivních) o 0.05%
+      fishingPerkTitle0: Pytlák
+      fishingPerkTitle1: Mrchožrout
+      fishingPerkTitle2: Rybářova dieta
+      fishingPerkTitle3: Filtrace
+      fishingPerkTitle4: Hákování
+      fishingPerkTitle5: Superprut
+      fishingPerkTitle6: Triton
+      fishingPerkDesc0: +15% šance k vytažení itemu na level
+      fishingPerkDesc1: Odemčení nových rybářských itemů
+      fishingPerkDesc2: Jídlo z ryb poskytne o +20% méně hladu na level
+      fishingPerkDesc3: Vyšší úrovně itemů (II-V) jsou častější na úkor nižších úrovní (I)
+      fishingPerkDesc4: Rybářský prut nyní funguje jako hák (přepínač /grappleToggle)
+      fishingPerkDesc5: Ryby vyskakují rovnou pečené, menší změny itemů (přepínač /hotRodToggle)
+      fishingPerkDesc6: Nekonečné noční vidění pod vodou, nekonečná vlídnost delfínů
+      fishingPassiveTitle0: Pasivní tokeny
+      fishingPassiveTitle1: Zpět
+      fishingPassiveTitle2: Dovednostní Tokeny
+      fishingPassiveTitle3: Čas Super návnady
+      fishingPassiveTitle4: Dvojité úlovky
+      fishingPassiveTitle5: Hledač pokladů
+      fishingPassiveDesc0: Tokeny k rozvoji pasivních dovedností (barviva)
+      fishingPassiveDesc1: Vrátí tě zpět do hlavního menu dovedností
+      fishingPassiveDesc2: Tokeny k rozvoji v seznamu dovedností
+      fishingPassiveDesc3: Zvýšení času trvání Super návnady o 0.01s
+      fishingPassiveDesc4: Zvýšení šancí dvojitých úlovků o 0.05%
+      fishingPassiveDesc5: Snížení nálezů šrotu o 0.005%, zvýšení nálezu pokladu o 0.005%
+      archeryPerkTitle0: Extra šípy
+      archeryPerkTitle1: Sniper
+      archeryPerkTitle2: Žhavé šípy
+      archeryPerkTitle3: Bouchající včeličky
+      archeryPerkTitle4: Zhasínač draků
+      archeryPerkTitle5: Rychlonabíječ
+      archeryPerkTitle6: Smrtící dávka
+      archeryPerkDesc0: +1 šíp navíc k vycraftěné na level
+      archeryPerkDesc1: Rychlost šípů zvýšena o +2% na level (~4% poškození navíc/level)
+      archeryPerkDesc2: Spektrální šípy získájí +5% poškození navíc na level
+      archeryPerkDesc3: Šípy mají +1% šanci na explodující zásah
+      archeryPerkDesc4: Možnost craftit všechny šípy z běžných lektvarů namísto pokročilých
+      archeryPerkDesc5: Dovednost lze použít k okamžitému nabíjení šípů
+      archeryPerkDesc6: Ohňostroj vystřelený z luku má dvojité poškození (až 16 srdíček)
+      archeryPassiveTitle0: Pasivní Tokeny
+      archeryPassiveTitle1: Zpět
+      archeryPassiveTitle2: Dovednostní Tokeny
+      archeryPassiveTitle3: Čas Rychlonabíječe
+      archeryPassiveTitle4: Obnova
+      archeryPassiveDesc0: Tokeny k rozvoji pasivních dovedností (barviva)
+      archeryPassiveDesc1: Vrátí tě zpět do hlavního menu dovedností
+      archeryPassiveDesc2: Tokeny k rozvoji v seznamu dovedností
+      archeryPassiveDesc3: Zvýšení času Rychlonabíjení o 0.02s
+      archeryPassiveDesc4: Zvýšení šance že šíp nebude ztracen o 0.05% na level
+      beastMasteryPerkTitle0: Hustá srst
+      beastMasteryPerkTitle1: Ostré zuby
+      beastMasteryPerkTitle2: Zdravé kousnutí
+      beastMasteryPerkTitle3: Držení stranou
+      beastMasteryPerkTitle4: Acro-Pes
+      beastMasteryPerkTitle5: Identifikátor
+      beastMasteryPerkTitle6: Adrenalin booster
+      beastMasteryPerkDesc0: Sníží poškození psů o -10% na level
+      beastMasteryPerkDesc1: Psi způsobí o +10% poškození víc na level
+      beastMasteryPerkDesc2: Psí uzdravení +1/2 srdíčka za level po zabití
+      beastMasteryPerkDesc3: Psi získají +5% šanci na zahnání nepřítele
+      beastMasteryPerkDesc4: Psi nedostanou poškození z pádu
+      beastMasteryPerkDesc5: Použití kompasu na koni či vlkovi zobrazí jejich statistiku
+      beastMasteryPerkDesc6: Kopnutí ostruhy má nyní rychlost III
+      beastMasteryPassiveTitle0: Pasivní Tokeny
+      beastMasteryPassiveTitle1: Zpět
+      beastMasteryPassiveTitle2: Dovednostní Tokeny
+      beastMasteryPassiveTitle3: Čas Kopnutí ostruhy
+      beastMasteryPassiveTitle4: Kritické kousnutí
+      beastMasteryPassiveDesc0: Tokeny k rozvoji pasivních dovedností (barviva)
+      beastMasteryPassiveDesc1: Vrátí tě zpět do hlavního menu dovedností
+      beastMasteryPassiveDesc2: Tokeny k rozvoji v seznamu dovedností
+      beastMasteryPassiveDesc3: Zvýšení času Kopnutí ostruhou o 0.02s
+      beastMasteryPassiveDesc4: Zvyšuje šanci na krytické kousnutí psa o 0.025%
+      swordsmanshipPerkTitle0: Adrenalin
+      swordsmanshipPerkTitle1: Smrtící řádění
+      swordsmanshipPerkTitle2: Adrenalin+
+      swordsmanshipPerkTitle3: Smrtící šílenství
+      swordsmanshipPerkTitle4: Touha po krvi
+      swordsmanshipPerkTitle5: Ostřejší!
+      swordsmanshipPerkTitle6: Mistrovství meče
+      swordsmanshipPerkDesc0: Zabíjení nepřátelských mobů mečem +2s Rychlost na level
+      swordsmanshipPerkDesc1: Zabíjení nepřátelských mobů mečem +2s Síla na level
+      swordsmanshipPerkDesc2: +20% Rychlost I z Adrenalinu je nyní Rychlost II
+      swordsmanshipPerkDesc3: +20% Síla I ze Smrtících běsnění je nyní Síla II
+      swordsmanshipPerkDesc4: Zabití určitých agresivních mobů mečem obnoví hlad
+      swordsmanshipPerkDesc5: Svižnost úderů teď přídá level Ostrosti do tvého meče
+      swordsmanshipPerkDesc6: Meče permanentně mají +1 srdíčka poškození
+      swordsmanshipPassiveTitle0: Pasivní Tokeny
+      swordsmanshipPassiveTitle1: Zpět
+      swordsmanshipPassiveTitle2: Dovednostní Tokeny
+      swordsmanshipPassiveTitle3: Čas Svižných úderů
+      swordsmanshipPassiveTitle4: Dvojité hitnutí
+      swordsmanshipPassiveDesc0: Tokeny k rozvoji pasivních dovedností (barviva)
+      swordsmanshipPassiveDesc1: Vrátí tě zpět do hlavního menu dovedností
+      swordsmanshipPassiveDesc2: Tokeny k rozvoji v seznamu dovedností
+      swordsmanshipPassiveDesc3: Zvýšení času Svižnosti úderů o 0.02s
+      swordsmanshipPassiveDesc4: Zvýšení šance na dvojitý hit moba (druhý hit dá 50% poškození) o 0.02%
+      defensePerkTitle0: Léčitel
+      defensePerkTitle1: Ztuhlost
+      defensePerkTitle2: Tvrdost hlavy
+      defensePerkTitle3: Ztuhlost+
+      defensePerkTitle4: Dárek shora
+      defensePerkTitle5: Pevnější nohy
+      defensePerkTitle6: Srdíčka
+      defensePerkDesc0: Získání +3s regenerace na level při zabití
+      defensePerkDesc1: Získání +2% šance Obrany I v délce 5s při hitu
+      defensePerkDesc2: Tvrdost těla snižuje poškození o dalších 6.6% na level
+      defensePerkDesc3: +2% šance na získání Obrany II v délce 5s při hitu
+      defensePerkDesc4: Tvrdost nyní dává 4 absorční srdíčka za délku Dovednosti +1 minuty
+      defensePerkDesc5: Tvrdost nyní získá Zpomalení I namísto Zpomalení IV
+      defensePerkDesc6: +2 srdíčka permanentně
+      defensePassiveTitle0: Pasivní Tokeny
+      defensePassiveTitle1: Zpět
+      defensePassiveTitle2: Dovednostní Tokeny
+      defensePassiveTitle3: Čas Tvrdosti
+      defensePassiveTitle4: Tvrdost těla
+      defensePassiveTitle5: Dvojitý drop (z Mobů)
+      defensePassiveDesc0: Tokeny k rozvoji pasivních dovedností (barviva)
+      defensePassiveDesc1: Vrátí tě zpět do hlavního menu dovedností
+      defensePassiveDesc2: Tokeny k rozvoji v seznamu dovedností
+      defensePassiveDesc3: Zvýšení času Tvrdosti o 0.02s
+      defensePassiveDesc4: Zvýšení šance k zmírnění (základ -33%) poškození o 0.01% na level
+      defensePassiveDesc5: Zvýšení šance k získání dvojitých dropů z agresivních mobů o 0.05%
+      axeMasteryPerkTitle0: Velkolepá sekera
+      axeMasteryPerkTitle1: Posvátná sekera
+      axeMasteryPerkTitle2: Oživení
+      axeMasteryPerkTitle3: Krveláčný bojovník
+      axeMasteryPerkTitle4: Zemětřas
+      axeMasteryPerkTitle5: Vylepšené záseky
+      axeMasteryPerkTitle6: Bůh seker
+      axeMasteryPerkDesc0: Akční rádius Velkolepé sekery zvýšen o 1 blok na level
+      axeMasteryPerkDesc1: +2% šance zásahu moba bleskem při hitu sekerou
+      axeMasteryPerkDesc2: +1% šance plného healu při zabití na level
+      axeMasteryPerkDesc3: +3s na level Síly I při zabití sekerou
+      axeMasteryPerkDesc4: Schopnost AOE poškození je dvojitá (25% -> 50%)
+      axeMasteryPerkDesc5: Zvýšení násobiče Vylepšených záseků z 1.2x na 1.6x
+      axeMasteryPerkDesc6: Sekery permanentně +1 srdíčka poškození
+      axeMasteryPassiveTitle0: Pasivní Tokeny
+      axeMasteryPassiveTitle1: Zpět
+      axeMasteryPassiveTitle2: Dovednostní Tokeny
+      axeMasteryPassiveTitle3: Čas Velkolepé sekery
+      axeMasteryPassiveTitle4: Vylepšené záseky
+      axeMasteryPassiveDesc0: Tokeny k rozvoji pasivních dovedností (barviva)
+      axeMasteryPassiveDesc1: Vrátí tě zpět do hlavního menu dovedností
+      axeMasteryPassiveDesc2: Tokeny k rozvoji v seznamu dovedností
+      axeMasteryPassiveDesc3: Zvýšení času Velkolepé sekery o 0.02s
+      axeMasteryPassiveDesc4: Zvýšení šance náhodných záseků (základ 1.25x) o 0.01%
+      repairPerkTitle0: Záchrana
+      repairPerkTitle1: Vynalézavost
+      repairPerkTitle2: Mistrovství opravování
+      repairPerkDesc0: Získá více materiálu ze záchran
+      repairPerkDesc1: +10% šance zachování použitých materiálu při opravách
+      repairPerkDesc2: Garance zachování očarování při opravách
+      repairPassiveTitle0: Zpět
+      repairPassiveTitle1: Dovednostní Tokeny
+      repairPassiveTitle2: Odbornost
+      repairPassiveDesc0: Vrátí tě zpět do hlavního menu dovedností
+      repairPassiveDesc1: Tokeny k rozvoji v seznamu dovedností
+      repairPassiveDesc2: Materiály vrací více trvanlivosti při opravách
+      agilityPerkTitle0: Úskok
+      agilityPerkTitle1: Ocelové kosti
+      agilityPerkTitle2: Půvabné chodidla
+      agilityPerkDesc0: +4% šance k uskočení při útoku na level
+      agilityPerkDesc1: -10% poškození z pádu na level
+      agilityPerkDesc2: Permanentní Rychlost I (přepínač /speedToggle)
+      agilityPassiveTitle0: Zpět
+      agilityPassiveTitle1: Dovednostní Tokeny
+      agilityPassiveTitle2: Kotoul
+      agilityPassiveDesc0: Vrátí tě zpět do hlavního menu dovedností
+      agilityPassiveDesc1: Tokeny k rozvoji v seznamu dovedností
+      agilityPassiveDesc2: Šance na kotoul a zmírnění poškození dopadem
+      alchemyPerkTitle0: Volání alchymie
+      alchemyPerkTitle1: Starověké znalosti
+      alchemyPerkTitle2: Mistr lektvarů
+      alchemyPerkDesc0: Umožňuje vyrábět lektvary bez vařiče
+      alchemyPerkDesc1: Odemkne schopnost vařit nové lektvary
+      alchemyPerkDesc2: Všechny použité lektvary jsou zvýšeny o 1 na level (přepínač /togglePotion)
+      alchemyPassiveTitle0: Zpět
+      alchemyPassiveTitle1: Dovednostní Tokeny
+      alchemyPassiveTitle2: Half-life+
+      alchemyPassiveDesc0: Vrátí tě zpět do hlavního menu dovedností
+      alchemyPassiveDesc1: Tokeny k rozvoji v seznamu dovedností
+      alchemyPassiveDesc2: Zvýšení trvání lektvarů při použití
+      smeltingPerkTitle0: Efektivnost paliva
+      smeltingPerkTitle1: Dvojitá tavba
+      smeltingPerkTitle2: Plamenný krumpáč
+      smeltingPerkDesc0: Palivo trvá o +20% déle na level
+      smeltingPerkDesc1: +5% šance na dvojitý výpek rud na level
+      smeltingPerkDesc2: Vytěžená ruda instantně přetavena (přepnutí /toggleFlamePick)
+      smeltingPassiveTitle0: Zpět
+      smeltingPassiveTitle1: Dovednostní Tokeny
+      smeltingPassiveTitle2: Rychlost paliva
+      smeltingPassiveDesc0: Vrátí tě zpět do hlavního menu dovedností
+      smeltingPassiveDesc1: Tokeny k rozvoji v seznamu dovedností
+      smeltingPassiveDesc2: Zvýšení rychlosti tavení
+      enchantingPerkTitle0: Efektivní očarování
+      enchantingPerkTitle1: Receptář
+      enchantingPerkTitle2: Nesmrtelné zkušenosti
+      enchantingPerkDesc0: Levely potřebné k očarování -1 levelu, cena opravy na kovadlině -1 XP levelu
+      enchantingPerkDesc1: Odemkne recepty některých očarovaných knih
+      enchantingPerkDesc2: Zachování XP při smrti
+      enchantingPassiveTitle0: Zpět
+      enchantingPassiveTitle1: Dovednostní Tokeny
+      enchantingPassiveTitle2: Rychlejší vývoj
+      enchantingPassiveDesc0: Vrátí tě zpět do hlavního menu dovedností
+      enchantingPassiveDesc1: Tokeny k rozvoji v seznamu dovedností
+      enchantingPassiveDesc2: Všechny přijaté XP zvýšeny
+      globalPerkTitle0: Sběrač
+      globalPerkTitle1: Učenec
+      globalPerkTitle2: Bojovník
+      globalPerkTitle3: Tvrdá práce
+      globalPerkTitle4: Výzkum
+      globalPerkTitle5: Trénink
+      globalPerkTitle6: Reinkarnace+
+      globalPerkTitle7: Sběrač duší
+      globalPerkTitle8: Avatar
+      globalPerkTitle9: Mistrovské umění
+      globalPerkDesc0: +20% xp získané v Kopání, Dřevorubectví, Těžení, Zemědělství a Rybáření
+      globalPerkDesc1: +20% xp získané v Opravování, Dovednosti, Vaření, Tavení a Čarování
+      globalPerkDesc2: +20% xp získané v Lukostřelbě, Krocení zvěře, Mistrovství mečů, Obraně a Mistrovství seker
+      globalPerkDesc3: +1 dovednostní token ve sběračských skillů
+      globalPerkDesc4: +1 dovednostní token ve učeneckých skillů
+      globalPerkDesc5: +1 dovednostní token ve bojovnických skillů
+      globalPerkDesc6: Při smrti, 50% šance k zachování některých hodnot položek v inventáři
+      globalPerkDesc7: Nyní můžeš sbírat duše z mrtvých mobů které je možno použít k navrácení dovedností (v seznamu)
+      globalPerkDesc8: 10% šance k zastavení poškození a získání si všech okolo na 10s při hitu který by tě normálně zabil
+      globalPerkDesc9: Odpočet schopností snížen o 33%
+      globalPassiveTitle0: Globalní Tokeny
+      globalPassiveTitle1: Zpět
+      globalPassiveDesc0: Tokeny k rozvoji v seznamu dovedností
+      globalPassiveDesc1: Vrátí tě zpět do hlavního menu dovedností
+      cannotRepair: Nemůžeš opravovat dokud je aktivní zkušenost!
+      cannotSalvage: Nemůžeš teď zachraňovat když je zkušenost aktivní!
+      spite: Všechno zlé je k nečemu dobré a naopak
+      refundSkill: jsou povinni vrátit do seznamu dovedností
+      refundSkill2: v pořadí k návratu do seznamu dovedností
+      needToUnlock: Musíš odemknout
+      perkRequirement: Potřebuješ alespoň 2 Tokeny investované do předchozí dovednosti k odemčení této
+      perkRequirementM: K odemčení tohoto mistrovství potřebuješ alespoň 10 tokenů dovedností investovaných v seznamu dovedností
+      noSkillTokens: Nemáš žádné Tokeny
+      noPassiveTokens: Nemáš žádné pasivní Tokeny
+      maxedOutPerk: Tato dovednost je na maximu!
+      requiredGlobalPerks0: K odemčení této výhody potřebuješ předchozí výhodu
+      requiredGlobalPerks1: jsou vyžadovány k odemČení této dovednosti
+      requiredGlobalPerks2: je vyžadováno k odemčení této dovednosti
+      requiredGlobalPerks3: K odemčení této dovednosti je zapotřebí všech globálních dovedností
+      craftRequirement: je potřeba k vycraftění tohoto receptu
+      roll: KOTOUL
+      dodge: USKOK
+      prepare: Připravuješ
+      rest: Pokládáš
+      activated: v akci!
+      ended: ukončeno
+      readyToUse: je opět připraveno
+      cooldown: obnovení
+      rapidFire: Zběsilý oheň
+      bow: luk
+      greatAxe: Velkolepá sekera
+      axe: sekera
+      spurKick: Kopnutí ostruhou
+      leg: noha
+      stoneSoldier: Tvrdost
+      yourself: sebe
+      bigDig: Dlouhý kop
+      shovel: lopata
+      naturalRegeneration: Regenerace přírody
+      hoe: motyka
+      superBait: Super návnada
+      fishingRod: rybářský prut
+      berserkPick: Běsnění
+      pickaxe: krumpáč
+      swiftStrikes: Svižné údery
+      sword: meč
+      timber: Drtička
+      hyperHorse: Tento kůň už má hyper rychlost!
+      magicForce: Magická síla ukončení dovednosti
+      rob: Okradeno
+      repairFail0: Nemáš dostatečnou kvalifikaci k opravě tohoto itemu
+      repairFail1: Nepodařilo se ti zachránit všechen materiál
+      repairFail2: Nepodařilo se ti zachovat očarování
+      treeTooBig0: Strom je příliš velký na rozdrcení jednou ranou
+      treeTooBig1: Tento strom nejde srazit jednou ranou tímto způsobem
+      noPermission: Nemáš dostatečné oprávnění k použití příkazu
+      improperArguments: Nesprávné argumenty, zkus
+      totalPlayTime: Celkový herní čas
+      clickForOptions: Klikni pro nastavení
+      unknownCommand: Neznámý příkaz
+      expToLevel: EXP k dalšímu levelu
+      playerName: názevHráče
+      skillName: názevDovednosti (anglicky)
+      page: strana
+      on0: "ZAPNUTO"
+      off0: "VYPNUTO"
+      onOrOff: ZAPNOUT/VYPNOUT
+      manuallyToggles: Manuální přepínání
+      commandDesc0: Otevře hlavní nabídku se všemi dovednostmi
+      commandDesc1: Otevře seznam dovedností k výběru
+      commandDesc2: Otevře nabídku s nastavením
+      commandDesc3: Dá zvolenému hráči EXP v dané dovednosti
+      commandDesc4: Nastavuje a dá hráčům level v dané dovednosti
+      commandDesc5: Resetuje hráčům statistiku v dané dovednosti (nevrací statistiky)
+      commandDesc6: Zobrazí srovnávací tabulku pro danou statistiku
+      commandDesc7: Poskytne odkaz na stránku s informacemi o pluginu
+      commandDesc8: Pokus o očarování itemu v ruce hráče na určený level
+      informationURL: Informace URL (Google Docs)
+      click: KLIK
+      levelArgument: Argument úrovně musí být menší než 40
+      leaderboard: Srovnávací tabulka
+      playerOffline: Tento hráč není online
+      onlyIncrease: Pouze tímto příkazem navyšuj EXP, takže, použij /frpg statReset a poté /frpg giveEXP
+      amount: počet
+      unlockToggle: K použití tohoto příkazu musíš odemknout
+      levelUpNotif: Notifikace o zvýšení levelu
+      abilityPreparationNotif: Notifikace připravenosti schopnosti
+      yes0: "ANO"
+      no0: "NE"
+      warning: UPOZORNĚNÍ
+      souls: duše
+      refundSkillTree0: Navrácení seznamu dovedností stojí
+      refundSkillTree1: a není reverzibilní, jseš si jist že to chceš
+      refundSkillTree2: vrátit
+      skill: dovednost
+      backToSkillTree: Návrat do seznamu dovedností
+      miningPerkDesc0_1:  2 sekundy Spěch po těžbě jakékoliv rudy
+      miningPerkDesc0_2:  5 sekund Spěch po těžbě jakékoliv rudy
+      miningPerkDesc0_3:  10 sekund Spěch po těžbě jakékoliv rudy
+      miningPerkDesc0_4:  5 sekund Spěch II po těžbě jakékoliv rudy, následované Spěch I po dobu dalších 5 sekund
+      miningPerkDesc0_5:  10 sekund Spěch II po těžbě jakékoliv rudy
+      woodcuttingPerkDesc3_1: Leaves may now drop a
+      common: běžný
+      uncommon: neobvyklý
+      rare: vzácný
+      veryRare: velmi vzácný
+      legendary: legendární
+      fishingPerkDesc1_1: Odemknutí úrovně
+      farmingPerkDesc1_1: Získání schopnosti
+      cowSpawnEgg: vajíčko s krávou
+      beeSpawnEgg: vajíčko se včelkou
+      mooshroomSpawnEgg: vajíčko s krávomůrkou
+      horseSpawnEgg: vajíčko s koníkem
+      slimeSpawnEgg: vajíčko se slizounem
+      diggingPerkDesc0_1: Nyní můžeš provádět kopy
+      defensePerkDesc0_1: Získáváš +3s regenerace na level při zabitích
+      defensePerkDesc0_2: Získáváš +0.5 srdíčka na level při zabitích
+      duration: Trvání
+      likelihood: Pravděpodobnost
+      junkChance: Šance na smetí
+      locked: ZAMČENO
+      unlocked: ODEMČENO
+      cowEgg: Vajíčko s krávou
+      beeEgg: Vajíčko se včelkou
+      mooshroomEgg: Vajíčko s krávomůrkou
+      horseEgg: Vajíčko s koníkem
+      slimeEgg: Vajíčko se slizounem
+      tippedArrows: Ostré střely
+      toggle: Přepínač
+      refundSkillTitle: Návrat dovednosti
+      refundSkillTreeDesc: Klikni k návratu seznamu dovednosti
+      enchantingPerkDesc1_0: Odemče dovednost ke craftění
+      enchantingPerkDesc1_1: Očarované knihy Síla I a Účinnost I (cena 1 levelu ke craftění)
+      enchantingPerkDesc1_2: Očarované knihy Ostrost I a Ochrana I (cena 1 levelu ke craftění)
+      enchantingPerkDesc1_3: Očarované knihy Štěstí moře I a Návnada I (cena 1 levelu ke craftění)
+      enchantingPerkDesc1_4: Očarované knihy Jako ryba ve vodě a Mrazík (cena 1 levelu ke craftění)
+      enchantingPerkDesc1_5: Kniha Oprava (cena 10 levelu k vycraftění)
+      repairPerkDesc0_1: Získání průměrem více materiálu ze záchrany
+      repairPerkDesc0_2: Získání průměrem více materiálu ze záchrany, záchrana nyní uschová očarování v knižce
+      xpBoost: XP Boost
+      speedBoost: Rychlost Boost
+      timeExtension: Prodloužení času
+      enchantingCraft0: Knížka Síla I
+      enchantingCraft1: Knížka Účinnost I
+      enchantingCraft2: Knížka Ostrost I
+      enchantingCraft3: Knížka Ochrana I
+      enchantingCraft4: Knížka Štěstí moře I
+      enchantingCraft5: Knížka Návnada I
+      enchantingCraft6: Knížka Mrazík I
+      enchantingCraft7: Knížka Jako ryba ve vodě I
+      enchantingCraft8: Knížka Oprava
+      enchantingCraft9: Knížka Štěstí I
+      commandDesc9: Nastaví duše danému hráči
+      commandDesc10: Nastaví dovednostní nebo pasivní Tokeny pro dovednost danému hráči
+      commandDesc11: Nastaví globální Tokeny danému hráči
+      commandDesc12: Uloží statistiky všech hráčů nebo daného hráče
+      status: STAV
+      complete: KOMPLETNÍ
+      incomplete: NEKOMPLETNÍ
+      try0: "zkus"
+      passiveImprove: Tvé pasivní Tokeny vylepšují každý level!
+      increasedBy: zvýšeno od
+      expIncrease: EXP násobič
+      personalMultiplier: Osobní násobič
+      translators: Překlady
+      commandDesc13: Nastaví osobní násobič daného hráče
+      abilityDescription: Popis dovednosti
+      abilityDescription_digging: Dočasně přidá 5 levelů účinnosti tvé lopatě. Aktivace pravým kliknutím lopaty o blok
+      abilityDescription_woodcutting: Dočasně vytvoří sekery schopné skácet strom jedním klikem. Aktivace pravým kliknutím sekery o kmen stromu
+      abilityDescription_mining: Dočasně přidá 5 levelů účinnosti tvého krumpáče. Aktivace pravým kliknutím krumpáče o blok
+      abilityDescription_farming: Dočasně vytvoření motyky schopné při sklizni rovnou zasít. Aktivace pravým kliknutím o blok políčka
+      abilityDescription_fishing: Dočasně vytvoří rybářské pruty schopné okamžitého úlovku. Aktivace pravým kliknutím prutu o vodu
+      abilityDescription_archery: Dočasně vytvoří všechny šípy o maximální rychlosti. Aktivace levým kliknutím na luk a vystřelením šípu
+      abilityDescription_beastMastery: Dočasně dá tvému koni maximální zrychlení. Aktivuje se pravým kliknutím na koně s následným levým kliknutím
+      abilityDescription_swordsmanship: Dočasně odstraní prodlevy švihu meče. Aktivace pravým kliknutím o moba (hitnutí pravým)
+      abilityDescription_defense: Dočasně dá uživateli efekt odporu a spomalení. Aktivace pravým kliknutím prázdné ruky a následně hitnutím moba
+      abilityDescription_axeMastery: Dočasně vytvoří sekery k poškození mobů v akčním radiusu. Aktivace pravým kliknutím a hitem do moba
+      alchemyPerkDesc1_0: Odemče schopnosti vaření
+      alchemyPerkDesc0_0: Tabulku receptů možno použít ke craftění
+      triggerAbilities: Spouštěč dovedností
+      showEXPBar: Zobrazí EXP Bar
+      disabledSkill: Tato dovednost je vypnuts
+      skillConfigDesc: Návrat k přehledu nastavení této dovednosti
+      lvl: Lvl. #Abbreviation for "Level" If your language has no abbreviation, please put the translation for "Level"
+      exp: EXP #Abbreviation for "experience" if your language has no abbreviation, please put the translation for "experience"
+      potionAbsorption: Potion of Absorption
+      potionBadOmen: Potion of Bad Omen
+      potionBlindess: Potion of Blindess
+      potionConduitPower: Potion of Conduit Power
+      potionResistance: Potion of Resistance
+      potionDolphinsGrace: Potion of Dolphins Grace
+      potionHaste: Potion of Haste
+      potionFireResistance: Potion of Fire Resistance
+      potionGlowing: Potion of Glowing
+      potionHarm: Potion of Harm
+      potionHealing: Potion of Healing
+      potionHealthBoost: Potion of Health Boost
+      potiontheHero: Potion of the Hero
+      potionHunger: Potion of Hunger
+      potionStrength: Potion of Strength
+      potionInvsibility: Potion of Invsibility
+      potionJump: Potion of Jump
+      potionLuck: Potion of Luck
+      potionNightVision: Potion of Night Vision
+      potionRegeneration: Potion of Regeneration
+      potionSaturation: Potion of Saturation
+      potionSlowness: Potion of Slowness
+      potionFatigue: Potion of Fatigue
+      potionSlowFalling: Potion of Slow Falling
+      potionSpeed: Potion of Speed
+      potionBadLuck: Potion of Bad Luck
+      potionWaterBreathing: Potion of Water Breathing
+      potionWeakness: Potion of Weakness
+      potionDecay: Potion of Decay
+      potionAwkward: Awkward Potion
+      potionUncraftable: Uncraftable Potion
+      potionMundane: Mundane Potion
+      potionTurtleMaster: Potion of the Turtle Master
+      potionThick: Thick Potion
+      potionWater: Water Bottle
+      ingredient: Ingredience
+      usedToBrew: Je použit k vaření
+      costs: cena
+      xpLevel: Minecraft XP Level
+      xpLevels: Minecraft XP Levely
+      craftXPRequirement: Tento recept vyžaduje alespoň
+      bedGUI: Nemůžeš použít tento příkaz z postele
+      statsUpdated: Tvé statistiky byly ustanoveny dle nových nastavení pluginu. Všechny dovednosti a tokeny byly resetovány. Všechny tokeny musí být znovu vloženy.
+      timeRemaining: Zbývající čas
+      numberOfAbilityTimersDisplayed: Počet zobrazených času schopností
+      commandDesc14: Resety odpočtů dovedností
+      commandDesc15: Vyhledá statistiky hráče FreeRPG
+      repairUnsafeEnchant: Tento item je příliš zdobný k opravám
+      salvageUnsafeEnchant: Tento item je příliš zdobný k záchraně
+      rank: Rank
+      stats: statistika
+      outOf: z
+      playerNotInLeaderboard: Tento hráč nemá žádné přehledy
+      virtual: Virtual
+      commandDesc16: Mění hráčův násobič o danou hodnotu (do plusu či mínusu)
 
     custom:
       languageName: Čûşŧøm Ľãņğŭågè

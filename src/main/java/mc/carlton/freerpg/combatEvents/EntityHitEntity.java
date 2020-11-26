@@ -114,7 +114,7 @@ public class EntityHitEntity implements Listener {
                     e.setDamage(damage);
                 }
                 Entity damagedEntity = e.getEntity();
-                swordsmanshipClass.doubleHit(damagedEntity,damage,p);
+                swordsmanshipClass.doubleHit(damagedEntity,damage);
                 swordsmanshipClass.giveHitEXP(e.getFinalDamage(),damagedEntity);
             }
 

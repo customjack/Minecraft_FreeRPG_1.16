@@ -21,7 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 
 public class PlayerBlockBreak implements Listener {
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     void onblockBreak(BlockBreakEvent e){
         //WorldGuard Check
         if (e.isCancelled()) {

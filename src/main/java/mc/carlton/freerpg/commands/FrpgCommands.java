@@ -2316,10 +2316,18 @@ public class FrpgCommands implements CommandExecutor {
 
                     //Crafting Tables and Connector
                     Integer[] indicies = {1,2,3,4,5,10,14,19,23,28,32,37,38,39,40,41};
+                    ItemStack craftingTable = new ItemStack(Material.CRAFTING_TABLE);
+                    ItemMeta craftingTableMeta = craftingTable.getItemMeta();
+                    craftingTableMeta.setDisplayName(ChatColor.WHITE.toString());
+                    craftingTable.setItemMeta(craftingTableMeta);
+                    ItemStack connector = new ItemStack(Material.GLASS_PANE);
+                    ItemMeta connectorMeta = connector.getItemMeta();
+                    connectorMeta.setDisplayName(ChatColor.WHITE.toString());
+                    connector.setItemMeta(connectorMeta);
                     for (int i : indicies) {
-                        gui.setItem(i,new ItemStack(Material.CRAFTING_TABLE));
+                        gui.setItem(i,craftingTable);
                     }
-                    gui.setItem(24,new ItemStack(Material.GLASS_PANE));
+                    gui.setItem(24,connector);
 
                     //Inputs and Output
                     Integer[] recipeIndices = {11,12,13,20,21,22,29,30,31};
@@ -3204,7 +3212,7 @@ public class FrpgCommands implements CommandExecutor {
                 //Connectors
                 ItemStack connector = new ItemStack(Material.GLASS_PANE);
                 ItemMeta connectorMeta = connector.getItemMeta();
-                connectorMeta.setDisplayName("");
+                connectorMeta.setDisplayName(ChatColor.WHITE.toString());
                 connector.setItemMeta(connectorMeta);
                 Integer[] indices_3 = {6,12,14,24,25,30,32,42};
                 for (int i = 0; i < indices_3.length; i++) {
@@ -3588,7 +3596,7 @@ public class FrpgCommands implements CommandExecutor {
                 //Connectors
                 ItemStack connector = new ItemStack(Material.GLASS_PANE);
                 ItemMeta connectorMeta = connector.getItemMeta();
-                connectorMeta.setDisplayName("");
+                connectorMeta.setDisplayName(ChatColor.WHITE.toString());
                 connector.setItemMeta(connectorMeta);
                 Integer[] indices_3 = {21,22,24,25};
                 for (int i = 0; i < indices_3.length; i++) {
@@ -3800,7 +3808,7 @@ public class FrpgCommands implements CommandExecutor {
                 //Connectors
                 ItemStack connector = new ItemStack(Material.GLASS_PANE);
                 ItemMeta connectorMeta = connector.getItemMeta();
-                connectorMeta.setDisplayName("");
+                connectorMeta.setDisplayName(ChatColor.WHITE.toString());
                 connector.setItemMeta(connectorMeta);
                 Integer[] indices_3 = {2,4,7,8,13,15,17,20,22,23,25,31,33,35,38,40,43,44};
                 for (int i = 0; i < indices_3.length; i++) {

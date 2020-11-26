@@ -17,7 +17,7 @@ import java.util.Map;
 
 
 public class PlayerBlockPlace implements Listener {
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     void onblockPlace(BlockPlaceEvent e){
         Player p = e.getPlayer();
         Block block = e.getBlockPlaced();

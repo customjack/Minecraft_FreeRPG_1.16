@@ -173,7 +173,7 @@ public class Swordsmanship extends Skill{
         increaseStats.changeEXP(skillName, expMap.get("thirstForBloodActivate"));
     }
 
-    public void doubleHit(Entity entity, double damage, Player p) {
+    public void doubleHit(Entity entity, double damage) {
         if (!runMethods) {
             return;
         }
@@ -199,8 +199,14 @@ public class Swordsmanship extends Skill{
                             aliveEntity.damage(Math.min(damage * 0.5,hpRemaining-1));
                             increaseStats.changeEXP(skillName, (int) Math.round(damage * expMap.get("doubleHit_EXPperDamagePointDone")));
                         }
-                        double newKnockback = Math.min(knockback.length()*2,80.0);
-                        double multiplier = newKnockback/knockback.length();
+                        double multiplier;
+                        if (knockback.length() > 0.1) {
+                            double newKnockback = Math.min(knockback.length() * 2, 80.0);
+                            multiplier = newKnockback / knockback.length();
+                        }
+                        else {
+                            multiplier = 2.0;
+                        }
                         aliveEntity.setVelocity(knockback.multiply(multiplier));
                         aliveEntity.setNoDamageTicks(20);
 
