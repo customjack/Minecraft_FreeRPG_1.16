@@ -280,7 +280,7 @@ public class PsuedoEnchanting {
                     possibleEnchants.remove(Enchantment.PROTECTION_ENVIRONMENTAL);
                 }
                 if (possibleEnchants.containsKey(Enchantment.PROTECTION_EXPLOSIONS)) {
-                    possibleEnchants.remove(Enchantment.PROTECTION_ENVIRONMENTAL);
+                    possibleEnchants.remove(Enchantment.PROTECTION_EXPLOSIONS);
                 }
                 if (possibleEnchants.containsKey(Enchantment.PROTECTION_PROJECTILE)) {
                     possibleEnchants.remove(Enchantment.PROTECTION_PROJECTILE);

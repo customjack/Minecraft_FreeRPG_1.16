@@ -5668,6 +5668,644 @@
       virtual: Virtual
       commandDesc16: Mění hráčův násobič o danou hodnotu (do plusu či mínusu)
 
+    koKR: #Translated by Re_Oh
+      languageName: 한국어
+      englishLanguageName: Korean Language
+      translationCredit: Re_Oh
+      global: 글로벌 스킬
+      digging: 토굴
+      woodcutting: 벌목
+      mining: 채광
+      farming: 농사
+      fishing: 낚시
+      archery: 궁술
+      beastMastery: 야수 마스터리
+      swordsmanship: 검술
+      defense: 방어
+      axeMastery: 도끼 마스터리
+      repair: 수리
+      alchemy: 연금술
+      agility: 민첩
+      smelting: 제련
+      enchanting: 인첸트
+      information: 정보
+      configuration: 설정
+      level: 레벨
+      experience: 경험치휙득
+      toNext: 다음
+      total: 합계
+      diggingPerkTitle0: Mo' drops [ 많은 드랍 ]
+      diggingPerkTitle1: Double Treasure [ 보물 두배 ]
+      diggingPerkTitle2: Rarer Drops [ 레어 드랍 ]
+      diggingPerkTitle3: Soul Stealer [ 영혼 수확자 ]
+      diggingPerkTitle4: Flint Finder [ 부싯돌을 찾는자 ]
+      diggingPerkTitle5: Shovel Knight [ 삽의 기사 ]
+      diggingPerkTitle6: Mega Dig [ M!E!G!A! 채굴 ]
+      diggingPerkDesc0: 레벨당 1개의 아이템의 보물 드랍 테이블을 확장
+      diggingPerkDesc1: 레벨당 보물을 두배로 휙득할 확률이 5% 증가함 (when
+        treasure is rolled)
+      diggingPerkDesc2: 레벨당 아이템의 휙득 드랍테이블 을 추가 확장
+      diggingPerkDesc3: 영혼 모래에서 보물을 떨어뜨릴 확률이 레벨당 5% 증가합니다
+      diggingPerkDesc4: 자갈에서 100% 확률로 부싯돌을 드랍함 (명령어 /flintToggle)
+      diggingPerkDesc5: 삽으로 공격시 두배의 피해를 가합니다.
+      diggingPerkDesc6: 능력을 사용할때, 당신은 3x3의 블럭크기만큼 캘수잇습니다. ( 활성화시 보물휙득
+        확률을 20%만 적용함)
+      diggingPassiveTitle0: 패시브 토큰
+      diggingPassiveTitle1: 뒤로
+      diggingPassiveTitle2: 스킬 토큰
+      diggingPassiveTitle3: Big Dig 지속시간
+      diggingPassiveTitle4: Treasure Chance [ 보물 찬스 ]
+      diggingPassiveDesc0: Tokens to invest in passive skills (염료 아이콘 스킬)
+      diggingPassiveDesc1: 주요 스킬 메뉴로 돌아가기
+      diggingPassiveDesc2: 스킬 트리에 투자할 토큰
+      diggingPassiveDesc3: Big Dig 지속 시간 0.02초 증가
+      diggingPassiveDesc4: 보물 발굴 가능성 0.005% 증가
+      woodcuttingPerkTitle0: Zealous Roots [ 정성을 다한 뿌리 ]
+      woodcuttingPerkTitle1: Fresh Arms [ 신선한 팔 ]
+      woodcuttingPerkTitle2: Hidden Knowledge [ 숨겨진 지식 ]
+      woodcuttingPerkTitle3: Leaf Scavenger [ 나뭇잎을 뒤져보는사람 ]
+      woodcuttingPerkTitle4: Timber+ [ 팀버 + ]
+      woodcuttingPerkTitle5: Leaf Blower [ 나뭇잎을 부는자 ]
+      woodcuttingPerkTitle6: Able Axe [ 도끼에 재능잇는자 ]
+      woodcuttingPerkDesc0: 레벨당 20% 확률로 나무에서 경험치 1 을 드랍합니다.
+      woodcuttingPerkDesc1: 5분안에 첫 나무를 벌복시에 헤이스트 1 효과를 레벨당 12초씩 받습니다.
+      woodcuttingPerkDesc2: 레벨당 0.2% 확률로 나무에서 인첸트북을 드랍합니다.
+      woodcuttingPerkDesc3: 레벨당 1개의 보물 아이템을 1% 확률로 나뭇잎에서 드랍합니다
+      woodcuttingPerkDesc4: Timber break 제한이 64 개에서 128 개로 증가합니다.
+      woodcuttingPerkDesc5: 도끼로 나뭇잎을 많이 부술수 잇습니다. ( 명령어 on, off -
+        /leafBlowerToggle)
+      woodcuttingPerkDesc6: Timber 스킬효과를 모든 벌목스킬에 적용합니다. ( 절반의 효과만 )
+      woodcuttingPassiveTitle0: 패시브 토큰
+      woodcuttingPassiveTitle1: 뒤로
+      woodcuttingPassiveTitle2: 스킬 토큰
+      woodcuttingPassiveTitle3: Timber Duration
+      woodcuttingPassiveTitle4: Double Drops
+      woodcuttingPassiveDesc0: Tokens to invest in passive skills (염료 아이콘 스킬)
+      woodcuttingPassiveDesc1: 주요 스킬 메뉴로 돌아가기
+      woodcuttingPassiveDesc2: 스킬 트리에 투자할 토큰
+      woodcuttingPassiveDesc3: Timber 스킬의 지속시간이 0.02초 증가
+      woodcuttingPassiveDesc4: 두배로 드랍하는 확률을 0.05% 증가시킵니다.
+      miningPerkTitle0: Wasteless Haste [ 낭비하지않는 성급함 ]
+      miningPerkTitle1: More Bombs [ 더많은 폭격 ]
+      miningPerkTitle2: Treasure Seeker [ 보물 발견자 ]
+      miningPerkTitle3: Bomb-boyage [ 폭격-여행 ]
+      miningPerkTitle4: Vein Miner
+      miningPerkTitle5: Demolition Man [ 파괴하는 사람 ]
+      miningPerkTitle6: Triple Trouble
+      miningPerkDesc0: 채광시 각 레벨당 헤이스트 효과를 얻음
+      miningPerkDesc1: 조합해서 만든 TNT 의 파괴력을 레벨당 1개 크기의 TNT를 더 터트린다
+      miningPerkDesc2: 능력을 사용후 돌을 캐면, 1레벨당 1%확률로 광석이 드랍됨
+        (추가 경험치는 광석으로 드랍됨)
+      miningPerkDesc3: 레벨당 TNT 터지는 반경 증가 ( 부싯돌로 점화시에만 )
+      miningPerkDesc4: 광물을 캐면 그광물과 연결되잇는 광물들이 한번에 채굴됨 (on/off 가능)
+      miningPerkDesc5: TNT 폭발시 자신은 데미지를 입지않음
+      miningPerkDesc6: Double drops 스킬은 Triple drops 으로 업그레이드 됨
+      miningPassiveTitle0: 패시브 토큰
+      miningPassiveTitle1: 뒤로
+      miningPassiveTitle2: 스킬 토큰
+      miningPassiveTitle3: Berserk Pick 지속시간
+      miningPassiveTitle4: Double Drops [ x2배 드랍 ]
+      miningPassiveTitle5: Blast Mining [ 폭발하는 채광 ]
+      miningPassiveDesc0: Tokens to invest in passive skills (염료 아이콘 스킬)
+      miningPassiveDesc1: 주요 스킬 메뉴로 돌아가기
+      miningPassiveDesc2: 스킬 트리에 투자할 토큰
+      miningPassiveDesc3: Berserk pick 지속시간 0.02초 증가
+      miningPassiveDesc4: 채광시 0.05%확률로 광석을 두배로 휙득함 ( 스킬 업그레이드시 확률 증가 )
+      miningPassiveDesc5: TNT로 광석을 부술시에 0.01%확률로 광물이 보존됨
+        (More blocks broken = More treasure rolls)
+      farmingPerkTitle0: Better Fertilizer [ 더좋은 비료 ]
+      farmingPerkTitle1: Animal Farm [ 동물 농장 ]
+      farmingPerkTitle2: Farmer's Diet [ 농부의 다이어트 ]
+      farmingPerkTitle3: Carnivore [ 육식 동물 ]
+      farmingPerkTitle4: Green Thumb [ 원예 재능 ]
+      farmingPerkTitle5: Growth Hormones [ 성장 호르몬 ]
+      farmingPerkTitle6: One with Nature [ 자연과 하나됨 ]
+      farmingPerkDesc0: 뼛가루 사용시 10% 확률로 소모하지않음
+      farmingPerkDesc1: 레벨당 추가적인 스폰알을 제작 가능함
+      farmingPerkDesc2: 농식량이 수준당 기아와 포화상태 회복에
+        레벨당 20% 더 효과적
+      farmingPerkDesc3: 고기는 배고픔과 포화상태 회복에 레벨당 20% 더 효과적
+        레벨당 20% 더 효과적
+      farmingPerkDesc4: 완전히 다 자란 작물을 설치 할 수 있습니다
+        레벨이 오를 수록 확률이 올라갑니다. 능력 효과는 멜론과 호박에 적용됨.
+      farmingPerkDesc5: 설탕을 먹이면 아기동물들을 급속성장 할수있음
+      farmingPerkDesc6: 잔디위에 있을시에 재생 효과를 받습니다
+      farmingPassiveTitle0: 패시브 토큰
+      farmingPassiveTitle1: 뒤로
+      farmingPassiveTitle2: 스킬 토큰
+      farmingPassiveTitle3: Natural Regeneration Duration [ 자연 재생 지속시간 ]
+      farmingPassiveTitle4: Double Drops (농작물)
+      farmingPassiveTitle5: Double Drops (동물)
+      farmingPassiveDesc0: Tokens to invest in passive skills (염료 아이콘 스킬)
+      farmingPassiveDesc1: 주요 스킬 메뉴로 돌아가기
+      farmingPassiveDesc2: 스킬 트리에 투자할 토큰
+      farmingPassiveDesc3: 자연치유 효과를 0.02초 증가시킵니다.
+      farmingPassiveDesc4: 농작물로부터 두배휙득할 확률을 0.05% 증가시킵니다.
+      farmingPassiveDesc5: 대부분의 수동형 동물로부터 두배 휙득할 확률을
+        0.05% 증가 시킵니다.
+      fishingPerkTitle0: Rob [ 탈탈 털기 ]
+      fishingPerkTitle1: Scavenger [ 스캐빈저 ]
+      fishingPerkTitle2: Fisherman's Diet [ 어부의 다이어트 ]
+      fishingPerkTitle3: Filtration [ 여과 ]
+      fishingPerkTitle4: Grappling Hook [ 그래플링 갈고리 ]
+      fishingPerkTitle5: Hot Rod [   ]
+      fishingPerkTitle6: Fish Person [ 낚시꾼 ]
+      fishingPerkDesc0: 레벨당 15% 확률로 몬스터에게서 모든아이템을 얻습니다.
+      fishingPerkDesc1: 보물 낚시의 새로운 티어를 잠금해제
+      fishingPerkDesc2: 생선 섭취시에 +20%의 허기가 보충됩니다.
+      fishingPerkDesc3: 고등급(II-V) 아이템의 휘득확률이 오르고, 저등급(I) 아이템의
+        약탈 확률이 감소합니다
+      fishingPerkDesc4: 낚싯대로 갈고리 클라이밍을 할 수 있습니다 ( 명령어 /grappleToggle
+        )
+      fishingPerkDesc5: 물고기는 잡히는 즉시 요리되고, 약간의 물고기는
+        보물로 변합니다 (명령어 on,off - /hotRodToggle)
+      fishingPerkDesc6: 물에서 제한없는 돌고래의 우아함효과를 얻고
+        심해에서는 제한없는 야간투시효과를 얻습니다
+      fishingPassiveTitle0: 패시브 토큰
+      fishingPassiveTitle1: 뒤로
+      fishingPassiveTitle2: 스킬 토큰
+      fishingPassiveTitle3: Super Bait 지속시간
+      fishingPassiveTitle4: Double catches [ 두배 잡기 ]
+      fishingPassiveTitle5: Treasure Finder [ 보물 발견자 ]
+      fishingPassiveDesc0: Tokens to invest in passive skills (염료 아이콘 스킬)
+      fishingPassiveDesc1: 주요 스킬 메뉴로 돌아가기
+      fishingPassiveDesc2: 스킬 트리에 투자할 토큰
+      fishingPassiveDesc3: Super Bait의 지속시간이 0.01초 증가합니다
+      fishingPassiveDesc4: double drop의 확률이 0.05% 증가합니다
+      fishingPassiveDesc5: Junk 를 찾을 확률이 0.005% 감소하고
+        보물을 찾을 확률이 0.005% 증가합니다
+      archeryPerkTitle0: Extra Arrows [ 추가 화살 ]
+      archeryPerkTitle1: Sniper [ 저격수 ]
+      archeryPerkTitle2: Arrow of Light [ 빛의 화살 ]
+      archeryPerkTitle3: Explosive Arrows [ 폭발 화살 ]
+      archeryPerkTitle4: Dragon-less Arrows
+      archeryPerkTitle5: Crossbow Rapid Load
+      archeryPerkTitle6: Deadly Strike [ 치명적인 공격 ]
+      archeryPerkDesc0: 화살 제작시 레벨당 +1개 만큼 제작합니다
+      archeryPerkDesc1: 화살 발사속도가 레벨당 2% 씩 증가합니다. (레벨당 ~4% 데미지 증가)
+      archeryPerkDesc2: 분광 화살은 레벨당 5% 씩 추가 데미지를 가합니다.
+      archeryPerkDesc3: 화살을 명중 시 +1%의 폭발을 일으킨다.
+      archeryPerkDesc4: 물약과 화살을 조합하여 모든 "왜곡된"
+        화살을 만들 수 있습니다.
+      archeryPerkDesc5: 이제 능력을 석궁에서도 사용할수있고, 빠른 속도로
+        재장전 합니다.
+      archeryPerkDesc6: 석궁으로 화상효과 부여시, 데미지가 2배로 늘어납니다 (최대 중첩
+        피해는 16의 체력까지만 )
+      archeryPassiveTitle0: 패시브 토큰
+      archeryPassiveTitle1: 뒤로
+      archeryPassiveTitle2: 스킬 토큰
+      archeryPassiveTitle3: Rapid Fire 지속시간
+      archeryPassiveTitle4: Retrieval [ 검색 or 되찾기 ]
+      archeryPassiveDesc0: Tokens to invest in passive skills (염료 아이콘 스킬)
+      archeryPassiveDesc1: 주요 스킬 메뉴로 돌아가기
+      archeryPassiveDesc2: 스킬 트리에 투자할 토큰
+      archeryPassiveDesc3: Rapid Fire 의 지속시간이 0.02초 증가합니다.
+      archeryPassiveDesc4: 활 공격시 레벨당 0.05% 확률로 화살을화살 발사시 레벨당 0.05% 확률로 소모하지않습니다.
+        소모하지 않습니다
+      beastMasteryPerkTitle0: Thick Fur [ 두꺼운 털 ]
+      beastMasteryPerkTitle1: Sharp Teeth [  날카로운 이빨 ]
+      beastMasteryPerkTitle2: Healthy Bites [ 건강에 좋은 물어뜯기 ]
+      beastMasteryPerkTitle3: Keep Away
+      beastMasteryPerkTitle4: Acro-Dog [ 아크로-개 ]
+      beastMasteryPerkTitle5: Identify [ 정보 확인 ]
+      beastMasteryPerkTitle6: Adrenaline Boost [ 아드레날린 부스트 ]
+      beastMasteryPerkDesc0: 길들인 늑대가 받는 피해가 레벨당 -10% 씩 감소합니다.
+      beastMasteryPerkDesc1: 길들인 늑대가 주는 피해가 레벨당 +10% 씩 증가합니다.
+      beastMasteryPerkDesc2: 길들인 늑대가 적을 죽이면 레벨당 1/2 체력 만큼 자신을 회복합니다.
+      beastMasteryPerkDesc3: 길들인 늑대가 5% 확률로 적을 죽입니다.
+      beastMasteryPerkDesc4: 길들인 늑대의 낙사피해가 없어집니다.
+      beastMasteryPerkDesc5: 말 과 늑대 에 나침반을 사용하면 스텟을 보여줍니다.
+      beastMasteryPerkDesc6: Spur kick 버프가 이제 3단계 의 속도효과 를 받습니다
+      beastMasteryPassiveTitle0: 패시트 토큰
+      beastMasteryPassiveTitle1: 뒤로
+      beastMasteryPassiveTitle2: 스킬 토큰
+      beastMasteryPassiveTitle3: Spur Kick 지속시간
+      beastMasteryPassiveTitle4: Critical Bite [ 물어뜯기 크리티컬 ]
+      beastMasteryPassiveDesc0: 패시브 스킬에 투자할 토큰 (염료 아이콘 스킬)
+      beastMasteryPassiveDesc1: 주요 스킬 메뉴로 돌아가기
+      beastMasteryPassiveDesc2: 스킬 트리에 투자할 토큰
+      beastMasteryPassiveDesc3: Spur Kick 의 지속시간이 0.02초 증가합니다.
+      beastMasteryPassiveDesc4: 길들인 늑대가 주는 피해가 치명타일 확률
+        0.025% 증가합니다.
+      swordsmanshipPerkTitle0: Adrenaline [ 아드레날린 ]
+      swordsmanshipPerkTitle1: Killing Spree
+      swordsmanshipPerkTitle2: Adrenaline+ [ 아드레날린 + ]
+      swordsmanshipPerkTitle3: Killing Frenzy
+      swordsmanshipPerkTitle4: Thirst for Blood
+      swordsmanshipPerkTitle5: Sharper!
+      swordsmanshipPerkTitle6: Sword Mastery [ 검술 마스터리 ]
+      swordsmanshipPerkDesc0: 적대적인 몹을 검으로 죽일시에 신속 효과를
+        레벨당 2초간 부여합니다
+      swordsmanshipPerkDesc1: 적대적인 몹을 검으로 죽일시에 힘 효과를
+        레벨당 2초간 부여합니다
+      swordsmanshipPerkDesc2: 아드레날린 스킬로 부터 받는 +20%의 스피드 I 버프가 스피드 II 로 증가합니다.
+      swordsmanshipPerkDesc3: Killing Spree 스킬로 받는 +20%의 힘 I 버프가 힘 II
+        II 로 증가합니다.
+      swordsmanshipPerkDesc4: 검으로 적대적인 몹들을 죽일시에는
+        허기가 복원됩니다.
+      swordsmanshipPerkDesc5: swift strikes 사용시에 검에 날카로움 레벨효과를 추가합니다.
+      swordsmanshipPerkDesc6: 검은 영구적으로 +1 체력피해 데미지를 가합니다.
+      swordsmanshipPassiveTitle0: 패시브 토큰
+      swordsmanshipPassiveTitle1: 뒤로
+      swordsmanshipPassiveTitle2: 스킬 토큰
+      swordsmanshipPassiveTitle3: Swift Strikes 지속시간
+      swordsmanshipPassiveTitle4: Double Hit [ x2 피해 ]
+      swordsmanshipPassiveDesc0: 패시브 스킬에 투자할 토큰 (염료 아이콘 스킬)
+      swordsmanshipPassiveDesc1: 주요 스킬 메뉴로 돌아가기
+      swordsmanshipPassiveDesc2: 스킬 트리에 투자할 토큰
+      swordsmanshipPassiveDesc3: Swift Strikes의 지속시간이 0.02초 증가됩니다.
+      swordsmanshipPassiveDesc4: 몬스터 공격시에 한번에 두번 공격될 확률이 0.02% 증가됩니다.
+        ( 두번째 타격 데미지는 50%의 피해를 입힙니다. )
+      defensePerkTitle0: Healer [ 힐러 ]
+      defensePerkTitle1: Stiffen [ 뻣뻣함 ]
+      defensePerkTitle2: Hard Headed [ 빈틈없는 사람 ]
+      defensePerkTitle3: Stiffen+ [ 뻣뻣함+ ]
+      defensePerkTitle4: Gift From Above [ 위에서 내려오는 축복 ]
+      defensePerkTitle5: Stronger Legs [ 강한 다리 ]
+      defensePerkTitle6: Hearty [ 혈기 왕성 ]
+      defensePerkDesc0: 사살 레벨당 3초의 재생효과 얻음
+      defensePerkDesc1: 피해를 입을시에 2%확률로 저항 I 효과를 5초동안 얻습니다.
+      defensePerkDesc2: Hard Body 스킬에 레벨당 6.6%의 데미지 감소 효과를 추가합니다.
+      defensePerkDesc3: 피해를 입을시에 2%확률로 저항 II 효과를 5초동안 얻습니다.
+      defensePerkDesc4: Stone solid 능력 발동시간에는 1분간 +4 만큼의 체력 보호효과 를
+        부여합니다.
+      defensePerkDesc5: Stone Solid 스킬효과가 속도감소 I 에서 속도감소 IV 로 증가합니다.
+      defensePerkDesc6: 영구적인 체력 보너스 + 2칸
+      defensePassiveTitle0: 패시브 토큰
+      defensePassiveTitle1: 뒤로
+      defensePassiveTitle2: 스킬 토큰
+      defensePassiveTitle3: Stone Solid 지속시간
+      defensePassiveTitle4: Hard Body [ 단단한 몸 ]
+      defensePassiveTitle5: Double Drops (적대 몬스터에게만)
+      defensePassiveDesc0: 패시브 스킬에 투자할 토큰 (염료 아이콘 스킬)
+      defensePassiveDesc1: 주요 스킬 메뉴로 돌아가기
+      defensePassiveDesc2: 스킬 트리에 투자할 토큰
+      defensePassiveDesc3: Stone Solid 의 지속시간 0.02초 증가됩니다.
+      defensePassiveDesc4: 레벨당 피해감소효과가 0.01% 증가합니다.
+        ( 기본 감소효과 -33% )
+      defensePassiveDesc5: 공격적인 몬스터로부터  double drops 효과를 받을
+        기회가 0.05% 증가합니다
+      axeMasteryPerkTitle0: Greater Axe [ 엄청난 도끼 ]
+      axeMasteryPerkTitle1: Holy Axe [ 신성한 도끼  ]
+      axeMasteryPerkTitle2: Revitalized [ 활성화! ]
+      axeMasteryPerkTitle3: Warrior Blood [ 피의 전사 ]
+      axeMasteryPerkTitle4: Earthquake [ 지진 ]
+      axeMasteryPerkTitle5: Better Crits [ ]
+      axeMasteryPerkTitle6: Axe Man [ 도끼와 한몸 ]
+      axeMasteryPerkDesc0: Great Axe 의 피해 반경이 레벨당 1 블록 씩 증가합니다.
+      axeMasteryPerkDesc1: 도끼로 타격시 2% 확률로 번개공격을 가합니다.
+      axeMasteryPerkDesc2: 사살시 레벨당 1% 확률로 모든 체력이 회복됩니다.
+      axeMasteryPerkDesc3: 도끼로 사살시 레벨당 힘 I 효과를 3초간 받습니다.
+      axeMasteryPerkDesc4: Ability's AOE 의 데미지는 두배가됩니다. (25% -> 50% )
+      axeMasteryPerkDesc5: Divine Crits 스킬의 데미지 효과가 증가합니다. ( 1.25x -> 1.6x )
+      axeMasteryPerkDesc6: 도끼가 영구적으로 1의 체력피해를 가합니다.
+      axeMasteryPassiveTitle0: 패시브 토큰
+      axeMasteryPassiveTitle1: 뒤로
+      axeMasteryPassiveTitle2: 스킬 토큰
+      axeMasteryPassiveTitle3: Great Axe 지속시간
+      axeMasteryPassiveTitle4: Divine Crits
+      axeMasteryPassiveDesc0: 패시브 스킬에 투자할 토큰 (염료 아이콘 스킬)
+      axeMasteryPassiveDesc1: 주요 스킬 메뉴로 돌아가기
+      axeMasteryPassiveDesc2: 스킬 트리에 투자할 토큰
+      axeMasteryPassiveDesc3: Great Axe의 지속시간을 0.02초 증가시킵니다.
+      axeMasteryPassiveDesc4: 랜덤으로 크리티컬(데미지 x1.25배) 확률을 0.01% 증가시킵니다.
+      repairPerkTitle0: Salvaging
+      repairPerkTitle1: Resourceful
+      repairPerkTitle2: Magic Repair Mastery [ 마법 수리 마스터리 ]
+      repairPerkDesc0: Get more materials on average from salvaging
+      repairPerkDesc1: 10% 확률로 수리에 필요한 재료들을 소모하지않음
+      repairPerkDesc2: 수리에 필요한 인첸트 보장
+      repairPassiveTitle0: 뒤로
+      repairPassiveTitle1: 스킬 토큰
+      repairPassiveTitle2: Proficiency [ 숙달자 ]
+      repairPassiveDesc0: 주요 스킬 메뉴로 돌아가기
+      repairPassiveDesc1: 스킬 트리에 투자할 토큰
+      repairPassiveDesc2: 수리시에 내구도복구량 증가
+      agilityPerkTitle0: 회피
+      agilityPerkTitle1: Steel Bones [ 강철 뼈 ]
+      agilityPerkTitle2: Graceful Feet [ 우아한 발 ]
+      agilityPerkDesc0: 레벨당 회피공격 확률 4% 증가
+      agilityPerkDesc1: 레벨당 낙하데미지 10% 감소
+      agilityPerkDesc2: 영구적인 이동속도 버프 (명령어 on/off - /speedToggle)
+      agilityPassiveTitle0: 뒤로
+      agilityPassiveTitle1: 스킬 토큰
+      agilityPassiveTitle2: 구르기
+      agilityPassiveDesc0: 주요 스킬 메뉴로 돌아가기
+      agilityPassiveDesc1: 스킬 트리에 투자할 토큰
+      agilityPassiveDesc2: 구르기와 낙하데미지 감소 확률
+      alchemyPerkTitle0: Alchemical Summoning [ 연금술 소환 ]
+      alchemyPerkTitle1: Ancient Knowledge [ 고대의 지식 ]
+      alchemyPerkTitle2: Potion Master [ 포션 마스터 ]
+      alchemyPerkDesc0: 양조기 없이 일부 물약을 제조 할수있음
+      alchemyPerkDesc1: 새로운 물약 제조방법 잠금해제
+      alchemyPerkDesc2: 사용한 포션의 레벨이 1 증가한다 (toggleable with /togglePotion)
+      alchemyPassiveTitle0: 뒤로
+      alchemyPassiveTitle1: 스킬 토큰
+      alchemyPassiveTitle2: Half-life+ [ 하프-라이프+ ]
+      alchemyPassiveDesc0: 주요 스킬 메뉴로 돌아가기
+      alchemyPassiveDesc1: 스킬 트리에 투자할 토큰
+      alchemyPassiveDesc2: 포션을 사용했을때 지속시간이 증가합니다.
+      smeltingPerkTitle0: Fuel Efficiency [ 연료 효율 ]
+      smeltingPerkTitle1: Double Smelt [ x2 제련 ]
+      smeltingPerkTitle2: Flame Pickaxe [ 화염의 곡괭이 ]
+      smeltingPerkDesc0: 레벨당 연료가 20% 더 지속됨
+      smeltingPerkDesc1: 광석 용해시 두배로 휙득할 확률이 레벨당 5% 증가
+      smeltingPerkDesc2: 광석이 채광즉시 용해됨 ( 명령어 on,off - /toggleFlamePick)
+      smeltingPassiveTitle0: 뒤로
+      smeltingPassiveTitle1: 스킬 토큰
+      smeltingPassiveTitle2: 화로 스피드
+      smeltingPassiveDesc0: 주요 스킬 메뉴로 돌아가기
+      smeltingPassiveDesc1: 스킬 트리에 투자할 토큰
+      smeltingPassiveDesc2: 음식 굽는 속도 증가
+      enchantingPerkTitle0: Efficient Enchanting [ 효과적인 인첸트 ]
+      enchantingPerkTitle1: Booksmart [ 책방 ]
+      enchantingPerkTitle2: Immortal Experience[ 불멸의 경험치 ]
+      enchantingPerkDesc0: 레벨당 인첸트 필요레벨 -1, 모루 수리비용 -1 (최소 2등급)
+      enchantingPerkDesc1: 일부 인첸트책 제작법 잠금 해제
+      enchantingPerkDesc2: 사망해도 경험치 유지
+      enchantingPassiveTitle0: 뒤로
+      enchantingPassiveTitle1: 스킬 토큰
+      enchantingPassiveTitle2: 더 빠른 개발
+      enchantingPassiveDesc0: 주요 스킬 메뉴로 돌아가기
+      enchantingPassiveDesc1: 스킬 트리에 투자할 토큰
+      enchantingPassiveDesc2: 받는 모든 경험치량 증가
+      globalPerkTitle0: Gatherer [ 채집가 ]
+      globalPerkTitle1: Scholar [ 학자 ]
+      globalPerkTitle2: Fighter [ 파이터 ]
+      globalPerkTitle3: Hard Work [ 어려운 일 ]
+      globalPerkTitle4: Research [ 재검색 ]
+      globalPerkTitle5: Training [ 트레이닝 ]
+      globalPerkTitle6: Reincarnation+ [ 라인카네이션 ]
+      globalPerkTitle7: Soul Harvesting [ 영혼 수확 ]
+      globalPerkTitle8: Avatar [ 아바타 ]
+      globalPerkTitle9: Master of the Arts [ 예술의 마스터 ]
+      globalPerkDesc0: 토굴,벌목,채굴,농사,낚시 에서 +20%의 경험치를 휙득함
+      globalPerkDesc1: 수리,민첩,양조,제련,인첸트 에서 +20%의 경험치를 휙득함
+      globalPerkDesc2: 궁술,야수마스터리,검술,방어,도끼마스터리 에서 +20%의 경험치를 휙득함
+      globalPerkDesc3: Gatherer 스킬에서 얻는 토큰수 +1
+      globalPerkDesc4: Scholar 스킬에서 얻는 토큰수 +1
+      globalPerkDesc5: Fighter 스킬에서 얻는 토큰수 +1
+      globalPerkDesc6: 사망시에 50% 확률로 인벤토리에 아이템이 남아있습니다
+      globalPerkDesc7: 당신은 공격적인 적들을 죽이면 영혼을 휙득하고, 영혼을 스킬트리 환불에 사용할수잇다
+      globalPerkDesc8: 피해를 입지않고 적을 죽이면 10% 확률로 10초간 모든버프를 휙득함
+      globalPerkDesc9: 능력 재사용 대기시간 33% 감소
+      globalPassiveTitle0: 글로벌스킬 토큰
+      globalPassiveTitle1: 뒤로
+      globalPassiveDesc0: 스킬 트리에 투자할 토큰
+      globalPassiveDesc1: 주요 스킬 메뉴로 돌아가기
+      cannotRepair: 능력이 활성화 중인 상태에서는 복구를 할수없습니다.
+      cannotSalvage: 능력이 활성화 중일때는 salvage 할수없습니다.
+      spite: Everything good is made of spite
+      refundSkill: 스킬 트리를 환불해야 함
+      refundSkill2: in order to refund a skill tree
+      needToUnlock: 잠금을 해제해야 합니다.
+      perkRequirement: 이 능력을 잠금 해제하려면 이전 능력에 최소 2개의
+        기술 토큰을 투자해야 함
+      perkRequirementM: 당신은 스킬트리에 10개이상의 토근을 소모해야
+        마스터 스킬을 해제 할수있습니다.
+      noSkillTokens: 당신은 어떤 스킬 토큰 도 가지고있지않습니다.
+      noPassiveTokens: 당신은 어떤 패시브 토큰을 가지고있지않다.
+      maxedOutPerk: 당신은 이미 스킬 전부를 해제 하였습니다.
+      requiredGlobalPerks0: 이 스킬을 잠금해제 하려면 이전의 스킬이 필요합니다.
+      requiredGlobalPerks1: ← 스킬 잠금해제에 필요한 스킬들
+      requiredGlobalPerks2: ← 스킬을 잠금해제 해야 이스킬을 해제할수잇습니다.
+      requiredGlobalPerks3: 모든 글로벌 스킬을 해제해야 이 스킬을 휙득할수 있습니다.
+      craftRequirement: ← 레시피를 만드는데 필요함
+      roll: 구르기
+      dodge: 피하기
+      prepare: 능력이 활성화되었습니다
+      rest: 쿨타임
+      activated: 활성화!
+      ended: 사용시간이 끝낫습니다
+      readyToUse: 준비까지
+      cooldown: 쿨타임 준비중
+      rapidFire: Rapid Fire 스킬의
+      bow: 활을 사용하세요!
+      greatAxe: Great Axe 스킬의
+      axe: 도끼를 사용하세요!
+      spurKick: Spur Kick 스킬의
+      leg: leg
+      stoneSoldier: Stone Soldier 스킬의
+      yourself: 좌클릭을 하세요!
+      bigDig: Big Dig 스킬의
+      shovel: 삽을 사용하세요!
+      naturalRegeneration: 자연 재생
+      hoe: 호미을 사용하세요!
+      superBait: Super Bait 스킬의
+      fishingRod: fishing rod 스킬의
+      berserkPick: Berserk Pick 스킬의
+      pickaxe: 곡괭이을 사용하세요!
+      swiftStrikes: Swift Strikes [ 신속한 피해 ]
+      sword: 검을 사용하세요!
+      timber: Timber 스킬의
+      hyperHorse: This horse is already hyper!
+      magicForce: A magic force ends your ability
+      rob: Rob
+      repairFail0: You are not skilled enough to adequately repair this item
+      repairFail1: You failed to salavage any materials
+      repairFail2: You failed to retain the item's enchantment power
+      treeTooBig0: 이 나무는 너무커서 한번에 자를수 없어!
+      treeTooBig1: This tree can never be chopped in one go like this...
+      noPermission: 이 명령어를 사용하기위한 권한이 없습니다.
+      improperArguments: Improper Arguments, try
+      totalPlayTime: 총 플레이 시간
+      clickForOptions: 옵션을 보려면 클릭하십시오.
+      unknownCommand: 커맨드 잠금해제
+      expToLevel: 레벨업하기 위한 필요경험치
+      playerName: playerName
+      skillName: 스킬이름 (영문)
+      page: 페이지
+      on0: 'ON'
+      off0: 'OFF'
+      onOrOff: ON/OFF
+      manuallyToggles: 수동으로 전환
+      commandDesc0: 모든 스킬의 메인 GUI 열기
+      commandDesc1: 선택한 스킬트리의 GUI 열기
+      commandDesc2: 환결설정 GUI 열기
+      commandDesc3: 선택한 플레이어에게 스킬을 사용해 경험치를 줍니다.
+      commandDesc4: 스킬을 사용해서 준 유저의 레벨을 설정
+      commandDesc5: 지정된 스킬에 유저의 스탯을 초기화함. ( 스탯 환불 안됨 )
+      commandDesc6: 지정된 스탯을 위한 리더보드 화면 표시
+      commandDesc7: 플러그인 정보 페이지에 대한 링크 제공
+      commandDesc8: Attempts to enchant an item in the users hand at a specified level
+      informationURL: 정보 URL (Google Docs)
+      click: 클릭
+      levelArgument: Level argument must be less than 40
+      leaderboard: 리더보드
+      playerOffline: 그 유저는 현재 오프라인 상태입니다.
+      onlyIncrease: Please only increase exp with this command, otherwise, use /frpg
+        statReset then /frpg giveEXP
+      amount: 총량
+      unlockToggle: 이 커맨드를 사용하기위해선 잠금해제해야함
+      levelUpNotif: 레벨업 알림
+      abilityPreparationNotif: 능력 준비 알림
+      yes0: 'YES'
+      no0: 'NO'
+      warning: 주의
+      souls: 소울
+      refundSkillTree0: 스킬트리비용 환불받기
+      refundSkillTree1: and is not reversible, are you sure you want to
+      refundSkillTree2: 환불해라 →
+      skill: 스킬
+      backToSkillTree: 스킬 트리로 돌아가기
+      miningPerkDesc0_1: 아무 광물이나 채광하면 2초간 헤이스트 효과 받음
+      miningPerkDesc0_2: 아무 광물이나 채광하면 5초간 헤이스트 효과 받음
+      miningPerkDesc0_3: 아무 광물이나 채광하면 10초간 헤이스트 효과 받음
+      miningPerkDesc0_4: 헤이스트 1단계를 받는동안 5초안에 아무 광석이나 채광시 헤이스트 2단계 받음
+      miningPerkDesc0_5: 아무 광물이나 채광하면 10초간 헤이스트 2단계 효과 받음
+      woodcuttingPerkDesc3_1: 나뭇잎에서 깃털이 드랍됩니다.
+      common: common [ 커먼 ]
+      uncommon: uncommon [ 언커먼 ]
+      rare: rare [ 레어 ]
+      veryRare: very rare
+      legendary: legendary [ 레전더리 ]
+      fishingPerkDesc1_1: 보물 티어 잠금해제
+      farmingPerkDesc1_1: 제작 능력 획득
+      cowSpawnEgg: 소 스폰 알
+      beeSpawnEgg: 벌 스폰 알
+      mooshroomSpawnEgg: 버섯소 스폰 알
+      horseSpawnEgg: 말 스폰 알
+      slimeSpawnEgg: 슬라임 스폰 알
+      diggingPerkDesc0_1: 이제부터 채굴할수있습니다. →
+      defensePerkDesc0_1: 사살 레벨당 스킬에서 3초의 리젠을 얻음
+      defensePerkDesc0_2: 즉사할시 레벨당 0.5의 체력을 얻음
+      duration: 지속시간
+      likelihood: 확률
+      junkChance: Junk Chance
+      locked: 잠김
+      unlocked: 해제
+      cowEgg: 소 알
+      beeEgg: 벌 알
+      mooshroomEgg: 버섯소 알
+      horseEgg: 말 알
+      slimeEgg: 슬라임 알
+      tippedArrows: Tipped Arrows
+      toggle: 활성화
+      refundSkillTitle: 스킬 환불
+      refundSkillTreeDesc: 스킬 트리를 환불하려면 클릭하십시오.
+      enchantingPerkDesc1_0: 제작 능력 잠금해제
+      enchantingPerkDesc1_1: 파워 I , 효율 I 인첸트북 해제 ( 제작에 1레벨 소모 )
+      enchantingPerkDesc1_2: 날카로움 I , 보호 I 인첸트북 해제 ( 제작에 1레벨 소모 )
+      enchantingPerkDesc1_3: 바다의행운 I , 미끼 I 인첸트북 해제 ( 제작에 1레벨 소모 )
+      enchantingPerkDesc1_4: 물갈퀴 I , 차가운 걸음 I enchanted books ( 제작에 1레벨 소모 )
+      enchantingPerkDesc1_5: 수선 ( 제작에 10레벨 소모 ) , 행운 I ( 제작에 2레벨 소모) 인첸트북 해제
+      repairPerkDesc0_1: 보통 확률로 더 많은 재료를 얻습니다.
+      repairPerkDesc0_2: 보통 확률로 더 많은 재료를 얻으며, 인양(견인)을 통해 얻는 마법부여
+        아이템들의 효과가 인첸트 북으로 바뀝니다.
+      xpBoost: 경험치 부스트
+      speedBoost: 속도 부스트
+      timeExtension: 시간 연장
+      enchantingCraft0: 힘 I 인첸트책
+      enchantingCraft1: 효율 I 인첸트책
+      enchantingCraft2: 날카로움 I 인첸트책
+      enchantingCraft3: 보호 I 인첸트책
+      enchantingCraft4: 바다의 행운 I 인첸트책
+      enchantingCraft5: 미끼 I 인첸트책
+      enchantingCraft6: 차가운 걸음 I 인첸트책
+      enchantingCraft7: 물갈퀴 I 인첸트책
+      enchantingCraft8: 수선 인첸트책
+      enchantingCraft9: 행운 I 인첸트책
+      commandDesc9: 지정된 플레이어의 소울 설정
+      commandDesc10: 지정된 플레이어에 대해 지정된 스킬에 스킬 또는 패시브 토큰 설정
+      commandDesc11: 지정된 플레이어의 글로벌 토큰 설정
+      commandDesc12: 모든 플레이어 또는 지정된 플레이어의 통계 저장
+      status: 상태
+      complete: 완성
+      incomplete: 미완성
+      try0: try
+      passiveImprove: 당신의 패시브 퍽이 모든 레벨을 증가시킴
+      increasedBy: 레벨 증가됨 +
+      expIncrease: EXP Multiplier
+      personalMultiplier: Personal Multiplier
+      translators: Translators
+      commandDesc13: Sets the personal multiplier for a specified player
+      abilityDescription: 능력의 정보
+      abilityDescription_digging: 일시적으로 삽에 5 효율 효과를 적용합니당.
+        삽을 들고 우클릭후 토굴시 능력이 적용됨.
+      abilityDescription_woodcutting: 일시적으로 찹트리 능력을 휙득합니다 ( ^_^ )
+        도끼를 들고 우클릭후 벌목시 능력이 적용됨.
+      abilityDescription_mining: 일시적으로 곡괭이에 5 효율 효과를 적용한다.
+        곡괭이를 들고 우클릭후 채광시 능력이 적용됨.
+      abilityDescription_farming: 일시적으로 괭이로 농작물들을 자동으로 수확합니다.
+        괭이를 들고 우클릭후 작물을 캐면 능력이 적용됨.
+      abilityDescription_fishing: 일시적으로 낚싯대에 물고기만 걸리게 됩니다.
+        낚시대를 들고 우클릭후 낚시를 시작하면 활성화됨.
+      abilityDescription_archery: 일시적으로 모든 화살이 최대속도로 발사됨.
+        활을 들고 우클릭후 화살을 쏘면 능력이 적용됨.
+      abilityDescription_beastMastery: 말에게 임시로 스피드 버프를 준다.
+        말을 탄상태로 좌클릭 유지상태로 우클릭을 하면 활성화됨.
+      abilityDescription_swordsmanship: 검을 휘두를때 최대피해 쿨타임을 없애준다.
+        검을 든상태로 우클릭후 몬스터타격시 능력이 적용됨.
+      abilityDescription_defense: 상대에게 속도저항과 저항효과를 줌
+        빈손으로 우클릭후 몬스터 타격시 능력이 적용됨.
+      abilityDescription_axeMastery: 특정 반경내의 모든 몬스터에게 일시적인 피해를 가함
+        도끼를 든 상태로 우클릭후 몬스터타격시 능력이 적용됨.
+      alchemyPerkDesc1_0: 양조 기능 해제
+      alchemyPerkDesc0_0: 제작테이블에서 물약을 제조할수잇습니다.
+      triggerAbilities: Trigger Abilities
+      showEXPBar: 경험치 바 활성화
+      disabledSkill: 이 스킬은 비활성화됨
+      skillConfigDesc: 이 스킬에 대한 구성 메뉴로 이동
+      lvl: 레벨.
+      exp: 경험치
+      potionAbsorption: 흡수의 물약
+      potionBadOmen: 흉조의 물약 ( 마을에 잇으면 부정적인 효과를 일으킴 )
+      potionBlindess: 실명의 물약
+      potionConduitPower: 도관 전달체 물약 ( 수중호흡 + 야간투시 )
+      potionResistance: 저항의 물약
+      potionDolphinsGrace: 돌고래의 우아함 물약
+      potionHaste: 가속의 물약
+      potionFireResistance:  화염 저항의 물약
+      potionGlowing: 발광의 물약
+      potionHarm: 피해의 물약
+      potionHealing: 치유의 물약
+      potionHealthBoost: 체력 재생의 물약
+      potiontheHero: 마을의 영웅 물약 ( 상인과의 거래비용이 감소함 )
+      potionHunger: 굶주림의 물약
+      potionStrength: 힘의 물약
+      potionInvsibility: 투명화 물약
+      potionJump: 도약의 물약
+      potionLuck: 행운의 물약
+      potionNightVision: 야간 투시의 물약
+      potionRegeneration: 재생의 물약
+      potionSaturation: 포화의 물약  ( 허기보충에 보너스효과 )
+      potionSlowness: 감속의 물약
+      potionFatigue: 피로의 물약
+      potionSlowFalling: 느린 낙하의 물약
+      potionSpeed: 신속의 물약
+      potionBadLuck: 불행의 물약
+      potionWaterBreathing: 수중 호흡의 물약
+      potionWeakness: 나약함의 물약
+      potionDecay: 부패의 물약
+      potionAwkward: 어색한 물약
+      potionUncraftable: 제작 불가능한 물약
+      potionMundane: 평범한 물약
+      potionTurtleMaster: 거북 도사의 물약
+      potionThick: 진한 물약
+      potionWater: 물병
+      ingredient: 성분
+      usedToBrew: 양조 할때 사용됨
+      costs: 비용
+      xpLevel: 마인크래프트 경험치 레벨
+      xpLevels: 마인크래프트 경험치 레벨
+      craftXPRequirement: This recipe requires at least
+      bedGUI: 이 명령은 침대에 있는 동안에는 사용할 수 없다!
+      statsUpdated: Your stats were changed to be consistent with a new EXP curve. All
+        skill trees and passive perks have been reset. All tokens must be re-invested.
+      timeRemaining: Time Remaining
+      numberOfAbilityTimersDisplayed: Number of Ability Timers Displayed
+      commandDesc14: Resets the cooldown period for a skill to 0 seconds
+      commandDesc15: Looks up a player's FreeRPG stats
+      repairUnsafeEnchant: This item is too powerful to be repaired
+      salvageUnsafeEnchant: This item is too powerful to be salvaged
+      rank: 랭크
+      stats: 스탯
+      outOf: out of
+      playerNotInLeaderboard: 그 플레이어는 리더보드에 없습니다
+      virtual: Virtual
+      commandDesc16: Changes player's FreeRPG experience multiplier by a specified amount
+        (positive or negative)
+
     custom:
       languageName: Čûşŧøm Ľãņğŭågè
       englishLanguageName: Custom Language

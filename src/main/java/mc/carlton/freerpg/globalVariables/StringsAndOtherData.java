@@ -84,8 +84,8 @@ public class StringsAndOtherData {
     }
 
     public void initializeConfigGUIIndexInfo() {
-        int totalIndexes = Math.min(languageCodes.size(),12);
-        int[] possibleBookIndexes = {19,20,21,22,23,24,25,37,38,49,40,41,42,43};
+        int totalIndexes = Math.min(languageCodes.size(),14);
+        int[] possibleBookIndexes = {19,20,21,22,23,24,25,37,38,39,40,41,42,43};
         int[] possibleDyeIndexes = {28,29,30,31,32,33,34,46,47,48,49,50,51,52};
         for (int i = 0; i < totalIndexes; i++) {
             bookIndexes.put(possibleBookIndexes[i],languageCodes.get(i));
