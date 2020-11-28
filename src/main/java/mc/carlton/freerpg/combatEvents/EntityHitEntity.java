@@ -18,6 +18,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -233,10 +235,19 @@ public class EntityHitEntity implements Listener {
                     int keepAwayLevel = (int) pStat.get("beastMastery").get(10);
                     double knockBackChance = keepAwayLevel * 0.05;
                     if (knockBackChance > rand.nextDouble()) {
+                        Vector knockback = enemy.getVelocity();
+                        double multiplier;
+                        if (knockback.length() > 0.1) {
+                            double newKnockback = Math.min(knockback.length() * 5, 100.0);
+                            multiplier = newKnockback / knockback.length();
+                        }
+                        else {
+                            multiplier = 5.0;
+                        }
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                enemy.setVelocity(enemy.getVelocity().multiply(5).setY(0.4));
+                                enemy.setVelocity(knockback.multiply(multiplier).setY(0.4));
                             }
                         }.runTaskLater(plugin, 1);
                     }

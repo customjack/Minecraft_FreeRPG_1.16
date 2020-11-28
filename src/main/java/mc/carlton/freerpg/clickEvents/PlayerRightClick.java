@@ -204,13 +204,16 @@ public class PlayerRightClick implements Listener {
             //Farming
             else if (hoes.contains(itemInHandType)) {
                 if (a.equals(Action.RIGHT_CLICK_BLOCK)) {
-                    if (!(e.getClickedBlock().getType() == Material.DIRT || e.getClickedBlock().getType() == Material.GRASS_BLOCK)) {
+                    if (!(e.getClickedBlock().getType() == Material.DIRT || e.getClickedBlock().getType() == Material.GRASS_BLOCK || e.getClickedBlock().getType() == Material.GRASS_PATH )) {
                         Farming farmingClass = new Farming(p);
                         farmingClass.initiateAbility();
                     } else {
-                        ConfigLoad configLoad = new ConfigLoad();
-                        Map<String,Integer> expMap = configLoad.getExpMapForSkill("farming");
-                        increaseStats.changeEXP("farming", expMap.get("tillLand"));
+                        Material blockAbove = e.getClickedBlock().getRelative(0,1,0).getType();
+                        if (blockAbove == Material.AIR || blockAbove == Material.CAVE_AIR || blockAbove == Material.VOID_AIR) {
+                            ConfigLoad configLoad = new ConfigLoad();
+                            Map<String, Integer> expMap = configLoad.getExpMapForSkill("farming");
+                            increaseStats.changeEXP("farming", expMap.get("tillLand"));
+                        }
                     }
                 } else {
                     Farming farmingClass = new Farming(p);
