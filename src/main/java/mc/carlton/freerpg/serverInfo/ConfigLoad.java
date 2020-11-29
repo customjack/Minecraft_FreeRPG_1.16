@@ -131,7 +131,7 @@ public class ConfigLoad {
             abilityCooldowns.put(label,config.getInt(label+".abilityCooldown"));
             allowedSkillGainEXPMap.put(label,advancedConfig.getBoolean(label+".expDrops.enableEXPDrops"));
         }
-        abilityCooldowns.put("fishingRob",config.getInt(".robCooldown"));
+        abilityCooldowns.put("robCooldown",advancedConfig.getInt("fishing.robCooldown"));
 
         durabilityModifiers.put("megaDig",advancedConfig.getDouble("digging.megaDigDurabilityModifier"));
         durabilityModifiers.put("timber",advancedConfig.getDouble("woodcutting.timberDurabilityModifier"));
