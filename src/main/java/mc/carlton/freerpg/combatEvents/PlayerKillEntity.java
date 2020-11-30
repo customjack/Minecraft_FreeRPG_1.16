@@ -35,7 +35,7 @@ public class PlayerKillEntity implements Listener {
             farmingClass.killFarmAnimalEXP(entity);
 
             //Swordsmanship
-            if (itemGroups.getSwords().contains(p.getInventory().getItemInMainHand())) {
+            if (itemGroups.getSwords().contains(p.getInventory().getItemInMainHand().getType())) {
                 Swordsmanship swordsmanshipClass = new Swordsmanship(p);
                 swordsmanshipClass.killBuffs(e.getEntity());
                 swordsmanshipClass.thirstForBlood(e.getEntity());
@@ -49,7 +49,7 @@ public class PlayerKillEntity implements Listener {
             defenseClass.giveKillEXP(entity);
 
             //Axe Mastery
-            if (itemGroups.getAxes().contains(p.getInventory().getItemInMainHand())) {
+            if (itemGroups.getAxes().contains(p.getInventory().getItemInMainHand().getType())) {
                 AxeMastery axeMasteryClass = new AxeMastery(p);
                 axeMasteryClass.revitalized();
                 axeMasteryClass.warriorBlood();

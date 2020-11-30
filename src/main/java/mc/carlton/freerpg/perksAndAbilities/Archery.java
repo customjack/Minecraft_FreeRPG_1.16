@@ -20,6 +20,7 @@ import java.util.*;
 
 public class Archery extends Skill{
     private static ArrayList<Entity> arrowsToRemove = new ArrayList<>();
+    private static HashMap<UUID,Integer> multishotCount = new HashMap<>();
     private String skillName = "archery";
 
     Random rand = new Random(); //Random class Import
@@ -126,12 +127,34 @@ public class Archery extends Skill{
         }
     }
 
+    public boolean isFirstMultishot() {
+        if (!multishotCount.containsKey(p.getUniqueId())) { //First mulitshot (player not in hashmap)
+            multishotCount.put(p.getUniqueId(),1); //Set "shot number" to 1
+            return true; //This is the the first shot
+        }
+        else {
+            if (multishotCount.get(p.getUniqueId()).equals(1)) { //If "shot number" is 1
+                multishotCount.put(p.getUniqueId(),2); //Set the "shot number" to 2
+                return false; //This is the second shot
+            }
+            else { //If "shot number" is 2 (or not 1)
+                multishotCount.remove(p.getUniqueId()); //Remove the player until they shoot another multishot
+                return false; //This is the third shot
+            }
+        }
+    }
+
     public void retrieval(Entity projectile,ItemStack bow) {
         if (!runMethods) {
             return;
         }
         if (bow.getEnchantments().containsKey(Enchantment.ARROW_INFINITE)) {
             return;
+        }
+        if (bow.getEnchantments().containsKey(Enchantment.MULTISHOT)) {
+            if (!isFirstMultishot()) { //The first (middle) multishot is always the one that's able to be picked up
+                return;
+            }
         }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         int retrievalLevel = (int) pStat.get(skillName).get(5);
