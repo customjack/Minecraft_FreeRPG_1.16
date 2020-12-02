@@ -79,9 +79,11 @@ public class PlayerDeath implements Listener {
             }
         }
 
-        if (!e.getKeepInventory()) {
-            Global globalClass = new Global(p);
-            globalClass.betterResurrectionDeath(drops);
+        if (!e.getKeepInventory()) { //Player does not keep inventory
+            if (!configLoad.isKeepinventory()) { //Server is not using some advanced keep inventory plugin
+                Global globalClass = new Global(p);
+                globalClass.betterResurrectionDeath(drops);
+            }
         }
 
     }

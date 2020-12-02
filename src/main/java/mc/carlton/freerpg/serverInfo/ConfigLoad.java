@@ -44,6 +44,7 @@ public class ConfigLoad {
     static double agilityMinSprintTimeForExperience;
     static int maxLevelForBeginnerMessage;
     static String beginnerLevelUpMessage;
+    static boolean advancedKeepinventory;
     static Map<String,Double> specialMultiplier = new HashMap<>();
     static Map<String,Integer> maxLevels = new HashMap<>();
     static ArrayList<Integer> soulsInfo = new ArrayList<>();
@@ -109,6 +110,7 @@ public class ConfigLoad {
         preventUnsafeSalvage = advancedConfig.getBoolean("repair.preventSalvageOfItemsWithUnsafeEnchantments");
         maxLevelForBeginnerMessage = advancedConfig.getInt("leveling.beginnerLevelUpMessageMaxLevel");
         beginnerLevelUpMessage = advancedConfig.getString("leveling.customBegginerLevelUpMessage");
+        advancedKeepinventory = advancedConfig.getBoolean("general.keepInventoryOn");
         List<String> veinMinerBlockStrings = advancedConfig.getStringList("mining.veinMinerBlocks");
         for (String matString : veinMinerBlockStrings) {
             if (Material.matchMaterial(matString) != null)
@@ -465,4 +467,7 @@ public class ConfigLoad {
         return beginnerLevelUpMessage;
     }
 
+    public static boolean isKeepinventory() {
+        return advancedKeepinventory;
+    }
 }

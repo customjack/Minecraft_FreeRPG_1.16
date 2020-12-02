@@ -26,6 +26,7 @@ general:
   allowBuild: true #Keep true in most cases (If you use world guard to deny build permissions in entire worlds, set to false)
   allowPvP: true #Set to false to disable skills from activating during PvP
   allowHurtAnimals: true #Set ot false to disable skills form activating on Animals
+  keepInventoryOn: false #Set to true if you are using an "Advanced" keep inventory plugin. This does not make players keep their inventory.
   saveStatsTimer: 900 #Time (in seconds) between each time the server saves all player stats
   saveRunTimeData: false #Logs some run time information in /.../FreeRPG/RunTimes
   verboseRunTimeData: false #Logs additional run time information /.../FreeRPG/RunTimes, will do nothing unless saveRunTimeData = true
