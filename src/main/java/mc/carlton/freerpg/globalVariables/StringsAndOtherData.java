@@ -84,6 +84,10 @@ public class StringsAndOtherData {
     }
 
     public void initializeConfigGUIIndexInfo() {
+        ConfigLoad configLoad = new ConfigLoad();
+        if (configLoad.isForceLanguage()) {
+            return;
+        }
         int totalIndexes = Math.min(languageCodes.size(),14);
         int[] possibleBookIndexes = {19,20,21,22,23,24,25,37,38,39,40,41,42,43};
         int[] possibleDyeIndexes = {28,29,30,31,32,33,34,46,47,48,49,50,51,52};
@@ -504,6 +508,10 @@ public class StringsAndOtherData {
     }
 
     public void setLanguageItems(Player p,Inventory gui) {
+        ConfigLoad configLoad = new ConfigLoad();
+        if (configLoad.isForceLanguage()) {
+            return;
+        }
         int[] indexes = {19,20,21,22,23,24,25,37,38,39,40,41,42,43};
         int maxIndex = Math.min(indexes.length,languageCodes.size());
         for (int i = 0; i<maxIndex;  i++) {

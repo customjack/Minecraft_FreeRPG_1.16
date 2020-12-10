@@ -247,8 +247,8 @@ farming:
     enableEXPDrops: true
     tillLand: 15
     useBonemeal: 25
-    useComposter: 75 #Rewarded when composter level rises
-    maximizeComposter: 100 #Rewarded when composter becomes full
+    useComposter: 25 #Rewarded when composter level rises
+    maximizeComposter: 50 #Rewarded when composter becomes full
     shearSheep: 125
     milkAnimal: 125
     breedFarmAnimal: 150
@@ -676,6 +676,7 @@ defense:
   spawnerMobsEXPMultiplier: 1.0 #Nerfs EXP recieved from mobs that spawned from a spawner
   #mobFarmEXPMutliplier is circumventable as it relies on mob density. In other words, it's not surefire but should not hurt normal EXP gain
   mobFarmEXPMultiplier: 0.2  #Nerfs EXP recieved from high density mob grinders (Mob grinders are determined by mob density around mob in question)
+  blockingEXPMultiplier: 0.5 #Nerfs EXP recieved from players blocking with a shield
   expDrops:
     enableEXPDrops: true
     takeDamage: 15

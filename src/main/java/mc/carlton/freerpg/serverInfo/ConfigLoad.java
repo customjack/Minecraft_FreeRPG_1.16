@@ -20,6 +20,7 @@ import java.util.*;
 public class ConfigLoad {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
     static int playerStatFilesLoadedInOnStartup;
+    static boolean forceLanguage;
     static double basePlayerHP;
     static boolean saveRunTimeData;
     static boolean verboseRunTimeData;
@@ -92,6 +93,7 @@ public class ConfigLoad {
         //General Config and Config that has no real category
         defaultLanguage = config.getString("general.defaultLanguage");
         basePlayerHP = config.getDouble("general.playerBaseHP");
+        forceLanguage = config.getBoolean("general.forceLanguage");
         playerStatFilesLoadedInOnStartup = advancedConfig.getInt("general.playerStatFilesLoadedInOnStartup");
         saveRunTimeData = advancedConfig.getBoolean("general.saveRunTimeData");
         verboseRunTimeData = advancedConfig.getBoolean("general.verboseRunTimeData");
@@ -254,6 +256,7 @@ public class ConfigLoad {
         specialMultiplier.put("megaDigEXPMultiplier",advancedConfig.getDouble("digging.megaDigEXPMultiplier"));
         specialMultiplier.put("superBaitEXPMultiplier",advancedConfig.getDouble("fishing.superBaitEXPMultiplier"));
         specialMultiplier.put("timberEXPMultiplier",advancedConfig.getDouble("woodcutting.timberEXPMultiplier"));
+        specialMultiplier.put("blockingEXPMultiplier",advancedConfig.getDouble("defense.blockingEXPMultiplier"));
 
         //Crafting arrays
         for (int i = 1; i <= 5; i++) {
@@ -467,7 +470,11 @@ public class ConfigLoad {
         return beginnerLevelUpMessage;
     }
 
-    public static boolean isKeepinventory() {
+    public boolean isKeepinventory() {
         return advancedKeepinventory;
+    }
+
+    public boolean isForceLanguage() {
+        return forceLanguage;
     }
 }

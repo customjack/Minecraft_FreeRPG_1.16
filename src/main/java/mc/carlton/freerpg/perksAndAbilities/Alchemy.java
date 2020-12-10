@@ -9,10 +9,12 @@ import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.BrewingStand;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
@@ -225,7 +227,8 @@ public class Alchemy extends Skill{
                         if (finalPotency == 1) { //Glowstone
                             potionMeta.setDisplayName(potionMeta.getDisplayName() + " II");
                         }
-
+                        potionMeta.removeEnchant(Enchantment.LOYALTY);
+                        potionMeta.addEnchant(Enchantment.DURABILITY,1,true);
                         potion.setItemMeta(potionMeta);
                         stand.getSnapshotInventory().setItem(i, potion);
                         increaseStats.changeEXP(skillName,expMap.get("upgradeCustomPotion"));

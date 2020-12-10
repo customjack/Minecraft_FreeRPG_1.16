@@ -295,7 +295,7 @@ public class BeastMastery extends Skill{
     }
 
     public void giveHitEXP(double finalDamage,Entity entity) {
-        if (!runMethods) {
+        if (!runMethods || entity.getType().equals(EntityType.ARMOR_STAND)) {
             return;
         }
         ExpFarmTracker expFarmTracker = new ExpFarmTracker();

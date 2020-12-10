@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class LingeringPotionSplash implements Listener {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     void onPotionSplash(LingeringPotionSplashEvent e) {
         if (e.isCancelled()) {
             return;

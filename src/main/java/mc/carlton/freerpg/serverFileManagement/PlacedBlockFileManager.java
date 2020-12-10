@@ -49,6 +49,9 @@ public class PlacedBlockFileManager {
         if (f.exists()) {
             try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(path,false))) {
                 for (Location location : blocks) {
+                    if (!location.isWorldLoaded()) { //If a world is unloaded, location.getWorld() doesn't work. Will fix later
+                        continue;
+                    }
                     World world = location.getWorld();
                     if (world != null) {
                         String worldName = world.getName();

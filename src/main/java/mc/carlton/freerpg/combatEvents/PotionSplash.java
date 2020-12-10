@@ -21,7 +21,7 @@ import java.util.*;
 
 public class PotionSplash implements Listener {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     void onPotionSplash(PotionSplashEvent e){
         if (e.isCancelled()) {
             return;

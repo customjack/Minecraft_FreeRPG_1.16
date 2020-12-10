@@ -2,6 +2,7 @@ package mc.carlton.freerpg.gameTools;
 
 import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
 import mc.carlton.freerpg.playerInfo.PlayerStats;
+import mc.carlton.freerpg.serverInfo.ConfigLoad;
 import org.bukkit.entity.Player;
 
 
@@ -18,7 +19,13 @@ public class LanguageSelector {
         if (player != null) {
             this.p = player;
             PlayerStats languageStat = new PlayerStats(p);
-            this.playerLanguage = languageStat.getPlayerLanguage();
+            ConfigLoad configLoad = new ConfigLoad();
+            if (configLoad.isForceLanguage()) {
+                this.playerLanguage = configLoad.getDefaultLanguage();
+            }
+            else {
+                this.playerLanguage = languageStat.getPlayerLanguage();
+            }
             StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
             this.idToStringMap = stringsAndOtherData.getIdToStringMap();
         }

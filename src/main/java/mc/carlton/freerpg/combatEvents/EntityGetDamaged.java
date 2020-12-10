@@ -11,7 +11,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import java.util.*;
 
 public class EntityGetDamaged implements Listener {
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
 
     void onEntityDamaged(EntityDamageEvent e) {
         if (e.isCancelled()) {

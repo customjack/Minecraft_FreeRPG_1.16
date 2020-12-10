@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class PlayerDeath implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     void onPlayerDie(PlayerDeathEvent e){
         Player p = e.getEntity();
         PlayerStats pStatClass = new PlayerStats(p);

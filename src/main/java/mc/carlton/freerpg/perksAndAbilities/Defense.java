@@ -374,12 +374,17 @@ public class Defense extends Skill{
     }
 
     public void giveHitEXP(double damage,Entity entity) {
-        if (!runMethods) {
+        if (!runMethods || entity.getType().equals(EntityType.ARMOR_STAND)) {
             return;
         }
         ExpFarmTracker expFarmTracker = new ExpFarmTracker();
         double multiplier = expFarmTracker.getExpFarmAndSpawnerCombinedMultiplier(entity,skillName);
-        increaseStats.changeEXP(skillName, (int) Math.round((damage * expMap.get("takeDamage_EXPperDamagePointDone") + expMap.get("takeDamage"))*multiplier));
+        if (p.isBlocking()) {
+            ConfigLoad configLoad = new ConfigLoad();
+            multiplier *= configLoad.getSpecialMultiplier().get("blockingEXPMultiplier");
+        }
+        double expToReward = (damage * expMap.get("takeDamage_EXPperDamagePointDone") + expMap.get("takeDamage"))*multiplier;
+        increaseStats.changeEXP(skillName, (int) Math.round(expToReward));
     }
 
     public void giveKillEXP(Entity entity) {

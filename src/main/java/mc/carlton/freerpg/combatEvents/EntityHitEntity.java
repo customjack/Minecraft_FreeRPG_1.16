@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class EntityHitEntity implements Listener {
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
 
     void onEntityHit(EntityDamageByEntityEvent e) {
         Random rand = new Random();

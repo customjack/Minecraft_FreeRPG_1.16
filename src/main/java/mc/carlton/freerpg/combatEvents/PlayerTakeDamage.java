@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class PlayerTakeDamage implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     void onPlayerTakeDamage(EntityDamageEvent e){
         if (e.isCancelled()) {
             return;

@@ -11,7 +11,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerShootBow implements Listener {
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     void onEntityShoot(EntityShootBowEvent e){
         if (e.isCancelled()) {
             return;
