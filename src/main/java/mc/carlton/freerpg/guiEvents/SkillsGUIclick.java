@@ -156,27 +156,7 @@ public class SkillsGUIclick implements Listener {
                             break;
                         case RED_DYE:
                             if (passiveTokens > 0) {
-                                ConfigLoad configLoad = new ConfigLoad();
-                                ArrayList<Double> tokensInfo = configLoad.getTokensInfo();
-                                int rightClickInvestment = (int) Math.round(tokensInfo.get(9));
-                                int shiftClickInvestment = (int) Math.round(tokensInfo.get(10));
-                                if (e.isShiftClick() && e.isRightClick() && passiveTokens >= shiftClickInvestment && configLoad.isShiftRightClickInvestAll()) {
-                                    int investment = passiveTokens;
-                                    pStats.set(2, passiveTokens - investment);
-                                    pStats.set(4, pStats.get(4).intValue() + investment);
-                                }
-                                else if (e.isShiftClick() && passiveTokens >= shiftClickInvestment) {
-                                    pStats.set(2, passiveTokens - shiftClickInvestment);
-                                    pStats.set(4, pStats.get(4).intValue() + shiftClickInvestment);
-                                }
-                                else if (e.isRightClick() && passiveTokens >= rightClickInvestment) {
-                                    pStats.set(2, passiveTokens - rightClickInvestment);
-                                    pStats.set(4, pStats.get(4).intValue() + rightClickInvestment);
-                                }
-                                else {
-                                    pStats.set(2, passiveTokens - 1);
-                                    pStats.set(4, pStats.get(4).intValue() + 1);
-                                }
+                                upgradePassive(passiveTokens, pStats,e,1);
                                 pStatAll.put(skillName, pStats);
                                 statAll.put(uuid, pStatAll);
                                 pStatClass.setData(statAll);
@@ -194,33 +174,7 @@ public class SkillsGUIclick implements Listener {
                             }
                             else {
                                 if (passiveTokens > 0) {
-                                    ConfigLoad configLoad = new ConfigLoad();
-                                    ArrayList<Double> tokensInfo = configLoad.getTokensInfo();
-                                    int rightClickInvestment = (int) Math.round(tokensInfo.get(9));
-                                    int shiftClickInvestment = (int) Math.round(tokensInfo.get(10));
-                                    if (e.isShiftClick() && e.isRightClick() && passiveTokens >= shiftClickInvestment && configLoad.isShiftRightClickInvestAll()) {
-                                        int investment = Math.min(maxLevel2 - currentLevel2,passiveTokens);
-                                        pStats.set(2, passiveTokens - investment);
-                                        pStats.set(5, pStats.get(5).intValue() + investment);
-                                    }
-                                    else if (e.isShiftClick() && passiveTokens >= shiftClickInvestment) {
-                                        if (currentLevel2 + shiftClickInvestment > maxLevel2 ) {
-                                            shiftClickInvestment = maxLevel2 - currentLevel2;
-                                        }
-                                        pStats.set(2, passiveTokens - shiftClickInvestment);
-                                        pStats.set(5, pStats.get(5).intValue() + shiftClickInvestment);
-                                    }
-                                    else if (e.isRightClick() && passiveTokens >= rightClickInvestment) {
-                                        if (currentLevel2 + rightClickInvestment > maxLevel2 ) {
-                                            rightClickInvestment = maxLevel2 - currentLevel2;
-                                        }
-                                        pStats.set(2, passiveTokens - rightClickInvestment);
-                                        pStats.set(5, pStats.get(5).intValue() + rightClickInvestment);
-                                    }
-                                    else {
-                                        pStats.set(2, passiveTokens - 1);
-                                        pStats.set(5, pStats.get(5).intValue() + 1);
-                                    }
+                                    upgradePassive(passiveTokens, pStats,e,2);
                                     pStatAll.put(skillName, pStats);
                                     statAll.put(uuid, pStatAll);
                                     pStatClass.setData(statAll);
@@ -238,33 +192,7 @@ public class SkillsGUIclick implements Listener {
                             }
                             else {
                                 if (passiveTokens > 0) {
-                                    ConfigLoad configLoad = new ConfigLoad();
-                                    ArrayList<Double> tokensInfo = configLoad.getTokensInfo();
-                                    int rightClickInvestment = (int) Math.round(tokensInfo.get(9));
-                                    int shiftClickInvestment = (int) Math.round(tokensInfo.get(10));
-                                    if (e.isShiftClick() && e.isRightClick() && passiveTokens >= shiftClickInvestment && configLoad.isShiftRightClickInvestAll()) {
-                                        int investment = Math.min(maxLevel3 - currentLevel3,passiveTokens);
-                                        pStats.set(2, passiveTokens - investment);
-                                        pStats.set(6, pStats.get(6).intValue() + investment);
-                                    }
-                                    else if (e.isShiftClick() && passiveTokens >= shiftClickInvestment) {
-                                        if (currentLevel3 + shiftClickInvestment > maxLevel3 ) {
-                                            shiftClickInvestment = maxLevel3 - currentLevel3;
-                                        }
-                                        pStats.set(2, passiveTokens - shiftClickInvestment);
-                                        pStats.set(6, pStats.get(6).intValue() + shiftClickInvestment);
-                                    }
-                                    else if (e.isRightClick() && passiveTokens >= rightClickInvestment) {
-                                        if (currentLevel3 + rightClickInvestment > maxLevel3 ) {
-                                            rightClickInvestment = maxLevel3 - currentLevel3;
-                                        }
-                                        pStats.set(2, passiveTokens - rightClickInvestment);
-                                        pStats.set(6, pStats.get(6).intValue() + rightClickInvestment);
-                                    }
-                                    else {
-                                        pStats.set(2, passiveTokens - 1);
-                                        pStats.set(6, pStats.get(6).intValue() + 1);
-                                    }
+                                    upgradePassive(passiveTokens, pStats,e,3);
                                     pStatAll.put(skillName, pStats);
                                     statAll.put(uuid, pStatAll);
                                     pStatClass.setData(statAll);
@@ -482,6 +410,33 @@ public class SkillsGUIclick implements Listener {
                     e.setCancelled(true); //So they cant take the items
                 }
             }
+        }
+    }
+
+    public void upgradePassive(int passiveTokens, ArrayList<Number> pStats, InventoryClickEvent e, int passiveSkillIndex) {
+        ConfigLoad configLoad = new ConfigLoad();
+        ArrayList<Double> tokensInfo = configLoad.getTokensInfo();
+        passiveSkillIndex += 3; //Sets the index to the proper value
+        int rightClickInvestment = (int) Math.round(tokensInfo.get(9));
+        int shiftClickInvestment = (int) Math.round(tokensInfo.get(10));
+        if (e.isShiftClick() && e.isRightClick() && configLoad.isShiftRightClickInvestAll()) {
+            int investment = passiveTokens;
+            pStats.set(2, passiveTokens - investment);
+            pStats.set(passiveSkillIndex, pStats.get(passiveSkillIndex).intValue() + investment);
+        }
+        else if (e.isShiftClick()) {
+            int investment = Math.min(passiveTokens,shiftClickInvestment);
+            pStats.set(2, passiveTokens - investment);
+            pStats.set(passiveSkillIndex, pStats.get(passiveSkillIndex).intValue() + investment);
+        }
+        else if (e.isRightClick()) {
+            int investment = Math.min(passiveTokens,rightClickInvestment);
+            pStats.set(2, passiveTokens - investment);
+            pStats.set(passiveSkillIndex, pStats.get(passiveSkillIndex).intValue() + investment);
+        }
+        else {
+            pStats.set(2, passiveTokens - 1);
+            pStats.set(passiveSkillIndex, pStats.get(passiveSkillIndex).intValue() + 1);
         }
     }
 }

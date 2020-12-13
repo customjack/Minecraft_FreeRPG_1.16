@@ -45,28 +45,28 @@ public class PlayerCraft implements Listener {
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         LanguageSelector lang = new LanguageSelector(p);
         ConfigLoad configLoad = new ConfigLoad();
-
-        if (e.getHotbarButton() != -1 || e.isShiftClick()) {
-            if (p.getInventory().firstEmpty() != -1) {
-                if (e.getHotbarButton() != -1) {
-                    if (p.getInventory().getItem(e.getHotbarButton()) == null) {
-                        Defense defenseClass = new Defense(p);
-                        defenseClass.armorEXP(e.getRecipe().getResult());
+        if (e.getCursor() != null) { //Should never be the case, but just to prevent errors
+            if (e.getCursor().getType().equals(Material.AIR) || e.isShiftClick()) { //User must click with empty cursor (or shift click)
+                if (e.getHotbarButton() != -1 || e.isShiftClick()) { //User used number key or shift clicked
+                    if (p.getInventory().firstEmpty() != -1) { //Inventory is not full
+                        if (e.getHotbarButton() != -1) { //Hotbar button click case
+                            if (p.getInventory().getItem(e.getHotbarButton()) == null) { //Null case, same as the "else if" (to be safe, should never occur)
+                                Defense defenseClass = new Defense(p);
+                                defenseClass.armorEXP(e.getRecipe().getResult());
+                            } else if (p.getInventory().getItem(e.getHotbarButton()).getType().equals(Material.AIR)) { //Reward EXP if the hotbar slot is empty (item crafted)
+                                Defense defenseClass = new Defense(p);
+                                defenseClass.armorEXP(e.getRecipe().getResult());
+                            }
+                        } else { //Shift click case
+                            Defense defenseClass = new Defense(p);
+                            defenseClass.armorEXP(e.getRecipe().getResult());
+                        }
                     }
-                    else if (p.getInventory().getItem(e.getHotbarButton()).getType().equals(Material.AIR)) {
-                        Defense defenseClass = new Defense(p);
-                        defenseClass.armorEXP(e.getRecipe().getResult());
-                    }
-                }
-                else {
+                } else { //If user clicked with empty cursor
                     Defense defenseClass = new Defense(p);
                     defenseClass.armorEXP(e.getRecipe().getResult());
                 }
             }
-        }
-        else {
-            Defense defenseClass = new Defense(p);
-            defenseClass.armorEXP(e.getRecipe().getResult());
         }
 
         CraftingRecipes craftingRecipes = new CraftingRecipes();
