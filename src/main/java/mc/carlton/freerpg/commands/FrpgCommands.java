@@ -662,7 +662,7 @@ public class FrpgCommands implements CommandExecutor {
         }
 
         //Leader Board
-        else if (args[0].equalsIgnoreCase("leaderboard") || args[0].equalsIgnoreCase("statLeaders")) {
+        else if (args[0].equalsIgnoreCase("leaderboard") || args[0].equalsIgnoreCase("statLeaders") || args[0].equalsIgnoreCase("top")) {
             if (args.length >= 2) {
                 int page = 1;
                 if (args.length == 3) {

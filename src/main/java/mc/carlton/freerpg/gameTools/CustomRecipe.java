@@ -10,18 +10,24 @@ import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
+import java.util.IllegalFormatException;
 
 public class CustomRecipe {
-    public ArrayList<Material> recipe;
-    public Material output;
-    public int outputAmount;
-    public Enchantment ench;
-    public int enchantmentLevel;
-    public PotionType potionType;
-    public boolean isExtended;
-    public boolean isUpgraded;
-    public int XPcraftCost;
+    private ArrayList<Material> recipe;
+    private Material output;
+    private int outputAmount;
+    private Enchantment ench;
+    private int enchantmentLevel;
+    private PotionType potionType;
+    private boolean isExtended;
+    private boolean isUpgraded;
+    private int XPcraftCost;
+    private String YAML_ID;
 
+    /*
+    * I'm too lazy to make like 20 constructors for every case. It's easiest just to
+    * Create a "blank" custom recipe and fill in what you need
+     */
     public CustomRecipe(){
         this.recipe = null;
         this.output = null;
@@ -32,10 +38,24 @@ public class CustomRecipe {
         this.isExtended = false;
         this.isUpgraded = false;
         this.XPcraftCost = 0;
+        this.YAML_ID = "";
+    }
+    public CustomRecipe(ArrayList<Material> recipe,Material output,int outputAmount){
+        setRecipe(recipe);
+        setOutput(output);
+        setOutputAmount(outputAmount);
+        this.ench = null;
+        this.enchantmentLevel = 0;
+        this.potionType = null;
+        this.isExtended = false;
+        this.isUpgraded = false;
+        this.XPcraftCost = 0;
+        this.YAML_ID = "";
     }
 
+
     public ArrayList<Material> getRecipe() {
-        return recipe;
+        return new ArrayList<>(recipe);
     }
 
     public boolean isExtended() {
@@ -68,6 +88,10 @@ public class CustomRecipe {
 
     public int getXPcraftCost() {
         return XPcraftCost;
+    }
+
+    public String getYAML_ID() {
+        return YAML_ID;
     }
 
     public void setEnchantment(Enchantment enchantment) {
@@ -106,6 +130,10 @@ public class CustomRecipe {
         this.XPcraftCost = XPcraftCost;
     }
 
+    public void setYAML_ID(String YAML_ID) {
+        this.YAML_ID = YAML_ID;
+    }
+
     public boolean outputIsPotion() {
         if (potionType != null) {
             return true;
@@ -119,6 +147,9 @@ public class CustomRecipe {
         return false;
     }
     public ItemStack getItemStack() {
+        if (output == null) {
+            throw(new IllegalArgumentException("Unexpected Output Material at " + YAML_ID));
+        }
         ItemStack item = new ItemStack(output, outputAmount);
         if (outputIsEnchanted()) {
             if (output.equals(Material.ENCHANTED_BOOK)) {

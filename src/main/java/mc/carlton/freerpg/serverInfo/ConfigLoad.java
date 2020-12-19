@@ -266,9 +266,14 @@ public class ConfigLoad {
             List<String> recipeStrings = advancedConfig.getStringList("farming.crafting.recipe"+i);
             ArrayList<Material> recipeMaterials = new ArrayList<>();
             for (String item : recipeStrings) {
-                recipeMaterials.add(Material.matchMaterial(item));
+                Material recipeMaterial = Material.matchMaterial(item);
+                if (recipeMaterial == null) {
+                    System.out.println("[FreeRPG] WARNING: Unrecognized Material in " + "farming.crafting.recipe"+i + "(Some materials will be treated as air");
+                }
+                recipeMaterials.add(recipeMaterial);
             }
             customRecipe.setRecipe(recipeMaterials);
+            customRecipe.setYAML_ID("farming.crafting.recipe"+i);
             craftingRecipes.put("farming"+i,customRecipe);
         }
         for (int i = 1; i <= 10; i++) {
@@ -284,9 +289,14 @@ public class ConfigLoad {
             List<String> recipeStrings = advancedConfig.getStringList("enchanting.crafting.recipe"+i);
             ArrayList<Material> recipeMaterials = new ArrayList<>();
             for (String item : recipeStrings) {
-                recipeMaterials.add(Material.matchMaterial(item));
+                Material recipeMaterial = Material.matchMaterial(item);
+                if (recipeMaterial == null) {
+                    System.out.println("[FreeRPG] WARNING: Unrecognized Material in " + "enchanting.crafting.recipe"+i + "(Some materials will be treated as air");
+                }
+                recipeMaterials.add(recipeMaterial);
             }
             customRecipe.setRecipe(recipeMaterials);
+            customRecipe.setYAML_ID("enchanting.crafting.recipe"+i);
             craftingRecipes.put("enchanting"+i,customRecipe);
         }
         for (int i = 1; i <= 5; i++) {
@@ -302,9 +312,14 @@ public class ConfigLoad {
             List<String> recipeStrings = advancedConfig.getStringList("alchemy.crafting.recipe"+i);
             ArrayList<Material> recipeMaterials = new ArrayList<>();
             for (String item : recipeStrings) {
-                recipeMaterials.add(Material.matchMaterial(item));
+                Material recipeMaterial = Material.matchMaterial(item);
+                if (recipeMaterial == null) {
+                    System.out.println("[FreeRPG] WARNING: Unrecognized Material in " + "alchemy.crafting.recipe"+i + "(Some materials will be treated as air");
+                }
+                recipeMaterials.add(recipeMaterial);
             }
             customRecipe.setRecipe(recipeMaterials);
+            customRecipe.setYAML_ID("alchemy.crafting.recipe"+i);
             craftingRecipes.put("alchemy"+i,customRecipe);
         }
 

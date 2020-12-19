@@ -189,7 +189,7 @@ public class CraftingRecipes {
     public void setShapedRecipe(String id){
         ConfigLoad configLoad = new ConfigLoad();
         CustomRecipe recipeInfo = configLoad.getCraftingRecipes().get(id);
-        ArrayList<Material> recipeItems =recipeInfo.getRecipe();
+        ArrayList<Material> recipeItems = recipeInfo.getRecipe();
         ItemStack item = recipeInfo.getItemStack();
 
         ArrayList<ArrayList<Material>> allPossibleRecipes = getTranslatedVariants(recipeItems);

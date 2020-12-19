@@ -682,8 +682,8 @@ defense:
     takeDamage: 15
     takeDamage_EXPperDamagePointDone: 20
     hardBodyActivate: 100
-    reactionsLevel2Activate: 100
-    reactionsLevel1Activate: 50
+    reactionsLevel2Activate: 100 #Stiffen II activates
+    reactionsLevel1Activate: 50 #Stiffen I activates
     healerRegenActivate: 30
     healerHealActivate: 30
     killBat: 15

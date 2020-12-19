@@ -156,7 +156,7 @@ public class SkillsGUIclick implements Listener {
                             break;
                         case RED_DYE:
                             if (passiveTokens > 0) {
-                                upgradePassive(passiveTokens, pStats,e,1);
+                                upgradePassive(passiveTokens, pStats,e,Integer.MAX_VALUE,1);
                                 pStatAll.put(skillName, pStats);
                                 statAll.put(uuid, pStatAll);
                                 pStatClass.setData(statAll);
@@ -174,7 +174,7 @@ public class SkillsGUIclick implements Listener {
                             }
                             else {
                                 if (passiveTokens > 0) {
-                                    upgradePassive(passiveTokens, pStats,e,2);
+                                    upgradePassive(passiveTokens, pStats,e,maxLevel2,2);
                                     pStatAll.put(skillName, pStats);
                                     statAll.put(uuid, pStatAll);
                                     pStatClass.setData(statAll);
@@ -192,7 +192,7 @@ public class SkillsGUIclick implements Listener {
                             }
                             else {
                                 if (passiveTokens > 0) {
-                                    upgradePassive(passiveTokens, pStats,e,3);
+                                    upgradePassive(passiveTokens, pStats,e,maxLevel3,3);
                                     pStatAll.put(skillName, pStats);
                                     statAll.put(uuid, pStatAll);
                                     pStatClass.setData(statAll);
@@ -413,30 +413,30 @@ public class SkillsGUIclick implements Listener {
         }
     }
 
-    public void upgradePassive(int passiveTokens, ArrayList<Number> pStats, InventoryClickEvent e, int passiveSkillIndex) {
+    public void upgradePassive(int passiveTokens, ArrayList<Number> pStats, InventoryClickEvent e, int maxPassiveLevel, int passiveSkillIndex) {
         ConfigLoad configLoad = new ConfigLoad();
         ArrayList<Double> tokensInfo = configLoad.getTokensInfo();
         passiveSkillIndex += 3; //Sets the index to the proper value
         int rightClickInvestment = (int) Math.round(tokensInfo.get(9));
         int shiftClickInvestment = (int) Math.round(tokensInfo.get(10));
+        int currentPassiveSkillLevel = pStats.get(passiveSkillIndex).intValue();
+        int investment = 0;
         if (e.isShiftClick() && e.isRightClick() && configLoad.isShiftRightClickInvestAll()) {
-            int investment = passiveTokens;
-            pStats.set(2, passiveTokens - investment);
-            pStats.set(passiveSkillIndex, pStats.get(passiveSkillIndex).intValue() + investment);
+            investment = passiveTokens;
         }
         else if (e.isShiftClick()) {
-            int investment = Math.min(passiveTokens,shiftClickInvestment);
-            pStats.set(2, passiveTokens - investment);
-            pStats.set(passiveSkillIndex, pStats.get(passiveSkillIndex).intValue() + investment);
+            investment = Math.min(passiveTokens,shiftClickInvestment);
         }
         else if (e.isRightClick()) {
-            int investment = Math.min(passiveTokens,rightClickInvestment);
-            pStats.set(2, passiveTokens - investment);
-            pStats.set(passiveSkillIndex, pStats.get(passiveSkillIndex).intValue() + investment);
+            investment = Math.min(passiveTokens,rightClickInvestment);
         }
         else {
-            pStats.set(2, passiveTokens - 1);
-            pStats.set(passiveSkillIndex, pStats.get(passiveSkillIndex).intValue() + 1);
+            investment = 1;
         }
+        if (investment + currentPassiveSkillLevel > maxPassiveLevel) {
+            investment = maxPassiveLevel - currentPassiveSkillLevel;
+        }
+        pStats.set(2, passiveTokens - investment);
+        pStats.set(passiveSkillIndex, pStats.get(passiveSkillIndex).intValue() + investment);
     }
 }
