@@ -58,6 +58,9 @@ public class PlayerBlockBreak implements Listener {
         Map<Material,Integer> farmingEXP = expMaps.getFarmingEXP();
         Map<Material,Object[]> flamePickEXP = expMaps.getFlamePickEXP();
 
+        //Config
+        ConfigLoad configLoad = new ConfigLoad();
+
 
         if (p.getGameMode() == GameMode.CREATIVE) {
             return;
@@ -108,7 +111,6 @@ public class PlayerBlockBreak implements Listener {
         }
 
         else if(diggingEXP.containsKey(blockType) &&natural) {
-            ConfigLoad configLoad = new ConfigLoad();
             if (!configLoad.getAllowedSkillsMap().get("digging")) {
                 return;
             }
@@ -158,6 +160,10 @@ public class PlayerBlockBreak implements Listener {
                 increaseStats.changeEXP("axeMastery", miningEXP.get(blockType));
             }
         }
+        else if (configLoad.getVeinMinerBlocks().contains(blockType)) {
+            Mining miningClass = new Mining(p);
+            miningClass.veinMiner(block,blockType);
+        }
         else if (farmingEXP.containsKey(blockType) && natural) {
             BlockData block_data = block.getBlockData();
             Farming farmingClass = new Farming(p);
@@ -169,7 +175,6 @@ public class PlayerBlockBreak implements Listener {
                 if (age.getAge() == age.getMaximumAge()) {
                     increaseStats.changeEXP("farming",farmingEXP.get(blockType));
                     if (blockType == Material.NETHER_WART) {
-                        ConfigLoad configLoad = new ConfigLoad();
                         Map<String,Integer> expMap = configLoad.getExpMapForSkill("alchemy");
                         increaseStats.changeEXP("alchemy",expMap.get("breakNetherWart"));
                     }

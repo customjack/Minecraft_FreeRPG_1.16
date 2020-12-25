@@ -33,7 +33,41 @@ import java.util.*;
 
 public class FrpgCommands implements CommandExecutor {
 
-    public boolean togglePerk(String id,Player p,String[] args) {
+    private boolean isTargetOnline(Player target, CommandSender sender) {
+        if (target == null) {
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
+                LanguageSelector lang = new LanguageSelector(p);
+                p.sendMessage(ChatColor.RED + lang.getString("playerOffline"));
+            }
+            else {
+                sender.sendMessage("Player not online");
+            }
+            return false;
+        }
+        return true;
+    }
+    private int getArgumentAsInteger(String arg) {
+        int integerValueOfArg = 0;
+        try {
+            integerValueOfArg = Integer.valueOf(arg);
+            return integerValueOfArg;
+        }
+        catch (NumberFormatException e) {
+            return Integer.MAX_VALUE; //This is a cheap trick; when we return max value, that's our way of saying "could not convert" without throwing error
+        }
+    }
+    private double getArgumentAsDouble(String arg) {
+        double doubleValueOfArg = 0;
+        try {
+            doubleValueOfArg = Double.valueOf(arg);
+            return doubleValueOfArg;
+        }
+        catch (NumberFormatException e) {
+            return Double.MAX_VALUE; //This is a cheap trick; when we return max value, that's our way of saying "could not convert" without throwing error
+        }
+    }
+    private boolean togglePerk(String id,Player p,String[] args) {
         String permission;
         String langID;
         String skillName;
@@ -164,7 +198,7 @@ public class FrpgCommands implements CommandExecutor {
         }
         return true;
     }
-    public void togglePerkSetGuiItem(String id, Player p, Inventory gui) {
+    private void togglePerkSetGuiItem(String id, Player p, Inventory gui) {
         String langID;
         int globalIndex;
         int guiIndex = 28;
@@ -257,19 +291,335 @@ public class FrpgCommands implements CommandExecutor {
         itemToggle.setItemMeta(itemToggleMeta);
         gui.setItem(guiIndex+9,itemToggle);
     }
-    public boolean isTargetOnline(Player target,CommandSender sender) {
-        if (target == null) {
+    private void generateMainMenu(Player p) {
+        LanguageSelector lang = new LanguageSelector(p);
+
+        Inventory gui = Bukkit.createInventory(p, 45, "Skills");
+
+        //Menu Options(Items)
+        ItemStack global = new ItemStack(Material.NETHER_STAR);
+        ItemStack digging = new ItemStack(Material.IRON_SHOVEL);
+        ItemStack woodcutting = new ItemStack(Material.IRON_AXE);
+        ItemStack mining = new ItemStack(Material.IRON_PICKAXE);
+        ItemStack farming = new ItemStack(Material.IRON_HOE);
+        ItemStack fishing = new ItemStack(Material.FISHING_ROD);
+        ItemStack archery = new ItemStack(Material.BOW);
+        ItemStack beastMastery = new ItemStack(Material.BONE);
+        ItemStack swords = new ItemStack(Material.IRON_SWORD);
+        ItemStack armor = new ItemStack(Material.IRON_CHESTPLATE);
+        ItemStack axes = new ItemStack(Material.GOLDEN_AXE);
+        ItemStack repair = new ItemStack(Material.ANVIL);
+        ItemStack agility = new ItemStack(Material.LEATHER_LEGGINGS);
+        ItemStack alchemy = new ItemStack(Material.POTION);
+        ItemStack smelting = new ItemStack(Material.COAL);
+        ItemStack enchanting = new ItemStack(Material.ENCHANTING_TABLE);
+        ItemStack info = new ItemStack(Material.MAP);
+        ItemStack configuration = new ItemStack(Material.REDSTONE);
+
+        ItemStack[] menu_items = {global,digging,woodcutting,mining,farming,fishing,archery,beastMastery,swords,armor,axes,repair,agility,alchemy,smelting,enchanting,info,configuration};
+        String[] labels = {lang.getString("global"),lang.getString("digging"),lang.getString("woodcutting"),lang.getString("mining"),lang.getString("farming"),lang.getString("fishing"),lang.getString("archery"),lang.getString("beastMastery"),lang.getString("swordsmanship"),lang.getString("defense"),lang.getString("axeMastery"),lang.getString("repair"),lang.getString("agility"),lang.getString("alchemy"),lang.getString("smelting"),lang.getString("enchanting"),lang.getString("information"),lang.getString("configuration")};
+        String[] labels0 = {"global","digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting"};
+        Integer[] indices = {4,11,12,13,14,15,20,21,22,23,24,29,30,31,32,33,36,44};
+        PlayerStats pStatClass = new PlayerStats(p);
+        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+
+        //Set item positions and lore for all items in the GUI
+        Leaderboards leaderboards = new Leaderboards();
+        for (int i = 0; i < menu_items.length; i++) {
+            ItemStack item = menu_items[i];
+            ArrayList<String> lore_skills = new ArrayList<>();
+            if (i < 16 && i!=0) {
+                int passiveTokens = (int) pStat.get(labels0[i]).get(2);
+                int skillTokens = (int) pStat.get(labels0[i]).get(3);
+                if (passiveTokens > 0 || skillTokens > 0) {
+                    item.addUnsafeEnchantment(Enchantment.DURABILITY,1);
+                }
+                int level = pStat.get(labels0[i]).get(0).intValue();
+                int EXP = pStat.get(labels0[i]).get(1).intValue();
+                int totalPlayers = leaderboards.getLeaderboardSize(labels0[i]);
+                int rank = leaderboards.getLeaderboardPosition(p,labels0[i]);
+                lore_skills.add(ChatColor.GRAY + lang.getString("level") + ": " + ChatColor.BLUE + String.format("%,d",level));
+                lore_skills.add(ChatColor.GRAY + lang.getString("experience") + ": " + ChatColor.BLUE + String.format("%,d",EXP));
+                ChangeStats getEXP = new ChangeStats(p);
+                int maxLevel = getEXP.getMaxLevel(labels0[i]);
+                String EXPtoNextString;
+                if (level < maxLevel) {
+                    int nextEXP = getEXP.getEXPfromLevel(level+1);
+                    int EXPtoNext = nextEXP - EXP;
+                    EXPtoNextString = String.format("%,d",EXPtoNext);
+                }
+                else {
+                    EXPtoNextString = "N/A";
+                }
+                lore_skills.add(ChatColor.GRAY + lang.getString("expToLevel") + ": " + ChatColor.GREEN + EXPtoNextString);
+                lore_skills.add(ChatColor.GRAY + lang.getString("rank") +": " +ChatColor.WHITE+ChatColor.BOLD.toString() + "" + String.format("%,d",rank) + ChatColor.RESET + ChatColor.GRAY +" " + lang.getString("outOf")+ " "  + ChatColor.WHITE + String.format("%,d",totalPlayers));
+
+
+            }
+            else if (i==0) {
+                int globalTokens = (int) pStat.get(labels0[i]).get(1);
+                int totalLevel = pStat.get("global").get(0).intValue();
+                int totalExperience = (int) pStat.get("global").get(29);
+                int totalPlayers = leaderboards.getLeaderboardSize("global");
+                int rank = leaderboards.getLeaderboardPosition(p,"global");
+                lore_skills.add(ChatColor.GRAY + lang.getString("total") + " " + lang.getString("level") +": " + ChatColor.GOLD + String.format("%,d",totalLevel));
+                lore_skills.add(ChatColor.GRAY + lang.getString("total") + " " + lang.getString("exp") +": " + ChatColor.GOLD + String.format("%,d",totalExperience));
+                lore_skills.add(ChatColor.GRAY + lang.getString("rank") +": " + ChatColor.WHITE+ChatColor.BOLD.toString()  + "" + String.format("%,d",rank) + ChatColor.RESET + ChatColor.GRAY +" " + lang.getString("outOf")+ " "  + ChatColor.WHITE + String.format("%,d",totalPlayers));
+                if (globalTokens > 0) {
+                    item.addUnsafeEnchantment(Enchantment.DURABILITY,1);
+                }
+            }
+            ItemMeta meta = item.getItemMeta();
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+            meta.setDisplayName(ChatColor.AQUA + ChatColor.BOLD.toString() + labels[i]);
+            meta.setLore(lore_skills);
+
+
+            if (indices[i] == 36) {
+                int totTokens_S = 0;
+                int totTokens_P = 0;
+                int gTokens = 0;
+                for (String j : pStat.keySet()){
+
+                    if (j.equalsIgnoreCase("global")){
+                        gTokens = pStat.get(j).get(1).intValue();
+                    }
+                    else {
+                        totTokens_P += pStat.get(j).get(2).intValue();
+                        totTokens_S += pStat.get(j).get(3).intValue();
+                    }
+                }
+                PlayerStats timeStats = new PlayerStats(p);
+                String playTimeString = timeStats.getPlayerPlayTimeString();
+                double personalMultiplier = (double) pStat.get("global").get(23);
+                int souls = (int) pStat.get("global").get(20);
+                String soulsString = UtilityMethods.capitalizeString(lang.getString("souls"));
+                ArrayList<String> lore = new ArrayList<>();
+                lore.add(ChatColor.GRAY + lang.getString("totalPlayTime")+ ": " + ChatColor.GOLD + playTimeString);
+                lore.add(ChatColor.GRAY + lang.getString("personalMultiplier")+": " + ChatColor.GOLD + String.valueOf(personalMultiplier)+"x");
+                lore.add(ChatColor.GRAY + lang.getString("globalPassiveTitle0")+ ": " + ChatColor.GOLD + String.format("%,d",gTokens));
+                lore.add(ChatColor.GRAY + lang.getString("diggingPassiveTitle2")+": " + ChatColor.GOLD + String.format("%,d",totTokens_S));
+                lore.add(ChatColor.GRAY + lang.getString("diggingPassiveTitle0")+": " + ChatColor.GOLD + String.format("%,d",totTokens_P));
+                lore.add(ChatColor.GRAY + soulsString +": " + ChatColor.GOLD + String.format("%,d",souls));
+                meta.setLore(lore);
+            }
+            else if (indices[i] == 44) {
+                ArrayList<String> lore = new ArrayList<>();
+                lore.add(ChatColor.GRAY + lang.getString("clickForOptions"));
+                meta.setLore(lore);
+            }
+            item.setItemMeta(meta);
+            gui.setItem(indices[i], item);
+        }
+
+        //Put the items in the inventory
+        p.openInventory(gui);
+    }
+    private void messagePlayerHelpScreen(CommandSender sender, int page) {
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            LanguageSelector lang = new LanguageSelector(p);
+            final int TOTAL_PAGES = 4;
+            if (page > TOTAL_PAGES || page < 1) {
+                page = 1; //Page input out of bounds
+            }
+            p.sendMessage(ChatColor.RED + "------| " + ChatColor.GREEN + ChatColor.BOLD.toString() + " Help" +
+                    ChatColor.RESET + ChatColor.GREEN.toString() + " " + lang.getString("page") + " [" + Integer.toString(page) + "/" + Integer.toString(TOTAL_PAGES) + "]" +
+                    ChatColor.RED.toString() + " |-----");
+            switch (page) {
+                case 1:
+                    p.sendMessage(ChatColor.GOLD + "/frpg" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc0"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg skillTreeGUI [" + lang.getString("skillName") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc1"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg configurationGUI" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc2"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg giveEXP [" + lang.getString("playerName") + "] [" + lang.getString("skillName") + "] [amount]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc3"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg setLevel [" + lang.getString("playerName") + "] [" + lang.getString("skillName") + "] [" + lang.getString("level") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc4"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg statReset [" + lang.getString("playerName") + "] [" + lang.getString("skillName") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc5"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg statLeaders [" + lang.getString("skillName") + "] [" + lang.getString("page") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc6"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg info" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc7"));
+                    break;
+                case 2:
+                    p.sendMessage(ChatColor.GOLD + "/frpg flintToggle [" + lang.getString("onOrOff") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("diggingPerkTitle4"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg speedToggle [" + lang.getString("onOrOff") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("agilityPerkTitle2"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg potionToggle [" + lang.getString("onOrOff") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("alchemyPerkTitle2"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg flamePickToggle [" + lang.getString("onOrOff") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("smeltingPerkTitle2"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg grappleToggle [" + lang.getString("onOrOff") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("fishingPerkTitle4"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg hotRodToggle [" + lang.getString("onOrOff") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("fishingPerkTitle5"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg veinMinerToggle [" + lang.getString("onOrOff") + "" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("miningPerkTitle4"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg megaDigToggle [" + lang.getString("onOrOff") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("diggingPerkTitle6"));
+                    break;
+                case 3:
+                    p.sendMessage(ChatColor.GOLD + "/frpg leafBlowerToggle [" + lang.getString("onOrOff") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("woodcuttingPerkTitle5"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg holyAxeToggle [" + lang.getString("onOrOff") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("axeMasteryPerkTitle1"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg enchantItem [" + lang.getString("level") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc8"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg setSouls" + " [" + lang.getString("playerName") + "]" + " [" + lang.getString("amount") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc9"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg setTokens" + " [" + lang.getString("playerName") + "]" + " [" + lang.getString("skillName") + "]" + " [skill/passive]" + " [" + lang.getString("amount") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc10"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg setTokens" + " [" + lang.getString("playerName") + "]" + " global" + " [" + lang.getString("amount") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc11"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg saveStats [" + lang.getString("playerName") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc12"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg setMultiplier [" + lang.getString("playerName") + "] " + "[" + lang.getString("amount") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc13"));
+                    break;
+                case 4:
+                    p.sendMessage(ChatColor.GOLD + "/frpg resetCooldown [" + lang.getString("playerName") + "] [" + lang.getString("skillName") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc14"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg statLookup [" + lang.getString("playerName") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc15"));
+                    p.sendMessage(ChatColor.GOLD + "/frpg changeMultiplier [" + lang.getString("playerName") + "] " + "[" + lang.getString("expIncrease") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                            ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc16"));
+                default:
+                    break;
+            }
+        }
+    }
+    private void createLeaderboard(CommandSender sender, int page, String skillName) {
+        String[] labels_0 = {"digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting","global","playTime"};
+        List<String> labels_arr = Arrays.asList(labels_0);
+
+        Leaderboards getStats = new Leaderboards();
+        if (!getStats.isLeaderboardsLoaded()) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                p.sendMessage(ChatColor.RED + lang.getString("playerOffline"));
+                p.sendMessage(ChatColor.RED +"Leaderboard is not yet loaded, try again soon");
+            } else {
+                sender.sendMessage("Leaderboard is not yet loaded, try again soon");
             }
-            else {
-                System.out.println("Player not online");
-            }
-            return false;
         }
-        return true;
+        //Sorts and Updates leaderboard (if dynamic updates are on)
+        getStats.sortLeaderBoard(skillName);
+
+        ArrayList<PlayerLeaderboardStat> sortedStats = getStats.getLeaderboard(skillName);
+        int totalPlayers = sortedStats.size();
+        int totalPages = (int) Math.ceil(totalPlayers / 10.0);
+        if (page > totalPages) {
+            page = 1;
+        }
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            LanguageSelector lang = new LanguageSelector(p);
+            String[] titles_0 = {lang.getString("digging"),lang.getString("woodcutting"),lang.getString("mining"),lang.getString("farming"),
+                    lang.getString("fishing"),lang.getString("archery"),lang.getString("beastMastery"),lang.getString("swordsmanship"),
+                    lang.getString("defense"),lang.getString("axeMastery"),lang.getString("repair"),lang.getString("agility"),lang.getString("alchemy"),
+                    lang.getString("smelting"),lang.getString("enchanting"),lang.getString("global"),lang.getString("totalPlayTime")};
+            String skillTitle = titles_0[labels_arr.indexOf(skillName)];
+            p.sendMessage(ChatColor.AQUA + "------| " + ChatColor.WHITE + ChatColor.BOLD.toString() + skillTitle + " "+lang.getString("leaderboard")+"" +
+                    ChatColor.RESET + ChatColor.WHITE.toString() + " "+lang.getString("page")+" [" + Integer.toString(page) + "/" + Integer.toString(totalPages) + "]" +
+                    ChatColor.AQUA.toString() + " |-----");
+            for (int i = 10 * (page - 1); i < (int) Math.min(10 * page, totalPlayers); i++) {
+                PlayerLeaderboardStat info = sortedStats.get(i);
+                if (skillName.equalsIgnoreCase("global")) {
+                    p.sendMessage(ChatColor.WHITE + Integer.toString(i + 1) + ". " + ChatColor.AQUA + info.get_pName() + ChatColor.WHITE.toString() + " - " + ChatColor.WHITE + String.format("%,d", info.get_sortedStat()) + ChatColor.WHITE + " (" + ChatColor.GRAY + String.format("%,d", info.get_stat2()) + ChatColor.WHITE + ")");
+                }
+                else if (skillName.equalsIgnoreCase("playTime")){
+                    p.sendMessage(ChatColor.WHITE + Integer.toString(i + 1) + ". " + ChatColor.AQUA + info.get_pName() + ChatColor.WHITE.toString() + " - " + ChatColor.WHITE + info.get_playTimeString() );
+                }
+                else {
+                    p.sendMessage(ChatColor.WHITE + Integer.toString(i + 1) + ". " + ChatColor.AQUA + info.get_pName() + ChatColor.WHITE.toString() + " - " + ChatColor.WHITE + String.format("%,d", info.get_stat2()) + ChatColor.WHITE + " (" + ChatColor.GRAY + String.format("%,d", info.get_sortedStat()) + ChatColor.WHITE + ")");
+                }
+            }
+        } else {
+            String[] titles_0 = {"Digging", "Woodcutting", "Mining", "Farming", "Fishing", "Archery", "Beast Mastery", "Swordsmanship", "Defense", "Axe Mastery", "Repair", "Agility", "Alchemy", "Smelting", "Enchanting", "Global"};
+            String skillTitle = titles_0[labels_arr.indexOf(skillName)];
+            sender.sendMessage("------| " + skillTitle + " Leaderboard" + " Page [" + Integer.toString(page) + "/" + Integer.toString(totalPages) + "]" + " |-----");
+            for (int i = 10 * (page - 1); i < (int) Math.min(10 * page, totalPlayers); i++) {
+                PlayerLeaderboardStat info = sortedStats.get(i);
+                if (skillName.equalsIgnoreCase("global")) {
+                    sender.sendMessage(Integer.toString(i + 1) + ". " + info.get_pName() + " - " + Integer.toString((int)info.get_sortedStat()) + " (" + info.get_stat2() + ")");
+                }
+                else if (skillName.equalsIgnoreCase("playTime")) {
+                    sender.sendMessage(Integer.toString(i + 1) + ". " + info.get_pName() + " - " + info.get_playTimeString());
+                }
+                else {
+                    sender.sendMessage(Integer.toString(i + 1) + ". " + info.get_pName() + " - " + Integer.toString((int)info.get_stat2()) + " (" + info.get_sortedStat() + ")");
+                }
+
+            }
+        }
+    }
+    public void createStatLookup(CommandSender sender, String playerName) {
+        Leaderboards leaderboards = new Leaderboards();
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            LanguageSelector lang = new LanguageSelector(p);
+            List<String> leaderboardNames = leaderboards.getLeaderboardNames();
+            p.sendMessage(ChatColor.AQUA + "--------| " + ChatColor.WHITE + ChatColor.BOLD.toString() + playerName + ChatColor.RESET + ChatColor.WHITE.toString() + " " + lang.getString("stats") +
+                    ChatColor.AQUA.toString() + " |-------");
+            StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+            for (String leaderboardName : leaderboardNames) {
+                int rank = leaderboards.getLeaderboardPosition(playerName, leaderboardName);
+                PlayerLeaderboardStat playerStat = leaderboards.getPlayerStat(playerName, leaderboardName);
+                String displayedStat;
+                String displayTitle;
+                String rankString = UtilityMethods.intToRankingString(rank);
+                if (rankString.equals("1st")) {
+                    rankString = ChatColor.YELLOW + rankString;
+                } else if (rankString.equals("2nd")) {
+                    rankString = ChatColor.WHITE + rankString;
+                } else if (rankString.equals("3rd")) {
+                    rankString = ChatColor.GOLD + rankString;
+                } else {
+                    rankString = ChatColor.GRAY + rankString;
+                }
+                if (leaderboardName.equalsIgnoreCase("playTime")) {
+                    displayedStat = playerStat.get_playTimeString();
+                    displayTitle = "Play Time";
+                } else if (leaderboardName.equalsIgnoreCase("global")) {
+                    displayedStat = String.format("%,d", playerStat.get_sortedStat());
+                    displayTitle = "Global Level";
+                } else {
+                    displayedStat = String.format("%,d", playerStat.get_stat2());
+                    displayTitle = stringsAndOtherData.camelCaseToTitle(leaderboardName);
+                }
+                p.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + displayTitle + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                        ChatColor.WHITE + displayedStat + " (" + rankString + ChatColor.WHITE + ")");
+            }
+
+        } else {
+            List<String> leaderboardNames = leaderboards.getLeaderboardNames();
+            sender.sendMessage("--------| " + playerName + " stats |-------");
+            StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+            for (String leaderboardName : leaderboardNames) {
+                int rank = leaderboards.getLeaderboardPosition(playerName, leaderboardName);
+                PlayerLeaderboardStat playerStat = leaderboards.getPlayerStat(playerName, leaderboardName);
+                String displayedStat;
+                String displayTitle;
+                String rankString = UtilityMethods.intToRankingString(rank);
+                if (leaderboardName.equalsIgnoreCase("playTime")) {
+                    displayedStat = playerStat.get_playTimeString();
+                    displayTitle = "Play Time";
+                } else if (leaderboardName.equalsIgnoreCase("global")) {
+                    displayedStat = String.format("%,d", playerStat.get_sortedStat());
+                    displayTitle = "Global Level";
+                } else {
+                    displayedStat = String.format("%,d", playerStat.get_stat2());
+                    displayTitle = stringsAndOtherData.camelCaseToTitle(leaderboardName);
+                }
+                sender.sendMessage(displayTitle  + " - " + displayedStat + " (" + rankString +")");
+            }
+        }
     }
 
     @Override
@@ -279,525 +629,147 @@ public class FrpgCommands implements CommandExecutor {
 
         // /frpg aka MainGUI
         if (args.length == 0) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                if (p.isSleeping()) {
-                    p.sendMessage(ChatColor.RED + lang.getString("bedGUI"));
-                    return true;
-                }
-                if (!p.hasPermission("freeRPG.mainGUI")) {
-                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                    return true;
-                }
-                Inventory gui = Bukkit.createInventory(p, 45, "Skills");
-
-                //Menu Options(Items)
-                ItemStack global = new ItemStack(Material.NETHER_STAR);
-                ItemStack digging = new ItemStack(Material.IRON_SHOVEL);
-                ItemStack woodcutting = new ItemStack(Material.IRON_AXE);
-                ItemStack mining = new ItemStack(Material.IRON_PICKAXE);
-                ItemStack farming = new ItemStack(Material.IRON_HOE);
-                ItemStack fishing = new ItemStack(Material.FISHING_ROD);
-                ItemStack archery = new ItemStack(Material.BOW);
-                ItemStack beastMastery = new ItemStack(Material.BONE);
-                ItemStack swords = new ItemStack(Material.IRON_SWORD);
-                ItemStack armor = new ItemStack(Material.IRON_CHESTPLATE);
-                ItemStack axes = new ItemStack(Material.GOLDEN_AXE);
-                ItemStack repair = new ItemStack(Material.ANVIL);
-                ItemStack agility = new ItemStack(Material.LEATHER_LEGGINGS);
-                ItemStack alchemy = new ItemStack(Material.POTION);
-                ItemStack smelting = new ItemStack(Material.COAL);
-                ItemStack enchanting = new ItemStack(Material.ENCHANTING_TABLE);
-                ItemStack info = new ItemStack(Material.MAP);
-                ItemStack configuration = new ItemStack(Material.REDSTONE);
-
-                ItemStack[] menu_items = {global,digging,woodcutting,mining,farming,fishing,archery,beastMastery,swords,armor,axes,repair,agility,alchemy,smelting,enchanting,info,configuration};
-                String[] labels = {lang.getString("global"),lang.getString("digging"),lang.getString("woodcutting"),lang.getString("mining"),lang.getString("farming"),lang.getString("fishing"),lang.getString("archery"),lang.getString("beastMastery"),lang.getString("swordsmanship"),lang.getString("defense"),lang.getString("axeMastery"),lang.getString("repair"),lang.getString("agility"),lang.getString("alchemy"),lang.getString("smelting"),lang.getString("enchanting"),lang.getString("information"),lang.getString("configuration")};
-                String[] labels0 = {"global","digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting"};
-                Integer[] indices = {4,11,12,13,14,15,20,21,22,23,24,29,30,31,32,33,36,44};
-                PlayerStats pStatClass = new PlayerStats(p);
-                Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-
-                //Set item positions and lore for all items in the GUI
-                Leaderboards leaderboards = new Leaderboards();
-                for (int i = 0; i < menu_items.length; i++) {
-                    ItemStack item = menu_items[i];
-                    ArrayList<String> lore_skills = new ArrayList<>();
-                    if (i < 16 && i!=0) {
-                        int passiveTokens = (int) pStat.get(labels0[i]).get(2);
-                        int skillTokens = (int) pStat.get(labels0[i]).get(3);
-                        if (passiveTokens > 0 || skillTokens > 0) {
-                            item.addUnsafeEnchantment(Enchantment.DURABILITY,1);
-                        }
-                        int level = pStat.get(labels0[i]).get(0).intValue();
-                        int EXP = pStat.get(labels0[i]).get(1).intValue();
-                        int totalPlayers = leaderboards.getLeaderboardSize(labels0[i]);
-                        int rank = leaderboards.getLeaderboardPosition(p,labels0[i]);
-                        lore_skills.add(ChatColor.GRAY + lang.getString("level") + ": " + ChatColor.BLUE + String.format("%,d",level));
-                        lore_skills.add(ChatColor.GRAY + lang.getString("experience") + ": " + ChatColor.BLUE + String.format("%,d",EXP));
-                        ChangeStats getEXP = new ChangeStats(p);
-                        int maxLevel = getEXP.getMaxLevel(labels0[i]);
-                        String EXPtoNextString;
-                        if (level < maxLevel) {
-                            int nextEXP = getEXP.getEXPfromLevel(level+1);
-                            int EXPtoNext = nextEXP - EXP;
-                            EXPtoNextString = String.format("%,d",EXPtoNext);
-                        }
-                        else {
-                            EXPtoNextString = "N/A";
-                        }
-                        lore_skills.add(ChatColor.GRAY + lang.getString("expToLevel") + ": " + ChatColor.GREEN + EXPtoNextString);
-                        lore_skills.add(ChatColor.GRAY + lang.getString("rank") +": " +ChatColor.WHITE+ChatColor.BOLD.toString() + "" + String.format("%,d",rank) + ChatColor.RESET + ChatColor.GRAY +" " + lang.getString("outOf")+ " "  + ChatColor.WHITE + String.format("%,d",totalPlayers));
-
-
-                    }
-                    else if (i==0) {
-                        int globalTokens = (int) pStat.get(labels0[i]).get(1);
-                        int totalLevel = pStat.get("global").get(0).intValue();
-                        int totalExperience = (int) pStat.get("global").get(29);
-                        int totalPlayers = leaderboards.getLeaderboardSize("global");
-                        int rank = leaderboards.getLeaderboardPosition(p,"global");
-                        lore_skills.add(ChatColor.GRAY + lang.getString("total") + " " + lang.getString("level") +": " + ChatColor.GOLD + String.format("%,d",totalLevel));
-                        lore_skills.add(ChatColor.GRAY + lang.getString("total") + " " + lang.getString("exp") +": " + ChatColor.GOLD + String.format("%,d",totalExperience));
-                        lore_skills.add(ChatColor.GRAY + lang.getString("rank") +": " + ChatColor.WHITE+ChatColor.BOLD.toString()  + "" + String.format("%,d",rank) + ChatColor.RESET + ChatColor.GRAY +" " + lang.getString("outOf")+ " "  + ChatColor.WHITE + String.format("%,d",totalPlayers));
-                        if (globalTokens > 0) {
-                            item.addUnsafeEnchantment(Enchantment.DURABILITY,1);
-                        }
-                    }
-                    ItemMeta meta = item.getItemMeta();
-                    meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-                    meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                    meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-                    meta.setDisplayName(ChatColor.AQUA + ChatColor.BOLD.toString() + labels[i]);
-                    meta.setLore(lore_skills);
-
-
-                    if (indices[i] == 36) {
-                        int totTokens_S = 0;
-                        int totTokens_P = 0;
-                        int gTokens = 0;
-                        for (String j : pStat.keySet()){
-
-                            if (j.equalsIgnoreCase("global")){
-                                gTokens = pStat.get(j).get(1).intValue();
-                            }
-                            else {
-                                totTokens_P += pStat.get(j).get(2).intValue();
-                                totTokens_S += pStat.get(j).get(3).intValue();
-                            }
-                        }
-                        PlayerStats timeStats = new PlayerStats(p);
-                        String playTimeString = timeStats.getPlayerPlayTimeString();
-                        double personalMultiplier = (double) pStat.get("global").get(23);
-                        int souls = (int) pStat.get("global").get(20);
-                        String soulsString = UtilityMethods.capitalizeString(lang.getString("souls"));
-                        ArrayList<String> lore = new ArrayList<>();
-                        lore.add(ChatColor.GRAY + lang.getString("totalPlayTime")+ ": " + ChatColor.GOLD + playTimeString);
-                        lore.add(ChatColor.GRAY + lang.getString("personalMultiplier")+": " + ChatColor.GOLD + String.valueOf(personalMultiplier)+"x");
-                        lore.add(ChatColor.GRAY + lang.getString("globalPassiveTitle0")+ ": " + ChatColor.GOLD + String.format("%,d",gTokens));
-                        lore.add(ChatColor.GRAY + lang.getString("diggingPassiveTitle2")+": " + ChatColor.GOLD + String.format("%,d",totTokens_S));
-                        lore.add(ChatColor.GRAY + lang.getString("diggingPassiveTitle0")+": " + ChatColor.GOLD + String.format("%,d",totTokens_P));
-                        lore.add(ChatColor.GRAY + soulsString +": " + ChatColor.GOLD + String.format("%,d",souls));
-                        meta.setLore(lore);
-                    }
-                    else if (indices[i] == 44) {
-                        ArrayList<String> lore = new ArrayList<>();
-                        lore.add(ChatColor.GRAY + lang.getString("clickForOptions"));
-                        meta.setLore(lore);
-                    }
-                    item.setItemMeta(meta);
-                    gui.setItem(indices[i], item);
-                }
-
-                //Put the items in the inventory
-                p.openInventory(gui);
+            CommandHelper commandHelper = new CommandHelper(sender,args,0,"");
+            commandHelper.setCheckInBed(true);
+            commandHelper.setPlayerOnlyCommand(true);
+            commandHelper.setPermissionName("mainGUI");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
             }
-            else {
-                System.out.println("You need to be a player to cast this command");
-            }
+            Player p = (Player) sender;
+            generateMainMenu(p); //Generates the Main GUI
             return true;
         }
 
         //Help
         else if (args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) {
-            if (args.length >= 1) {
-                int totalPages = 4;
-                int page = 1;
-                if (args.length == 2) {
-                    try {
-                        page = Integer.valueOf(args[1]);
-                    }
-                    catch (NumberFormatException e) {
-                        if (sender instanceof Player) {
-                            Player p = (Player) sender;
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg help ["+lang.getString("page")+"]");
-                        } else {
-                            System.out.println("Improper Arguments, try /frpg help [(Optional) page]");
-                        }
-                        return true;
-                    }
-                }
-                if (page > totalPages || page < 1) {
-                    page = 1;
-                }
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    LanguageSelector lang = new LanguageSelector(p);
-                    if (!p.hasPermission("freeRPG.help")) {
-                        p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                        return true;
-                    }
-                        p.sendMessage(ChatColor.RED + "------| " + ChatColor.GREEN + ChatColor.BOLD.toString() + " Help" +
-                                ChatColor.RESET + ChatColor.GREEN.toString() + " "+lang.getString("page")+" [" + Integer.toString(page) + "/" + Integer.toString(totalPages) + "]" +
-                                ChatColor.RED.toString() + " |-----");
-                        switch (page) {
-                            case 1:
-                                p.sendMessage(ChatColor.GOLD  + "/frpg" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc0"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg skillTreeGUI [" +lang.getString("skillName")+ "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc1"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg configurationGUI" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc2"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg giveEXP ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] [amount]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc3"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg setLevel ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] ["+lang.getString("level")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc4"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg statReset ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() +" - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc5"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg statLeaders ["+lang.getString("skillName")+"] ["+lang.getString("page")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc6"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg info" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc7"));
-                                break;
-                            case 2:
-                                p.sendMessage(ChatColor.GOLD  + "/frpg flintToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("diggingPerkTitle4"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg speedToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("agilityPerkTitle2"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg potionToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("alchemyPerkTitle2"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg flamePickToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("smeltingPerkTitle2"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg grappleToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("fishingPerkTitle4"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg hotRodToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("fishingPerkTitle5"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg veinMinerToggle ["+lang.getString("onOrOff")+"" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("miningPerkTitle4"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg megaDigToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("diggingPerkTitle6"));
-                                break;
-                            case 3:
-                                p.sendMessage(ChatColor.GOLD  + "/frpg leafBlowerToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("woodcuttingPerkTitle5"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg holyAxeToggle ["+lang.getString("onOrOff")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("axeMasteryPerkTitle1"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg enchantItem ["+lang.getString("level")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc8"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg setSouls" + " ["+lang.getString("playerName")+"]" + " ["+lang.getString("amount")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc9"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg setTokens" + " ["+lang.getString("playerName")+"]" + " ["+lang.getString("skillName")+"]" + " [skill/passive]" +" ["+lang.getString("amount")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc10"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg setTokens" + " ["+lang.getString("playerName")+"]" + " global" + " ["+lang.getString("amount")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc11"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg saveStats ["+lang.getString("playerName")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                    ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc12"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg setMultiplier ["+lang.getString("playerName")+"] " + "[" + lang.getString("amount")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc13"));
-                                break;
-                            case 4:
-                                p.sendMessage(ChatColor.GOLD  + "/frpg resetCooldown ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() +" - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc14"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg statLookup ["+lang.getString("playerName")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() +" - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc15"));
-                                p.sendMessage(ChatColor.GOLD  + "/frpg changeMultiplier ["+lang.getString("playerName")+"] " + "[" + lang.getString("expIncrease")+"]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                        ChatColor.RESET + ChatColor.WHITE + lang.getString("commandDesc16"));
-                            default:
-                                break;
-                        }
-                } else {
-                    System.out.println("You must be a player to use this command");
-                }
-            } else {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg help ["+lang.getString("page")+"]");
-                } else {
-                    System.out.println("Improper Arguments, try /frpg help [(Optional) page]");
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg help [::page::]";
+            CommandHelper commandHelper = new CommandHelper(sender,args,1,2,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPlayerOnlyCommand(true);
+            commandHelper.setPermissionName("help");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
+            }
+            int page = 1;
+            if (args.length == 2) {
+                page = getArgumentAsInteger(args[1]);
+                if (page == Integer.MAX_VALUE) {
+                    commandHelper.sendImproperArgumentsMessage();
+                    return true; //Improper input
                 }
             }
-        }
+            messagePlayerHelpScreen(sender,page); //Sends player the corresponding help screen
+            }
 
         //saveStats
         else if (args[0].equalsIgnoreCase("saveStats") || args[0].equalsIgnoreCase("statSave")) {
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg saveStats";
+            CommandHelper commandHelper = new CommandHelper(sender,args,1,2,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPermissionName("saveStats");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
+            }
             if (args.length == 1) {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    if (p.hasPermission("saveStats")) {
-                        PeriodicSaving saveAll = new PeriodicSaving();
-                        saveAll.saveAllStats(false);
-                    }
-                    else {
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-
-                    }
-                }
-                else {
                     PeriodicSaving saveAll = new PeriodicSaving();
                     saveAll.saveAllStats(false);
-                }
             }
             else if (args.length == 2) {
                 String playerName = args[1];
                 Player target = plugin.getServer().getPlayer(playerName);
-                boolean targetOnline = isTargetOnline(target,sender);
-                if (!targetOnline) {
-                    return true;
+                if (!isTargetOnline(target,sender)) {
+                    return true; //Player not online
                 }
-                else {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        if (p.hasPermission("saveStats")) {
-                            PlayerStatsLoadIn saveStats = new PlayerStatsLoadIn(target);
-                            try {
-                                saveStats.setPlayerStatsMap();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        else {
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-
-                        }
-                    }
-                else {
-                        PlayerStatsLoadIn saveStats = new PlayerStatsLoadIn(target);
-                        try {
-                            saveStats.setPlayerStatsMap();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                PlayerStatsLoadIn saveStats = new PlayerStatsLoadIn(target);
+                try {
+                    saveStats.setPlayerStatsMap();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            }
-            else {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg saveStats");
-                }
-                else {
-                    System.out.println("Improper arguments, try /frpg saveStats");
-                }
-
             }
         }
 
-        //Tutorial/info
+        // Tutorial Document (Info)
         else if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("use")) {
-            if (args.length == 1) {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    LanguageSelector lang = new LanguageSelector(p);
-                    if (!p.hasPermission("freeRPG.info")) {
-                        p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                        return true;
-                    }
-                    p.sendMessage(lang.getString("informationURL")+": " + ChatColor.AQUA + ChatColor.UNDERLINE.toString() + "shorturl.at/ptCDX" +
-                            ChatColor.RESET + ChatColor.GOLD.toString() + ChatColor.BOLD.toString() + "<-- " +lang.getString("click"));
-                } else {
-                    System.out.println("You must be a player to use this command");
-                }
-            } else {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg info");
-                } else {
-                    System.out.println("You must be a player to use this command");
-                }
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg info";
+            CommandHelper commandHelper = new CommandHelper(sender,args,0,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPlayerOnlyCommand(true);
+            commandHelper.setPermissionName("info");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
             }
+            Player p  = (Player) sender;
+            LanguageSelector lang = new LanguageSelector(p);
+            p.sendMessage(lang.getString("informationURL")+": " + ChatColor.AQUA + ChatColor.UNDERLINE.toString() + "shorturl.at/ptCDX" +
+                            ChatColor.RESET + ChatColor.GOLD.toString() + ChatColor.BOLD.toString() + "<-- " +lang.getString("click"));
         }
 
         //Enchant Item Command
         else if (args[0].equalsIgnoreCase("enchantItem") || args[0].equalsIgnoreCase("enchant")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                if (p.hasPermission("freeRPG.enchantItem")) {
-                    if (args.length == 2) {
-                        int level = 0;
-                        try {
-                            level = Integer.valueOf(args[1]);
-                        }
-                        catch (NumberFormatException e) {
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg enchantItem ["+lang.getString("level")+"]");
-                            return true;
-                        }
-                        if (level < 40) {
-                            ItemStack item = p.getInventory().getItemInMainHand();
-                            PsuedoEnchanting enchant = new PsuedoEnchanting();
-                            item = enchant.enchantItem(item, level, false);
-                            p.getInventory().setItemInMainHand(item);
-                        } else {
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("levelArgument"));
-                        }
-                    } else {
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg enchantItem ["+lang.getString("level")+"]");
-                    }
-                } else {
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED +lang.getString("noPermission"));
-                }
-            } else {
-                System.out.println("You need to be a player to cast this command");
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg enchantItem [::level::]";
+            CommandHelper commandHelper = new CommandHelper(sender,args,2,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPlayerOnlyCommand(true);
+            commandHelper.setPermissionName("enchantItem");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
             }
+            Player p = (Player) sender;
+            int level = getArgumentAsInteger(args[1]);
+            if (level == Integer.MAX_VALUE) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true; //Improper input
+            }
+            if (level > 40) {
+                LanguageSelector lang = new LanguageSelector(p);
+                p.sendMessage(ChatColor.RED +lang.getString("levelArgument"));
+                return true; //Level input too high
+            }
+            ItemStack item = p.getInventory().getItemInMainHand();
+            PsuedoEnchanting enchant = new PsuedoEnchanting();
+            item = enchant.enchantItem(item, level, false);
+            p.getInventory().setItemInMainHand(item);
         }
 
         //Leader Board
         else if (args[0].equalsIgnoreCase("leaderboard") || args[0].equalsIgnoreCase("statLeaders") || args[0].equalsIgnoreCase("top")) {
-            if (args.length >= 2) {
-                int page = 1;
-                if (args.length == 3) {
-                    try {
-                        page = Integer.valueOf(args[2]);;
-                    }
-                    catch (NumberFormatException e) {
-                        if (sender instanceof Player) {
-                            Player p = (Player) sender;
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg statLeaders [skillName] [(Optional) page]");
-                        } else {
-                            System.out.println("Improper Arguments, try /frpg statLeaders [skillName] [(Optional) page]");
-                        }
-                        return true;
-                    }
-                }
-                String[] labels_0 = {"digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting","global","playTime"};
-                List<String> labels_arr = Arrays.asList(labels_0);
-                String skillName = UtilityMethods.convertStringToListCasing(labels_arr,args[1]);
-                if (labels_arr.contains(skillName)) {
-                    Leaderboards getStats = new Leaderboards();
-                    if (!getStats.isLeaderboardsLoaded()) {
-                        if (sender instanceof Player) {
-                            Player p = (Player) sender;
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +"Leaderboard is not yet loaded, try again soon");
-                        } else {
-                            System.out.println("Leaderboard is not yet loaded, try again soon");
-                        }
-                    }
-                    //Sorts and Updates leaderboard (if dynamic updates are on)
-                    getStats.sortLeaderBoard(skillName);
-
-                    ArrayList<PlayerLeaderboardStat> sortedStats = getStats.getLeaderboard(skillName);
-                    int totalPlayers = sortedStats.size();
-                    int totalPages = (int) Math.ceil(totalPlayers / 10.0);
-                    if (page > totalPages) {
-                        page = 1;
-                    }
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        if (p.hasPermission("freeRPG.leaderboard")) {
-                            LanguageSelector lang = new LanguageSelector(p);
-                            String[] titles_0 = {lang.getString("digging"),lang.getString("woodcutting"),lang.getString("mining"),lang.getString("farming"),
-                                    lang.getString("fishing"),lang.getString("archery"),lang.getString("beastMastery"),lang.getString("swordsmanship"),
-                                    lang.getString("defense"),lang.getString("axeMastery"),lang.getString("repair"),lang.getString("agility"),lang.getString("alchemy"),
-                                    lang.getString("smelting"),lang.getString("enchanting"),lang.getString("global"),lang.getString("totalPlayTime")};
-                            String skillTitle = titles_0[labels_arr.indexOf(skillName)];
-                            p.sendMessage(ChatColor.AQUA + "------| " + ChatColor.WHITE + ChatColor.BOLD.toString() + skillTitle + " "+lang.getString("leaderboard")+"" +
-                                    ChatColor.RESET + ChatColor.WHITE.toString() + " "+lang.getString("page")+" [" + Integer.toString(page) + "/" + Integer.toString(totalPages) + "]" +
-                                    ChatColor.AQUA.toString() + " |-----");
-                            for (int i = 10 * (page - 1); i < (int) Math.min(10 * page, totalPlayers); i++) {
-                                PlayerLeaderboardStat info = sortedStats.get(i);
-                                if (skillName.equalsIgnoreCase("global")) {
-                                    p.sendMessage(ChatColor.WHITE + Integer.toString(i + 1) + ". " + ChatColor.AQUA + info.get_pName() + ChatColor.WHITE.toString() + " - " + ChatColor.WHITE + String.format("%,d", info.get_sortedStat()) + ChatColor.WHITE + " (" + ChatColor.GRAY + String.format("%,d", info.get_stat2()) + ChatColor.WHITE + ")");
-                                }
-                                else if (skillName.equalsIgnoreCase("playTime")){
-                                    p.sendMessage(ChatColor.WHITE + Integer.toString(i + 1) + ". " + ChatColor.AQUA + info.get_pName() + ChatColor.WHITE.toString() + " - " + ChatColor.WHITE + info.get_playTimeString() );
-                                }
-                                else {
-                                    p.sendMessage(ChatColor.WHITE + Integer.toString(i + 1) + ". " + ChatColor.AQUA + info.get_pName() + ChatColor.WHITE.toString() + " - " + ChatColor.WHITE + String.format("%,d", info.get_stat2()) + ChatColor.WHITE + " (" + ChatColor.GRAY + String.format("%,d", info.get_sortedStat()) + ChatColor.WHITE + ")");
-                                }
-                            }
-                        } else {
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                        }
-                    } else {
-                        String[] titles_0 = {"Digging", "Woodcutting", "Mining", "Farming", "Fishing", "Archery", "Beast Mastery", "Swordsmanship", "Defense", "Axe Mastery", "Repair", "Agility", "Alchemy", "Smelting", "Enchanting", "Global"};
-                        String skillTitle = titles_0[labels_arr.indexOf(skillName)];
-                        System.out.println("------| " + skillTitle + " Leaderboard" + " Page [" + Integer.toString(page) + "/" + Integer.toString(totalPages) + "]" + " |-----");
-                        for (int i = 10 * (page - 1); i < (int) Math.min(10 * page, totalPlayers); i++) {
-                            PlayerLeaderboardStat info = sortedStats.get(i);
-                            if (skillName.equalsIgnoreCase("global")) {
-                                System.out.println(Integer.toString(i + 1) + ". " + info.get_pName() + " - " + Integer.toString((int)info.get_sortedStat()) + " (" + info.get_stat2() + ")");
-                            }
-                            else if (skillName.equalsIgnoreCase("playTime")) {
-                                System.out.println(Integer.toString(i + 1) + ". " + info.get_pName() + " - " + info.get_playTimeString());
-
-                            }
-                            else {
-                                System.out.println(Integer.toString(i + 1) + ". " + info.get_pName() + " - " + Integer.toString((int)info.get_stat2()) + " (" + info.get_sortedStat() + ")");
-                            }
-
-                        }
-                    }
-                } else {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        if (p.hasPermission("freeRPG.leaderboard")) {
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg statLeaders ["+lang.getString("skillName")+"] ["+lang.getString("page")+"]");
-                        } else {
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                        }
-                    } else {
-                        System.out.println("Improper Arguments, try /frpg statLeaders [skillName] [(Optional) page]");
-                    }
-                }
-            } else {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    if (p.hasPermission("freeRPG.leaderboard")) {
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg statLeaders ["+lang.getString("skillName")+"] ["+lang.getString("page")+"]");
-                    } else {
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                    }
-                } else {
-                    System.out.println("Improper Arguments, try /frpg statLeaders [skillName] [(Optional) page]");
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg top [::skillName::] [::page::]";
+            CommandHelper commandHelper = new CommandHelper(sender,args,2,3,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPermissionName("leaderboard");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
+            }
+            int page = 1;
+            if (args.length == 3) {
+                page = getArgumentAsInteger(args[2]);
+                if (page == Integer.MAX_VALUE) {
+                    commandHelper.sendImproperArgumentsMessage();
+                    return true; //Improper input
                 }
             }
+            String[] labels_0 = {"digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting","global","playTime"};
+            List<String> labels_arr = Arrays.asList(labels_0);
+            String skillName = UtilityMethods.convertStringToListCasing(labels_arr,args[1]);
+            if (!labels_arr.contains(skillName)) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true; //Improper input
+            }
+            createLeaderboard(sender,page,skillName);
         }
 
         //Stat Lookup
         else if (args[0].equalsIgnoreCase("statLookup") || args[0].equalsIgnoreCase("lookupStats") || args[0].equalsIgnoreCase("stats")) {
-            //Permission Check
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                if (!p.hasPermission("freeRPG.statLookup")) {
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                    return true;
-                }
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg stats [::playerName::]";
+            CommandHelper commandHelper = new CommandHelper(sender,args,1,2,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPermissionName("statLookup");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
             }
             if (args.length == 1) {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
                     p.performCommand("frpg statLookup " + p.getName());
-                }
-                else {
-                    System.out.println("Improper Arguments, try /frpg statLookup [playerName]");
+                } else {
+                    commandHelper.sendImproperArgumentsMessage();
+                    return true; //Improper Arguments
                 }
             }
             else if (args.length == 2) {
@@ -809,124 +781,51 @@ public class FrpgCommands implements CommandExecutor {
                         LanguageSelector lang = new LanguageSelector(p);
                         p.sendMessage(ChatColor.RED + lang.getString("playerNotInLeaderboard"));
                     } else {
-                        System.out.println("That player is not on any leaderboards");
+                        sender.sendMessage("That player is not on any leaderboards");
                     }
-                    return true;
+                    return true; //Player not on leaderboards
                 }
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    LanguageSelector lang = new LanguageSelector(p);
-                    List<String> leaderboardNames = leaderboards.getLeaderboardNames();
-                    p.sendMessage(ChatColor.AQUA + "--------| " + ChatColor.WHITE + ChatColor.BOLD.toString() + playerName + ChatColor.RESET + ChatColor.WHITE.toString() + " " + lang.getString("stats") +
-                            ChatColor.AQUA.toString() + " |-------");
-                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-                    for (String leaderboardName : leaderboardNames) {
-                        int rank = leaderboards.getLeaderboardPosition(playerName, leaderboardName);
-                        PlayerLeaderboardStat playerStat = leaderboards.getPlayerStat(playerName, leaderboardName);
-                        String displayedStat;
-                        String displayTitle;
-                        String rankString = UtilityMethods.intToRankingString(rank);
-                        if (rankString.equals("1st")) {
-                            rankString = ChatColor.YELLOW + rankString;
-                        } else if (rankString.equals("2nd")) {
-                            rankString = ChatColor.WHITE + rankString;
-                        } else if (rankString.equals("3rd")) {
-                            rankString = ChatColor.GOLD + rankString;
-                        } else {
-                            rankString = ChatColor.GRAY + rankString;
-                        }
-                        if (leaderboardName.equalsIgnoreCase("playTime")) {
-                            displayedStat = playerStat.get_playTimeString();
-                            displayTitle = "Play Time";
-                        } else if (leaderboardName.equalsIgnoreCase("global")) {
-                            displayedStat = String.format("%,d", playerStat.get_sortedStat());
-                            displayTitle = "Global Level";
-                        } else {
-                            displayedStat = String.format("%,d", playerStat.get_stat2());
-                            displayTitle = stringsAndOtherData.camelCaseToTitle(leaderboardName);
-                        }
-                        p.sendMessage(ChatColor.AQUA + ChatColor.BOLD.toString() + displayTitle + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
-                                ChatColor.WHITE + displayedStat + " (" + rankString + ChatColor.WHITE + ")");
-                    }
-
-                } else {
-                    List<String> leaderboardNames = leaderboards.getLeaderboardNames();
-                    System.out.println("--------| " + playerName + " stats |-------");
-                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-                    for (String leaderboardName : leaderboardNames) {
-                        int rank = leaderboards.getLeaderboardPosition(playerName, leaderboardName);
-                        PlayerLeaderboardStat playerStat = leaderboards.getPlayerStat(playerName, leaderboardName);
-                        String displayedStat;
-                        String displayTitle;
-                        String rankString = UtilityMethods.intToRankingString(rank);
-                        if (leaderboardName.equalsIgnoreCase("playTime")) {
-                            displayedStat = playerStat.get_playTimeString();
-                            displayTitle = "Play Time";
-                        } else if (leaderboardName.equalsIgnoreCase("global")) {
-                            displayedStat = String.format("%,d", playerStat.get_sortedStat());
-                            displayTitle = "Global Level";
-                        } else {
-                            displayedStat = String.format("%,d", playerStat.get_stat2());
-                            displayTitle = stringsAndOtherData.camelCaseToTitle(leaderboardName);
-                        }
-                        System.out.println(displayTitle  + " - " + displayedStat + " (" + rankString +")");
-                    }
-                }
+                createStatLookup(sender,playerName);
             }
-            else {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg resetCooldown ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"]");
-                } else {
-                    System.out.println("Improper Arguments, try /frpg statLookup [playerName]");
-                }
-            }
-            return true;
         }
 
         //CooldownReset
         else if (args[0].equalsIgnoreCase("resetCooldown") || args[0].equalsIgnoreCase("cooldownReset")) {
-            //Permission Check
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                if (!p.hasPermission("freeRPG.resetCooldown")) {
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                    return true;
-                }
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg resetCooldown [::playerName::] [::skillName::]";
+            CommandHelper commandHelper = new CommandHelper(sender,args,2,3,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPermissionName("resetCooldown");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
             }
-            //Argument length check
-            if (args.length != 3) {
+            //Arguments --> Variables
+            Player target;
+            String skillNameInput;
+            if (args.length == 2) {
                 if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg resetCooldown ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"]");
+                    target = (Player) sender;
+                    skillNameInput = args[1];
                 } else {
-                    System.out.println("Improper Arguments, try /frpg resetCooldown [playerName] [skillName]");
+                    commandHelper.sendImproperArgumentsMessage();
+                    return true; //Improper Arguments
                 }
-                return true;
-            }
-            //Target online check
-            String playerName = args[1];
-            Player target = plugin.getServer().getPlayer(playerName);
-            boolean targetOnline = isTargetOnline(target,sender);
-            if (!targetOnline) {
-                return true;
+            } else {
+                String playerName = args[1];
+                skillNameInput = args[2];
+
+                //Target Online Check
+                target = plugin.getServer().getPlayer(playerName);
+                boolean targetOnline = isTargetOnline(target,sender);
+                if (!targetOnline) {
+                    return true; //Target not online
+                }
             }
 
             //Skill name match check
             String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery"};
             List<String> labels = Arrays.asList(labels_0);
-            String skillName = UtilityMethods.convertStringToListCasing(labels,args[2]);
+            String skillName = UtilityMethods.convertStringToListCasing(labels,skillNameInput);
             if (!labels.contains(skillName)) {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg resetCooldown ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"]");
-                } else {
-                    System.out.println("Improper Arguments, try /frpg resetCooldown [playerName] [skillName]");
-                }
+                commandHelper.sendImproperArgumentsMessage();
                 return true;
             }
 
@@ -937,40 +836,17 @@ public class FrpgCommands implements CommandExecutor {
 
         //createFakePlayers
         else if (args[0].equalsIgnoreCase("createFakePlayers") || args[0].equalsIgnoreCase("createFakeProfiles")) {
-            //Permission Check
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                if (!p.hasPermission("freeRPG.createFakePlayers")) {
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                    return true;
-                }
-            }
-            //Argument length check
-            if (args.length != 2) {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg createFakePlayers [#]");
-                } else {
-                    System.out.println("Improper Arguments, try /frpg createFakePlayers [#]");
-                }
-                return true;
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg createFakePlayers [#]";
+            CommandHelper commandHelper = new CommandHelper(sender,args,2,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPermissionName("createFakePlayers");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
             }
 
-            int numPlayers = 0;
-            try {
-                numPlayers = Integer.valueOf(args[1]);
-            }
-            catch (NumberFormatException e) {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg createFakePlayers [#]");
-                } else {
-                    System.out.println("Improper Arguments, try /frpg createFakePlayers [#]");
-                }
-                return true;
+            int numPlayers = getArgumentAsInteger(args[1]);
+            if (numPlayers == Integer.MAX_VALUE) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true; //Improper input
             }
 
             PlayerStatsFilePreparation playerStatsFilePreparation = new PlayerStatsFilePreparation();
@@ -985,25 +861,11 @@ public class FrpgCommands implements CommandExecutor {
 
         //removeFakePlayers
         else if (args[0].equalsIgnoreCase("deleteFakePlayers") || args[0].equalsIgnoreCase("deleteFakeProfiles") ||  args[0].equalsIgnoreCase("removeFakePlayers") ||  args[0].equalsIgnoreCase("removeFakeProfiles")) {
-            //Permission Check
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                if (!p.hasPermission("freeRPG.createFakePlayers")) {
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                    return true;
-                }
-            }
-            //Argument length check
-            if (args.length != 1) {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg deleteFakePlayers");
-                } else {
-                    System.out.println("Improper Arguments, try /frpg deleteFakePlayers");
-                }
-                return true;
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg deleteFakePlayers";
+            CommandHelper commandHelper = new CommandHelper(sender,args,0,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPermissionName("createFakePlayers");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
             }
 
             File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("FreeRPG").getDataFolder(), File.separator + "PlayerDatabase");
@@ -1018,25 +880,11 @@ public class FrpgCommands implements CommandExecutor {
 
         //Save FRPG Data
         else if (args[0].equalsIgnoreCase("thoroughSave")) {
-            //Permission Check
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                if (!p.hasPermission("freeRPG.saveStats")) {
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                    return true;
-                }
-            }
-            //Argument length check
-            if (args.length != 1) {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg save");
-                } else {
-                    System.out.println("Improper Arguments, try /frpg save");
-                }
-                return true;
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg save";
+            CommandHelper commandHelper = new CommandHelper(sender,args,0,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPermissionName("saveStats");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
             }
 
             PeriodicSaving periodicSaving = new PeriodicSaving();
@@ -1051,16 +899,12 @@ public class FrpgCommands implements CommandExecutor {
 
         //Load in all players
         else if (args[0].equalsIgnoreCase("loadInAllPlayerFiles") || args[0].equalsIgnoreCase("loadInPlayerFiles")) {
-            //Permission Check
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                if (!p.hasPermission("freeRPG.saveData")) {
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                    return true;
-                }
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg save";
+            CommandHelper commandHelper = new CommandHelper(sender,args,0,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPermissionName("saveStats");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
             }
-
             OfflinePlayerStatLoadIn offlinePlayerStatLoadIn = new OfflinePlayerStatLoadIn();
             offlinePlayerStatLoadIn.loadInAllOfflinePlayers();
 
@@ -1068,541 +912,386 @@ public class FrpgCommands implements CommandExecutor {
 
         //GiveEXP
         else if (args[0].equalsIgnoreCase("giveEXP") || args[0].equalsIgnoreCase("expGive")) {
-            if (args.length == 4) {
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg giveEXP [::playerName::] [::skillName::] [::exp::]";
+            CommandHelper commandHelper = new CommandHelper(sender,args,3,4,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPermissionName("giveEXP");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
+            }
+            Player target;
+            String skillNameInput;
+            String expInput;
+            if (args.length == 3) {
+                if (sender instanceof Player) {
+                    target = (Player) sender;
+                    skillNameInput = args[1];
+                    expInput = args[2];
+                } else {
+                    commandHelper.sendImproperArgumentsMessage();
+                    return true; //Improper Arguments
+                }
+            } else {
                 String playerName = args[1];
-                Player target = plugin.getServer().getPlayer(playerName);
+                skillNameInput = args[2];
+                expInput = args[3];
+
+                //Target Online Check
+                target = plugin.getServer().getPlayer(playerName);
                 boolean targetOnline = isTargetOnline(target,sender);
                 if (!targetOnline) {
-                    return true;
-                }
-                int exp = 0;
-                try {
-                    exp = Integer.valueOf(args[3]);
-                }
-                catch (NumberFormatException e) {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg giveEXP ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] [exp]");
-                    } else {
-                        System.out.println("Improper Arguments, try /frpg giveEXP [playerName] [skillName] [exp]");
-                    }
-                    return true;
-                }
-
-                String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
-                List<String> labels_arr = Arrays.asList(labels_0);
-                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-                String skillName = UtilityMethods.convertStringToListCasing(labels_arr,args[2]);
-                if (labels_arr.contains(skillName) && target.isOnline()) {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        LanguageSelector lang = new LanguageSelector(p);
-                        if (p.hasPermission("freeRPG.giveEXP")) {
-                            ChangeStats increaseStats = new ChangeStats(target);
-                            increaseStats.set_isCommand(true);
-                            if (exp < 0) {
-                                p.sendMessage(ChatColor.RED + lang.getString("onlyIncrease"));
-                                return true;
-                            }
-                            increaseStats.changeEXP(skillName, exp);
-                            increaseStats.setTotalLevel();
-                            increaseStats.setTotalExperience();
-                        } else {
-                            p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                        }
-                    } else {
-                        ChangeStats increaseStats = new ChangeStats(target);
-                        increaseStats.set_isCommand(true);
-                        if (exp < 0) {
-                            System.out.println("Please only increase exp with this command, otherwise, use /frpg statReset then /frpg giveEXP");
-                            return true;
-                        }
-                        increaseStats.changeEXP(skillName, exp);
-                        increaseStats.setTotalLevel();
-                        increaseStats.setTotalExperience();
-                    }
-                }
-                else {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        if (p.hasPermission("freeRPG.giveEXP")) {
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg giveEXP ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] [exp]");
-                        } else {
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                        }
-                    }
-                    else {
-                        System.out.println("Improper Arguments, try /frpg giveEXP [playerName] [skillName] [exp]");
-                    }
+                    return true; //Target not online
                 }
             }
-            else {
+
+            int exp = getArgumentAsInteger(expInput);
+            if (exp == Integer.MAX_VALUE) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true; //Improper argument (exp not integer)
+            }
+
+            String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
+            List<String> labels_arr = Arrays.asList(labels_0);
+            String skillName = UtilityMethods.convertStringToListCasing(labels_arr,skillNameInput);
+            if (!labels_arr.contains(skillName)) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true; //Improper argument (skillName not valid)
+            }
+
+            if (exp < 0) {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
-                    if (p.hasPermission("freeRPG.giveEXP")) {
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+" /frpg giveEXP ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] [exp]");
-                    } else {
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                    }
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED + lang.getString("onlyIncrease"));
+                } else {
+                    sender.sendMessage("Please only increase exp with this command, otherwise, use /frpg statReset then /frpg giveEXP");
                 }
-                else {
-                    System.out.println("Improper Arguments, try /frpg giveEXP [playerName] [skillName] [exp]");
-                }
+                return true; //Improper argument (exp change not positive)
             }
+
+            ChangeStats increaseStats = new ChangeStats(target);
+            increaseStats.set_isCommand(true);
+            increaseStats.changeEXP(skillName, exp);
+            increaseStats.setTotalLevel();
+            increaseStats.setTotalExperience();
         }
 
         //setLevel
         else if (args[0].equalsIgnoreCase("setLevel") || args[0].equalsIgnoreCase("levelSet")) {
-            if (args.length == 4) {
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg setLevel [::playerName::] [::skillName::] [::level::]";
+            CommandHelper commandHelper = new CommandHelper(sender,args,3,4,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPermissionName("setLevel");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
+            }
+            Player target;
+            String skillNameInput;
+            String levelInput;
+            if (args.length == 3) {
+                if (sender instanceof Player) {
+                    target = (Player) sender;
+                    skillNameInput = args[1];
+                    levelInput = args[2];
+                } else {
+                    commandHelper.sendImproperArgumentsMessage();
+                    return true; //Improper Arguments
+                }
+            } else {
                 String playerName = args[1];
-                Player target = plugin.getServer().getPlayer(playerName);
+                skillNameInput = args[2];
+                levelInput = args[3];
+
+                //Target Online Check
+                target = plugin.getServer().getPlayer(playerName);
                 boolean targetOnline = isTargetOnline(target,sender);
                 if (!targetOnline) {
-                    return true;
-                }
-                int level = 0;
-                try {
-                    level = Integer.valueOf(args[3]);
-                }
-                catch (NumberFormatException e) {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setLevel ["+ lang.getString("playerName")+"] ["+ lang.getString("skillName")+"] ["+ lang.getString("level")+"]");
-                    } else {
-                        System.out.println("Improper Arguments, try /frpg setLevel [playerName] [skillName] [level]");
-                    }
-                    return true;
-                }
-                String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
-                List<String> labels_arr = Arrays.asList(labels_0);
-                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-                String skillName = UtilityMethods.convertStringToListCasing(labels_arr,args[2]);
-                if (labels_arr.contains(skillName) && target.isOnline()) {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        if (p.hasPermission("freeRPG.setLevel")) {
-                            ChangeStats increaseStats = new ChangeStats(target);
-                            increaseStats.set_isCommand(true);
-                            PlayerStats pStatClass = new PlayerStats(target);
-                            Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-                            int exp = increaseStats.getEXPfromLevel(level);
-                            int currentExp = (int) pStat.get(skillName).get(1);
-                            if (exp <= currentExp) {
-                                LanguageSelector lang = new LanguageSelector(p);
-                                p.sendMessage(ChatColor.RED + lang.getString("onlyIncrease"));
-                                return true;
-                            }
-                            increaseStats.changeEXP(skillName,exp-currentExp+1);
-                            increaseStats.setTotalLevel();
-                            increaseStats.setTotalExperience();
-                        } else {
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                        }
-                    } else {
-                        ChangeStats increaseStats = new ChangeStats(target);
-                        increaseStats.set_isCommand(true);
-                        PlayerStats pStatClass = new PlayerStats(target);
-                        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-                        int exp = increaseStats.getEXPfromLevel(level);
-                        int currentExp = (int) pStat.get(skillName).get(1);
-                        if (exp <= currentExp) {
-                            System.out.println("Please only increase levels with this command, otherwise, use /frpg statReset then /frpg setLevel");
-                            return true;
-                        }
-                        increaseStats.changeEXP(skillName,exp-currentExp+1);
-                        increaseStats.setTotalLevel();
-                        increaseStats.setTotalExperience();
-                    }
-                }
-                else {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        if (p.hasPermission("freeRPG.setLevel")) {
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setLevel ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] ["+lang.getString("level")+"]");
-                        } else {
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-                        }
-                    }
-                    else {
-                        System.out.println("Improper Arguments, try /frpg setLevel [playerName] [skillName] [level]");
-                    }
+                    return true; //Target not online
                 }
             }
-            else {
+
+            int level = getArgumentAsInteger(levelInput);
+            if (level == Integer.MAX_VALUE) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true; //Improper argument (exp not integer)
+            }
+
+            String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
+            List<String> labels_arr = Arrays.asList(labels_0);
+            String skillName = UtilityMethods.convertStringToListCasing(labels_arr,skillNameInput);
+            if (!labels_arr.contains(skillName)) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true; //Improper argument (skillName not valid)
+            }
+
+            ChangeStats increaseStats = new ChangeStats(target);
+            int exp = increaseStats.getEXPfromLevel(level);
+            PlayerStats pStatClass = new PlayerStats(target);
+            Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+            int currentExp = (int) pStat.get(skillName).get(1);
+
+            if (exp <= currentExp) {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
-                    if (p.hasPermission("freeRPG.setLevel")) {
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setLevel ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] ["+lang.getString("level")+"]");
-                    } else {
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-                    }
+                    LanguageSelector lang = new LanguageSelector(p);
+                    p.sendMessage(ChatColor.RED + lang.getString("onlyIncrease"));
+                } else {
+                    sender.sendMessage("Please only increase levels with this command, otherwise, use /frpg statReset then /frpg setLevel");
                 }
-                else {
-                    System.out.println("Improper Arguments, try /frpg setLevel [playerName] [skillName] [level]");
-                }
+                return true; //Improper argument (exp change not positive)
             }
+
+            increaseStats.changeEXP(skillName,exp-currentExp+1);
+            increaseStats.setTotalLevel();
+            increaseStats.setTotalExperience();
         }
 
         //statReset
         else if (args[0].equalsIgnoreCase("statReset") || args[0].equalsIgnoreCase("resetStat")) {
-            if (args.length == 3) {
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg statReset [::playerName::] [::skillName::]";
+            CommandHelper commandHelper = new CommandHelper(sender,args,2,3,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPermissionName("statReset");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
+            }
+            Player target;
+            String skillNameInput;
+            if (args.length == 2) {
+                if (sender instanceof Player) {
+                    target = (Player) sender;
+                    skillNameInput = args[1];
+                } else {
+                    commandHelper.sendImproperArgumentsMessage();
+                    return true; //Improper Arguments
+                }
+            } else {
                 String playerName = args[1];
-                Player target = plugin.getServer().getPlayer(playerName);
+                skillNameInput = args[2];
+
+                //Target Online Check
+                target = plugin.getServer().getPlayer(playerName);
                 boolean targetOnline = isTargetOnline(target,sender);
                 if (!targetOnline) {
-                    return true;
+                    return true; //Target not online
                 }
-                String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
-                List<String> labels_arr = Arrays.asList(labels_0);
-                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-                String skillName = UtilityMethods.convertStringToListCasing(labels_arr,args[2]);
-                if (labels_arr.contains(skillName) && target.isOnline()) {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        if (p.hasPermission("freeRPG.statReset")) {
-                            ChangeStats increaseStats = new ChangeStats(target);
-                            increaseStats.resetStat(skillName);
+            }
 
-                        } else {
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-                        }
-                    } else {
-                        ChangeStats increaseStats = new ChangeStats(target);
-                        increaseStats.resetStat(skillName);
-                    }
-                }
-                else {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        if (p.hasPermission("freeRPG.statReset")) {
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg statReset ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"]");
-                        } else {
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-                        }
-                    }
-                    else {
-                        System.out.println("Improper Arguments, try /frpg statReset [playername] [statName]");
-                    }
-                }
+            String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
+            List<String> labels_arr = Arrays.asList(labels_0);
+            String skillName = UtilityMethods.convertStringToListCasing(labels_arr,skillNameInput);
+            if (!labels_arr.contains(skillName)) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true; //Improper argument (skillName not valid)
             }
-            else {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    if (p.hasPermission("freeRPG.setLevel")) {
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg statReset ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"]");
-                    } else {
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-                    }
-                }
-                else {
-                    System.out.println("Improper Arguments, try /frpg statReset [playername] [statName]");
-                }
-            }
+
+            ChangeStats increaseStats = new ChangeStats(target);
+            increaseStats.resetStat(skillName);
+
         }
 
         //setSouls
         else if (args[0].equalsIgnoreCase("setSouls") || args[0].equalsIgnoreCase("soulsSet")) {
-            if (args.length == 3) {
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg setSouls [::playerName::] [::amount::]";
+            CommandHelper commandHelper = new CommandHelper(sender,args,2,3,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPermissionName("setSouls");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
+            }
+            Player target;
+            String soulsInput;
+            if (args.length == 2) {
+                if (sender instanceof Player) {
+                    target = (Player) sender;
+                    soulsInput = args[1];
+                } else {
+                    commandHelper.sendImproperArgumentsMessage();
+                    return true; //Improper Arguments
+                }
+            } else {
                 String playerName = args[1];
+                soulsInput = args[2];
 
-                //Checks if target is online and exists
-                Player target = plugin.getServer().getPlayer(playerName);
+                //Target Online Check
+                target = plugin.getServer().getPlayer(playerName);
                 boolean targetOnline = isTargetOnline(target,sender);
                 if (!targetOnline) {
-                    return true;
-                }
-                if (target.isOnline()) { //THis may be redudant but I'm doing it to be safe
-                    int souls = 0;
-                    try {
-                        souls = Integer.valueOf(args[2]);
-                    }
-                    catch (NumberFormatException e) {
-                        if (sender instanceof Player) {
-                            Player p = (Player) sender;
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setLevel ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] ["+lang.getString("level")+"]");
-                        } else {
-                            System.out.println("Improper Arguments, try /frpg setLevel [playerName] [skillName] [level]");
-                        }
-                        return true;
-                    }
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        if (p.hasPermission("freeRPG.setSouls")) {
-                            ChangeStats increaseStats = new ChangeStats(target);
-                            increaseStats.setStat("global",20,souls);
-                        } else {
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-                        }
-                    }
-                    else {
-                        ChangeStats increaseStats = new ChangeStats(target);
-                        increaseStats.setStat("global",20,souls);
-                    }
+                    return true; //Target not online
                 }
             }
-            else {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    if (p.hasPermission("freeRPG.setSouls")) {
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setSouls ["+lang.getString("[playerName]")+"] ["+lang.getString("amount")+"]");
-                    } else {
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-                    }
-                }
-                else {
-                    System.out.println("Improper Arguments, try /frpg setSouls [playername] [amount]");
-                }
+
+            int souls = getArgumentAsInteger(soulsInput);
+            if (souls == Integer.MAX_VALUE) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true; //Improper argument (souls not integer)
             }
+
+            ChangeStats increaseStats = new ChangeStats(target);
+            increaseStats.setStat("global",20,souls);
         }
 
         //setTokens
         else if (args[0].equalsIgnoreCase("setTokens") || args[0].equalsIgnoreCase("tokensSet")) {
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg setTokens [::playerName::] global [::amount::] or /frpg setTokens [::playerName::] [::skillName::] skill/passive [::amount::]";
+            CommandHelper commandHelper = new CommandHelper(sender,args,3,5,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPermissionName("setTokens");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
+            }
+            Player target;
+            String skillNameInput;
+            String tokenType;
+            String amountInput;
+            if (args.length == 3) { // Two inputs: tokenType and amount
+                if (sender instanceof Player) {
+                    target = (Player) sender;
+                    tokenType = args[1];
+                    amountInput = args[2];
+                    skillNameInput = "global";
+                } else {
+                    commandHelper.sendImproperArgumentsMessage();
+                    return true; //Improper Arguments
+                }
+            } else if (args.length == 4) {
+                if (args[2].equalsIgnoreCase("global")) { //Three inputs: PlayerName, token type, amount
+                    String playerName = args[1];
+                    tokenType = args[2];
+                    skillNameInput = "global";
+                    amountInput = args[3];
 
-            if (args.length == 5 || args.length == 4) {
+                    //Target Online Check
+                    target = plugin.getServer().getPlayer(playerName);
+                    boolean targetOnline = isTargetOnline(target,sender);
+                    if (!targetOnline) {
+                        return true; //Target not online
+                    }
+                } else { //Three inputs: Skillname, tokenType, amount
+                    target = (Player) sender;
+                    skillNameInput = args[1];
+                    tokenType = args[2];
+                    amountInput = args[3];
+                }
+            } else { //Four inputs: Playername, skillName, tokenType, amount
                 String playerName = args[1];
+                skillNameInput = args[2];
+                tokenType = args[3];
+                amountInput = args[4];
 
-                //Checks if target is online and exists
-                Player target = plugin.getServer().getPlayer(playerName);
+                //Target Online Check
+                target = plugin.getServer().getPlayer(playerName);
                 boolean targetOnline = isTargetOnline(target,sender);
                 if (!targetOnline) {
-                    return true;
-                }
-
-                //Global tokens case
-                if (args.length == 4) {
-                    if (args[2].equalsIgnoreCase("global")) {
-                        int globalTokens = 0;
-                        try {
-                            globalTokens = Integer.valueOf(args[3]);
-                        }
-                        catch (NumberFormatException e) {
-                            if (sender instanceof Player) {
-                                Player p = (Player) sender;
-                                LanguageSelector lang = new LanguageSelector(p);
-                                p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setTokens ["+lang.getString("playerName")+"] global ["+lang.getString("amount")+"]");
-                            } else {
-                                System.out.println("Improper Arguments, try /frpg setTokens [playername] global [amount]");
-                            }
-                            return true;
-                        }
-                        if (sender instanceof Player) {
-                            Player p = (Player) sender;
-                            if (p.hasPermission("freeRPG.setTokens")) {
-                                ChangeStats increaseStats = new ChangeStats(target);
-                                increaseStats.setStat("global",1,globalTokens);
-                            }
-                        } else {
-                            ChangeStats increaseStats = new ChangeStats(target);
-                            increaseStats.setStat("global",1,globalTokens);
-                        }
-                    }
-                    else {
-                        if (sender instanceof Player) {
-                            Player p = (Player) sender;
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setTokens ["+lang.getString("playerName")+"] global ["+lang.getString("amount")+"]");
-                        } else {
-                            System.out.println("Improper Arguments, /frpg setTokens [PlayerName] global [amount]");
-                        }
-                    }
-                    return true;
-                }
-
-                String tokenType = args[3];
-                String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
-                List<String> labels_arr = Arrays.asList(labels_0);
-                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-                String skillName = UtilityMethods.convertStringToListCasing(labels_arr,args[2]);
-                if (labels_arr.contains(skillName) && target.isOnline()) { //THis may be redudant but I'm doing it to be safe
-                    //Skill/Passive Token Case
-                    if (tokenType.equalsIgnoreCase("skill") || tokenType.equalsIgnoreCase("passive")) {
-                        int tokens = 0;
-                        try {
-                            tokens = Integer.valueOf(args[4]);
-                        } catch (NumberFormatException e) {
-                            if (sender instanceof Player) {
-                                Player p = (Player) sender;
-                                LanguageSelector lang = new LanguageSelector(p);
-                                p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setTokens ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] [skill/passive] ["+lang.getString("amount")+"]");
-                            } else {
-                                System.out.println("Improper Arguments, try /frpg setTokens [playername] [skillName] [global/skill/passive] [amount]");
-                            }
-                            return true;
-                        }
-                        if (sender instanceof Player) {
-                            Player p = (Player) sender;
-                            if (p.hasPermission("freeRPG.setTokens")) {
-                                ChangeStats increaseStats = new ChangeStats(target);
-                                if (tokenType.equalsIgnoreCase("skill")) {
-                                    increaseStats.setStat(skillName, 3, tokens);
-                                } else {
-                                    increaseStats.setStat(skillName, 2, tokens);
-                                }
-                            }
-                        } else {
-                            ChangeStats increaseStats = new ChangeStats(target);
-                            if (tokenType.equalsIgnoreCase("skill")) {
-                                increaseStats.setStat(skillName, 3, tokens);
-                            } else {
-                                increaseStats.setStat(skillName, 2, tokens);
-                            }
-                        }
-                    } else {
-                        if (sender instanceof Player) {
-                            Player p = (Player) sender;
-                            LanguageSelector lang = new LanguageSelector(p);
-                            p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setTokens ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] [skill/passive] ["+lang.getString("amount")+"]");
-                        } else {
-                            System.out.println("Improper Arguments, try /frpg setTokens [playerName] [skillName] [passive/skill] [amount]");
-                        }
-                    }
+                    return true; //Target not online
                 }
             }
-            else {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    if (p.hasPermission("freeRPG.setTokens")) {
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED +lang.getString("improperArguments") +" /frpg setTokens ["+lang.getString("playerName")+"] ["+lang.getString("skillName")+"] [skill/passive] ["+lang.getString("amount")+"]");
-                    } else {
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-                    }
-                }
-                else {
-                    System.out.println("Improper Arguments, try /frpg setTokens [playername] [skillName] [skill/passive] [amount]");
-                }
+
+            String[] labels_0 = {"digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting","global"};
+            List<String> labels_arr = Arrays.asList(labels_0);
+            String skillName = UtilityMethods.convertStringToListCasing(labels_arr, skillNameInput);
+            if (!labels_arr.contains(skillName)) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true; //Improper argument (skillName not valid)
             }
+
+            int amount = getArgumentAsInteger(amountInput);
+            if (amount == Integer.MAX_VALUE) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true; //Improper argument (amount not integer)
+            }
+
+            if (!(tokenType.equalsIgnoreCase("global") || tokenType.equalsIgnoreCase("skill") || tokenType.equalsIgnoreCase("passive"))) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true; //Improper arguemnt (token type not global, skill, or passive)
+            }
+
+            ChangeStats increaseStats = new ChangeStats(target);
+            if (tokenType.equalsIgnoreCase("global")) {
+                increaseStats.setStat("global", 1, amount);
+            } else if (tokenType.equalsIgnoreCase("passive")){
+                increaseStats.setStat(skillName, 2, amount);
+            } else if (tokenType.equalsIgnoreCase("skill")) {
+                increaseStats.setStat(skillName, 3, amount);
+            }
+
         }
 
         //setMultiplier
         else if (args[0].equalsIgnoreCase("setMultiplier") || args[0].equalsIgnoreCase("multiplierSet")) {
-            if (args.length == 3) {
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg setMultiplier [::playerName::] [::expIncrease::]";
+            CommandHelper commandHelper = new CommandHelper(sender,args,2,3,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPermissionName("setMultiplier");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
+            }
+            Player target;
+            String multiplierInput;
+            if (args.length == 2) {
+                if (sender instanceof Player) {
+                    target = (Player) sender;
+                    multiplierInput = args[1];
+                } else {
+                    commandHelper.sendImproperArgumentsMessage();
+                    return true; //Improper Arguments
+                }
+            } else {
                 String playerName = args[1];
+                multiplierInput = args[2];
 
-                //Checks if target is online and exists
-                Player target = plugin.getServer().getPlayer(playerName);
+                //Target Online Check
+                target = plugin.getServer().getPlayer(playerName);
                 boolean targetOnline = isTargetOnline(target,sender);
                 if (!targetOnline) {
-                    return true;
-                }
-
-                //Checks if value is a double
-                double multiplier = 1.0;
-                try {
-                    multiplier = Double.valueOf(args[2]);
-                }
-                catch (NumberFormatException e) {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg setMultiplier [" + lang.getString("playerName") + "] " + "[" + lang.getString("expIncrease")+"]");
-                    }
-                    else {
-                        System.out.println("Improper arguments, try /frpg setMultiplier [playerName] [EXP Multiplier]");
-                    }
-                    return true;
-                }
-
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    if (p.hasPermission("setMultiplier")) {
-                        ChangeStats setMultiplier = new ChangeStats(target);
-                        setMultiplier.setStat("global",23,multiplier);
-                    }
-                }
-                else {
-                    ChangeStats setMultiplier = new ChangeStats(target);
-                    setMultiplier.setStat("global",23,multiplier);
-                }
-
-
-            }
-            else {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg setMultiplier [" + lang.getString("playerName") + "] " + "[" + lang.getString("expIncrease")+"]");
-                }
-                else {
-                    System.out.println("Improper arguments, try /frpg setMultiplier [playerName] [EXP Multiplier]");
+                    return true; //Target not online
                 }
             }
+
+            double multiplier = getArgumentAsDouble(multiplierInput);
+            if (multiplier == Double.MAX_VALUE) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true; //Improper argument (amount not integer)
+            }
+
+            ChangeStats setMultiplier = new ChangeStats(target);
+            setMultiplier.setStat("global",23,multiplier);
+
         }
 
         //addMultiplier
         else if (args[0].equalsIgnoreCase("addMultiplier") || args[0].equalsIgnoreCase("changeMultiplier")) {
-            if (args.length == 3) {
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg addMultiplier [::playerName::] [::expIncrease::]";
+            CommandHelper commandHelper = new CommandHelper(sender,args,2,3,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPermissionName("setMultiplier");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
+            }
+            Player target;
+            String multiplierInput;
+            if (args.length == 2) {
+                if (sender instanceof Player) {
+                    target = (Player) sender;
+                    multiplierInput = args[1];
+                } else {
+                    commandHelper.sendImproperArgumentsMessage();
+                    return true; //Improper Arguments
+                }
+            } else {
                 String playerName = args[1];
+                multiplierInput = args[2];
 
-                //Checks if target is online and exists
-                Player target = plugin.getServer().getPlayer(playerName);
+                //Target Online Check
+                target = plugin.getServer().getPlayer(playerName);
                 boolean targetOnline = isTargetOnline(target,sender);
                 if (!targetOnline) {
-                    return true;
-                }
-
-                //Checks if value is a double
-                double multiplier = 1.0;
-                try {
-                    multiplier = Double.valueOf(args[2]);
-                }
-                catch (NumberFormatException e) {
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        LanguageSelector lang = new LanguageSelector(p);
-                        p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg setMultiplier [" + lang.getString("playerName") + "] " + "[" + lang.getString("expIncrease")+"]");
-                    }
-                    else {
-                        System.out.println("Improper arguments, try /frpg setMultiplier [playerName] [EXP Multiplier]");
-                    }
-                    return true;
-                }
-
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    if (p.hasPermission("setMultiplier")) {
-                        ChangeStats setMultiplier = new ChangeStats(target);
-                        setMultiplier.changeStat("global",23,multiplier);
-                    }
-                }
-                else {
-                    ChangeStats setMultiplier = new ChangeStats(target);
-                    setMultiplier.changeStat("global",23,multiplier);
-                }
-
-
-            }
-            else {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    LanguageSelector lang = new LanguageSelector(p);
-                    p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg setMultiplier [" + lang.getString("playerName") + "] " + "[" + lang.getString("expIncrease")+"]");
-                }
-                else {
-                    System.out.println("Improper arguments, try /frpg setMultiplier [playerName] [EXP Multiplier]");
+                    return true; //Target not online
                 }
             }
+
+            double multiplier = getArgumentAsDouble(multiplierInput);
+            if (multiplier == Double.MAX_VALUE) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true; //Improper argument (amount not integer)
+            }
+
+            ChangeStats setMultiplier = new ChangeStats(target);
+            setMultiplier.changeStat("global",23,multiplier);
+
         }
 
         //flamePickToggle
@@ -1612,7 +1301,7 @@ public class FrpgCommands implements CommandExecutor {
                 return togglePerk("flamePickToggle",p,args);
 
             } else {
-                System.out.println("You need to be a player to cast this command");
+                sender.sendMessage("You need to be a player to cast this command");
             }
         }
 
@@ -1623,7 +1312,7 @@ public class FrpgCommands implements CommandExecutor {
                 return togglePerk("flintToggle",p,args);
 
             } else {
-                System.out.println("You need to be a player to cast this command");
+                sender.sendMessage("You need to be a player to cast this command");
             }
         }
 
@@ -1634,7 +1323,7 @@ public class FrpgCommands implements CommandExecutor {
                 return togglePerk("grappleToggle",p,args);
 
             } else {
-                System.out.println("You need to be a player to cast this command");
+                sender.sendMessage("You need to be a player to cast this command");
             }
 
         }
@@ -1646,7 +1335,7 @@ public class FrpgCommands implements CommandExecutor {
                 return togglePerk("hotRodToggle",p,args);
 
             } else {
-                System.out.println("You need to be a player to cast this command");
+                sender.sendMessage("You need to be a player to cast this command");
             }
         }
 
@@ -1657,7 +1346,7 @@ public class FrpgCommands implements CommandExecutor {
                 return togglePerk("megaDigToggle",p,args);
 
             } else {
-                System.out.println("You need to be a player to cast this command");
+                sender.sendMessage("You need to be a player to cast this command");
             }
         }
 
@@ -1668,7 +1357,7 @@ public class FrpgCommands implements CommandExecutor {
                 return togglePerk("potionToggle",p,args);
 
             } else {
-                System.out.println("You need to be a player to cast this command");
+                sender.sendMessage("You need to be a player to cast this command");
             }
         }
 
@@ -1679,7 +1368,7 @@ public class FrpgCommands implements CommandExecutor {
                 return togglePerk("speedToggle",p,args);
 
             } else {
-                System.out.println("You need to be a player to cast this command");
+                sender.sendMessage("You need to be a player to cast this command");
             }
         }
 
@@ -1690,7 +1379,7 @@ public class FrpgCommands implements CommandExecutor {
                 return togglePerk("veinMinerToggle",p,args);
 
             } else {
-                System.out.println("You need to be a player to cast this command");
+                sender.sendMessage("You need to be a player to cast this command");
             }
         }
 
@@ -1701,7 +1390,7 @@ public class FrpgCommands implements CommandExecutor {
                 return togglePerk("leafBlowerToggle",p,args);
 
             } else {
-                System.out.println("You need to be a player to cast this command");
+                sender.sendMessage("You need to be a player to cast this command");
             }
         }
 
@@ -1712,7 +1401,7 @@ public class FrpgCommands implements CommandExecutor {
                 return togglePerk("holyAxeToggle",p,args);
 
             } else {
-                System.out.println("You need to be a player to cast this command");
+                sender.sendMessage("You need to be a player to cast this command");
             }
         }
 

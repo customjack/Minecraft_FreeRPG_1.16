@@ -420,7 +420,7 @@ public class Mining extends Skill{
         if (veinMinerToggle < 1) {
             return;
         }
-        List<Material> ores = itemGroups.getOres();
+        HashSet<Material> ores = itemGroups.getVeinMinerBlocks();
         ConfigLoad configLoad = new ConfigLoad();
         int maxBreakSize = configLoad.getVeinMinerMaxBreakSize();
         getVeinOres(initialBlock,initialBlock.getX(),initialBlock.getY(),initialBlock.getZ(),initialBlock.getType(),maxBreakSize); //Get Ores in Vein

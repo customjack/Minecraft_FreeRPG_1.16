@@ -103,7 +103,7 @@ digging:
     drop10BaseChance: 0.0025
     drop11Name: emerald
     drop11Amount: 1
-    drop11BaseChance: 0.00229
+    drop11BaseChance: 0.0229
     drop12Name: enchanted_book
     drop12Amount: 1
     drop12BaseChance: 0.001275
@@ -145,6 +145,7 @@ digging:
     breakRed_Sand: 22
     breakSand: 20
     breakSoulSand: 30
+    breakSoulSoil: 25
     breakSnowBlock: 22
     breakSnow: 4
     breakConcretePowder: 20

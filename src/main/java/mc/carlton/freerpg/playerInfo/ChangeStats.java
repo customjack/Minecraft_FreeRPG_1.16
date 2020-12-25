@@ -487,7 +487,7 @@ public class ChangeStats {
         if (skillName.equalsIgnoreCase("global") && statIndex == 23) {
             double originalValue = (double) pStats.get(statIndex);
             double valueChangeDouble = (double) valueChange;
-            pStats.set(statIndex, originalValue + valueChangeDouble);
+            pStats.set(statIndex, Math.round((originalValue + valueChangeDouble)*100000.0)/100000.0);
         }
         else {
             int originalValue = (int) pStats.get(statIndex);

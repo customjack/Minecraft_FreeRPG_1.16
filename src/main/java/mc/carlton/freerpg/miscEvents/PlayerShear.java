@@ -4,6 +4,7 @@ import mc.carlton.freerpg.perksAndAbilities.Farming;
 import mc.carlton.freerpg.serverInfo.ConfigLoad;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -23,7 +24,9 @@ public class PlayerShear implements Listener {
         Player p = e.getPlayer();
         Entity entity = e.getEntity();
         World world = p.getWorld();
-        e.setCancelled(true);
+        if (entity.getType().equals(EntityType.SHEEP)) {
+            e.setCancelled(true);
+        }
 
         //Farming
         Farming farmingClass = new Farming(p);

@@ -282,6 +282,7 @@ public class Digging extends Skill{
                 Material.MUSIC_DISC_STAL, Material.MUSIC_DISC_STRAD, Material.MUSIC_DISC_WAIT, Material.MUSIC_DISC_WARD};
         Material[] horse_armor = {Material.LEATHER_HORSE_ARMOR, Material.IRON_HORSE_ARMOR, Material.GOLDEN_HORSE_ARMOR, Material.DIAMOND_HORSE_ARMOR};
 
+
         for (int i = 0; i < rolls; i++) {
             //Double drop roll
             double doubleTreasureChance = doubleTreasure * 0.05;
@@ -293,7 +294,6 @@ public class Digging extends Skill{
                 doubleDrop = true;
             }
 
-            randomNum = rand.nextDouble();
             if (randomNum < rateSums[0]) {
                 ItemStack drop = new ItemStack(Material.DIRT,1);
                 if (treasureData.get(0) == null) {
@@ -450,7 +450,7 @@ public class Digging extends Skill{
                 }
             } else if (randomNum < rateSums[11] && dropLevel_II >= 2) {
                 ItemStack drop = new ItemStack(Material.DIRT,1);
-                if (treasureData.get(24) == null) {
+                if (treasureData.get(24) == null || (treasureData.get(24)).equals(Material.ENCHANTED_BOOK)) {
                     ItemGroups itemGroups = new ItemGroups();
                     Map<Enchantment, Integer> enchantmentLevelMap = itemGroups.getEnchantmentLevelMap();
                     drop.setType(Material.ENCHANTED_BOOK);

@@ -57,6 +57,9 @@ public class ExpMaps {
         diggingEXP.put(Material.GREEN_CONCRETE_POWDER,expMap.get("breakConcretePowder"));
         diggingEXP.put(Material.RED_CONCRETE_POWDER,expMap.get("breakConcretePowder"));
         diggingEXP.put(Material.BLACK_CONCRETE_POWDER,expMap.get("breakConcretePowder"));
+        if (mcVersion >= 1.16) {
+            diggingEXP.put(Material.SOUL_SAND,expMap.get("breakSoulSoil"));
+        }
     }
 
     public void initializeWoodcuttingEXP() {
