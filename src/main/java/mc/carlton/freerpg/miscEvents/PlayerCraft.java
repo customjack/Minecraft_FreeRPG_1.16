@@ -37,9 +37,6 @@ public class PlayerCraft implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     void onPlayerCraft(CraftItemEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
         Player p = (Player) e.getWhoClicked();
         PlayerStats pStatClass = new PlayerStats(p);
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();

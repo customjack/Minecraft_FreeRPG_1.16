@@ -7,6 +7,8 @@ import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
 import mc.carlton.freerpg.globalVariables.CraftingRecipes;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
+import mc.carlton.freerpg.guiTools.GuiItem;
+import mc.carlton.freerpg.guiTools.GuiWrapper;
 import mc.carlton.freerpg.playerInfo.*;
 import mc.carlton.freerpg.serverFileManagement.PeriodicSaving;
 import mc.carlton.freerpg.serverFileManagement.PlayerStatsFilePreparation;
@@ -198,7 +200,7 @@ public class FrpgCommands implements CommandExecutor {
         }
         return true;
     }
-    private void togglePerkSetGuiItem(String id, Player p, Inventory gui) {
+    private void togglePerkSetGuiItem(String id, Player p, GuiWrapper gui) {
         String langID;
         int globalIndex;
         int guiIndex = 28;
@@ -262,34 +264,11 @@ public class FrpgCommands implements CommandExecutor {
                 return;
         }
 
-
-        PlayerStats pStatClass = new PlayerStats(p);
-        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        //item
-        LanguageSelector lang = new LanguageSelector(p);
-        ItemStack item = new ItemStack(icon);
+        String parsableName = "::"+langID+"::" + " " + "::toggle::";
+        addToggleButton(p,gui,parsableName,icon,guiIndex,globalIndex);
         if (enchanted) {
-            item.addUnsafeEnchantment(Enchantment.LOYALTY,1);
+            gui.getItem(guiIndex).addEnchantmentGlow();
         }
-        ItemMeta itemMeta = item.getItemMeta();
-        itemMeta.setDisplayName(ChatColor.BOLD + lang.getString(langID) + " " + lang.getString("toggle"));
-        itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        item.setItemMeta(itemMeta);
-        gui.setItem(guiIndex,item);
-
-        ItemStack itemToggle = new ItemStack(Material.LIME_DYE);
-        ItemMeta itemToggleMeta = itemToggle.getItemMeta();
-        if ( (int) pStat.get("global").get(globalIndex) > 0) {
-            itemToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-        }
-        else {
-            itemToggle.setType(Material.GRAY_DYE);
-            itemToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-        }
-        itemToggle.setItemMeta(itemToggleMeta);
-        gui.setItem(guiIndex+9,itemToggle);
     }
     private void generateMainMenu(Player p) {
         LanguageSelector lang = new LanguageSelector(p);
@@ -559,7 +538,7 @@ public class FrpgCommands implements CommandExecutor {
             }
         }
     }
-    public void createStatLookup(CommandSender sender, String playerName) {
+    private void createStatLookup(CommandSender sender, String playerName) {
         Leaderboards leaderboards = new Leaderboards();
         if (sender instanceof Player) {
             Player p = (Player) sender;
@@ -620,6 +599,47 @@ public class FrpgCommands implements CommandExecutor {
                 sender.sendMessage(displayTitle  + " - " + displayedStat + " (" + rankString +")");
             }
         }
+    }
+    private void addToggleButton(Player p, GuiWrapper gui, String parseableName, Material iconItemType, int iconPosition, int toggleIndex) {
+        LanguageSelector lang = new LanguageSelector(p);
+        PlayerStats pStatClass = new PlayerStats(p);
+        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+
+        GuiItem guiItem = new GuiItem(iconItemType,iconPosition,gui);
+        guiItem.setName(lang.translateMessage(parseableName));
+        gui.addItem(guiItem);
+
+        GuiItem guiItemToggle = new GuiItem(Material.LIME_DYE,iconPosition+9,gui);
+        if ( (int) pStat.get("global").get(toggleIndex) > 0) {
+            guiItemToggle.setNameColor(ChatColor.BOLD + ChatColor.GREEN.toString());
+            guiItemToggle.setName(lang.getString("on0"));
+        }
+        else {
+            guiItemToggle.setItemType(Material.GRAY_DYE);
+            guiItemToggle.setNameColor(ChatColor.BOLD + ChatColor.RED.toString());
+            guiItemToggle.setName(lang.getString("off0"));
+        }
+        gui.addItem(guiItemToggle);
+    }
+    private void addToggleButton(Player p, GuiWrapper gui, String parseableName, Material iconItemType, int iconPosition, boolean toggleCondition) {
+        LanguageSelector lang = new LanguageSelector(p);
+        PlayerStats pStatClass = new PlayerStats(p);
+
+        GuiItem guiItem = new GuiItem(iconItemType,iconPosition,gui);
+        guiItem.setName(lang.translateMessage(parseableName));
+        gui.addItem(guiItem);
+
+        GuiItem guiItemToggle = new GuiItem(Material.LIME_DYE,iconPosition+9,gui);
+        if (toggleCondition) {
+            guiItemToggle.setNameColor(ChatColor.BOLD + ChatColor.GREEN.toString());
+            guiItemToggle.setName(lang.getString("on0"));
+        }
+        else {
+            guiItemToggle.setItemType(Material.GRAY_DYE);
+            guiItemToggle.setNameColor(ChatColor.BOLD + ChatColor.RED.toString());
+            guiItemToggle.setName(lang.getString("off0"));
+        }
+        gui.addItem(guiItemToggle);
     }
 
     @Override
@@ -1407,632 +1427,389 @@ public class FrpgCommands implements CommandExecutor {
 
         //ConfigGUI
         else if (args[0].equalsIgnoreCase("configGUI") || args[0].equalsIgnoreCase("configurationGUI")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                if (p.isSleeping()) {
-                    p.sendMessage(ChatColor.RED + lang.getString("bedGUI"));
-                    return true;
-                }
-                if (!p.hasPermission("freeRPG.configGUI")) {
-                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                    return true;
-                }
-                if (args.length != 1) {
-                    p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg configurationGUI");
-                }
-                else {
-                    Inventory gui = Bukkit.createInventory(p, 54, "Configuration Window");
-                    PlayerStats pStatClass = new PlayerStats(p);
-                    Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg configGUI";
+            CommandHelper commandHelper = new CommandHelper(sender,args,1,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPlayerOnlyCommand(true);
+            commandHelper.setCheckInBed(true);
+            commandHelper.setPermissionName("configGUI");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
+            }
+            Player p = (Player) sender;
+            LanguageSelector lang = new LanguageSelector(p);
+            PlayerStats pStatClass = new PlayerStats(p);
+            Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
 
-                    //Back button
-                    ItemStack back = new ItemStack(Material.ARROW);
-                    ItemMeta backMeta = back.getItemMeta();
-                    backMeta.setDisplayName(ChatColor.BOLD + "Back");
-                    ArrayList<String> lore = new ArrayList<String>();
-                    lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("diggingPassiveDesc1"));
-                    backMeta.setLore(lore);
-                    back.setItemMeta(backMeta);
-                    gui.setItem(45,back);
+            //GuiWrapper
+            GuiWrapper gui = new GuiWrapper(p,"Configuration Window",54);
 
-                    //Level up Notifications
-                    ItemStack levelUp = new ItemStack(Material.OAK_SIGN);
-                    ItemMeta levelUpMeta = levelUp.getItemMeta();
-                    levelUpMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("levelUpNotif"));
-                    levelUp.setItemMeta(levelUpMeta);
-                    gui.setItem(1,levelUp);
+            //Back button
+            GuiItem backButton = new GuiItem(Material.ARROW,45,gui);
+            backButton.setName(lang.getString("diggingPassiveTitle1"));
+            backButton.setDescription(lang.getString("diggingPassiveDesc1"));
+            gui.addItem(backButton);
 
-                    ItemStack levelUpToggle = new ItemStack(Material.LIME_DYE);
-                    ItemMeta levelUpToggleMeta = levelUpToggle.getItemMeta();
-                    if ( (int) pStat.get("global").get(21) > 0) {
-                        levelUpToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                    }
-                    else {
-                        levelUpToggle.setType(Material.GRAY_DYE);
-                        levelUpToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                    }
-                    levelUpToggle.setItemMeta(levelUpToggleMeta);
-                    gui.setItem(10,levelUpToggle);
+            //Simple Toggle Buttons
+            addToggleButton(p,gui,"::levelUpNotif::",Material.OAK_SIGN,1,21); //Level up Notifications
+            addToggleButton(p,gui,"::abilityPreparationNotif::",Material.OAK_SIGN,2,22); //Ability Prep Notifications
+            addToggleButton(p,gui,"::triggerAbilities::",Material.WOODEN_PICKAXE,3,24); //Ability Trigger
+            addToggleButton(p,gui,"::showEXPBar::",Material.EXPERIENCE_BOTTLE,4,25); //EXP bar show
 
-                    //Ability Notifications
-                    ItemStack abilityNotifications = new ItemStack(Material.OAK_SIGN);
-                    ItemMeta abilityNotificationsMeta = abilityNotifications.getItemMeta();
-                    abilityNotificationsMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("abilityPreparationNotif"));
-                    abilityNotifications.setItemMeta(abilityNotificationsMeta);
-                    gui.setItem(2,abilityNotifications);
+            //Ability Duration Bar
+            GuiItem durationBar = new GuiItem(Material.CLOCK,5,gui);
+            durationBar.setName(lang.getString("numberOfAbilityTimersDisplayed"));
+            gui.addItem(durationBar);
 
-                    ItemStack abilityNotificationsToggle = new ItemStack(Material.LIME_DYE);
-                    ItemMeta abilityNotificationsToggleMeta = abilityNotificationsToggle.getItemMeta();
-                    if ( (int) pStat.get("global").get(22) > 0) {
-                        abilityNotificationsToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                    }
-                    else {
-                        abilityNotificationsToggle.setType(Material.GRAY_DYE);
-                        abilityNotificationsToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                    }
-                    abilityNotificationsToggle.setItemMeta(abilityNotificationsToggleMeta);
-                    gui.setItem(11,abilityNotificationsToggle);
-
-
-                    //Trigger Abilities
-                    ItemStack triggerAbilities = new ItemStack(Material.WOODEN_PICKAXE);
-                    ItemMeta triggerAbilitiesMeta = triggerAbilities.getItemMeta();
-                    triggerAbilitiesMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-                    triggerAbilitiesMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("triggerAbilities"));
-                    triggerAbilities.setItemMeta(triggerAbilitiesMeta);
-                    gui.setItem(3,triggerAbilities);
-
-                    ItemStack triggerAbilitiesToggle = new ItemStack(Material.LIME_DYE);
-                    ItemMeta triggerAbilitiesToggleMeta = triggerAbilitiesToggle.getItemMeta();
-                    if ( (int) pStat.get("global").get(24) > 0) {
-                        triggerAbilitiesToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                    }
-                    else {
-                        triggerAbilitiesToggle.setType(Material.GRAY_DYE);
-                        triggerAbilitiesToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                    }
-                    triggerAbilitiesToggle.setItemMeta(triggerAbilitiesToggleMeta);
-                    gui.setItem(12,triggerAbilitiesToggle);
-
-
-                    //Experience Bar
-                    ItemStack expBar = new ItemStack(Material.EXPERIENCE_BOTTLE);
-                    ItemMeta expBarMeta = expBar.getItemMeta();
-                    expBarMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("showEXPBar"));
-                    expBar.setItemMeta(expBarMeta);
-                    gui.setItem(4,expBar);
-
-                    ItemStack expBarToggle = new ItemStack(Material.LIME_DYE);
-                    ItemMeta expBarToggleMeta = expBarToggle.getItemMeta();
-                    if ( (int) pStat.get("global").get(25) > 0) {
-                        expBarToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                    }
-                    else {
-                        expBarToggle.setType(Material.GRAY_DYE);
-                        expBarToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                    }
-                    expBarToggle.setItemMeta(expBarToggleMeta);
-                    gui.setItem(13,expBarToggle);
-
-                    //Ability Duration Bar
-                    ItemStack durationBar = new ItemStack(Material.CLOCK,1);
-                    ItemMeta durationBarMeta = durationBar.getItemMeta();
-                    durationBarMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("numberOfAbilityTimersDisplayed"));
-                    durationBar.setItemMeta(durationBarMeta);
-                    gui.setItem(5,durationBar);
-
-                    ItemStack durationBarToggle = new ItemStack(Material.LIME_DYE);
-                    ItemMeta durationBarToggleMeta = durationBarToggle.getItemMeta();
-                    int numberOfBars = (int) pStat.get("global").get(28);
-                    if (numberOfBars  > 0) {
-                        durationBarToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + numberOfBars);
-                    }
-                    else {
-                        durationBarToggle.setType(Material.GRAY_DYE);
-                        durationBarToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + 0);
-                    }
-                    durationBarToggle.setAmount(Math.max(1,numberOfBars));
-                    durationBarToggle.setItemMeta(durationBarToggleMeta);
-                    gui.setItem(14,durationBarToggle);
-
-
-                    //LANGUAGES
-                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-                    stringsAndOtherData.setLanguageItems(p,gui);
-
-
-
-                    //Put the items in the inventory
-                    p.openInventory(gui);
-                }
+            GuiItem durationBarToggle = new GuiItem(Material.LIME_DYE,14,gui);
+            int numberOfBars = (int) pStat.get("global").get(28);
+            if (numberOfBars  > 0) {
+                durationBarToggle.setNameColor(ChatColor.BOLD + ChatColor.GREEN.toString());
+                durationBarToggle.setName(String.valueOf(numberOfBars));
             }
             else {
-                System.out.println("You need to be a player to cast this command");
+                durationBarToggle.setNameColor(ChatColor.BOLD + ChatColor.RED.toString());
+                durationBarToggle.setName(String.valueOf(0));
+                durationBarToggle.setItemType(Material.GRAY_DYE);
             }
+            durationBarToggle.setItemAmount(Math.max(1,numberOfBars));
+            gui.addItem(durationBarToggle);
+
+            //Sets all the items into the gui (This is redundant, but makes the code a bit clearer)
+            gui.setGui();
+
+            //LANGUAGES (sets all the language items into the gui)
+            StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+            stringsAndOtherData.setLanguageItems(p,gui.getGui());
+
+            //Put the items in the inventory
+            gui.displayGuiForPlayer();
         }
 
         //SkillConfigGUI
         else if (args[0].equalsIgnoreCase("skillConfigGUI") || args[0].equalsIgnoreCase("skillConfigurationGUI") || args[0].equalsIgnoreCase("skillConfig")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                if (p.isSleeping()) {
-                    p.sendMessage(ChatColor.RED + lang.getString("bedGUI"));
-                    return true;
-                }
-                if (!p.hasPermission("freeRPG.skillConfigGUI")) {
-                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                    return true;
-                }
-                if (args.length != 2) {
-                    p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg skillConfigGUI [" + lang.getString("skillName") + "]");
-                    return true;
-                }
-                String[] titles_0 = {"Digging","Woodcutting","Mining","Farming","Fishing","Archery","Beast Mastery","Swordsmanship","Defense","Axe Mastery","Repair","Agility","Alchemy","Smelting","Enchanting"};
-                String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
-                String[] passiveLabels0 = {"repair","agility","alchemy","smelting","enchanting"};
-                List<String> labels = Arrays.asList(labels_0);
-                List<String> passiveLabels = Arrays.asList(passiveLabels0);
-                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-                String skillName = UtilityMethods.convertStringToListCasing(labels,args[1]);
-                if (!labels.contains(skillName) ) {
-                    p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg skillConfigGUI [" + lang.getString("skillName") + "]");
-                    return true;
-                }
-                String skillTitle = titles_0[labels.indexOf(skillName)];
-                Inventory gui = Bukkit.createInventory(p, 54, skillTitle + " Configuration");
-                PlayerStats pStatClass = new PlayerStats(p);
-                Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-
-                //UNIVERSAL CONFIG STUFF
-
-
-                //Experience Bar
-                ItemStack expBar = new ItemStack(Material.EXPERIENCE_BOTTLE);
-                ItemMeta expBarMeta = expBar.getItemMeta();
-                expBarMeta.setDisplayName(ChatColor.WHITE + ChatColor.BOLD.toString() + lang.getString("showEXPBar"));
-                expBar.setItemMeta(expBarMeta);
-                gui.setItem(10,expBar);
-
-                ItemStack expBarToggle = new ItemStack(Material.LIME_DYE);
-                ItemMeta expBarToggleMeta = expBarToggle.getItemMeta();
-                if ( pStatClass.isPlayerSkillExpBarOn(skillName) ) {
-                    expBarToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                }
-                else {
-                    expBarToggle.setType(Material.GRAY_DYE);
-                    expBarToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                }
-                expBarToggle.setItemMeta(expBarToggleMeta);
-                gui.setItem(19,expBarToggle);
-
-                //Trigger Abilities
-                if (!passiveLabels.contains(skillName)) {
-                    ItemStack triggerAbilities = new ItemStack(Material.WOODEN_PICKAXE);
-                    ItemMeta triggerAbilitiesMeta = triggerAbilities.getItemMeta();
-                    triggerAbilitiesMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-                    triggerAbilitiesMeta.setDisplayName(ChatColor.BOLD.toString() + lang.getString("triggerAbilities"));
-                    triggerAbilities.setItemMeta(triggerAbilitiesMeta);
-                    gui.setItem(11, triggerAbilities);
-
-                    ItemStack triggerAbilitiesToggle = new ItemStack(Material.LIME_DYE);
-                    ItemMeta triggerAbilitiesToggleMeta = triggerAbilitiesToggle.getItemMeta();
-                    if (pStatClass.isPlayerSkillAbilityOn(skillName)) {
-                        triggerAbilitiesToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("on0"));
-                    } else {
-                        triggerAbilitiesToggle.setType(Material.GRAY_DYE);
-                        triggerAbilitiesToggleMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("off0"));
-                    }
-                    triggerAbilitiesToggle.setItemMeta(triggerAbilitiesToggleMeta);
-                    gui.setItem(20, triggerAbilitiesToggle);
-                }
-
-
-                //Back button
-                ItemStack back = new ItemStack(Material.ARROW);
-                ItemMeta backMeta = back.getItemMeta();
-                backMeta.setDisplayName(ChatColor.BOLD + "Back");
-                ArrayList<String> lore = new ArrayList<String>();
-                lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("backToSkillTree"));
-                backMeta.setLore(lore);
-                back.setItemMeta(backMeta);
-                gui.setItem(45,back);
-
-                ItemStack skillIcon = new ItemStack(Material.WOODEN_PICKAXE);
-                ItemMeta skillIconMeta = skillIcon.getItemMeta();
-                skillIconMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-                skillIconMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                skillIconMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-                skillIconMeta.setDisplayName(ChatColor.AQUA + ChatColor.BOLD.toString() + lang.getString(skillName));
-                skillIcon.setItemMeta(skillIconMeta);
-
-                switch (skillName) {
-                    case "digging":
-                        skillIcon.setType(Material.IRON_SHOVEL);
-                        //flintFinder
-                        togglePerkSetGuiItem("flintToggle",p,gui);
-
-                        //Mega Dig
-                        togglePerkSetGuiItem("megaDigToggle",p,gui);
-                        break;
-                    case "woodcutting":
-                        skillIcon.setType(Material.IRON_AXE);
-
-                        //leafBlower
-                        togglePerkSetGuiItem("leafBlowerToggle",p,gui);
-                        break;
-                    case "mining":
-                        skillIcon.setType(Material.IRON_PICKAXE);
-
-                        //veinMiner
-                        togglePerkSetGuiItem("veinMinerToggle",p,gui);
-
-                        break;
-                    case "farming":
-                        skillIcon.setType(Material.IRON_HOE);
-                        break;
-                    case "fishing":
-                        skillIcon.setType(Material.FISHING_ROD);
-
-                        //grappling Hook
-                        togglePerkSetGuiItem("grappleToggle",p,gui);
-
-                        //hot Rod
-                        togglePerkSetGuiItem("hotRodToggle",p,gui);
-                        break;
-                    case "archery":
-                        skillIcon.setType(Material.BOW);
-                        break;
-                    case "beastMastery":
-                        skillIcon.setType(Material.BONE);
-                        break;
-                    case "swordsmanship":
-                        skillIcon.setType(Material.IRON_SWORD);
-                        break;
-                    case "defense":
-                        skillIcon.setType(Material.IRON_CHESTPLATE);
-                        break;
-                    case "axeMastery":
-                        skillIcon.setType(Material.GOLDEN_AXE);
-
-                        //Holy Axe
-                        togglePerkSetGuiItem("holyAxeToggle",p,gui);
-                        break;
-                    case "repair":
-                        skillIcon.setType(Material.ANVIL);
-                        break;
-                    case "agility":
-                        skillIcon.setType(Material.LEATHER_LEGGINGS);
-
-                        //gracefulFeet
-                        togglePerkSetGuiItem("speedToggle",p,gui);
-
-                        break;
-                    case "alchemy":
-                        skillIcon.setType(Material.POTION);
-
-                        //potionMaster
-                        togglePerkSetGuiItem("potionToggle",p,gui);
-                        break;
-                    case "smelting":
-                        skillIcon.setType(Material.COAL);
-
-                        //flamePick
-                        togglePerkSetGuiItem("flamePickToggle",p,gui);
-                        break;
-                    case "enchanting":
-                        skillIcon.setType(Material.ENCHANTING_TABLE);
-                        break;
-                    default:
-                        break;
-
-                }
-                gui.setItem(4,skillIcon);
-
-
-
-
-                //Put the items in the inventory
-                p.openInventory(gui);
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg skillConfigGUI [::skillName::]";
+            CommandHelper commandHelper = new CommandHelper(sender,args,2,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPlayerOnlyCommand(true);
+            commandHelper.setCheckInBed(true);
+            commandHelper.setPermissionName("skillConfigGUI");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
             }
-            else {
-                System.out.println("You need to be a player to cast this command");
+            Player p = (Player) sender;
+            LanguageSelector lang = new LanguageSelector(p);
+            String[] titles_0 = {"Digging","Woodcutting","Mining","Farming","Fishing","Archery","Beast Mastery","Swordsmanship","Defense","Axe Mastery","Repair","Agility","Alchemy","Smelting","Enchanting"};
+            String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
+            String[] passiveLabels0 = {"repair","agility","alchemy","smelting","enchanting"};
+            List<String> labels = Arrays.asList(labels_0);
+            List<String> passiveLabels = Arrays.asList(passiveLabels0);
+            String skillName = UtilityMethods.convertStringToListCasing(labels,args[1]);
+            if (!labels.contains(skillName) ) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true;
             }
+
+            String skillTitle = titles_0[labels.indexOf(skillName)];
+            GuiWrapper gui = new GuiWrapper(p,Bukkit.createInventory(p, 54, skillTitle + " Configuration"));
+            PlayerStats pStatClass = new PlayerStats(p);
+
+            addToggleButton(p,gui,"::showEXPBar::",Material.EXPERIENCE_BOTTLE,10,pStatClass.isPlayerSkillExpBarOn(skillName)); //EXP bar show
+            if (!passiveLabels.contains(skillName)) {
+                addToggleButton(p,gui,"::triggerAbilities::",Material.WOODEN_PICKAXE,11,pStatClass.isPlayerSkillAbilityOn(skillName)); //Trigger Abilities
+            }
+
+            //Back button
+            GuiItem backButton = new GuiItem(Material.ARROW,45,gui);
+            backButton.setName(lang.getString("diggingPassiveTitle1"));
+            backButton.setDescription(lang.getString("diggingPassiveDesc1"));
+            gui.addItem(backButton);
+
+            GuiItem skillIcon = new GuiItem(Material.WOODEN_PICKAXE,4,gui);
+            skillIcon.setNameColor(ChatColor.AQUA.toString() + ChatColor.BOLD.toString());
+            skillIcon.setName(lang.getString(skillName));
+
+            switch (skillName) {
+                case "digging":
+                    skillIcon.setItemType(Material.IRON_SHOVEL);
+                    //flintFinder
+                    togglePerkSetGuiItem("flintToggle",p,gui);
+
+                    //Mega Dig
+                    togglePerkSetGuiItem("megaDigToggle",p,gui);
+                    break;
+                case "woodcutting":
+                    skillIcon.setItemType(Material.IRON_AXE);
+
+                    //leafBlower
+                    togglePerkSetGuiItem("leafBlowerToggle",p,gui);
+                    break;
+                case "mining":
+                    skillIcon.setItemType(Material.IRON_PICKAXE);
+
+                    //veinMiner
+                    togglePerkSetGuiItem("veinMinerToggle",p,gui);
+
+                    break;
+                case "farming":
+                    skillIcon.setItemType(Material.IRON_HOE);
+                    break;
+                case "fishing":
+                    skillIcon.setItemType(Material.FISHING_ROD);
+
+                    //grappling Hook
+                    togglePerkSetGuiItem("grappleToggle",p,gui);
+
+                    //hot Rod
+                    togglePerkSetGuiItem("hotRodToggle",p,gui);
+                    break;
+                case "archery":
+                    skillIcon.setItemType(Material.BOW);
+                    break;
+                case "beastMastery":
+                    skillIcon.setItemType(Material.BONE);
+                    break;
+                case "swordsmanship":
+                    skillIcon.setItemType(Material.IRON_SWORD);
+                    break;
+                case "defense":
+                    skillIcon.setItemType(Material.IRON_CHESTPLATE);
+                    break;
+                case "axeMastery":
+                    skillIcon.setItemType(Material.GOLDEN_AXE);
+
+                    //Holy Axe
+                    togglePerkSetGuiItem("holyAxeToggle",p,gui);
+                    break;
+                case "repair":
+                    skillIcon.setItemType(Material.ANVIL);
+                    break;
+                case "agility":
+                    skillIcon.setItemType(Material.LEATHER_LEGGINGS);
+
+                    //gracefulFeet
+                    togglePerkSetGuiItem("speedToggle",p,gui);
+
+                    break;
+                case "alchemy":
+                    skillIcon.setItemType(Material.POTION);
+
+                    //potionMaster
+                    togglePerkSetGuiItem("potionToggle",p,gui);
+                    break;
+                case "smelting":
+                    skillIcon.setItemType(Material.COAL);
+
+                    //flamePick
+                    togglePerkSetGuiItem("flamePickToggle",p,gui);
+                    break;
+                case "enchanting":
+                    skillIcon.setItemType(Material.ENCHANTING_TABLE);
+                    break;
+                default:
+                    break;
+
+            }
+            gui.addItem(skillIcon);
+
+            //Sets all the items into the gui (This is redundant, but makes the code a bit clearer)
+            gui.setGui();
+
+            //Put the items in the inventory
+            gui.displayGuiForPlayer();
         }
 
         //ConfirmationGUI
         else if (args[0].equalsIgnoreCase("confirmGUI") || args[0].equalsIgnoreCase("confirmationGUI")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                if (p.isSleeping()) {
-                    p.sendMessage(ChatColor.RED + lang.getString("bedGUI"));
-                    return true;
-                }
-                if (!p.hasPermission("freeRPG.confirmGUI")) {
-                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                    return true;
-                }
-                String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting","global"};
-                String[] titles_0 = {lang.getString("digging"),lang.getString("woodcutting"),lang.getString("mining"),lang.getString("farming"),lang.getString("fishing"),lang.getString("archery"),lang.getString("beastMastery"),lang.getString("swordsmanship"),lang.getString("defense"),lang.getString("axeMastery"),lang.getString("repair"),lang.getString("agility"),lang.getString("alchemy"),lang.getString("smelting"),lang.getString("enchanting"),lang.getString("global")};
-                List<String> labels_arr = Arrays.asList(labels_0);
-                if (args.length != 2) {
-                    p.sendMessage(ChatColor.RED +  lang.getString("improperArguments") + " /frpg confirmationGUI [skillName]");
-                }
-                else if (labels_arr.indexOf(args[1]) == -1) {
-                    p.sendMessage(ChatColor.RED+ lang.getString("improperArguments") + " /frpg confirmationGUI [skillName]");
-                }
-                else {
-                    String skillName = labels_0[labels_arr.indexOf(args[1])];
-                    String skillTitle = titles_0[labels_arr.indexOf(args[1])];
-                    Inventory gui = Bukkit.createInventory(p, 54, "Confirmation Window");
-
-                    //Load souls data
-                    ConfigLoad loadConfig = new ConfigLoad();
-                    ArrayList<Integer> soulsInfo = loadConfig.getSoulsInfo();
-                    String refundCost = Integer.toString(soulsInfo.get(1));
-
-                    //Information
-                    ItemStack info = new ItemStack(Material.PAPER);
-                    ItemMeta infoMeta = info.getItemMeta();
-                    infoMeta.setDisplayName(ChatColor.BOLD + ChatColor.YELLOW.toString() + lang.getString("warning"));
-                    ArrayList<String> lore = new ArrayList<String>();
-                    lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("refundSkillTree0") + " " + refundCost + " " + lang.getString("souls"));
-                    lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("refundSkillTree1"));
-                    lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("refundSkillTree2") + " " + ChatColor.BOLD.toString() + ChatColor.WHITE.toString() +
-                            skillTitle + ChatColor.RESET.toString() + ChatColor.ITALIC.toString() + ChatColor.GRAY.toString()+ " " +lang.getString("skill") +"?");
-                    infoMeta.setLore(lore);
-                    info.setItemMeta(infoMeta);
-                    gui.setItem(22,info);
-
-                    //Yes Button
-                    ItemStack yes = new ItemStack(Material.LIME_TERRACOTTA);
-                    ItemMeta yesMeta = yes.getItemMeta();
-                    yesMeta.setDisplayName(ChatColor.BOLD + ChatColor.GREEN.toString() + lang.getString("yes0"));
-                    yes.setItemMeta(yesMeta);
-                    gui.setItem(39,yes);
-
-                    //No Button
-                    ItemStack no = new ItemStack(Material.RED_TERRACOTTA);
-                    ItemMeta noMeta = no.getItemMeta();
-                    noMeta.setDisplayName(ChatColor.BOLD + ChatColor.RED.toString() + lang.getString("no0"));
-                    no.setItemMeta(noMeta);
-                    gui.setItem(41,no);
-
-                    //Skill Item (Indicator)
-                    ItemStack skill = new ItemStack(Material.IRON_SHOVEL);
-                    ItemMeta skillMeta = skill.getItemMeta();
-                    switch (skillName) {
-                        case "digging":
-                            skill.setType(Material.IRON_SHOVEL);
-                            break;
-                        case "woodcutting":
-                            skill.setType(Material.IRON_AXE);
-                            break;
-                        case "mining":
-                            skill.setType(Material.IRON_PICKAXE);
-                            break;
-                        case "farming":
-                            skill.setType(Material.IRON_HOE);
-                            break;
-                        case "fishing":
-                            skill.setType(Material.FISHING_ROD);
-                            break;
-                        case "archery":
-                            skill.setType(Material.BOW);
-                            break;
-                        case "beastMastery":
-                            skill.setType(Material.BONE);
-                            break;
-                        case "swordsmanship":
-                            skill.setType(Material.IRON_SWORD);
-                            break;
-                        case "defense":
-                            skill.setType(Material.IRON_CHESTPLATE);
-                            break;
-                        case "axeMastery":
-                            skill.setType(Material.GOLDEN_AXE);
-                            break;
-                        case "repair":
-                            skill.setType(Material.ANVIL);
-                            break;
-                        case "agility":
-                            skill.setType(Material.LEATHER_LEGGINGS);
-                            break;
-                        case "alchemy":
-                            skill.setType(Material.POTION);
-                            break;
-                        case "smelting":
-                            skill.setType(Material.COAL);
-                            break;
-                        case "enchanting":
-                            skill.setType(Material.ENCHANTING_TABLE);
-                            break;
-                        default:
-                            break;
-                    }
-                    skillMeta.setDisplayName(ChatColor.BOLD + skillTitle);
-                    skill.setItemMeta(skillMeta);
-                    gui.setItem(4,skill);
-
-                    //Put the items in the inventory
-                    p.openInventory(gui);
-                }
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg confirmationGUI [::skillName::]";
+            CommandHelper commandHelper = new CommandHelper(sender,args,2,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPlayerOnlyCommand(true);
+            commandHelper.setCheckInBed(true);
+            commandHelper.setPermissionName("confirmGUI");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
             }
-            else {
-                System.out.println("You need to be a player to cast this command");
+            Player p = (Player) sender;
+            LanguageSelector lang = new LanguageSelector(p);
+            String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting","global"};
+            String[] titles_0 = {lang.getString("digging"),lang.getString("woodcutting"),lang.getString("mining"),lang.getString("farming"),lang.getString("fishing"),lang.getString("archery"),lang.getString("beastMastery"),lang.getString("swordsmanship"),lang.getString("defense"),lang.getString("axeMastery"),lang.getString("repair"),lang.getString("agility"),lang.getString("alchemy"),lang.getString("smelting"),lang.getString("enchanting"),lang.getString("global")};
+            List<String> labels = Arrays.asList(labels_0);
+            String skillName = UtilityMethods.convertStringToListCasing(labels,args[1]);
+            if (!labels.contains(skillName) ) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true;
             }
+            String skillTitle = titles_0[labels.indexOf(skillName)];
+            GuiWrapper gui = new GuiWrapper(p,Bukkit.createInventory(p, 54, "Confirmation Window"));
+
+            //Load souls data
+            ConfigLoad loadConfig = new ConfigLoad();
+            ArrayList<Integer> soulsInfo = loadConfig.getSoulsInfo();
+            String refundCost = Integer.toString(soulsInfo.get(1));
+
+            //Information
+            GuiItem info = new GuiItem(Material.PAPER,22,gui);
+            info.setNameColor(ChatColor.YELLOW.toString() + ChatColor.BOLD.toString());
+            info.setName(lang.getString("warning"));
+            //The following is pretty messy, but it's all just to format a long strong
+            String partOne = lang.getString("refundSkillTree0") + " " + refundCost + " " + lang.getString("souls") + " " + lang.getString("refundSkillTree1");
+            String partTwo = lang.getString("refundSkillTree2") + " " + ChatColor.WHITE.toString() +
+                    skillTitle + ChatColor.RESET.toString() + ChatColor.ITALIC.toString() + ChatColor.GRAY.toString()+ " " +lang.getString("skill") +"?";
+            String refundWarningMessage = partOne + " " + partTwo;
+            StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+            for (String line : stringsAndOtherData.getStringLines(refundWarningMessage)) {
+                info.addSpecialLoreLine(ChatColor.ITALIC+ChatColor.GRAY.toString() + line);
+            }
+            gui.addItem(info);
+
+            //Yes Button
+            GuiItem yes = new GuiItem(Material.LIME_TERRACOTTA,38,gui);
+            yes.setNameColor(ChatColor.GREEN.toString() + ChatColor.BOLD.toString());
+            yes.setName(lang.getString("yes0"));
+            gui.addItem(yes);
+
+            //No Button
+            GuiItem no = new GuiItem(Material.RED_TERRACOTTA,42,gui);
+            no.setNameColor(ChatColor.RED.toString() + ChatColor.BOLD.toString());
+            no.setName(lang.getString("no0"));
+            gui.addItem(no);
+
+            //Skill Item (Indicator)
+            GuiItem skillIcon = new GuiItem(Material.IRON_SHOVEL,4,gui);
+            switch (skillName) {
+                case "digging":
+                    skillIcon.setItemType(Material.IRON_SHOVEL);
+                    break;
+                case "woodcutting":
+                    skillIcon.setItemType(Material.IRON_AXE);
+                    break;
+                case "mining":
+                    skillIcon.setItemType(Material.IRON_PICKAXE);
+                    break;
+                case "farming":
+                    skillIcon.setItemType(Material.IRON_HOE);
+                    break;
+                case "fishing":
+                    skillIcon.setItemType(Material.FISHING_ROD);
+                    break;
+                case "archery":
+                    skillIcon.setItemType(Material.BOW);
+                    break;
+                case "beastMastery":
+                    skillIcon.setItemType(Material.BONE);
+                    break;
+                case "swordsmanship":
+                    skillIcon.setItemType(Material.IRON_SWORD);
+                    break;
+                case "defense":
+                    skillIcon.setItemType(Material.IRON_CHESTPLATE);
+                    break;
+                case "axeMastery":
+                    skillIcon.setItemType(Material.GOLDEN_AXE);
+                    break;
+                case "repair":
+                    skillIcon.setItemType(Material.ANVIL);
+                    break;
+                case "agility":
+                    skillIcon.setItemType(Material.LEATHER_LEGGINGS);
+                    break;
+                case "alchemy":
+                    skillIcon.setItemType(Material.POTION);
+                    break;
+                case "smelting":
+                    skillIcon.setItemType(Material.COAL);
+                    break;
+                case "enchanting":
+                    skillIcon.setItemType(Material.ENCHANTING_TABLE);
+                    break;
+                default:
+                    break;
+            }
+            skillIcon.setNameColor(ChatColor.AQUA.toString() + ChatColor.BOLD.toString());
+            skillIcon.setName(skillTitle);
+            gui.addItem(skillIcon);
+
+            //Sets all the items into the gui (This is redundant, but makes the code a bit clearer)
+            gui.setGui();
+
+            //Put the items in the inventory
+            gui.displayGuiForPlayer();
         }
 
         //CraftingGUI
         else if (args[0].equalsIgnoreCase("craftingGUI") || args[0].equalsIgnoreCase("recipeGUI")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                if (p.isSleeping()) {
-                    p.sendMessage(ChatColor.RED + lang.getString("bedGUI"));
-                    return true;
-                }
-                if (!p.hasPermission("freeRPG.craftGUI")) {
-                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                    return true;
-                }
-                String[] labels_0 = {"archery1", "farming1", "farming2", "farming3", "farming4", "farming5",
-                        "enchanting1", "enchanting2", "enchanting3", "enchanting4", "enchanting5",
-                        "enchanting6", "enchanting7", "enchanting8", "enchanting9", "enchanting10",
-                        "alchemy1","alchemy2","alchemy3","alchemy4","alchemy5"};
-                List<String> labels_arr = Arrays.asList(labels_0);
-                if (args.length != 2) {
-                    p.sendMessage(ChatColor.RED + lang.getString("improperArguments") +" /frpg craftingRecipe [skillName[Number]]");
-                } else if (labels_arr.indexOf(args[1]) == -1) {
-                    p.sendMessage(ChatColor.RED + lang.getString("improperArguments") +" /frpg craftingRecipe [skillName[Number]]");
-                } else {
-                    CraftingRecipes craftingRecipes = new CraftingRecipes();
-                    ConfigLoad configLoad = new ConfigLoad();
-                    Map<String, CustomRecipe> customCraftingRecipes = configLoad.getCraftingRecipes();
-                    String craftingLabel = args[1];
-                    ArrayList<Material> cowEgg = craftingRecipes.getCowEggRecipe();
-                    ArrayList<Material> beeEgg = craftingRecipes.getBeeEggRecipe();
-                    ArrayList<Material> mooshroomEgg = craftingRecipes.getMooshroomEggRecipe();
-                    ArrayList<Material> horseEgg = craftingRecipes.getHorseEggRecipe();
-                    ArrayList<Material> slimeEgg = craftingRecipes.getSlimeEggRecipe();
-                    ArrayList<Material> tippedArrow = craftingRecipes.getTippedArrowRecipe();
-                    ArrayList<Material> power = craftingRecipes.getPowerRecipe();
-                    ArrayList<Material> efficiency = craftingRecipes.getEfficiencyRecipe();
-                    ArrayList<Material> sharpness = craftingRecipes.getSharpnessRecipe();
-                    ArrayList<Material> protection = craftingRecipes.getProtectionRecipe();
-                    ArrayList<Material> luck = craftingRecipes.getLuckRecipe();
-                    ArrayList<Material> lure = craftingRecipes.getLureRecipe();
-                    ArrayList<Material> frost = craftingRecipes.getFrostRecipe();
-                    ArrayList<Material> depth = craftingRecipes.getDepthRecipe();
-                    ArrayList<Material> mending = craftingRecipes.getMendingRecipe();
-                    ArrayList<Material> fortune = craftingRecipes.getFortuneRecipe();
-                    ArrayList<Material> waterBreathing = craftingRecipes.getWaterBreathingRecipe();
-                    ArrayList<Material> speed = craftingRecipes.getSpeedRecipe();
-                    ArrayList<Material> fireResistance = craftingRecipes.getFireResistanceRecipe();
-                    ArrayList<Material> healing = craftingRecipes.getHealingRecipe();
-                    ArrayList<Material> strength = craftingRecipes.getStrengthRecipe();
-                    ArrayList<Material> recipe = new ArrayList<>();
-                    for (int i = 0; i < 9; i++) {
-                        recipe.add(Material.AIR);
-                    }
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg craftingRecipe [::skillName::[#]]";
+            CommandHelper commandHelper = new CommandHelper(sender,args,2,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPlayerOnlyCommand(true);
+            commandHelper.setCheckInBed(true);
+            commandHelper.setPermissionName("craftGUI");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
+            }
+            Player p = (Player) sender;
+            LanguageSelector lang = new LanguageSelector(p);
+            String[] labels_0 = {"archery1", "farming1", "farming2", "farming3", "farming4", "farming5",
+                    "enchanting1", "enchanting2", "enchanting3", "enchanting4", "enchanting5",
+                    "enchanting6", "enchanting7", "enchanting8", "enchanting9", "enchanting10",
+                    "alchemy1","alchemy2","alchemy3","alchemy4","alchemy5"};
+            List<String> labels = Arrays.asList(labels_0);
+            String identifier = UtilityMethods.convertStringToListCasing(labels,args[1]);
+            if (!labels.contains(identifier) ) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true;
+            }
 
-                    ItemStack output = new ItemStack(Material.TIPPED_ARROW,8);
-                    if (!craftingLabel.equalsIgnoreCase("archery1")) {
-                        output = customCraftingRecipes.get(craftingLabel).getItemStack();
-                    }
-                    switch (craftingLabel) {
-                        case "archery1":
-                            recipe = tippedArrow;
-                            output.setType(Material.TIPPED_ARROW);
-                            output.setAmount(8);
-                            break;
-                        case "farming1":
-                            recipe = cowEgg;
-                            break;
-                        case "farming2":
-                            recipe = beeEgg;
-                            break;
-                        case "farming3":
-                            recipe = mooshroomEgg;
-                            break;
-                        case "farming4":
-                            recipe = horseEgg;
-                            break;
-                        case "farming5":
-                            recipe = slimeEgg;
-                            break;
-                        case "enchanting1":
-                            recipe = power;
-                            break;
-                        case "enchanting2":
-                            recipe = efficiency;
-                            break;
-                        case "enchanting3":
-                            recipe = sharpness;
-                            break;
-                        case "enchanting4":
-                            recipe = protection;
-                            break;
-                        case "enchanting5":
-                            recipe = luck;
-                            break;
-                        case "enchanting6":
-                            recipe = lure;
-                            break;
-                        case "enchanting7":
-                            recipe = frost;
-                            break;
-                        case "enchanting8":
-                            recipe = depth;
-                            break;
-                        case "enchanting9":
-                            recipe = mending;
-                            break;
-                        case "enchanting10":
-                            recipe = fortune;
-                            break;
-                        case "alchemy1":
-                            recipe = waterBreathing;
-                            break;
-                        case "alchemy2":
-                            recipe = speed;
-                            break;
-                        case "alchemy3":
-                            recipe = fireResistance;
-                            break;
-                        case "alchemy4":
-                            recipe = healing;
-                            break;
-                        case "alchemy5":
-                            recipe = strength;
-                            break;
-                        default:
-                            break;
-                    }
-
-                    Inventory gui = Bukkit.createInventory(p, 54, "Crafting Recipe");
-                    //Back button
-                    ItemStack back = new ItemStack(Material.ARROW);
-                    ItemMeta backMeta = back.getItemMeta();
-                    backMeta.setDisplayName(ChatColor.BOLD + "Back");
-                    ArrayList<String> lore = new ArrayList<String>();
-                    lore.add(ChatColor.ITALIC+ChatColor.GRAY.toString()+lang.getString("backToSkillTree"));
-                    backMeta.setLore(lore);
-                    back.setItemMeta(backMeta);
-                    gui.setItem(45,back);
-
-                    //Crafting Tables and Connector
-                    Integer[] indicies = {1,2,3,4,5,10,14,19,23,28,32,37,38,39,40,41};
-                    ItemStack craftingTable = new ItemStack(Material.CRAFTING_TABLE);
-                    ItemMeta craftingTableMeta = craftingTable.getItemMeta();
-                    craftingTableMeta.setDisplayName(ChatColor.WHITE.toString());
-                    craftingTable.setItemMeta(craftingTableMeta);
-                    ItemStack connector = new ItemStack(Material.GLASS_PANE);
-                    ItemMeta connectorMeta = connector.getItemMeta();
-                    connectorMeta.setDisplayName(ChatColor.WHITE.toString());
-                    connector.setItemMeta(connectorMeta);
-                    for (int i : indicies) {
-                        gui.setItem(i,craftingTable);
-                    }
-                    gui.setItem(24,connector);
-
-                    //Inputs and Output
-                    Integer[] recipeIndices = {11,12,13,20,21,22,29,30,31};
-                    for (int i=0; i <9; i++) {
-                        gui.setItem(recipeIndices[i],new ItemStack(recipe.get(i),1));
-                    }
-                    gui.setItem(25,output);
+            ConfigLoad configLoad = new ConfigLoad();
+            Map<String, CustomRecipe> craftingRecipes = configLoad.getCraftingRecipes();
+            ArrayList<Material> recipe;
+            ItemStack output;
+            if (identifier.equalsIgnoreCase("archery1")) {
+                CraftingRecipes craftingRecipesClass = new CraftingRecipes();
+                recipe = craftingRecipesClass.getTippedArrowRecipe();
+                output = new ItemStack(Material.TIPPED_ARROW, 8);
+            } else {
+                recipe = craftingRecipes.get(identifier).getRecipe();
+                output = craftingRecipes.get(identifier).getItemStack();
+            }
 
 
-                    //Put the items in the inventory
-                    p.openInventory(gui);
+            GuiWrapper gui = new GuiWrapper(p,Bukkit.createInventory(p, 54, "Crafting Recipe"));
+
+            //Back button
+            GuiItem backButton = new GuiItem(Material.ARROW,45,gui);
+            backButton.setName(lang.getString("diggingPassiveTitle1"));
+            backButton.setDescription(lang.getString("diggingPassiveDesc1"));
+            gui.addItem(backButton);
+
+            //Crafting Tables
+            Integer[] indicies = {1,2,3,4,5,10,14,19,23,28,32,37,38,39,40,41};
+
+            for (int i : indicies) {
+                GuiItem craftingTable = new GuiItem(Material.CRAFTING_TABLE,i,gui);
+                craftingTable.setName(ChatColor.WHITE.toString());
+                gui.addItem(craftingTable);
+            }
+
+            //Connectors
+            GuiItem connector = new GuiItem(Material.GLASS_PANE,24,gui);
+            connector.setName(ChatColor.WHITE.toString());
+            gui.addItem(connector);
+
+            //Crafting Inputs and Output
+            Integer[] recipeIndices = {11,12,13,20,21,22,29,30,31};
+            for (int i=0; i <9; i++) {
+                if (recipe.get(i) != null && recipe.get(i) != Material.AIR) {
+                    GuiItem recipePart = new GuiItem(recipe.get(i), recipeIndices[i], gui);
+                    gui.addItem(recipePart);
                 }
             }
-            else {
-                System.out.println("You need to be a player to cast this command");
-            }
+            GuiItem outputItem = new GuiItem(output,25,gui);
+            gui.addItem(outputItem);
+
+
+            //Sets all the items into the gui (This is redundant, but makes the code a bit clearer)
+            gui.setGui();
+
+            //Put the items in the inventory
+            gui.displayGuiForPlayer();
         }
 
         //MainGUI
@@ -2049,7 +1826,7 @@ public class FrpgCommands implements CommandExecutor {
 
 
         /*
-        This next argument is the biggest by far
+        This next conditional is the biggest by far
         It handles all the skill tree GUIs, which are the most adaptable with the most unique buttons
         */
 
@@ -3521,7 +3298,7 @@ public class FrpgCommands implements CommandExecutor {
                 p.sendMessage(ChatColor.RED + lang.getString("unknownCommand"));
             }
             else {
-                System.out.println("Unknown command");
+                sender.sendMessage("Unknown command");
             }
         }
 

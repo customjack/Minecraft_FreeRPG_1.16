@@ -17,6 +17,7 @@ import java.util.Map;
 
 public class CraftingRecipes {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
+    static Map<String,ArrayList<Material>> identifierRecipeMap = new HashMap<>();
     static ArrayList<Material> tippedArrow;
     static ArrayList<Material> cowEgg;
     static ArrayList<Material> beeEgg;

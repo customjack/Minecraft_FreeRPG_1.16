@@ -338,6 +338,9 @@ public class StringsAndOtherData {
     }
 
     public ArrayList<String> getStringLines(String string) {
+        if (string == null) {
+            return new ArrayList<>();
+        }
         ArrayList<String> splitDescs = new ArrayList<>();
         splitDescs.add(string);
         int iter = 0;

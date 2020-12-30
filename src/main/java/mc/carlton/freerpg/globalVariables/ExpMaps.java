@@ -58,7 +58,7 @@ public class ExpMaps {
         diggingEXP.put(Material.RED_CONCRETE_POWDER,expMap.get("breakConcretePowder"));
         diggingEXP.put(Material.BLACK_CONCRETE_POWDER,expMap.get("breakConcretePowder"));
         if (mcVersion >= 1.16) {
-            diggingEXP.put(Material.SOUL_SAND,expMap.get("breakSoulSoil"));
+            diggingEXP.put(Material.SOUL_SOIL,expMap.get("breakSoulSoil"));
         }
     }
 
