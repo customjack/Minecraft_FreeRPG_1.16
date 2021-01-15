@@ -325,7 +325,7 @@ fishing:
     tier1_drop2Name: ghast_tear
     tier1_drop2Amount: 1
     tier1_drop2Random: 0
-    tier1_drop2Name_HotRod: blaze_powdera
+    tier1_drop2Name_HotRod: blaze_powder
     tier1_drop2Amount_HotRod: 1
     tier1_drop2Random_HotRod: 0
     tier1_drop3Name: gold_ingot

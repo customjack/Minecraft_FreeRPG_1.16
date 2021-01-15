@@ -12,6 +12,7 @@ import mc.carlton.freerpg.enchantingEvents.*;
 import mc.carlton.freerpg.furnaceEvents.FurnaceBurn;
 import mc.carlton.freerpg.furnaceEvents.FurnaceInventoryClick;
 import mc.carlton.freerpg.furnaceEvents.FurnaceSmelt;
+import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
 import mc.carlton.freerpg.globalVariables.*;
 import mc.carlton.freerpg.guiEvents.*;
 import mc.carlton.freerpg.leaveAndJoin.LoginProcedure;
@@ -24,12 +25,15 @@ import mc.carlton.freerpg.playerInfo.*;
 import mc.carlton.freerpg.serverFileManagement.*;
 import mc.carlton.freerpg.serverInfo.*;
 import org.bukkit.*;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -46,12 +50,16 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         saveDefaultConfig();
         saveResource("languages.yml",false);
         saveResource("advancedConfig.yml",false);
+        //saveResource("perkConfig.yml",false);
 
         //Checks config.yml and languages.yml for updates, and update them if needed (while trying to keep any edits)
         YMLManager ymlManager = new YMLManager();
         ymlManager.updateCheckYML("config.yml");
         ymlManager.updateCheckYML("languages.yml");
+        //ymlManager.updateCheckYML("perkConfig.yml");
         ymlManager.updateCheckYML("advancedConfig.yml");
+
+
 
         //Loads config to into memory
         ConfigLoad loadConfig = new ConfigLoad();
@@ -191,6 +199,18 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         OfflinePlayerStatLoadIn offlinePlayerStatLoadIn = new OfflinePlayerStatLoadIn();
         offlinePlayerStatLoadIn.loadInOfflinePlayers();
 
+        //Check extra stuff on load-up
+        //test();
+    }
+
+    public void test() { //The purpose of this is to just place test code to run when the plugin is enabled or disabled
+        new PsuedoEnchanting().printInfo();
+        Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
+        File f = new File(plugin.getDataFolder(),"perkConfig.yml");
+        f.setReadable(true,false);
+        f.setWritable(true,false);
+        FileConfiguration config = YamlConfiguration.loadConfiguration(f);
+        System.out.println(config.getList("global.skill_4D.level1.effectsGiven").get(0));
     }
 
     public void onDisable() {

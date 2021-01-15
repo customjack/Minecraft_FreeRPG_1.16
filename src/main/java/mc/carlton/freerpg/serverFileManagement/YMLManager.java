@@ -23,7 +23,7 @@ public class YMLManager {
         f0.setReadable(true,false);
         f0.setWritable(true,false);
         FileConfiguration config = YamlConfiguration.loadConfiguration(f0);
-        if (fileName.equalsIgnoreCase("config.yml") || fileName.equalsIgnoreCase("advancedConfig.yml")) {
+        if (fileName.equalsIgnoreCase("config.yml") || fileName.equalsIgnoreCase("advancedConfig.yml") || fileName.equalsIgnoreCase("perkConfig.yml") ) {
             if (config.contains("general.autoUpdateConfig")) {
                 if (!config.getBoolean("general.autoUpdateConfig")) {
                     return;
@@ -204,7 +204,6 @@ public class YMLManager {
         }
 
 
-        int keyAdded = 0; //Keys might have been added
         if (fileName.equalsIgnoreCase("languages.yml")) {
 
         }

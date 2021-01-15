@@ -34,6 +34,7 @@ public class Woodcutting extends Skill{
     List<Material> logs;
     List<Material> leaves;
 
+
     ArrayList<Block> timberLogs = new ArrayList<Block>();
     ArrayList<Block> treeLeaves = new ArrayList<Block>();
 
@@ -446,6 +447,9 @@ public class Woodcutting extends Skill{
             return;
         }
         if (!(leaves.contains(initialBlock.getType()))) { //Block must be a leaf
+            return;
+        }
+        if (!(new ItemGroups().getAxes().contains(itemInHand.getType()))) { //Must be holding an axe
             return;
         }
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();

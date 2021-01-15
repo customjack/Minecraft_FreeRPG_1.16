@@ -7,8 +7,11 @@ import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
 import mc.carlton.freerpg.globalVariables.CraftingRecipes;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
+import mc.carlton.freerpg.guiTools.GuiDisplayStatistic;
+import mc.carlton.freerpg.guiTools.GuiIconColors;
 import mc.carlton.freerpg.guiTools.GuiItem;
 import mc.carlton.freerpg.guiTools.GuiWrapper;
+import mc.carlton.freerpg.perksAndAbilities.Agility;
 import mc.carlton.freerpg.playerInfo.*;
 import mc.carlton.freerpg.serverFileManagement.PeriodicSaving;
 import mc.carlton.freerpg.serverFileManagement.PlayerStatsFilePreparation;
@@ -69,7 +72,7 @@ public class FrpgCommands implements CommandExecutor {
             return Double.MAX_VALUE; //This is a cheap trick; when we return max value, that's our way of saying "could not convert" without throwing error
         }
     }
-    private boolean togglePerk(String id,Player p,String[] args) {
+    private boolean togglePerk(String id,CommandSender sender,String[] args) {
         String permission;
         String langID;
         String skillName;
@@ -150,53 +153,66 @@ public class FrpgCommands implements CommandExecutor {
                 return true;
         }
 
-
+        final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg " +id;
+        CommandHelper commandHelper = new CommandHelper(sender,args,1,2,IMPROPER_ARGUMENTS_MESSSAGE);
+        commandHelper.setPlayerOnlyCommand(true);
+        commandHelper.setPermissionName(permission);
+        if (!commandHelper.isProperCommand()) {
+            return true; //Command Restricted or Improper
+        }
+        Player p = (Player) sender;
 
         LanguageSelector lang = new LanguageSelector(p);
-        if (!p.hasPermission("freeRPG."+permission)) {
-            p.sendMessage(ChatColor.RED+lang.getString("noPermission"));
-            return true;
-        }
         PlayerStats pStatClass = new PlayerStats(p);
+        Agility agility = new Agility(p);
         Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         int level = (int)pStat.get(skillName).get(skillIndex);
-        if ( level > 0) {
-            if (args.length == 1) {
-                int toggle = (int) pStat.get("global").get(globalIndex);
-                if (toggle > 0) {
-                    p.sendMessage(ChatColor.RED + lang.getString(langID) + ": " + lang.getString("off0"));
-                    pStat.get("global").set(globalIndex,0);
-                }
-                else {
-                    p.sendMessage(ChatColor.GREEN + lang.getString(langID) + ": " + lang.getString("on0"));
-                    pStat.get("global").set(globalIndex,1);
-                }
-                statAll.put(p.getUniqueId(), pStat);
-                pStatClass.setData(statAll);
-            } else if (args.length == 2) {
-                if (args[1].equalsIgnoreCase("off")) {
-                    p.sendMessage(ChatColor.RED + lang.getString(langID) + ": " + lang.getString("off0"));
-                    pStat.get("global").set(globalIndex,0);
-                    statAll.put(p.getUniqueId(), pStat);
-                    pStatClass.setData(statAll);
-                }
-                else if (args[1].equalsIgnoreCase("on")) {
-                    p.sendMessage(ChatColor.GREEN + lang.getString(langID) + ": " + lang.getString("on0"));
-                    pStat.get("global").set(globalIndex,1);
-                    statAll.put(p.getUniqueId(), pStat);
-                    pStatClass.setData(statAll);
-                }
-                else {
-                    p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg "+id);
+
+        if (level <= 0) {
+            p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString(langID));
+            return true;
+        }
+        if (args.length == 1) {
+            int toggle = (int) pStat.get("global").get(globalIndex);
+            if (toggle > 0) {
+                p.sendMessage(ChatColor.RED + lang.getString(langID) + ": " + lang.getString("off0"));
+                pStat.get("global").set(globalIndex,0);
+                if (id.equalsIgnoreCase("speedToggle")) {
+                    agility.gracefulFeetEnd();
                 }
             }
             else {
-                p.sendMessage(ChatColor.RED + lang.getString("improperArguments") + " /frpg "+id);
+                p.sendMessage(ChatColor.GREEN + lang.getString(langID) + ": " + lang.getString("on0"));
+                pStat.get("global").set(globalIndex,1);
+                if (id.equalsIgnoreCase("speedToggle")) {
+                    agility.gracefulFeetStart();
+                }
             }
-        }
-        else {
-            p.sendMessage(ChatColor.RED + lang.getString("unlockToggle") + " " +ChatColor.BOLD + lang.getString(langID));
+            statAll.put(p.getUniqueId(), pStat);
+            pStatClass.setData(statAll);
+        } else if (args.length == 2) {
+            if (args[1].equalsIgnoreCase("off")) {
+                p.sendMessage(ChatColor.RED + lang.getString(langID) + ": " + lang.getString("off0"));
+                pStat.get("global").set(globalIndex,0);
+                statAll.put(p.getUniqueId(), pStat);
+                pStatClass.setData(statAll);
+                if (id.equalsIgnoreCase("speedToggle")) {
+                    agility.gracefulFeetEnd();
+                }
+            }
+            else if (args[1].equalsIgnoreCase("on")) {
+                p.sendMessage(ChatColor.GREEN + lang.getString(langID) + ": " + lang.getString("on0"));
+                pStat.get("global").set(globalIndex,1);
+                statAll.put(p.getUniqueId(), pStat);
+                pStatClass.setData(statAll);
+                if (id.equalsIgnoreCase("speedToggle")) {
+                    agility.gracefulFeetStart();
+                }
+            }
+            else {
+                commandHelper.sendImproperArgumentsMessage();
+            }
         }
         return true;
     }
@@ -270,131 +286,151 @@ public class FrpgCommands implements CommandExecutor {
             gui.getItem(guiIndex).addEnchantmentGlow();
         }
     }
-    private void generateMainMenu(Player p) {
-        LanguageSelector lang = new LanguageSelector(p);
-
-        Inventory gui = Bukkit.createInventory(p, 45, "Skills");
-
-        //Menu Options(Items)
-        ItemStack global = new ItemStack(Material.NETHER_STAR);
-        ItemStack digging = new ItemStack(Material.IRON_SHOVEL);
-        ItemStack woodcutting = new ItemStack(Material.IRON_AXE);
-        ItemStack mining = new ItemStack(Material.IRON_PICKAXE);
-        ItemStack farming = new ItemStack(Material.IRON_HOE);
-        ItemStack fishing = new ItemStack(Material.FISHING_ROD);
-        ItemStack archery = new ItemStack(Material.BOW);
-        ItemStack beastMastery = new ItemStack(Material.BONE);
-        ItemStack swords = new ItemStack(Material.IRON_SWORD);
-        ItemStack armor = new ItemStack(Material.IRON_CHESTPLATE);
-        ItemStack axes = new ItemStack(Material.GOLDEN_AXE);
-        ItemStack repair = new ItemStack(Material.ANVIL);
-        ItemStack agility = new ItemStack(Material.LEATHER_LEGGINGS);
-        ItemStack alchemy = new ItemStack(Material.POTION);
-        ItemStack smelting = new ItemStack(Material.COAL);
-        ItemStack enchanting = new ItemStack(Material.ENCHANTING_TABLE);
-        ItemStack info = new ItemStack(Material.MAP);
-        ItemStack configuration = new ItemStack(Material.REDSTONE);
-
-        ItemStack[] menu_items = {global,digging,woodcutting,mining,farming,fishing,archery,beastMastery,swords,armor,axes,repair,agility,alchemy,smelting,enchanting,info,configuration};
-        String[] labels = {lang.getString("global"),lang.getString("digging"),lang.getString("woodcutting"),lang.getString("mining"),lang.getString("farming"),lang.getString("fishing"),lang.getString("archery"),lang.getString("beastMastery"),lang.getString("swordsmanship"),lang.getString("defense"),lang.getString("axeMastery"),lang.getString("repair"),lang.getString("agility"),lang.getString("alchemy"),lang.getString("smelting"),lang.getString("enchanting"),lang.getString("information"),lang.getString("configuration")};
-        String[] labels0 = {"global","digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting"};
-        Integer[] indices = {4,11,12,13,14,15,20,21,22,23,24,29,30,31,32,33,36,44};
+    private String getExpToNextString(Player p,String skillName) {
+        ChangeStats getEXP = new ChangeStats(p);
         PlayerStats pStatClass = new PlayerStats(p);
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
 
-        //Set item positions and lore for all items in the GUI
-        Leaderboards leaderboards = new Leaderboards();
-        for (int i = 0; i < menu_items.length; i++) {
-            ItemStack item = menu_items[i];
-            ArrayList<String> lore_skills = new ArrayList<>();
-            if (i < 16 && i!=0) {
-                int passiveTokens = (int) pStat.get(labels0[i]).get(2);
-                int skillTokens = (int) pStat.get(labels0[i]).get(3);
-                if (passiveTokens > 0 || skillTokens > 0) {
-                    item.addUnsafeEnchantment(Enchantment.DURABILITY,1);
-                }
-                int level = pStat.get(labels0[i]).get(0).intValue();
-                int EXP = pStat.get(labels0[i]).get(1).intValue();
-                int totalPlayers = leaderboards.getLeaderboardSize(labels0[i]);
-                int rank = leaderboards.getLeaderboardPosition(p,labels0[i]);
-                lore_skills.add(ChatColor.GRAY + lang.getString("level") + ": " + ChatColor.BLUE + String.format("%,d",level));
-                lore_skills.add(ChatColor.GRAY + lang.getString("experience") + ": " + ChatColor.BLUE + String.format("%,d",EXP));
-                ChangeStats getEXP = new ChangeStats(p);
-                int maxLevel = getEXP.getMaxLevel(labels0[i]);
-                String EXPtoNextString;
-                if (level < maxLevel) {
-                    int nextEXP = getEXP.getEXPfromLevel(level+1);
-                    int EXPtoNext = nextEXP - EXP;
-                    EXPtoNextString = String.format("%,d",EXPtoNext);
-                }
-                else {
-                    EXPtoNextString = "N/A";
-                }
-                lore_skills.add(ChatColor.GRAY + lang.getString("expToLevel") + ": " + ChatColor.GREEN + EXPtoNextString);
-                lore_skills.add(ChatColor.GRAY + lang.getString("rank") +": " +ChatColor.WHITE+ChatColor.BOLD.toString() + "" + String.format("%,d",rank) + ChatColor.RESET + ChatColor.GRAY +" " + lang.getString("outOf")+ " "  + ChatColor.WHITE + String.format("%,d",totalPlayers));
+        int maxLevel = getEXP.getMaxLevel(skillName);
+        int EXP = pStat.get(skillName).get(1).intValue();
+        int level = pStat.get(skillName).get(0).intValue();
 
-
+        String EXPtoNextString;
+        if (level < maxLevel) {
+            int nextEXP = getEXP.getEXPfromLevel(level+1);
+            int EXPtoNext = nextEXP - EXP;
+            EXPtoNextString = String.valueOf(EXPtoNext);
+        }
+        else {
+            EXPtoNextString = "N/A";
+        }
+        return EXPtoNextString;
+    }
+    private int getTotalSkillTokens(Player p) {
+        PlayerStats pStatClass = new PlayerStats(p);
+        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+        int totalSkillTokens = 0;
+        for (String j : pStat.keySet()){
+            if (!j.equalsIgnoreCase("global")){
+                totalSkillTokens += pStat.get(j).get(3).intValue();
             }
-            else if (i==0) {
+        }
+        return totalSkillTokens;
+    }
+    private int getTotalPassiveTokens(Player p) {
+        PlayerStats pStatClass = new PlayerStats(p);
+        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+        int totalPassiveTokens = 0;
+        for (String j : pStat.keySet()){
+            if (!j.equalsIgnoreCase("global")){
+                totalPassiveTokens += pStat.get(j).get(2).intValue();
+            }
+        }
+        return totalPassiveTokens;
+    }
+    private void generateMainMenu(Player p) {
+        //Player Information and Leaderboard
+        LanguageSelector lang = new LanguageSelector(p);
+        PlayerStats pStatClass = new PlayerStats(p);
+        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+        Leaderboards leaderboards = new Leaderboards();
+        PlayerStats timeStats = new PlayerStats(p);
+
+        //Gui Set-up
+        GuiWrapper gui = new GuiWrapper(p,Bukkit.createInventory(p, 45, "Skills"));
+        String nameColor = ChatColor.AQUA.toString() + ChatColor.BOLD.toString();
+        String descriptionColor = ChatColor.GRAY.toString() + ChatColor.ITALIC.toString();
+        String statisticNameColor = ChatColor.GRAY.toString();
+        String statisticColor = ChatColor.BLUE.toString();
+
+        //Menu Options (Items)
+        GuiItem global = new GuiItem(Material.NETHER_STAR,4,gui);
+        GuiItem digging = new GuiItem(Material.IRON_SHOVEL,11,gui);
+        GuiItem woodcutting = new GuiItem(Material.IRON_AXE,12,gui);
+        GuiItem mining = new GuiItem(Material.IRON_PICKAXE,13,gui);
+        GuiItem farming = new GuiItem(Material.IRON_HOE,14,gui);
+        GuiItem fishing = new GuiItem(Material.FISHING_ROD,15,gui);
+        GuiItem archery = new GuiItem(Material.BOW,20,gui);
+        GuiItem beastMastery = new GuiItem(Material.BONE,21,gui);
+        GuiItem swords = new GuiItem(Material.IRON_SWORD,22,gui);
+        GuiItem armor = new GuiItem(Material.IRON_CHESTPLATE,23,gui);
+        GuiItem axes = new GuiItem(Material.GOLDEN_AXE,24,gui);
+        GuiItem repair = new GuiItem(Material.ANVIL,29,gui);
+        GuiItem agility = new GuiItem(Material.LEATHER_LEGGINGS,30,gui);
+        GuiItem alchemy = new GuiItem(Material.POTION,31,gui);
+        GuiItem smelting = new GuiItem(Material.COAL,32,gui);
+        GuiItem enchanting = new GuiItem(Material.ENCHANTING_TABLE,33,gui);
+        GuiItem info = new GuiItem(Material.MAP,36,gui);
+        GuiItem configuration = new GuiItem(Material.REDSTONE,44,gui);
+
+        GuiItem[] guiItems = {global,digging,woodcutting,mining,farming,fishing,archery,beastMastery,swords,armor,axes,repair,agility,alchemy,smelting,enchanting,info,configuration};
+        String[] labels = {lang.getString("global"),lang.getString("digging"),lang.getString("woodcutting"),lang.getString("mining"),lang.getString("farming"),lang.getString("fishing"),lang.getString("archery"),lang.getString("beastMastery"),lang.getString("swordsmanship"),lang.getString("defense"),lang.getString("axeMastery"),lang.getString("repair"),lang.getString("agility"),lang.getString("alchemy"),lang.getString("smelting"),lang.getString("enchanting"),lang.getString("information"),lang.getString("configuration")};
+        String[] labels0 = {"global","digging", "woodcutting", "mining", "farming", "fishing", "archery", "beastMastery", "swordsmanship", "defense", "axeMastery", "repair", "agility", "alchemy", "smelting", "enchanting","information","configuration"};
+
+        for (int i = 0; i < guiItems.length; i++) {
+            GuiItem item = guiItems[i];
+            String translatedLabel = labels[i];
+            String label = labels0[i];
+            item.setName(translatedLabel);
+            item.setNameColor(nameColor);
+            if (i == 0) { //Global
                 int globalTokens = (int) pStat.get(labels0[i]).get(1);
                 int totalLevel = pStat.get("global").get(0).intValue();
                 int totalExperience = (int) pStat.get("global").get(29);
                 int totalPlayers = leaderboards.getLeaderboardSize("global");
                 int rank = leaderboards.getLeaderboardPosition(p,"global");
-                lore_skills.add(ChatColor.GRAY + lang.getString("total") + " " + lang.getString("level") +": " + ChatColor.GOLD + String.format("%,d",totalLevel));
-                lore_skills.add(ChatColor.GRAY + lang.getString("total") + " " + lang.getString("exp") +": " + ChatColor.GOLD + String.format("%,d",totalExperience));
-                lore_skills.add(ChatColor.GRAY + lang.getString("rank") +": " + ChatColor.WHITE+ChatColor.BOLD.toString()  + "" + String.format("%,d",rank) + ChatColor.RESET + ChatColor.GRAY +" " + lang.getString("outOf")+ " "  + ChatColor.WHITE + String.format("%,d",totalPlayers));
+
+                item.addStatistic(lang.getString("total") + " " + lang.getString("level"), String.valueOf(totalLevel));
+                item.addStatistic(lang.getString("total") + " " + lang.getString("exp"), String.valueOf(totalExperience));
+                item.addSpecialLoreLine(statisticNameColor + lang.getString("rank") +": " + ChatColor.WHITE+ChatColor.BOLD.toString()  + "" + String.format("%,d",rank) + ChatColor.RESET + descriptionColor +" " + lang.getString("outOf")+ " "  + ChatColor.RESET + ChatColor.WHITE.toString() +  totalPlayers);
                 if (globalTokens > 0) {
-                    item.addUnsafeEnchantment(Enchantment.DURABILITY,1);
+                    item.addEnchantmentGlow();
                 }
-            }
-            ItemMeta meta = item.getItemMeta();
-            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-            meta.setDisplayName(ChatColor.AQUA + ChatColor.BOLD.toString() + labels[i]);
-            meta.setLore(lore_skills);
 
+            } else if (i < 16) { //Skills
+                String skillName = labels0[i];
+                int passiveTokens = (int) pStat.get(labels0[i]).get(2);
+                int skillTokens = (int) pStat.get(labels0[i]).get(3);
+                int level = pStat.get(labels0[i]).get(0).intValue();
+                int EXP = pStat.get(labels0[i]).get(1).intValue();
+                int totalPlayers = leaderboards.getLeaderboardSize(labels0[i]);
+                int rank = leaderboards.getLeaderboardPosition(p,labels0[i]);
+                String EXPtoNextString = getExpToNextString(p,skillName);
 
-            if (indices[i] == 36) {
-                int totTokens_S = 0;
-                int totTokens_P = 0;
-                int gTokens = 0;
-                for (String j : pStat.keySet()){
+                GuiDisplayStatistic levelStat = new GuiDisplayStatistic(lang.getString("level"),level,ChatColor.GRAY.toString(),ChatColor.BLUE.toString());
+                GuiDisplayStatistic expStat = new GuiDisplayStatistic(lang.getString("experience"),EXP,ChatColor.GRAY.toString(),ChatColor.BLUE.toString());
+                GuiDisplayStatistic expToLevelStat = new GuiDisplayStatistic(lang.getString("expToLevel"),EXPtoNextString,ChatColor.GRAY.toString(),ChatColor.GREEN.toString());
 
-                    if (j.equalsIgnoreCase("global")){
-                        gTokens = pStat.get(j).get(1).intValue();
-                    }
-                    else {
-                        totTokens_P += pStat.get(j).get(2).intValue();
-                        totTokens_S += pStat.get(j).get(3).intValue();
-                    }
+                item.addStatistic(levelStat);
+                item.addStatistic(expStat);
+                item.addStatistic(expToLevelStat);
+                item.addSpecialLoreLine(statisticNameColor + lang.getString("rank") +": " + ChatColor.WHITE+ChatColor.BOLD.toString()  + "" + String.format("%,d",rank) + ChatColor.RESET + descriptionColor +" " + lang.getString("outOf")+ " "  + ChatColor.RESET + ChatColor.WHITE.toString() +  totalPlayers);
+                if (passiveTokens > 0 || skillTokens > 0) {
+                    item.addEnchantmentGlow();
                 }
-                PlayerStats timeStats = new PlayerStats(p);
+
+            } else if (i == 16){ //Information
+                int totalSkillTokens = getTotalSkillTokens(p);
+                int totalPassiveTokens = getTotalPassiveTokens(p);
+                int globalTokens = pStat.get("global").get(1).intValue();
                 String playTimeString = timeStats.getPlayerPlayTimeString();
                 double personalMultiplier = (double) pStat.get("global").get(23);
                 int souls = (int) pStat.get("global").get(20);
-                String soulsString = UtilityMethods.capitalizeString(lang.getString("souls"));
-                ArrayList<String> lore = new ArrayList<>();
-                lore.add(ChatColor.GRAY + lang.getString("totalPlayTime")+ ": " + ChatColor.GOLD + playTimeString);
-                lore.add(ChatColor.GRAY + lang.getString("personalMultiplier")+": " + ChatColor.GOLD + String.valueOf(personalMultiplier)+"x");
-                lore.add(ChatColor.GRAY + lang.getString("globalPassiveTitle0")+ ": " + ChatColor.GOLD + String.format("%,d",gTokens));
-                lore.add(ChatColor.GRAY + lang.getString("diggingPassiveTitle2")+": " + ChatColor.GOLD + String.format("%,d",totTokens_S));
-                lore.add(ChatColor.GRAY + lang.getString("diggingPassiveTitle0")+": " + ChatColor.GOLD + String.format("%,d",totTokens_P));
-                lore.add(ChatColor.GRAY + soulsString +": " + ChatColor.GOLD + String.format("%,d",souls));
-                meta.setLore(lore);
+
+                item.addStatistic(lang.getString("totalPlayTime"),playTimeString);
+                item.addStatistic(lang.getString("personalMultiplier"),String.valueOf(personalMultiplier)+"x");
+                item.addStatistic(lang.getString("globalPassiveTitle0"),globalTokens);
+                item.addStatistic(lang.getString("diggingPassiveTitle2"),totalSkillTokens);
+                item.addStatistic(lang.getString("diggingPassiveTitle0"),totalPassiveTokens);
+                item.addStatistic(UtilityMethods.capitalizeString(lang.getString("souls")),souls);
+            } else if (i == 17) {//Configuration
+                item.setDescription(lang.getString("clickForOptions"));
             }
-            else if (indices[i] == 44) {
-                ArrayList<String> lore = new ArrayList<>();
-                lore.add(ChatColor.GRAY + lang.getString("clickForOptions"));
-                meta.setLore(lore);
-            }
-            item.setItemMeta(meta);
-            gui.setItem(indices[i], item);
+            gui.addItem(item);
         }
 
         //Put the items in the inventory
-        p.openInventory(gui);
+        gui.displayGuiForPlayer();
     }
     private void messagePlayerHelpScreen(CommandSender sender, int page) {
         if (sender instanceof Player) {
@@ -439,7 +475,7 @@ public class FrpgCommands implements CommandExecutor {
                             ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("fishingPerkTitle4"));
                     p.sendMessage(ChatColor.GOLD + "/frpg hotRodToggle [" + lang.getString("onOrOff") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
                             ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("fishingPerkTitle5"));
-                    p.sendMessage(ChatColor.GOLD + "/frpg veinMinerToggle [" + lang.getString("onOrOff") + "" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
+                    p.sendMessage(ChatColor.GOLD + "/frpg veinMinerToggle [" + lang.getString("onOrOff") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
                             ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("miningPerkTitle4"));
                     p.sendMessage(ChatColor.GOLD + "/frpg megaDigToggle [" + lang.getString("onOrOff") + "]" + ChatColor.RESET + ChatColor.GRAY.toString() + " - " +
                             ChatColor.RESET + ChatColor.WHITE + lang.getString("manuallyToggles") + " " + lang.getString("diggingPerkTitle6"));
@@ -640,6 +676,138 @@ public class FrpgCommands implements CommandExecutor {
             guiItemToggle.setName(lang.getString("off0"));
         }
         gui.addItem(guiItemToggle);
+    }
+    private void setTranslatedSkillTreeInformation(Player p,String skillName,Map<String,String[]> perksMap,Map<String,String[]> descriptionsMap,Map<String,String[]> passivePerksMap,Map<String,String[]> passiveDescriptionsMap) {
+        LanguageSelector lang = new LanguageSelector(p);
+        String[] newTitles = perksMap.get(skillName);
+        String[] newDescs = descriptionsMap.get(skillName);
+        String[] newPassiveTitles = passivePerksMap.get(skillName);
+        String[] newPassiveDescs = passiveDescriptionsMap.get(skillName);
+        int i = 0;
+        for (String title : perksMap.get(skillName)) {
+            String id = skillName + "PerkTitle" + i;
+            newTitles[i] = lang.getString(id);
+            i += 1;
+        }
+        i = 0;
+        for (String desc : descriptionsMap.get(skillName)) {
+            String id = skillName + "PerkDesc" + i;
+            newDescs[i] = lang.getString(id);
+            i += 1;
+        }
+        i = 0;
+        for (String passiveTitle : passivePerksMap.get(skillName)) {
+            String id = skillName + "PassiveTitle" + i;
+            newPassiveTitles[i] = lang.getString(id);
+            i += 1;
+        }
+        i = 0;
+        for (String passiveDesc : passiveDescriptionsMap.get(skillName)) {
+            String id = skillName + "PassiveDesc" + i;
+            newPassiveDescs[i] = lang.getString(id);
+            i += 1;
+        }
+        perksMap.put(skillName, newTitles);
+        descriptionsMap.put(skillName, newDescs);
+        passivePerksMap.put(skillName, newPassiveTitles);
+        passiveDescriptionsMap.put(skillName, newPassiveDescs);
+    }
+    private void setSkillTreeProgressMainSkill(Player p, String skillName, GuiWrapper gui){
+        PlayerStats pStatClass = new PlayerStats(p);
+        Map<String, ArrayList<Number>> pStatAll = pStatClass.getPlayerData();
+        ArrayList<Number> pStats = pStatAll.get(skillName);
+        Integer[] indices = {11,29,13,31,7,43,26};
+        int skill_1a_level =  (Integer) pStats.get(7);
+        int skill_1b_level =  (Integer) pStats.get(8);
+        int skill_2a_level =  (Integer) pStats.get(9);
+        int skill_2b_level =  (Integer) pStats.get(10);
+        int skill_3a_level =  (Integer) pStats.get(11);
+        int skill_3b_level =  (Integer) pStats.get(12);
+        int skill_M_level =  (Integer) pStats.get(13);
+
+        GuiItem skill_1a = new GuiItem(Material.PINK_TERRACOTTA,11,gui);
+        GuiItem skill_2a = new GuiItem(Material.RED_TERRACOTTA,13,gui);
+        GuiItem skill_3a = new GuiItem(Material.RED_TERRACOTTA,7,gui);
+        GuiItem skill_1b = new GuiItem(Material.PINK_TERRACOTTA,29,gui);
+        GuiItem skill_2b = new GuiItem(Material.RED_TERRACOTTA,31,gui);
+        GuiItem skill_3b = new GuiItem(Material.RED_TERRACOTTA,43,gui);
+        GuiItem skill_M = new GuiItem(Material.RED_TERRACOTTA,26,gui);
+
+        if (skill_1a_level == 0) {
+            skill_1a.setItemType(Material.PINK_TERRACOTTA);
+        }
+        else if (skill_1a_level > 0 && skill_1a_level < 5) {
+            skill_1a.setItemType(Material.YELLOW_TERRACOTTA);
+        }
+        else {
+            skill_1a.setItemType(Material.GREEN_TERRACOTTA);
+        }
+
+
+        if (skill_1b_level == 0) {
+            skill_1b.setItemType(Material.PINK_TERRACOTTA);
+        }
+        else if (skill_1b_level > 0 && skill_1b_level < 5) {
+            skill_1b.setItemType(Material.YELLOW_TERRACOTTA);
+        }
+        else {
+            skill_1b.setItemType(Material.GREEN_TERRACOTTA);
+        }
+
+
+        if (skill_2a_level == 0) {
+            if (skill_1a_level >= 2) {
+                skill_2a.setItemType(Material.PINK_TERRACOTTA);
+            }
+        }
+        else if (skill_2a_level > 0 && skill_2a_level < 5) {
+            skill_2a.setItemType(Material.YELLOW_TERRACOTTA);
+        }
+        else {
+            skill_2a.setItemType(Material.GREEN_TERRACOTTA);
+        }
+
+
+        if (skill_2b_level == 0) {
+            if (skill_1b_level >= 2) {
+                skill_2b.setItemType(Material.PINK_TERRACOTTA);
+            }
+        }
+        else if (skill_2b_level > 0 && skill_2b_level < 5) {
+            skill_2b.setItemType(Material.YELLOW_TERRACOTTA);
+        }
+        else {
+            skill_2b.setItemType(Material.GREEN_TERRACOTTA);
+        }
+
+
+        if (skill_3a_level == 0) {
+            if (skill_2a_level >= 2) {
+                skill_3a.setItemType(Material.PINK_TERRACOTTA);
+            }
+        }
+        else {
+            skill_3a.setItemType(Material.GREEN_TERRACOTTA);
+        }
+
+
+        if (skill_3b_level == 0) {
+            if (skill_2b_level >= 2) {
+                skill_3b.setItemType(Material.PINK_TERRACOTTA);
+            }
+        }
+        else {
+            skill_3b.setItemType(Material.GREEN_TERRACOTTA);
+        }
+
+        if (skill_M_level == 0) {
+            if (skill_1a_level+skill_1b_level+skill_2a_level+skill_2b_level+skill_3a_level+skill_3b_level >=10) {
+                skill_M.setItemType(Material.PINK_TERRACOTTA);
+            }
+        }
+        else {
+            skill_M.setItemType(Material.GREEN_TERRACOTTA);
+        }
     }
 
     @Override
@@ -1059,6 +1227,7 @@ public class FrpgCommands implements CommandExecutor {
                 return true; //Improper argument (exp change not positive)
             }
 
+            increaseStats.set_isCommand(true);
             increaseStats.changeEXP(skillName,exp-currentExp+1);
             increaseStats.setTotalLevel();
             increaseStats.setTotalExperience();
@@ -1094,16 +1263,26 @@ public class FrpgCommands implements CommandExecutor {
                 }
             }
 
-            String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
+            String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery",
+                                "beastMastery","swordsmanship","defense","axeMastery",
+                                "repair","agility","alchemy","smelting","enchanting",
+                                "global","all"};
             List<String> labels_arr = Arrays.asList(labels_0);
             String skillName = UtilityMethods.convertStringToListCasing(labels_arr,skillNameInput);
             if (!labels_arr.contains(skillName)) {
                 commandHelper.sendImproperArgumentsMessage();
                 return true; //Improper argument (skillName not valid)
             }
-
-            ChangeStats increaseStats = new ChangeStats(target);
-            increaseStats.resetStat(skillName);
+            ChangeStats changeStats = new ChangeStats(target);
+            if (!skillName.equalsIgnoreCase("all")) {
+                changeStats.resetStat(skillName);
+            } else {
+                for (String skillNameLabel : labels_arr) {
+                    if (!skillNameLabel.equalsIgnoreCase("all")) {
+                        changeStats.resetStat(skillNameLabel);
+                    }
+                }
+            }
 
         }
 
@@ -1316,113 +1495,52 @@ public class FrpgCommands implements CommandExecutor {
 
         //flamePickToggle
         else if (args[0].equalsIgnoreCase("toggleFlamePick") || args[0].equalsIgnoreCase("flamePickToggle")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                return togglePerk("flamePickToggle",p,args);
-
-            } else {
-                sender.sendMessage("You need to be a player to cast this command");
-            }
+            return togglePerk("flamePickToggle",sender,args);
         }
 
         //flintToggle
         else if (args[0].equalsIgnoreCase("toggleFlint") || args[0].equalsIgnoreCase("flintToggle")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                return togglePerk("flintToggle",p,args);
-
-            } else {
-                sender.sendMessage("You need to be a player to cast this command");
-            }
+            return togglePerk("flintToggle",sender,args);
         }
 
         //grappleToggle
         else if (args[0].equalsIgnoreCase("toggleGrapple") || args[0].equalsIgnoreCase("grappleToggle")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                return togglePerk("grappleToggle",p,args);
-
-            } else {
-                sender.sendMessage("You need to be a player to cast this command");
-            }
-
+            return togglePerk("grappleToggle",sender,args);
         }
 
         //HotRodToggle
         else if (args[0].equalsIgnoreCase("toggleHotRod") || args[0].equalsIgnoreCase("hotRodToggle")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                return togglePerk("hotRodToggle",p,args);
-
-            } else {
-                sender.sendMessage("You need to be a player to cast this command");
-            }
+            return togglePerk("hotRodToggle",sender,args);
         }
 
         //MegaDigToggle
         else if (args[0].equalsIgnoreCase("toggleMegaDig") || args[0].equalsIgnoreCase("megaDigToggle")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                return togglePerk("megaDigToggle",p,args);
-
-            } else {
-                sender.sendMessage("You need to be a player to cast this command");
-            }
+            return togglePerk("megaDigToggle",sender,args);
         }
 
         //PotionToggle
         else if (args[0].equalsIgnoreCase("togglePotion") || args[0].equalsIgnoreCase("potionToggle")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                return togglePerk("potionToggle",p,args);
-
-            } else {
-                sender.sendMessage("You need to be a player to cast this command");
-            }
+            return togglePerk("potionToggle",sender,args);
         }
 
         //SpeedToggle
         else if (args[0].equalsIgnoreCase("toggleSpeed") || args[0].equalsIgnoreCase("speedToggle")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                return togglePerk("speedToggle",p,args);
-
-            } else {
-                sender.sendMessage("You need to be a player to cast this command");
-            }
+            return togglePerk("speedToggle",sender,args);
         }
 
         //VeinMinerToggle
         else if (args[0].equalsIgnoreCase("toggleVeinMiner") || args[0].equalsIgnoreCase("veinMinerToggle")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                return togglePerk("veinMinerToggle",p,args);
-
-            } else {
-                sender.sendMessage("You need to be a player to cast this command");
-            }
+            return togglePerk("veinMinerToggle",sender,args);
         }
 
         //LeafBlowerToggle
         else if (args[0].equalsIgnoreCase("toggleLeafBlower") || args[0].equalsIgnoreCase("leafBlowerToggle")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                return togglePerk("leafBlowerToggle",p,args);
-
-            } else {
-                sender.sendMessage("You need to be a player to cast this command");
-            }
+            return togglePerk("leafBlowerToggle",sender,args);
         }
 
         //holyAxeToggle
         else if (args[0].equalsIgnoreCase("toggleHolyAxe") || args[0].equalsIgnoreCase("holyAxeToggle")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                return togglePerk("holyAxeToggle",p,args);
-
-            } else {
-                sender.sendMessage("You need to be a player to cast this command");
-            }
+            return togglePerk("holyAxeToggle",sender,args);
         }
 
         //ConfigGUI
@@ -1497,6 +1615,9 @@ public class FrpgCommands implements CommandExecutor {
             }
             Player p = (Player) sender;
             LanguageSelector lang = new LanguageSelector(p);
+            PlayerStats pStatClass = new PlayerStats(p);
+            ConfigLoad configLoad = new ConfigLoad();
+
             String[] titles_0 = {"Digging","Woodcutting","Mining","Farming","Fishing","Archery","Beast Mastery","Swordsmanship","Defense","Axe Mastery","Repair","Agility","Alchemy","Smelting","Enchanting"};
             String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
             String[] passiveLabels0 = {"repair","agility","alchemy","smelting","enchanting"};
@@ -1510,11 +1631,15 @@ public class FrpgCommands implements CommandExecutor {
 
             String skillTitle = titles_0[labels.indexOf(skillName)];
             GuiWrapper gui = new GuiWrapper(p,Bukkit.createInventory(p, 54, skillTitle + " Configuration"));
-            PlayerStats pStatClass = new PlayerStats(p);
 
             addToggleButton(p,gui,"::showEXPBar::",Material.EXPERIENCE_BOTTLE,10,pStatClass.isPlayerSkillExpBarOn(skillName)); //EXP bar show
             if (!passiveLabels.contains(skillName)) {
                 addToggleButton(p,gui,"::triggerAbilities::",Material.WOODEN_PICKAXE,11,pStatClass.isPlayerSkillAbilityOn(skillName)); //Trigger Abilities
+            }
+
+            if (!configLoad.getAllowedSkillsMap().get(skillName)) { //Special condition to return (skill disabled)
+                p.sendMessage(ChatColor.RED + lang.getString("disabledSkill"));
+                return true;
             }
 
             //Back button
@@ -1833,106 +1958,58 @@ public class FrpgCommands implements CommandExecutor {
 
         //SkillTreeGUI
         else if (args[0].equalsIgnoreCase("skillTree") || args[0].equalsIgnoreCase("skillTreeGUI")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                if (p.isSleeping()) {
-                    p.sendMessage(ChatColor.RED + lang.getString("bedGUI"));
-                    return true;
-                }
-                if (!p.hasPermission("freeRPG.skillsGUI")) {
-                    p.sendMessage(ChatColor.RED + lang.getString("noPermission"));
-                    return true;
-                }
+            final String IMPROPER_ARGUMENTS_MESSSAGE = " /frpg skillTree [::skillName::]";
+            CommandHelper commandHelper = new CommandHelper(sender,args,2,IMPROPER_ARGUMENTS_MESSSAGE);
+            commandHelper.setPlayerOnlyCommand(true);
+            commandHelper.setCheckInBed(true);
+            commandHelper.setPermissionName("skillsGUI");
+            if (!commandHelper.isProperCommand()) {
+                return true; //Command Restricted or Improper
             }
-            StringsAndOtherData getMaps = new StringsAndOtherData();
-            Map<String, String[]> perksMap = getMaps.getPerksMap();
-            Map<String, String[]> descriptionsMap = getMaps.getDescriptionsMap();
-            Map<String, String[]> passivePerksMap = getMaps.getPassivePerksMap();
-            Map<String, String[]> passiveDescriptionsMap = getMaps.getPassiveDescriptionsMap();
+
+            Player p = (Player) sender;
+            LanguageSelector lang = new LanguageSelector(p);
+            PlayerStats pStatClass = new PlayerStats(p);
+            Map<String, ArrayList<Number>> pStatAll = pStatClass.getPlayerData();
+            ConfigLoad configLoad = new ConfigLoad();
+            StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+
 
             String[] titles_0 = {"Digging","Woodcutting","Mining","Farming","Fishing","Archery","Beast Mastery","Swordsmanship","Defense","Axe Mastery","Repair","Agility","Alchemy","Smelting","Enchanting","Global"};
             String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting","global"};
             List<String> labels_arr = Arrays.asList(labels_0);
+            String skillName = UtilityMethods.convertStringToListCasing(labels_arr,args[1]);
+            String skillTitle = titles_0[labels_arr.indexOf(skillName)];
 
-            ConfigLoad loadConfig = new ConfigLoad();
-            ArrayList<Integer> soulsInfo = loadConfig.getSoulsInfo();
+
+            if (!labels_arr.contains(skillName) ) {
+                commandHelper.sendImproperArgumentsMessage();
+                return true;
+            }
+            if (!configLoad.getAllowedSkillsMap().get(skillName)) { //Special condition to return (skill disabled)
+                p.sendMessage(ChatColor.RED + lang.getString("disabledSkill"));
+                return true;
+            }
+
+            ArrayList<Integer> soulsInfo = configLoad.getSoulsInfo();
             String refundCost = Integer.toString(soulsInfo.get(1));
 
-            if (sender instanceof Player) {
-                if (args.length == 2) {
-                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
-                    String skillName = UtilityMethods.convertStringToListCasing(labels_arr,args[1]);
-                    if (labels_arr.contains(skillName)) {
-                        Player p = (Player) sender;
-                        LanguageSelector langManager = new LanguageSelector(p);
-                        String skName = labels_0[labels_arr.indexOf(args[1])];
-                        if (!loadConfig.getAllowedSkillsMap().get(skName)) {
-                            p.sendMessage(ChatColor.RED + langManager.getString("disabledSkill"));
-                            return true;
-                        }
-                        String[] newTitles = perksMap.get(skName);
-                        String[] newDescs = descriptionsMap.get(skName);
-                        String[] newPassiveTitles = passivePerksMap.get(skName);
-                        String[] newPassiveDescs = passiveDescriptionsMap.get(skName);
-                        int i = 0;
-                        for (String title : perksMap.get(skName)) {
-                            String id = skName + "PerkTitle" + i;
-                            newTitles[i] = langManager.getString(id);
-                            i += 1;
-                        }
-                        i = 0;
-                        for (String desc : descriptionsMap.get(skName)) {
-                            String id = skName + "PerkDesc" + i;
-                            newDescs[i] = langManager.getString(id);
-                            i += 1;
-                        }
-                        i = 0;
-                        for (String passiveTitle : passivePerksMap.get(skName)) {
-                            String id = skName + "PassiveTitle" + i;
-                            newPassiveTitles[i] = langManager.getString(id);
-                            i += 1;
-                        }
-                        i = 0;
-                        for (String passiveDesc : passiveDescriptionsMap.get(skName)) {
-                            String id = skName + "PassiveDesc" + i;
-                            newPassiveDescs[i] = langManager.getString(id);
-                            i += 1;
-                        }
-                        perksMap.put(skName, newTitles);
-                        descriptionsMap.put(skName, newDescs);
-                        passivePerksMap.put(skName, newPassiveTitles);
-                        passiveDescriptionsMap.put(skName, newPassiveDescs);
-                    }
-                }
-            }
+            Map<String, String[]> perksMap = stringsAndOtherData.getPerksMap();
+            Map<String, String[]> descriptionsMap = stringsAndOtherData.getDescriptionsMap();
+            Map<String, String[]> passivePerksMap = stringsAndOtherData.getPassivePerksMap();
+            Map<String, String[]> passiveDescriptionsMap = stringsAndOtherData.getPassiveDescriptionsMap();
+            setTranslatedSkillTreeInformation(p,skillName,perksMap,descriptionsMap,passivePerksMap,passiveDescriptionsMap);
 
-            if (sender instanceof Player && args.length!= 2){
-                Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                p.sendMessage(ChatColor.RED+lang.getString("improperArguments")+" /frpg skillTree ["+lang.getString("skillName")+"]");
-            }
-            else if (sender instanceof Player && labels_arr.indexOf(args[1]) == -1) {
-                Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                p.sendMessage(ChatColor.RED+lang.getString("improperArguments")+" /frpg skillTree ["+lang.getString("skillName")+"]");
-            }
-            else if (sender instanceof Player && labels_arr.indexOf(args[1]) < 10) {
-                Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                String skillName = labels_0[labels_arr.indexOf(args[1])];
-                String skillTitle = titles_0[labels_arr.indexOf(args[1])];
-                Inventory gui = Bukkit.createInventory(p, 54,skillTitle);
+            //Create Gui
+            //GuiWrapper gui = new GuiWrapper(p,Bukkit.createInventory(p, 54,skillTitle));
+            Inventory gui = Bukkit.createInventory(p, 54,skillTitle);
 
-                //Skills
-                PlayerStats pStatClass = new PlayerStats(p);
-                Map<String, ArrayList<Number>> pStatAll = pStatClass.getPlayerData();
+            if (labels_arr.indexOf(skillName) < 10) { //One of the 10 "main" skills
+
+                //Sets colors of the skill icons to indicate whether the perk is locked/unlocked/in progress/completed
+                //setSkillTreeProgressMainSkill(p,skillName,gui);
+
                 ArrayList<Number> pStats = pStatAll.get(skillName);
-                int tokens_P = (Integer) pStats.get(2);
-                int tokens_S = (Integer) pStats.get(3);
-                Number passive1 = pStats.get(4);
-                Number passive2 = pStats.get(5);
-                Number passive3 = pStats.get(6);
                 int skill_1a_level =  (Integer) pStats.get(7);
                 int skill_1b_level =  (Integer) pStats.get(8);
                 int skill_2a_level =  (Integer) pStats.get(9);
@@ -1941,6 +2018,12 @@ public class FrpgCommands implements CommandExecutor {
                 int skill_3b_level =  (Integer) pStats.get(12);
                 int skill_M_level =  (Integer) pStats.get(13);
 
+                int tokens_P = (Integer) pStats.get(2);
+                int tokens_S = (Integer) pStats.get(3);
+                Number passive1 = pStats.get(4);
+                Number passive2 = pStats.get(5);
+                Number passive3 = pStats.get(6);
+
                 ItemStack skill_1a = new ItemStack(Material.PINK_TERRACOTTA);
                 ItemStack skill_2a = new ItemStack(Material.RED_TERRACOTTA);
                 ItemStack skill_3a = new ItemStack(Material.RED_TERRACOTTA);
@@ -1948,7 +2031,6 @@ public class FrpgCommands implements CommandExecutor {
                 ItemStack skill_2b = new ItemStack(Material.RED_TERRACOTTA);
                 ItemStack skill_3b = new ItemStack(Material.RED_TERRACOTTA);
                 ItemStack skill_M = new ItemStack(Material.RED_TERRACOTTA);
-
 
                 if (skill_1a_level == 0) {
                     skill_1a.setType(Material.PINK_TERRACOTTA);
@@ -2026,7 +2108,6 @@ public class FrpgCommands implements CommandExecutor {
                     skill_M.setType(Material.GREEN_TERRACOTTA);
                 }
 
-
                 //Beginning state of the menu
                 ItemStack[] menu_items = {skill_1a,skill_1b,skill_2a,skill_2b,skill_3a,skill_3b,skill_M};
                 String[] labels = perksMap.get(skillName);
@@ -2034,12 +2115,11 @@ public class FrpgCommands implements CommandExecutor {
 
                 //Initialize some varibales for use
                 String desc = "";
-                Map<String,CustomRecipe> customRecipeMap = loadConfig.getCraftingRecipes();
-                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
+                Map<String,CustomRecipe> customRecipeMap = configLoad.getCraftingRecipes();
 
                 //Make changes to some skills independent of level
                 if (skillName.equalsIgnoreCase("woodcutting")) {
-                    ArrayList<Integer> timberBreakLimits = loadConfig.getTimberBreakLimits();
+                    ArrayList<Integer> timberBreakLimits = configLoad.getTimberBreakLimits();
                     String timberBreakLimitInitial = String.valueOf(timberBreakLimits.get(0));
                     String timberBreakLimitUpgraded = String.valueOf(timberBreakLimits.get(1));
                     String newLore0 = stringsAndOtherData.replaceIfPresent(lores_line2[4],"64",timberBreakLimitInitial);
@@ -2079,7 +2159,7 @@ public class FrpgCommands implements CommandExecutor {
                     case "woodcutting":
                         special_index = 3;
                         desc = lang.getString("woodcuttingPerkDesc3_1") + " ";
-                        ArrayList<Object> woodcuttingInfo = loadConfig.getWoodcuttingInfo();
+                        ArrayList<Object> woodcuttingInfo = configLoad.getWoodcuttingInfo();
                         switch (skill_2b_level) {
                             case 0:
                                 Material mat0 = (Material) woodcuttingInfo.get(0);
@@ -2233,7 +2313,7 @@ public class FrpgCommands implements CommandExecutor {
                         break;
                     case "digging":
                         special_index = 0;
-                        ArrayList<Object> diggingInfo = loadConfig.getDiggingInfo();
+                        ArrayList<Object> diggingInfo = configLoad.getDiggingInfo();
                         switch (skill_1a_level) {
                             case 0:
                                 desc = lang.getString("diggingPerkDesc0_1") + " ";
@@ -2688,15 +2768,8 @@ public class FrpgCommands implements CommandExecutor {
                 p.openInventory(gui);
             }
             else if (sender instanceof Player && labels_arr.indexOf(args[1]) >= 10 && labels_arr.indexOf(args[1]) < 15) {
-                Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                String skillName = labels_0[labels_arr.indexOf(args[1])];
-                String skillTitle = titles_0[labels_arr.indexOf(args[1])];
-                Inventory gui = Bukkit.createInventory(p, 54, skillTitle);
 
                 //Skills
-                PlayerStats pStatClass = new PlayerStats(p);
-                Map<String, ArrayList<Number>> pStatAll = pStatClass.getPlayerData();
                 ArrayList<Number> pStats = pStatAll.get(skillName);
                 int tokens_S = (Integer) pStats.get(3);
                 Number passive1 = pStats.get(4);
@@ -2742,7 +2815,6 @@ public class FrpgCommands implements CommandExecutor {
                 switch (skillName) {
                     case "alchemy":
                         special_index = 1;
-                        StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
                         switch (skill_2a_level) {
                             case 0:
                                 desc = lang.getString("alchemyPerkDesc1_0") + " ";
@@ -2866,7 +2938,6 @@ public class FrpgCommands implements CommandExecutor {
                     ArrayList<String> lore = new ArrayList<>();
                     lore.add(lores_line1[i]);
                     String longString = lores_line2[i];
-                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
                     ArrayList<String> splitDescs = stringsAndOtherData.getStringLines(longString);
                     for (int j = 0; j < splitDescs.size(); j++) {
                         lore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + splitDescs.get(j));
@@ -2935,7 +3006,6 @@ public class FrpgCommands implements CommandExecutor {
                     ArrayList<String> lore = new ArrayList<>();
                     lore.add(lores_line1_2[i]);
                     String longString = lores_line2_2[i];
-                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
                     ArrayList<String> splitDescs = stringsAndOtherData.getStringLines(longString);
                     for (int j = 0; j < splitDescs.size(); j++) {
                         lore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + splitDescs.get(j));
@@ -2947,7 +3017,6 @@ public class FrpgCommands implements CommandExecutor {
 
                 //Crafting
                 if (skillName.equalsIgnoreCase("enchanting")) {
-                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
                     Integer[] indices_crafting = {39,40,41,42,43,48,49,50,51,52};
                     ItemStack[] crafting = {new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE),
                             new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE),
@@ -2976,7 +3045,6 @@ public class FrpgCommands implements CommandExecutor {
                     ItemStack[] crafting = {new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE),
                             new ItemStack(Material.CRAFTING_TABLE),new ItemStack(Material.CRAFTING_TABLE),
                             new ItemStack(Material.CRAFTING_TABLE)};
-                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
                     String[] craftingNames = {stringsAndOtherData.getPotionTypeString(1,p),
                             stringsAndOtherData.getPotionTypeString(2,p),
                             stringsAndOtherData.getPotionTypeString(3,p),
@@ -3053,7 +3121,6 @@ public class FrpgCommands implements CommandExecutor {
                 ItemMeta configItemMeta = configItem.getItemMeta();
                 ArrayList<String> configItemLore = new ArrayList<>();
                 configItemMeta.setDisplayName(ChatColor.BOLD + lang.getString("configuration"));
-                StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
                 configItemLore.addAll(stringsAndOtherData.getStringLines(lang.getString("skillConfigDesc")));
                 configItemMeta.setLore(configItemLore);
                 configItem.setItemMeta(configItemMeta);
@@ -3073,13 +3140,6 @@ public class FrpgCommands implements CommandExecutor {
 
             }
             else if (sender instanceof Player && labels_arr.indexOf(args[1]) > 10 && labels_arr.indexOf(args[1]) == 15) {
-                Player p = (Player) sender;
-                LanguageSelector lang = new LanguageSelector(p);
-                String skillName = labels_0[labels_arr.indexOf(args[1])];
-                String skillTitle = titles_0[labels_arr.indexOf(args[1])];
-                Inventory gui = Bukkit.createInventory(p, 54,skillTitle);
-                PlayerStats pStatClass = new PlayerStats(p);
-                Map<String, ArrayList<Number>> pStatAll = pStatClass.getPlayerData();
                 ArrayList<Number> pStats = pStatAll.get(skillName);
 
                 int tokens_G = (Integer) pStats.get(1);
@@ -3231,7 +3291,6 @@ public class FrpgCommands implements CommandExecutor {
                     ArrayList<String> lore = new ArrayList<>();
                     lore.add(lores_line1[i]);
                     String longString = lores_line2[i];
-                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
                     ArrayList<String> splitDescs = stringsAndOtherData.getStringLines(longString);
                     for (int j = 0; j < splitDescs.size(); j++) {
                         lore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + splitDescs.get(j));
@@ -3262,7 +3321,6 @@ public class FrpgCommands implements CommandExecutor {
                     ArrayList<String> lore = new ArrayList<>();
                     lore.add(lores_line1_2[i]);
                     String longString = lores_line2_2[i];
-                    StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
                     ArrayList<String> splitDescs = stringsAndOtherData.getStringLines(longString);
                     for (int j = 0; j < splitDescs.size(); j++) {
                         lore.add(ChatColor.GRAY + ChatColor.ITALIC.toString() + splitDescs.get(j));

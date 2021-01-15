@@ -1,0 +1,1800 @@
+global:
+  skill_1A: #Gatherer
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      expMultiplier: 1.2 #Multiplier for experience in Digging, Woodcutting, Mining, Farming, and Fishing
+  skill_1B: #Scholar
+    enabled: true #Change this to false to disable this skill from
+    level1:
+      expMultiplier: 1.2 #Multiplier for experience in Repair, Agility, Brewing, Smelting, and Enchanting
+  skill_1C: #Fighter
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      expMultiplier: 1.2 #Multiplier for experience in Archery, Beast Mastery, Swordsmanship, Defense, and Axe Mastery
+  skill_2A: #Hard Work
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      skillTokenIncrease: 1 #Number of skill tokens added to Digging, Woodcutting, Mining, Farming, and Fishing
+      passiveTokenIncrease: 0 #Number of passive tokens added to Digging, Woodcutting, Mining, Farming, and Fishing
+  skill_2B: #Research
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      skillTokenIncrease: 1 #Number of skill tokens added to Repair, Agility, Brewing, Smelting, and Enchanting
+      passiveTokenIncrease: 0 #Number of passive tokens added to Repair, Agility, Brewing, Smelting, and Enchanting
+  skill_2C: #Training
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      skillTokenIncrease: 1 #Number of skill tokens added to Archery, Beast Mastery, Swordsmanship, Defense, and Axe Mastery
+      passiveTokenIncrease: 0 #Number of passive tokens added to Archery, Beast Mastery, Swordsmanship, Defense, and Axe Mastery
+  skill_3: #Soul Harvesting
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      #Mobs that will drop souls. You must provide the mob name spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+      affectedMobs: [SPIDER,CAVE_SPIDER,ENDERMAN,
+                     BLAZE,CREEPER,DROWNED,ELDER_GUARDIAN,
+                     ENDERMITE,EVOKER,GHAST,GUARDIAN,
+                     HUSK,MAGMA_CUBE,PHANTOM,PILLAGER,
+                     RAVAGER,SHULKER,SKELETON,SLIME,
+                     STRAY,VEX,VINDICATOR,WITCH,
+                     WITHER_SKELETON,ZOMBIE,ZOMBIE_VILLAGER]
+  skill_4C: #Reincarnation+
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      chanceToKeepValuable: 0.5 #Probability of keeping some a valuable
+      minimumPortionKept: 0.0 #Minimum potion of the saved valuable item kept (the player will always keep at least 1 if the chanceToKeepValuable roll is good enough)
+      maximumPortionKept: 1.0 #Maximum portion of the saved valuable item kept
+      #Items that are considered valuable. You must provide the item name spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      valuableItems: [IRON_ORE,GOLD_ORE,DIAMOND_ORE,EMERALD_ORE,REDSTONE_ORE,LAPIS_ORE,
+                       IRON_BLOCK,GOLD_BLOCK,DIAMOND_BLOCK,EMERALD_BLOCK,REDSTONE_BLOCK,LAPIS_BLOCK,
+                       SLIME_BLOCK,SPONGE,NETHER_QUARTZ_ORE,NETHER_WART_BLOCK,DRAGON_EGG,SHULKER_BOX,
+                       ENCHANTING_TABLE,ANVIL,BEACON,BREWING_STAND,CAKE,JUKEBOX,
+                       TNT,CREEPER_HEAD,DRAGON_HEAD,PLAYER_HEAD,ZOMBIE_HEAD,SKELETON_SKULL,WITHER_SKELETON_SKULL,
+                       ENDER_EYE,ENDER_PEARL,FIREWORK_ROCKET,FIRE_CHARGE,POTION,SPLASH_POTION,LINGERING_POTION,
+                       NETHER_WART,REDSTONE,TRIDENT,DIAMOND_AXE,DIAMOND_BOOTS,DIAMOND_CHESTPLATE,
+                       DIAMOND_HELMET,DIAMOND_HOE,DIAMOND_LEGGINGS,DIAMOND_PICKAXE,DIAMOND_SHOVEL,DIAMOND_SWORD,
+                       ELYTRA,ENCHANTED_BOOK,ENCHANTED_GOLDEN_APPLE,GOLDEN_APPLE,IRON_INGOT,
+                       MUSIC_DISC_11, MUSIC_DISC_13, MUSIC_DISC_BLOCKS, MUSIC_DISC_CAT,
+                       MUSIC_DISC_CHIRP, MUSIC_DISC_FAR, MUSIC_DISC_MALL, MUSIC_DISC_MELLOHI,
+                       MUSIC_DISC_STAL, MUSIC_DISC_STRAD, MUSIC_DISC_WAIT, MUSIC_DISC_WARD,
+                       NAME_TAG,TIPPED_ARROW,TOTEM_OF_UNDYING,SPECTRAL_ARROW,DIAMOND,GOLD_INGOT,
+                       HEART_OF_THE_SEA,DRAGON_BREATH,EMERALD,NAUTILUS_SHELL,NETHER_STAR,SLIME_BALL,
+                       RABBIT_FOOT]
+  skill_4D: #Avatar
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      chanceOfActivation: 0.10 #Chance the perk activates, saving the user from death
+      #Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+      #Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional)} ]
+      effectsGiven:
+        - [effect: DOLPHINS_GRACE,    level: 1, duration: 10.0, delay: 0.0] #Example for how to use delay
+        - [effect: LUCK,              level: 1, duration: 10.0]
+        - [effect: INVISIBILITY,      level: 1, duration: 10.0]
+        - [effect: NIGHT_VISION,      level: 1, duration: 10.0]
+        - [effect: FIRE_RESISTANCE,   level: 1, duration: 10.0]
+        - [effect: WATER_BREATHING,   level: 1, duration: 10.0]
+        - [effect: SPEED,             level: 1, duration: 10.0]
+        - [effect: JUMP,              level: 1, duration: 10.0]
+        - [effect: ABSORPTION,        level: 1, duration: 10.0]
+        - [effect: CONDUIT_POWER,     level: 1, duration: 10.0]
+        - [effect: DAMAGE_RESISTANCE, level: 1, duration: 10.0]
+        - [effect: FAST_DIGGING,      level: 1, duration: 10.0]
+        - [effect: HEAL,              level: 1, duration: 0.05]
+        - [effect: HEALTH_BOOST,      level: 1, duration: 10.0]
+        - [effect: INCREASE_DAMAGE,   level: 1, duration: 10.0]
+        - [effect: REGENERATION,      level: 1, duration: 10.0]
+        - [effect: SATURATION,        level: 1, duration: 10.0]
+  skill_M: #Master of the Arts
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      cooldownMultiplier: 0.67 #Cooldowns are multiplied by this number
+digging:
+  passive1: #Big Dig Duration
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 2.0 #Starting duration in seconds
+    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
+    increasePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive2: #Treasure Chance
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 0.01 #Starting likelihood
+    maxValue: 0.25 #The maximum likelihood
+    increasePerLevel: 0.00005 #Increase in likelihood each level
+  skill_1A: #Mo' Drops
+    enabled: true #Change this to false to disable this skill from working
+    #Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    # Drop probabilities are the probability a given item drops IF a treasure roll is made (which has chance given by Treasure Chance)
+    # Items with dropWeight have a probability of dropping relative to other items with drop weight, i.e
+    # Prob(item drops) = (1 - (sum of baseChances) ) * ((weight/(sum of weights))
+    # If the item has property dropBaseChance, then that is the probability that item drops with no relative comparisons
+    # As a result, the sum of all items with dropBaseChances CANNOT exceed 1
+    # Experience rates for the drops are configured in experienceConfig.yml
+    level1:
+      dropItem: GOLD_INGOT
+      dropAmount: 1 #amount dropped when the item is rolled on the drop table
+      dropWeight: 1
+    level2:
+      dropItem: NAME_TAG
+      dropAmount: 1 #amount dropped when the item is rolled on the drop table
+      dropWeight: 1
+    level3:
+      dropItem: MUSIC_DISC_PLACEHOLDER #not a real item
+      dropAmount: 1 #amount dropped when the item is rolled on the drop table
+      dropWeight: 1
+    level4:
+      dropItem: HORSE_ARMOR_PLACEHOLDER #not a real item
+      dropAmount: 1 #amount dropped when the item is rolled on the drop table
+      dropWeight: 1
+    level5:
+      dropItem: DIAMOND
+      dropAmount: 1 #amount dropped when the item is rolled on the drop table
+      dropBaseChance: 0.0025
+  skill_1B: #Double Treasure
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      doubleTreasureChance: 0.05 #Total Chance of receiving double treasure
+    level2:
+      doubleTreasureChance: 0.10 #Total Chance of receiving double treasure
+    level3:
+      doubleTreasureChance: 0.15 #Total Chance of receiving double treasure
+    level4:
+      doubleTreasureChance: 0.20 #Total Chance of receiving double treasure
+    level5:
+      doubleTreasureChance: 0.25 #Total Chance of receiving double treasure
+  skill_2A: #Rarer Drops
+    enabled: true #Change this to false to disable this skill from working
+      #Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # If the item has property dropBaseChance, then that is the probability that item drops with no relative comparisons
+      # As a result, the sum of all items with dropBaseChances CANNOT exceed 1
+    level1:
+      dropItem: EMERALD
+      dropAmount: 1 #amount dropped when the item is rolled on the drop table
+      dropBaseChance: 0.0229
+    level2:
+      dropItem: ENCHANTED_BOOK_PLACEHOLDER
+      dropAmount: 1 #amount dropped when the item is rolled on the drop table
+      dropBaseChance: 0.0025
+    level3:
+      dropItem: DRAGON_BREATH #not a real item
+      dropAmount: 1 #amount dropped when the item is rolled on the drop table
+      dropBaseChance: 0.00835
+    level4:
+      dropItem: TOTEM_OF_UNDYING #not a real item
+      dropAmount: 1 #amount dropped when the item is rolled on the drop table
+      dropBaseChance: 0.001275
+    level5:
+      dropItem: NETHER_STAR
+      dropAmount: 1 #amount dropped when the item is rolled on the drop table
+      dropBaseChance: 0.001
+  skill_2B: #Soul Stealer
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      likelihoodIncrease: 0.05 #Total likelihood Increase
+      effectedBlocks: [SOUL_SAND] #Blocks that boost the treasure likelihood
+    level2:
+      likelihoodIncrease: 0.10 #Total likelihood Increase
+      effectedBlocks: [SOUL_SAND] #Blocks that boost the treasure likelihood
+    level3:
+      likelihoodIncrease: 0.15 #Total likelihood Increase
+      effectedBlocks: [SOUL_SAND] #Blocks that boost the treasure likelihood
+    level4:
+      likelihoodIncrease: 0.20 #Total likelihood Increase
+      effectedBlocks: [SOUL_SAND] #Blocks that boost the treasure likelihood
+    level5:
+      likelihoodIncrease: 0.25 #Total likelihood Increase
+      effectedBlocks: [SOUL_SAND] #Blocks that boost the treasure likelihood
+  skill_3A: #Flinter Finder
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      flintDropChance: 1.0 #Chance that gravel drops flint
+  skill_3B: #Shovel Knight
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      damageMultiplier: 2.0 #Multiplier on damage done by shovels
+  skill_M: #Mega Dig
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      treasureRate: 0.20 #Nerf on the treasure rate when using Mega Dig (keep in mind 9 blocks can be broken at once)
+woodcutting:
+  passive1: #Timber Duration
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 2.0 #Starting duration in seconds
+    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
+    increasePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive2: #Double Drops
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 0.00 #Starting probability
+    maxValue: 1.0 #Maximum probability
+    increasePerLevel: 0.0005 #Probability increase per level
+    # Blocks double drops applies to
+    # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    # Blocks that are not spelled correctly or do not exist in the current minecraft version are ignored
+    effectedBlocks: [ACACIA_LOG,BIRCH_LOG,DARK_OAK_LOG,OAK_LOG,SPRUCE_LOG,JUNGLE_LOG,
+                     STRIPPED_ACACIA_LOG,STRIPPED_BIRCH_LOG,STRIPPED_DARK_OAK_LOG,STRIPPED_JUNGLE_LOG,
+                     STRIPPED_OAK_LOG,STRIPPED_SPRUCE_LOG,CRIMSON_STEM,WARPED_STEM,
+                     STRIPPED_CRIMSON_STEM,STRIPPED_WARPED_STEM]
+  skill_1A: #Zelous Roots
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      averageMinecraftExp: 0.2 #Average Minecraft rewarded per log chopped
+    level2:
+      averageMinecraftExp: 0.4 #Average Minecraft rewarded per log chopped
+    level3:
+      averageMinecraftExp: 0.6 #Average Minecraft rewarded per log chopped
+    level4:
+      averageMinecraftExp: 0.8 #Average Minecraft rewarded per log chopped
+    level5:
+      averageMinecraftExp: 1.0 #Average Minecraft rewarded per log chopped
+  skill_1B: #Fresh Arms
+    enabled: true #Change this to false to disable this skill from working
+    #Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+    #Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional)} ]
+    level1:
+      effectsGiven:
+        - [effect: HASTE, level: 1, duration: 12, delay: 0.0] #Example of how to use delay
+    level2:
+      effectsGiven:
+        - [effect: HASTE, level: 1, duration: 24]
+    level3:
+      effectsGiven:
+        - [effect: HASTE, level: 1, duration: 36]
+    level4:
+      effectsGiven:
+        - [effect: HASTE, level: 1, duration: 48]
+    level5:
+      effectsGiven:
+        - [effect: HASTE, level: 1, duration: 60]
+  skill_2A: #Hidden Knowledge (More coming soon for this one)
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      dropChance: 0.002 #Total drop chance
+    level2:
+      dropChance: 0.004 #Total drop chance
+    level3:
+      dropChance: 0.006 #Total drop chance
+    level4:
+      dropChance: 0.008 #Total drop chance
+    level5:
+      dropChance: 0.010 #Total drop chance
+  skill_2B: #Leaf Scavenger
+    enabled: true #Change this to false to disable this skill from working
+    # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    # Every time a leaf is broken, a drop is rolled for. As a result, the sum of all the drop chances should be much less than 1.
+    # Experience rates for the drops are configured in experienceConfig.yml
+    level1:
+      dropName: FEATHER #Drop item
+      dropAmount: 1 #amount dropped when rolled
+      dropChance: 0.02 #chance of being rolled
+    level2:
+      dropName: GOLD_NUGGET #Drop item
+      dropAmount: 1 #amount dropped when rolled
+      dropChance: 0.02 #chance of being rolled
+    level3:
+      dropName: GOLDEN_APPLE #Drop item
+      dropAmount: 1 #amount dropped when rolled
+      dropChance: 0.0025 #chance of being rolled
+    level4:
+      dropName: EXPERIENCE_BOTTLE #Drop item
+      dropAmount: 1 #amount dropped when rolled
+      dropChance: 0.0075 #chance of being rolled
+    level5:
+      dropName: ENCHANTED_GOLDEN_APPLE #Drop item
+      dropAmount: 1 #amount dropped when rolled
+      dropChance: 5.0E-4 #chance of being rolled
+  skill_3A: #Timber +
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      newBreakLimit: 128
+  skill_3B: #Leaf Blower
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      durabilityModifier: 1.0  #Average durability points of damaged removed per block broken (without unbreaking)
+      maxBlocksBroken: 30 #Maximum number of blocks broken by one leaf blower usage
+  skill_M: #Able Axe
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      effectiveness: 0.50 #Effectiveness multiplier for double drops, zealous roots, and hidden knowledge when using timber
+mining:
+  passive1: #Berserk Pick Duration
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 2.0 #Starting duration in seconds
+    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
+    increasePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive2: #Double Drops
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 0.00 #Starting probability
+    maxValue: 1.0 #Maximum probability
+    increasePerLevel: 0.0005 #Increase in probability each level
+    # Blocks double drops applies to
+    # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    # Blocks that are not spelled correctly or do not exist in the current minecraft version are ignored
+    effectedBlocks: [REDSTONE_ORE,NETHER_QUARTZ_ORE,LAPIS_ORE,IRON_ORE,GOLD_ORE,
+                     EMERALD_ORE,DIAMOND_ORE,COAL_ORE,NETHER_GOLD_ORE,ANCIENT_DEBRIS,GILDED_BLACKSTONE]
+  passive3: #Blast Mining
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 0.00 #Starting probability
+    maxValue: 1.0 #Maximum probability
+    increasePerLevel: 0.0001 #Increase in probability each level
+    # Drop table for this skill. You must provide the item name spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    # Format [MaterialName, weight, experienceReward]
+    # If a material is NOT recognized, it will simply not be considered (ex. NETHERITE_SCRAP in MC v1.15 will be ignored)
+    dropTable:
+      - [drop: COAL,            amount: 1, exp: 200,  weight: 500]
+      - [drop: IRON_ORE,        amount: 1, exp: 350,  weight: 200]
+      - [drop: GOLD_ORE,        amount: 1, exp: 500,  weight: 100]
+      - [drop: LAPIS_LAZULI,    amount: 1, exp: 700,  weight: 50 ]
+      - [drop: EMERALD_ORE,     amount: 1, exp: 1250, weight: 50 ]
+      - [drop: REDSTONE,        amount: 1, exp: 500,  weight: 90 ]
+      - [drop: DIAMOND,         amount: 1, exp: 1000, weight: 9  ]
+      - [drop: NETHERITE_SCRAP, amount: 1, exp: 1500, weight: 1  ]
+  skill_1A: #Wasteless Haste
+    enabled: true #Change this to false to disable this skill from working
+    #Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+    #Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional)} ]
+    level1:
+      effectsGiven:
+        - [effect: HASTE, level: 1, duration: 2]
+    level2:
+      effectsGiven:
+        - [effect: HASTE, level: 1, duration: 5]
+    level3:
+      effectsGiven:
+        - [effect: HASTE, level: 1, duration: 10]
+    level4:
+      effectsGiven:
+        - [effect: HASTE, level: 2, duration: 5, delay: 0]
+        - [effect: HASTE, level: 1, duration: 5, delay: 5]
+    level5:
+      effectsGiven:
+        - [effect: HASTE, level: 2, duration: 10]
+  skill_1B: #More Bombs
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      additionalTNTcrafted: 1 #Integer value of total additional TNT crafted
+    level2:
+      additionalTNTcrafted: 2 #Integer value of total additional TNT crafted
+    level3:
+      additionalTNTcrafted: 3 #Integer value of total additional TNT crafted
+    level4:
+      additionalTNTcrafted: 4 #Integer value of total additional TNT crafted
+    level5:
+      additionalTNTcrafted: 5 #Integer value of total additional TNT crafted
+  skill_2A: #Treasure Seeker
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      dropChance: 0.01 #Probability that treasure will be rolled
+      effectedBlocks: [STONE] #Blocks that will cause the treasure roll
+      # Drop table for this level. You must provide the item name spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Format [{Material Name}, {amount}, {experience reward}, {weight}]
+      # If a material is NOT recognized, it will simply not be considered (ex. NETHERITE_SCRAP in MC v1.15 will be ignored)
+      dropTable:
+        - [drop: COAL,            amount: 1, exp: 200,  weight: 500]
+        - [drop: IRON_ORE,        amount: 1, exp: 350,  weight: 200]
+        - [drop: GOLD_ORE,        amount: 1, exp: 500,  weight: 100]
+        - [drop: LAPIS_LAZULI,    amount: 1, exp: 700,  weight: 50 ]
+        - [drop: EMERALD_ORE,     amount: 1, exp: 1250, weight: 50 ]
+        - [drop: REDSTONE,        amount: 1, exp: 500,  weight: 90 ]
+        - [drop: DIAMOND,         amount: 1, exp: 1000, weight: 9  ]
+        - [drop: NETHERITE_SCRAP, amount: 1, exp: 1500, weight: 1  ]
+    level2:
+      dropChance: 0.02 #Probability that treasure will be rolled
+      effectedBlocks: [STONE] #Blocks that will cause the treasure roll
+      # Drop table for this level. You must provide the item name spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Format [{Material Name}, {amount}, {experience reward}, {weight}]
+      # If a material is NOT recognized, it will simply not be considered (ex. NETHERITE_SCRAP in MC v1.15 will be ignored)
+      dropTable:
+        - [drop: COAL,            amount: 1, exp: 200,  weight: 400]
+        - [drop: IRON_ORE,        amount: 1, exp: 350,  weight: 250]
+        - [drop: GOLD_ORE,        amount: 1, exp: 500,  weight: 110]
+        - [drop: LAPIS_LAZULI,    amount: 1, exp: 700,  weight: 60 ]
+        - [drop: EMERALD_ORE,     amount: 1, exp: 1250, weight: 60 ]
+        - [drop: REDSTONE,        amount: 1, exp: 500,  weight: 100]
+        - [drop: DIAMOND,         amount: 1, exp: 1000, weight: 18 ]
+        - [drop: NETHERITE_SCRAP, amount: 1, exp: 1500, weight: 2  ]
+    level3:
+      dropChance: 0.03 #Probability that treasure will be rolled
+      effectedBlocks: [STONE] #Blocks that will cause the treasure roll
+      # Drop table for this level. You must provide the item name spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Format [{Material Name}, {amount}, {experience reward}, {weight}]
+      # If a material is NOT recognized, it will simply not be considered (ex. NETHERITE_SCRAP in MC v1.15 will be ignored)
+      dropTable:
+        - [drop: COAL,            amount: 1, exp: 200,  weight: 300]
+        - [drop: IRON_ORE,        amount: 1, exp: 350,  weight: 300]
+        - [drop: GOLD_ORE,        amount: 1, exp: 500,  weight: 120]
+        - [drop: LAPIS_LAZULI,    amount: 1, exp: 700,  weight: 70 ]
+        - [drop: EMERALD_ORE,     amount: 1, exp: 1250, weight: 70 ]
+        - [drop: REDSTONE,        amount: 1, exp: 500,  weight: 110]
+        - [drop: DIAMOND,         amount: 1, exp: 1000, weight: 27 ]
+        - [drop: NETHERITE_SCRAP, amount: 1, exp: 1500, weight: 3  ]
+    level4:
+      dropChance: 0.04 #Probability that treasure will be rolled
+      effectedBlocks: [STONE] #Blocks that will cause the treasure roll
+      # Drop table for this level. You must provide the item name spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Format [{Material Name}, {amount}, {experience reward}, {weight}]
+      # If a material is NOT recognized, it will simply not be considered (ex. NETHERITE_SCRAP in MC v1.15 will be ignored)
+      dropTable:
+        - [drop: COAL,            amount: 1, exp: 200,  weight: 250]
+        - [drop: IRON_ORE,        amount: 1, exp: 350,  weight: 250]
+        - [drop: GOLD_ORE,        amount: 1, exp: 500,  weight: 160]
+        - [drop: LAPIS_LAZULI,    amount: 1, exp: 700,  weight: 100]
+        - [drop: EMERALD_ORE,     amount: 1, exp: 1250, weight: 100]
+        - [drop: REDSTONE,        amount: 1, exp: 500,  weight: 100]
+        - [drop: DIAMOND,         amount: 1, exp: 1000, weight: 36 ]
+        - [drop: NETHERITE_SCRAP, amount: 1, exp: 1500, weight: 4  ]
+    level5:
+      dropChance: 0.05 #Probability that treasure will be rolled
+      effectedBlocks: [STONE] #Blocks that will cause the treasure roll
+      # Drop table for this level. You must provide the item name spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Format [{Material Name}, {amount}, {experience reward}, {weight}]
+      # If a material is NOT recognized, it will simply not be considered (ex. NETHERITE_SCRAP in MC v1.15 will be ignored)
+      dropTable:
+        - [drop: COAL,            amount: 1, exp: 200,  weight: 200]
+        - [drop: IRON_ORE,        amount: 1, exp: 350,  weight: 250]
+        - [drop: GOLD_ORE,        amount: 1, exp: 500,  weight: 200]
+        - [drop: LAPIS_LAZULI,    amount: 1, exp: 700,  weight: 70 ]
+        - [drop: EMERALD_ORE,     amount: 1, exp: 1250, weight: 150]
+        - [drop: REDSTONE,        amount: 1, exp: 500,  weight: 70 ]
+        - [drop: DIAMOND,         amount: 1, exp: 1000, weight: 45 ]
+        - [drop: NETHERITE_SCRAP, amount: 1, exp: 1500, weight: 5  ]
+  skill_2B: #Bomb-boyage
+    enabled: true #Change this to false to disable this skill from working
+    #Base TNT power is 4.0. The formula for TNT explosion radius is complicated, but a rule of thumb is each additional
+    #0.5 power is about 1 increased block radius
+    level1:
+      tntPowerIncrease: 0.5 #Total TNT power increase
+    level2:
+      tntPowerIncrease: 1.0 #Total TNT power increase
+    level3:
+      tntPowerIncrease: 1.5 #Total TNT power increase
+    level4:
+      tntPowerIncrease: 2.0 #Total TNT power increase
+    level5:
+      tntPowerIncrease: 2.5 #Total TNT power increase
+  skill_3A: #vein Miner
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      veinMinerBlocks: [REDSTONE_ORE,NETHER_QUARTZ_ORE,LAPIS_ORE,IRON_ORE,GOLD_ORE,EMERALD_ORE,DIAMOND_ORE,COAL_ORE,GLOWSTONE,NETHER_GOLD_ORE,ANCIENT_DEBRIS,GILDED_BLACKSTONE]
+      veinMinerMaximumBlocksBroken: 30 #Set to -1 for no limit (not recommended)
+      veinMinerDurabilityModifier: 1.0 #Average durability points of damaged removed per block broken (without unbreaking)
+      veinMinerExperienceModifier: 1.0 #Multiplier for experience gained from blocks broken by veinMiner
+  skill_3B: #Demolition Man
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      TNTdamageModifier: 0.0 #Percent of damage taken from TNT explosion (Ex. 0.2 --> 20% TNT damage taken)
+  skill_M: #Triple Trouble
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      activationRate: 1.0 #Rate at which double drops are converted to triple drops
+farming:
+  passive1: #Natural Regeneration Duration
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 2.0 #Starting duration in seconds
+    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
+    increasePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive2: #Double Drops (Crops)
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 0.00 #Starting probability
+    maxValue: 1.0 #Maximum probability
+    increasePerLevel: 0.0005 #Increase in probability each level
+    # Blocks double drops applies to
+    # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    # Blocks that are not spelled correctly or do not exist in the current minecraft version are ignored
+    effectedBlocks: [WHEAT,BEETROOTS,CARROTS,CHORUS_FLOWER,MELON_STEM,MELON,
+                     NETHER_WART,POTATOES,PUMPKIN_STEM,PUMPKIN,SWEET_BERRY_BUSH,COCOA,
+                     SUGAR_CANE,BAMBOO,CACTUS,KELP,KELP_PLANT]
+  passive3: #Double Drops (Animals)
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 0.00 #Starting probability
+    maxValue: 1.0 #Maximum probability
+    increasePerLevel: 0.0005 #Increase in probability each level
+    doubleShearDrops: true #Set to false for double drops to not apply to shearing
+    # Mobs double drops applies to
+    # Select mobs from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+    # Mobs that are not spelled correctly or do not exist in the current minecraft version are ignored
+    effectedMobs: [CHICKEN,COW,DONKEY,FOX,HORSE,MUSHROOM_COW,
+                   MULE,PARROT,PIG,RABBIT,SHEEP,SQUID,
+                   SKELETON_HORSE,TURTLE]
+  skill_1A: #Better Fertilizer
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      saveBonemealChance: 0.10 #Probability bonemeal is saved on use
+    level2:
+      saveBonemealChance: 0.20 #Probability bonemeal is saved on use
+    level3:
+      saveBonemealChance: 0.30 #Probability bonemeal is saved on use
+    level4:
+      saveBonemealChance: 0.40 #Probability bonemeal is saved on use
+    level5:
+      saveBonemealChance: 0.50 #Probability bonemeal is saved on use
+  skill_1B: #Animal Farm
+    enabled: true #Change this to false to disable this skill from working
+    # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    # recipes are a list of ingredients formatted as such:
+    # - (1) top left
+    # - (2) top middle
+    # - (3) top right
+    # - (4) middle left
+    # - (5) middle middle
+    # - (6) middle right
+    # - (7) bottom left
+    # - (8) bottom middle
+    # - (9) bottom right
+    # Use "AIR" to represent blank entries
+    level1:
+      recipeOutput: COW_SPAWN_EGG #Output Material
+      recipeOutputAmount: 1 #Output amount
+      recipe: [LEATHER,BEEF,LEATHER,BEEF,BONE,BEEF,LEATHER,BEEF,LEATHER] #Crafting Recipe
+    level2:
+      recipeOutput: BEE_SPAWN_EGG #Output Material
+      recipeOutputAmount: 1 #Output amount
+      recipe: [AIR,OXEYE_DAISY,AIR,DANDELION,HONEY_BOTTLE,POPPY,AIR,AZURE_BLUET,AIR] #Crafting Recipe
+    level3:
+      recipeOutput: MOOSHROOM_SPAWN_EGG #Output Material
+      recipeOutputAmount: 1 #Output amount
+      recipe: [LEATHER,RED_MUSHROOM,LEATHER,BEEF,BONE,BEEF,LEATHER,BEEF,LEATHER] #Crafting Recipe
+    level4:
+      recipeOutput: HORSE_SPAWN_EGG #Output Material
+      recipeOutputAmount: 1 #Output amount
+      recipe: [LEATHER,SADDLE,LEATHER,LEATHER,BONE,LEATHER,HAY_BLOCK,HAY_BLOCK,HAY_BLOCK] #Crafting Recipe
+    level5:
+      recipeOutput: SLIME_SPAWN_EGG #Output Material
+      recipeOutputAmount: 1 #Output amount
+      recipe: [AIR,AIR,AIR,AIR,SLIME_BALL,SLIME_BALL,AIR,SLIME_BALL,SLIME_BALL] #Crafting Recipe
+  skill_2A: #Farmer's Diet
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      foodModifier: 1.20 #Effectiveness multiplier for food
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Food effected by food modifier
+      effectedFood: [GOLDEN_APPLE,GOLDEN_CARROT,BAKED_POTATO,BEETROOT,BEETROOT_SOUP,
+                     BREAD,CARROT,MUSHROOM_STEW,APPLE,CHORUS_FRUIT,DRIED_KELP,MELON_SLICE,
+                     POTATO,PUMPKIN_PIE,COOKIE,HONEY_BOTTLE,SWEET_BERRIES]
+    level2:
+      foodModifier: 1.40 #Effectiveness multiplier for food
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Food effected by food modifier
+      effectedFood: [GOLDEN_APPLE,GOLDEN_CARROT,BAKED_POTATO,BEETROOT,BEETROOT_SOUP,
+                     BREAD,CARROT,MUSHROOM_STEW,APPLE,CHORUS_FRUIT,DRIED_KELP,MELON_SLICE,
+                     POTATO,PUMPKIN_PIE,COOKIE,HONEY_BOTTLE,SWEET_BERRIES]
+    level3:
+      foodModifier: 1.60 #Effectiveness multiplier for food
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Food effected by food modifier
+      effectedFood: [GOLDEN_APPLE,GOLDEN_CARROT,BAKED_POTATO,BEETROOT,BEETROOT_SOUP,
+                     BREAD,CARROT,MUSHROOM_STEW,APPLE,CHORUS_FRUIT,DRIED_KELP,MELON_SLICE,
+                     POTATO,PUMPKIN_PIE,COOKIE,HONEY_BOTTLE,SWEET_BERRIES]
+    level4:
+      foodModifier: 1.80 #Effectiveness multiplier for food
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Food effected by food modifier
+      effectedFood: [GOLDEN_APPLE,GOLDEN_CARROT,BAKED_POTATO,BEETROOT,BEETROOT_SOUP,
+                     BREAD,CARROT,MUSHROOM_STEW,APPLE,CHORUS_FRUIT,DRIED_KELP,MELON_SLICE,
+                     POTATO,PUMPKIN_PIE,COOKIE,HONEY_BOTTLE,SWEET_BERRIES]
+    level5:
+      foodModifier: 2.00 #Effectiveness multiplier for food
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Food effected by food modifier
+      effectedFood: [GOLDEN_APPLE,GOLDEN_CARROT,BAKED_POTATO,BEETROOT,BEETROOT_SOUP,
+                     BREAD,CARROT,MUSHROOM_STEW,APPLE,CHORUS_FRUIT,DRIED_KELP,MELON_SLICE,
+                     POTATO,PUMPKIN_PIE,COOKIE,HONEY_BOTTLE,SWEET_BERRIES]
+  skill_2B: #Carnivore
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      foodModifier: 1.20 #Effectiveness multiplier for food
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Food effected by food modifier
+      effectedFood: [COOKED_MUTTON,COOKED_PORKCHOP,COOKED_BEEF,COOKED_CHICKEN,COOKED_RABBIT,
+                     RABBIT_STEW,BEEF,MUTTON,PORKCHOP,RABBIT,CHICKEN,ROTTEN_FLESH]
+    level2:
+      foodModifier: 1.40 #Effectiveness multiplier for food
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Food effected by food modifier
+      effectedFood: [COOKED_MUTTON,COOKED_PORKCHOP,COOKED_BEEF,COOKED_CHICKEN,COOKED_RABBIT,
+                     RABBIT_STEW,BEEF,MUTTON,PORKCHOP,RABBIT,CHICKEN,ROTTEN_FLESH]
+    level3:
+      foodModifier: 1.60 #Effectiveness multiplier for food
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Food effected by food modifier
+      effectedFood: [COOKED_MUTTON,COOKED_PORKCHOP,COOKED_BEEF,COOKED_CHICKEN,COOKED_RABBIT,
+                     RABBIT_STEW,BEEF,MUTTON,PORKCHOP,RABBIT,CHICKEN,ROTTEN_FLESH]
+    level4:
+      foodModifier: 1.80 #Effectiveness multiplier for food
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Food effected by food modifier
+      effectedFood: [COOKED_MUTTON,COOKED_PORKCHOP,COOKED_BEEF,COOKED_CHICKEN,COOKED_RABBIT,
+                     RABBIT_STEW,BEEF,MUTTON,PORKCHOP,RABBIT,CHICKEN,ROTTEN_FLESH]
+    level5:
+      foodModifier: 2.00 #Effectiveness multiplier for food
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Food effected by food modifier
+      effectedFood: [COOKED_MUTTON,COOKED_PORKCHOP,COOKED_BEEF,COOKED_CHICKEN,COOKED_RABBIT,
+                     RABBIT_STEW,BEEF,MUTTON,PORKCHOP,RABBIT,CHICKEN,ROTTEN_FLESH]
+  skill_3A: #Green Thumb
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      melonRegrowthChance: 0.5 #Probability Melon regows when broken with ability active
+      pumpkinRegrowthChance: 0.5 #Probability Melon regows when broken with ability active
+      exponentialDecayFactor: -0.06 #The greater this value is, the higher chance a crop regrows at a later age
+  skill_3B: #Growth Hormones
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      useableItems: [SUGAR] #Items that can be used to active that growth Hormones Ability
+  skill_M: #One with Nature
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      # Blocks that activate One with nature when stood on
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Blocks that are not spelled correctly or do not exist in the current minecraft version are ignored
+      effectedBlocks: [GRASS_BLOCK]
+        #Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+        #Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional)} ]
+      effectsGiven:
+        - [effect: REGENERATION, level: 1, duration: 3, delay: 0.0] #Example of how to use delay
+      refreshTimer: 2.0 #Number of seconds to between server checks to give the buff
+fishing:
+  passive1: #Super Bait
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 1.0 #Starting duration in seconds
+    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
+    increasePerLevel: 0.01 #Number of seconds the duration increases each level
+  passive2: #Double catches
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 0.00 #Starting probability
+    maxValue: 1.0 #Maximum probability
+    increasePerLevel: 0.0005  #Increase in probability each level
+  passive3: #Treasure Finder
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 0.10 #Starting probability
+    minValue: 0.00 #Minimum probability
+    decreasePerLevel: 0.00005 #Decrease in probability each level
+  skill_1A: #Rob
+    enabled: true #Change this to false to disable this skill from working
+    # NOTE:
+    # The drop table for this skill is formatted rather redundantly
+    # This is a conscious choice to improve readability
+    level1:
+      robChance: 0.15 #Chance of Rob skill activating
+      # Mobs rob  applies to
+      # Select mobs from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Mobs that are not spelled correctly or do not exist in the current minecraft version are ignored
+      # Format: [{Entity Name},{Drop Name},{Amount},{experience gained},{probability weight (optional, default == 1)}]
+      # The weight only matters if there are multiple drops for a single mob
+      # To add multiple drops for a mob, list the mob multiple times with the different associated drops
+      dropTable:
+        - [mob: BLAZE,            drop: BLAZE_ROD,             amount: 1, exp: 300]
+        - [mob: GHAST,            drop: GHAST_TEAR,            amount: 1, exp: 300]
+        - [mob: GHAST,            drop: GUNPOWDER,             amount: 1, exp: 300]
+        - [mob: ZOMBIE,           drop: ROTTEN_FLESH,          amount: 1, exp: 375, weight: 98 ]
+        - [mob: ZOMBIE,           drop: ZOMBIE_HEAD,           amount: 1, exp: 375, weight: 2  ]
+        - [mob: SPIDER,           drop: STRING,                amount: 1, exp: 375]
+        - [mob: SPIDER,           drop: SPIDER_EYE,            amount: 1, exp: 375]
+        - [mob: CAVE_SPIDER,      drop: STRING,                amount: 1, exp: 375]
+        - [mob: CAVE_SPIDER,      drop: SPIDER_EYE,            amount: 1, exp: 375]
+        - [mob: PIG,              drop: PORKCHOP,              amount: 1, exp: 240]
+        - [mob: CREEPER,          drop: GUNPOWDER,             amount: 1, exp: 375, weight: 98 ]
+        - [mob: CREEPER,          drop: CREEPER_HEAD,          amount: 1, exp: 375, weight: 2  ]
+        - [mob: CHICKEN,          drop: EGG,                   amount: 1, exp: 240]
+        - [mob: CHICKEN,          drop: CHICKEN,               amount: 1, exp: 240]
+        - [mob: CHICKEN,          drop: FEATHER,               amount: 1, exp: 240]
+        - [mob: SKELETON,         drop: BONE,                  amount: 1, exp: 375, weight: 150]
+        - [mob: SKELETON,         drop: ARROW,                 amount: 1, exp: 375, weight: 49 ]
+        - [mob: SKELETON,         drop: ARROW,                 amount: 2, exp: 375, weight: 49 ]
+        - [mob: SKELETON,         drop: ARROW,                 amount: 3, exp: 375, weight: 49 ]
+        - [mob: SKELETON,         drop: SKELETON_SKULL,        amount: 1, exp: 375, weight: 3  ]
+        - [mob: WITHER_SKELETON,  drop: BONE,                  amount: 1, exp: 400, weight: 150]
+        - [mob: WITHER_SKELETON,  drop: COAL,                  amount: 1, exp: 400, weight: 49 ]
+        - [mob: WITHER_SKELETON,  drop: COAL,                  amount: 2, exp: 400, weight: 49 ]
+        - [mob: WITHER_SKELETON,  drop: COAL,                  amount: 3, exp: 400, weight: 49 ]
+        - [mob: WITHER_SKELETON,  drop: WITHER_SKELETON_SKULL, amount: 1, exp: 400, weight: 3  ]
+        - [mob: SLIME,            drop: SLIME_BALL,            amount: 1, exp: 300]
+        - [mob: MAGMA_CUBE,       drop: MAGMA_CUBE,            amount: 1, exp: 375]
+        - [mob: COW,              drop: LEATHER,               amount: 1, exp: 240, weight: 49 ]
+        - [mob: COW,              drop: BEEF,                  amount: 1, exp: 240, weight: 49 ]
+        - [mob: COW,              drop: MILK_BUCKET,           amount: 1, exp: 240, weight: 2  ]
+        - [mob: MUSHROOM_COW,     drop: MILK_BUCKET,           amount: 1, exp: 240, weight: 5  ]
+        - [mob: MUSHROOM_COW,     drop: MUSHROOM_STEW,         amount: 1, exp: 240, weight: 5  ]
+        - [mob: MUSHROOM_COW,     drop: LEATHER,               amount: 1, exp: 240, weight: 30 ]
+        - [mob: MUSHROOM_COW,     drop: BEEF,                  amount: 1, exp: 240, weight: 30 ]
+        - [mob: MUSHROOM_COW,     drop: RED_MUSHROOM,          amount: 1, exp: 240, weight: 10 ]
+        - [mob: MUSHROOM_COW,     drop: RED_MUSHROOM,          amount: 2, exp: 240, weight: 10 ]
+        - [mob: MUSHROOM_COW,     drop: RED_MUSHROOM,          amount: 3, exp: 240, weight: 10 ]
+        - [mob: ENDERMAN,         drop: ENDER_PEARL,           amount: 1, exp: 375]
+        - [mob: SHEEP,            drop: WHITE_WOOL,            amount: 1, exp: 240]
+        - [mob: IRON_GOLEM,       drop: PUMPKIN,               amount: 1, exp: 300, weight: 3  ]
+        - [mob: IRON_GOLEM,       drop: IRON_INGOT,            amount: 1, exp: 300, weight: 12 ]
+        - [mob: IRON_GOLEM,       drop: POPPY,                 amount: 1, exp: 300, weight: 85 ]
+        - [mob: SNOWMAN,          drop: PUMPKIN,               amount: 1, exp: 240, weight: 3  ]
+        - [mob: SNOWMAN,          drop: SNOWBALL,              amount: 1, exp: 240, weight: 97 ]
+        - [mob: SHULKER,          drop: SHULKER_SHELL,         amount: 1, exp: 300, weight: 25 ]
+        - [mob: SHULKER,          drop: PURPUR_BLOCK,          amount: 1, exp: 300, weight: 75 ]
+        - [mob: ZOMBIFIED_PIGLIN, drop: ROTTEN_FLESH,          amount: 1, exp: 300]
+        - [mob: ZOMBIFIED_PIGLIN, drop: GOLD_NUGGET,           amount: 1, exp: 300]
+        - [mob: PIG_ZOMBIE,       drop: ROTTEN_FLESH,          amount: 1, exp: 300] # 1.15 Zombie Pigman
+        - [mob: PIG_ZOMBIE,       drop: GOLD_NUGGET,           amount: 1, exp: 300] # 1.15 Zombie Pigman
+        - [mob: WITCH,            drop: GLASS_BOTTLE,          amount: 1, exp: 300]
+        - [mob: WITCH,            drop: SUGAR,                 amount: 1, exp: 300]
+        - [mob: WITCH,            drop: SPIDER_EYE,            amount: 1, exp: 300]
+        - [mob: WITCH,            drop: GUNPOWDER,             amount: 1, exp: 300]
+        - [mob: WITCH,            drop: FERMENTED_SPIDER_EYE,  amount: 1, exp: 300]
+        - [mob: WITCH,            drop: GLOWSTONE_DUST,        amount: 1, exp: 300]
+        - [mob: WITCH,            drop: REDSTONE,              amount: 1, exp: 300]
+        - [mob: WITCH,            drop: STICK,                 amount: 1, exp: 300]
+    level2:
+      robChance: 0.30 #Chance of Rob skill activating
+      # Mobs rob  applies to
+      # Select mobs from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Mobs that are not spelled correctly or do not exist in the current minecraft version are ignored
+      # Format: [{Entity Name},{Drop Name},{Amount},{experience gained},{probability weight (optional, default == 1)}]
+      # To add multiple drops for a mob, list the mob multiple times with the different associated drops
+      dropTable:
+        - [mob: BLAZE,            drop: BLAZE_ROD,             amount: 1, exp: 300]
+        - [mob: GHAST,            drop: GHAST_TEAR,            amount: 1, exp: 300]
+        - [mob: GHAST,            drop: GUNPOWDER,             amount: 1, exp: 300]
+        - [mob: ZOMBIE,           drop: ROTTEN_FLESH,          amount: 1, exp: 375, weight: 98 ]
+        - [mob: ZOMBIE,           drop: ZOMBIE_HEAD,           amount: 1, exp: 375, weight: 2  ]
+        - [mob: SPIDER,           drop: STRING,                amount: 1, exp: 375]
+        - [mob: SPIDER,           drop: SPIDER_EYE,            amount: 1, exp: 375]
+        - [mob: CAVE_SPIDER,      drop: STRING,                amount: 1, exp: 375]
+        - [mob: CAVE_SPIDER,      drop: SPIDER_EYE,            amount: 1, exp: 375]
+        - [mob: PIG,              drop: PORKCHOP,              amount: 1, exp: 240]
+        - [mob: CREEPER,          drop: GUNPOWDER,             amount: 1, exp: 375, weight: 98 ]
+        - [mob: CREEPER,          drop: CREEPER_HEAD,          amount: 1, exp: 375, weight: 2  ]
+        - [mob: CHICKEN,          drop: EGG,                   amount: 1, exp: 240]
+        - [mob: CHICKEN,          drop: CHICKEN,               amount: 1, exp: 240]
+        - [mob: CHICKEN,          drop: FEATHER,               amount: 1, exp: 240]
+        - [mob: SKELETON,         drop: BONE,                  amount: 1, exp: 375, weight: 150]
+        - [mob: SKELETON,         drop: ARROW,                 amount: 1, exp: 375, weight: 49 ]
+        - [mob: SKELETON,         drop: ARROW,                 amount: 2, exp: 375, weight: 49 ]
+        - [mob: SKELETON,         drop: ARROW,                 amount: 3, exp: 375, weight: 49 ]
+        - [mob: SKELETON,         drop: SKELETON_SKULL,        amount: 1, exp: 375, weight: 3  ]
+        - [mob: WITHER_SKELETON,  drop: BONE,                  amount: 1, exp: 400, weight: 150]
+        - [mob: WITHER_SKELETON,  drop: COAL,                  amount: 1, exp: 400, weight: 49 ]
+        - [mob: WITHER_SKELETON,  drop: COAL,                  amount: 2, exp: 400, weight: 49 ]
+        - [mob: WITHER_SKELETON,  drop: COAL,                  amount: 3, exp: 400, weight: 49 ]
+        - [mob: WITHER_SKELETON,  drop: WITHER_SKELETON_SKULL, amount: 1, exp: 400, weight: 3  ]
+        - [mob: SLIME,            drop: SLIME_BALL,            amount: 1, exp: 300]
+        - [mob: MAGMA_CUBE,       drop: MAGMA_CUBE,            amount: 1, exp: 375]
+        - [mob: COW,              drop: LEATHER,               amount: 1, exp: 240, weight: 49 ]
+        - [mob: COW,              drop: BEEF,                  amount: 1, exp: 240, weight: 49 ]
+        - [mob: COW,              drop: MILK_BUCKET,           amount: 1, exp: 240, weight: 2  ]
+        - [mob: MUSHROOM_COW,     drop: MILK_BUCKET,           amount: 1, exp: 240, weight: 5  ]
+        - [mob: MUSHROOM_COW,     drop: MUSHROOM_STEW,         amount: 1, exp: 240, weight: 5  ]
+        - [mob: MUSHROOM_COW,     drop: LEATHER,               amount: 1, exp: 240, weight: 30 ]
+        - [mob: MUSHROOM_COW,     drop: BEEF,                  amount: 1, exp: 240, weight: 30 ]
+        - [mob: MUSHROOM_COW,     drop: RED_MUSHROOM,          amount: 1, exp: 240, weight: 10 ]
+        - [mob: MUSHROOM_COW,     drop: RED_MUSHROOM,          amount: 2, exp: 240, weight: 10 ]
+        - [mob: MUSHROOM_COW,     drop: RED_MUSHROOM,          amount: 3, exp: 240, weight: 10 ]
+        - [mob: ENDERMAN,         drop: ENDER_PEARL,           amount: 1, exp: 375]
+        - [mob: SHEEP,            drop: WHITE_WOOL,            amount: 1, exp: 240]
+        - [mob: IRON_GOLEM,       drop: PUMPKIN,               amount: 1, exp: 300, weight: 3  ]
+        - [mob: IRON_GOLEM,       drop: IRON_INGOT,            amount: 1, exp: 300, weight: 12 ]
+        - [mob: IRON_GOLEM,       drop: POPPY,                 amount: 1, exp: 300, weight: 85 ]
+        - [mob: SNOWMAN,          drop: PUMPKIN,               amount: 1, exp: 240, weight: 3  ]
+        - [mob: SNOWMAN,          drop: SNOWBALL,              amount: 1, exp: 240, weight: 97 ]
+        - [mob: SHULKER,          drop: SHULKER_SHELL,         amount: 1, exp: 300, weight: 25 ]
+        - [mob: SHULKER,          drop: PURPUR_BLOCK,          amount: 1, exp: 300, weight: 75 ]
+        - [mob: ZOMBIFIED_PIGLIN, drop: ROTTEN_FLESH,          amount: 1, exp: 300]
+        - [mob: ZOMBIFIED_PIGLIN, drop: GOLD_NUGGET,           amount: 1, exp: 300]
+        - [mob: PIG_ZOMBIE,       drop: ROTTEN_FLESH,          amount: 1, exp: 300] # 1.15 Zombie Pigman
+        - [mob: PIG_ZOMBIE,       drop: GOLD_NUGGET,           amount: 1, exp: 300] # 1.15 Zombie Pigman
+        - [mob: WITCH,            drop: GLASS_BOTTLE,          amount: 1, exp: 300]
+        - [mob: WITCH,            drop: SUGAR,                 amount: 1, exp: 300]
+        - [mob: WITCH,            drop: SPIDER_EYE,            amount: 1, exp: 300]
+        - [mob: WITCH,            drop: GUNPOWDER,             amount: 1, exp: 300]
+        - [mob: WITCH,            drop: FERMENTED_SPIDER_EYE,  amount: 1, exp: 300]
+        - [mob: WITCH,            drop: GLOWSTONE_DUST,        amount: 1, exp: 300]
+        - [mob: WITCH,            drop: REDSTONE,              amount: 1, exp: 300]
+        - [mob: WITCH,            drop: STICK,                 amount: 1, exp: 300]
+    level3:
+      robChance: 0.45 #Chance of Rob skill activating
+      # Mobs rob  applies to
+      # Select mobs from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Mobs that are not spelled correctly or do not exist in the current minecraft version are ignored
+      # Format: [{Entity Name},{Drop Name},{Amount},{experience gained},{probability weight (optional, default == 1)}]
+      # To add multiple drops for a mob, list the mob multiple times with the different associated drops
+      dropTable:
+        - [mob: BLAZE,            drop: BLAZE_ROD,             amount: 1, exp: 300]
+        - [mob: GHAST,            drop: GHAST_TEAR,            amount: 1, exp: 300]
+        - [mob: GHAST,            drop: GUNPOWDER,             amount: 1, exp: 300]
+        - [mob: ZOMBIE,           drop: ROTTEN_FLESH,          amount: 1, exp: 375, weight: 98 ]
+        - [mob: ZOMBIE,           drop: ZOMBIE_HEAD,           amount: 1, exp: 375, weight: 2  ]
+        - [mob: SPIDER,           drop: STRING,                amount: 1, exp: 375]
+        - [mob: SPIDER,           drop: SPIDER_EYE,            amount: 1, exp: 375]
+        - [mob: CAVE_SPIDER,      drop: STRING,                amount: 1, exp: 375]
+        - [mob: CAVE_SPIDER,      drop: SPIDER_EYE,            amount: 1, exp: 375]
+        - [mob: PIG,              drop: PORKCHOP,              amount: 1, exp: 240]
+        - [mob: CREEPER,          drop: GUNPOWDER,             amount: 1, exp: 375, weight: 98 ]
+        - [mob: CREEPER,          drop: CREEPER_HEAD,          amount: 1, exp: 375, weight: 2  ]
+        - [mob: CHICKEN,          drop: EGG,                   amount: 1, exp: 240]
+        - [mob: CHICKEN,          drop: CHICKEN,               amount: 1, exp: 240]
+        - [mob: CHICKEN,          drop: FEATHER,               amount: 1, exp: 240]
+        - [mob: SKELETON,         drop: BONE,                  amount: 1, exp: 375, weight: 150]
+        - [mob: SKELETON,         drop: ARROW,                 amount: 1, exp: 375, weight: 49 ]
+        - [mob: SKELETON,         drop: ARROW,                 amount: 2, exp: 375, weight: 49 ]
+        - [mob: SKELETON,         drop: ARROW,                 amount: 3, exp: 375, weight: 49 ]
+        - [mob: SKELETON,         drop: SKELETON_SKULL,        amount: 1, exp: 375, weight: 3  ]
+        - [mob: WITHER_SKELETON,  drop: BONE,                  amount: 1, exp: 400, weight: 150]
+        - [mob: WITHER_SKELETON,  drop: COAL,                  amount: 1, exp: 400, weight: 49 ]
+        - [mob: WITHER_SKELETON,  drop: COAL,                  amount: 2, exp: 400, weight: 49 ]
+        - [mob: WITHER_SKELETON,  drop: COAL,                  amount: 3, exp: 400, weight: 49 ]
+        - [mob: WITHER_SKELETON,  drop: WITHER_SKELETON_SKULL, amount: 1, exp: 400, weight: 3  ]
+        - [mob: SLIME,            drop: SLIME_BALL,            amount: 1, exp: 300]
+        - [mob: MAGMA_CUBE,       drop: MAGMA_CUBE,            amount: 1, exp: 375]
+        - [mob: COW,              drop: LEATHER,               amount: 1, exp: 240, weight: 49 ]
+        - [mob: COW,              drop: BEEF,                  amount: 1, exp: 240, weight: 49 ]
+        - [mob: COW,              drop: MILK_BUCKET,           amount: 1, exp: 240, weight: 2  ]
+        - [mob: MUSHROOM_COW,     drop: MILK_BUCKET,           amount: 1, exp: 240, weight: 5  ]
+        - [mob: MUSHROOM_COW,     drop: MUSHROOM_STEW,         amount: 1, exp: 240, weight: 5  ]
+        - [mob: MUSHROOM_COW,     drop: LEATHER,               amount: 1, exp: 240, weight: 30 ]
+        - [mob: MUSHROOM_COW,     drop: BEEF,                  amount: 1, exp: 240, weight: 30 ]
+        - [mob: MUSHROOM_COW,     drop: RED_MUSHROOM,          amount: 1, exp: 240, weight: 10 ]
+        - [mob: MUSHROOM_COW,     drop: RED_MUSHROOM,          amount: 2, exp: 240, weight: 10 ]
+        - [mob: MUSHROOM_COW,     drop: RED_MUSHROOM,          amount: 3, exp: 240, weight: 10 ]
+        - [mob: ENDERMAN,         drop: ENDER_PEARL,           amount: 1, exp: 375]
+        - [mob: SHEEP,            drop: WHITE_WOOL,            amount: 1, exp: 240]
+        - [mob: IRON_GOLEM,       drop: PUMPKIN,               amount: 1, exp: 300, weight: 3  ]
+        - [mob: IRON_GOLEM,       drop: IRON_INGOT,            amount: 1, exp: 300, weight: 12 ]
+        - [mob: IRON_GOLEM,       drop: POPPY,                 amount: 1, exp: 300, weight: 85 ]
+        - [mob: SNOWMAN,          drop: PUMPKIN,               amount: 1, exp: 240, weight: 3  ]
+        - [mob: SNOWMAN,          drop: SNOWBALL,              amount: 1, exp: 240, weight: 97 ]
+        - [mob: SHULKER,          drop: SHULKER_SHELL,         amount: 1, exp: 300, weight: 25 ]
+        - [mob: SHULKER,          drop: PURPUR_BLOCK,          amount: 1, exp: 300, weight: 75 ]
+        - [mob: ZOMBIFIED_PIGLIN, drop: ROTTEN_FLESH,          amount: 1, exp: 300]
+        - [mob: ZOMBIFIED_PIGLIN, drop: GOLD_NUGGET,           amount: 1, exp: 300]
+        - [mob: PIG_ZOMBIE,       drop: ROTTEN_FLESH,          amount: 1, exp: 300] # 1.15 Zombie Pigman
+        - [mob: PIG_ZOMBIE,       drop: GOLD_NUGGET,           amount: 1, exp: 300] # 1.15 Zombie Pigman
+        - [mob: WITCH,            drop: GLASS_BOTTLE,          amount: 1, exp: 300]
+        - [mob: WITCH,            drop: SUGAR,                 amount: 1, exp: 300]
+        - [mob: WITCH,            drop: SPIDER_EYE,            amount: 1, exp: 300]
+        - [mob: WITCH,            drop: GUNPOWDER,             amount: 1, exp: 300]
+        - [mob: WITCH,            drop: FERMENTED_SPIDER_EYE,  amount: 1, exp: 300]
+        - [mob: WITCH,            drop: GLOWSTONE_DUST,        amount: 1, exp: 300]
+        - [mob: WITCH,            drop: REDSTONE,              amount: 1, exp: 300]
+        - [mob: WITCH,            drop: STICK,                 amount: 1, exp: 300]
+    level4:
+      robChance: 0.60 #Chance of Rob skill activating
+      # Mobs rob  applies to
+      # Select mobs from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Mobs that are not spelled correctly or do not exist in the current minecraft version are ignored
+      # Format: [{Entity Name},{Drop Name},{Amount},{experience gained},{probability weight (optional, default == 1)}]
+      # To add multiple drops for a mob, list the mob multiple times with the different associated drops
+      dropTable:
+        - [mob: BLAZE,            drop: BLAZE_ROD,             amount: 1, exp: 300]
+        - [mob: GHAST,            drop: GHAST_TEAR,            amount: 1, exp: 300]
+        - [mob: GHAST,            drop: GUNPOWDER,             amount: 1, exp: 300]
+        - [mob: ZOMBIE,           drop: ROTTEN_FLESH,          amount: 1, exp: 375, weight: 98 ]
+        - [mob: ZOMBIE,           drop: ZOMBIE_HEAD,           amount: 1, exp: 375, weight: 2  ]
+        - [mob: SPIDER,           drop: STRING,                amount: 1, exp: 375]
+        - [mob: SPIDER,           drop: SPIDER_EYE,            amount: 1, exp: 375]
+        - [mob: CAVE_SPIDER,      drop: STRING,                amount: 1, exp: 375]
+        - [mob: CAVE_SPIDER,      drop: SPIDER_EYE,            amount: 1, exp: 375]
+        - [mob: PIG,              drop: PORKCHOP,              amount: 1, exp: 240]
+        - [mob: CREEPER,          drop: GUNPOWDER,             amount: 1, exp: 375, weight: 98 ]
+        - [mob: CREEPER,          drop: CREEPER_HEAD,          amount: 1, exp: 375, weight: 2  ]
+        - [mob: CHICKEN,          drop: EGG,                   amount: 1, exp: 240]
+        - [mob: CHICKEN,          drop: CHICKEN,               amount: 1, exp: 240]
+        - [mob: CHICKEN,          drop: FEATHER,               amount: 1, exp: 240]
+        - [mob: SKELETON,         drop: BONE,                  amount: 1, exp: 375, weight: 150]
+        - [mob: SKELETON,         drop: ARROW,                 amount: 1, exp: 375, weight: 49 ]
+        - [mob: SKELETON,         drop: ARROW,                 amount: 2, exp: 375, weight: 49 ]
+        - [mob: SKELETON,         drop: ARROW,                 amount: 3, exp: 375, weight: 49 ]
+        - [mob: SKELETON,         drop: SKELETON_SKULL,        amount: 1, exp: 375, weight: 3  ]
+        - [mob: WITHER_SKELETON,  drop: BONE,                  amount: 1, exp: 400, weight: 150]
+        - [mob: WITHER_SKELETON,  drop: COAL,                  amount: 1, exp: 400, weight: 49 ]
+        - [mob: WITHER_SKELETON,  drop: COAL,                  amount: 2, exp: 400, weight: 49 ]
+        - [mob: WITHER_SKELETON,  drop: COAL,                  amount: 3, exp: 400, weight: 49 ]
+        - [mob: WITHER_SKELETON,  drop: WITHER_SKELETON_SKULL, amount: 1, exp: 400, weight: 3  ]
+        - [mob: SLIME,            drop: SLIME_BALL,            amount: 1, exp: 300]
+        - [mob: MAGMA_CUBE,       drop: MAGMA_CUBE,            amount: 1, exp: 375]
+        - [mob: COW,              drop: LEATHER,               amount: 1, exp: 240, weight: 49 ]
+        - [mob: COW,              drop: BEEF,                  amount: 1, exp: 240, weight: 49 ]
+        - [mob: COW,              drop: MILK_BUCKET,           amount: 1, exp: 240, weight: 2  ]
+        - [mob: MUSHROOM_COW,     drop: MILK_BUCKET,           amount: 1, exp: 240, weight: 5  ]
+        - [mob: MUSHROOM_COW,     drop: MUSHROOM_STEW,         amount: 1, exp: 240, weight: 5  ]
+        - [mob: MUSHROOM_COW,     drop: LEATHER,               amount: 1, exp: 240, weight: 30 ]
+        - [mob: MUSHROOM_COW,     drop: BEEF,                  amount: 1, exp: 240, weight: 30 ]
+        - [mob: MUSHROOM_COW,     drop: RED_MUSHROOM,          amount: 1, exp: 240, weight: 10 ]
+        - [mob: MUSHROOM_COW,     drop: RED_MUSHROOM,          amount: 2, exp: 240, weight: 10 ]
+        - [mob: MUSHROOM_COW,     drop: RED_MUSHROOM,          amount: 3, exp: 240, weight: 10 ]
+        - [mob: ENDERMAN,         drop: ENDER_PEARL,           amount: 1, exp: 375]
+        - [mob: SHEEP,            drop: WHITE_WOOL,            amount: 1, exp: 240]
+        - [mob: IRON_GOLEM,       drop: PUMPKIN,               amount: 1, exp: 300, weight: 3  ]
+        - [mob: IRON_GOLEM,       drop: IRON_INGOT,            amount: 1, exp: 300, weight: 12 ]
+        - [mob: IRON_GOLEM,       drop: POPPY,                 amount: 1, exp: 300, weight: 85 ]
+        - [mob: SNOWMAN,          drop: PUMPKIN,               amount: 1, exp: 240, weight: 3  ]
+        - [mob: SNOWMAN,          drop: SNOWBALL,              amount: 1, exp: 240, weight: 97 ]
+        - [mob: SHULKER,          drop: SHULKER_SHELL,         amount: 1, exp: 300, weight: 25 ]
+        - [mob: SHULKER,          drop: PURPUR_BLOCK,          amount: 1, exp: 300, weight: 75 ]
+        - [mob: ZOMBIFIED_PIGLIN, drop: ROTTEN_FLESH,          amount: 1, exp: 300]
+        - [mob: ZOMBIFIED_PIGLIN, drop: GOLD_NUGGET,           amount: 1, exp: 300]
+        - [mob: PIG_ZOMBIE,       drop: ROTTEN_FLESH,          amount: 1, exp: 300] # 1.15 Zombie Pigman
+        - [mob: PIG_ZOMBIE,       drop: GOLD_NUGGET,           amount: 1, exp: 300] # 1.15 Zombie Pigman
+        - [mob: WITCH,            drop: GLASS_BOTTLE,          amount: 1, exp: 300]
+        - [mob: WITCH,            drop: SUGAR,                 amount: 1, exp: 300]
+        - [mob: WITCH,            drop: SPIDER_EYE,            amount: 1, exp: 300]
+        - [mob: WITCH,            drop: GUNPOWDER,             amount: 1, exp: 300]
+        - [mob: WITCH,            drop: FERMENTED_SPIDER_EYE,  amount: 1, exp: 300]
+        - [mob: WITCH,            drop: GLOWSTONE_DUST,        amount: 1, exp: 300]
+        - [mob: WITCH,            drop: REDSTONE,              amount: 1, exp: 300]
+        - [mob: WITCH,            drop: STICK,                 amount: 1, exp: 300]
+    level5:
+      robChance: 0.75 #Chance of Rob skill activating
+      # Mobs rob  applies to
+      # Select mobs from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Mobs that are not spelled correctly or do not exist in the current minecraft version are ignored
+      # Format: [{Entity Name},{Drop Name},{Amount},{experience gained},{probability weight (optional, default == 1)}]
+      # To add multiple drops for a mob, list the mob multiple times with the different associated drops
+      dropTable:
+        - [mob: BLAZE,            drop: BLAZE_ROD,             amount: 1, exp: 300]
+        - [mob: GHAST,            drop: GHAST_TEAR,            amount: 1, exp: 300]
+        - [mob: GHAST,            drop: GUNPOWDER,             amount: 1, exp: 300]
+        - [mob: ZOMBIE,           drop: ROTTEN_FLESH,          amount: 1, exp: 375, weight: 98 ]
+        - [mob: ZOMBIE,           drop: ZOMBIE_HEAD,           amount: 1, exp: 375, weight: 2  ]
+        - [mob: SPIDER,           drop: STRING,                amount: 1, exp: 375]
+        - [mob: SPIDER,           drop: SPIDER_EYE,            amount: 1, exp: 375]
+        - [mob: CAVE_SPIDER,      drop: STRING,                amount: 1, exp: 375]
+        - [mob: CAVE_SPIDER,      drop: SPIDER_EYE,            amount: 1, exp: 375]
+        - [mob: PIG,              drop: PORKCHOP,              amount: 1, exp: 240]
+        - [mob: CREEPER,          drop: GUNPOWDER,             amount: 1, exp: 375, weight: 98 ]
+        - [mob: CREEPER,          drop: CREEPER_HEAD,          amount: 1, exp: 375, weight: 2  ]
+        - [mob: CHICKEN,          drop: EGG,                   amount: 1, exp: 240]
+        - [mob: CHICKEN,          drop: CHICKEN,               amount: 1, exp: 240]
+        - [mob: CHICKEN,          drop: FEATHER,               amount: 1, exp: 240]
+        - [mob: SKELETON,         drop: BONE,                  amount: 1, exp: 375, weight: 150]
+        - [mob: SKELETON,         drop: ARROW,                 amount: 1, exp: 375, weight: 49 ]
+        - [mob: SKELETON,         drop: ARROW,                 amount: 2, exp: 375, weight: 49 ]
+        - [mob: SKELETON,         drop: ARROW,                 amount: 3, exp: 375, weight: 49 ]
+        - [mob: SKELETON,         drop: SKELETON_SKULL,        amount: 1, exp: 375, weight: 3  ]
+        - [mob: WITHER_SKELETON,  drop: BONE,                  amount: 1, exp: 400, weight: 150]
+        - [mob: WITHER_SKELETON,  drop: COAL,                  amount: 1, exp: 400, weight: 49 ]
+        - [mob: WITHER_SKELETON,  drop: COAL,                  amount: 2, exp: 400, weight: 49 ]
+        - [mob: WITHER_SKELETON,  drop: COAL,                  amount: 3, exp: 400, weight: 49 ]
+        - [mob: WITHER_SKELETON,  drop: WITHER_SKELETON_SKULL, amount: 1, exp: 400, weight: 3  ]
+        - [mob: SLIME,            drop: SLIME_BALL,            amount: 1, exp: 300]
+        - [mob: MAGMA_CUBE,       drop: MAGMA_CUBE,            amount: 1, exp: 375]
+        - [mob: COW,              drop: LEATHER,               amount: 1, exp: 240, weight: 49 ]
+        - [mob: COW,              drop: BEEF,                  amount: 1, exp: 240, weight: 49 ]
+        - [mob: COW,              drop: MILK_BUCKET,           amount: 1, exp: 240, weight: 2  ]
+        - [mob: MUSHROOM_COW,     drop: MILK_BUCKET,           amount: 1, exp: 240, weight: 5  ]
+        - [mob: MUSHROOM_COW,     drop: MUSHROOM_STEW,         amount: 1, exp: 240, weight: 5  ]
+        - [mob: MUSHROOM_COW,     drop: LEATHER,               amount: 1, exp: 240, weight: 30 ]
+        - [mob: MUSHROOM_COW,     drop: BEEF,                  amount: 1, exp: 240, weight: 30 ]
+        - [mob: MUSHROOM_COW,     drop: RED_MUSHROOM,          amount: 1, exp: 240, weight: 10 ]
+        - [mob: MUSHROOM_COW,     drop: RED_MUSHROOM,          amount: 2, exp: 240, weight: 10 ]
+        - [mob: MUSHROOM_COW,     drop: RED_MUSHROOM,          amount: 3, exp: 240, weight: 10 ]
+        - [mob: ENDERMAN,         drop: ENDER_PEARL,           amount: 1, exp: 375]
+        - [mob: SHEEP,            drop: WHITE_WOOL,            amount: 1, exp: 240]
+        - [mob: IRON_GOLEM,       drop: PUMPKIN,               amount: 1, exp: 300, weight: 3  ]
+        - [mob: IRON_GOLEM,       drop: IRON_INGOT,            amount: 1, exp: 300, weight: 12 ]
+        - [mob: IRON_GOLEM,       drop: POPPY,                 amount: 1, exp: 300, weight: 85 ]
+        - [mob: SNOWMAN,          drop: PUMPKIN,               amount: 1, exp: 240, weight: 3  ]
+        - [mob: SNOWMAN,          drop: SNOWBALL,              amount: 1, exp: 240, weight: 97 ]
+        - [mob: SHULKER,          drop: SHULKER_SHELL,         amount: 1, exp: 300, weight: 25 ]
+        - [mob: SHULKER,          drop: PURPUR_BLOCK,          amount: 1, exp: 300, weight: 75 ]
+        - [mob: ZOMBIFIED_PIGLIN, drop: ROTTEN_FLESH,          amount: 1, exp: 300]
+        - [mob: ZOMBIFIED_PIGLIN, drop: GOLD_NUGGET,           amount: 1, exp: 300]
+        - [mob: PIG_ZOMBIE,       drop: ROTTEN_FLESH,          amount: 1, exp: 300] # 1.15 Zombie Pigman
+        - [mob: PIG_ZOMBIE,       drop: GOLD_NUGGET,           amount: 1, exp: 300] # 1.15 Zombie Pigman
+        - [mob: WITCH,            drop: GLASS_BOTTLE,          amount: 1, exp: 300]
+        - [mob: WITCH,            drop: SUGAR,                 amount: 1, exp: 300]
+        - [mob: WITCH,            drop: SPIDER_EYE,            amount: 1, exp: 300]
+        - [mob: WITCH,            drop: GUNPOWDER,             amount: 1, exp: 300]
+        - [mob: WITCH,            drop: FERMENTED_SPIDER_EYE,  amount: 1, exp: 300]
+        - [mob: WITCH,            drop: GLOWSTONE_DUST,        amount: 1, exp: 300]
+        - [mob: WITCH,            drop: REDSTONE,              amount: 1, exp: 300]
+        - [mob: WITCH,            drop: STICK,                 amount: 1, exp: 300]
+  skill_1B: #Scavenger
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      baseChance: 0.045 #Base probability of tier being rolled (from any catch)
+      # Items dropped in this tier
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Items that are not spelled correctly or do not exist in the current minecraft version are ignored
+      # Format: [{Drop Name},{Amount},{experience gained},{probability weight}]
+      # To add multiple instances of a drop, list it multiple times
+      dropTable:
+        - [drop: ENDER_PEARL, amount: 1, exp: 2500, weight: 1]
+        - [drop: GHAST_TEAR,  amount: 1, exp: 2500, weight: 1]
+        - [drop: GOLD_INGOT,  amount: 1, exp: 2500, weight: 1]
+        - [drop: IRON_INGOT,  amount: 1, exp: 2500, weight: 1]
+      # Enchanted Items added to the drop tier
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Format: [{Drop Name}, {experience gained}, {[min durability,max durability]},  {weight}, {[min simulated enchantment level,max simulated enchantment level], {Probability weight}, {(optional) [static Enchantments...]}]
+      # Enchantment names are the same as standard minecraft enchantment names, but with an underscore
+      # Adding an enchantment that will always be present has the format: [{enchantment Name}:{enchantment level},...]
+      # To not enchant an item, set both bounds to 0. Static enchantments will still be present
+      # Durability will always be at least 1 use, set the minimum durability to 0 for this to be possible
+      enchantedDropExperience: 2500 #The experience that drops when an enchanted item is rolled
+      enchantedItemWeight: 1 #The probability weight that corresponds to an enchanted drop being selected from the drop table above
+      enchantedDropTable:
+        - [drop: STONE_SHOVEL,       durability: [0.00,0.85], enchantmentBounds: [1,3], weight: 10]
+        - [drop: STONE_SWORD,        durability: [0.00,0.85], enchantmentBounds: [1,3], weight: 10]
+        - [drop: STONE_AXE,          durability: [0.00,0.85], enchantmentBounds: [1,3], weight: 10]
+        - [drop: STONE_PICKAXE,      durability: [0.00,0.85], enchantmentBounds: [1,3], weight: 10]
+        - [drop: LEATHER_BOOTS,      durability: [0.00,0.85], enchantmentBounds: [1,3], weight: 10]
+        - [drop: LEATHER_LEGGINGS,   durability: [0.00,0.85], enchantmentBounds: [1,3], weight: 10]
+        - [drop: LEATHER_CHESTPLATE, durability: [0.00,0.85], enchantmentBounds: [1,3], weight: 10]
+        - [drop: LEATHER_HELMET,     durability: [0.00,0.85], enchantmentBounds: [1,3], weight: 10]
+        - [drop: IRON_SHOVEL,        durability: [0.00,0.85], enchantmentBounds: [1,3], weight: 3 ]
+        - [drop: IRON_SWORD,         durability: [0.00,0.85], enchantmentBounds: [1,3], weight: 3 ]
+        - [drop: IRON_AXE,           durability: [0.00,0.85], enchantmentBounds: [1,3], weight: 3 ]
+        - [drop: IRON_PICKAXE,       durability: [0.00,0.85], enchantmentBounds: [1,3], weight: 3 ]
+        - [drop: IRON_BOOTS,         durability: [0.00,0.85], enchantmentBounds: [1,3], weight: 3 ]
+        - [drop: IRON_LEGGINGS,      durability: [0.00,0.85], enchantmentBounds: [1,3], weight: 2 ]
+        - [drop: IRON_CHESTPLATE,    durability: [0.00,0.85], enchantmentBounds: [1,3], weight: 2 ]
+        - [drop: IRON_HELMET,        durability: [0.00,0.85], enchantmentBounds: [1,3], weight: 3 ]
+    level2:
+      baseChance: 0.025 #Base probability of tier being rolled (from any catch)
+      # Items dropped in this tier
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Items that are not spelled correctly or do not exist in the current minecraft version are ignored
+      # Format: [{Drop Name},{Amount},{experience gained},{probability weight}]
+      # To add multiple instances of a drop, list it multiple times
+      dropTable:
+        - [drop: WET_SPONGE,  amount: 1, exp: 3000, weight: 4]
+        - [drop: EMERALD,     amount: 1, exp: 3000, weight: 4]
+        - [drop: SLIME_BALL,  amount: 1, exp: 3000, weight: 4]
+        - [drop: ENDER_PEARL, amount: 2, exp: 3000, weight: 1]
+        - [drop: ENDER_PEARL, amount: 3, exp: 3000, weight: 1]
+        - [drop: ENDER_PEARL, amount: 4, exp: 3000, weight: 1]
+        - [drop: ENDER_PEARL, amount: 5, exp: 3000, weight: 1]
+      # Enchanted Items added to the drop tier
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Format: [{Drop Name}, {experience gained}, {[min durability,max durability]},  {weight}, {[min simulated enchantment level,max simulated enchantment level], {Probability weight}, {(optional) [static Enchantments...]}]
+      # Enchantment names are the same as standard minecraft enchantment names, but with an underscore
+      # Adding an enchantment that will always be present has the format: [{enchantment Name}:{enchantment level},...]
+      # To not enchant an item, set both bounds to 0. Static enchantments will still be present
+      # Durability will always be at least 1 use, set the minimum durability to 0 for this to be possible
+      enchantedDropExperience: 3000 #The experience that drops when an enchanted item is rolled
+      enchantedItemWeight: 4 #The probability weight that corresponds to an enchanted drop being selected from the drop table above
+      enchantedDropTable:
+        - [drop: STONE_SHOVEL,       durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 5]
+        - [drop: STONE_SWORD,        durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 5]
+        - [drop: STONE_AXE,          durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 5]
+        - [drop: STONE_PICKAXE,      durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 5]
+        - [drop: LEATHER_BOOTS,      durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 5]
+        - [drop: LEATHER_LEGGINGS,   durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 5]
+        - [drop: LEATHER_CHESTPLATE, durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 5]
+        - [drop: LEATHER_HELMET,     durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 5]
+        - [drop: IRON_SHOVEL,        durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 3]
+        - [drop: IRON_SWORD,         durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 3]
+        - [drop: IRON_AXE,           durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 3]
+        - [drop: IRON_PICKAXE,       durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 3]
+        - [drop: IRON_BOOTS,         durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 3]
+        - [drop: IRON_LEGGINGS,      durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 2]
+        - [drop: IRON_CHESTPLATE,    durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 2]
+        - [drop: IRON_HELMET,        durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 3]
+        - [drop: GOLDEN_BOOTS,       durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 1]
+        - [drop: GOLDEN_LEGGINGS,    durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 1]
+        - [drop: GOLDEN_CHESTPLATE,  durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 1]
+        - [drop: GOLDEN_HELMET,      durability: [0.00,0.85], enchantmentBounds: [10,19], weight: 1]
+    level3:
+      baseChance: 0.015 #Base probability of tier being rolled (from any catch)
+      # Items dropped in this tier
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Items that are not spelled correctly or do not exist in the current minecraft version are ignored
+      # Format: [{Drop Name},{Amount},{experience gained},{probability weight}]
+      # To add multiple instances of a drop, list it multiple times
+      dropTable:
+        - [drop: MUSIC_DISC_STAL,      amount: 1,  exp: 3500, weight: 4 ]
+        - [drop: MUSIC_DISC_MELLOHI,   amount: 1,  exp: 3500, weight: 4 ]
+        - [drop: MUSIC_DISC_FAR,       amount: 1,  exp: 3500, weight: 4 ]
+        - [drop: MUSIC_DISC_CHIRP,     amount: 1,  exp: 3500, weight: 4 ]
+        - [drop: MUSIC_DISC_CAT,       amount: 1,  exp: 3500, weight: 4 ]
+        - [drop: MUSIC_DISC_BLOCKS,    amount: 1,  exp: 3500, weight: 4 ]
+        - [drop: MUSIC_DISC_11,        amount: 1,  exp: 3500, weight: 4 ]
+        - [drop: MUSIC_DISC_MALL,      amount: 1,  exp: 3500, weight: 4 ]
+        - [drop: MUSIC_DISC_WAIT,      amount: 1,  exp: 3500, weight: 4 ]
+        - [drop: MUSIC_DISC_WARD,      amount: 1,  exp: 3500, weight: 4 ]
+        - [drop: MUSIC_DISC_STRAD,     amount: 1,  exp: 3500, weight: 4 ]
+        - [drop: MUSIC_DISC_13,        amount: 1,  exp: 3500, weight: 4 ]
+        - [drop: MUSIC_DISC_PIGSTEP,   amount: 1,  exp: 3500, weight: 4 ]
+        - [drop: CHAINMAIL_BOOTS,      amount: 1,  exp: 3500, weight: 13]
+        - [drop: CHAINMAIL_CHESTPLATE, amount: 1,  exp: 3500, weight: 13]
+        - [drop: CHAINMAIL_HELMET,     amount: 1,  exp: 3500, weight: 13]
+        - [drop: CHAINMAIL_LEGGINGS,   amount: 1,  exp: 3500, weight: 13]
+        - [drop: SPECTRAL_ARROW,       amount: 3,  exp: 3500, weight: 4 ]
+        - [drop: SPECTRAL_ARROW,       amount: 4,  exp: 3500, weight: 4 ]
+        - [drop: SPECTRAL_ARROW,       amount: 5,  exp: 3500, weight: 4 ]
+        - [drop: SPECTRAL_ARROW,       amount: 6,  exp: 3500, weight: 4 ]
+        - [drop: SPECTRAL_ARROW,       amount: 7,  exp: 3500, weight: 4 ]
+        - [drop: SPECTRAL_ARROW,       amount: 8,  exp: 3500, weight: 4 ]
+        - [drop: SPECTRAL_ARROW,       amount: 9,  exp: 3500, weight: 4 ]
+        - [drop: SPECTRAL_ARROW,       amount: 10, exp: 3500, weight: 4 ]
+        - [drop: SPECTRAL_ARROW,       amount: 11, exp: 3500, weight: 4 ]
+        - [drop: SPECTRAL_ARROW,       amount: 12, exp: 3500, weight: 4 ]
+        - [drop: SPECTRAL_ARROW,       amount: 13, exp: 3500, weight: 4 ]
+        - [drop: SPECTRAL_ARROW,       amount: 14, exp: 3500, weight: 4 ]
+        - [drop: SPECTRAL_ARROW,       amount: 15, exp: 3500, weight: 4 ]
+        - [drop: TRIDENT,              amount: 15, exp: 3500, weight: 52]
+      # Enchanted Items added to the drop tier
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Format: [{Drop Name}, {experience gained}, {[min durability,max durability]},  {weight}, {[min simulated enchantment level,max simulated enchantment level], {Probability weight}, {(optional) [static Enchantments...]}]
+      # Enchantment names are the same as standard minecraft enchantment names, but with an underscore
+      # Adding an enchantment that will always be present has the format: [{enchantment Name}:{enchantment level},...]
+      # To not enchant an item, set both bounds to 0. Static enchantments will still be present
+      # Durability will always be at least 1 use, set the minimum durability to 0 for this to be possible
+      enchantedDropExperience: 3500 #The experience that drops when an enchanted item is rolled
+      enchantedItemWeight: 52 #The probability weight that corresponds to an enchanted drop being selected from the drop table above
+      enchantedDropTable:
+        - [drop: STONE_SHOVEL,       durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 1]
+        - [drop: STONE_SWORD,        durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 1]
+        - [drop: STONE_AXE,          durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 1]
+        - [drop: STONE_PICKAXE,      durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 1]
+        - [drop: LEATHER_BOOTS,      durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 1]
+        - [drop: LEATHER_LEGGINGS,   durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 1]
+        - [drop: LEATHER_CHESTPLATE, durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 1]
+        - [drop: LEATHER_HELMET,     durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 1]
+        - [drop: IRON_SHOVEL,        durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 7]
+        - [drop: IRON_SWORD,         durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 7]
+        - [drop: IRON_AXE,           durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 7]
+        - [drop: IRON_PICKAXE,       durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 7]
+        - [drop: IRON_BOOTS,         durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 8]
+        - [drop: IRON_LEGGINGS,      durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 6]
+        - [drop: IRON_CHESTPLATE,    durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 6]
+        - [drop: IRON_HELMET,        durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 8]
+        - [drop: GOLDEN_BOOTS,       durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 4]
+        - [drop: GOLDEN_LEGGINGS,    durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 2]
+        - [drop: GOLDEN_CHESTPLATE,  durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 2]
+        - [drop: GOLDEN_HELMET,      durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 4]
+        - [drop: GOLDEN_SHOVEL,      durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 2]
+        - [drop: GOLDEN_SWORD,       durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 2]
+        - [drop: GOLDEN_AXE,         durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 2]
+        - [drop: GOLDEN_PICKAXE,     durability: [0.00,0.85], enchantmentBounds: [19,28], weight: 2]
+    level4:
+      baseChance: 0.010 #Base probability of tier being rolled (from any catch)
+      # Items dropped in this tier
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Items that are not spelled correctly or do not exist in the current minecraft version are ignored
+      # Format: [{Drop Name},{Amount},{experience gained},{probability weight}]
+      # To add multiple instances of a drop, list it multiple times
+      dropTable:
+        - [drop: DIAMOND,        amount: 1, exp: 4500, weight: 6]
+        - [drop: NAUTILUS_SHELL, amount: 2, exp: 4500, weight: 2]
+        - [drop: NAUTILUS_SHELL, amount: 3, exp: 4500, weight: 2]
+        - [drop: NAUTILUS_SHELL, amount: 4, exp: 4500, weight: 2]
+        - [drop: EMERALD,        amount: 3, exp: 4500, weight: 1]
+        - [drop: EMERALD,        amount: 4, exp: 4500, weight: 1]
+        - [drop: EMERALD,        amount: 5, exp: 4500, weight: 1]
+        - [drop: EMERALD,        amount: 6, exp: 4500, weight: 1]
+        - [drop: EMERALD,        amount: 7, exp: 4500, weight: 1]
+        - [drop: EMERALD,        amount: 8, exp: 4500, weight: 1]
+      # Enchanted Items added to the drop tier
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Format: [{Drop Name}, {experience gained}, {[min durability,max durability]},  {weight}, {[min simulated enchantment level,max simulated enchantment level], {Probability weight}, {(optional) [static Enchantments...]}]
+      # Enchantment names are the same as standard minecraft enchantment names, but with an underscore
+      # Ex. Blast Protection == blast_protection
+      # Adding an enchantment that will always be present has the format: [{enchantment Name}:{enchantment level},...]
+      # To not enchant an item, set both bounds to 0. Static enchantments will still be present
+      # Durability will always be at least 1 use, set the minimum durability to 0 for this to be possible
+      enchantedDropExperience: 4500 #The experience that drops when an enchanted item is rolled
+      enchantedItemWeight: 12 #The probability weight that corresponds to an enchanted drop being selected from the drop table above
+      enchantedDropTable:
+        - [drop: CROSSBOW,        durability: [1.00,1.00], enchantmentBounds: [30,30], weight: 83] #Half the rolls are crossbows as it's a special drop
+        - [drop: IRON_SHOVEL,     durability: [0.00,0.85], enchantmentBounds: [28,30], weight: 10]
+        - [drop: IRON_SWORD,      durability: [0.00,0.85], enchantmentBounds: [28,30], weight: 10]
+        - [drop: IRON_AXE,        durability: [0.00,0.85], enchantmentBounds: [28,30], weight: 10]
+        - [drop: IRON_PICKAXE,    durability: [0.00,0.85], enchantmentBounds: [28,30], weight: 10]
+        - [drop: IRON_BOOTS,      durability: [0.00,0.85], enchantmentBounds: [28,30], weight: 10]
+        - [drop: IRON_LEGGINGS,   durability: [0.00,0.85], enchantmentBounds: [28,30], weight: 9 ]
+        - [drop: IRON_CHESTPLATE, durability: [0.00,0.85], enchantmentBounds: [28,30], weight: 8 ]
+        - [drop: IRON_HELMET,     durability: [0.00,0.85], enchantmentBounds: [28,30], weight: 10]
+        - [drop: DIAMOND_BOOTS,   durability: [0.00,0.85], enchantmentBounds: [28,30], weight: 1]
+        - [drop: DIAMOND_HELMET,  durability: [0.00,0.85], enchantmentBounds: [28,30], weight: 1]
+        - [drop: DIAMOND_SHOVEL,  durability: [0.00,0.85], enchantmentBounds: [28,30], weight: 1]
+        - [drop: DIAMOND_SWORD,   durability: [0.00,0.85], enchantmentBounds: [28,30], weight: 1]
+        - [drop: DIAMOND_AXE,     durability: [0.00,0.85], enchantmentBounds: [28,30], weight: 1]
+        - [drop: DIAMOND_PICKAXE, durability: [0.00,0.85], enchantmentBounds: [28,30], weight: 1]
+    level5:
+      baseChance: 0.005 #Base probability of tier being rolled (from any catch)
+      # Items dropped in this tier
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Items that are not spelled correctly or do not exist in the current minecraft version are ignored
+      # Format: [{Drop Name},{Amount},{experience gained},{probability weight}]
+      # To add multiple instances of a drop, list it multiple times
+      dropTable:
+        - [drop: ELYTRA,           amount: 1, exp: 6500, weight: 4]
+        - [drop: HEART_OF_THE_SEA, amount: 1, exp: 6500, weight: 4]
+        - [drop: TOTEM_OF_UNDYING, amount: 1, exp: 6500, weight: 4]
+        - [drop: DIAMOND,          amount: 2, exp: 6500, weight: 1]
+        - [drop: DIAMOND,          amount: 3, exp: 6500, weight: 1]
+        - [drop: DIAMOND,          amount: 4, exp: 6500, weight: 1]
+        - [drop: DIAMOND,          amount: 5, exp: 6500, weight: 1]
+      # Enchanted Items added to the drop tier
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Format: [{Drop Name}, {experience gained}, {[min durability,max durability]},  {weight}, {[min simulated enchantment level,max simulated enchantment level], {Probability weight}, {(optional) [static Enchantments...]}]
+      # Enchantment names are the same as standard minecraft enchantment names, but with an underscore
+      # Ex. Blast Protection == blast_protection
+      # Adding an enchantment that will always be present has the format: [{enchantment Name}-{enchantment level},...] enchantments can be unsafe
+      # To not enchant an item, set both bounds to 0. Static enchantments will still be present.
+      # Durability will always be at least 1 use, set the minimum durability to 0 for this to be possible
+      enchantedDropExperience: 6500 #The experience that drops when an enchanted item is rolled
+      enchantedItemWeight: 4 #The probability weight that corresponds to an enchanted drop being selected from the drop table above
+      enchantedDropTable:
+        - [drop: DIAMOND_SHOVEL,     durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 300, staticEnchantments: [EFFICIENCY-5]      ]
+        - [drop: DIAMOND_SHOVEL,     durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 300, staticEnchantments: [MENDING-1]         ]
+        - [drop: DIAMOND_AXE,        durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 300, staticEnchantments: [EFFICIENCY-5]      ]
+        - [drop: DIAMOND_AXE,        durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 300, staticEnchantments: [MENDING-1]         ]
+        - [drop: DIAMOND_PICKAXE,    durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 300, staticEnchantments: [EFFICIENCY-5]      ]
+        - [drop: DIAMOND_PICKAXE,    durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 300, staticEnchantments: [MENDING-1]         ]
+        - [drop: DIAMOND_SWORD,      durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 120, staticEnchantments: [SHARPNESS-5]       ]
+        - [drop: DIAMOND_SWORD,      durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 120, staticEnchantments: [FIRE_ASPECT-5]     ]
+        - [drop: DIAMOND_SWORD,      durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 120, staticEnchantments: [LOOTING-3]         ]
+        - [drop: DIAMOND_SWORD,      durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 120, staticEnchantments: [SWEEPING-3]        ]
+        - [drop: DIAMOND_SWORD,      durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 120, staticEnchantments: [MENDING-1]         ]
+        - [drop: DIAMOND_BOOTS,      durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 120, staticEnchantments: [PROTECTION-4]      ]
+        - [drop: DIAMOND_BOOTS,      durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 129, staticEnchantments: [FROST_WALKER-2]    ]
+        - [drop: DIAMOND_BOOTS,      durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 120, staticEnchantments: [DEPTH_STRIDER-2]   ]
+        - [drop: DIAMOND_BOOTS,      durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 120, staticEnchantments: [FEATHER_FALLING-4] ]
+        - [drop: DIAMOND_BOOTS,      durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 120, staticEnchantments: [MENDING-1]         ]
+        - [drop: DIAMOND_LEGGINGS,   durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 300, staticEnchantments: [PROTECTION-4]      ]
+        - [drop: DIAMOND_LEGGINGS,   durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 300, staticEnchantments: [MENDING-1]         ]
+        - [drop: DIAMOND_CHESTPLATE, durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 200, staticEnchantments: [PROTECTION-4]      ]
+        - [drop: DIAMOND_CHESTPLATE, durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 200, staticEnchantments: [THORNS-3]          ]
+        - [drop: DIAMOND_CHESTPLATE, durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 200, staticEnchantments: [MENDING-1]         ]
+        - [drop: DIAMOND_HELMET,     durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 150, staticEnchantments: [PROTECTION-4]      ]
+        - [drop: DIAMOND_HELMET,     durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 150, staticEnchantments: [RESPIRATION-3]     ]
+        - [drop: DIAMOND_HELMET,     durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 150, staticEnchantments: [AQUA_AFFINITY-1]   ]
+        - [drop: DIAMOND_HELMET,     durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 150, staticEnchantments: [MENDING-1]         ]
+        - [drop: IRON_SHOVEL,        durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 60,  staticEnchantments: [EFFICIENCY-5]       ]
+        - [drop: IRON_SHOVEL,        durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 60,  staticEnchantments: [MENDING-1]          ]
+        - [drop: IRON_AXE,           durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 60,  staticEnchantments: [EFFICIENCY-5]       ]
+        - [drop: IRON_AXE,           durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 60,  staticEnchantments: [MENDING-1]          ]
+        - [drop: IRON_PICKAXE,       durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 60,  staticEnchantments: [EFFICIENCY-5]       ]
+        - [drop: IRON_PICKAXE,       durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 60,  staticEnchantments: [MENDING-1]          ]
+        - [drop: IRON_SWORD,         durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 24,  staticEnchantments: [SHARPNESS-5]        ]
+        - [drop: IRON_SWORD,         durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 24,  staticEnchantments: [FIRE_ASPECT-5]      ]
+        - [drop: IRON_SWORD,         durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 24,  staticEnchantments: [LOOTING-3]          ]
+        - [drop: IRON_SWORD,         durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 24,  staticEnchantments: [SWEEPING-3]         ]
+        - [drop: IRON_SWORD,         durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 24,  staticEnchantments: [MENDING-1]          ]
+        - [drop: IRON_BOOTS,         durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 24,  staticEnchantments: [PROTECTION-4]       ]
+        - [drop: IRON_BOOTS,         durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 24,  staticEnchantments: [FROST_WALKER-2]     ]
+        - [drop: IRON_BOOTS,         durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 24,  staticEnchantments: [DEPTH_STRIDER-2]    ]
+        - [drop: IRON_BOOTS,         durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 24,  staticEnchantments: [FEATHER_FALLING-4]  ]
+        - [drop: IRON_BOOTS,         durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 24,  staticEnchantments: [MENDING-1]          ]
+        - [drop: IRON_LEGGINGS,      durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 60,  staticEnchantments: [PROTECTION-4]       ]
+        - [drop: IRON_LEGGINGS,      durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 60,  staticEnchantments: [MENDING-1]          ]
+        - [drop: IRON_CHESTPLATE,    durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 30,  staticEnchantments: [PROTECTION-4]       ]
+        - [drop: IRON_CHESTPLATE,    durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 30,  staticEnchantments: [THORNS-3]           ]
+        - [drop: IRON_CHESTPLATE,    durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 30,  staticEnchantments: [MENDING-1]          ]
+        - [drop: IRON_HELMET,        durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 30,  staticEnchantments: [PROTECTION-4]       ]
+        - [drop: IRON_HELMET,        durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 30,  staticEnchantments: [RESPIRATION-3]      ]
+        - [drop: IRON_HELMET,        durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 30,  staticEnchantments: [AQUA_AFFINITY-1]    ]
+        - [drop: IRON_HELMET,        durability: [0.00,0.85], enchantmentBounds: [30,30], weight: 30,  staticEnchantments: [MENDING-1]          ]
+  skill_2A: #Fisherman's diet
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      foodModifier: 1.20 #Effectiveness multiplier for food
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Food effected by food modifier
+      effectedFood: [COOKED_MUTTON,COOKED_COD,COD,SALMON,TROPICAL_FISH,PUFFERFISH,DRIED_KELP]
+    level2:
+      foodModifier: 1.40 #Effectiveness multiplier for food
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Food effected by food modifier
+      effectedFood: [COOKED_MUTTON,COOKED_COD,COD,SALMON,TROPICAL_FISH,PUFFERFISH,DRIED_KELP]
+    level3:
+      foodModifier: 1.60 #Effectiveness multiplier for food
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Food effected by food modifier
+      effectedFood: [COOKED_MUTTON,COOKED_COD,COD,SALMON,TROPICAL_FISH,PUFFERFISH,DRIED_KELP]
+    level4:
+      foodModifier: 1.80 #Effectiveness multiplier for food
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Food effected by food modifier
+      effectedFood: [COOKED_MUTTON,COOKED_COD,COD,SALMON,TROPICAL_FISH,PUFFERFISH,DRIED_KELP]
+    level5:
+      foodModifier: 2.00 #Effectiveness multiplier for food
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Food effected by food modifier
+      effectedFood: [COOKED_MUTTON,COOKED_COD,COD,SALMON,TROPICAL_FISH,PUFFERFISH,DRIED_KELP]
+  skill_2B: #Filtration
+    #The configuration for this skill is fairly complicated because Filtration's effect depends on the level for Scavenger
+    # The relative portion of probability taken from the decreasingTiers
+    # ex. portionShifted = 0.30
+    #    decreasingTiers = [tier: 1, weight: 1]
+    #    increasingTires = [tier: 3, weight: 1]
+    #                      [tier: 4, weight: 1]
+    #                      [tier: 5, weight: 1]
+    #    tier 1 base roll prob =  0.1
+    #    tier 2 base roll prob =  0.05
+    #    tier 3 base roll prob =  0.03
+    #    tier 4 base roll prob =  0.02
+    #    tier 5 base roll prob =  0.01
+    # New probabilties:
+    #   tier 1 roll prob:   0.10 --> 0.07
+    #   tier 2 roll prob:   0.05 --> 0.05
+    #   tier 3 roll prob:   0.03 --> 0.04
+    #   tier 4 roll prob:   0.02 --> 0.03
+    #   tier 5 roll prob:   0.01 --> 0.02
+    # IF all tiers are unlocked. If not, that tier is ignored in both decreasingTiers and increasing tiers and
+    # the result changes correspondingly
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      portionShifted: 0.222222 #The portion of the total probability of the decreasingTiers moved to Increasing Tiers
+      #Where the probability is leaving and where it is going
+      # The weight reflects how much of the probability each tier loses or gains
+      # Format [{tier (1,2,3,4, or 5)}, {weight}]
+      decreasingTiers:
+        - [tier: 1, weight: 1]
+      increasingTiers:
+        - [tier: 2, weight: 5]
+        - [tier: 2, weight: 2]
+        - [tier: 2, weight: 2]
+        - [tier: 2, weight: 1]
+    level2:
+      portionShifted: 0.444444 #The portion of the total probability of the decreasingTiers moved to Increasing Tiers
+      #Where the probability is leaving and where it is going
+      # The weight reflects how much of the probability each tier loses or gains
+      # Format [{tier (1,2,3,4, or 5)}, {weight}]
+      decreasingTiers:
+        - [tier: 1, weight: 1]
+      increasingTiers:
+        - [tier: 2, weight: 5]
+        - [tier: 2, weight: 2]
+        - [tier: 2, weight: 2]
+        - [tier: 2, weight: 1]
+    level3:
+      portionShifted: 0.555555 #The portion of the total probability of the decreasingTiers moved to Increasing Tiers
+      #Where the probability is leaving and where it is going
+      # The weight reflects how much of the probability each tier loses or gains
+      # Format [{tier (1,2,3,4, or 5)}, {weight}]
+      decreasingTiers:
+        - [tier: 1, weight: 1]
+      increasingTiers:
+        - [tier: 2, weight: 10]
+        - [tier: 2, weight: 6]
+        - [tier: 2, weight: 6]
+        - [tier: 2, weight: 3]
+    level4:
+      portionShifted: 0.666666 #The portion of the total probability of the decreasingTiers moved to Increasing Tiers
+      #Where the probability is leaving and where it is going
+      # The weight reflects how much of the probability each tier loses or gains
+      # Format [{tier (1,2,3,4, or 5)}, {weight}]
+      decreasingTiers:
+        - [tier: 1, weight: 1]
+      increasingTiers:
+        - [tier: 2, weight: 10]
+        - [tier: 2, weight: 8]
+        - [tier: 2, weight: 8]
+        - [tier: 2, weight: 4]
+    level5:
+      portionShifted: 0.777777 #The portion of the total probability of the decreasingTiers moved to Increasing Tiers
+      #Where the probability is leaving and where it is going
+      # The weight reflects how much of the probability each tier loses or gains
+      # Format [{tier (1,2,3,4, or 5)}, {weight}]
+      decreasingTiers:
+        - [tier: 1, weight: 1]
+      increasingTiers:
+        - [tier: 2, weight: 10]
+        - [tier: 2, weight: 10]
+        - [tier: 2, weight: 10]
+        - [tier: 2, weight: 5]
+  skill_3A: #Grappling Hook
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      speedMultiplier: 0.2 #Effects the total speed the player is moved at (higher value --> faster)
+      heightAdjustmentMultiplier: 0.1 #Effects the extra upward velocity given to the player (higher value --> higher launch angle)
+  skill_3B: #Hot Rod
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      # Items changed by the hot rod ability
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Items that are not spelled correctly or do not exist in the current minecraft version are ignored
+      # Format: [{Item to replace},{Replacement Item},{drop quanity multiplier}]
+      # Drop quantity multiplier can be used to scale the number of items dropped. At least one item will always be dropped. Set to 0 for always 1 drop
+      # If either item is not recognized (does not exist in current MC version) then it is ignored
+      changedDrops:
+        - [oldDrop: ENDER_PEARL, newDrop: FIRE_CHARGE,     amountMultiplier: 3]
+        - [oldDrop: GHAST_TEAR,  newDrop: BLAZE_POWDER,    amountMultiplier: 1]
+        - [oldDrop: WET_SPONGE,  newDrop: SPONGE,          amountMultiplier: 1]
+        - [oldDrop: SLIME_BALL,  newDrop: MAGMA_CREAM,     amountMultiplier: 1]
+        - [oldDrop: GHAST_TEAR,  newDrop: BLAZE_POWDER,    amountMultiplier: 1]
+        - [oldDrop: DIAMOND,     newDrop: NETHERITE_SCRAP, amountMultiplier: 1]
+  skill_M: #Fish Person
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      # Blocks that activate Fish person when the player is inside of them
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Blocks that are not spelled correctly or do not exist in the current minecraft version are ignored
+      effectedBlocks: [WATER]
+      #Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+      #Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional)} ]
+      effectsGiven:
+        - [effect: DOLPHINS_GRACE, level: 1, duration: 15, delay: 0.0] #Example of how to use delay
+        - [effect: NIGHT_VISION,   level: 1, duration: 15] #Example of how to use delay
+      refreshTimer: 2.0 #Number of seconds to between server checks to give the buff
+archery:
+  passive1: #Rapid Fire Duration
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 2.0 #Starting duration in seconds
+    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
+    increasePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive2: #Retrieval
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 0.00 #Starting probability
+    maxValue: 1.0 #Maximum Probability
+    increasePerLevel: 0.0005 #Increase in probability each level
+    # Select between ARROW, SPECTRAL_ARROW, TIPPED_ARROW, and FIREWORK
+    retrievedArrows: [ARROW,SPECTRAL_ARROW,TIPPED_ARROW]
+  skill_1A: #Extra Arrows
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      additionalArrows: 1 #Additional arrows given when crafting arrows
+    level2:
+      additionalArrows: 2 #Additional arrows given when crafting arrows
+    level3:
+      additionalArrows: 3 #Additional arrows given when crafting arrows
+    level4:
+      additionalArrows: 4 #Additional arrows given when crafting arrows
+    level5:
+      additionalArrows: 5 #Additional arrows given when crafting arrows
+  skill_1B: #Sniper
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      arrowSpeedMultiplier: 1.02 #Multiplier on arrow speed, damage increases with arrow speed
+    level2:
+      arrowSpeedMultiplier: 1.04 #Multiplier on arrow speed, damage increases with arrow speed
+    level3:
+      arrowSpeedMultiplier: 1.06 #Multiplier on arrow speed, damage increases with arrow speed
+    level4:
+      arrowSpeedMultiplier: 1.08 #Multiplier on arrow speed, damage increases with arrow speed
+    level5:
+      arrowSpeedMultiplier: 1.10 #Multiplier on arrow speed, damage increases with arrow speed
+  skill_2A: #Arrow of Light
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      damageMultiplier: 1.05 #Damage multiplier for spectral arrows on hit
+    level2:
+      damageMultiplier: 1.10 #Damage multiplier for spectral arrows on hit
+    level3:
+      damageMultiplier: 1.15 #Damage multiplier for spectral arrows on hit
+    level4:
+      damageMultiplier: 1.20 #Damage multiplier for spectral arrows on hit
+    level5:
+      damageMultiplier: 1.25 #Damage multiplier for spectral arrows on hit
+  skill_2B: #Explosive Arrows
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      explosionChance: 0.01 #Chance of explosion
+      explosionPower: 3 #Explosion power, affects damage and size
+      setFire: false #Set to true for explosion to cause fire
+      breakBlocks: false #Ste to true for explosion to break blocks
+    level2:
+      explosionChance: 0.02 #Chance of explosion
+      explosionPower: 3 #Explosion power, affects damage and size
+      setFire: false #Set to true for explosion to cause fire
+      breakBlocks: false #Ste to true for explosion to break blocks
+    level3:
+      explosionChance: 0.03 #Chance of explosion
+      explosionPower: 3 #Explosion power, affects damage and size
+      setFire: false #Set to true for explosion to cause fire
+      breakBlocks: false #Ste to true for explosion to break blocks
+    level4:
+      explosionChance: 0.04 #Chance of explosion
+      explosionPower: 3 #Explosion power, affects damage and size
+      setFire: false #Set to true for explosion to cause fire
+      breakBlocks: false #Ste to true for explosion to break blocks
+    level5:
+      explosionChance: 0.05 #Chance of explosion
+      explosionPower: 3 #Explosion power, affects damage and size
+      setFire: false #Set to true for explosion to cause fire
+      breakBlocks: false #Ste to true for explosion to break blocks
+  skill_3A: #Dragon-less Arrows
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      # Disable the perk from working for some tipped arrow types
+      # Select potion effects from this list https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+      # Format: [{effect name}, {is extended ?}, {is upgraded ?}]
+      uncraftablePotionEffects:
+        - [effect: SPEED, isExtended: true, isUpgraded: true] #This is an example. It will have no effect because no tipped arrow effect is extended and upgraded
+  skill_3B: #Crossbow Rapid Load
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      # Arrows that the ability applies to
+      # Select between ARROW, SPECTRAL_ARROW, TIPPED_ARROW, and FIREWORK
+      useableArrows: [ARROw,SPECTRAL_ARROW,TIPPED_ARROW]
+  skill_M: #Deadly Strike
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      damageMultiplier: 2.0 #Multiplier for damage done by fireworks shot from crossbow
+      maxDamage: 32.0 #Maximum damage done by fireworks shot from crossbow b
+beastMastery:
+  passive1: #Spur Kick Duration
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 2.0 #Starting duration in seconds
+    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
+    increasePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive2: #Critical Bite
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 0.00 #Starting probability
+    maxValue: 1.0 #Maximum Probability
+    increasePerLevel: 0.00025 #Increase in probability each level
+    damageMultiplier: 1.5 #Damage multiplier on a critical hit
+  skill_1A: #Thick Fur
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      damageMultiplier: 0.90 #Damage multiplier when dogs are damaged
+    level2:
+      damageMultiplier: 0.80 #Damage multiplier when dogs are damaged
+    level3:
+      damageMultiplier: 0.70 #Damage multiplier when dogs are damaged
+    level4:
+      damageMultiplier: 0.60 #Damage multiplier when dogs are damaged
+    level5:
+      damageMultiplier: 0.50 #Damage multiplier when dogs are damaged
+  skill_1B: #Sharp Teeth
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      damageMultiplier: 1.10 #Damage multiplier when dogs do damage
+    level2:
+      damageMultiplier: 1.20 #Damage multiplier when dogs do damage
+    level3:
+      damageMultiplier: 1.30 #Damage multiplier when dogs do damage
+    level4:
+      damageMultiplier: 1.40 #Damage multiplier when dogs do damage
+    level5:
+      damageMultiplier: 1.50 #Damage multiplier when dogs do damage
+  skill_2A: #Healthy Bite
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      healthHealed: 1.00 #Health healed when dog kills an enemy (1.00 = 1/2 heart)
+    level2:
+      healthHealed: 2.00 #Health healed when dog kills an enemy (1.00 = 1/2 heart)
+    level3:
+      healthHealed: 3.00 #Health healed when dog kills an enemy (1.00 = 1/2 heart)
+    level4:
+      healthHealed: 4.00 #Health healed when dog kills an enemy (1.00 = 1/2 heart)
+    level5:
+      healthHealed: 5.00 #Health healed when dog kills an enemy (1.00 = 1/2 heart)
+  skill_2B: #Keep Away
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      knockbackChance: 0.05 #Chance enemy is knocked back by dog
+      knockbackMutliplier: 5.0 #Multiplier for knockback done by dog
+      knockbackYvalue: 0.4 #Static value for y value of knockback vector
+    level2:
+      knockbackChance: 0.10 #Chance enemy is knocked back by dog
+      knockbackMutliplier: 5.0 #Multiplier for knockback done by dog
+      knockbackYvalue: 0.4 #Static value for y value of knockback vector
+    level3:
+      knockbackChance: 0.15 #Chance enemy is knocked back by dog
+      knockbackMutliplier: 5.0 #Multiplier for knockback done by dog
+      knockbackYvalue: 0.4 #Static value for y value of knockback vector
+    level4:
+      knockbackChance: 0.20 #Chance enemy is knocked back by dog
+      knockbackMutliplier: 5.0 #Multiplier for knockback done by dog
+      knockbackYvalue: 0.4 #Static value for y value of knockback vector
+    level5:
+      knockbackChance: 0.25 #Chance enemy is knocked back by dog
+      knockbackMutliplier: 5.0 #Multiplier for knockback done by dog
+      knockbackYvalue: 0.4 #Static value for y value of knockback vector
+  skill_3A: #Acro-Dog/Graceful Feet
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      fallDamageChance: 0.0 #Chance a dog takes fall damage reduced by fallDamageMultiplier
+      fallDamageMultiplier: 0.0 #Multiplier on fall damaage taken by a dog
+  skill_3B: #Indentify
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      effectedItems: [COMPASS] #Items that will show a horse's stats when a horse is right clicked on with it
+  skill_M: #Adrenaline Boost
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      #Each buff that will be given to the mounted horse with the level. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+      #Format: [ {EffectName}, {Level (Integer)}]
+      effectsGiven:
+        - [effect: SPEED, level: 3]
+swordsmanship:
+  passive1: #Swift Strikes Duration
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 2.0 #Starting duration in seconds
+    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
+    increasePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive2: #Double Hit
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 0.00 #Starting Probability
+    maxValue: 1.0 #Maximum Probability
+    increasePerLevel: 0.0002 #Increae in probability each level
+    damageMultiplier: 0.5 #Proportion of damage the second hit does compared to the first
+    knockbackMultiplier: 2.0 #Knockback multiplication once second hit is applied
+  skill_1A: #Adrenaline
+    enabled: true #Change this to false to disable this skill from working
+    #Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+    #Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional)} ]
+    level1:
+      effectsGiven:
+        - [effect: SPEED, level: 1, duration: 2, delay: 0.0] #Example of how to use delay
+    level2:
+      effectsGiven:
+        - [effect: SPEED, level: 1, duration: 4]
+    level3:
+      effectsGiven:
+        - [effect: SPEED, level: 1, duration: 6]
+    level4:
+      effectsGiven:
+        - [effect: SPEED, level: 1, duration: 8]
+    level5:
+      effectsGiven:
+        - [effect: SPEED, level: 1, duration: 10]
+  skill_1B: #Killing Spree
+    enabled: true #Change this to false to disable this skill from working
+    #Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+    #Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional)} ]
+    level1:
+      effectsGiven:
+        - [effect: STRENGTH, level: 1, duration: 2, delay: 0.0] #Example of how to use delay
+    level2:
+      effectsGiven:
+        - [effect: STRENGTH, level: 1, duration: 4]
+    level3:
+      effectsGiven:
+        - [effect: STRENGTH, level: 1, duration: 6]
+    level4:
+      effectsGiven:
+        - [effect: STRENGTH, level: 1, duration: 8]
+    level5:
+      effectsGiven:
+        - [effect: STRENGTH, level: 1, duration: 10]
+  skill_2A: #Adrenaline+
+    enabled: true #Change this to false to disable this skill from working
+    # Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+    # If the buff overrides a buff in Adrenaline, give a relative duration instead
+    # Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional)} ]
+    # or
+    # Format: [ {Effect Name}, {Level (Integer)}, {Relative Duration (Decimal)} ]
+    # You can both add effects and override effects.
+    level1:
+      effectsGiven:
+        - [effect: SPEED, level: 2, relativeDuration: 0.2] #Gives Speed II for 20% of the Speed I duration in Adrenaline
+    level2:
+      effectsGiven:
+        - [effect: SPEED, level: 2, relativeDuration: 0.4]
+    level3:
+      effectsGiven:
+        - [effect: SPEED, level: 2, relativeDuration: 0.6]
+    level4:
+      effectsGiven:
+        - [effect: SPEED, level: 2, relativeDuration: 0.8]
+    level5:
+      effectsGiven:
+        - [effect: SPEED, level: 2, relativeDuration: 1.0]
+  skill_2B: #Killing Frenzy
+    enabled: true #Change this to false to disable this skill from working
+    # Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+    # If the buff overrides a buff in Killing Spree, give a relative duration instead
+    # Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional)} ]
+    # or
+    # Format: [ {Effect Name}, {Level (Integer)}, {Relative Duration (Decimal)} ]
+    # You can both add effects and override effects.
+    level1:
+      effectsGiven:
+        - [effect: STRENGTH, level: 2, relativeDuration: 0.2] #Gives Strength II for 20% of the Speed I duration in Killing Spree
+    level2:
+      effectsGiven:
+        - [effect: STRENGTH, level: 2, relativeDuration: 0.4]
+    level3:
+      effectsGiven:
+        - [effect: STRENGTH, level: 2, relativeDuration: 0.6]
+    level4:
+      effectsGiven:
+        - [effect: STRENGTH, level: 2, relativeDuration: 0.8]
+    level5:
+      effectsGiven:
+        - [effect: STRENGTH, level: 2, relativeDuration: 1.0]
+  skill_3A: #Thirst for Blood
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      # Mobs thirst for blood applies to
+      # Select mobs from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+      # Mobs that are not spelled correctly or do not exist in the current minecraft version are ignored
+      # Format: [{Entity Name},{Hunger Restored},{Saturation Restored},{experience gained}]
+      affectedMobs:
+        - [mob: DROWNED,          hungerRestored: 2, saturationRestored: 2, exp: 50]
+        - [mob: ELDER_GUARDIAN,   hungerRestored: 3, saturationRestored: 3, exp: 50]
+        - [mob: EVOKER,           hungerRestored: 1, saturationRestored: 1, exp: 50]
+        - [mob: GUARDIAN,         hungerRestored: 1, saturationRestored: 2, exp: 50]
+        - [mob: HUSK,             hungerRestored: 2, saturationRestored: 2, exp: 50]
+        - [mob: PILLAGER,         hungerRestored: 2, saturationRestored: 3, exp: 50]
+        - [mob: RAVAGER,          hungerRestored: 3, saturationRestored: 4, exp: 50]
+        - [mob: VINDICATOR,       hungerRestored: 2, saturationRestored: 3, exp: 50]
+        - [mob: WITCH,            hungerRestored: 2, saturationRestored: 3, exp: 50]
+        - [mob: ZOMBIE,           hungerRestored: 2, saturationRestored: 2, exp: 50]
+        - [mob: ZOMBIE_VILLAGER,  hungerRestored: 2, saturationRestored: 2, exp: 50]
+        - [mob: HOGLIN,           hungerRestored: 3, saturationRestored: 4, exp: 50]
+        - [mob: PIGLIN,           hungerRestored: 3, saturationRestored: 3, exp: 50]
+        - [mob: ZOMBIFIED_PIGLIN, hungerRestored: 2, saturationRestored: 2, exp: 50]
+        - [mob: ZOGLIN,           hungerRestored: 2, saturationRestored: 3, exp: 50]
+        - [mob: PIG_ZOMBIE,       hungerRestored: 2, saturationRestored: 2, exp: 50]
+  skill_3B: #Sharper!
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      # Enchantments added the sword temporarily
+      # Enchantment names are the same as standard minecraft enchantment names, but with an underscore
+      # Ex. Blast Protection == blast_protection
+      # Overall Format: [{Enchantment name}, {levels to add}, {relative duration (decimal)}]
+      # OR
+      # Overall Format: [{Enchantment name}, {levels to add}, {static duration}]
+      enchantmentsAdded:
+        - [enchantment: SHARPNESS, addedLevels: 1, relativeDuration: 1.0 ] #Relative duration is 100% of the ability length
+        #Example for static duration: - [enchantment: SHARPNESS, addedLevels: 1, staticDuration: 5 ]
+  skill_M: #Sword Mastery
+    enabled: true #Change this to false to disable this skill from working
+    level1:
+      damageIncrease: 2.0 #Amount of extra damage done when enemy is hit by an effected Item
+      damageMultiplier: 1.0 #Multiplier for extra damage done when enemy is hit by an effected Item (STACKS WITH DAMAGE INCREASE)
+      # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      # Items that sword mastery applies to. I.e items that enemies will receive extra damage when hit by.
+      effectedItems: [WOODEN_SWORD,STONE_SWORD,GOLDEN_SWORD,IRON_SWORD,DIAMOND_SWORD,NETHERITE_SWORD]
+defense:
+  passive1: #Stone solid duration
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 2.0 #Starting duration in seconds
+    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
+    increasePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive2: #Hard Body
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 0.00 #Starting probability
+    maxValue: 1.0 #Maximum probability
+    increasePerLevel: 0.0001 #Probability increase per level
+    damageMultiplier: 0.66 #Damage multiplier when perk activated
+  passive3: #Double Drops (Hostile Mobs)
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 0.00 #Starting probability
+    maxValue: 1.0 #Maximum Probability
+    increasePerLevel: 0.0005 #Probability increase per level
+    effectedMobs: [SPIDER,CAVE_SPIDER,ENDERMAN,
+                  BLAZE,CREEPER,DROWNED,ELDER_GUARDIAN,
+                  ENDERMITE,EVOKER,GHAST,GUARDIAN,
+                  HUSK,MAGMA_CUBE,PHANTOM,PILLAGER,
+                  RAVAGER,SHULKER,SKELETON,SLIME,
+                  STRAY,VEX,VINDICATOR,WITCH,
+                  WITHER_SKELETON,ZOMBIE,ZOMBIE_VILLAGER,
+                  HOGLIN, PIGLIN, ZOMBIFIED_PIGLIN, ZOGLIN]
+  skill_1A: #Healer
+    enabled: true #Change this to false to disable this skill from working
+  skill_1B: #Stiffen
+    enabled: true #Change this to false to disable this skill from working
+  skill_2A: #Hard Headed
+    enabled: true #Change this to false to disable this skill from working
+  skill_2B: #Stiffen+
+    enabled: true #Change this to false to disable this skill from working
+  skill_3A: #Gift From Above
+    enabled: true #Change this to false to disable this skill from working
+  skill_3B: #Stronger Legs
+    enabled: true #Change this to false to disable this skill from working
+  skill_M: #Hearty
+    enabled: true #Change this to false to disable this skill from working
+axeMastery:
+  passive1:
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 2.0 #Starting duration in seconds
+    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
+    increasePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive2:
+    enabled: true #Change this to false to disable this passive skill from working
+    startingValue: 0.00
+    maxValue: 1.0
+    increasePerLevel: 0.0005
+  skill_1A:
+    enabled: true #Change this to false to disable this skill from working
+  skill_1B:
+    enabled: true #Change this to false to disable this skill from working
+  skill_2A:
+    enabled: true #Change this to false to disable this skill from working
+  skill_2B:
+    enabled: true #Change this to false to disable this skill from working
+  skill_3A:
+    enabled: true #Change this to false to disable this skill from working
+  skill_3B:
+    enabled: true #Change this to false to disable this skill from working
+  skill_M:
+    enabled: true #Change this to false to disable this skill from working
+repair:
+agility:
+alchemy:
+smelting:
+enchanting:

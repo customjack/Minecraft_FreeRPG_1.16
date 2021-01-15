@@ -10,6 +10,7 @@ import java.util.Map;
 /*
 This class acts as a Wrapper for an inventory acting as a gui
 It adds additional methods to the inventory and reduces lines of code when implementing a GUI
+The GuiWrapper object is mutable
  */
 public class GuiWrapper {
     private Map<Integer,GuiItem> items = new HashMap<>();
@@ -101,7 +102,7 @@ public class GuiWrapper {
      * setter for theme
      * @param theme a String of ChatColors ex (ChatColor.BOLD + ChatColor.WHITE.toString())
      */
-    public void setLoreColorTheme(GuiIconColors theme) {
+    public void setTheme(GuiIconColors theme) {
         this.theme = theme;
     }
 

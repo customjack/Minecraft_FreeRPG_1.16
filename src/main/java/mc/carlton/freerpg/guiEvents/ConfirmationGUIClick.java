@@ -106,50 +106,14 @@ public class ConfirmationGUIClick implements Listener {
                     PlayerStats pStatClass = new PlayerStats(p);
                     Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
                     Map<String, ArrayList<Number>> pStatAll = statAll.get(uuid);
-                    ArrayList<Number> pStats = pStatAll.get(skillName);
                     ConfigLoad loadConfig = new ConfigLoad();
                     ArrayList<Integer> soulsInfo = loadConfig.getSoulsInfo();
                     int refundCost = (int) soulsInfo.get(1);
                     int souls = (int) pStatAll.get("global").get(20);
                     if (souls >= refundCost) {
 
-                        //Ends all tasks that track players' buffs gained from some skills
-                        if (skillName.equals("farming") && (int) pStats.get(13) > 0) {
-                            Farming farmingClass = new Farming(p);
-                            farmingClass.oneWithNatureEnd();
-                        }
-                        else if (skillName.equals("fishing") && (int) pStats.get(13) > 0) {
-                            Fishing fishingClass = new Fishing(p);
-                            fishingClass.fishPersonEnd();
-                        }
-                        else if (skillName.equals("agility") && (int) pStats.get(13) > 0) {
-                            Agility agilityClass = new Agility(p);
-                            agilityClass.gracefulFeetEnd();
-                        }
-                        else if (skillName.equals("defense") && (int) pStats.get(13) > 0) {
-                            ConfigLoad configLoad = new ConfigLoad();
-                            ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(configLoad.getBasePlayerHP());
-                        }
-
-                        //Find Skill Tokens, Refund skill tokens, set skills to 0
-                        int totalSkillTokens = ((int) pStats.get(3) + (int) pStats.get(7) + (int) pStats.get(8) + (int) pStats.get(9) + (int) pStats.get(10) + (int) pStats.get(11) + (int) pStats.get(12) + (int) pStats.get(13));
-                        refundStat.setStat(skillName, 3, totalSkillTokens);
-                        refundStat.setStat(skillName, 7, 0);
-                        refundStat.setStat(skillName, 8, 0);
-                        refundStat.setStat(skillName, 9, 0);
-                        refundStat.setStat(skillName, 10, 0);
-                        refundStat.setStat(skillName, 11, 0);
-                        refundStat.setStat(skillName, 12, 0);
-                        refundStat.setStat(skillName, 13, 0);
-
-                        //Find Passive Tokens, Refund passive tokens, set passive skills to 0
-                        if (mainSkills.contains(skillName)) {
-                            int level = (int) pStats.get(0);
-                            refundStat.setStat(skillName, 2, level);
-                            refundStat.setStat(skillName, 4, level);
-                            refundStat.setStat(skillName, 5, level);
-                            refundStat.setStat(skillName, 6, level);
-                        }
+                        //Refund the skill tree
+                        refundStat.refundSkillTree(skillName);
 
                         //Remove the souls
                         Global globalClass = new Global(p);

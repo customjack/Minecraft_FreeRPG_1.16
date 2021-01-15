@@ -344,7 +344,7 @@ public class Mining extends Skill{
         }
         WorldGuardChecks BuildingCheck = new WorldGuardChecks();
         int searchCubeSize = 7;
-        if (veinOres.size() > maxSize-1) {
+        if (veinOres.size() >= maxSize) {
             return;
         }
         for (int x = -1; x <= 1; x++) { //These 3 for loops check a 3x3x3 cube around the block in question
@@ -365,7 +365,7 @@ public class Mining extends Skill{
                             break;
                         }
                         else if (!(veinOres.contains(b2))) {
-                            if (veinOres.size() > maxSize-1) {
+                            if (veinOres.size() >= maxSize) {
                                 return;
                             }
                             if (BuildingCheck.canBuild(p, b2.getLocation())) {
@@ -423,6 +423,7 @@ public class Mining extends Skill{
         HashSet<Material> ores = itemGroups.getVeinMinerBlocks();
         ConfigLoad configLoad = new ConfigLoad();
         int maxBreakSize = configLoad.getVeinMinerMaxBreakSize();
+        veinOres.add(initialBlock);
         getVeinOres(initialBlock,initialBlock.getX(),initialBlock.getY(),initialBlock.getZ(),initialBlock.getType(),maxBreakSize); //Get Ores in Vein
         int numOres = veinOres.size();
         int doubleDropsLevel = (int)pStat.get(skillName).get(5);

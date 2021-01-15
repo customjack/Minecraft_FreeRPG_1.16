@@ -49,6 +49,7 @@ public class Leaderboards {
     public void initializeNewPlayer(Player p) {
         UUID playerUUID = p.getUniqueId();
         if (playerUUID_to_personalSkillLeaderboards.containsKey(playerUUID)) { //Player is already loaded in (i.e not new)
+            updatePlayerName(p); //Updates the player's username if it has changed
             return;
         }
         if (leaderboardUpdating) {
@@ -390,6 +391,38 @@ public class Leaderboards {
         }
         else {
             return false;
+        }
+    }
+
+    private void updatePlayerName(Player p) {
+        /*
+        * This method uses a general approach. I.e it does not make some assumptions that should be true.
+        * Notably, it does NOT assume that each PlayerLeaderBoardStat Object in the playerLeaderboardStats has the same player Name. (this should be true)
+        * However, it does assume that each PlayerLeaderBoardStat Object in the playerLeaderboardStats does indeed belond to the player UUID.
+         */
+        UUID playerUUID = p.getUniqueId();
+        if (playerUUID_to_personalSkillLeaderboards.containsKey(playerUUID)) { //Player is already loaded in (i.e not new)
+            String currentName = p.getName();
+            String oldName = currentName;
+            Map<String,PlayerLeaderboardStat> playerLeaderboardStats = playerUUID_to_personalSkillLeaderboards.get(playerUUID);
+            for (String leaderboadName : playerLeaderboardStats.keySet()) {
+                PlayerLeaderboardStat playerLeaderboardStat = playerLeaderboardStats.get(leaderboadName);
+                if (!playerLeaderboardStat.get_pName().equals(currentName)) { //Name associated with this leaderboard stat does not correspond with player's current name
+                    if (!playerLeaderboardStat.get_pName().equals(oldName)) { //This name has not been removed from playerName_to_personalSkillLeaderboards yet
+                        /*
+                        * This conditional should always be met for the first playerLeaderBoard stat with an incorrect name, because currentName == oldName initialially
+                        * The username is removed from playerName_to_personalSkillLeaderboards and oldName is updated.
+                        * It SHOULD be true that every stat in playerLeaderboardStats shares the same old name, so this conditional should not fire again
+                        * I use a general approach here to be safe, and assume that playerLeaderboardStats could contain stats with many different names. If this is the case,
+                        * then these wrong names will be removed from playerName_to_personalSkillLeaderboards as well (if they are in the map)
+                         */
+                        playerName_to_personalSkillLeaderboards.remove(oldName); //Removes old name key, if present
+                        oldName = playerLeaderboardStat.get_pName(); //Updates oldName
+                    }
+                    playerLeaderboardStat.set_pName(currentName); //Updates pName to the current name. This is the name that will be saved to leaderboards.yml and displayed on /frpg top {skillName}
+                }
+            }
+            playerName_to_personalSkillLeaderboards.put(currentName,playerLeaderboardStats); //finally, we change playerName_to_personalSkillLeaderboards so it contains the new player name
         }
     }
 

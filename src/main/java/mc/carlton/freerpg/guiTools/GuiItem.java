@@ -3,6 +3,8 @@ package mc.carlton.freerpg.guiTools;
 import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -12,10 +14,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /*
  * This class acts as a wrapper class for an ItemStack to be used in a gui. Appeands additionally information about the item
  * And uses tools to make text output neater and easier to implement.
+ * The GuiItem object is mutable
  */
 public class GuiItem {
     private int index;

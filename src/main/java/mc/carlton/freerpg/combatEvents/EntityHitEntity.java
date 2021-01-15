@@ -17,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -155,13 +156,19 @@ public class EntityHitEntity implements Listener {
 
         }
         //Arrow of Light
-        else if (e.getDamager() instanceof Arrow) {
-            if (((Arrow) e.getDamager()).getShooter() instanceof Player) {
+        else if (e.getDamager() instanceof Arrow || e.getDamager() instanceof  SpectralArrow) {
+            ProjectileSource shooter;
+            if (e.getDamager() instanceof SpectralArrow) {
+                shooter = ((SpectralArrow) e.getDamager()).getShooter();
+            } else {
+                shooter = ((Arrow) e.getDamager()).getShooter();
+            }
+            if (shooter instanceof Player) {
                 ConfigLoad configLoad = new ConfigLoad();
                 if (!configLoad.getAllowedSkillsMap().get("archery")) {
                     return;
                 }
-                Player p = (Player) ((Arrow) e.getDamager()).getShooter();
+                Player p = (Player) shooter;
                 PlayerStats pStatClass = new PlayerStats(p);
                 Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
                 Archery archeryClass = new Archery(p);

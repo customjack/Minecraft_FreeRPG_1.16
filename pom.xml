@@ -6,7 +6,7 @@
 
     <groupId>mc.carlton</groupId>
     <artifactId>freerpg</artifactId>
-    <version>1.4.32</version>
+    <version>1.4.38</version>
     <packaging>jar</packaging>
 
     <name>FreeRPG</name>

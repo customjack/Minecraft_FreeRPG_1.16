@@ -26,10 +26,13 @@ public class EntityGetDamaged implements Listener {
             if (wolf.getType() == EntityType.WOLF) {
                 Tameable dog = (Tameable) wolf;
                 if (dog.isTamed()){
+                    if (!(dog.getOwner() instanceof Player)) { //Player is offline or something like that.
+                        return;
+                    }
                     Player p = (Player) dog.getOwner();
                     PlayerStats pStatClass = new PlayerStats(p);
                     Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-                    if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
+                    if (e.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
                         if ((int)pStat.get("beastMastery").get(11) > 0) {
                             e.setDamage(0);
                         }

@@ -51,7 +51,6 @@ public class EntityGroups {
                 EntityType.WITHER_SKELETON,EntityType.ZOMBIE,EntityType.ZOMBIE_VILLAGER};
          hostileMobs = new LinkedList<>(Arrays.asList(hostileMobs0));
         if (mcVersion >= 1.16) {
-            hostileMobs.add(EntityType.ZOMBIFIED_PIGLIN);
             hostileMobs.add(EntityType.HOGLIN);
             hostileMobs.add(EntityType.PIGLIN);
             hostileMobs.add(EntityType.ZOMBIFIED_PIGLIN);
@@ -84,7 +83,6 @@ public class EntityGroups {
                 EntityType.HUSK,EntityType.PILLAGER, EntityType.RAVAGER, EntityType.VINDICATOR,EntityType.WITCH, EntityType.ZOMBIE,EntityType.ZOMBIE_VILLAGER};
         thirstMobs =new LinkedList<>(Arrays.asList(thirstMobs0));
         if (mcVersion >= 1.16) {
-            thirstMobs.add(EntityType.ZOMBIFIED_PIGLIN);
             thirstMobs.add(EntityType.HOGLIN);
             thirstMobs.add(EntityType.PIGLIN);
             thirstMobs.add(EntityType.ZOMBIFIED_PIGLIN);

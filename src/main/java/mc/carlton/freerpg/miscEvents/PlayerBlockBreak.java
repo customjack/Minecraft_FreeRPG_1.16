@@ -81,9 +81,6 @@ public class PlayerBlockBreak implements Listener {
         //Tracked Blocks
         PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();
         boolean natural = !placedBlocksManager.isBlockTracked(block);
-        if (!natural) {
-            placedBlocksManager.removeBlock(block);
-        }
 
         //EXP drops
         if (flamePickEXP.containsKey(blockType) && pickaxes.contains(itemInHand.getType()) && (int) pStat.get("global").get(13) > 0 && (int) pStat.get("smelting").get(13) > 0) {
@@ -93,7 +90,7 @@ public class PlayerBlockBreak implements Listener {
             }
             int veinMinerLevel = (int)pStat.get("mining").get(11);
             int veinMinerToggle = (int) pStat.get("global").get(18);
-            if ((blockType == Material.IRON_ORE || blockType == Material.GOLD_ORE)) {
+            if (itemGroups.getFlamePickOres().contains(blockType)) {
                 Mining miningClass = new Mining(p);
                 miningClass.wastelessHaste(blockType);
                 if (veinMinerLevel > 0 && veinMinerToggle > 0) {
@@ -241,6 +238,11 @@ public class PlayerBlockBreak implements Listener {
             else if (pAbilities[3] == -2 && natural && (hoes.contains(itemInHand.getType()))) {
                 farmingClass.naturalRegeneration(block,world);
             }
+        }
+
+        //If the block wasn't natural, now remove it from the list
+        if (!natural) {
+            placedBlocksManager.removeBlock(block);
         }
     }
 }

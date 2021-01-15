@@ -5,12 +5,17 @@ import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.BossBarStorage;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.guiEvents.MaxPassiveLevels;
+import mc.carlton.freerpg.perksAndAbilities.Agility;
+import mc.carlton.freerpg.perksAndAbilities.Farming;
+import mc.carlton.freerpg.perksAndAbilities.Fishing;
 import mc.carlton.freerpg.perksAndAbilities.Global;
 import mc.carlton.freerpg.serverInfo.ConfigLoad;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attributable;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
@@ -60,7 +65,6 @@ public class ChangeStats {
         this.isCommand = isFromCommand;
     }
     public void set_silent(boolean isSilentExectuion) {this.isSilent = isSilentExectuion;}
-
     public boolean checkPerms(String skillName) {
         boolean hasPerms = true;
         String perm = "freeRPG." + skillName +"EXP";
@@ -287,6 +291,50 @@ public class ChangeStats {
         }
     }
 
+    /* Currently Broken
+    private int getPassiveTokenIncrease(int oldLevel, int newLevel){
+        double levelsPerPassive = tokensInfo.get(1);
+        int oldLevel_p = (int)Math.floor(oldLevel/levelsPerPassive);
+        int level_p = (int) Math.floor(newLevel/levelsPerPassive);
+        int newTokens_P = level_p-oldLevel_p;
+        return newTokens_P;
+    }
+
+     */
+
+    private int getAutomaticPassiveSkillIncrease(int oldLevel, int newLevel) {
+        double autoPassive = tokensInfo.get(0);
+        int oldLevel_auto_p = (int)Math.floor(oldLevel/autoPassive);
+        int level_auto_p = (int) Math.floor(newLevel/autoPassive);
+        int autoPassivesChange = level_auto_p-oldLevel_auto_p;
+        return autoPassivesChange;
+    }
+
+    /* CURRENTLY BROKEN
+    private int getSkillTokenIncrease(int oldLevel, int newLevel) {
+        double levelsPerSkill = tokensInfo.get(2);
+        int oldLevel_s = (int)Math.floor(oldLevel/levelsPerSkill);
+        int level_s = (int) Math.floor(newLevel/levelsPerSkill);
+        int newTokens_S = level_s-oldLevel_s;
+        return newTokens_S;
+    }
+
+     */
+
+    private int getGlobalTokenIncrease(int oldLevel, int newLevel) {
+        double levelsPerGlobal = tokensInfo.get(3);
+        int oldLevel_g = (int)Math.floor(oldLevel/levelsPerGlobal);
+        int level_g = (int) Math.floor(newLevel/levelsPerGlobal);
+        int newTokens_G = level_g-oldLevel_g;
+        if (newTokens_G > 0) {
+            int extraGlobalTokens = areGlobalPerksMaxed(newTokens_G);
+            if (extraGlobalTokens >= 0) {
+                newTokens_G = newTokens_G - extraGlobalTokens;
+            }
+        }
+        return newTokens_G;
+    }
+
     public double getSkillMultiplier(String skillName) {
         PlayerStats pStatClass = new PlayerStats(p);
         ArrayList<Number> pGlobalStats = pStatClass.getPlayerData().get("global");
@@ -334,7 +382,7 @@ public class ChangeStats {
         Map<String, ArrayList<Number>> pStats = allStats.get(p.getUniqueId());
         ArrayList<Number> pStat = pStats.get(skillName);
         int maxIndex = 13;
-        if (skillName == "global") {
+        if (skillName.equalsIgnoreCase("global")) {
             maxIndex = 11;
         }
         for (int i = 0; i <= maxIndex; i++) {
@@ -344,6 +392,101 @@ public class ChangeStats {
         allStats.put(p.getUniqueId(), pStats);
         pStatClass.setData(allStats);
         setTotalLevel();
+        setTotalExperience();
+        if (!skillName.equalsIgnoreCase("global")) {
+            reevaluatedGlobalTree();
+        }
+    }
+
+    public void reevaluatedGlobalTree() {
+        resetStat("global");
+        setTotalLevel();
+        ArrayList<Number> globalStats = getPlayerSkillStats("global");
+        int globalTokens = getGlobalTokenIncrease(0,(int) globalStats.get(0));
+        setStat("global",1,globalTokens);
+    }
+
+    public void refundSkillTree(String skillName) {
+        endSkillTasks(skillName); //Ends tasks like "Fish Person" and other repeating tasks
+        resetSkillTokens(skillName); //Refund skill tokens
+        resetPassiveTokens(skillName); //Refund passive tokens
+    }
+
+    private void resetSkillTokens(String skillName) {
+        ArrayList<Number> pStats = getPlayerSkillStats(skillName);
+        //Find Skill Tokens, Refund skill tokens, set skills to 0
+        if (!skillName.equalsIgnoreCase("global")) {
+            int totalSkillTokens = ((int) pStats.get(3) + (int) pStats.get(7) + (int) pStats.get(8) + (int) pStats.get(9) + (int) pStats.get(10) + (int) pStats.get(11) + (int) pStats.get(12) + (int) pStats.get(13));
+            setStat(skillName, 3, totalSkillTokens);
+            setStat(skillName, 7, 0);
+            setStat(skillName, 8, 0);
+            setStat(skillName, 9, 0);
+            setStat(skillName, 10, 0);
+            setStat(skillName, 11, 0);
+            setStat(skillName, 12, 0);
+            setStat(skillName, 13, 0);
+        } else {
+            int totalGlobalTokens = ((int) pStats.get(1) + (int) pStats.get(2) + (int) pStats.get(3) + (int) pStats.get(4)
+                                    + (int) pStats.get(5) + (int) pStats.get(6) + (int) pStats.get(7) + (int) pStats.get(8)
+                                    + (int) pStats.get(9) + (int) pStats.get(10) + (int) pStats.get(11));
+            setStat(skillName, 1, totalGlobalTokens);
+            setStat(skillName, 2, 0);
+            setStat(skillName, 3, 0);
+            setStat(skillName, 4, 0);
+            setStat(skillName, 5, 0);
+            setStat(skillName, 6, 0);
+            setStat(skillName, 7, 0);
+            setStat(skillName, 8, 0);
+            setStat(skillName, 9, 0);
+            setStat(skillName, 10, 0);
+            setStat(skillName, 11, 0);
+        }
+    }
+
+    private void resetPassiveTokens(String skillName) {
+        String[] mainSkills_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery"};
+        List<String> mainSkills = Arrays.asList(mainSkills_0);
+        ArrayList<Number> pStats = getPlayerSkillStats(skillName);
+        if (mainSkills.contains(skillName)) {
+            int level = (int) pStats.get(0);
+            int automaticPassiveTokens = getAutomaticPassiveSkillIncrease(0,level);
+
+            // Set new passive tokens to spend
+            // passive tokens to spend = Total currnet tokens + investments into 3 passive skills - automatic tokens gained in 3 passive skills
+            int totalPassiveTokens = (int) pStats.get(2) + (int) pStats.get(4) + (int) pStats.get(5) + (int) pStats.get(6) - 3*automaticPassiveTokens;
+            setStat(skillName, 2, totalPassiveTokens);
+
+            //Set passive skills to what they would have been if no skill points were invested
+            setStat(skillName, 4, automaticPassiveTokens);
+            setStat(skillName, 5, automaticPassiveTokens);
+            setStat(skillName, 6, automaticPassiveTokens);
+        }
+    }
+
+    private void endSkillTasks(String skillName){
+        ArrayList<Number> pStats = getPlayerSkillStats(skillName);
+        //Ends all tasks that track players' buffs gained from some skills
+        if (skillName.equals("farming") && (int) pStats.get(13) > 0) {
+            Farming farmingClass = new Farming(p);
+            farmingClass.oneWithNatureEnd();
+        } else if (skillName.equals("fishing") && (int) pStats.get(13) > 0) {
+            Fishing fishingClass = new Fishing(p);
+            fishingClass.fishPersonEnd();
+        } else if (skillName.equals("agility") && (int) pStats.get(13) > 0) {
+            Agility agilityClass = new Agility(p);
+            agilityClass.gracefulFeetEnd();
+        } else if (skillName.equals("defense") && (int) pStats.get(13) > 0) {
+            ConfigLoad configLoad = new ConfigLoad();
+            ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(configLoad.getBasePlayerHP());
+        }
+    }
+
+    private ArrayList<Number> getPlayerSkillStats(String skillName) {
+        PlayerStats pStatClass = new PlayerStats(p);
+        Map<UUID, Map<String, ArrayList<Number>>> statAll = pStatClass.getData();
+        Map<String, ArrayList<Number>> pStatAll = statAll.get(uuid);
+        ArrayList<Number> pStats = pStatAll.get(skillName);
+        return pStats;
     }
 
     public int areSkillsMaxed(String skillName,int skillTokensGained){
@@ -660,40 +803,5 @@ public class ChangeStats {
         }.runTaskLater(plugin,60).getTaskId();
         playerRemoveEXPBarTaskIdMap.put(p,taskId);
     }
-
-    /*
-    public int getLevelFromBinarySearch(int value, ArrayList<Integer> a) {
-        int lastIndex = a.size()-1;
-        if(value < a.get(0)) {
-            return a.get(0);
-        }
-        if(value > a.get(lastIndex)) {
-            return a.get(lastIndex);
-        }
-
-        int lo = 0;
-        int hi = lastIndex;
-
-        while (lo <= hi) {
-            int mid = (hi + lo) / 2;
-
-            if (value < a.get(mid)) {
-                hi = mid - 1;
-            } else if (value > a.get(mid)) {
-                lo = mid + 1;
-            } else {
-                return mid;
-            }
-        }
-        // lo == hi + 1
-        if ((a.get(lo)- value) < (value - a.get(hi))) {
-            return lo;
-        }
-        else {
-            return hi;
-        }
-    }
-
-     */
 
 }

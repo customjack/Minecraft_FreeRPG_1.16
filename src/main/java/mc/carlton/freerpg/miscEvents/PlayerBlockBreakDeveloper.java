@@ -91,9 +91,6 @@ public class PlayerBlockBreakDeveloper implements Listener {
         //Tracked Blocks
         PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();
         boolean natural = !placedBlocksManager.isBlockTracked(block);
-        if (!natural) {
-            placedBlocksManager.removeBlock(block);
-        }
 
         long getTrackedBlocks = System.currentTimeMillis() - timer;
         runTimeData.addTime(getTrackedBlocks,"BreakBlocktrackedBlocks");
@@ -107,7 +104,7 @@ public class PlayerBlockBreakDeveloper implements Listener {
             }
             int veinMinerLevel = (int)pStat.get("mining").get(11);
             int veinMinerToggle = (int) pStat.get("global").get(18);
-            if ((blockType == Material.IRON_ORE || blockType == Material.GOLD_ORE)) {
+            if (itemGroups.getFlamePickOres().contains(blockType)) {
                 Mining miningClass = new Mining(p);
                 miningClass.wastelessHaste(blockType);
                 if (veinMinerLevel > 0 && veinMinerToggle > 0) {
@@ -315,5 +312,10 @@ public class PlayerBlockBreakDeveloper implements Listener {
         }
         long allConditionals = System.currentTimeMillis() - timer;
         runTimeData.addTime(allConditionals,"BreakBlockconditionals");
+
+        //If the block wasn't natural, now remove it from the list
+        if (!natural) {
+            placedBlocksManager.removeBlock(block);
+        }
     }
 }

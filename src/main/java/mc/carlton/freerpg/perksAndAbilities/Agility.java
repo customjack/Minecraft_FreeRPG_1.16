@@ -116,6 +116,13 @@ public class Agility extends Skill{
         int gracefulFeetLevel = (int) pStat.get(skillName).get(13);
         if (gracefulFeetLevel > 0) {
             if (gracefulFeetMap.containsKey(p)) {
+                if (p.isOnline()) {
+                    if (p.hasPotionEffect(PotionEffectType.SPEED)) {
+                        if (p.getPotionEffect(PotionEffectType.SPEED).getAmplifier() < 1) {
+                            p.removePotionEffect(PotionEffectType.SPEED);
+                        }
+                    }
+                }
                 Bukkit.getScheduler().cancelTask(gracefulFeetMap.get(p));
                 gracefulFeetMap.remove(p);
             }

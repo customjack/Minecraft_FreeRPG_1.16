@@ -2,7 +2,9 @@ package mc.carlton.freerpg.gameTools;
 
 import mc.carlton.freerpg.serverInfo.MinecraftVersion;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -175,6 +177,12 @@ public class PsuedoEnchanting {
         enchantmentBracketMap.put(Enchantment.DURABILITY,new Integer[]{5,61,13,71,21,81});
         enchantmentBracketMap.put(Enchantment.MENDING,new Integer[]{25,75});
         enchantmentBracketMap.put(Enchantment.VANISHING_CURSE,new Integer[]{25,50});
+    }
+
+    public void printInfo() {
+        for (Enchantment enchant : enchantmentWeightMap.keySet()) {
+            System.out.println(enchant.getKey());
+        }
     }
 
     public ItemStack enchantItem(ItemStack item, int level,boolean isTreasure) {

@@ -47,6 +47,7 @@ public class ItemGroups {
     static Map<Material,Double> fishFoodSaturation = new HashMap<Material,Double>();
     static List<Material> valuableItems;
     static List<Material> ores;
+    static List<Material> flamePickOres;
     static HashSet<Material> veinMinerBlocks = new HashSet<>();
     static Map<Material,Material> repairItems = new HashMap<>();
     static Map<Material,Integer> repairItemsAmount = new HashMap<>();
@@ -177,6 +178,13 @@ public class ItemGroups {
             Material[] ores_append0 = {Material.NETHER_GOLD_ORE,Material.ANCIENT_DEBRIS,Material.GILDED_BLACKSTONE};
             List<Material> ores_append = Arrays.asList(ores_append0);
             ores.addAll(ores_append);
+        }
+        Material[] flamePickOres0 = {Material.IRON_ORE,Material.GOLD_ORE};
+        flamePickOres = new LinkedList<>(Arrays.asList(flamePickOres0));
+        if (mcVersion >= 1.16) {
+            Material[] flamePickOres_append0 = {Material.NETHER_GOLD_ORE,Material.ANCIENT_DEBRIS};
+            List<Material> flamePickOres_append = Arrays.asList(flamePickOres_append0);
+            flamePickOres.addAll(flamePickOres_append);
         }
         Material[] strippedLogs0 = {Material.STRIPPED_SPRUCE_LOG,Material.STRIPPED_OAK_LOG,Material.STRIPPED_JUNGLE_LOG,Material.STRIPPED_DARK_OAK_LOG,Material.STRIPPED_BIRCH_LOG,Material.STRIPPED_ACACIA_LOG};
         strippedLogs = Arrays.asList(strippedLogs0);
@@ -897,5 +905,9 @@ public class ItemGroups {
 
     public HashSet<Material> getVeinMinerBlocks() {
         return veinMinerBlocks;
+    }
+
+    public List<Material> getFlamePickOres() {
+        return flamePickOres;
     }
 }
