@@ -3,7 +3,7 @@ package mc.carlton.freerpg.guiEvents;
 public class MaxPassiveLevels {
 
     public int findMaxLevel(String skillName,int index) {
-        int maxLevel = 1000;
+        int maxLevel = Integer.MAX_VALUE;
         switch (skillName) {
             case "digging":
                 switch (index) {

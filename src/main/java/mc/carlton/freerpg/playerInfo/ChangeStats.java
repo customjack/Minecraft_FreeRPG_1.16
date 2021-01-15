@@ -302,7 +302,31 @@ public class ChangeStats {
 
      */
 
-    private int getAutomaticPassiveSkillIncrease(int oldLevel, int newLevel) {
+    private int getAutomaticPassiveSkillIncrease(String skillName,int oldLevel, int newLevel,int passiveSkillIndex) {
+
+        //Get current passive tokens
+        ArrayList<Number> pStats = getPlayerSkillStats(skillName);
+        int passiveSkillLevel = (int) pStats.get(3+passiveSkillIndex); //Get the passive skill level
+
+        //Get automatic passive tokens gained
+        int autoPassivesChange = getAutoPassiveChange(oldLevel,newLevel);
+
+        //Get the max passive skill level
+        MaxPassiveLevels passiveMax = new MaxPassiveLevels();
+        int passiveMaxLevel = passiveMax.findMaxLevel(skillName, passiveSkillIndex);
+
+        //Determine how many tokens to add
+        int automaticPassiveTokensGained;
+        if (passiveSkillLevel + autoPassivesChange >= passiveMaxLevel) {
+            automaticPassiveTokensGained = passiveMaxLevel - passiveSkillLevel; //Reward the player just enough to get them the max
+        } else {
+            automaticPassiveTokensGained = autoPassivesChange; //Reward the player the normal amount
+        }
+
+        return automaticPassiveTokensGained;
+    }
+
+    private int getAutoPassiveChange(int oldLevel, int newLevel) {
         double autoPassive = tokensInfo.get(0);
         int oldLevel_auto_p = (int)Math.floor(oldLevel/autoPassive);
         int level_auto_p = (int) Math.floor(newLevel/autoPassive);
@@ -449,17 +473,23 @@ public class ChangeStats {
         ArrayList<Number> pStats = getPlayerSkillStats(skillName);
         if (mainSkills.contains(skillName)) {
             int level = (int) pStats.get(0);
-            int automaticPassiveTokens = getAutomaticPassiveSkillIncrease(0,level);
+            int automaticPassiveTokens = getAutoPassiveChange(0,level);
 
             // Set new passive tokens to spend
-            // passive tokens to spend = Total currnet tokens + investments into 3 passive skills - automatic tokens gained in 3 passive skills
-            int totalPassiveTokens = (int) pStats.get(2) + (int) pStats.get(4) + (int) pStats.get(5) + (int) pStats.get(6) - 3*automaticPassiveTokens;
+            // passive tokens to spend = Total current tokens + investments into 3 passive skills - automatic tokens gained in 3 passive skills
+            int totalPassiveTokens = (int) pStats.get(2) + //Current passive tokens
+                                     Math.max((int) pStats.get(4) - automaticPassiveTokens,0) + //Tokens invested into passive 1
+                                     Math.max((int) pStats.get(5) - automaticPassiveTokens,0) + //Tokens invested into passive 2
+                                     Math.max((int) pStats.get(6) - automaticPassiveTokens,0); //Tokens invested into passive 3
             setStat(skillName, 2, totalPassiveTokens);
 
+            //Get maximum passive skill levels
+            MaxPassiveLevels maxPassiveLevels = new MaxPassiveLevels();
+
             //Set passive skills to what they would have been if no skill points were invested
-            setStat(skillName, 4, automaticPassiveTokens);
-            setStat(skillName, 5, automaticPassiveTokens);
-            setStat(skillName, 6, automaticPassiveTokens);
+            setStat(skillName, 4, Math.min(automaticPassiveTokens,maxPassiveLevels.findMaxLevel(skillName,1)));
+            setStat(skillName, 5, Math.min(automaticPassiveTokens,maxPassiveLevels.findMaxLevel(skillName,2)));
+            setStat(skillName, 6, Math.min(automaticPassiveTokens,maxPassiveLevels.findMaxLevel(skillName,3)));
         }
     }
 
