@@ -1,0 +1,843 @@
+#---------------------------------------------
+#   ______             _____  _____   _____
+#  |  ____|           |  __ \|  __ \ / ____|
+#  | |__ _ __ ___  ___| |__) | |__) | |  __
+#  |  __| '__/ _ \/ _ \  _  /|  ___/| | |_ |
+#  | |  | | |  __/  __/ | \ \| |    | |__| |
+#  |_|  |_|  \___|\___|_|  \_\_|     \_____|
+#---------------------------------------------
+# WARNING: This file will automatically try to repair itself if it is missing data. This will cause all comments to disappear
+#
+# Welcome to FreeRPG!
+# Support Discord: https://discord.gg/uAJXCnX
+#
+# This file is intended to be large and allow the ability to change and configure experience drops
+#
+# Some experience drops are located in perkConfig.yml
+#
+leveling:
+  # Please use this interactive graph to visualize the effect of each parameter:
+  #  https://www.desmos.com/calculator/cpphmtzhw9
+  exponentialGrowthFactor: 1.00282543
+  exponentialReferenceLevel: 1000
+  exponentialReferenceEXP: 1.0E7
+  levelBeginLinear: 1000
+  LinearEXPperLevel: 30000.0
+  beginnerLevelUpMessageMaxLevel: 3 #set this to -1 to remove beginner level up messages
+  customBegginerLevelUpMessage: "" #Change this from an empty string to set a custom level up message (will not be translated)
+  maxLevel: -1 #A global maximum level, but is overridden by {skillName}.maxLeveL. Set to -1 for no maximum
+  earnExperiencePastMaxLevel: true #Experience changes past max level, but no additional exp is gained. "Virtual Levels" may be displayed if true.
+global:
+  expMultiplier: 1.0 #global Multiplier increases EXP in all skills and STACKS with all other multipliers
+digging:
+  maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
+  expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
+  exp:
+    # Experience for treasure drops can be found in perkConfig.yml
+    # Blocks broken that yield exp (and are tracked a result).
+    # Format: [{Block Name}, {exp reward}, {must be natural? {default == true}]
+    # Block names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    # natural: false can be added to make the block still give experience even if it is not natural
+    breakBlock:
+      - [block: CLAY,                       exp: 60, natural: true ]
+      - [block: FARMLAND ,                  exp: 20, natural: true ]
+      - [block: GRASS_BLOCK,                exp: 20, natural: true ]
+      - [block: GRASS_PATH,                 exp: 20, natural: true ]
+      - [block: MYCELIUM,                   exp: 22, natural: true ]
+      - [block: PODZOL,                     exp: 22, natural: true ]
+      - [block: COARSE_DIRT,                exp: 22, natural: true ]
+      - [block: DIRT,                       exp: 20, natural: true ]
+      - [block: RED_SAND,                   exp: 22, natural: true ]
+      - [block: SAND,                       exp: 20, natural: true ]
+      - [block: SOUL_SAND,                  exp: 30, natural: true ]
+      - [block: SOUL_SOIL,                  exp: 25, natural: true ]
+      - [block: SNOW_BLOCK,                 exp: 22, natural: true ]
+      - [block: SNOW,                       exp: 4,  natural: true ]
+      - [block: BLACK_CONCRETE_POWDER,      exp: 20, natural: false]
+      - [block: BLUE_CONCRETE_POWDER,       exp: 20, natural: false]
+      - [block: BROWN_CONCRETE_POWDER,      exp: 20, natural: false]
+      - [block: CYAN_CONCRETE_POWDER,       exp: 20, natural: false]
+      - [block: GRAY_CONCRETE_POWDER,       exp: 20, natural: false]
+      - [block: GREEN_CONCRETE_POWDER,      exp: 20, natural: false]
+      - [block: LIGHT_BLUE_CONCRETE_POWDER, exp: 20, natural: false]
+      - [block: LIGHT_GRAY_CONCRETE_POWDER, exp: 20, natural: false]
+      - [block: LIME_CONCRETE_POWDER,       exp: 20, natural: false]
+      - [block: MAGENTA_CONCRETE_POWDER,    exp: 20, natural: false]
+      - [block: ORANGE_CONCRETE_POWDER,     exp: 20, natural: false]
+      - [block: PINK_CONCRETE_POWDER,       exp: 20, natural: false]
+      - [block: PURPLE_CONCRETE_POWDER,     exp: 20, natural: false]
+      - [block: RED_CONCRETE_POWDER,        exp: 20, natural: false]
+      - [block: WHITE_CONCRETE_POWDER,      exp: 20, natural: false]
+      - [block: YELLOW_CONCRETE_POWDER,     exp: 20, natural: false]
+wooductting:
+  maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
+  EXP_Multiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
+  exp:
+    # Experience for lead scavenger drops can be found in perkConfig.yml
+    # Blocks broken that yield exp (and are tracked a result).
+    # Format: [{Block Name}, {exp reward}, {must be natural? {default == true}]
+    # Block names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    # natural: false can be added to make the block still give experience even if it is not natural
+    breakBlock:
+      - [block: ACACIA_LOG,           exp: 100, natural: true ]
+      - [block: BIRCH_LOG,            exp: 100, natural: true ]
+      - [block: DARK_OAK_LOG,         exp: 100, natural: true ]
+      - [block: OAK_LOG,              exp: 100, natural: true ]
+      - [block: SPRUCE_LOG,           exp: 100, natural: true ]
+      - [block: JUNGLE_LOG,           exp: 100, natural: true ]
+      - [block: ACACIA_PLANKS,        exp: 25,  natural: false]
+      - [block: BIRCH_PLANKS,         exp: 25,  natural: false]
+      - [block: DARK_OAK_PLANKS,      exp: 25,  natural: false]
+      - [block: OAK_PLANKS,           exp: 25,  natural: false]
+      - [block: SPRUCE_PLANKS,        exp: 25,  natural: false]
+      - [block: JUNGLE_PLANKS,        exp: 25,  natural: false]
+      - [block: ACACIA_LEAVES,        exp: 13,  natural: true ]
+      - [block: BIRCH_LEAVES,         exp: 13,  natural: true ]
+      - [block: DARK_OAK_LEAVES,      exp: 13,  natural: true ]
+      - [block: OAK_LEAVES,           exp: 13,  natural: true ]
+      - [block: SPRUCE_LEAVES,        exp: 13,  natural: true ]
+      - [block: JUNGLE_LEAVES,        exp: 13,  natural: true ]
+      - [block: BROWN_MUSHROOM_BLOCK, exp: 125, natural: true ]
+      - [block: RED_MUSHROOM_BLOCK,   exp: 125, natural: true ]
+      - [block: CRIMSON_STEM,         exp: 125, natural: true ]
+      - [block: WARPED_STEM,          exp: 125, natural: true ]
+      - [block: CRIMSON_PLANKS,       exp: 28,  natural: false]
+      - [block: WARPED_PLANKS,        exp: 28,  natural: false]
+mining:
+  maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
+  expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
+  exp:
+    explodeTNT: 200 #Experience rewarded for exploding TNT
+    # Experience for treasure seeker drops can be found in perkConfig.yml
+    # Blocks broken that yield exp (and are tracked a result).
+    # Format: [{Block Name}, {exp reward}, {must be natural? {default == true}]
+    # Block names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    # natural: false can be added to make the block still give experience even if it is not natural
+    breakBlock:
+      - [block: ICE,                   exp: 20,   natural: true ]
+      - [block: BLUE_ICE,              exp: 25,   natural: true ]
+      - [block: PACKED_ICE,            exp: 25,   natural: true ]
+      - [block: FROSTED_ICE,           exp: 25,   natural: true ]
+      - [block: ANDESITE,              exp: 20,   natural: true ]
+      - [block: COAL_ORE,              exp: 200,  natural: true ]
+      - [block: DIORITE,               exp: 20,   natural: true ]
+      - [block: END_STONE,             exp: 20,   natural: true ]
+      - [block: GRANITE,               exp: 20,   natural: true ]
+      - [block: NETHERRACK,            exp: 8,    natural: true ]
+      - [block: NETHER_QUARTZ_ORE,     exp: 250,  natural: true ]
+      - [block: MOSSY_COBBLESTONE,     exp: 35,   natural: true ]
+      - [block: SANDSTONE,             exp: 20,   natural: true ]
+      - [block: RED_SANDSTONE,         exp: 10,   natural: true ]
+      - [block: SPAWNER,               exp: 5000, natural: true ]
+      - [block: STONE,                 exp: 15,   natural: true ]
+      - [block: IRON_ORE,              exp: 350,  natural: true ]
+      - [block: REDSTONE_ORE,          exp: 500,  natural: true ]
+      - [block: LAPIS_ORE,             exp: 700,  natural: true ]
+      - [block: GOLD_ORE,              exp: 500,  natural: true ]
+      - [block: DIAMOND_ORE,           exp: 1000, natural: true ]
+      - [block: EMERALD_ORE,           exp: 1250, natural: true ]
+      - [block: OBSIDIAN,              exp: 100,  natural: true ]
+      - [block: ANCIENT_DEBRIS,        exp: 1500, natural: true ]
+      - [block: NETHER_GOLD_ORE,       exp: 475,  natural: true ]
+      - [block: BASALT,                exp: 25,   natural: true ]
+      - [block: BLACKSTONE,            exp: 30,   natural: true ]
+      - [block: CRYING_OBSIDIAN,       exp: 150,  natural: true ]
+      - [block: CRIMSON_NYLIUM,        exp: 15,   natural: true ]
+      - [block: WARPED_NYLIUM,         exp: 15,   natural: true ]
+      - [block: GILDED_BLACKSTONE,     exp: 500,  natural: true ]
+      - [block: WHITE_TERRACOTTA,      exp: 25,   natural: false]
+      - [block: ORANGE_TERRACOTTA,     exp: 25,   natural: false]
+      - [block: MAGENTA_TERRACOTTA,    exp: 25,   natural: false]
+      - [block: LIGHT_BLUE_TERRACOTTA, exp: 25,   natural: false]
+      - [block: YELLOW_TERRACOTTA,     exp: 25,   natural: false]
+      - [block: LIME_TERRACOTTA,       exp: 25,   natural: false]
+      - [block: PINK_TERRACOTTA,       exp: 25,   natural: false]
+      - [block: GRAY_TERRACOTTA,       exp: 25,   natural: false]
+      - [block: LIGHT_GRAY_TERRACOTTA, exp: 25,   natural: false]
+      - [block: PURPLE_TERRACOTTA,     exp: 25,   natural: false]
+      - [block: BLUE_TERRACOTTA,       exp: 25,   natural: false]
+      - [block: BROWN_TERRACOTTA,      exp: 25,   natural: false]
+      - [block: GREEN_TERRACOTTA,      exp: 25,   natural: false]
+      - [block: RED_TERRACOTTA,        exp: 25,   natural: false]
+      - [block: BLACK_TERRACOTTA,      exp: 25,   natural: false]
+      - [block: TERRACOTTA,            exp: 25,   natural: false]
+farming:
+  maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
+  expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
+  exp:
+    tillLand: 15 #Rewarded when player tills land
+    useBonemeal: 25 #Rewarded when player uses bonemeal
+    useComposter: 25 #Rewaded when player uses composter
+    maximizeComposter: 50 #Rewarded when player fills us a composter
+    shearSheep: 125 #Rewarded when a player shears a sheep
+    milkAnimal: 125 #Rewarded when a player milks a cow
+    harvestSweetBerries: 75 #Rewarded when player harvests sweet berries without breaking crop
+    # Mobs bred that yield farming experience
+    # Format: [{Entity Name}, {experience rewarded}]
+    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+    # If the entity is not breedable, the exp will never be rewarded
+    breed:
+      - [mob: MUSHROOM_COW, exp: 150]
+      - [mob: COW,          exp: 150]
+      - [mob: SHEEP,        exp: 125]
+      - [mob: PIG,          exp: 125]
+      - [mob: CHICKEN,      exp: 125]
+      - [mob: RABBIT,       exp: 175]
+      - [mob: TURTLE,       exp: 175]
+      - [mob: PANDA,        exp: 175]
+      - [mob: FOX,          exp: 200]
+      - [mob: BEE,          exp: 200]
+    # Mobs that yield experience when taking damaged from the mob
+    # Format: [{Entity Name}, {kill experience rewarded}, {hit experience}, {experience per damage point done}]
+    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+    # If the entity is not kill-able (ex. snowball), the exp will never be rewarded
+    # hitExp is experience given when the player is hit by that mob, regardless of damage
+    # damageEXP is the experience given for each damage point done by the mob
+    hitMob:
+      - [mob: SHEEP,   killExp: 100, hitExp: 0, damageExp: 0]
+      - [mob: COW,     killExp: 100, hitExp: 0, damageExp: 0]
+      - [mob: CHICKEN, killExp: 40,  hitExp: 0, damageExp: 0]
+      - [mob: PIG,     killExp: 100, hitExp: 0, damageExp: 0]
+      - [mob: HORSE,   killExp: 100, hitExp: 0, damageExp: 0]
+      - [mob: RABBIT,  killExp: 125, hitExp: 0, damageExp: 0]
+      - [mob: LLAMA,   killExp: 25,  hitExp: 0, damageExp: 0]
+      - [mob: TURTLE,  killExp: 50,  hitExp: 0, damageExp: 0]
+    # Experience for treasure drops can be found in perkConfig.yml
+    # Blocks broken that yield exp (and are tracked a result).
+    # Format: [{Block Name}, {exp reward}, {must be natural? {default == true}]
+    # Block names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    # natural: false can be added to make the block still give experience even if it is not natural
+    breakBlock:
+      - [block: WHEAT,            exp: 50,  natural: true ]
+      - [block: BEATROOTS ,       exp: 50,  natural: true ]
+      - [block: CARROTS,          exp: 50,  natural: true ]
+      - [block: POTATOES,         exp: 50,  natural: true ]
+      - [block: MELON,            exp: 85,  natural: true ]
+      - [block: PUMPKIN,          exp: 85,  natural: true ]
+      - [block: BAMBOO,           exp: 15,  natural: true ] #This exp is rewarded for each (natural) block tha falls if a tower is broken
+      - [block: COCOA,            exp: 70,  natural: true ]
+      - [block: SUGAR_CANE,       exp: 70,  natural: true ] #This exp is rewarded for each (natural) block tha falls if a tower is broken
+      - [block: CACTUS,           exp: 38,  natural: true ] #This exp is rewarded for each (natural) block tha falls if a tower is broken
+      - [block: RED_MUSHROOM,     exp: 85,  natural: true ]
+      - [block: BROWN_MUSHROOM,   exp: 85,  natural: true ]
+      - [block: SWEET_BERRY_BUSH, exp: 75,  natural: true ]
+      - [block: KELP,             exp: 5,   natural: true ] #This exp is rewarded for each (natural) block tha falls if a tower is broken
+      - [block: SEA_PICKLE,       exp: 100, natural: true ]
+      - [block: NETHER_WART,      exp: 58,  natural: true ]
+      - [block: CHORUS_PLANT,     exp: 60,  natural: true ]
+      - [block: CHORUS_FLOWER,    exp: 60,  natural: true ]
+fishing:
+  maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
+  expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
+  exp:
+    # Experience drops for treasure catches can be found in perkConfig.yml
+    # Experience drops for normal catches can be found in advancedConfig.yml
+
+    # Mobs that yield experience when taking damaged from the mob
+    # Format: [{Entity Name}, {kill experience rewarded}, {hit experience}, {experience per damage point done}]
+    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+    # If the entity is not kill-able (ex. snowball), the exp will never be rewarded
+    # hitExp is experience given when the player is hit by that mob, regardless of damage
+    # damageEXP is the experience given for each damage point done by the mob
+    hitMob:
+      - [mob: COD,           killExp: 250, hitExp: 0, damageExp: 0]
+      - [mob: SALMON,        killExp: 250, hitExp: 0, damageExp: 0]
+      - [mob: TROPICAL_FISH, killExp: 300, hitExp: 0, damageExp: 0]
+      - [mob: PUFFERFISH,    killExp: 500, hitExp: 0, damageExp: 0]
+archery:
+  maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
+  expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
+  spawnerMobsEXPMultiplier: 1.0 #Nerfs EXP recieved from mobs that spawned from a spawner
+
+  #mobFarmEXPMutliplier is circumventable as it relies on mob density. It does stack with spawnerMobsEXPMultiplier
+  mobFarmEXPMultiplier: 0.2  #Nerfs EXP recieved from high density mob grinders (Mob grinders are determined by mob density around mob in question)
+
+  exp:
+    explosiveArrow: 200 #Exp rewarded when an explosive arrow hit a mob
+
+    # Mobs that yield experience when damaged
+    # Format: [{Entity Name}, {kill experience rewarded}, {hit experience}, {experience per damage point done}]
+    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+    # If the entity is not kill-able (ex. snowball), the exp will never be rewarded
+    # hitExp is experience given when the mob is hit, regardless of damage
+    # damageEXP is the experience given for each damage point done to the mob
+    hitMob:
+      - [mob: BAT,              killExp: 15,    hitExp: 20, damageExp: 16]
+      - [mob: CAT,              killExp: 25,    hitExp: 20, damageExp: 16]
+      - [mob: CHICKEN,          killExp: 30,    hitExp: 20, damageExp: 16]
+      - [mob: COD,              killExp: 30,    hitExp: 20, damageExp: 16]
+      - [mob: COW,              killExp: 30,    hitExp: 20, damageExp: 16]
+      - [mob: DONKEY,           killExp: 40,    hitExp: 20, damageExp: 16]
+      - [mob: FOX,              killExp: 50,    hitExp: 20, damageExp: 16]
+      - [mob: HORSE,            killExp: 40,    hitExp: 20, damageExp: 16]
+      - [mob: POLAR_BEAR,       killExp: 75,    hitExp: 20, damageExp: 16]
+      - [mob: MUSHROOM_COW,     killExp: 40,    hitExp: 20, damageExp: 16]
+      - [mob: MULE,             killExp: 40,    hitExp: 20, damageExp: 16]
+      - [mob: OCELOT,           killExp: 30,    hitExp: 20, damageExp: 16]
+      - [mob: PARROT,           killExp: 25,    hitExp: 20, damageExp: 16]
+      - [mob: PIG,              killExp: 30,    hitExp: 20, damageExp: 16]
+      - [mob: RABBIT,           killExp: 30,    hitExp: 20, damageExp: 16]
+      - [mob: SALMON,           killExp: 30,    hitExp: 20, damageExp: 16]
+      - [mob: SHEEP,            killExp: 30,    hitExp: 20, damageExp: 16]
+      - [mob: SKELETON_HORSE,   killExp: 75,    hitExp: 20, damageExp: 16]
+      - [mob: SNOWMAN,          killExp: 10,    hitExp: 20, damageExp: 16]
+      - [mob: SQUID,            killExp: 30,    hitExp: 20, damageExp: 16]
+      - [mob: TROPICAL_FISH,    killExp: 30,    hitExp: 20, damageExp: 16]
+      - [mob: TURTLE,           killExp: 30,    hitExp: 20, damageExp: 16]
+      - [mob: VILLAGER,         killExp: 25,    hitExp: 20, damageExp: 16]
+      - [mob: WANDERING_TRADER, killExp: 500,   hitExp: 20, damageExp: 16]
+      - [mob: BEE,              killExp: 55,    hitExp: 20, damageExp: 16]
+      - [mob: CAVE_SPIDER,      killExp: 85,    hitExp: 20, damageExp: 16]
+      - [mob: DOLPHIN,          killExp: 70,    hitExp: 20, damageExp: 16]
+      - [mob: ENDERMAN,         killExp: 80,    hitExp: 20, damageExp: 16]
+      - [mob: IRON_GOLEM,       killExp: 125,   hitExp: 20, damageExp: 16]
+      - [mob: LLAMA,            killExp: 55,    hitExp: 20, damageExp: 16]
+      - [mob: PANDA,            killExp: 55,    hitExp: 20, damageExp: 16]
+      - [mob: PUFFERFISH,       killExp: 60,    hitExp: 20, damageExp: 16]
+      - [mob: SPIDER,           killExp: 75,    hitExp: 20, damageExp: 16]
+      - [mob: WOLF,             killExp: 75,    hitExp: 20, damageExp: 16]
+      - [mob: BLAZE,            killExp: 85,    hitExp: 20, damageExp: 16]
+      - [mob: CREEPER,          killExp: 85,    hitExp: 20, damageExp: 16]
+      - [mob: DROWNED,          killExp: 90,    hitExp: 20, damageExp: 16]
+      - [mob: ELDER_GUARDIAN,   killExp: 7500,  hitExp: 20, damageExp: 16]
+      - [mob: ENDERMITE,        killExp: 60,    hitExp: 20, damageExp: 16]
+      - [mob: EVOKER,           killExp: 80,    hitExp: 20, damageExp: 16]
+      - [mob: GHAST,            killExp: 90,    hitExp: 20, damageExp: 16]
+      - [mob: GUARDIAN,         killExp: 60,    hitExp: 20, damageExp: 16]
+      - [mob: HUSK,             killExp: 75,    hitExp: 20, damageExp: 16]
+      - [mob: MAGMA_CUBE,       killExp: 45,    hitExp: 20, damageExp: 16]
+      - [mob: PHANTOM,          killExp: 70,    hitExp: 20, damageExp: 16]
+      - [mob: PILLAGER,         killExp: 80,    hitExp: 20, damageExp: 16]
+      - [mob: RAVAGER,          killExp: 100,   hitExp: 20, damageExp: 16]
+      - [mob: SHULKER,          killExp: 85,    hitExp: 20, damageExp: 16]
+      - [mob: SILVERFISH,       killExp: 90,    hitExp: 20, damageExp: 16]
+      - [mob: SKELETON,         killExp: 80,    hitExp: 20, damageExp: 16]
+      - [mob: SLIME,            killExp: 40,    hitExp: 20, damageExp: 16]
+      - [mob: STRAY,            killExp: 75,    hitExp: 20, damageExp: 16]
+      - [mob: VEX,              killExp: 90,    hitExp: 20, damageExp: 16]
+      - [mob: VINDICATOR,       killExp: 85,    hitExp: 20, damageExp: 16]
+      - [mob: WITCH,            killExp: 90,    hitExp: 20, damageExp: 16]
+      - [mob: WITHER_SKELETON,  killExp: 95,    hitExp: 20, damageExp: 16]
+      - [mob: ZOMBIE,           killExp: 75,    hitExp: 20, damageExp: 16]
+      - [mob: ZOMBIE_VILLAGER,  killExp: 75,    hitExp: 20, damageExp: 16]
+      - [mob: ENDER_DRAGON,     killExp: 20000, hitExp: 20, damageExp: 16]
+      - [mob: WITHER,           killExp: 12500, hitExp: 20, damageExp: 16]
+      - [mob: ZOMBIE_HORSE,     killExp: 75,    hitExp: 20, damageExp: 16]
+      - [mob: ILLUSIONER,       killExp: 125,   hitExp: 20, damageExp: 16]
+      - [mob: GIANT,            killExp: 125,   hitExp: 20, damageExp: 16]
+      - [mob: PIGLIN,           killExp: 75,    hitExp: 20, damageExp: 16]
+      - [mob: ZOGLIN,           killExp: 110,   hitExp: 20, damageExp: 16]
+      - [mob: HOGLIN,           killExp: 100,   hitExp: 20, damageExp: 16]
+      - [mob: ZOMBIFIED_PIGLIN, killExp: 85,    hitExp: 20, damageExp: 16]
+      - [mob: PIG_ZOMBIE,       killExp: 75,    hitExp: 20, damageExp: 16] #1.15 zombie pigman (may not work)
+      - [mob: STRIDER,          killExp: 80,    hitExp: 20, damageExp: 16]
+beastMastery:
+  maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
+  expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
+  spawnerMobsEXPMultiplier: 1.0 #Nerfs EXP recieved from mobs that spawned from a spawner
+
+  #mobFarmEXPMutliplier is circumventable as it relies on mob density. It does stack with spawnerMobsEXPMultiplier
+  mobFarmEXPMultiplier: 0.2  #Nerfs EXP recieved from high density mob grinders (Mob grinders are determined by mob density around mob in question)
+  exp:
+    dogDealDamage: 50 #Exp rewarded when dog does any amount of damage
+    expPerDamageDone: 40 #EXP rewarded for each point of damage a dog does
+
+    # Mobs that yield experience when tamed
+    # Format: [{Entity Name}, {experience rewarded}]
+    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+    # If the entity is not tame-able (ex. snowball), the exp will never be rewarded
+    tame:
+      - [mob: HORSE,  exp: 1500]
+      - [mob: WOLF,   exp: 1600]
+      - [mob: CAT,    exp: 1400]
+      - [mob: PARROT, exp: 1750]
+
+    # Mobs bred that yield experience
+    # Format: [{Entity Name}, {experience rewarded}]
+    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+    # If the entity is not breedable, the exp will never be rewarded
+    breed:
+      - [mob: HORSE,  exp: 1250]
+      - [mob: WOLF,   exp: 1350]
+      - [mob: CAT,    exp: 1150]
+      - [mob: PARROT, exp: 1450]
+
+    # Mobs that yield experience when damaged (by dog)
+    # Format: [{Entity Name}, {kill experience rewarded}, {hit experience}, {experience per damage point done}]
+    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+    # If the entity is not kill-able (ex. snowball), the exp will never be rewarded
+    # hitExp is experience given when the mob is hit, regardless of damage
+    # damageEXP is the experience given for each damage point done to the mob
+    hitMob:
+      - [mob: BAT,              killExp: 200,   hitExp: 50, damageExp: 40]
+      - [mob: CAT,              killExp: 400,   hitExp: 50, damageExp: 40]
+      - [mob: CHICKEN,          killExp: 450,   hitExp: 50, damageExp: 40]
+      - [mob: COD,              killExp: 450,   hitExp: 50, damageExp: 40]
+      - [mob: COW,              killExp: 550,   hitExp: 50, damageExp: 40]
+      - [mob: DONKEY,           killExp: 600,   hitExp: 50, damageExp: 40]
+      - [mob: FOX,              killExp: 600,   hitExp: 50, damageExp: 40]
+      - [mob: HORSE,            killExp: 600,   hitExp: 50, damageExp: 40]
+      - [mob: POLAR_BEAR,       killExp: 750,   hitExp: 50, damageExp: 40]
+      - [mob: MUSHROOM_COW,     killExp: 550,   hitExp: 50, damageExp: 40]
+      - [mob: MULE,             killExp: 600,   hitExp: 50, damageExp: 40]
+      - [mob: OCELOT,           killExp: 500,   hitExp: 50, damageExp: 40]
+      - [mob: PARROT,           killExp: 450,   hitExp: 50, damageExp: 40]
+      - [mob: PIG,              killExp: 450,   hitExp: 50, damageExp: 40]
+      - [mob: RABBIT,           killExp: 400,   hitExp: 50, damageExp: 40]
+      - [mob: SALMON,           killExp: 450,   hitExp: 50, damageExp: 40]
+      - [mob: SHEEP,            killExp: 450,   hitExp: 50, damageExp: 40]
+      - [mob: SKELETON_HORSE,   killExp: 750,   hitExp: 50, damageExp: 40]
+      - [mob: SNOWMAN,          killExp: 100,   hitExp: 50, damageExp: 40]
+      - [mob: SQUID,            killExp: 450,   hitExp: 50, damageExp: 40]
+      - [mob: TROPICAL_FISH,    killExp: 450,   hitExp: 50, damageExp: 40]
+      - [mob: TURTLE,           killExp: 450,   hitExp: 50, damageExp: 40]
+      - [mob: VILLAGER,         killExp: 450,   hitExp: 50, damageExp: 40]
+      - [mob: WANDERING_TRADER, killExp: 700,   hitExp: 50, damageExp: 40]
+      - [mob: BEE,              killExp: 750,   hitExp: 50, damageExp: 40]
+      - [mob: CAVE_SPIDER,      killExp: 800,   hitExp: 50, damageExp: 40]
+      - [mob: DOLPHIN,          killExp: 700,   hitExp: 50, damageExp: 40]
+      - [mob: ENDERMAN,         killExp: 750,   hitExp: 50, damageExp: 40]
+      - [mob: IRON_GOLEM,       killExp: 1500,  hitExp: 50, damageExp: 40]
+      - [mob: LLAMA,            killExp: 650,   hitExp: 50, damageExp: 40]
+      - [mob: PANDA,            killExp: 650,   hitExp: 50, damageExp: 40]
+      - [mob: PUFFERFISH,       killExp: 550,   hitExp: 50, damageExp: 40]
+      - [mob: SPIDER,           killExp: 770,   hitExp: 50, damageExp: 40]
+      - [mob: WOLF,             killExp: 500,   hitExp: 50, damageExp: 40]
+      - [mob: BLAZE,            killExp: 900,   hitExp: 50, damageExp: 40]
+      - [mob: CREEPER,          killExp: 1100,  hitExp: 50, damageExp: 40]
+      - [mob: DROWNED,          killExp: 1050,  hitExp: 50, damageExp: 40]
+      - [mob: ELDER_GUARDIAN,   killExp: 10000, hitExp: 50, damageExp: 40]
+      - [mob: ENDERMITE,        killExp: 550,   hitExp: 50, damageExp: 40]
+      - [mob: EVOKER,           killExp: 750,   hitExp: 50, damageExp: 40]
+      - [mob: GHAST,            killExp: 1500,  hitExp: 50, damageExp: 40]
+      - [mob: GUARDIAN,         killExp: 800,   hitExp: 50, damageExp: 40]
+      - [mob: HUSK,             killExp: 750,   hitExp: 50, damageExp: 40]
+      - [mob: MAGMA_CUBE,       killExp: 500,   hitExp: 50, damageExp: 40]
+      - [mob: PHANTOM,          killExp: 800,   hitExp: 50, damageExp: 40]
+      - [mob: PILLAGER,         killExp: 800,   hitExp: 50, damageExp: 40]
+      - [mob: RAVAGER,          killExp: 1000,  hitExp: 50, damageExp: 40]
+      - [mob: SHULKER,          killExp: 550,   hitExp: 50, damageExp: 40]
+      - [mob: SILVERFISH,       killExp: 500,   hitExp: 50, damageExp: 40]
+      - [mob: SKELETON,         killExp: 750,   hitExp: 50, damageExp: 40]
+      - [mob: SLIME,            killExp: 500,   hitExp: 50, damageExp: 40]
+      - [mob: STRAY,            killExp: 750,   hitExp: 50, damageExp: 40]
+      - [mob: VEX,              killExp: 750,   hitExp: 50, damageExp: 40]
+      - [mob: VINDICATOR,       killExp: 750,   hitExp: 50, damageExp: 40]
+      - [mob: WITCH,            killExp: 800,   hitExp: 50, damageExp: 40]
+      - [mob: WITHER_SKELETON,  killExp: 900,   hitExp: 50, damageExp: 40]
+      - [mob: ZOMBIE,           killExp: 750,   hitExp: 50, damageExp: 40]
+      - [mob: ZOMBIE_VILLAGER,  killExp: 750,   hitExp: 50, damageExp: 40]
+      - [mob: ENDER_DRAGON,     killExp: 50000, hitExp: 50, damageExp: 40]
+      - [mob: WITHER,           killExp: 25000, hitExp: 50, damageExp: 40]
+      - [mob: ZOMBIE_HORSE,     killExp: 750,   hitExp: 50, damageExp: 40]
+      - [mob: ILLUSIONER,       killExp: 750,   hitExp: 50, damageExp: 40]
+      - [mob: GIANT,            killExp: 750,   hitExp: 50, damageExp: 40]
+      - [mob: PIGLIN,           killExp: 500,   hitExp: 50, damageExp: 40]
+      - [mob: ZOGLIN,           killExp: 900,   hitExp: 50, damageExp: 40]
+      - [mob: HOGLIN,           killExp: 800,   hitExp: 50, damageExp: 40]
+      - [mob: ZOMBIFIED_PIGLIN, killExp: 600,   hitExp: 50, damageExp: 40]
+      - [mob: PIG_ZOMBIE,       killExp: 600,   hitExp: 50, damageExp: 40] #1.15 zombie pigman (may not work)
+      - [mob: STRIDER,          killExp: 500,   hitExp: 50, damageExp: 40]
+swordsmanship:
+  maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
+  expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
+  spawnerMobsEXPMultiplier: 1.0 #Nerfs EXP recieved from mobs that spawned from a spawner
+
+  #mobFarmEXPMutliplier is circumventable as it relies on mob density. It does stack with spawnerMobsEXPMultiplier
+  mobFarmEXPMultiplier: 0.2  #Nerfs EXP recieved from high density mob grinders (Mob grinders are determined by mob density around mob in question)
+  exp:
+    thirstForBloodActivate: 50 #Experience given when the Thirst for Blood skill activates
+    doubleHitActivate: 75 #Experience given when the Double Hit skill activates
+    doubleHitMultiplier: 0.75 #Portion of extra experience given for each point of damage done by double hit relative to the total normally awarded experience for a hit
+
+    # Mobs that yield experience when damaged
+    # Format: [{Entity Name}, {kill experience rewarded}, {hit experience}, {experience per damage point done}]
+    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+    # If the entity is not kill-able (ex. snowball), the exp will never be rewarded
+    # hitExp is experience given when the mob is hit, regardless of damage
+    # damageEXP is the experience given for each damage point done to the mob
+    hitMob:
+      - [mob: BAT,              killExp: 15,    hitExp: 15, damageExp: 12]
+      - [mob: CAT,              killExp: 25,    hitExp: 15, damageExp: 12]
+      - [mob: CHICKEN,          killExp: 30,    hitExp: 15, damageExp: 12]
+      - [mob: COD,              killExp: 30,    hitExp: 15, damageExp: 12]
+      - [mob: COW,              killExp: 30,    hitExp: 15, damageExp: 12]
+      - [mob: DONKEY,           killExp: 40,    hitExp: 15, damageExp: 12]
+      - [mob: FOX,              killExp: 50,    hitExp: 15, damageExp: 12]
+      - [mob: HORSE,            killExp: 40,    hitExp: 15, damageExp: 12]
+      - [mob: POLAR_BEAR,       killExp: 75,    hitExp: 15, damageExp: 12]
+      - [mob: MUSHROOM_COW,     killExp: 40,    hitExp: 15, damageExp: 12]
+      - [mob: MULE,             killExp: 40,    hitExp: 15, damageExp: 12]
+      - [mob: OCELOT,           killExp: 30,    hitExp: 15, damageExp: 12]
+      - [mob: PARROT,           killExp: 25,    hitExp: 15, damageExp: 12]
+      - [mob: PIG,              killExp: 30,    hitExp: 15, damageExp: 12]
+      - [mob: RABBIT,           killExp: 30,    hitExp: 15, damageExp: 12]
+      - [mob: SALMON,           killExp: 30,    hitExp: 15, damageExp: 12]
+      - [mob: SHEEP,            killExp: 30,    hitExp: 15, damageExp: 12]
+      - [mob: SKELETON_HORSE,   killExp: 75,    hitExp: 15, damageExp: 12]
+      - [mob: SNOWMAN,          killExp: 10,    hitExp: 15, damageExp: 12]
+      - [mob: SQUID,            killExp: 30,    hitExp: 15, damageExp: 12]
+      - [mob: TROPICAL_FISH,    killExp: 30,    hitExp: 15, damageExp: 12]
+      - [mob: TURTLE,           killExp: 30,    hitExp: 15, damageExp: 12]
+      - [mob: VILLAGER,         killExp: 25,    hitExp: 15, damageExp: 12]
+      - [mob: WANDERING_TRADER, killExp: 500,   hitExp: 15, damageExp: 12]
+      - [mob: BEE,              killExp: 55,    hitExp: 15, damageExp: 12]
+      - [mob: CAVE_SPIDER,      killExp: 85,    hitExp: 15, damageExp: 12]
+      - [mob: DOLPHIN,          killExp: 70,    hitExp: 15, damageExp: 12]
+      - [mob: ENDERMAN,         killExp: 80,    hitExp: 15, damageExp: 12]
+      - [mob: IRON_GOLEM,       killExp: 125,   hitExp: 15, damageExp: 12]
+      - [mob: LLAMA,            killExp: 55,    hitExp: 15, damageExp: 12]
+      - [mob: PANDA,            killExp: 55,    hitExp: 15, damageExp: 12]
+      - [mob: PUFFERFISH,       killExp: 60,    hitExp: 15, damageExp: 12]
+      - [mob: SPIDER,           killExp: 75,    hitExp: 15, damageExp: 12]
+      - [mob: WOLF,             killExp: 75,    hitExp: 15, damageExp: 12]
+      - [mob: BLAZE,            killExp: 85,    hitExp: 15, damageExp: 12]
+      - [mob: CREEPER,          killExp: 85,    hitExp: 15, damageExp: 12]
+      - [mob: DROWNED,          killExp: 90,    hitExp: 15, damageExp: 12]
+      - [mob: ELDER_GUARDIAN,   killExp: 7500,  hitExp: 15, damageExp: 12]
+      - [mob: ENDERMITE,        killExp: 60,    hitExp: 15, damageExp: 12]
+      - [mob: EVOKER,           killExp: 80,    hitExp: 15, damageExp: 12]
+      - [mob: GHAST,            killExp: 90,    hitExp: 15, damageExp: 12]
+      - [mob: GUARDIAN,         killExp: 60,    hitExp: 15, damageExp: 12]
+      - [mob: HUSK,             killExp: 75,    hitExp: 15, damageExp: 12]
+      - [mob: MAGMA_CUBE,       killExp: 45,    hitExp: 15, damageExp: 12]
+      - [mob: PHANTOM,          killExp: 70,    hitExp: 15, damageExp: 12]
+      - [mob: PILLAGER,         killExp: 80,    hitExp: 15, damageExp: 12]
+      - [mob: RAVAGER,          killExp: 100,   hitExp: 15, damageExp: 12]
+      - [mob: SHULKER,          killExp: 85,    hitExp: 15, damageExp: 12]
+      - [mob: SILVERFISH,       killExp: 90,    hitExp: 15, damageExp: 12]
+      - [mob: SKELETON,         killExp: 80,    hitExp: 15, damageExp: 12]
+      - [mob: SLIME,            killExp: 40,    hitExp: 15, damageExp: 12]
+      - [mob: STRAY,            killExp: 75,    hitExp: 15, damageExp: 12]
+      - [mob: VEX,              killExp: 90,    hitExp: 15, damageExp: 12]
+      - [mob: VINDICATOR,       killExp: 85,    hitExp: 15, damageExp: 12]
+      - [mob: WITCH,            killExp: 90,    hitExp: 15, damageExp: 12]
+      - [mob: WITHER_SKELETON,  killExp: 95,    hitExp: 15, damageExp: 12]
+      - [mob: ZOMBIE,           killExp: 75,    hitExp: 15, damageExp: 12]
+      - [mob: ZOMBIE_VILLAGER,  killExp: 75,    hitExp: 15, damageExp: 12]
+      - [mob: ENDER_DRAGON,     killExp: 20000, hitExp: 15, damageExp: 12]
+      - [mob: WITHER,           killExp: 12500, hitExp: 15, damageExp: 12]
+      - [mob: ZOMBIE_HORSE,     killExp: 75,    hitExp: 15, damageExp: 12]
+      - [mob: ILLUSIONER,       killExp: 125,   hitExp: 15, damageExp: 12]
+      - [mob: GIANT,            killExp: 125,   hitExp: 15, damageExp: 12]
+      - [mob: PIGLIN,           killExp: 75,    hitExp: 15, damageExp: 12]
+      - [mob: ZOGLIN,           killExp: 110,   hitExp: 15, damageExp: 12]
+      - [mob: HOGLIN,           killExp: 100,   hitExp: 15, damageExp: 12]
+      - [mob: ZOMBIFIED_PIGLIN, killExp: 85,    hitExp: 15, damageExp: 12]
+      - [mob: PIG_ZOMBIE,       killExp: 75,    hitExp: 15, damageExp: 12] #1.15 zombie pigman (may not work)
+      - [mob: STRIDER,          killExp: 80,    hitExp: 15, damageExp: 12]
+defense:
+  maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
+  expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
+  spawnerMobsEXPMultiplier: 1.0 #Nerfs EXP recieved from mobs that spawned from a spawner
+
+  #mobFarmEXPMutliplier is circumventable as it relies on mob density. It does stack with spawnerMobsEXPMultiplier
+  mobFarmEXPMultiplier: 0.2  #Nerfs EXP recieved from high density mob grinders (Mob grinders are determined by mob density around mob in question)
+  exp:
+    hardBodyActivate: 100 #Exp rewarded whenever the hard body skill activates
+    StiffenIActivate: 100 #Exp rewarded whenever the stiffen I skill activates
+    StiffenIIActivate: 50 #Exp rewarded whenever the stiffen II skill activates
+    healerRegenActivate: 30 #Exp rewarded whenever the healer skill activates and gives regen buff
+    healerHealActivate: 30 #Exp rewarded whenver the healer skill activates and give heal buff
+
+    # Sources of damage that give defense experience
+    # Format: [{Damage Source}, {hit experience}, {experience per damage point done}]
+    # Select damage source from: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
+    # hitExp is the experience rewarded whenever the player takes damage from the damage cause, regardless of the damage done
+    # damageExp is the experience rewarded for each point of damage done to the player by the damage source
+    takeDamage:
+      - [cause: BLOCK_EXPLOSION,     hitExp: 15, damageExp: 20]
+      - [cause: DRAGON_BREATH,       hitExp: 15, damageExp: 20]
+      #- [cause: ENTITY_ATTACK, hitExp: 15, damageExp: 20] This is covered by hitMobExp
+      - [cause: ENTITY_EXPLOSION,    hitExp: 15, damageExp: 20]
+      - [cause: ENTITY_SWEEP_ATTACK, hitExp: 15, damageExp: 20]
+      - [cause: FALL,                hitExp: 15, damageExp: 20]
+      - [cause: FLY_INTO_WALL,       hitExp: 15, damageExp: 20]
+      - [cause: LAVA,                hitExp: 15, damageExp: 20]
+      - [cause: LIGHTNING,           hitExp: 15, damageExp: 20]
+      - [cause: MAGIC,               hitExp: 15, damageExp: 20]
+      - [cause: PROJECTILE,          hitExp: 15, damageExp: 20]
+      - [cause: THORNS,              hitExp: 15, damageExp: 20]
+
+
+    # Mobs that yield experience when taking damaged from the mob
+    # Format: [{Entity Name}, {kill experience rewarded}, {hit experience}, {experience per damage point done}]
+    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+    # If the entity is not kill-able (ex. snowball), the exp will never be rewarded
+    # hitExp is experience given when the player is hit by that mob, regardless of damage
+    # damageEXP is the experience given for each damage point done by the mob
+    hitMob:
+      - [mob: BAT,              killExp: 15,    hitExp: 15, damageExp: 20]
+      - [mob: CAT,              killExp: 25,    hitExp: 15, damageExp: 20]
+      - [mob: CHICKEN,          killExp: 30,    hitExp: 15, damageExp: 20]
+      - [mob: COD,              killExp: 30,    hitExp: 15, damageExp: 20]
+      - [mob: COW,              killExp: 30,    hitExp: 15, damageExp: 20]
+      - [mob: DONKEY,           killExp: 40,    hitExp: 15, damageExp: 20]
+      - [mob: FOX,              killExp: 50,    hitExp: 15, damageExp: 20]
+      - [mob: HORSE,            killExp: 40,    hitExp: 15, damageExp: 20]
+      - [mob: POLAR_BEAR,       killExp: 75,    hitExp: 15, damageExp: 20]
+      - [mob: MUSHROOM_COW,     killExp: 40,    hitExp: 15, damageExp: 20]
+      - [mob: MULE,             killExp: 40,    hitExp: 15, damageExp: 20]
+      - [mob: OCELOT,           killExp: 30,    hitExp: 15, damageExp: 20]
+      - [mob: PARROT,           killExp: 25,    hitExp: 15, damageExp: 20]
+      - [mob: PIG,              killExp: 30,    hitExp: 15, damageExp: 20]
+      - [mob: RABBIT,           killExp: 30,    hitExp: 15, damageExp: 20]
+      - [mob: SALMON,           killExp: 30,    hitExp: 15, damageExp: 20]
+      - [mob: SHEEP,            killExp: 30,    hitExp: 15, damageExp: 20]
+      - [mob: SKELETON_HORSE,   killExp: 75,    hitExp: 15, damageExp: 20]
+      - [mob: SNOWMAN,          killExp: 10,    hitExp: 15, damageExp: 20]
+      - [mob: SQUID,            killExp: 30,    hitExp: 15, damageExp: 20]
+      - [mob: TROPICAL_FISH,    killExp: 30,    hitExp: 15, damageExp: 20]
+      - [mob: TURTLE,           killExp: 30,    hitExp: 15, damageExp: 20]
+      - [mob: VILLAGER,         killExp: 25,    hitExp: 15, damageExp: 20]
+      - [mob: WANDERING_TRADER, killExp: 500,   hitExp: 15, damageExp: 20]
+      - [mob: BEE,              killExp: 55,    hitExp: 15, damageExp: 20]
+      - [mob: CAVE_SPIDER,      killExp: 85,    hitExp: 15, damageExp: 20]
+      - [mob: DOLPHIN,          killExp: 70,    hitExp: 15, damageExp: 20]
+      - [mob: ENDERMAN,         killExp: 80,    hitExp: 15, damageExp: 20]
+      - [mob: IRON_GOLEM,       killExp: 125,   hitExp: 15, damageExp: 20]
+      - [mob: LLAMA,            killExp: 55,    hitExp: 15, damageExp: 20]
+      - [mob: PANDA,            killExp: 55,    hitExp: 15, damageExp: 20]
+      - [mob: PUFFERFISH,       killExp: 60,    hitExp: 15, damageExp: 20]
+      - [mob: SPIDER,           killExp: 75,    hitExp: 15, damageExp: 20]
+      - [mob: WOLF,             killExp: 75,    hitExp: 15, damageExp: 20]
+      - [mob: BLAZE,            killExp: 85,    hitExp: 15, damageExp: 20]
+      - [mob: CREEPER,          killExp: 85,    hitExp: 15, damageExp: 20]
+      - [mob: DROWNED,          killExp: 90,    hitExp: 15, damageExp: 20]
+      - [mob: ELDER_GUARDIAN,   killExp: 7500,  hitExp: 15, damageExp: 20]
+      - [mob: ENDERMITE,        killExp: 60,    hitExp: 15, damageExp: 20]
+      - [mob: EVOKER,           killExp: 80,    hitExp: 15, damageExp: 20]
+      - [mob: GHAST,            killExp: 90,    hitExp: 15, damageExp: 20]
+      - [mob: GUARDIAN,         killExp: 60,    hitExp: 15, damageExp: 20]
+      - [mob: HUSK,             killExp: 75,    hitExp: 15, damageExp: 20]
+      - [mob: MAGMA_CUBE,       killExp: 45,    hitExp: 15, damageExp: 20]
+      - [mob: PHANTOM,          killExp: 70,    hitExp: 15, damageExp: 20]
+      - [mob: PILLAGER,         killExp: 80,    hitExp: 15, damageExp: 20]
+      - [mob: RAVAGER,          killExp: 100,   hitExp: 15, damageExp: 20]
+      - [mob: SHULKER,          killExp: 85,    hitExp: 15, damageExp: 20]
+      - [mob: SILVERFISH,       killExp: 90,    hitExp: 15, damageExp: 20]
+      - [mob: SKELETON,         killExp: 80,    hitExp: 15, damageExp: 20]
+      - [mob: SLIME,            killExp: 40,    hitExp: 15, damageExp: 20]
+      - [mob: STRAY,            killExp: 75,    hitExp: 15, damageExp: 20]
+      - [mob: VEX,              killExp: 90,    hitExp: 15, damageExp: 20]
+      - [mob: VINDICATOR,       killExp: 85,    hitExp: 15, damageExp: 20]
+      - [mob: WITCH,            killExp: 90,    hitExp: 15, damageExp: 20]
+      - [mob: WITHER_SKELETON,  killExp: 95,    hitExp: 15, damageExp: 20]
+      - [mob: ZOMBIE,           killExp: 75,    hitExp: 15, damageExp: 20]
+      - [mob: ZOMBIE_VILLAGER,  killExp: 75,    hitExp: 15, damageExp: 20]
+      - [mob: ENDER_DRAGON,     killExp: 20000, hitExp: 15, damageExp: 20]
+      - [mob: WITHER,           killExp: 12500, hitExp: 15, damageExp: 20]
+      - [mob: ZOMBIE_HORSE,     killExp: 75,    hitExp: 15, damageExp: 20]
+      - [mob: ILLUSIONER,       killExp: 125,   hitExp: 15, damageExp: 20]
+      - [mob: GIANT,            killExp: 125,   hitExp: 15, damageExp: 20]
+      - [mob: PIGLIN,           killExp: 75,    hitExp: 15, damageExp: 20]
+      - [mob: ZOGLIN,           killExp: 110,   hitExp: 15, damageExp: 20]
+      - [mob: HOGLIN,           killExp: 100,   hitExp: 15, damageExp: 20]
+      - [mob: ZOMBIFIED_PIGLIN, killExp: 85,    hitExp: 15, damageExp: 20]
+      - [mob: PIG_ZOMBIE,       killExp: 75,    hitExp: 15, damageExp: 20] #1.15 zombie pigman (may not work)
+      - [mob: STRIDER,          killExp: 80,    hitExp: 15, damageExp: 20]
+axeMastery:
+  maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
+  expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
+  spawnerMobsEXPMultiplier: 1.0 #Nerfs EXP recieved from mobs that spawned from a spawner
+
+  #mobFarmEXPMutliplier is circumventable as it relies on mob density. It does stack with spawnerMobsEXPMultiplier
+  mobFarmEXPMultiplier: 0.2  #Nerfs EXP recieved from high density mob grinders (Mob grinders are determined by mob density around mob in question)
+  exp:
+    greaterAxeMultiplier: 0.7 #Portion of extra experience given for each point of damage done by greater axe's AOE relative to the total normally awarded experience for a hit
+    revitalizedActivate: 150 #Experience given when revitalized activates
+    holyAxeActivate: 100 #Experience given when holy axe activates
+
+    # Mobs that yield experience when taking damaged from the mob
+    # Format: [{Entity Name}, {kill experience rewarded}, {hit experience}, {experience per damage point done}]
+    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+    # If the entity is not kill-able (ex. snowball), the exp will never be rewarded
+    # hitExp is experience given when the player is hit by that mob, regardless of damage
+    # damageEXP is the experience given for each damage point done by the mob
+    hitMob:
+      - [mob: BAT,              killExp: 15,    hitExp: 20, damageExp: 14]
+      - [mob: CAT,              killExp: 25,    hitExp: 20, damageExp: 14]
+      - [mob: CHICKEN,          killExp: 30,    hitExp: 20, damageExp: 14]
+      - [mob: COD,              killExp: 30,    hitExp: 20, damageExp: 14]
+      - [mob: COW,              killExp: 30,    hitExp: 20, damageExp: 14]
+      - [mob: DONKEY,           killExp: 40,    hitExp: 20, damageExp: 14]
+      - [mob: FOX,              killExp: 50,    hitExp: 20, damageExp: 14]
+      - [mob: HORSE,            killExp: 40,    hitExp: 20, damageExp: 14]
+      - [mob: POLAR_BEAR,       killExp: 75,    hitExp: 20, damageExp: 14]
+      - [mob: MUSHROOM_COW,     killExp: 40,    hitExp: 20, damageExp: 14]
+      - [mob: MULE,             killExp: 40,    hitExp: 20, damageExp: 14]
+      - [mob: OCELOT,           killExp: 30,    hitExp: 20, damageExp: 14]
+      - [mob: PARROT,           killExp: 25,    hitExp: 20, damageExp: 14]
+      - [mob: PIG,              killExp: 30,    hitExp: 20, damageExp: 14]
+      - [mob: RABBIT,           killExp: 30,    hitExp: 20, damageExp: 14]
+      - [mob: SALMON,           killExp: 30,    hitExp: 20, damageExp: 14]
+      - [mob: SHEEP,            killExp: 30,    hitExp: 20, damageExp: 14]
+      - [mob: SKELETON_HORSE,   killExp: 75,    hitExp: 20, damageExp: 14]
+      - [mob: SNOWMAN,          killExp: 10,    hitExp: 20, damageExp: 14]
+      - [mob: SQUID,            killExp: 30,    hitExp: 20, damageExp: 14]
+      - [mob: TROPICAL_FISH,    killExp: 30,    hitExp: 20, damageExp: 14]
+      - [mob: TURTLE,           killExp: 30,    hitExp: 20, damageExp: 14]
+      - [mob: VILLAGER,         killExp: 25,    hitExp: 20, damageExp: 14]
+      - [mob: WANDERING_TRADER, killExp: 500,   hitExp: 20, damageExp: 14]
+      - [mob: BEE,              killExp: 55,    hitExp: 20, damageExp: 14]
+      - [mob: CAVE_SPIDER,      killExp: 85,    hitExp: 20, damageExp: 14]
+      - [mob: DOLPHIN,          killExp: 70,    hitExp: 20, damageExp: 14]
+      - [mob: ENDERMAN,         killExp: 80,    hitExp: 20, damageExp: 14]
+      - [mob: IRON_GOLEM,       killExp: 125,   hitExp: 20, damageExp: 14]
+      - [mob: LLAMA,            killExp: 55,    hitExp: 20, damageExp: 14]
+      - [mob: PANDA,            killExp: 55,    hitExp: 20, damageExp: 14]
+      - [mob: PUFFERFISH,       killExp: 60,    hitExp: 20, damageExp: 14]
+      - [mob: SPIDER,           killExp: 75,    hitExp: 20, damageExp: 14]
+      - [mob: WOLF,             killExp: 75,    hitExp: 20, damageExp: 14]
+      - [mob: BLAZE,            killExp: 85,    hitExp: 20, damageExp: 14]
+      - [mob: CREEPER,          killExp: 85,    hitExp: 20, damageExp: 14]
+      - [mob: DROWNED,          killExp: 90,    hitExp: 20, damageExp: 14]
+      - [mob: ELDER_GUARDIAN,   killExp: 7500,  hitExp: 20, damageExp: 14]
+      - [mob: ENDERMITE,        killExp: 60,    hitExp: 20, damageExp: 14]
+      - [mob: EVOKER,           killExp: 80,    hitExp: 20, damageExp: 14]
+      - [mob: GHAST,            killExp: 90,    hitExp: 20, damageExp: 14]
+      - [mob: GUARDIAN,         killExp: 60,    hitExp: 20, damageExp: 14]
+      - [mob: HUSK,             killExp: 75,    hitExp: 20, damageExp: 14]
+      - [mob: MAGMA_CUBE,       killExp: 45,    hitExp: 20, damageExp: 14]
+      - [mob: PHANTOM,          killExp: 70,    hitExp: 20, damageExp: 14]
+      - [mob: PILLAGER,         killExp: 80,    hitExp: 20, damageExp: 14]
+      - [mob: RAVAGER,          killExp: 100,   hitExp: 20, damageExp: 14]
+      - [mob: SHULKER,          killExp: 85,    hitExp: 20, damageExp: 14]
+      - [mob: SILVERFISH,       killExp: 90,    hitExp: 20, damageExp: 14]
+      - [mob: SKELETON,         killExp: 80,    hitExp: 20, damageExp: 14]
+      - [mob: SLIME,            killExp: 40,    hitExp: 20, damageExp: 14]
+      - [mob: STRAY,            killExp: 75,    hitExp: 20, damageExp: 14]
+      - [mob: VEX,              killExp: 90,    hitExp: 20, damageExp: 14]
+      - [mob: VINDICATOR,       killExp: 85,    hitExp: 20, damageExp: 14]
+      - [mob: WITCH,            killExp: 90,    hitExp: 20, damageExp: 14]
+      - [mob: WITHER_SKELETON,  killExp: 95,    hitExp: 20, damageExp: 14]
+      - [mob: ZOMBIE,           killExp: 75,    hitExp: 20, damageExp: 14]
+      - [mob: ZOMBIE_VILLAGER,  killExp: 75,    hitExp: 20, damageExp: 14]
+      - [mob: ENDER_DRAGON,     killExp: 20000, hitExp: 20, damageExp: 14]
+      - [mob: WITHER,           killExp: 12500, hitExp: 20, damageExp: 14]
+      - [mob: ZOMBIE_HORSE,     killExp: 75,    hitExp: 20, damageExp: 14]
+      - [mob: ILLUSIONER,       killExp: 125,   hitExp: 20, damageExp: 14]
+      - [mob: GIANT,            killExp: 125,   hitExp: 20, damageExp: 14]
+      - [mob: PIGLIN,           killExp: 75,    hitExp: 20, damageExp: 14]
+      - [mob: ZOGLIN,           killExp: 110,   hitExp: 20, damageExp: 14]
+      - [mob: HOGLIN,           killExp: 100,   hitExp: 20, damageExp: 14]
+      - [mob: ZOMBIFIED_PIGLIN, killExp: 85,    hitExp: 20, damageExp: 14]
+      - [mob: PIG_ZOMBIE,       killExp: 75,    hitExp: 20, damageExp: 14] #1.15 zombie pigman (may not work)
+      - [mob: STRIDER,          killExp: 80,    hitExp: 20, damageExp: 14]
+repair:
+  maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
+  expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
+  exp:
+    #Most of the experience config is in advancedConfig.yml
+    repairEnchantedItem: 450 #Experience rewarded when successfully repairing and enchanted item
+agility:
+  maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
+  expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
+  exp:
+    rollBase: 250 #Experience that is always rewarded if a roll occurs
+    rollDamage: 100 #Experience rewarded for every point of damage avoided by roll
+    dodgeDamage: 100 #Experience rewarded for every point of damage avoid by dodge
+    sprint: 90 #Experience rewarded for every second spent sprinting
+alchemy:
+  maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
+  expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
+  exp:
+    drinkPotion: 1000 #Drink any potion
+    drinkExtendedPotion: 500 #Additional experience given for drinking an extended potion
+    drinkUpgradedPotion: 500 #Additional experience given for drinking an upgraded potion
+    drinkCustomPotion: 1500 #Applies to potions added to Ancient knowledge in perkConfig.yml
+
+    # Blocks broken that yield exp (and are tracked a result).
+    # Format: [{Block Name}, {exp reward}, {must be natural? {default == true}]
+    # Block names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    # natural: false can be added to make the block still give experience even if it is not natural
+    breakBlock:
+      - [block: NETHER_WART, exp: 100,  natural: true ]
+
+    # Potions that will give experience when brewed
+    # format: [{Potion Type], {exp reward}]
+    # Potion Types can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionType.html
+    brewPotion:
+      - [potionType: AWKWARD,         exp: 250]
+      - [potionType: FIRE_RESISTANCE, exp: 550]
+      - [potionType: INSTANT_DAMAGE,  exp: 500]
+      - [potionType: INSTANT_HEAL,    exp: 500]
+      - [potionType: INVISIBILITY,    exp: 550]
+      - [potionType: JUMP,            exp: 550]
+      - [potionType: LUCK,            exp: 550]
+      - [potionType: MUNDANE,         exp: 200]
+      - [potionType: NIGHT_VISION,    exp: 500]
+      - [potionType: POISON,          exp: 550]
+      - [potionType: REGEN,           exp: 550]
+      - [potionType: SLOW_FALLING,    exp: 550]
+      - [potionType: SLOWNESS,        exp: 500]
+      - [potionType: SPEED,           exp: 500]
+      - [potionType: STRENGTH,        exp: 550]
+      - [potionType: THICK,           exp: 200]
+      - [potionType: TURTLE_MASTER,   exp: 550]
+      - [potionType: WATER_BREATHING, exp: 500]
+      - [potionType: WEAKNESS,        exp: 500]
+smelting:
+  maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
+  expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
+  exp:
+    # Smelted items that yield exp.
+    # Format: [{Smelting output name}, {exp reward}]]
+    # Item names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    smelt:
+    - [output: COOKED_BEEF,                        exp: 100]
+    - [output: COOKED_CHICKEN,                     exp: 100]
+    - [output: COOKED_COD,                         exp: 110]
+    - [output: COOKED_MUTTON,                      exp: 100]
+    - [output: COOKED_PORKCHOP,                    exp: 100]
+    - [output: COOKED_RABBIT,                      exp: 100]
+    - [output: COOKED_SALMON,                      exp: 110]
+    - [output: GREEN_DYE,                          exp: 100]
+    - [output: LIME_DYE,                           exp: 100]
+    - [output: DRIED_KELP,                         exp: 60 ]
+    - [output: GLASS,                              exp: 60 ]
+    - [output: BRICK,                              exp: 60 ]
+    - [output: NETHER_BRICK,                       exp: 60 ]
+    - [output: STONE,                              exp: 85 ]
+    - [output: SMOOTH_STONE,                       exp: 85 ]
+    - [output: SMOOTH_QUARTZ,                      exp: 85 ]
+    - [output: TERRACOTTA,                         exp: 85 ]
+    - [output: WHITE_GLAZED_TERRACOTTA,            exp: 90 ]
+    - [output: ORANGE_GLAZED_TERRACOTTA,           exp: 90 ]
+    - [output: MAGENTA_GLAZED_TERRACOTTA,          exp: 90 ]
+    - [output: LIGHT_BLUE_GLAZED_TERRACOTTA,       exp: 90 ]
+    - [output: YELLOW_GLAZED_TERRACOTTA,           exp: 90 ]
+    - [output: LIME_GLAZED_TERRACOTTA,             exp: 90 ]
+    - [output: PINK_GLAZED_TERRACOTTA,             exp: 90 ]
+    - [output: GRAY_GLAZED_TERRACOTTA,             exp: 90 ]
+    - [output: LIGHT_GRAY_GLAZED_TERRACOTTA,       exp: 90 ]
+    - [output: CYAN_GLAZED_TERRACOTTA,             exp: 90 ]
+    - [output: PURPLE_GLAZED_TERRACOTTA,           exp: 90 ]
+    - [output: BLUE_GLAZED_TERRACOTTA,             exp: 90 ]
+    - [output: BROWN_GLAZED_TERRACOTTA,            exp: 90 ]
+    - [output: GREEN_GLAZED_TERRACOTTA,            exp: 90 ]
+    - [output: RED_GLAZED_TERRACOTTA,              exp: 90 ]
+    - [output: BLACK_GLAZED_TERRACOTTA,            exp: 90 ]
+    - [output: CHARCOAL,                           exp: 85 ]
+    - [output: IRON_INGOT,                         exp: 150]
+    - [output: GOLD_INGOT,                         exp: 200]
+    - [output: DIAMOND,                            exp: 450]
+    - [output: LAPIS_LAZULI,                       exp: 320]
+    - [output: EMERALD,                            exp: 500]
+    - [output: REDSTONE,                           exp: 160]
+    - [output: QUARTZ,                             exp: 100]
+    - [output: SPONGE,                             exp: 140]
+    - [output: IRON_NUGGET,                        exp: 230]
+    - [output: GOLD_NUGGET,                        exp: 290]
+    - [output: NETHERITE_SCRAP,                    exp: 350]
+    - [output: CRACKED_NETHER_BRICKS,              exp: 95 ]
+    - [output: CRACKED_STONE_BRICKS,               exp: 95 ]
+    - [output: CRACKED_POLISHED_BLACKSTONE_BRICKS, exp: 95 ]
+enchanting:
+  maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
+  expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
+  gainEXPfromEnchantingBottles: false #Disables gaining FreeRPG EXP from xp bottles and xp boost from xp bottles when set to false
+  exp:
+    spendLevelOnAnvil: 500 #Experience rewarded for each level used on an anvil
+    enchantItem: 250 #Experience rewarded for for each level of the "cost" of an enchantment, where the cost in the level on the right side of the encahntment offer, NOT the XP levels used.
+    gainMinecraftXP: 25 #FreeRPG experience given for each minecraft XP gained

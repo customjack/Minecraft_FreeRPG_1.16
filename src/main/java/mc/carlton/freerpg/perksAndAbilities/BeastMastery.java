@@ -1,21 +1,15 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
-import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.ExpFarmTracker;
 import mc.carlton.freerpg.gameTools.HorseRiding;
-import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.globalVariables.EntityGroups;
-import mc.carlton.freerpg.playerInfo.*;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import org.bukkit.*;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;

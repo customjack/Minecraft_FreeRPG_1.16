@@ -1,18 +1,13 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
-import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.ExpFarmTracker;
-import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.globalVariables.EntityGroups;
-import mc.carlton.freerpg.playerInfo.*;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.CrossbowMeta;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 

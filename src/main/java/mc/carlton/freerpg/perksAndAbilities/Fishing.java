@@ -1,13 +1,9 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
-import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.gameTools.ActionBarMessages;
-import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
 import mc.carlton.freerpg.globalVariables.EntityGroups;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
-import mc.carlton.freerpg.playerInfo.*;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import mc.carlton.freerpg.serverInfo.MinecraftVersion;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -18,7 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -688,9 +683,15 @@ public class Fishing extends Skill{
 
         //Luck of the sea level
         int luckOfTheSeaLevel = 0;
-        ItemMeta rodMeta = itemInHand.getItemMeta();
-        if (rodMeta.getEnchants().containsKey(Enchantment.LUCK)) {
-            luckOfTheSeaLevel = rodMeta.getEnchantLevel(Enchantment.LUCK);
+        if (itemInHand != null) {
+            ItemMeta rodMeta = itemInHand.getItemMeta();
+            if (rodMeta != null) {
+                if (rodMeta.getEnchants() != null) {
+                    if (rodMeta.getEnchants().containsKey(Enchantment.LUCK)) {
+                        luckOfTheSeaLevel = rodMeta.getEnchantLevel(Enchantment.LUCK);
+                    }
+                }
+            }
         }
 
         double[] tierChances = {Math.max(0.100 - 0.02*luckOfTheSeaLevel,0), Math.min(0.050 + 0.2*luckOfTheSeaLevel,0.15),

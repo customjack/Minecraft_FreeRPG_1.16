@@ -9,7 +9,7 @@ import mc.carlton.freerpg.perksAndAbilities.Agility;
 import mc.carlton.freerpg.perksAndAbilities.Farming;
 import mc.carlton.freerpg.perksAndAbilities.Fishing;
 import mc.carlton.freerpg.perksAndAbilities.Global;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -392,8 +392,10 @@ public class ChangeStats {
             resetStat("global");
             String[] labels_1 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting"};
             for (String label : labels_1) {
-                resetStat(label);
-                changeEXP(label, expTotalMap.get(label));
+                resetStat(label); //Reset all stats
+            }
+            for (String label : labels_1) { //Might cause global token errors if done in the same loop
+                changeEXP(label, expTotalMap.get(label)); //Increase experience for all stats
             }
             LanguageSelector lang = new LanguageSelector(p);
             p.sendMessage(ChatColor.RED + lang.getString("statsUpdated"));
@@ -418,7 +420,8 @@ public class ChangeStats {
         setTotalLevel();
         setTotalExperience();
         if (!skillName.equalsIgnoreCase("global")) {
-            reevaluatedGlobalTree();
+            //Currently disabled to prevent accidental infinite skill token gain
+            //reevaluatedGlobalTree();
         }
     }
 

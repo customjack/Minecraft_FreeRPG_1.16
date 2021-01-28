@@ -1,10 +1,11 @@
 package mc.carlton.freerpg.miscEvents;
 
-import mc.carlton.freerpg.gameTools.CustomRecipe;
+import mc.carlton.freerpg.customConfigContainers.CustomRecipe;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.globalVariables.CraftingRecipes;
+import mc.carlton.freerpg.newEvents.FrpgPlayerCraftItemEvent;
 import mc.carlton.freerpg.perksAndAbilities.Defense;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import mc.carlton.freerpg.playerInfo.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -13,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -36,12 +38,19 @@ public class PlayerCraft implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGH)
+    void onFrpgPlayerCraft(FrpgPlayerCraftItemEvent e) {
+        Defense defenseClass = new Defense(e.getPlayer());
+        defenseClass.armorEXP(e.getResult());
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
     void onPlayerCraft(CraftItemEvent e) {
         Player p = (Player) e.getWhoClicked();
         PlayerStats pStatClass = new PlayerStats(p);
         Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
         LanguageSelector lang = new LanguageSelector(p);
         ConfigLoad configLoad = new ConfigLoad();
+        /*
         if (e.getCursor() != null) { //Should never be the case, but just to prevent errors
             if (e.getCursor().getType().equals(Material.AIR) || e.isShiftClick()) { //User must click with empty cursor (or shift click)
                 if (e.getHotbarButton() != -1 || e.isShiftClick()) { //User used number key or shift clicked
@@ -65,6 +74,8 @@ public class PlayerCraft implements Listener {
                 }
             }
         }
+
+         */
 
         CraftingRecipes craftingRecipes = new CraftingRecipes();
         ItemStack[] craftingMatrix = e.getInventory().getMatrix();

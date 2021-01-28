@@ -2,7 +2,7 @@ package mc.carlton.freerpg.enchantingEvents;
 
 import mc.carlton.freerpg.gameTools.ExperienceBottleTracking;
 import mc.carlton.freerpg.perksAndAbilities.Enchanting;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;

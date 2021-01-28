@@ -1,7 +1,7 @@
 package mc.carlton.freerpg.gameTools;
 
 import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

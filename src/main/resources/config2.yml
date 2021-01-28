@@ -1,0 +1,167 @@
+#---------------------------------------------
+#   ______             _____  _____   _____
+#  |  ____|           |  __ \|  __ \ / ____|
+#  | |__ _ __ ___  ___| |__) | |__) | |  __
+#  |  __| '__/ _ \/ _ \  _  /|  ___/| | |_ |
+#  | |  | | |  __/  __/ | \ \| |    | |__| |
+#  |_|  |_|  \___|\___|_|  \_\_|     \_____|
+#---------------------------------------------
+# WARNING: This file will automatically try to repair itself if it is missing data. This will cause all comments to disappear
+#
+# Welcome to FreeRPG!
+# Support Discord: https://discord.gg/uAJXCnX
+#
+#
+#
+# For configuration of experience drops:
+# - most experience drops and experience curve settings are found in experienceConfig.yml
+# - some experience drops are found in perkConfig.yml
+# - very few experience drops are in this file (advancedConfig.yml)
+#
+# For configuration of perks (passive and skill tree), go to perkConfig.yml
+#
+# For configuration of abilities, go to abilityConfig.yml
+#
+# For configuration of
+general:
+  playerBaseHP: 20.0 #Player max health will reset to this value on login (or this value plus 4 if the player has the Hearty perk)
+  defaultLanguage: enUs #Choices: enUs, huHU, frFR, deDE, plPL, esCl, ruRU, ptBR, csCZ, koKR and custom
+  forceLanguage: false #Forces players to use the server's default langauge
+
+  allowCustomExplosions: true #If false, some mining perks won't work
+  allowBuild: true #Keep true in most cases (If you use world guard to deny build permissions in entire worlds, set to false)
+  allowPvP: true #Set to false to disable skills from activating during PvP
+  allowHurtAnimals: true #Set ot false to disable skills form activating on Animals
+
+  keepInventoryOn: false #Set to true if you are using an "Advanced" keep inventory plugin. This does not make players keep their inventory.
+
+  saveStatsTimer: 900 #Time (in seconds) between each time the server saves all player stats
+
+  saveRunTimeData: false #Logs some run time information in /.../FreeRPG/RunTimes
+  verboseRunTimeData: false #Logs additional run time information /.../FreeRPG/RunTimes, will do nothing unless saveRunTimeData = true
+
+  trackFewerBlocks: false #Reduces the number of blocks tracked in blockLocations.dat to a few essential blocks
+
+  autoUpdateConfig: true #Disables all config files automatically updating when it is missing information. NOT RECOMMENDED TO CHANGE
+  autoUpdateLanguages: true #Disables languages.yml automatically updating when it is missing information. NOT RECOMMENDED TO CHANGE
+
+  leaderboardDynamicUpdate: true #Updates leaderboard every time it is requested. Set this to false if you see performance issues.
+  leaderboardUpdateTimer: 600  #Time (in seconds) of how often leaderboards update (will do nothing unless leaderboardDynamicUpdate = false)
+  # Let playerStatFilesLoadedInOnStartup = n
+  # Your server will load in at most n player files asynchronously into memory at start-up. These are the last n people to log out of the server (or just random people before the list is created).
+  # If your server has less than n player files, ALL of the files will be loaded in on start-up asynchronously
+  # Loading in many players may help with performance issues if your server has high frequency of logins
+  # The cost is RAM, each player takes up <= 10KB of ram, so loading in the default (100) players will cost <= 1MB of server RAM that will only be used once the player logs on
+  playerStatFilesLoadedInOnStartup: 100
+tokens:
+  #For any option with "per" in the name:
+  # If set to a decimal (ex. x = 0.4), the server will give the player t = floor(level/x) - floor((oldLevel)/x) tokens
+  # In other words,the player will get 1/x tokens per level ON AVERAGE
+  #Example 1:
+  # levelsPerPassiveToken: = .666
+  # Level from 0 to 1 => t = floor(1/.666) - floor(0/.666) = 1 - 0 = 1 token rewarded at leveling 0 -> 1
+  # Level from 1 to 2 => t = floor(2/.666) - floor(1/.666) = 3 - 1 = 2 tokens rewarded from leveling 1 -> 2
+  # Level from 30 to 100 => t = floor(100/.666) - floor(30/.666) = 150 - 45 = 105
+  # As you can see, this is identical to getting 1.5 tokens per level on average, which is the value of 1/x
+  levelsPerAutomaticPassiveUpgrade: 1.0
+  levelsPerPassiveToken: 1.0
+  levelsPerSkillToken: 100.0
+  levelsPerGlobalToken: 1000.0
+
+  skillTokenToPassiveTokenConversion: 50 #The automatic conversion rate for skill tokens to passive tokens when skill tokens become useless
+  globalTokenToEXPbuff: 0.01 #The automatic conversion rate for global tokens to EXP multiplier boost when global tokens become useless
+
+  passiveRightClickInvestment: 10
+  passiveShiftClickInvestment: 100
+  passiveShiftClickAndRightClickInvestAll: true #Shift+RightClick invests all current tokens if true
+souls:
+  startingSouls: 0
+  refundCost: 250
+global:
+  enabled: true #Setting this to false disables all global skill tree and features
+  startingGlobalTokens: 0 #number of global tokens each player starts with
+digging:
+  enabled: true #Setting this to false disables all skill features and EXP drops.
+  startingSkillTokens: 0 #number of skill tokens each player starts with in this skill
+  startingPassiveTokens: 0 #number of passive tokens each player starts with in this skill
+woodcutting:
+  enabled: true #Setting this to false disables all skill features and EXP drops.
+  startingSkillTokens: 0 #number of skill tokens each player starts with in this skill
+  startingPassiveTokens: 0 #number of passive tokens each player starts with in this skill
+mining:
+  enabled: true #Setting this to false disables all skill features and EXP drops.
+  startingSkillTokens: 0 #number of skill tokens each player starts with in this skill
+  startingPassiveTokens: 0 #number of passive tokens each player starts with in this skill
+farming:
+  enabled: true #Setting this to false disables all skill features and EXP drops.
+  startingSkillTokens: 0 #number of skill tokens each player starts with in this skill
+  startingPassiveTokens: 0 #number of passive tokens each player starts with in this skill
+fishing:
+  enabled: true #Setting this to false disables all skill features and EXP drops.
+  startingSkillTokens: 0 #number of skill tokens each player starts with in this skill
+  startingPassiveTokens: 0 #number of passive tokens each player starts with in this skill
+  junkCatches:
+    #The drop rate of these catches depends on the value of fishing.passive3 (Treasure Finder) in perkConfig.yml
+
+    # Select drops from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    # Format: [{Drop name}, {amount}, {exp rewarded}, {probability weight}, {durability modifier (Optional), {enchantment bounds (Option)}, {static enchantments (Optional)}, {potion Type (Optional}]
+    # Durability modifer: [lowest percent durability percent, highest durability percent]. A uniformly random value is picked between the two endpoints. At least 1 durability point is always present.
+    # If the item has no durability, this section will be ignored
+    # Enchantment bounds: [lowest possible enchantment level, highest possible enchantment level]. A uniformly random level is picked between the two endpoints.
+    # If the item cannot be enchanted in vanilla minecraft, this section will be ignored
+    # Static enchanment: {Enchantment name}-{level}. Spell enchantment names exactly as seen in minecraft (english), with an underscore substituted for spaces. Enchantments can be unsafe
+    # Ex: Luck of the sea III --> LUCK_OF_THE_SEA-3
+    # Potion Type: the type of potion. Only takes effect if the drop name is "POTION". Select effects from: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionType.html
+    dropTable:
+      - [drop: LILY_PAD,            amount: 1, exp: 1000, weight: 500]
+      - [drop: BOWL,        amount: 1, exp: 1000, weight: 200]
+      - [drop: FISHING_ROD,        amount: 1, exp: 1000, weight: 100, durability: [0.10,1.00]]
+      - [drop: LEATHER,    amount: 1, exp: 1000, weight: 50 ]
+      - [drop: LEATHER_BOOTS,        amount: 1, exp: 1000, weight: 100, durability: [0.10,1.00]]
+      - [drop: ROTTEN FLESH,        amount: 1, exp: 1000, weight: 90 ]
+      - [drop: STICK,         amount: 1, exp: 1000, weight: 9  ]
+      - [drop: STRING, amount: 1, exp: 1000, weight: 1  ]
+      - [drop: BOTTLE, amount: 1, exp: 1000, weight: 1, potionType: ]
+      - [drop: NETHERITE_SCRAP, amount: 1, exp: 1000, weight: 1  ]
+      - [drop: NETHERITE_SCRAP, amount: 1, exp: 1000, weight: 1  ]
+      - [drop: NETHERITE_SCRAP, amount: 1, exp: 1000, weight: 1  ]
+archery:
+  enabled: true #Setting this to false disables all skill features and EXP drops.
+  startingSkillTokens: 0 #number of skill tokens each player starts with in this skill
+  startingPassiveTokens: 0 #number of passive tokens each player starts with in this skill
+beastMastery:
+  enabled: true #Setting this to false disables all skill features and EXP drops.
+  startingSkillTokens: 0 #number of skill tokens each player starts with in this skill
+  startingPassiveTokens: 0 #number of passive tokens each player starts with in this skill
+swordsmanship:
+  enabled: true #Setting this to false disables all skill features and EXP drops.
+  startingSkillTokens: 0 #number of skill tokens each player starts with in this skill
+  startingPassiveTokens: 0 #number of passive tokens each player starts with in this skill
+defense:
+  enabled: true #Setting this to false disables all skill features and EXP drops.
+  startingSkillTokens: 0 #number of skill tokens each player starts with in this skill
+  startingPassiveTokens: 0 #number of passive tokens each player starts with in this skill
+axeMastery:
+  enabled: true #Setting this to false disables all skill features and EXP drops.
+  startingSkillTokens: 0 #number of skill tokens each player starts with in this skill
+  startingPassiveTokens: 0 #number of passive tokens each player starts with in this skill
+repair:
+  enabled: true #Setting this to false disables all skill features and EXP drops.
+  startingSkillTokens: 0 #number of skill tokens each player starts with in this skill
+  startingPassiveTokens: 0 #number of passive tokens each player starts with in this skill
+agility:
+  enabled: true #Setting this to false disables all skill features and EXP drops.
+  startingSkillTokens: 0 #number of skill tokens each player starts with in this skill
+  startingPassiveTokens: 0 #number of passive tokens each player starts with in this skill
+alchemy:
+  enabled: true #Setting this to false disables all skill features and EXP drops.
+  startingSkillTokens: 0 #number of skill tokens each player starts with in this skill
+  startingPassiveTokens: 0 #number of passive tokens each player starts with in this skill
+smelting:
+  enabled: true #Setting this to false disables all skill features and EXP drops.
+  startingSkillTokens: 0 #number of skill tokens each player starts with in this skill
+  startingPassiveTokens: 0 #number of passive tokens each player starts with in this skill
+enchanting:
+  enabled: true #Setting this to false disables all skill features and EXP drops.
+  startingSkillTokens: 0 #number of skill tokens each player starts with in this skill
+  startingPassiveTokens: 0 #number of passive tokens each player starts with in this skill

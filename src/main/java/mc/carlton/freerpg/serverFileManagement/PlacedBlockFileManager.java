@@ -9,7 +9,6 @@ import org.bukkit.plugin.Plugin;
 
 import java.io.*;
 import java.util.HashSet;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class PlacedBlockFileManager {
     static File placedBlocksDat;
@@ -17,7 +16,7 @@ public class PlacedBlockFileManager {
 
     public void initializePlacedBlocks(){
         PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();
-        HashSet<Location> blocks = placedBlocksManager.getBlocksMap();
+        HashSet<Location> blocks = placedBlocksManager.getBlocks();
         File f = placedBlocksDat;
         String path = f.getPath();
         if (f.exists()) {
@@ -44,7 +43,7 @@ public class PlacedBlockFileManager {
     public void writePlacedBlocks() {
         File f = placedBlocksDat;
         PlacedBlocksManager placedBlocksManager = new PlacedBlocksManager();
-        HashSet<Location> blocks = (HashSet<Location>) placedBlocksManager.getBlocksMap().clone(); //We clone here to avoid concurrent modification exception
+        HashSet<Location> blocks = placedBlocksManager.getBlocks();
         String path = f.getPath();
         if (f.exists()) {
             try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(path,false))) {

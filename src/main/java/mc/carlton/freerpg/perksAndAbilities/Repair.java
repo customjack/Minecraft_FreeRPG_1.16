@@ -1,13 +1,9 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
-import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
-import mc.carlton.freerpg.playerInfo.ChangeStats;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import mc.carlton.freerpg.serverInfo.MinecraftVersion;
-import mc.carlton.freerpg.playerInfo.PlayerStats;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -15,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 

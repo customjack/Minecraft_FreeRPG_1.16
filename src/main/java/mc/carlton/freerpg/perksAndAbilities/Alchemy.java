@@ -1,9 +1,6 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
-import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.playerInfo.ChangeStats;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
-import mc.carlton.freerpg.playerInfo.PlayerStats;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -14,8 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;

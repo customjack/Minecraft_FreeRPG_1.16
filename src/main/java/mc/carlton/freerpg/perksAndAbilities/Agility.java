@@ -1,16 +1,9 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
-import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.gameTools.ActionBarMessages;
-import mc.carlton.freerpg.gameTools.LanguageSelector;
-import mc.carlton.freerpg.playerInfo.ChangeStats;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
-import mc.carlton.freerpg.playerInfo.PlayerStats;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;

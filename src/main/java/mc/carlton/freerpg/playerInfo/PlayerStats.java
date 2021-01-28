@@ -1,13 +1,7 @@
 package mc.carlton.freerpg.playerInfo;
 
-import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.leaveAndJoin.LoginProcedure;
-import mc.carlton.freerpg.serverFileManagement.PlayerStatsFilePreparation;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
 
@@ -48,7 +42,7 @@ public class PlayerStats {
     public Map<UUID, Map<String, ArrayList<Number>>> getData() {
         if (!player_statsMap.containsKey(uuid)) {
             PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(uuid);
-            Map<String, ArrayList<Number>> playerStats0 = loadInPlayer.getPlayerStatsMap();
+            Map<String, ArrayList<Number>> playerStats0 = loadInPlayer.getPlayerStatsMapFromFile();
             player_statsMap.put(uuid,playerStats0);
         }
         return player_statsMap;
@@ -58,7 +52,7 @@ public class PlayerStats {
     public Map<String, ArrayList<Number>> getPlayerData() {
         if (!player_statsMap.containsKey(uuid)) {
             PlayerStatsLoadIn loadInPlayer = new PlayerStatsLoadIn(uuid);
-            Map<String, ArrayList<Number>> playerStats0 = loadInPlayer.getPlayerStatsMap();
+            Map<String, ArrayList<Number>> playerStats0 = loadInPlayer.getPlayerStatsMapFromFile();
             player_statsMap.put(uuid,playerStats0);
         }
         return player_statsMap.get(uuid);

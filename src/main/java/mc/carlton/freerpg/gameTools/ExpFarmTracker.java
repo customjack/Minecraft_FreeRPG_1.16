@@ -1,7 +1,6 @@
 package mc.carlton.freerpg.gameTools;
 
-import com.google.gson.internal.$Gson$Preconditions;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attributable;
@@ -10,7 +9,6 @@ import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Golem;
 import org.bukkit.entity.Monster;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.Collection;
 import java.util.HashSet;

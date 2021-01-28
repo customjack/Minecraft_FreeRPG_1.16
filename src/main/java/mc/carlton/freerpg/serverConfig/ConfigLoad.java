@@ -1,8 +1,8 @@
-package mc.carlton.freerpg.serverInfo;
+package mc.carlton.freerpg.serverConfig;
 
 import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.gameTools.CustomPotion;
-import mc.carlton.freerpg.gameTools.CustomRecipe;
+import mc.carlton.freerpg.customConfigContainers.OldCustomPotion;
+import mc.carlton.freerpg.customConfigContainers.CustomRecipe;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -60,7 +60,7 @@ public class ConfigLoad {
     static ArrayList<Object> fishingInfoEnchants = new ArrayList<>();
     static Map<String,Boolean> allowedSkillsMap = new HashMap<>();
     static Map<String,Boolean> allowedSkillGainEXPMap = new HashMap<>();
-    static Map<String, CustomPotion> alchemyInfo = new HashMap<>();
+    static Map<String, OldCustomPotion> alchemyInfo = new HashMap<>();
     static Map<String,Map<String,Integer>> expMap = new HashMap<>();
     static Map<String,CustomRecipe> craftingRecipes = new HashMap<>();
     static HashSet<Material> veinMinerBlocks = new HashSet<>();
@@ -231,7 +231,7 @@ public class ConfigLoad {
 
         //Alchemy Info
         for (int i = 1; i<= 5; i++) {
-            CustomPotion customPotion = new CustomPotion();
+            OldCustomPotion customPotion = new OldCustomPotion();
             customPotion.setPotionEffectType(PotionEffectType.getByName(advancedConfig.getString("alchemy.customPotions.potionType"+i)));
             customPotion.setIngredient(Material.matchMaterial(advancedConfig.getString("alchemy.customPotions.potionIngredient"+i)));
             customPotion.setPotionDuration(advancedConfig.getInt("alchemy.customPotions.potionDuration"+i));
@@ -384,7 +384,7 @@ public class ConfigLoad {
     public int getFurnaceDeleteTimer() {return furnaceDeleteTimer;}
     public Map<String,Boolean> getAllowedSkillsMap() {return allowedSkillsMap;}
     public Map<String,Boolean> getAllowedSkillGainEXPMap() {return allowedSkillGainEXPMap;}
-    public  Map<String, CustomPotion> getAlchemyInfo() { return alchemyInfo; }
+    public  Map<String, OldCustomPotion> getAlchemyInfo() { return alchemyInfo; }
     public Map<String,Map<String,Integer>> getExpMap() {return expMap;}
     public Map<String,Integer> getExpMapForSkill(String skillName) {
         if (expMap.containsKey(skillName)) {

@@ -1,10 +1,10 @@
 package mc.carlton.freerpg.globalVariables;
 
 import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.gameTools.CustomPotion;
-import mc.carlton.freerpg.gameTools.CustomRecipe;
+import mc.carlton.freerpg.customConfigContainers.OldCustomPotion;
+import mc.carlton.freerpg.customConfigContainers.CustomRecipe;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import mc.carlton.freerpg.utilities.UtilityMethods;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -499,7 +499,7 @@ public class StringsAndOtherData {
 
     public String getPotionEffectTypeString(int level, Player p) {
         ConfigLoad configLoad = new ConfigLoad();
-        Map<String, CustomPotion> alchemyInfo = configLoad.getAlchemyInfo();
+        Map<String, OldCustomPotion> alchemyInfo = configLoad.getAlchemyInfo();
         String name = getPotionNameFromEffect(alchemyInfo.get("customPotion"+level).getPotionEffectType());
         String effectType = "";
         if (!name.equalsIgnoreCase("Potion")) {

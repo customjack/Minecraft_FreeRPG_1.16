@@ -3,9 +3,8 @@ package mc.carlton.freerpg.combatEvents;
 
 import mc.carlton.freerpg.perksAndAbilities.Agility;
 import mc.carlton.freerpg.perksAndAbilities.Global;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import mc.carlton.freerpg.playerInfo.PlayerStats;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

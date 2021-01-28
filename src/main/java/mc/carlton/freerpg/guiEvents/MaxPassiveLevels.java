@@ -86,6 +86,15 @@ public class MaxPassiveLevels {
                         break;
                 }
                 break;
+            case "agility":
+                switch (index) {
+                    case 1:
+                        maxLevel = 2000;
+                        break;
+                    default:
+                        break;
+                }
+                break;
             default:
                 break;
         }

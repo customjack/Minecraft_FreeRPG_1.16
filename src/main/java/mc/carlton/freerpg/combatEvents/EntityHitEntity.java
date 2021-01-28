@@ -5,7 +5,7 @@ import mc.carlton.freerpg.gameTools.FireworkShotByPlayerTracker;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.playerInfo.*;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attributable;
@@ -20,7 +20,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -48,9 +47,12 @@ public class EntityHitEntity implements Listener {
                 }
             }
             else if (e.getDamager() instanceof Projectile) {
-                if (((Projectile) e.getDamager()).getShooter() instanceof Player) {
+                ProjectileSource shooter = ((Projectile) e.getDamager()).getShooter();
+                if (shooter instanceof Player) {
                     if (!loadConfig.isAllowPvP()) {
                         return;
+                    } else if (shooter.equals(e.getEntity())) {
+                        return; //Shooter shot himself
                     }
                 }
             }
@@ -222,6 +224,9 @@ public class EntityHitEntity implements Listener {
             if (wolf.getType() == EntityType.WOLF) {
                 Tameable dog = (Tameable) wolf;
                 if (dog.isTamed()) {
+                    if (!(dog.getOwner() instanceof Player)) { //Player is offline or something like that.
+                        return;
+                    }
                     Player p = (Player) dog.getOwner();
                     BeastMastery beastMastery = new BeastMastery(p);
                     PlayerStats pStatClass = new PlayerStats(p);
@@ -282,6 +287,9 @@ public class EntityHitEntity implements Listener {
                 if (wolf.getType() == EntityType.WOLF) {
                     Tameable dog = (Tameable) wolf;
                     if (dog.isTamed()) {
+                        if (!(dog.getOwner() instanceof Player)) { //Player is offline or something like that.
+                            return;
+                        }
                         Player p = (Player) dog.getOwner();
                         ChangeStats increaseStats = new ChangeStats(p);
                         increaseStats.changeEXP("beastMastery", (int) Math.round(e.getFinalDamage() * 3) * 10);

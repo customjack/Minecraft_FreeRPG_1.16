@@ -1,4 +1,4 @@
-package mc.carlton.freerpg.gameTools;
+package mc.carlton.freerpg.customConfigContainers;
 
 import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
 import org.bukkit.ChatColor;
@@ -11,14 +11,14 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class CustomPotion {
+public class OldCustomPotion {
     public PotionEffectType potionEffectType;
     public Material ingredient;
     public int potionDuration;
     public Color color;
     public String potionName;
 
-    public CustomPotion() {
+    public OldCustomPotion() {
         this.potionEffectType = null;
         this.ingredient = null;
         this.potionDuration = 9;

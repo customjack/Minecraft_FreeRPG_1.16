@@ -1,7 +1,7 @@
 package mc.carlton.freerpg.enchantingEvents;
 
 import mc.carlton.freerpg.gameTools.ExperienceBottleTracking;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ExpBottleEvent;

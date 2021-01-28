@@ -8,6 +8,7 @@ import mc.carlton.freerpg.clickEvents.PlayerRightClick;
 import mc.carlton.freerpg.clickEvents.PlayerRightClickEntity;
 import mc.carlton.freerpg.combatEvents.*;
 import mc.carlton.freerpg.commands.*;
+import mc.carlton.freerpg.customConfigContainers.CustomItem;
 import mc.carlton.freerpg.enchantingEvents.*;
 import mc.carlton.freerpg.furnaceEvents.FurnaceBurn;
 import mc.carlton.freerpg.furnaceEvents.FurnaceInventoryClick;
@@ -20,12 +21,13 @@ import mc.carlton.freerpg.leaveAndJoin.LogoutProcedure;
 import mc.carlton.freerpg.miscEvents.*;
 import mc.carlton.freerpg.leaveAndJoin.PlayerJoin;
 import mc.carlton.freerpg.leaveAndJoin.PlayerLeave;
+import mc.carlton.freerpg.newEvents.FrpgPlayerCraftItemEventCaller;
 import mc.carlton.freerpg.pistonEvents.PistonEvents;
 import mc.carlton.freerpg.playerInfo.*;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import mc.carlton.freerpg.serverFileManagement.*;
 import mc.carlton.freerpg.serverInfo.*;
 import org.bukkit.*;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -37,6 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.List;
 
 public final class FreeRPG extends JavaPlugin implements Listener {
 
@@ -182,7 +185,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerMoveAbilityItem(), this);
         getServer().getPluginManager().registerEvents(new PlayerEnterVehicle(), this);
         getServer().getPluginManager().registerEvents(new PistonEvents(), this);
-        //getServer().getPluginManager().registerEvents(new PistonRetract(), this);
+        getServer().getPluginManager().registerEvents(new FrpgPlayerCraftItemEventCaller(), this);
 
         //Registers commands
         getCommand("frpg").setExecutor(new FrpgCommands());
@@ -209,8 +212,10 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         File f = new File(plugin.getDataFolder(),"perkConfig.yml");
         f.setReadable(true,false);
         f.setWritable(true,false);
-        FileConfiguration config = YamlConfiguration.loadConfiguration(f);
-        System.out.println(config.getList("global.skill_4D.level1.effectsGiven").get(0));
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(f);
+        List test = ( (List) (config.getList("fishing.skill_1B.level5.enchantedDropTable").get(0)));
+        System.out.println(test);
+        System.out.println(new CustomItem(test,"farming.skill_1B.level1.recipes"));
     }
 
     public void onDisable() {

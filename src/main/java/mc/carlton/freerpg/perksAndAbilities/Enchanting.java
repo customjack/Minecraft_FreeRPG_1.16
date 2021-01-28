@@ -1,10 +1,7 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
-import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
-import mc.carlton.freerpg.playerInfo.ChangeStats;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
-import mc.carlton.freerpg.playerInfo.PlayerStats;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentOffer;
@@ -12,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.EnchantingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;

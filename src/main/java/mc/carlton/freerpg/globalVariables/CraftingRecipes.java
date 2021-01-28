@@ -1,8 +1,8 @@
 package mc.carlton.freerpg.globalVariables;
 
 import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.gameTools.CustomRecipe;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.customConfigContainers.CustomRecipe;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

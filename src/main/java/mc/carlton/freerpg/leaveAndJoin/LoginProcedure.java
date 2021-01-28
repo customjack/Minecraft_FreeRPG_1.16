@@ -10,7 +10,6 @@ import mc.carlton.freerpg.perksAndAbilities.Fishing;
 import mc.carlton.freerpg.playerInfo.*;
 import mc.carlton.freerpg.serverFileManagement.PlayerStatsFilePreparation;
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -45,7 +44,7 @@ public class LoginProcedure {
         long loginTime = loadInPlayer.getLoginTime();
         long playTime = loadInPlayer.getPlayTime();
         String language = loadInPlayer.getPlayerLanguage();
-        Map<String, ArrayList<Number>> playerStats0 = loadInPlayer.getPlayerStatsMap();
+        Map<String, ArrayList<Number>> playerStats0 = loadInPlayer.getPlayerStatsMapFromFile();
         Map<String,Integer> playerSkillExpBarToggles = loadInPlayer.getSkillExpBarToggles();
         Map<String,Integer> playerSkillAbilityToggles = loadInPlayer.getSkillAbilityToggles();
 

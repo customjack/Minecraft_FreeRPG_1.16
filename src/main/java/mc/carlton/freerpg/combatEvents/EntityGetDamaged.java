@@ -1,6 +1,6 @@
 package mc.carlton.freerpg.combatEvents;
 
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import mc.carlton.freerpg.playerInfo.PlayerStats;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;

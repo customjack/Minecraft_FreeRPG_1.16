@@ -1,4 +1,4 @@
-package mc.carlton.freerpg.gameTools;
+package mc.carlton.freerpg.customConfigContainers;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

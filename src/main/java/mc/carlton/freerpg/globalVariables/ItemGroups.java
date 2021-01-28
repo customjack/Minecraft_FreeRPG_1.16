@@ -1,7 +1,7 @@
 package mc.carlton.freerpg.globalVariables;
 
-import mc.carlton.freerpg.gameTools.CustomPotion;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.customConfigContainers.OldCustomPotion;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import mc.carlton.freerpg.serverInfo.MinecraftVersion;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -276,7 +276,7 @@ public class ItemGroups {
 
     public void initializeIngredients() {
         ConfigLoad configLoad = new ConfigLoad();
-        Map<String, CustomPotion> alchemyInfo = configLoad.getAlchemyInfo();
+        Map<String, OldCustomPotion> alchemyInfo = configLoad.getAlchemyInfo();
         Material[] newIngredients0 = {alchemyInfo.get("customPotion1").getIngredient(),alchemyInfo.get("customPotion2").getIngredient(),alchemyInfo.get("customPotion3").getIngredient(),
                                       alchemyInfo.get("customPotion4").getIngredient(),alchemyInfo.get("customPotion5").getIngredient()};
         newIngredients = Arrays.asList(newIngredients0);
@@ -289,7 +289,7 @@ public class ItemGroups {
 
     public void initializeCustomPostions() {
         ConfigLoad configLoad = new ConfigLoad();
-        Map<String, CustomPotion> alchemyInfo = configLoad.getAlchemyInfo();
+        Map<String, OldCustomPotion> alchemyInfo = configLoad.getAlchemyInfo();
 
         //Hero Potion
         heroPotion = alchemyInfo.get("customPotion1").getPotionItemStack();

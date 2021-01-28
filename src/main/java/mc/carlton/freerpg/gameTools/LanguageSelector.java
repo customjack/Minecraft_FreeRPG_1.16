@@ -2,11 +2,10 @@ package mc.carlton.freerpg.gameTools;
 
 import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
 import mc.carlton.freerpg.playerInfo.PlayerStats;
-import mc.carlton.freerpg.serverInfo.ConfigLoad;
+import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import org.bukkit.entity.Player;
 
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class LanguageSelector {
