@@ -3,9 +3,12 @@ package mc.carlton.freerpg.customConfigContainers;
 import mc.carlton.freerpg.utilities.FrpgPrint;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +32,51 @@ public class CustomContainerImporter {
     private static final String IMPROPER_ENCHANTMENT_LIMITS = "Enchantment Limits cannot be less than 0";
     private static final String INVALID_ENCHANTMENT = "Invalid Enchantment: ";
     private static final String INVALID_ENCHANTMENT_LEVEL = "Invalid Enchantment Level: ";
+    private static final String EXPECTED_LIST = "Expected List at config node: ";
+    private static final String UNKNOWN_CONFIG_LOCATION = "Unknown Config Location";
+
+    public static List<Map<String,Object>> getConfigTableInformation(YamlConfiguration config, String configPath) {
+        List configTable = config.getList(configPath);
+        if (configTable == null) {
+            FrpgPrint.print(EXPECTED_LIST + configPath);
+            return null;
+        }
+        return getConfigTableInformation(configTable);
+    }
+
+    public static List<Map<String,Object>> getConfigTableInformation(List configTable,String configPath) {
+        ArrayList<Map<String,Object>> tableInformation = new ArrayList<>();
+        for (Object tableRow : configTable) {
+            System.out.println(tableRow.getClass());
+            System.out.println(tableRow);
+            if (!(tableRow instanceof List)) {
+                FrpgPrint.print(EXPECTED_LIST+ configPath);
+                return null;
+            }
+            tableInformation.add(convertListedTableRowToMap((List) tableRow,configPath));
+        }
+        return tableInformation;
+    }
+
+    public static List<Map<String,Object>> getConfigTableInformation(List configTable) {
+        return getConfigTableInformation(configTable,UNKNOWN_CONFIG_LOCATION);
+    }
+
+    public static Map<String,Object> convertListedTableRowToMap(List configTableRow, String configPath) {
+        Map<String,Object> tableRow = new HashMap<>();
+        for (Object tableElementObject : configTableRow) {
+            if (!(tableElementObject instanceof Map)) {
+                FrpgPrint.print(EXPECTED_LIST+ configPath);
+                return null;
+            }
+            Map tableElement = (Map) tableElementObject;
+            for (Object key : tableElement.keySet()) {
+                Object value = tableElement.get(key);
+                tableRow.put(key.toString(),value);
+            }
+        }
+        return tableRow;
+    }
 
     public CustomContainerImporter(CustomContainer customContainer) {
         this.container = customContainer;

@@ -5,10 +5,7 @@ import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.BossBarStorage;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.guiEvents.MaxPassiveLevels;
-import mc.carlton.freerpg.perksAndAbilities.Agility;
-import mc.carlton.freerpg.perksAndAbilities.Farming;
-import mc.carlton.freerpg.perksAndAbilities.Fishing;
-import mc.carlton.freerpg.perksAndAbilities.Global;
+import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -509,8 +506,8 @@ public class ChangeStats {
             Agility agilityClass = new Agility(p);
             agilityClass.gracefulFeetEnd();
         } else if (skillName.equals("defense") && (int) pStats.get(13) > 0) {
-            ConfigLoad configLoad = new ConfigLoad();
-            ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(configLoad.getBasePlayerHP());
+            Defense defenseClass = new Defense(p);
+            defenseClass.toggleHearty(0,(int) getPlayerSkillStats("global").get(30));
         }
     }
 

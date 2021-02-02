@@ -149,6 +149,7 @@ public class PlayerStatsLoadIn {
         addStat(globalStats,"globalStats.holyAxeToggle",1);                //27
         addStat(globalStats,"globalStats.numberOfCooldownBars",1);         //28
         addStat(globalStats,"globalStats.totalExperience",0);              //29
+        addStat(globalStats,"globalStats.heartyToggle",0);                //30
 
         statsMap.put("global", globalStats);
 
@@ -259,6 +260,7 @@ public class PlayerStatsLoadIn {
                     playerData.set("globalStats.holyAxeToggle",pStatAll.get(i).get(27));
                     playerData.set("globalStats.numberOfCooldownBars",pStatAll.get(i).get(28));
                     playerData.set("globalStats.totalExperience",pStatAll.get(i).get(29));
+                    playerData.set("globalStats.heartyToggle",pStatAll.get(i).get(30));
                 }
                 else {
                     playerData.set(i+".level",pStatAll.get(i).get(0));

@@ -8,6 +8,7 @@ import mc.carlton.freerpg.clickEvents.PlayerRightClick;
 import mc.carlton.freerpg.clickEvents.PlayerRightClickEntity;
 import mc.carlton.freerpg.combatEvents.*;
 import mc.carlton.freerpg.commands.*;
+import mc.carlton.freerpg.customConfigContainers.CustomContainerImporter;
 import mc.carlton.freerpg.customConfigContainers.CustomItem;
 import mc.carlton.freerpg.enchantingEvents.*;
 import mc.carlton.freerpg.furnaceEvents.FurnaceBurn;
@@ -53,13 +54,12 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         saveDefaultConfig();
         saveResource("languages.yml",false);
         saveResource("advancedConfig.yml",false);
-        //saveResource("perkConfig.yml",false);
+
 
         //Checks config.yml and languages.yml for updates, and update them if needed (while trying to keep any edits)
         YMLManager ymlManager = new YMLManager();
         ymlManager.updateCheckYML("config.yml");
         ymlManager.updateCheckYML("languages.yml");
-        //ymlManager.updateCheckYML("perkConfig.yml");
         ymlManager.updateCheckYML("advancedConfig.yml");
 
 
@@ -203,6 +203,8 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         offlinePlayerStatLoadIn.loadInOfflinePlayers();
 
         //Check extra stuff on load-up
+        //saveResource("perkConfig.yml",false);
+        //ymlManager.updateCheckYML("perkConfig.yml");
         //test();
     }
 
@@ -213,9 +215,11 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         f.setReadable(true,false);
         f.setWritable(true,false);
         YamlConfiguration config = YamlConfiguration.loadConfiguration(f);
-        List test = ( (List) (config.getList("fishing.skill_1B.level5.enchantedDropTable").get(0)));
+        List test = ( (List) (config.getList("fishing.skill_1B.level5.dropTable").get(7)));
         System.out.println(test);
-        System.out.println(new CustomItem(test,"farming.skill_1B.level1.recipes"));
+        System.out.println(new CustomItem(test,"fishing.skill_1B.level5.dropTable"));
+        System.out.println(CustomContainerImporter.getConfigTableInformation(config,"fishing.skill_1B.level5.dropTable"));
+
     }
 
     public void onDisable() {

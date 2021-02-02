@@ -92,7 +92,7 @@ public class ConfigLoad {
 
         //General Config and Config that has no real category
         defaultLanguage = config.getString("general.defaultLanguage");
-        basePlayerHP = config.getDouble("general.playerBaseHP");
+        //basePlayerHP = config.getDouble("general.playerBaseHP");
         forceLanguage = config.getBoolean("general.forceLanguage");
         playerStatFilesLoadedInOnStartup = advancedConfig.getInt("general.playerStatFilesLoadedInOnStartup");
         saveRunTimeData = advancedConfig.getBoolean("general.saveRunTimeData");

@@ -110,6 +110,7 @@ public class PlayerStatsFilePreparation {
         playerData.set("globalStats.holyAxeToggle", 1);
         playerData.set("globalStats.numberOfCooldownBars", 1);
         playerData.set("globalStats.totalExperience", 0);
+        playerData.set("globalStats.heartyToggle", 0);
 
         // Skill Type Data
         for (int i = 0; i < labels.length; i++) {
@@ -206,6 +207,7 @@ public class PlayerStatsFilePreparation {
         addIfMissing("globalStats.holyAxeToggle",1);
         addIfMissing("globalStats.numberOfCooldownBars",1);
         addIfMissing("globalStats.totalExperience",0);
+        addIfMissing("globalStats.heartyToggle",0);
 
 
         // Skill Type Data

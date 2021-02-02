@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.utilities;
 
 import java.util.List;
+import java.util.Map;
 
 public class UtilityMethods {
     public static String capitalizeString(String string) {
@@ -30,7 +31,6 @@ public class UtilityMethods {
         }
         return inputString;
     }
-
     public static String intToRankingString(int rank) {
         String suffix = "th";
         int lastTwoDigits = rank % 100;

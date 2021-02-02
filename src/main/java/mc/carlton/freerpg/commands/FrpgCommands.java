@@ -1977,13 +1977,14 @@ public class FrpgCommands implements CommandExecutor {
             String[] labels_0 = {"digging","woodcutting","mining","farming","fishing","archery","beastMastery","swordsmanship","defense","axeMastery","repair","agility","alchemy","smelting","enchanting","global"};
             List<String> labels_arr = Arrays.asList(labels_0);
             String skillName = UtilityMethods.convertStringToListCasing(labels_arr,args[1]);
-            String skillTitle = titles_0[labels_arr.indexOf(skillName)];
 
 
             if (!labels_arr.contains(skillName) ) {
                 commandHelper.sendImproperArgumentsMessage();
                 return true;
             }
+            String skillTitle = titles_0[labels_arr.indexOf(skillName)];
+
             if (!configLoad.getAllowedSkillsMap().get(skillName)) { //Special condition to return (skill disabled)
                 p.sendMessage(ChatColor.RED + lang.getString("disabledSkill"));
                 return true;

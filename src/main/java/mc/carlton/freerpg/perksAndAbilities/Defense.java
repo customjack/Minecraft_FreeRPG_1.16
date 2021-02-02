@@ -3,6 +3,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 import mc.carlton.freerpg.gameTools.EntityPickedUpItemStorage;
 import mc.carlton.freerpg.gameTools.ExpFarmTracker;
 import mc.carlton.freerpg.globalVariables.EntityGroups;
+import mc.carlton.freerpg.playerInfo.ChangeStats;
 import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import mc.carlton.freerpg.serverInfo.MinecraftVersion;
 import org.bukkit.Bukkit;
@@ -299,23 +300,37 @@ public class Defense extends Skill{
     }
 
     public void hearty() {
+        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
+        int heartyToggle = (int) pStat.get("global").get(30);
+        int heartyLevel = (int) pStat.get(skillName).get(13);
         if (!runMethods) {
-            ConfigLoad configLoad = new ConfigLoad();
-            double HP = configLoad.getBasePlayerHP();
-            ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(HP);
+            toggleHearty(0,heartyToggle); //Toggle hearty with level not high enough to be active (can only be turned off if it was on)
             return;
         }
-        Map<String, ArrayList<Number>> pStat = pStatClass.getPlayerData();
-        int heartyLevel = (int) pStat.get(skillName).get(13);
-        ConfigLoad configLoad = new ConfigLoad();
-        double HP = configLoad.getBasePlayerHP();
-        if (heartyLevel > 0) {
-            if (((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() <= HP + 4.0) {
-                ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(HP + 4.0);
+        toggleHearty(heartyLevel,heartyToggle);
+    }
+
+    public void toggleHearty(int heartyLevel, int heartyToggle) {
+        /*
+         * The idea here:
+         * If hearty is allowed to be on, we turn it on (if it was off)
+         * If hearty is not allowed to be on, we turn it off (if it was on)
+         */
+        double HP = ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+        ChangeStats changeStats = new ChangeStats(p);
+        if (heartyLevel < 1) { //Hearty level not high enough to be active
+            if (heartyToggle > 0) { //Hearty was somehow on
+                ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(HP - 4.0);
+                changeStats.setStat("global",30,0);
             }
+            //Otherwise, hearty was off and we do nothing
         }
-        else {
-            ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(HP);
+        else { //Hearty level is high enough to be active
+            if (heartyToggle < 1) { //Hearty was off
+                ((Attributable) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(HP + 4.0);
+                changeStats.setStat("global",30,1);
+            }
+            //Otherwise, hearty was on so we do nothing
         }
 
     }

@@ -16,7 +16,6 @@
 #
 
 general:
-  playerBaseHP: 20.0 #Player max health will reset to this value on login (or this value plus 4 if the player has the Hearty perk)
   defaultLanguage: enUs #Choices: enUs, huHU, frFR, deDE, plPL, esCl, ruRU, ptBR, csCZ, koKR and custom
   forceLanguage: false #Forces players to use the server's default langauge
 leveling:
