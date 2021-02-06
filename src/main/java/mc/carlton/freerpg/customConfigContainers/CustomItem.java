@@ -19,6 +19,7 @@ public class CustomItem extends CustomContainer {
     protected double weight = 1.0;
     protected double probability = -1.0;
     protected int experienceDrop = 0;
+    protected String itemName;
 
     /**
      * Constructor for CustomItem
@@ -28,16 +29,17 @@ public class CustomItem extends CustomContainer {
         this.material = material;
     }
 
-    public CustomItem(List configItem) {
-        super();
-        CustomContainerImporter importer = new CustomContainerImporter(this);
-        importer.setFromConfigEntry(configItem);
+    @Override
+    public void setContainerInformation(Map<String, Object> containerInformation) {
+
     }
 
-    public CustomItem(List configItem, String configPath) {
-        super(configPath);
-        CustomContainerImporter importer = new CustomContainerImporter(this);
-        importer.setFromConfigEntry(configItem);
+    /**
+     *
+     * @return true if item is potion
+     */
+    public boolean isPotion() {
+        return (material.equals(Material.POTION));
     }
 
     /**
@@ -133,6 +135,14 @@ public class CustomItem extends CustomContainer {
      */
     public void setMaterial(Material material) {
         this.material = material;
+    }
+
+    /**
+     * Getter for material
+     * @return material
+     */
+    public Material getMaterial() {
+        return material;
     }
 
     /**

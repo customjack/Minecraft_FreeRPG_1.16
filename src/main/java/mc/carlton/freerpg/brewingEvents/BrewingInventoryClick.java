@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class BrewingInventoryClick implements Listener {
     Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     void onInventoryClick(InventoryClickEvent e) {
         if (e.isCancelled()) {
             return;

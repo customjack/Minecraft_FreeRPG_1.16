@@ -1,5 +1,6 @@
-package mc.carlton.freerpg.newEvents;
+package mc.carlton.freerpg.newEvents.eventCallers;
 
+import mc.carlton.freerpg.newEvents.FrpgPlayerCraftItemEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

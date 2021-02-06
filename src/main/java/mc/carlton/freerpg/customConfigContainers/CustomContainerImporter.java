@@ -1,128 +1,364 @@
 package mc.carlton.freerpg.customConfigContainers;
 
 import mc.carlton.freerpg.utilities.FrpgPrint;
+import mc.carlton.freerpg.utilities.UtilityMethods;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /*
 This Class' purpose is to import information from a config node into an actually a container class (CustomItem, CustomPotion, etc...)
  */
 public class CustomContainerImporter {
-    CustomContainer container;
     String configPath;
-    private static final String IMPROPER_CONFIG = "WARNING: Improper Config at ";
-    private static final String MATERIAL_NOT_FOUND = "Material not found: ";
-    private static final String IMPROPER_AMOUNT =  "Amount cannot be less than 1 ";
-    private static final String DURABILITY_PARAMETERS_INVALID =  "Durability Parameters Invalid";
-    private static final String INVALID_DURABILITY_BOUND = "Minimum durability cannot be greater than maximum durability";
-    private static final String RANDOM_ENCHANTMENT_PARAMETERS_INVALID = "Random Enchantment Parameters Invalid";
-    private static final String INVALID_ENCHANTMENT_BOUNDS = "Minimum Enchantment level cannot be greater than Maximum enchantment level";
-    private static final String STATIC_ENCHANTMENT_PARAMETERS_INVALID = "Static Enchantment Parameters Invalid";
-    private static final String NEGATIVE_WEIGHT = "Weight Value cannot be negative";
-    private static final String INVALID_PROBABILITY ="Probability value must be between 0 and 1";
-    private static final String IMPROPER_DURABILITY_LIMITS = "Durability Limits cannot be less than 0";
-    private static final String IMPROPER_ENCHANTMENT_LIMITS = "Enchantment Limits cannot be less than 0";
-    private static final String INVALID_ENCHANTMENT = "Invalid Enchantment: ";
-    private static final String INVALID_ENCHANTMENT_LEVEL = "Invalid Enchantment Level: ";
-    private static final String EXPECTED_LIST = "Expected List at config node: ";
-    private static final String UNKNOWN_CONFIG_LOCATION = "Unknown Config Location";
 
-    public static List<Map<String,Object>> getConfigTableInformation(YamlConfiguration config, String configPath) {
-        List configTable = config.getList(configPath);
-        if (configTable == null) {
-            FrpgPrint.print(EXPECTED_LIST + configPath);
+    /*
+     Error Messages to display
+     */
+    private static final String NO_PATH                               = "Unknown Config Path";
+    private static final String IMPROPER_CONFIG                       = "WARNING: Improper Config at ";
+    private static final String MATERIAL_NOT_FOUND                    = "Material not found: ";
+    private static final String IMPROPER_AMOUNT                       =  "Amount cannot be less than 1 ";
+    private static final String DURABILITY_PARAMETERS_INVALID         =  "Durability Parameters Invalid";
+    private static final String INVALID_DURABILITY_BOUND              = "Minimum durability cannot be greater than maximum durability";
+    private static final String RANDOM_ENCHANTMENT_PARAMETERS_INVALID = "Random Enchantment Parameters Invalid";
+    private static final String INVALID_ENCHANTMENT_BOUNDS            = "Minimum Enchantment level cannot be greater than Maximum enchantment level";
+    private static final String STATIC_ENCHANTMENT_PARAMETERS_INVALID = "Static Enchantment Parameters Invalid";
+    private static final String NEGATIVE_WEIGHT                       = "Weight Value cannot be negative";
+    private static final String INVALID_PROBABILITY                   = "Probability value must be between 0 and 1";
+    private static final String IMPROPER_DURABILITY_LIMITS            = "Durability Limits cannot be less than 0";
+    private static final String IMPROPER_ENCHANTMENT_LIMITS           = "Enchantment Limits cannot be less than 0";
+    private static final String INVALID_ENCHANTMENT                   = "Invalid Enchantment: ";
+    private static final String INVALID_ENCHANTMENT_LEVEL             = "Invalid Enchantment Level: ";
+    private static final String INVALID_POTION_TYPE                   = "Invalid potion type: ";
+    private static final String INVALID_EFFECT_TYPE                   = "Invalid effect type: ";
+    private static final String INVALID_DURATION                      = "Potion Duration must be greater than 0";
+    private static final String INVALID_POTION_LEVEL                  = "Invalid Potion Level: ";
+    private static final String EXPECTED_LIST                         = "Expected List at config node: ";
+    private static final String EXPECTED_LIST_OF_MAPS                 = "Expected List elements to be Maps/Dictionaries at config node: ";
+    private static final String UNKNOWN_CONFIG_LOCATION               = "Unknown Config Location";
+    private static final String POTION_EFFECT_TYPE_INVALID            = "Potion Effect Type Parameters Invalid";
+    private static final String INVALID_POTION_COLOR                  = "RGB values must be in the range 0 - 255";
+    private static final String ITEM_TYPE_REQUIRED                    = "An Item Type is required for a custom item";
+
+    /*
+     Acceptable keywords for expected information to be read in
+     */
+    private static final List<String> MATERIAL_KEYWORDS           = Arrays.asList(new String[]{"item","drop"});
+    private static final List<String> AMOUNT_KEYWORDS             = Arrays.asList(new String[]{"amount"});
+    private static final List<String> DURABILITY_KEYWORDS         = Arrays.asList(new String[]{"durability","durabilityModifier"});
+    private static final List<String> ENCHANTMENT_BOUNDS_KEYWORDS = Arrays.asList(new String[]{"randomEnchantment","enchantmentBounds"});
+    private static final List<String> ENCHANTMENTS_KEYWORDS       = Arrays.asList(new String[]{"staticEnchantments","enchantments"});
+    private static final List<String> WEIGHT_KEYWORDS             = Arrays.asList(new String[]{"weight"});
+    private static final List<String> PROBABILITY_KEYWORDS        = Arrays.asList(new String[]{"prob","probability"});
+    private static final List<String> EXPERIENCE_KEYWORDS         = Arrays.asList(new String[]{"experience","exp"});
+    private static final List<String> POTION_KEYWORDS             = Arrays.asList(new String[]{"potion","potionEffect"});
+    private static final List<String> COLOR_KEYWORDS              = Arrays.asList(new String[]{"color","potionColor"});
+    private static final String LOWER_BOUND_KEY_WORD              = "lower";
+    private static final String UPPER_BOUND_KEY_WORD              = "upper";
+    private static final String IS_TREASURE_KEYWORD               = "isTreasure";
+    private static final String ENCHANTMENT_KEYWORD               = "enchant";
+    private static final String LEVEL_KEYWORD                     = "level";
+    private static final String EFFECT_KEYWORD                    = "effect";
+    private static final String DURATION_KEYWORD                  = "duration";
+    private static final String IS_UPGRADED_KEYWORD               = "isUpgraded";
+    private static final String IS_EXTENDED_KEYWORD               = "isExtended";
+
+    public CustomContainerImporter(String configPath) {
+        this.configPath = configPath;
+    }
+    public CustomContainerImporter() {
+        this(NO_PATH);
+    }
+
+    public CustomItem getCustomItem(Object configItem) {
+        if (!(configItem instanceof List)) {
+            printReadInError();
             return null;
         }
-        return getConfigTableInformation(configTable);
-    }
-
-    public static List<Map<String,Object>> getConfigTableInformation(List configTable,String configPath) {
-        ArrayList<Map<String,Object>> tableInformation = new ArrayList<>();
-        for (Object tableRow : configTable) {
-            System.out.println(tableRow.getClass());
-            System.out.println(tableRow);
-            if (!(tableRow instanceof List)) {
-                FrpgPrint.print(EXPECTED_LIST+ configPath);
-                return null;
-            }
-            tableInformation.add(convertListedTableRowToMap((List) tableRow,configPath));
-        }
-        return tableInformation;
-    }
-
-    public static List<Map<String,Object>> getConfigTableInformation(List configTable) {
-        return getConfigTableInformation(configTable,UNKNOWN_CONFIG_LOCATION);
-    }
-
-    public static Map<String,Object> convertListedTableRowToMap(List configTableRow, String configPath) {
-        Map<String,Object> tableRow = new HashMap<>();
-        for (Object tableElementObject : configTableRow) {
-            if (!(tableElementObject instanceof Map)) {
-                FrpgPrint.print(EXPECTED_LIST+ configPath);
-                return null;
-            }
-            Map tableElement = (Map) tableElementObject;
-            for (Object key : tableElement.keySet()) {
-                Object value = tableElement.get(key);
-                tableRow.put(key.toString(),value);
+        Map<String, Object> itemInformation = convertListedTableRowToMap((List) configItem, configPath);
+        Material material = null;
+        for (String key : itemInformation.keySet()) {
+            if (UtilityMethods.containsIgnoreCase(MATERIAL_KEYWORDS,key)) {
+                material = getMaterial(itemInformation.get(key));
+                break;
             }
         }
-        return tableRow;
+        if (material == null) {
+            printReadInError(ITEM_TYPE_REQUIRED);
+            return null;
+        }
+        if (material.equals(Material.POTION)) {
+            CustomPotion customPotion = new CustomPotion();
+            constructCustomItem(customPotion,itemInformation);
+            return customPotion;
+        } else {
+            CustomItem customItem = new CustomItem(material);
+            constructCustomItem(customItem,itemInformation);
+            return customItem;
+        }
     }
 
-    public CustomContainerImporter(CustomContainer customContainer) {
-        this.container = customContainer;
+    private void constructCustomItem(CustomItem customItem, Map<String, Object> itemInformation) {
+        for (String key : itemInformation.keySet()) {
+            Object value = itemInformation.get(key);
+            assignCustomItemValue(customItem,value, key);
+        }
     }
 
-    public void setFromConfigEntry(Object configItem) {
-        try {
-            List<Map> configItemList = getListOfMapsFromValueObject(configItem);
-            if (configItemList == null) {
+    private void constructCustomItem(CustomPotion customPotion, Map<String, Object> itemInformation) {
+        for (String key : itemInformation.keySet()) {
+            Object value = itemInformation.get(key);
+            assignCustomItemValue(customPotion,value, key);
+            assignCustomPotionValues(customPotion,value, key);
+        }
+    }
+
+    private void assignCustomItemValue(CustomItem customItemContainer, Object value, String mapKey) {
+        if (UtilityMethods.containsIgnoreCase(AMOUNT_KEYWORDS,mapKey)) {
+            Integer amount = Integer.valueOf(value.toString());
+            if ( amount < 0) {
+                printReadInError(IMPROPER_AMOUNT + amount);
                 return;
             }
-            for (Map map : configItemList) {
-                setValueFromConfigNode(map);
+            customItemContainer.setAmount(amount);
+        } else if (UtilityMethods.containsIgnoreCase(DURABILITY_KEYWORDS,mapKey)) {
+            Map<String,Object> durabilityInfo = getMap(value);
+            if (durabilityInfo == null) {
+                return;
             }
-        } catch (Exception e) {
+            //Get lower and upper bound doubles
+            boolean lowerBoundPresent = UtilityMethods.containsIgnoreCase(durabilityInfo.keySet(), LOWER_BOUND_KEY_WORD);
+            boolean upperBoundPresent = UtilityMethods.containsIgnoreCase(durabilityInfo.keySet(), UPPER_BOUND_KEY_WORD);
+            if (!lowerBoundPresent && !upperBoundPresent) {
+                printReadInError(DURABILITY_PARAMETERS_INVALID);
+            }
+            double lowerBound = (lowerBoundPresent) ? Double.valueOf(durabilityInfo.get(LOWER_BOUND_KEY_WORD).toString()) : 1.0;
+            double upperBound = (upperBoundPresent) ? Double.valueOf(durabilityInfo.get(UPPER_BOUND_KEY_WORD).toString()) : 1.0;
+            if (lowerBound > upperBound) {
+                printReadInError(INVALID_DURABILITY_BOUND);
+                lowerBound = upperBound;
+            }
+            if (lowerBound < 0 || upperBound < 0 ) {
+                printReadInError(IMPROPER_DURABILITY_LIMITS);
+                return;
+            }
+            customItemContainer.setDurabilityRange(lowerBound,upperBound);
+        } else if (UtilityMethods.containsIgnoreCase(ENCHANTMENT_BOUNDS_KEYWORDS,mapKey)) {
+            Map<String,Object> enchantmentInfo = getMap(value);
+            if (enchantmentInfo == null) {
+                return;
+            }
+            //Get lower and upper bound doubles
+            boolean lowerBoundPresent = UtilityMethods.containsIgnoreCase(enchantmentInfo.keySet(), LOWER_BOUND_KEY_WORD);
+            boolean upperBoundPresent = UtilityMethods.containsIgnoreCase(enchantmentInfo.keySet(), UPPER_BOUND_KEY_WORD);
+            boolean isTreasurePresent = UtilityMethods.containsIgnoreCase(enchantmentInfo.keySet(), IS_TREASURE_KEYWORD);
+            if (!lowerBoundPresent && !upperBoundPresent && !isTreasurePresent) {
+                printReadInError(RANDOM_ENCHANTMENT_PARAMETERS_INVALID);
+            }
+            int lowerBound     = (lowerBoundPresent) ? Integer.valueOf(enchantmentInfo.get(LOWER_BOUND_KEY_WORD).toString()) : 0;
+            int upperBound     = (upperBoundPresent) ? Integer.valueOf(enchantmentInfo.get(UPPER_BOUND_KEY_WORD).toString()) : 0;
+            boolean isTreasure = (isTreasurePresent) ? Boolean.valueOf(enchantmentInfo.get(IS_TREASURE_KEYWORD).toString()) : true;
+            if (lowerBound > upperBound) {
+                printReadInError(INVALID_ENCHANTMENT_BOUNDS);
+                lowerBound = upperBound;
+            }
+            if (lowerBound < 0 || upperBound < 0 ) {
+                printReadInError(IMPROPER_ENCHANTMENT_LIMITS);
+                return;
+            }
+            customItemContainer.setEnchantmentLevelRange(lowerBound,upperBound);
+            customItemContainer.setTreasure(isTreasure);
+        } else if (UtilityMethods.containsIgnoreCase(ENCHANTMENTS_KEYWORDS,mapKey)) {
+            List enchantmentsListUnParsed = getList(value);
+            if (enchantmentsListUnParsed == null) {
+                return;
+            }
+            List<Map<String,Object>> enchantmentsList = getConfigTableInformation(enchantmentsListUnParsed,configPath);
+            if (enchantmentsList == null) {
+                return;
+            }
+            for (Map<String, Object> enchantmentInfo : enchantmentsList) {
+                Enchantment enchantment = (UtilityMethods.containsIgnoreCase(enchantmentInfo.keySet(), ENCHANTMENT_KEYWORD)) ? getEnchantment(enchantmentInfo.get(ENCHANTMENT_KEYWORD)) : null;
+                if (enchantment == null) {
+                    printReadInError(STATIC_ENCHANTMENT_PARAMETERS_INVALID);
+                    continue;
+                }
+                int level = (UtilityMethods.containsIgnoreCase(enchantmentInfo.keySet(), LEVEL_KEYWORD)) ? Integer.valueOf(enchantmentInfo.get(LEVEL_KEYWORD).toString()) : 1;
+                if (level < 0) {
+                    printReadInError(INVALID_ENCHANTMENT_LEVEL + level);
+                    level = 1;
+                }
+                customItemContainer.addEnchantment(enchantment,level);
+            }
+        } else if (UtilityMethods.containsIgnoreCase(WEIGHT_KEYWORDS,mapKey)) {
+            Double weight = Double.valueOf(value.toString());
+            if ( weight < 0) {
+                printReadInError(NEGATIVE_WEIGHT);
+                return;
+            }
+            customItemContainer.setWeight(weight);
+        } else if (UtilityMethods.containsIgnoreCase(PROBABILITY_KEYWORDS,mapKey)) {
+            Double prob = Double.valueOf(value.toString());
+            if ( prob < 0 || prob > 1) {
+                printReadInError(INVALID_PROBABILITY);
+                return;
+            }
+            customItemContainer.setProbability(prob);
+        } else if (UtilityMethods.containsIgnoreCase(EXPERIENCE_KEYWORDS,mapKey)) {
+            Integer exp = Integer.valueOf(value.toString());
+            customItemContainer.setAmount(exp);
+        }
+    }
+
+    private void assignCustomPotionValues(CustomPotion customPotionContainer, Object value, String mapKey) {
+        if (UtilityMethods.containsIgnoreCase(COLOR_KEYWORDS,mapKey)) {
+            Color potionColor = getPotionColor(value);
+            customPotionContainer.setPotionColor(potionColor);
+        } else if (UtilityMethods.containsIgnoreCase(POTION_KEYWORDS,mapKey)) {
+            Map<String, Object> minecraftPotionInfo = getMap(value,true);
+
+            if (minecraftPotionInfo == null) {
+                List customEffectInfoUnParsed = getList(value);
+                if (customEffectInfoUnParsed == null) {
+                    return;
+                }
+                List<Map<String,Object>> customEffectInfoList = getConfigTableInformation(customEffectInfoUnParsed,configPath);
+                if (customEffectInfoList == null) {
+                    return;
+                }
+
+                //Custom Effect Case
+                for (Map<String, Object> customEffectInfo : customEffectInfoList) {
+                    boolean effectPresent   = UtilityMethods.containsIgnoreCase(customEffectInfo.keySet(), EFFECT_KEYWORD);
+                    boolean durationPresent = UtilityMethods.containsIgnoreCase(customEffectInfo.keySet(), DURATION_KEYWORD);
+                    boolean levelPresent    = UtilityMethods.containsIgnoreCase(customEffectInfo.keySet(), LEVEL_KEYWORD);
+
+                    PotionEffectType effectType = (effectPresent) ? getEffectType(customEffectInfo.get(EFFECT_KEYWORD)) : null;
+                    Double duration             = (durationPresent) ? Double.valueOf(customEffectInfo.get(DURATION_KEYWORD).toString()) : 0.0;
+                    Integer level               = (levelPresent) ? Integer.valueOf(customEffectInfo.get(LEVEL_KEYWORD).toString()) : 1;
+
+                    if (effectType == null) {
+                        printReadInError(POTION_EFFECT_TYPE_INVALID);
+                        continue;
+                    }
+                    if (duration < 0) {
+                        printReadInError(INVALID_DURATION);
+                        duration = 0.0;
+                    }
+                    if (level < 0) {
+                        printReadInError(INVALID_POTION_LEVEL + level);
+                        level = 1;
+                    }
+                    customPotionContainer.addPotionEffect(effectType,duration,level);
+                }
+                return;
+            }
+
+            //Custom Potion Case
+            boolean effectPresent     = UtilityMethods.containsIgnoreCase(minecraftPotionInfo.keySet(), EFFECT_KEYWORD);
+            boolean isUpgradedPresent = UtilityMethods.containsIgnoreCase(minecraftPotionInfo.keySet(), IS_UPGRADED_KEYWORD);
+            boolean isExtendedPresent = UtilityMethods.containsIgnoreCase(minecraftPotionInfo.keySet(), IS_EXTENDED_KEYWORD);
+
+            PotionType effectType  = (effectPresent) ? getPotionType(minecraftPotionInfo.get(EFFECT_KEYWORD)) : null;
+            boolean isUpgraded     = (isUpgradedPresent) ? Boolean.valueOf(minecraftPotionInfo.get(IS_UPGRADED_KEYWORD).toString()) : false;
+            boolean isExtended     = (isExtendedPresent) ? Boolean.valueOf(minecraftPotionInfo.get(IS_EXTENDED_KEYWORD).toString()) : false;
+            customPotionContainer.setPotion(effectType,isUpgraded,isExtended);
+        }
+    }
+
+    private Material getMaterial(Object value) {
+        Material material = Material.getMaterial(value.toString());
+        if (material == null) {
+            printReadInError(MATERIAL_NOT_FOUND + value.toString());
+        }
+        return material;
+    }
+
+    private Map<String,Object> getMap(Object value) {
+        return getMap(value,false);
+    }
+
+    private Map<String,Object> getMap(Object value, boolean silent) {
+        if (!(value instanceof Map)) {
+            if (!silent) {
+                printReadInError();
+            }
+            return null;
+        }
+        for (Object object : ((Map) value).keySet()) {
+            if (!(object instanceof String)) {
+                if (!silent) {
+                    printReadInError();
+                }
+                return null;
+            }
+        }
+        return (Map<String,Object>) value;
+    }
+
+    private List getList(Object value) {
+        if (!(value instanceof List)) {
             printReadInError();
+            return null;
         }
+        return (List) value;
     }
 
-    private void setValueFromConfigNode(Map map) {
-        Object key = getOnlyKey(map); //Gets "first" key from the map (throws error if more than one key)
-        Object value = map.get(key); //Gets value of the key
-        String mapKey = key.toString(); //Gets string name of the key
-        setValueFromConfigNodeForCustomItem(value,mapKey);
-    }
-
-    private void setValueFromConfigNodeForCustomItem(Object value, String mapKey) {
-        if (mapKey.equalsIgnoreCase("item") || mapKey.equalsIgnoreCase("drop")) {
-            decodeMaterialValue(value);
-        } else if (mapKey.equalsIgnoreCase("amount")) {
-            decodeAmountValue(value);
-        } else if (mapKey.equalsIgnoreCase("durability") || mapKey.equalsIgnoreCase("durabilityModifier")) {
-            decodeDurabilityInformation(value);
-        } else if (mapKey.equalsIgnoreCase("randomEnchantment") || mapKey.equalsIgnoreCase("enchantmentBounds")) {
-            decodeEnchantmentInformation(value);
-        } else if (mapKey.equalsIgnoreCase("staticEnchantments") || mapKey.equalsIgnoreCase("enchantments")) {
-            decodeStaticEnchantmentInformation(value);
-        } else if (mapKey.equalsIgnoreCase("weight")) {
-            decodeWeightValue(value);
-        } else if (mapKey.equalsIgnoreCase("prob") || mapKey.equalsIgnoreCase("probability")) {
-            decodeProbValue(value);
-        } else if (mapKey.equalsIgnoreCase("experience") || mapKey.equalsIgnoreCase("exp")) {
-            decodeExperienceValue(value);
+    private Enchantment getEnchantment(Object value) {
+        Enchantment enchantment = EnchantmentWrapper.getByKey(NamespacedKey.minecraft(value.toString().toLowerCase()));
+        if (enchantment == null) {
+            printReadInError(INVALID_ENCHANTMENT + value.toString());
+            return null;
         }
+        return enchantment;
     }
 
+    private PotionType getPotionType(Object value) {
+        PotionType potionType = PotionType.valueOf(value.toString().toUpperCase());
+        if (potionType == null) {
+            printReadInError(INVALID_POTION_TYPE + value.toString());
+            return null;
+        }
+        return potionType;
+    }
+
+    private PotionEffectType getEffectType(Object value) {
+        PotionEffectType effectType = PotionEffectType.getByName(value.toString().toUpperCase());
+        if (effectType == null) {
+            printReadInError(INVALID_EFFECT_TYPE + value.toString());
+            return null;
+        }
+        return effectType;
+    }
+
+    private Color getPotionColor(Object value) {
+        String colorString = value.toString();
+        colorString = colorString.substring(1,colorString.length()-1);
+        List<String> RGB = Arrays.asList(colorString.trim().split(","));
+        int red = 0;
+        int green = 0;
+        int blue = 0;
+        if (RGB.size() == 3) {
+            red = Integer.parseInt(RGB.get(0));
+            green = Integer.parseInt(RGB.get(1));
+            blue = Integer.parseInt(RGB.get(2));
+        } else {
+            printReadInError(INVALID_POTION_COLOR);
+            return null;
+        }
+        return Color.fromRGB(red,green,blue);
+    }
+
+    /*
     private void decodeMaterialValue(Object value) {
         CustomItem customItem = (CustomItem) container;
         customItem.material = Material.getMaterial(value.toString());
@@ -274,6 +510,7 @@ public class CustomContainerImporter {
             printReadInError(DURABILITY_PARAMETERS_INVALID);
         }
     }
+    */
 
     private void printReadInError() {
         FrpgPrint.print(IMPROPER_CONFIG + configPath);
@@ -305,6 +542,7 @@ public class CustomContainerImporter {
         return mapKey;
     }
 
+    /*
     private List<Map> getListOfMapsFromValueObject(Object value, String extraErrorMessage) {
         if ((value instanceof List)) {
             List valueList = (List) value;
@@ -368,5 +606,60 @@ public class CustomContainerImporter {
             printReadInError(extraErrorMessage);
             return null;
         }
+    }
+     */
+
+    public static List<Map<String,Object>> getConfigTableInformation(YamlConfiguration config, String configPath) {
+        List configTable = config.getList(configPath);
+        if (configTable == null) {
+            FrpgPrint.print(EXPECTED_LIST + configPath);
+            return null;
+        }
+        return getConfigTableInformation(configTable);
+    }
+
+    public static List<Map<String,Object>> getConfigTableInformation(List configTable,String configPath) {
+        ArrayList<Map<String,Object>> tableInformation = new ArrayList<>();
+        for (Object tableRow : configTable) {
+            if (!(tableRow instanceof List)) {
+                FrpgPrint.print(EXPECTED_LIST+ configPath);
+                return null;
+            }
+            tableInformation.add(convertListedTableRowToMap((List) tableRow,configPath));
+        }
+        return tableInformation;
+    }
+
+    public static List<Map<String,Object>> getConfigTableInformation(List configTable) {
+        return getConfigTableInformation(configTable,UNKNOWN_CONFIG_LOCATION);
+    }
+
+    /**
+     * Converts List of config nodes to a Map format (removes extraneous lists used to compact lines in .yml files)
+     * @param listOfConfigNodes List that contains config nodes (Maps)
+     * @param configPath The path where the list was taken from (only used to print if errors occur)
+     * @return A map format of the list
+     */
+    public static Map<String,Object> convertListedTableRowToMap(List listOfConfigNodes, String configPath) {
+        Map<String,Object> tableRow = new HashMap<>();
+        if (!UtilityMethods.collectionOnlyContainsOneClass(listOfConfigNodes,Map.class)) { //Checks if the list only contains maps first
+            FrpgPrint.print(EXPECTED_LIST_OF_MAPS+ configPath);
+            return null;
+        }
+        for (Object tableElementObject : listOfConfigNodes) {
+            Map tableElement = (Map) tableElementObject;
+            for (Object key : tableElement.keySet()) {
+                Object value = tableElement.get(key);
+                if (value instanceof List) {
+                    if (!((List) value).isEmpty()) {
+                        if (UtilityMethods.collectionOnlyContainsOneClass((List) value,Map.class)) {
+                            value = convertListedTableRowToMap((List) value,configPath);
+                        }
+                    }
+                }
+                tableRow.put(key.toString(), value);
+            }
+        }
+        return tableRow;
     }
 }

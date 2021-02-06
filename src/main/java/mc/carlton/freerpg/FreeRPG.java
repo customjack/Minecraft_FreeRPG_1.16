@@ -9,7 +9,6 @@ import mc.carlton.freerpg.clickEvents.PlayerRightClickEntity;
 import mc.carlton.freerpg.combatEvents.*;
 import mc.carlton.freerpg.commands.*;
 import mc.carlton.freerpg.customConfigContainers.CustomContainerImporter;
-import mc.carlton.freerpg.customConfigContainers.CustomItem;
 import mc.carlton.freerpg.enchantingEvents.*;
 import mc.carlton.freerpg.furnaceEvents.FurnaceBurn;
 import mc.carlton.freerpg.furnaceEvents.FurnaceInventoryClick;
@@ -22,7 +21,9 @@ import mc.carlton.freerpg.leaveAndJoin.LogoutProcedure;
 import mc.carlton.freerpg.miscEvents.*;
 import mc.carlton.freerpg.leaveAndJoin.PlayerJoin;
 import mc.carlton.freerpg.leaveAndJoin.PlayerLeave;
-import mc.carlton.freerpg.newEvents.FrpgPlayerCraftItemEventCaller;
+import mc.carlton.freerpg.newEvents.eventCallers.FrpgAbilityItemMovedEventCaller;
+import mc.carlton.freerpg.newEvents.eventCallers.FrpgPlayerCraftItemEventCaller;
+import mc.carlton.freerpg.newEvents.eventCallers.FrpgPlayerRightClickEventCaller;
 import mc.carlton.freerpg.pistonEvents.PistonEvents;
 import mc.carlton.freerpg.playerInfo.*;
 import mc.carlton.freerpg.serverConfig.ConfigLoad;
@@ -41,6 +42,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public final class FreeRPG extends JavaPlugin implements Listener {
 
@@ -186,6 +188,8 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerEnterVehicle(), this);
         getServer().getPluginManager().registerEvents(new PistonEvents(), this);
         getServer().getPluginManager().registerEvents(new FrpgPlayerCraftItemEventCaller(), this);
+        getServer().getPluginManager().registerEvents(new FrpgAbilityItemMovedEventCaller(), this);
+        getServer().getPluginManager().registerEvents(new FrpgPlayerRightClickEventCaller(), this);
 
         //Registers commands
         getCommand("frpg").setExecutor(new FrpgCommands());
@@ -215,10 +219,11 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         f.setReadable(true,false);
         f.setWritable(true,false);
         YamlConfiguration config = YamlConfiguration.loadConfiguration(f);
-        List test = ( (List) (config.getList("fishing.skill_1B.level5.dropTable").get(7)));
+        final String testConfigPath = "alchemy.skill_1A.level1.recipes";
+        List test = ( (List) ( (Map) (config.getList(testConfigPath).get(0) ) ).get("output") );
         System.out.println(test);
-        System.out.println(new CustomItem(test,"fishing.skill_1B.level5.dropTable"));
-        System.out.println(CustomContainerImporter.getConfigTableInformation(config,"fishing.skill_1B.level5.dropTable"));
+        System.out.println(new CustomContainerImporter(testConfigPath).getCustomItem(test));
+        System.out.println(CustomContainerImporter.convertListedTableRowToMap(test,testConfigPath));
 
     }
 
