@@ -188,6 +188,9 @@ public class PsuedoEnchanting {
     public ItemStack enchantItem(ItemStack item, int level,boolean isTreasure) {
         //Getting data
         Material itemType = item.getType();
+        if (!itemEnchantTypeMap.containsKey(itemType)) {
+            return item; //Does not enchant the item if it is not contained
+        }
         int enchantability = (int)itemEnchantTypeMap.get(itemType)[1];
         Enchantment[] possibleEnchants0 = toolEnchantMap.get((String)itemEnchantTypeMap.get(itemType)[0]);
         Map<Enchantment,Integer> enchantment_level= new HashMap<>();
@@ -372,6 +375,9 @@ public class PsuedoEnchanting {
     public ItemStack addEnchant(ItemStack preEnchantedItem, int level,boolean isTreasure) {
         //Getting data
         Material itemType = preEnchantedItem.getType();
+        if (!itemEnchantTypeMap.containsKey(itemType)) {
+            return preEnchantedItem; //Does not enchant the item if it is not contained
+        }
         int enchantAbility = (int)itemEnchantTypeMap.get(itemType)[1];
         Enchantment[] possibleEnchants0 = toolEnchantMap.get((String)itemEnchantTypeMap.get(itemType)[0]);
         Map<Enchantment,Integer> enchantment_level= new HashMap<>();

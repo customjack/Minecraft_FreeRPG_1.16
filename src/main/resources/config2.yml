@@ -24,7 +24,6 @@
 #
 # For configuration of
 general:
-  playerBaseHP: 20.0 #Player max health will reset to this value on login (or this value plus 4 if the player has the Hearty perk)
   defaultLanguage: enUs #Choices: enUs, huHU, frFR, deDE, plPL, esCl, ruRU, ptBR, csCZ, koKR and custom
   forceLanguage: false #Forces players to use the server's default langauge
 
@@ -103,28 +102,33 @@ fishing:
   junkCatches:
     #The drop rate of these catches depends on the value of fishing.passive3 (Treasure Finder) in perkConfig.yml
 
-    # Select drops from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-    # Format: [{Drop name}, {amount}, {exp rewarded}, {probability weight}, {durability modifier (Optional), {enchantment bounds (Option)}, {static enchantments (Optional)}, {potion Type (Optional}]
-    # Durability modifer: [lowest percent durability percent, highest durability percent]. A uniformly random value is picked between the two endpoints. At least 1 durability point is always present.
-    # If the item has no durability, this section will be ignored
-    # Enchantment bounds: [lowest possible enchantment level, highest possible enchantment level]. A uniformly random level is picked between the two endpoints.
-    # If the item cannot be enchanted in vanilla minecraft, this section will be ignored
-    # Static enchanment: {Enchantment name}-{level}. Spell enchantment names exactly as seen in minecraft (english), with an underscore substituted for spaces. Enchantments can be unsafe
-    # Ex: Luck of the sea III --> LUCK_OF_THE_SEA-3
-    # Potion Type: the type of potion. Only takes effect if the drop name is "POTION". Select effects from: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionType.html
+    # Fill the drop table with custom items
+    # Please refer to the custom item information in the comments of perkConfig.yml
     dropTable:
-      - [drop: LILY_PAD,            amount: 1, exp: 1000, weight: 500]
-      - [drop: BOWL,        amount: 1, exp: 1000, weight: 200]
-      - [drop: FISHING_ROD,        amount: 1, exp: 1000, weight: 100, durability: [0.10,1.00]]
-      - [drop: LEATHER,    amount: 1, exp: 1000, weight: 50 ]
-      - [drop: LEATHER_BOOTS,        amount: 1, exp: 1000, weight: 100, durability: [0.10,1.00]]
-      - [drop: ROTTEN FLESH,        amount: 1, exp: 1000, weight: 90 ]
-      - [drop: STICK,         amount: 1, exp: 1000, weight: 9  ]
-      - [drop: STRING, amount: 1, exp: 1000, weight: 1  ]
-      - [drop: BOTTLE, amount: 1, exp: 1000, weight: 1, potionType: ]
-      - [drop: NETHERITE_SCRAP, amount: 1, exp: 1000, weight: 1  ]
-      - [drop: NETHERITE_SCRAP, amount: 1, exp: 1000, weight: 1  ]
-      - [drop: NETHERITE_SCRAP, amount: 1, exp: 1000, weight: 1  ]
+      - [drop: LILY_PAD,      amount: 1, exp: 1000, weight: 17]
+      - [drop: BOWL,          amount: 1, exp: 1000, weight: 10]
+      - [drop: FISHING_ROD,   amount: 1, exp: 1000, weight: 2,  durability: [lower: 0.10, upper: 1.00]]
+      - [drop: LEATHER,       amount: 1, exp: 1000, weight: 10]
+      - [drop: LEATHER_BOOTS, amount: 1, exp: 1000, weight: 10, durability: [lower: 0.10, upper: 1.00]]
+      - [drop: ROTTEN FLESH,  amount: 1, exp: 1000, weight: 10]
+      - [drop: STICK,         amount: 1, exp: 1000, weight: 5 ]
+      - [drop: STRING,        amount: 1, exp: 1000, weight: 5 ]
+      - [drop: BOTTLE,        amount: 1, exp: 1000, weight: 10, potion: [effect: WATER] ]
+      - [drop: BONE,          amount: 1, exp: 1000, weight: 10]
+      - [drop: INK_SAC,       amount: 1, exp: 1000, weight: 1 ]
+      - [drop: TRIPWIRE_HOOK, amount: 1, exp: 1000, weight: 10]
+
+  treasureCatches:
+    baseChance: 0.050 #Base probability of tier being rolled (from any catch)
+    # Fill the drop table with custom items
+    # Please refer to the custom item information in the comments of perkConfig.yml
+    dropTable:
+      - [drop: BOW,            amount: 1, exp: 2000, weight: 1, durability: [lower: 0, upper: 0.18], enchantmentBounds: [lower: 22,upper: 30, isTreasure: true] ]
+      - [drop: ENCHANTED_BOOK, amount: 1, exp: 2000, weight: 1, enchantmentBounds: [lower: 22,upper: 30, isTreasure: true] ]
+      - [drop: FISHING_ROD,    amount: 1, exp: 2000, weight: 1, durability: [lower: 0, upper: 0.18], enchantmentBounds: [lower: 22,upper: 30, isTreasure: true] ]
+      - [drop: NAME_TAG,       amount: 1, exp: 2000, weight: 1]
+      - [drop: NAUTILUS_SHELL, amount: 1, exp: 2000, weight: 1]
+      - [drop: ROTTEN SADDLE,  amount: 1, exp: 2000, weight: 1]
 archery:
   enabled: true #Setting this to false disables all skill features and EXP drops.
   startingSkillTokens: 0 #number of skill tokens each player starts with in this skill

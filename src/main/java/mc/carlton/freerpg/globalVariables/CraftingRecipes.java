@@ -1,7 +1,7 @@
 package mc.carlton.freerpg.globalVariables;
 
 import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.customConfigContainers.CustomRecipe;
+import mc.carlton.freerpg.customContainers.collections.OldCustomRecipe;
 import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -51,7 +51,7 @@ public class CraftingRecipes {
 
     public void initializeCraftingRecipes() {
         ConfigLoad configLoad = new ConfigLoad();
-        Map<String, CustomRecipe> craftingRecipes = configLoad.getCraftingRecipes();
+        Map<String, OldCustomRecipe> craftingRecipes = configLoad.getCraftingRecipes();
         Material[] tippedArrow0 = {Material.ARROW,Material.ARROW,Material.ARROW,
                                    Material.ARROW,Material.POTION,Material.ARROW,
                                    Material.ARROW,Material.ARROW,Material.ARROW};
@@ -189,7 +189,7 @@ public class CraftingRecipes {
 
     public void setShapedRecipe(String id){
         ConfigLoad configLoad = new ConfigLoad();
-        CustomRecipe recipeInfo = configLoad.getCraftingRecipes().get(id);
+        OldCustomRecipe recipeInfo = configLoad.getCraftingRecipes().get(id);
         ArrayList<Material> recipeItems = recipeInfo.getRecipe();
         ItemStack item = recipeInfo.getItemStack();
 

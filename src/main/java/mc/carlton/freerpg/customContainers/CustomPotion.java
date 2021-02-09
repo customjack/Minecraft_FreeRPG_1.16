@@ -1,4 +1,4 @@
-package mc.carlton.freerpg.customConfigContainers;
+package mc.carlton.freerpg.customContainers;
 
 import mc.carlton.freerpg.utilities.UtilityMethods;
 import org.bukkit.Color;
@@ -20,8 +20,12 @@ public class CustomPotion extends CustomItem {
     private boolean isUpgraded = false;
     private boolean isExtended = false;
     private List<PotionEffect> potionEffects = new ArrayList<>();
-    private Color color = Color.fromRGB(255,255,255);
+    private Color color;
     private static Map<PotionEffectType, Color> potionEffectColors;
+
+    public CustomPotion(Map<String, Object> containerInformation) {
+        super(Material.POTION,containerInformation);
+    }
 
     public CustomPotion() {
         super(Material.POTION);
@@ -31,6 +35,41 @@ public class CustomPotion extends CustomItem {
         this.potionType = potionType;
         this.isUpgraded = isUpgraded;
         this.isExtended = isExtended;
+    }
+
+    public ItemStack getPotion() {
+        ItemStack potion = getItemStackWithoutPotionEffects();
+        PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
+        if (potionType != null) {
+            potionMeta.setBasePotionData(new PotionData(potionType,isExtended,isUpgraded));
+        } else {
+            for (PotionEffect potionEffect : potionEffects) {
+                potionMeta.addCustomEffect(potionEffect,true);
+            }
+            potionMeta.setColor(determinePotionColor());
+        }
+        potion.setItemMeta(potionMeta);
+        return potion;
+    }
+
+    private Color determinePotionColor() {
+        if (color == null) {
+            ArrayList<Color> colors = new ArrayList<>();
+            for (PotionEffect potionEffect : potionEffects) {
+                colors.add(potionEffectColors.get(potionEffect.getType()));
+            }
+            int numberOfColors = colors.size();
+            double red = 0;
+            double green = 0;
+            double blue = 0;
+            for (Color c : colors) {
+                red += c.getRed()/((double)numberOfColors);
+                green += c.getGreen()/((double)numberOfColors);
+                blue += c.getBlue()/((double)numberOfColors);
+            }
+            return Color.fromRGB( (int) Math.round(Math.min(Math.max(red,0),255)),(int) Math.round(Math.min(Math.max(green,0),255)), (int) Math.round(Math.min(Math.max(blue,0),255)));
+        }
+        return color;
     }
 
     public void setPotion(List<PotionEffect> potionEffects) {
@@ -149,5 +188,36 @@ public class CustomPotion extends CustomItem {
         }
         stringValue += "]";
         return stringValue;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof CustomPotion)) {
+            return false;
+        }
+
+        CustomPotion otherCustomPotion = (CustomPotion) o;
+
+        if (!customItemEquals(otherCustomPotion)) { //Are inherited variables not equal?
+            return false;
+        }
+        if (potionType.equals(otherCustomPotion.potionType) &&
+            isUpgraded == otherCustomPotion.isUpgraded &&
+            isExtended == otherCustomPotion.isExtended &&
+            potionEffects.equals(otherCustomPotion.potionEffects)) {
+            return true;
+        }
+        return false;
+        /*
+            private PotionType potionType;
+    private boolean isUpgraded = false;
+    private boolean isExtended = false;
+    private List<PotionEffect> potionEffects = new ArrayList<>();
+    private Color color;
+    private static Map<PotionEffectType, Color> potionEffectColors;
+         */
     }
 }

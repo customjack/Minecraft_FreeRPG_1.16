@@ -1,7 +1,7 @@
 package mc.carlton.freerpg.commands;
 
 import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.customConfigContainers.CustomRecipe;
+import mc.carlton.freerpg.customContainers.collections.OldCustomRecipe;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
 import mc.carlton.freerpg.globalVariables.CraftingRecipes;
@@ -1881,7 +1881,7 @@ public class FrpgCommands implements CommandExecutor {
             }
 
             ConfigLoad configLoad = new ConfigLoad();
-            Map<String, CustomRecipe> craftingRecipes = configLoad.getCraftingRecipes();
+            Map<String, OldCustomRecipe> craftingRecipes = configLoad.getCraftingRecipes();
             ArrayList<Material> recipe;
             ItemStack output;
             if (identifier.equalsIgnoreCase("archery1")) {
@@ -2114,7 +2114,7 @@ public class FrpgCommands implements CommandExecutor {
 
                 //Initialize some varibales for use
                 String desc = "";
-                Map<String,CustomRecipe> customRecipeMap = configLoad.getCraftingRecipes();
+                Map<String, OldCustomRecipe> customRecipeMap = configLoad.getCraftingRecipes();
 
                 //Make changes to some skills independent of level
                 if (skillName.equalsIgnoreCase("woodcutting")) {

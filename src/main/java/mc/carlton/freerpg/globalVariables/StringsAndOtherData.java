@@ -1,8 +1,8 @@
 package mc.carlton.freerpg.globalVariables;
 
 import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.customConfigContainers.OldCustomPotion;
-import mc.carlton.freerpg.customConfigContainers.CustomRecipe;
+import mc.carlton.freerpg.customContainers.OldCustomPotion;
+import mc.carlton.freerpg.customContainers.collections.OldCustomRecipe;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import mc.carlton.freerpg.utilities.UtilityMethods;
@@ -435,17 +435,17 @@ public class StringsAndOtherData {
                 lang.getString("enchantingCraft5"),lang.getString("enchantingCraft6"),lang.getString("enchantingCraft7"),
                 lang.getString("enchantingCraft8"),lang.getString("enchantingCraft9")};
         ConfigLoad configLoad = new ConfigLoad();
-        Map<String,CustomRecipe> customRecipeMap = configLoad.getCraftingRecipes();
+        Map<String, OldCustomRecipe> customRecipeMap = configLoad.getCraftingRecipes();
         Enchantment[] defaultEnchants = {Enchantment.ARROW_DAMAGE,Enchantment.DIG_SPEED,Enchantment.DAMAGE_ALL,Enchantment.PROTECTION_ENVIRONMENTAL,Enchantment.LUCK,
                 Enchantment.LURE,Enchantment.FROST_WALKER,Enchantment.DEPTH_STRIDER,Enchantment.MENDING,Enchantment.LOOT_BONUS_BLOCKS};
         for (int i = 0; i < craftingNames.length; i++) {
             int stringIndex = i+1;
-            CustomRecipe customRecipe = customRecipeMap.get("enchanting"+stringIndex);
-            Material output = customRecipe.getOutput();
-            if (customRecipe.outputIsEnchanted()) {
-                Enchantment enchantment = customRecipe.getEnchantment();
+            OldCustomRecipe oldCustomRecipe = customRecipeMap.get("enchanting"+stringIndex);
+            Material output = oldCustomRecipe.getOutput();
+            if (oldCustomRecipe.outputIsEnchanted()) {
+                Enchantment enchantment = oldCustomRecipe.getEnchantment();
                 if (!enchantment.equals(defaultEnchants[i]) || !output.equals(Material.ENCHANTED_BOOK)) {
-                    craftingNames[i] = cleanUpTitleString(getBetterEnchantmentString(enchantment.toString())+ " " + customRecipe.getEnchantmentLevel() + " " + output.toString());
+                    craftingNames[i] = cleanUpTitleString(getBetterEnchantmentString(enchantment.toString())+ " " + oldCustomRecipe.getEnchantmentLevel() + " " + output.toString());
                 }
             }
             else {
@@ -465,7 +465,7 @@ public class StringsAndOtherData {
     }
     public String getEnchantmentPerkDescString(int level,Player p) {
         ConfigLoad configLoad = new ConfigLoad();
-        Map<String,CustomRecipe> customRecipeMap = configLoad.getCraftingRecipes();
+        Map<String, OldCustomRecipe> customRecipeMap = configLoad.getCraftingRecipes();
         String[] craftingNames = getEnchantingCraftingNames(p);
         LanguageSelector lang = new LanguageSelector(p);
         int index1 = 2*(level-1);
@@ -478,11 +478,11 @@ public class StringsAndOtherData {
         else {
             index1 += 1;
             index2 += 1;
-            CustomRecipe customRecipe1 = customRecipeMap.get("enchanting"+index1);
-            CustomRecipe customRecipe2 = customRecipeMap.get("enchanting"+index2);
+            OldCustomRecipe oldCustomRecipe1 = customRecipeMap.get("enchanting"+index1);
+            OldCustomRecipe oldCustomRecipe2 = customRecipeMap.get("enchanting"+index2);
             String newString = "";
-            int cost1 = customRecipe1.getXPcraftCost();
-            int cost2 = customRecipe2.getXPcraftCost();
+            int cost1 = oldCustomRecipe1.getXPcraftCost();
+            int cost2 = oldCustomRecipe2.getXPcraftCost();
             String id1 = "xpLevel";
             String id2 = "xpLevel";
             if (cost1 != 1) {
@@ -574,14 +574,14 @@ public class StringsAndOtherData {
         String effectType = "";
         LanguageSelector lang = new LanguageSelector(p);
         ConfigLoad configLoad = new ConfigLoad();
-        Map<String, CustomRecipe> customRecipeMap = configLoad.getCraftingRecipes();
-        CustomRecipe customRecipe = customRecipeMap.get("alchemy"+level);
-        if (customRecipe.outputIsPotion()) {
-        String id = getPotionNameIDFromPotionType(customRecipe.getPotionType());
+        Map<String, OldCustomRecipe> customRecipeMap = configLoad.getCraftingRecipes();
+        OldCustomRecipe oldCustomRecipe = customRecipeMap.get("alchemy"+level);
+        if (oldCustomRecipe.outputIsPotion()) {
+        String id = getPotionNameIDFromPotionType(oldCustomRecipe.getPotionType());
         effectType = lang.getString(id);
         }
         else {
-            effectType = cleanUpTitleString(customRecipe.getOutput().toString());
+            effectType = cleanUpTitleString(oldCustomRecipe.getOutput().toString());
         }
         return effectType;
     }

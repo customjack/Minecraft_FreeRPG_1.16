@@ -82,7 +82,7 @@
 #
 # 7) COLOR: The color of a potion. Must be an RGB triplet.
 #    [TAGS] color, potionColor
-#    [DEFAULT VALUE] (255,255,255) /White/
+#    [DEFAULT VALUE] Varies (all effect colors are mixed)
 #    [EXAMPLE] color: (255,0,0)
 #    [NOTES] If the material is not "POTION", this entry is ignored. If the potion effeect is a vanilla minecraft potion, this entry is ignored.
 #            In other words, the color only applies to custom effect potions.
@@ -117,8 +117,8 @@
 #
 # EXAMPLES OF CUSTOM ITEMS:
 # 1) [drop: COAL, amount: 1, exp: 200,  weight: 500]
-# 2) [drop: IRON_HELMET, durability: [upper: 0.00, lower: 0.85], enchantmentBounds: [upper: 30, lower: 30], weight: 30,  staticEnchantments: [[enchant: RESPIRATION, level: 3]]]
-#
+# 2) [drop: IRON_HELMET, exp: 1750, weight: 1, durability: [upper: 0.00, lower: 0.85], enchantmentBounds: [upper: 30, lower: 30], weight: 30,  staticEnchantments: [[enchant: RESPIRATION, level: 3]]]
+# 3) [item: POTION, amount: 1, exp: 0, potion: [effect: INSTANT_HEAL, isUpgraded: true]
 #
 #
 #
@@ -134,7 +134,7 @@
 #    [NOTES] Select from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html.
 #
 # 2) LEVEL: The level of the effect given.
-#    [TAGS] amount
+#    [TAGS] level, effectLevel, potionLevel
 #    [DEFAULT VALUE] 1
 #    [EXAMPLE] level: 2
 #    [NOTES] Must be an integer. For a random amount, you can list multiple occurences of an item on a drop table.
@@ -166,29 +166,19 @@
 #            The formula for time when using this tag is:
 #            (Other effect duration)*(duration multiplier) + duration added (see 8)
 #
-# 8) DURATION ADDED: The duration added to an effect when the effect's length is relative to the duration of another effect
-#    [TAGS] durationAdded
+# 7) DURATION ADDED: The duration added to an effect when the effect's length is relative to the duration of another effect
+#    [TAGS] durationAdded, relativeDurationAdded
 #    [DEFAULT VALUE] 0
 #    [EXAMPLE] durationAdded: 10.0
 #    [NOTES] This overrides the duration tag, but won't have any effect if not specified in the commenting for the perk.
 #            The formula for time when using this tag is:
 #            (Other effect duration)*(duration multiplier) + duration added (see 7)
 #
-# 9) IS UPGRADED?: Is the potion effect upgraded?
-#    [TAGS] isUpgraded
-#    [DEFAULT VALUE] false
-#    [EXAMPLE] isUpgraded: true
-#    [NOTES] DO NOT USE THIS UNLESS SPECIFIED TO. It is sparcely used in some perks.
-#
-# 10) IS EXTENDED?: Is the potion effected extended?
-#    [TAGS] isExtended
-#    [DEFAULT VALUE] false
-#    [EXAMPLE] isExtended: false
-#    [NOTES] DO NOT USE THIS UNLESS SPECIFIED TO. It is sparcely used in some perks.
 #
 # EXAMPLES OF CUSTOM EFFECTS:
-#
-#
+# 1) [effect: DOLPHINS_GRACE,    level: 1, duration: 10.0, delay: 0.0, prob: 1.0]
+# 2) [effect: HEALTH_BOOST,      level: 3, duration: 25.0]
+# 3) [effect: STRENGTH, level: 2, relativeDuration: 1.0]
 #
 # RECIPES:
 # A recipe is a list of ingredients formatted as such:
@@ -2357,36 +2347,66 @@ alchemy:
     level1:
       ingredient: EMERALD #Item used in ingredient slot of brewing stand
       brewExp: 700 #Experience rewarded when brewing the potion
-      extendExp: 300 #Experience rewarded for extending potion
-      upgradeExp: 300 #Experience rewaded for upgrading potion
+      brewExtendedExp: 300 #Experience rewarded for extending potion
+      brewUpgradedExp: 300 #Experience rewarded for upgrading potion
+      drinkExp: 1500 #Experience rewarded for drinking this potion
+      drinkExtendedExp: 2000 #Experience rewarded for drinking the extended version of this potion
+      drinkUpgradedPotion: 2000 #Experience rewarded for drinking the upgraded version of this potion
+      throwExp: 1000 #Experience rewarded for throwing the potion
+      throwUpgradedPotion: 1500 #Experience rewarded for throwing the upgraded version of this potion
+      throwExtendedPotion: 1500 #Experience rewarded for throwing the extended version of htis potion
       potionEffects:
         - [effect: HERO_OF_THE_VILLAGE, level: 1, duration: 180, color: (30,210,64)]
     level2:
       ingredient: SLIME_BALL #Item used in ingredient slot of brewing stand
       brewExp: 725 #Experience rewarded when brewing the potion
-      extendExp: 300 #Experience rewarded for extending potion
-      upgradeExp: 300 #Experience rewaded for upgrading potion
+      brewExtendedExp: 300 #Experience rewarded for extending potion
+      brewUpgradedExp: 300 #Experience rewarded for upgrading potion
+      drinkExp: 0 #Experience rewarded for drinking this potion
+      drinkExtendedExp: 0 #Experience rewarded for drinking the extended version of this potion
+      drinkUpgradedPotion: 0 #Experience rewarded for drinking the upgraded version of this potion
+      throwExp: 1600 #Experience rewarded for throwing the potion
+      throwUpgradedPotion: 2100 #Experience rewarded for throwing the upgraded version of this potion
+      throwExtendedPotion: 2100 #Experience rewarded for throwing the extended version of htis potion
       potionEffects:
         - [effect: SLOW_DIGGING, level: 1, duration: 60, color: (164,212,10)]
     level3:
       ingredient: CLOCK #Item used in ingredient slot of brewing stand
       brewExp: 750 #Experience rewarded when brewing the potion
-      extendExp: 300 #Experience rewarded for extending potion
-      upgradeExp: 300 #Experience rewaded for upgrading potion
+      brewExtendedExp: 300 #Experience rewarded for extending potion
+      brewUpgradedExp: 300 #Experience rewarded for upgrading potion
+      drinkExp: 1500 #Experience rewarded for drinking this potion
+      drinkExtendedExp: 2000 #Experience rewarded for drinking the extended version of this potion
+      drinkUpgradedPotion: 2000 #Experience rewarded for drinking the upgraded version of this potion
+      throwExp: 1000 #Experience rewarded for throwing the potion
+      throwUpgradedPotion: 1500 #Experience rewarded for throwing the upgraded version of this potion
+      throwExtendedPotion: 1500 #Experience rewarded for throwing the extended version of htis potion
       potionEffects:
         - [effect: FAST_DIGGING, level: 1, duration: 180, color: (159,232,186)]
     level4:
       ingredient: POISONOUS_POTATO #Item used in ingredient slot of brewing stand
       brewExp: 775 #Experience rewarded when brewing the potion
-      extendExp: 300 #Experience rewarded for extending potion
-      upgradeExp: 300 #Experience rewaded for upgrading potion
+      brewExtendedExp: 300 #Experience rewarded for extending potion
+      brewUpgradedExp: 300 #Experience rewarded for upgrading potion
+      drinkExp: 0 #Experience rewarded for drinking this potion
+      drinkExtendedExp: 0 #Experience rewarded for drinking the extended version of this potion
+      drinkUpgradedPotion: 0 #Experience rewarded for drinking the upgraded version of this potion
+      throwExp: 1600 #Experience rewarded for throwing the potion
+      throwUpgradedPotion: 2100 #Experience rewarded for throwing the upgraded version of this potion
+      throwExtendedPotion: 2100 #Experience rewarded for throwing the extended version of htis potion
       potionEffects:
         - [effect: WITHER, level: 1, duration: 30, color: (0,0,0)]
     level5:
       ingredient: GOLDEN_APPLE #Item used in ingredient slot of brewing stand
       brewExp: 800 #Experience rewarded when brewing the potion
-      extendExp: 300 #Experience rewarded for extending potion
-      upgradeExp: 300 #Experience rewaded for upgrading potion
+      brewExtendedExp: 300 #Experience rewarded for extending potion
+      brewUpgradedExp: 300 #Experience rewarded for upgrading potion
+      drinkExp: 1500 #Experience rewarded for drinking this potion
+      drinkExtendedExp: 2000 #Experience rewarded for drinking the extended version of this potion
+      drinkUpgradedPotion: 2000 #Experience rewarded for drinking the upgraded version of this potion
+      throwExp: 1000 #Experience rewarded for throwing the potion
+      throwUpgradedPotion: 1500 #Experience rewarded for throwing the upgraded version of this potion
+      throwExtendedPotion: 1500 #Experience rewarded for throwing the extended version of htis potion
       potionEffects:
         - [effect: DAMAGE_RESISTANCE, level: 1, duration: 180, color: (150,140,175)]
   skill_M: #Potion Master

@@ -1,8 +1,8 @@
 package mc.carlton.freerpg.serverConfig;
 
 import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.customConfigContainers.OldCustomPotion;
-import mc.carlton.freerpg.customConfigContainers.CustomRecipe;
+import mc.carlton.freerpg.customContainers.OldCustomPotion;
+import mc.carlton.freerpg.customContainers.collections.OldCustomRecipe;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -62,7 +62,7 @@ public class ConfigLoad {
     static Map<String,Boolean> allowedSkillGainEXPMap = new HashMap<>();
     static Map<String, OldCustomPotion> alchemyInfo = new HashMap<>();
     static Map<String,Map<String,Integer>> expMap = new HashMap<>();
-    static Map<String,CustomRecipe> craftingRecipes = new HashMap<>();
+    static Map<String, OldCustomRecipe> craftingRecipes = new HashMap<>();
     static HashSet<Material> veinMinerBlocks = new HashSet<>();
     static ArrayList<Integer> timberBreakLimits = new ArrayList<>();
     static Map<String,Integer> abilityCooldowns = new HashMap<>();
@@ -260,9 +260,9 @@ public class ConfigLoad {
 
         //Crafting arrays
         for (int i = 1; i <= 5; i++) {
-            CustomRecipe customRecipe = new CustomRecipe();
-            customRecipe.setOutput(Material.matchMaterial(advancedConfig.getString("farming.crafting.recipeOutput"+i)));
-            customRecipe.setOutputAmount(advancedConfig.getInt("farming.crafting.recipeOutputAmount"+i));
+            OldCustomRecipe oldCustomRecipe = new OldCustomRecipe();
+            oldCustomRecipe.setOutput(Material.matchMaterial(advancedConfig.getString("farming.crafting.recipeOutput"+i)));
+            oldCustomRecipe.setOutputAmount(advancedConfig.getInt("farming.crafting.recipeOutputAmount"+i));
             List<String> recipeStrings = advancedConfig.getStringList("farming.crafting.recipe"+i);
             ArrayList<Material> recipeMaterials = new ArrayList<>();
             for (String item : recipeStrings) {
@@ -272,19 +272,19 @@ public class ConfigLoad {
                 }
                 recipeMaterials.add(recipeMaterial);
             }
-            customRecipe.setRecipe(recipeMaterials);
-            customRecipe.setYAML_ID("farming.crafting.recipe"+i);
-            craftingRecipes.put("farming"+i,customRecipe);
+            oldCustomRecipe.setRecipe(recipeMaterials);
+            oldCustomRecipe.setYAML_ID("farming.crafting.recipe"+i);
+            craftingRecipes.put("farming"+i, oldCustomRecipe);
         }
         for (int i = 1; i <= 10; i++) {
-            CustomRecipe customRecipe = new CustomRecipe();
-            customRecipe.setOutput(Material.matchMaterial(advancedConfig.getString("enchanting.crafting.recipeOutput"+i)));
-            customRecipe.setOutputAmount(advancedConfig.getInt("enchanting.crafting.recipeOutputAmount"+i));
+            OldCustomRecipe oldCustomRecipe = new OldCustomRecipe();
+            oldCustomRecipe.setOutput(Material.matchMaterial(advancedConfig.getString("enchanting.crafting.recipeOutput"+i)));
+            oldCustomRecipe.setOutputAmount(advancedConfig.getInt("enchanting.crafting.recipeOutputAmount"+i));
             String enchantType = advancedConfig.getString("enchanting.crafting.recipeEnchant"+i);
             if (!enchantType.equalsIgnoreCase("none")) {
-                customRecipe.setEnchantment(EnchantmentWrapper.getByKey(NamespacedKey.minecraft(enchantType)));
-                customRecipe.setEnchantmentLevel(advancedConfig.getInt("enchanting.crafting.recipeEnchantLevel"+i));
-                customRecipe.setXPcraftCost(advancedConfig.getInt("enchanting.crafting.XPcostToCraft"+i));
+                oldCustomRecipe.setEnchantment(EnchantmentWrapper.getByKey(NamespacedKey.minecraft(enchantType)));
+                oldCustomRecipe.setEnchantmentLevel(advancedConfig.getInt("enchanting.crafting.recipeEnchantLevel"+i));
+                oldCustomRecipe.setXPcraftCost(advancedConfig.getInt("enchanting.crafting.XPcostToCraft"+i));
             }
             List<String> recipeStrings = advancedConfig.getStringList("enchanting.crafting.recipe"+i);
             ArrayList<Material> recipeMaterials = new ArrayList<>();
@@ -295,19 +295,19 @@ public class ConfigLoad {
                 }
                 recipeMaterials.add(recipeMaterial);
             }
-            customRecipe.setRecipe(recipeMaterials);
-            customRecipe.setYAML_ID("enchanting.crafting.recipe"+i);
-            craftingRecipes.put("enchanting"+i,customRecipe);
+            oldCustomRecipe.setRecipe(recipeMaterials);
+            oldCustomRecipe.setYAML_ID("enchanting.crafting.recipe"+i);
+            craftingRecipes.put("enchanting"+i, oldCustomRecipe);
         }
         for (int i = 1; i <= 5; i++) {
-            CustomRecipe customRecipe = new CustomRecipe();
+            OldCustomRecipe oldCustomRecipe = new OldCustomRecipe();
             String materialString = advancedConfig.getString("alchemy.crafting.recipeOutput"+i);
-            customRecipe.setOutput(Material.matchMaterial(materialString));
-            customRecipe.setOutputAmount(advancedConfig.getInt("alchemy.crafting.recipeOutputAmount"+i));
+            oldCustomRecipe.setOutput(Material.matchMaterial(materialString));
+            oldCustomRecipe.setOutputAmount(advancedConfig.getInt("alchemy.crafting.recipeOutputAmount"+i));
             if (materialString.equalsIgnoreCase("POTION")) {
-                customRecipe.setPotionType(PotionType.valueOf(advancedConfig.getString("alchemy.crafting.recipePotionType"+i)));
-                customRecipe.setExtended(advancedConfig.getBoolean("alchemy.crafting.recipePotionExtended"+i));
-                customRecipe.setUpgraded(advancedConfig.getBoolean("alchemy.crafting.recipePotionUpgraded"+i));
+                oldCustomRecipe.setPotionType(PotionType.valueOf(advancedConfig.getString("alchemy.crafting.recipePotionType"+i)));
+                oldCustomRecipe.setExtended(advancedConfig.getBoolean("alchemy.crafting.recipePotionExtended"+i));
+                oldCustomRecipe.setUpgraded(advancedConfig.getBoolean("alchemy.crafting.recipePotionUpgraded"+i));
             }
             List<String> recipeStrings = advancedConfig.getStringList("alchemy.crafting.recipe"+i);
             ArrayList<Material> recipeMaterials = new ArrayList<>();
@@ -318,9 +318,9 @@ public class ConfigLoad {
                 }
                 recipeMaterials.add(recipeMaterial);
             }
-            customRecipe.setRecipe(recipeMaterials);
-            customRecipe.setYAML_ID("alchemy.crafting.recipe"+i);
-            craftingRecipes.put("alchemy"+i,customRecipe);
+            oldCustomRecipe.setRecipe(recipeMaterials);
+            oldCustomRecipe.setYAML_ID("alchemy.crafting.recipe"+i);
+            craftingRecipes.put("alchemy"+i, oldCustomRecipe);
         }
 
     }
@@ -394,7 +394,7 @@ public class ConfigLoad {
     }
     public Map<String,Double> getSpecialMultiplier(){return specialMultiplier;}
 
-    public Map<String,CustomRecipe> getCraftingRecipes() {
+    public Map<String, OldCustomRecipe> getCraftingRecipes() {
         return craftingRecipes;
     }
 

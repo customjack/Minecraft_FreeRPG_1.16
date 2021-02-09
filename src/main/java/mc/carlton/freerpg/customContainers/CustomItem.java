@@ -1,11 +1,15 @@
-package mc.carlton.freerpg.customConfigContainers;
+package mc.carlton.freerpg.customContainers;
 
+import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.List;
+import java.util.Random;
 
 public class CustomItem extends CustomContainer {
     protected Material material;
@@ -26,20 +30,65 @@ public class CustomItem extends CustomContainer {
      * @param material the item type
      */
     public CustomItem(Material material) {
+        this(material,null);
+    }
+    /**
+     * Constructor for CustomItem
+     * @param material the item type
+     */
+    public CustomItem(Material material, Map<String, Object> containerInformation) {
+        super(containerInformation);
         this.material = material;
     }
 
-    @Override
-    public void setContainerInformation(Map<String, Object> containerInformation) {
-
-    }
-
     /**
-     *
+     * Tests if the item is a potion
      * @return true if item is potion
      */
     public boolean isPotion() {
         return (material.equals(Material.POTION));
+    }
+
+    /**
+     * Returns an item stack to represent the custom item
+     * @return Itemstack to match custom item information
+     */
+    public ItemStack getItemStack() {
+        return getItemStackWithoutPotionEffects();
+    }
+
+    protected ItemStack getItemStackWithoutPotionEffects() {
+        ItemStack item = new ItemStack(material,amount);
+        ItemMeta itemMeta = item.getItemMeta();
+        itemMeta.setDisplayName(itemName);
+        Random random = new Random();
+        if (itemMeta instanceof Damageable) {
+            short maxDurability = item.getType().getMaxDurability();
+            double randomDamageMultiplier = 1.0 - (random.nextDouble()*(maxDurabilityPortion - minDurabilityPortion) + minDurabilityPortion);
+            ((Damageable) itemMeta).setDamage((int) Math.round(maxDurability*randomDamageMultiplier));
+        }
+        item.setItemMeta(itemMeta);
+        if (!enchantments.isEmpty()) {
+            item.addUnsafeEnchantments(enchantments);
+        }
+        int enchantLevel = random.nextInt((maxEnchantmentLevel + 1) - minEnchantmentLevel) + minEnchantmentLevel;
+        if (enchantLevel > 0) {
+            PsuedoEnchanting psuedoEnchanting = new PsuedoEnchanting();
+            if (enchantments.isEmpty()) {
+                psuedoEnchanting.enchantItem(item,enchantLevel,isTreasure);
+            } else {
+                psuedoEnchanting.addEnchant(item,enchantLevel,isTreasure);
+            }
+        }
+        return item;
+    }
+
+    /**
+     * Setter for item name
+     * @param name the displayed name of the item in game
+     */
+    public void setItemName(String name) {
+        this.itemName = name;
     }
 
     /**
@@ -137,6 +186,15 @@ public class CustomItem extends CustomContainer {
         this.material = material;
     }
 
+
+    /**
+     * Getter for item name
+     * @return the name the item will have in game
+     */
+    public String getItemName() {
+        return itemName;
+    }
+
     /**
      * Getter for material
      * @return material
@@ -170,11 +228,65 @@ public class CustomItem extends CustomContainer {
     }
 
     /**
+     * Getter for probability
+     * @return
+     */
+    public double getProbability() {
+        return probability;
+    }
+
+    /**
      * Sets the drop probability weight for this item. This value is compared to other weights of items in a drop table
      * @param weight Weight value (higher --> more likely)
      */
     public void setWeight(double weight) {
         this.weight = weight;
+    }
+
+    /**
+     * Getter for weight
+     * @return
+     */
+    public double getWeight() {
+        return weight;
+    }
+
+    public boolean isStaticProbability() {
+        if (probability == -1.0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof CustomItem)) {
+            return false;
+        }
+
+        CustomItem otherCustomItem = (CustomItem) o;
+        return customItemEquals(otherCustomItem);
+    }
+
+    public boolean customItemEquals(CustomItem otherCustomItem) {
+        if (material.equals(otherCustomItem.material) &&
+                amount == otherCustomItem.amount &&
+                minDurabilityPortion == otherCustomItem.minDurabilityPortion &&
+                maxDurabilityPortion == otherCustomItem.maxDurabilityPortion &&
+                minEnchantmentLevel == otherCustomItem.minEnchantmentLevel &&
+                isTreasure == otherCustomItem.isTreasure &&
+                enchantments.equals(otherCustomItem.enchantments) &&
+                weight == otherCustomItem.weight &&
+                probability == otherCustomItem.probability &&
+                experienceDrop == otherCustomItem.experienceDrop &&
+                itemName.equals(otherCustomItem.itemName)) {
+            return true;
+        }
+        return false;
     }
 
     @Override

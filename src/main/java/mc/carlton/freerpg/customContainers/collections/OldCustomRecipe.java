@@ -1,5 +1,6 @@
-package mc.carlton.freerpg.customConfigContainers;
+package mc.carlton.freerpg.customContainers.collections;
 
+import mc.carlton.freerpg.customContainers.CustomItem;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -10,9 +11,8 @@ import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
-import java.util.IllegalFormatException;
 
-public class CustomRecipe {
+public class OldCustomRecipe {
     private ArrayList<Material> recipe;
     private Material output;
     private int outputAmount;
@@ -28,29 +28,18 @@ public class CustomRecipe {
     * I'm too lazy to make like 20 constructors for every case. It's easiest just to
     * Create a "blank" custom recipe and fill in what you need
      */
-    public CustomRecipe(){
-        this.recipe = null;
-        this.output = null;
-        this.outputAmount = 0;
-        this.ench = null;
-        this.enchantmentLevel = 0;
-        this.potionType = null;
-        this.isExtended = false;
-        this.isUpgraded = false;
-        this.XPcraftCost = 0;
+    public OldCustomRecipe(){
         this.YAML_ID = "";
     }
-    public CustomRecipe(ArrayList<Material> recipe,Material output,int outputAmount){
+    public OldCustomRecipe(ArrayList<Material> recipe, Material output, int outputAmount){
         setRecipe(recipe);
         setOutput(output);
         setOutputAmount(outputAmount);
-        this.ench = null;
-        this.enchantmentLevel = 0;
-        this.potionType = null;
-        this.isExtended = false;
-        this.isUpgraded = false;
-        this.XPcraftCost = 0;
         this.YAML_ID = "";
+    }
+
+    public OldCustomRecipe(ArrayList<Material> recipe, CustomItem customItem) {
+
     }
 
 

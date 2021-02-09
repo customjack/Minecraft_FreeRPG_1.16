@@ -1,6 +1,6 @@
 package mc.carlton.freerpg.miscEvents;
 
-import mc.carlton.freerpg.customConfigContainers.CustomRecipe;
+import mc.carlton.freerpg.customContainers.collections.OldCustomRecipe;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.globalVariables.CraftingRecipes;
 import mc.carlton.freerpg.newEvents.FrpgPlayerCraftItemEvent;
@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -87,7 +86,7 @@ public class PlayerCraft implements Listener {
         ArrayList<Material> crafting = getRecipeMaterial(craftingMatrix);
         int amountCrafted = getAmountToBeCrafted(craftingMatrix);
 
-        Map<String, CustomRecipe> craftingRecipeClasses = configLoad.getCraftingRecipes();
+        Map<String, OldCustomRecipe> craftingRecipeClasses = configLoad.getCraftingRecipes();
         ArrayList<Material> cowEgg = craftingRecipes.getCowEggRecipe();
         ArrayList<Material> beeEgg = craftingRecipes.getBeeEggRecipe();
         ArrayList<Material> mooshroomEgg = craftingRecipes.getMooshroomEggRecipe();

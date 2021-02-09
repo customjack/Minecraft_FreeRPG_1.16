@@ -1,5 +1,6 @@
-package mc.carlton.freerpg.customConfigContainers;
+package mc.carlton.freerpg.customContainers;
 
+import mc.carlton.freerpg.customContainers.collections.CustomEffect;
 import mc.carlton.freerpg.utilities.FrpgPrint;
 import mc.carlton.freerpg.utilities.UtilityMethods;
 import org.bukkit.Color;
@@ -8,7 +9,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
@@ -26,8 +26,8 @@ public class CustomContainerImporter {
     private static final String NO_PATH                               = "Unknown Config Path";
     private static final String IMPROPER_CONFIG                       = "WARNING: Improper Config at ";
     private static final String MATERIAL_NOT_FOUND                    = "Material not found: ";
-    private static final String IMPROPER_AMOUNT                       =  "Amount cannot be less than 1 ";
-    private static final String DURABILITY_PARAMETERS_INVALID         =  "Durability Parameters Invalid";
+    private static final String IMPROPER_AMOUNT                       = "Amount cannot be less than 1 ";
+    private static final String DURABILITY_PARAMETERS_INVALID         = "Durability Parameters Invalid";
     private static final String INVALID_DURABILITY_BOUND              = "Minimum durability cannot be greater than maximum durability";
     private static final String RANDOM_ENCHANTMENT_PARAMETERS_INVALID = "Random Enchantment Parameters Invalid";
     private static final String INVALID_ENCHANTMENT_BOUNDS            = "Minimum Enchantment level cannot be greater than Maximum enchantment level";
@@ -48,29 +48,38 @@ public class CustomContainerImporter {
     private static final String POTION_EFFECT_TYPE_INVALID            = "Potion Effect Type Parameters Invalid";
     private static final String INVALID_POTION_COLOR                  = "RGB values must be in the range 0 - 255";
     private static final String ITEM_TYPE_REQUIRED                    = "An Item Type is required for a custom item";
+    private static final String POTION_EFFECT_TYPE_REQUIRED           = "A Potion Effect Type is required for a custom effect";
+    private static final String INVALID_DELAY                         = "Delay cannot be negative";
+    private static final String INVALID_DURATION_MULTIPLIER           = "Duration Multiplier cannot be negative";
 
     /*
      Acceptable keywords for expected information to be read in
      */
-    private static final List<String> MATERIAL_KEYWORDS           = Arrays.asList(new String[]{"item","drop"});
-    private static final List<String> AMOUNT_KEYWORDS             = Arrays.asList(new String[]{"amount"});
-    private static final List<String> DURABILITY_KEYWORDS         = Arrays.asList(new String[]{"durability","durabilityModifier"});
-    private static final List<String> ENCHANTMENT_BOUNDS_KEYWORDS = Arrays.asList(new String[]{"randomEnchantment","enchantmentBounds"});
-    private static final List<String> ENCHANTMENTS_KEYWORDS       = Arrays.asList(new String[]{"staticEnchantments","enchantments"});
-    private static final List<String> WEIGHT_KEYWORDS             = Arrays.asList(new String[]{"weight"});
-    private static final List<String> PROBABILITY_KEYWORDS        = Arrays.asList(new String[]{"prob","probability"});
-    private static final List<String> EXPERIENCE_KEYWORDS         = Arrays.asList(new String[]{"experience","exp"});
-    private static final List<String> POTION_KEYWORDS             = Arrays.asList(new String[]{"potion","potionEffect"});
-    private static final List<String> COLOR_KEYWORDS              = Arrays.asList(new String[]{"color","potionColor"});
-    private static final String LOWER_BOUND_KEY_WORD              = "lower";
-    private static final String UPPER_BOUND_KEY_WORD              = "upper";
-    private static final String IS_TREASURE_KEYWORD               = "isTreasure";
-    private static final String ENCHANTMENT_KEYWORD               = "enchant";
-    private static final String LEVEL_KEYWORD                     = "level";
-    private static final String EFFECT_KEYWORD                    = "effect";
-    private static final String DURATION_KEYWORD                  = "duration";
-    private static final String IS_UPGRADED_KEYWORD               = "isUpgraded";
-    private static final String IS_EXTENDED_KEYWORD               = "isExtended";
+    private static final List<String> MATERIAL_KEYWORDS                   = Arrays.asList(new String[]{"item","drop"});
+    private static final List<String> AMOUNT_KEYWORDS                     = Arrays.asList(new String[]{"amount"});
+    private static final List<String> DURABILITY_KEYWORDS                 = Arrays.asList(new String[]{"durability","durabilityModifier"});
+    private static final List<String> ENCHANTMENT_BOUNDS_KEYWORDS         = Arrays.asList(new String[]{"randomEnchantment","enchantmentBounds"});
+    private static final List<String> ENCHANTMENTS_KEYWORDS               = Arrays.asList(new String[]{"staticEnchantments","enchantments"});
+    private static final List<String> WEIGHT_KEYWORDS                     = Arrays.asList(new String[]{"weight"});
+    private static final List<String> PROBABILITY_KEYWORDS                = Arrays.asList(new String[]{"prob","probability"});
+    private static final List<String> EXPERIENCE_KEYWORDS                 = Arrays.asList(new String[]{"experience","exp"});
+    private static final List<String> POTION_KEYWORDS                     = Arrays.asList(new String[]{"potion","potionEffect"});
+    private static final List<String> COLOR_KEYWORDS                      = Arrays.asList(new String[]{"color","potionColor"});
+    private static final List<String> EFFECT_TYPE_KEYWORDS                     = Arrays.asList(new String[]{"effect","potionEffect"});
+    private static final List<String> EFFECT_LEVEL_KEYWORDS               = Arrays.asList(new String[]{"level","effectLevel","potionLevel"});
+    private static final List<String> EFFECT_DURATION_KEYWORDS            = Arrays.asList(new String[]{"duration","length"});
+    private static final List<String> EFFECT_DELAY_KEYWORDS               = Arrays.asList(new String[]{"delay","timeDelay"});
+    private static final List<String> EFFECT_DURATION_MULTIPLIER_KEYWORDS = Arrays.asList(new String[]{"durationMultiplier","relativeDuration"});
+    private static final List<String> EFFECT_DURATION_ADDED_KEYWORDS      = Arrays.asList(new String[]{"durationAdded","relativeDurationAdded"});
+    private static final String LOWER_BOUND_KEY_WORD                      = "lower";
+    private static final String UPPER_BOUND_KEY_WORD                      = "upper";
+    private static final String IS_TREASURE_KEYWORD                       = "isTreasure";
+    private static final String ENCHANTMENT_KEYWORD                       = "enchant";
+    private static final String LEVEL_KEYWORD                             = "level";
+    private static final String EFFECT_KEYWORD                            = "effect";
+    private static final String DURATION_KEYWORD                          = "duration";
+    private static final String IS_UPGRADED_KEYWORD                       = "isUpgraded";
+    private static final String IS_EXTENDED_KEYWORD                       = "isExtended";
 
     public CustomContainerImporter(String configPath) {
         this.configPath = configPath;
@@ -97,14 +106,36 @@ public class CustomContainerImporter {
             return null;
         }
         if (material.equals(Material.POTION)) {
-            CustomPotion customPotion = new CustomPotion();
+            CustomPotion customPotion = new CustomPotion(itemInformation);
             constructCustomItem(customPotion,itemInformation);
             return customPotion;
         } else {
-            CustomItem customItem = new CustomItem(material);
+            CustomItem customItem = new CustomItem(material,itemInformation);
             constructCustomItem(customItem,itemInformation);
             return customItem;
         }
+    }
+
+    public CustomEffectPiece getCustomEffectPiece(Object configEffect) {
+        if (!(configEffect instanceof List)) {
+            printReadInError();
+            return null;
+        }
+        Map<String, Object> effectInformation = convertListedTableRowToMap((List) configEffect, configPath);
+        PotionEffectType potionEffectType = null;
+        for (String key : effectInformation.keySet()) {
+            if (UtilityMethods.containsIgnoreCase(EFFECT_TYPE_KEYWORDS,key)) {
+                potionEffectType = getEffectType(effectInformation.get(key));
+                break;
+            }
+        }
+        if (potionEffectType == null) {
+            printReadInError(POTION_EFFECT_TYPE_REQUIRED);
+            return null;
+        }
+        CustomEffectPiece customEffect = new CustomEffectPiece(potionEffectType);
+        constructCustomEffect(customEffect,effectInformation);
+        return customEffect;
     }
 
     private void constructCustomItem(CustomItem customItem, Map<String, Object> itemInformation) {
@@ -119,6 +150,13 @@ public class CustomContainerImporter {
             Object value = itemInformation.get(key);
             assignCustomItemValue(customPotion,value, key);
             assignCustomPotionValues(customPotion,value, key);
+        }
+    }
+
+    private void constructCustomEffect(CustomEffectPiece customEffect, Map<String, Object> effectInformation) {
+        for (String key : effectInformation.keySet()) {
+            Object value = effectInformation.get(key);
+            assignCustomEffectValue(customEffect,value, key);
         }
     }
 
@@ -275,6 +313,49 @@ public class CustomContainerImporter {
         }
     }
 
+    private void assignCustomEffectValue(CustomEffectPiece customEffect, Object value, String mapKey) {
+        if (UtilityMethods.containsIgnoreCase(EFFECT_LEVEL_KEYWORDS,mapKey)) {
+            Integer level = Integer.valueOf(value.toString());
+            if (level < 1) {
+                printReadInError(INVALID_POTION_LEVEL + level);
+                return;
+            }
+            customEffect.setLevel(level);
+        } else if (UtilityMethods.containsIgnoreCase(EFFECT_DURATION_KEYWORDS,mapKey)) {
+            Double duration = Double.valueOf(value.toString());
+            if (duration < 0) {
+                printReadInError(INVALID_DURATION + duration);
+                return;
+            }
+            customEffect.setDuration(duration);
+
+        } else if (UtilityMethods.containsIgnoreCase(EFFECT_DELAY_KEYWORDS,mapKey)) {
+            Double delay = Double.valueOf(value.toString());
+            if (delay < 0) {
+                printReadInError(INVALID_DELAY + delay);
+                return;
+            }
+            customEffect.setDelay(delay);
+        } else if (UtilityMethods.containsIgnoreCase(PROBABILITY_KEYWORDS,mapKey)) {
+            Double prob = Double.valueOf(value.toString());
+            if (prob < 0 || prob > 1) {
+                printReadInError(INVALID_PROBABILITY + prob);
+                return;
+            }
+            customEffect.setProbability(prob);
+        } else if (UtilityMethods.containsIgnoreCase(EFFECT_DURATION_MULTIPLIER_KEYWORDS,mapKey)) {
+            Double durationMultiplier = Double.valueOf(value.toString());
+            if (durationMultiplier < 0) {
+                printReadInError(INVALID_DURATION_MULTIPLIER + durationMultiplier);
+                return;
+            }
+            customEffect.setRelativeDurationMultiplier(durationMultiplier);
+        } else if (UtilityMethods.containsIgnoreCase(EFFECT_DURATION_ADDED_KEYWORDS,mapKey)) {
+            Double durationAdded = Double.valueOf(value.toString());
+            customEffect.setRelativeDurationAdded(durationAdded);
+        }
+    }
+
     private Material getMaterial(Object value) {
         Material material = Material.getMaterial(value.toString());
         if (material == null) {
@@ -358,7 +439,177 @@ public class CustomContainerImporter {
         return Color.fromRGB(red,green,blue);
     }
 
-    /*
+
+    private void printReadInError() {
+        FrpgPrint.print(IMPROPER_CONFIG + configPath);
+    }
+
+    private void printReadInError(String extraMessage) {
+        FrpgPrint.print(IMPROPER_CONFIG + configPath + " (" + extraMessage + ")");
+    }
+
+    private Object getOnlyKey(Map map) {
+        Object mapKey = null;
+        if (map.keySet().size() > 1) {
+            printReadInError();
+        }
+        for (Object key : map.keySet()) { //We assume the keyset is size one
+            mapKey = key;
+        }
+        return mapKey;
+    }
+
+    private Object getOnlyKey(Map map, String extraErrorMessage) {
+        Object mapKey = null;
+        if (map.keySet().size() > 1) {
+            printReadInError(extraErrorMessage);
+        }
+        for (Object key : map.keySet()) { //We assume the keyset is size one
+            mapKey = key;
+        }
+        return mapKey;
+    }
+
+    /**
+     * Converts a "Table" (which is a list of a list of config nodes) to an easier to read form
+     * @param configSection the section of config where the table is located
+     * @return A list of maps of config nodes, for each item in the "table" This acts as a list of rows.
+     */
+    public static List<Map<String,Object>> getConfigTableInformation(YamlConfiguration configSection) {
+        String configPath = configSection.getCurrentPath();
+        List configTable = configSection.getList(configPath);
+        if (configTable == null) {
+            FrpgPrint.print(EXPECTED_LIST + configPath);
+            return null;
+        }
+        return getConfigTableInformation(configTable);
+    }
+
+    /**
+     * Converts a "Table" (which is a list of a list of config nodes) to an easier to read form
+     * @param configTable A "table" from a config file, a list of a list of nodes.
+     * @param configPath The path the config table was taken from
+     * @return A list of maps of config nodes, for each item in the "table" This acts as a list of rows.
+     */
+    public static List<Map<String,Object>> getConfigTableInformation(List configTable,String configPath) {
+        ArrayList<Map<String,Object>> tableInformation = new ArrayList<>();
+        for (Object tableRow : configTable) {
+            if (!(tableRow instanceof List)) {
+                FrpgPrint.print(EXPECTED_LIST+ configPath);
+                return null;
+            }
+            tableInformation.add(convertListedTableRowToMap((List) tableRow,configPath));
+        }
+        return tableInformation;
+    }
+
+    /**
+     * Converts a "Table" (which is a list of a list of config nodes) to an easier to read form
+     * This version will not print where the config is if an errors occurs
+     * @param configTable A "table" from a config file, a list of a list of nodes.
+     * @return A list of maps of config nodes, for each item in the "table" This acts as a list of rows.
+     */
+    public static List<Map<String,Object>> getConfigTableInformation(List configTable) {
+        return getConfigTableInformation(configTable,UNKNOWN_CONFIG_LOCATION);
+    }
+
+    /**
+     * Converts List of config nodes to a Map format (removes extraneous lists used to compact lines in .yml files)
+     * @param listOfConfigNodes List that contains config nodes (Maps)
+     * @param configPath The path where the list was taken from (only used to print if errors occur)
+     * @return A map format of the list
+     */
+    public static Map<String,Object> convertListedTableRowToMap(List listOfConfigNodes, String configPath) {
+        Map<String,Object> tableRow = new HashMap<>();
+        if (!UtilityMethods.collectionOnlyContainsOneClass(listOfConfigNodes,Map.class)) { //Checks if the list only contains maps first
+            FrpgPrint.print(EXPECTED_LIST_OF_MAPS+ configPath);
+            return null;
+        }
+        for (Object tableElementObject : listOfConfigNodes) {
+            Map tableElement = (Map) tableElementObject;
+            for (Object key : tableElement.keySet()) {
+                Object value = tableElement.get(key);
+                if (value instanceof List) {
+                    if (!((List) value).isEmpty()) {
+                        if (UtilityMethods.collectionOnlyContainsOneClass((List) value,Map.class)) {
+                            value = convertListedTableRowToMap((List) value,configPath);
+                        }
+                    }
+                }
+                tableRow.put(key.toString(), value);
+            }
+        }
+        return tableRow;
+    }
+
+        /*
+    private List<Map> getListOfMapsFromValueObject(Object value, String extraErrorMessage) {
+        if ((value instanceof List)) {
+            List valueList = (List) value;
+            if (valueList.isEmpty()) {
+                printReadInError(extraErrorMessage);
+                return null;
+            }
+            if (!(valueList.get(0) instanceof Map)) {
+                printReadInError(extraErrorMessage);
+                return null;
+            }
+            return (List<Map>) value;
+        } else {
+            printReadInError(extraErrorMessage);
+            return null;
+        }
+    }
+
+    private List<Map> getListOfMapsFromValueObject(Object value) {
+        if ((value instanceof List)) {
+            List valueList = (List) value;
+            if (valueList.isEmpty()) {
+                printReadInError();
+                return null;
+            }
+            for (Object mapObjet : valueList) {
+                if (!(mapObjet instanceof Map)) { //One of the list objects is not a mapping
+                    printReadInError();
+                    return null;
+                }
+            }
+            return (List<Map>) value;
+        } else {
+            printReadInError();
+            return null;
+        }
+    }
+
+    private List<List<Map>> getListOfListOfMapsFromValueObject(Object value,String extraErrorMessage) {
+        if ((value instanceof List)) {
+            List valueList = (List) value; //Object is  alist
+            if (valueList.isEmpty()) { //Object is an empty list
+                printReadInError(extraErrorMessage);
+                return null;
+            }
+            for (Object listObject : valueList) { //For all (supposedly lists) in the list
+                if (!(listObject instanceof List)) { //If the list object is not a list
+                    printReadInError(extraErrorMessage);
+                    return null;
+                }
+                //It's okay for this list to be empty
+                for (Object mapObject : (List) listObject) {
+                    if (!(mapObject instanceof Map)) { //One of the objects is not a mapping
+                        printReadInError(extraErrorMessage);
+                        return null;
+                    }
+                }
+            }
+            return (List<List<Map>>) value;
+        } else {
+            printReadInError(extraErrorMessage);
+            return null;
+        }
+    }
+     */
+
+        /*
     private void decodeMaterialValue(Object value) {
         CustomItem customItem = (CustomItem) container;
         customItem.material = Material.getMaterial(value.toString());
@@ -511,155 +762,4 @@ public class CustomContainerImporter {
         }
     }
     */
-
-    private void printReadInError() {
-        FrpgPrint.print(IMPROPER_CONFIG + configPath);
-    }
-
-    private void printReadInError(String extraMessage) {
-        FrpgPrint.print(IMPROPER_CONFIG + configPath + " (" + extraMessage + ")");
-    }
-
-    private Object getOnlyKey(Map map) {
-        Object mapKey = null;
-        if (map.keySet().size() > 1) {
-            printReadInError();
-        }
-        for (Object key : map.keySet()) { //We assume the keyset is size one
-            mapKey = key;
-        }
-        return mapKey;
-    }
-
-    private Object getOnlyKey(Map map, String extraErrorMessage) {
-        Object mapKey = null;
-        if (map.keySet().size() > 1) {
-            printReadInError(extraErrorMessage);
-        }
-        for (Object key : map.keySet()) { //We assume the keyset is size one
-            mapKey = key;
-        }
-        return mapKey;
-    }
-
-    /*
-    private List<Map> getListOfMapsFromValueObject(Object value, String extraErrorMessage) {
-        if ((value instanceof List)) {
-            List valueList = (List) value;
-            if (valueList.isEmpty()) {
-                printReadInError(extraErrorMessage);
-                return null;
-            }
-            if (!(valueList.get(0) instanceof Map)) {
-                printReadInError(extraErrorMessage);
-                return null;
-            }
-            return (List<Map>) value;
-        } else {
-            printReadInError(extraErrorMessage);
-            return null;
-        }
-    }
-
-    private List<Map> getListOfMapsFromValueObject(Object value) {
-        if ((value instanceof List)) {
-            List valueList = (List) value;
-            if (valueList.isEmpty()) {
-                printReadInError();
-                return null;
-            }
-            for (Object mapObjet : valueList) {
-                if (!(mapObjet instanceof Map)) { //One of the list objects is not a mapping
-                    printReadInError();
-                    return null;
-                }
-            }
-            return (List<Map>) value;
-        } else {
-            printReadInError();
-            return null;
-        }
-    }
-
-    private List<List<Map>> getListOfListOfMapsFromValueObject(Object value,String extraErrorMessage) {
-        if ((value instanceof List)) {
-            List valueList = (List) value; //Object is  alist
-            if (valueList.isEmpty()) { //Object is an empty list
-                printReadInError(extraErrorMessage);
-                return null;
-            }
-            for (Object listObject : valueList) { //For all (supposedly lists) in the list
-                if (!(listObject instanceof List)) { //If the list object is not a list
-                    printReadInError(extraErrorMessage);
-                    return null;
-                }
-                //It's okay for this list to be empty
-                for (Object mapObject : (List) listObject) {
-                    if (!(mapObject instanceof Map)) { //One of the objects is not a mapping
-                        printReadInError(extraErrorMessage);
-                        return null;
-                    }
-                }
-            }
-            return (List<List<Map>>) value;
-        } else {
-            printReadInError(extraErrorMessage);
-            return null;
-        }
-    }
-     */
-
-    public static List<Map<String,Object>> getConfigTableInformation(YamlConfiguration config, String configPath) {
-        List configTable = config.getList(configPath);
-        if (configTable == null) {
-            FrpgPrint.print(EXPECTED_LIST + configPath);
-            return null;
-        }
-        return getConfigTableInformation(configTable);
-    }
-
-    public static List<Map<String,Object>> getConfigTableInformation(List configTable,String configPath) {
-        ArrayList<Map<String,Object>> tableInformation = new ArrayList<>();
-        for (Object tableRow : configTable) {
-            if (!(tableRow instanceof List)) {
-                FrpgPrint.print(EXPECTED_LIST+ configPath);
-                return null;
-            }
-            tableInformation.add(convertListedTableRowToMap((List) tableRow,configPath));
-        }
-        return tableInformation;
-    }
-
-    public static List<Map<String,Object>> getConfigTableInformation(List configTable) {
-        return getConfigTableInformation(configTable,UNKNOWN_CONFIG_LOCATION);
-    }
-
-    /**
-     * Converts List of config nodes to a Map format (removes extraneous lists used to compact lines in .yml files)
-     * @param listOfConfigNodes List that contains config nodes (Maps)
-     * @param configPath The path where the list was taken from (only used to print if errors occur)
-     * @return A map format of the list
-     */
-    public static Map<String,Object> convertListedTableRowToMap(List listOfConfigNodes, String configPath) {
-        Map<String,Object> tableRow = new HashMap<>();
-        if (!UtilityMethods.collectionOnlyContainsOneClass(listOfConfigNodes,Map.class)) { //Checks if the list only contains maps first
-            FrpgPrint.print(EXPECTED_LIST_OF_MAPS+ configPath);
-            return null;
-        }
-        for (Object tableElementObject : listOfConfigNodes) {
-            Map tableElement = (Map) tableElementObject;
-            for (Object key : tableElement.keySet()) {
-                Object value = tableElement.get(key);
-                if (value instanceof List) {
-                    if (!((List) value).isEmpty()) {
-                        if (UtilityMethods.collectionOnlyContainsOneClass((List) value,Map.class)) {
-                            value = convertListedTableRowToMap((List) value,configPath);
-                        }
-                    }
-                }
-                tableRow.put(key.toString(), value);
-            }
-        }
-        return tableRow;
-    }
 }

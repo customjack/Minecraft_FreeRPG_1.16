@@ -8,7 +8,7 @@ import mc.carlton.freerpg.clickEvents.PlayerRightClick;
 import mc.carlton.freerpg.clickEvents.PlayerRightClickEntity;
 import mc.carlton.freerpg.combatEvents.*;
 import mc.carlton.freerpg.commands.*;
-import mc.carlton.freerpg.customConfigContainers.CustomContainerImporter;
+import mc.carlton.freerpg.customContainers.CustomContainerImporter;
 import mc.carlton.freerpg.enchantingEvents.*;
 import mc.carlton.freerpg.furnaceEvents.FurnaceBurn;
 import mc.carlton.freerpg.furnaceEvents.FurnaceInventoryClick;
@@ -213,16 +213,15 @@ public final class FreeRPG extends JavaPlugin implements Listener {
     }
 
     public void test() { //The purpose of this is to just place test code to run when the plugin is enabled or disabled
-        new PsuedoEnchanting().printInfo();
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
         File f = new File(plugin.getDataFolder(),"perkConfig.yml");
         f.setReadable(true,false);
         f.setWritable(true,false);
         YamlConfiguration config = YamlConfiguration.loadConfiguration(f);
-        final String testConfigPath = "alchemy.skill_1A.level1.recipes";
-        List test = ( (List) ( (Map) (config.getList(testConfigPath).get(0) ) ).get("output") );
+        final String testConfigPath = "global.skill_4D.level1.effectsGiven";
+        List test = ( (List) (config.getList(testConfigPath).get(0)) );
         System.out.println(test);
-        System.out.println(new CustomContainerImporter(testConfigPath).getCustomItem(test));
+        System.out.println(new CustomContainerImporter(testConfigPath).getCustomEffectPiece(test));
         System.out.println(CustomContainerImporter.convertListedTableRowToMap(test,testConfigPath));
 
     }

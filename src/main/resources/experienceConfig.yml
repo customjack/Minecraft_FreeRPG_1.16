@@ -15,6 +15,90 @@
 #
 # Some experience drops are located in perkConfig.yml
 #
+# ------------------------------------
+# CUSTOM BLOCK EXPERIENCE INFORMATION:
+# ------------------------------------
+#
+# 1) ***REQUIRED*** MATERIAL: The name of the block.
+#    [TAGS] block
+#    [EXAMPLE] block: PINK_BED
+#    [NOTES] Select from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+#            If a material is NOT recognized, it will simply not be considered (ex. NETHERITE_SCRAP in MC v1.15 will be ignored)
+# 2) BREAK EXPERIENCE: The amount of the item dropped.
+#    [TAGS] breakExp
+#    [DEFAULT VALUE] 0
+#    [EXAMPLE] breakExp: 100
+#    [NOTES] Must be an integer.
+# 3) NATURAL REQUIREMENT: whether or not the block must be natural to drop exp
+#    [TAGS] natural, isNatural
+#    [DEFAULT VALUE] false
+#    [EXAMPLE] natural: false
+#    [NOTES] Value must be "true" or "false." All blocks marked with "natural" are tracked in a file.
+#
+# EXAMPLES:
+# 1) [block: DIRT, breakExp: 100, natural: true]
+# 2) [block: OAK_PLANKS, breakExp: 5, natural: false]
+# 3) [block: GOLD_BLOCK, breakExp: 123]
+#
+#
+# ----------------------------------
+# CUSTOM MOB EXPERIENCE INFORMATION:
+# ----------------------------------
+#
+# 1) ***REQUIRED*** MOB NAME: The name of the mob.
+#    [TAGS] mob
+#    [EXAMPLE] mob: SHEEP
+#    [NOTES] Select from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+#            If a mob is NOT recognized, it will simply not be considered (ex. PIGLIN_BRUTE in MC v1.15 will be ignored)
+# 2) KILL EXPERIENCE: The amount of the item dropped.
+#    [TAGS] killExp
+#    [DEFAULT VALUE] 0
+#    [EXAMPLE] killExp: 100
+#    [NOTES] Must be an integer.
+#    [NOTES] Experience is only rewarded if the item used on the mob is a skill item (ex. swordsmanship requires swords, mining requires pickaxes, etc.)
+#           Farming, Fishing, Repair, Agility, Alchemy, Smelting, and Enchanting have no specific skill items for mobs, so experience will always be rewarded to those skills if the mob is listed in their section.
+#            Must be an Integer.
+# 3) DAMAGE EXPERIENCE: The amount of experience rewarded for each point of damage done to the mob
+#    [TAGS] damageExp
+#    [DEFAULT VALUE] 0
+#    [EXAMPLE] damageExp: 100
+#    [NOTES] Experience is only rewarded if the item used on the mob is a skill item (ex. swordsmanship requires swords, mining requires pickaxes, etc.)
+#            Farming, Fishing, Repair, Agility, Alchemy, Smelting, and Enchanting have no specific skill items for mobs, so experience will always be rewarded to those skills if the mob is listed in their section.
+#            Must be an Integer.
+# 4) TAKE DAMAGE EXPERIENCE: The amount of experience rewarded for each point of damage done to the player by the mob
+#    [TAGS] takeDamageExp
+#    [DEFAULT VALUE] 0
+#    [EXAMPLE] takeDamageExp: 100
+#    [NOTES] Must be an Integer.
+# 5) HIT EXPERIENCE: The amount of experience rewarded for every hit the player lands on the mob
+#    [TAGS] hitExp
+#    [DEFAULT VALUE] 0
+#    [EXAMPLE] hitExp: 100
+#    [NOTES] Experience is only rewarded if the item used on the mob is a skill item (ex. swordsmanship requires swords, mining requires pickaxes, etc.)
+#            Farming, Fishing, Repair, Agility, Alchemy, Smelting, and Enchanting have no specific skill items for mobs, so experience will always be rewarded to those skills if the mob is listed in their section.
+#            Must be an Integer.
+# 6) TAKE HIT EXPERIENCE: The amount of experience rewarded for every hit the player lands on the mob
+#    [TAGS] takeHitExp
+#    [DEFAULT VALUE] 0
+#    [EXAMPLE] takeHitExp: 100
+#    [NOTES] Must be an Integer.
+# 7) BREED EXPERIENCE: The amount of experience rewarded when the player tames the mob
+#    [TAGS] tameExp
+#    [DEFAULT VALUE] 0
+#    [EXAMPLE] tameExp: 100
+#    [NOTES] Must be an Integer
+# 8) TAME EXPERIENCE: The amount of experience rewarded when the player tames a mob
+#    [TAGS] tameExp
+#    [DEFAULT VALUE] 0
+#    [EXAMPLE] tameExp: 100
+#    [NOTES] Must be an Integer.
+#
+# EXAMPLES:
+# 1)
+# 2)
+# 3)
+#
+#
 leveling:
   # Please use this interactive graph to visualize the effect of each parameter:
   #  https://www.desmos.com/calculator/cpphmtzhw9
@@ -33,134 +117,122 @@ digging:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
   exp:
-    # Experience for treasure drops can be found in perkConfig.yml
-    # Blocks broken that yield exp (and are tracked a result).
-    # Format: [{Block Name}, {exp reward}, {must be natural? {default == true}]
-    # Block names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-    # natural: false can be added to make the block still give experience even if it is not natural
-    breakBlock:
-      - [block: CLAY,                       exp: 60, natural: true ]
-      - [block: FARMLAND ,                  exp: 20, natural: true ]
-      - [block: GRASS_BLOCK,                exp: 20, natural: true ]
-      - [block: GRASS_PATH,                 exp: 20, natural: true ]
-      - [block: MYCELIUM,                   exp: 22, natural: true ]
-      - [block: PODZOL,                     exp: 22, natural: true ]
-      - [block: COARSE_DIRT,                exp: 22, natural: true ]
-      - [block: DIRT,                       exp: 20, natural: true ]
-      - [block: RED_SAND,                   exp: 22, natural: true ]
-      - [block: SAND,                       exp: 20, natural: true ]
-      - [block: SOUL_SAND,                  exp: 30, natural: true ]
-      - [block: SOUL_SOIL,                  exp: 25, natural: true ]
-      - [block: SNOW_BLOCK,                 exp: 22, natural: true ]
-      - [block: SNOW,                       exp: 4,  natural: true ]
-      - [block: BLACK_CONCRETE_POWDER,      exp: 20, natural: false]
-      - [block: BLUE_CONCRETE_POWDER,       exp: 20, natural: false]
-      - [block: BROWN_CONCRETE_POWDER,      exp: 20, natural: false]
-      - [block: CYAN_CONCRETE_POWDER,       exp: 20, natural: false]
-      - [block: GRAY_CONCRETE_POWDER,       exp: 20, natural: false]
-      - [block: GREEN_CONCRETE_POWDER,      exp: 20, natural: false]
-      - [block: LIGHT_BLUE_CONCRETE_POWDER, exp: 20, natural: false]
-      - [block: LIGHT_GRAY_CONCRETE_POWDER, exp: 20, natural: false]
-      - [block: LIME_CONCRETE_POWDER,       exp: 20, natural: false]
-      - [block: MAGENTA_CONCRETE_POWDER,    exp: 20, natural: false]
-      - [block: ORANGE_CONCRETE_POWDER,     exp: 20, natural: false]
-      - [block: PINK_CONCRETE_POWDER,       exp: 20, natural: false]
-      - [block: PURPLE_CONCRETE_POWDER,     exp: 20, natural: false]
-      - [block: RED_CONCRETE_POWDER,        exp: 20, natural: false]
-      - [block: WHITE_CONCRETE_POWDER,      exp: 20, natural: false]
-      - [block: YELLOW_CONCRETE_POWDER,     exp: 20, natural: false]
+    # Blocks broken that give experience. See comments at the top of the page for more information.
+    blocks:
+      - [block: CLAY,                       breakExp: 60, natural: true ]
+      - [block: FARMLAND ,                  breakExp: 20, natural: true ]
+      - [block: GRASS_BLOCK,                breakExp: 20, natural: true ]
+      - [block: GRASS_PATH,                 breakExp: 20, natural: true ]
+      - [block: MYCELIUM,                   breakExp: 22, natural: true ]
+      - [block: PODZOL,                     breakExp: 22, natural: true ]
+      - [block: COARSE_DIRT,                breakExp: 22, natural: true ]
+      - [block: DIRT,                       breakExp: 20, natural: true ]
+      - [block: RED_SAND,                   breakExp: 22, natural: true ]
+      - [block: SAND,                       breakExp: 20, natural: true ]
+      - [block: SOUL_SAND,                  breakExp: 30, natural: true ]
+      - [block: SOUL_SOIL,                  breakExp: 25, natural: true ]
+      - [block: SNOW_BLOCK,                 breakExp: 22, natural: true ]
+      - [block: SNOW,                       breakExp: 4,  natural: true ]
+      - [block: BLACK_CONCRETE_POWDER,      breakExp: 20, natural: false]
+      - [block: BLUE_CONCRETE_POWDER,       breakExp: 20, natural: false]
+      - [block: BROWN_CONCRETE_POWDER,      breakExp: 20, natural: false]
+      - [block: CYAN_CONCRETE_POWDER,       breakExp: 20, natural: false]
+      - [block: GRAY_CONCRETE_POWDER,       breakExp: 20, natural: false]
+      - [block: GREEN_CONCRETE_POWDER,      breakExp: 20, natural: false]
+      - [block: LIGHT_BLUE_CONCRETE_POWDER, breakExp: 20, natural: false]
+      - [block: LIGHT_GRAY_CONCRETE_POWDER, breakExp: 20, natural: false]
+      - [block: LIME_CONCRETE_POWDER,       breakExp: 20, natural: false]
+      - [block: MAGENTA_CONCRETE_POWDER,    breakExp: 20, natural: false]
+      - [block: ORANGE_CONCRETE_POWDER,     breakExp: 20, natural: false]
+      - [block: PINK_CONCRETE_POWDER,       breakExp: 20, natural: false]
+      - [block: PURPLE_CONCRETE_POWDER,     breakExp: 20, natural: false]
+      - [block: RED_CONCRETE_POWDER,        breakExp: 20, natural: false]
+      - [block: WHITE_CONCRETE_POWDER,      breakExp: 20, natural: false]
+      - [block: YELLOW_CONCRETE_POWDER,     breakExp: 20, natural: false]
 wooductting:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   EXP_Multiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
   exp:
-    # Experience for lead scavenger drops can be found in perkConfig.yml
-    # Blocks broken that yield exp (and are tracked a result).
-    # Format: [{Block Name}, {exp reward}, {must be natural? {default == true}]
-    # Block names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-    # natural: false can be added to make the block still give experience even if it is not natural
-    breakBlock:
-      - [block: ACACIA_LOG,           exp: 100, natural: true ]
-      - [block: BIRCH_LOG,            exp: 100, natural: true ]
-      - [block: DARK_OAK_LOG,         exp: 100, natural: true ]
-      - [block: OAK_LOG,              exp: 100, natural: true ]
-      - [block: SPRUCE_LOG,           exp: 100, natural: true ]
-      - [block: JUNGLE_LOG,           exp: 100, natural: true ]
-      - [block: ACACIA_PLANKS,        exp: 25,  natural: false]
-      - [block: BIRCH_PLANKS,         exp: 25,  natural: false]
-      - [block: DARK_OAK_PLANKS,      exp: 25,  natural: false]
-      - [block: OAK_PLANKS,           exp: 25,  natural: false]
-      - [block: SPRUCE_PLANKS,        exp: 25,  natural: false]
-      - [block: JUNGLE_PLANKS,        exp: 25,  natural: false]
-      - [block: ACACIA_LEAVES,        exp: 13,  natural: true ]
-      - [block: BIRCH_LEAVES,         exp: 13,  natural: true ]
-      - [block: DARK_OAK_LEAVES,      exp: 13,  natural: true ]
-      - [block: OAK_LEAVES,           exp: 13,  natural: true ]
-      - [block: SPRUCE_LEAVES,        exp: 13,  natural: true ]
-      - [block: JUNGLE_LEAVES,        exp: 13,  natural: true ]
-      - [block: BROWN_MUSHROOM_BLOCK, exp: 125, natural: true ]
-      - [block: RED_MUSHROOM_BLOCK,   exp: 125, natural: true ]
-      - [block: CRIMSON_STEM,         exp: 125, natural: true ]
-      - [block: WARPED_STEM,          exp: 125, natural: true ]
-      - [block: CRIMSON_PLANKS,       exp: 28,  natural: false]
-      - [block: WARPED_PLANKS,        exp: 28,  natural: false]
+    # Blocks broken that give experience. See comments at the top of the page for more information.
+    blocks:
+      - [block: ACACIA_LOG,           breakExp: 100, natural: true ]
+      - [block: BIRCH_LOG,            breakExp: 100, natural: true ]
+      - [block: DARK_OAK_LOG,         breakExp: 100, natural: true ]
+      - [block: OAK_LOG,              breakExp: 100, natural: true ]
+      - [block: SPRUCE_LOG,           breakExp: 100, natural: true ]
+      - [block: JUNGLE_LOG,           breakExp: 100, natural: true ]
+      - [block: ACACIA_PLANKS,        breakExp: 25,  natural: false]
+      - [block: BIRCH_PLANKS,         breakExp: 25,  natural: false]
+      - [block: DARK_OAK_PLANKS,      breakExp: 25,  natural: false]
+      - [block: OAK_PLANKS,           breakExp: 25,  natural: false]
+      - [block: SPRUCE_PLANKS,        breakExp: 25,  natural: false]
+      - [block: JUNGLE_PLANKS,        breakExp: 25,  natural: false]
+      - [block: ACACIA_LEAVES,        breakExp: 13,  natural: true ]
+      - [block: BIRCH_LEAVES,         breakExp: 13,  natural: true ]
+      - [block: DARK_OAK_LEAVES,      breakExp: 13,  natural: true ]
+      - [block: OAK_LEAVES,           breakExp: 13,  natural: true ]
+      - [block: SPRUCE_LEAVES,        breakExp: 13,  natural: true ]
+      - [block: JUNGLE_LEAVES,        breakExp: 13,  natural: true ]
+      - [block: BROWN_MUSHROOM_BLOCK, breakExp: 125, natural: true ]
+      - [block: RED_MUSHROOM_BLOCK,   breakExp: 125, natural: true ]
+      - [block: CRIMSON_STEM,         breakExp: 125, natural: true ]
+      - [block: WARPED_STEM,          breakExp: 125, natural: true ]
+      - [block: CRIMSON_PLANKS,       breakExp: 28,  natural: false]
+      - [block: WARPED_PLANKS,        breakExp: 28,  natural: false]
 mining:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
   exp:
     explodeTNT: 200 #Experience rewarded for exploding TNT
-    # Experience for treasure seeker drops can be found in perkConfig.yml
-    # Blocks broken that yield exp (and are tracked a result).
-    # Format: [{Block Name}, {exp reward}, {must be natural? {default == true}]
-    # Block names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-    # natural: false can be added to make the block still give experience even if it is not natural
-    breakBlock:
-      - [block: ICE,                   exp: 20,   natural: true ]
-      - [block: BLUE_ICE,              exp: 25,   natural: true ]
-      - [block: PACKED_ICE,            exp: 25,   natural: true ]
-      - [block: FROSTED_ICE,           exp: 25,   natural: true ]
-      - [block: ANDESITE,              exp: 20,   natural: true ]
-      - [block: COAL_ORE,              exp: 200,  natural: true ]
-      - [block: DIORITE,               exp: 20,   natural: true ]
-      - [block: END_STONE,             exp: 20,   natural: true ]
-      - [block: GRANITE,               exp: 20,   natural: true ]
-      - [block: NETHERRACK,            exp: 8,    natural: true ]
-      - [block: NETHER_QUARTZ_ORE,     exp: 250,  natural: true ]
-      - [block: MOSSY_COBBLESTONE,     exp: 35,   natural: true ]
-      - [block: SANDSTONE,             exp: 20,   natural: true ]
-      - [block: RED_SANDSTONE,         exp: 10,   natural: true ]
-      - [block: SPAWNER,               exp: 5000, natural: true ]
-      - [block: STONE,                 exp: 15,   natural: true ]
-      - [block: IRON_ORE,              exp: 350,  natural: true ]
-      - [block: REDSTONE_ORE,          exp: 500,  natural: true ]
-      - [block: LAPIS_ORE,             exp: 700,  natural: true ]
-      - [block: GOLD_ORE,              exp: 500,  natural: true ]
-      - [block: DIAMOND_ORE,           exp: 1000, natural: true ]
-      - [block: EMERALD_ORE,           exp: 1250, natural: true ]
-      - [block: OBSIDIAN,              exp: 100,  natural: true ]
-      - [block: ANCIENT_DEBRIS,        exp: 1500, natural: true ]
-      - [block: NETHER_GOLD_ORE,       exp: 475,  natural: true ]
-      - [block: BASALT,                exp: 25,   natural: true ]
-      - [block: BLACKSTONE,            exp: 30,   natural: true ]
-      - [block: CRYING_OBSIDIAN,       exp: 150,  natural: true ]
-      - [block: CRIMSON_NYLIUM,        exp: 15,   natural: true ]
-      - [block: WARPED_NYLIUM,         exp: 15,   natural: true ]
-      - [block: GILDED_BLACKSTONE,     exp: 500,  natural: true ]
-      - [block: WHITE_TERRACOTTA,      exp: 25,   natural: false]
-      - [block: ORANGE_TERRACOTTA,     exp: 25,   natural: false]
-      - [block: MAGENTA_TERRACOTTA,    exp: 25,   natural: false]
-      - [block: LIGHT_BLUE_TERRACOTTA, exp: 25,   natural: false]
-      - [block: YELLOW_TERRACOTTA,     exp: 25,   natural: false]
-      - [block: LIME_TERRACOTTA,       exp: 25,   natural: false]
-      - [block: PINK_TERRACOTTA,       exp: 25,   natural: false]
-      - [block: GRAY_TERRACOTTA,       exp: 25,   natural: false]
-      - [block: LIGHT_GRAY_TERRACOTTA, exp: 25,   natural: false]
-      - [block: PURPLE_TERRACOTTA,     exp: 25,   natural: false]
-      - [block: BLUE_TERRACOTTA,       exp: 25,   natural: false]
-      - [block: BROWN_TERRACOTTA,      exp: 25,   natural: false]
-      - [block: GREEN_TERRACOTTA,      exp: 25,   natural: false]
-      - [block: RED_TERRACOTTA,        exp: 25,   natural: false]
-      - [block: BLACK_TERRACOTTA,      exp: 25,   natural: false]
-      - [block: TERRACOTTA,            exp: 25,   natural: false]
+    # Blocks broken that give experience. See comments at the top of the page for more information.
+    blocks:
+      - [block: ICE,                   breakExp: 20,   natural: true ]
+      - [block: BLUE_ICE,              breakExp: 25,   natural: true ]
+      - [block: PACKED_ICE,            breakExp: 25,   natural: true ]
+      - [block: FROSTED_ICE,           breakExp: 25,   natural: true ]
+      - [block: ANDESITE,              breakExp: 20,   natural: true ]
+      - [block: COAL_ORE,              breakExp: 200,  natural: true ]
+      - [block: DIORITE,               breakExp: 20,   natural: true ]
+      - [block: END_STONE,             breakExp: 20,   natural: true ]
+      - [block: GRANITE,               breakExp: 20,   natural: true ]
+      - [block: NETHERRACK,            breakExp: 8,    natural: true ]
+      - [block: NETHER_QUARTZ_ORE,     breakExp: 250,  natural: true ]
+      - [block: MOSSY_COBBLESTONE,     breakExp: 35,   natural: true ]
+      - [block: SANDSTONE,             breakExp: 20,   natural: true ]
+      - [block: RED_SANDSTONE,         breakExp: 10,   natural: true ]
+      - [block: SPAWNER,               breakExp: 5000, natural: true ]
+      - [block: STONE,                 breakExp: 15,   natural: true ]
+      - [block: IRON_ORE,              breakExp: 350,  natural: true ]
+      - [block: REDSTONE_ORE,          breakExp: 500,  natural: true ]
+      - [block: LAPIS_ORE,             breakExp: 700,  natural: true ]
+      - [block: GOLD_ORE,              breakExp: 500,  natural: true ]
+      - [block: DIAMOND_ORE,           breakExp: 1000, natural: true ]
+      - [block: EMERALD_ORE,           breakExp: 1250, natural: true ]
+      - [block: OBSIDIAN,              breakExp: 100,  natural: true ]
+      - [block: ANCIENT_DEBRIS,        breakExp: 1500, natural: true ]
+      - [block: NETHER_GOLD_ORE,       breakExp: 475,  natural: true ]
+      - [block: BASALT,                breakExp: 25,   natural: true ]
+      - [block: BLACKSTONE,            breakExp: 30,   natural: true ]
+      - [block: CRYING_OBSIDIAN,       breakExp: 150,  natural: true ]
+      - [block: CRIMSON_NYLIUM,        breakExp: 15,   natural: true ]
+      - [block: WARPED_NYLIUM,         breakExp: 15,   natural: true ]
+      - [block: GILDED_BLACKSTONE,     breakExp: 500,  natural: true ]
+      - [block: WHITE_TERRACOTTA,      breakExp: 25,   natural: false]
+      - [block: ORANGE_TERRACOTTA,     breakExp: 25,   natural: false]
+      - [block: MAGENTA_TERRACOTTA,    breakExp: 25,   natural: false]
+      - [block: LIGHT_BLUE_TERRACOTTA, breakExp: 25,   natural: false]
+      - [block: YELLOW_TERRACOTTA,     breakExp: 25,   natural: false]
+      - [block: LIME_TERRACOTTA,       breakExp: 25,   natural: false]
+      - [block: PINK_TERRACOTTA,       breakExp: 25,   natural: false]
+      - [block: GRAY_TERRACOTTA,       breakExp: 25,   natural: false]
+      - [block: LIGHT_GRAY_TERRACOTTA, breakExp: 25,   natural: false]
+      - [block: PURPLE_TERRACOTTA,     breakExp: 25,   natural: false]
+      - [block: BLUE_TERRACOTTA,       breakExp: 25,   natural: false]
+      - [block: BROWN_TERRACOTTA,      breakExp: 25,   natural: false]
+      - [block: GREEN_TERRACOTTA,      breakExp: 25,   natural: false]
+      - [block: RED_TERRACOTTA,        breakExp: 25,   natural: false]
+      - [block: BLACK_TERRACOTTA,      breakExp: 25,   natural: false]
+      - [block: TERRACOTTA,            breakExp: 25,   natural: false]
 farming:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
@@ -172,60 +244,42 @@ farming:
     shearSheep: 125 #Rewarded when a player shears a sheep
     milkAnimal: 125 #Rewarded when a player milks a cow
     harvestSweetBerries: 75 #Rewarded when player harvests sweet berries without breaking crop
-    # Mobs bred that yield farming experience
-    # Format: [{Entity Name}, {experience rewarded}]
-    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
-    # If the entity is not breedable, the exp will never be rewarded
-    breed:
-      - [mob: MUSHROOM_COW, exp: 150]
-      - [mob: COW,          exp: 150]
-      - [mob: SHEEP,        exp: 125]
-      - [mob: PIG,          exp: 125]
-      - [mob: CHICKEN,      exp: 125]
-      - [mob: RABBIT,       exp: 175]
-      - [mob: TURTLE,       exp: 175]
-      - [mob: PANDA,        exp: 175]
-      - [mob: FOX,          exp: 200]
-      - [mob: BEE,          exp: 200]
-    # Mobs that yield experience when taking damaged from the mob
-    # Format: [{Entity Name}, {kill experience rewarded}, {hit experience}, {experience per damage point done}]
-    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
-    # If the entity is not kill-able (ex. snowball), the exp will never be rewarded
-    # hitExp is experience given when the player is hit by that mob, regardless of damage
-    # damageEXP is the experience given for each damage point done by the mob
-    hitMob:
-      - [mob: SHEEP,   killExp: 100, hitExp: 0, damageExp: 0]
-      - [mob: COW,     killExp: 100, hitExp: 0, damageExp: 0]
-      - [mob: CHICKEN, killExp: 40,  hitExp: 0, damageExp: 0]
-      - [mob: PIG,     killExp: 100, hitExp: 0, damageExp: 0]
-      - [mob: HORSE,   killExp: 100, hitExp: 0, damageExp: 0]
-      - [mob: RABBIT,  killExp: 125, hitExp: 0, damageExp: 0]
-      - [mob: LLAMA,   killExp: 25,  hitExp: 0, damageExp: 0]
-      - [mob: TURTLE,  killExp: 50,  hitExp: 0, damageExp: 0]
-    # Experience for treasure drops can be found in perkConfig.yml
-    # Blocks broken that yield exp (and are tracked a result).
-    # Format: [{Block Name}, {exp reward}, {must be natural? {default == true}]
-    # Block names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-    # natural: false can be added to make the block still give experience even if it is not natural
-    breakBlock:
-      - [block: WHEAT,            exp: 50,  natural: true ]
-      - [block: BEATROOTS ,       exp: 50,  natural: true ]
-      - [block: CARROTS,          exp: 50,  natural: true ]
-      - [block: POTATOES,         exp: 50,  natural: true ]
-      - [block: MELON,            exp: 85,  natural: true ]
-      - [block: PUMPKIN,          exp: 85,  natural: true ]
-      - [block: BAMBOO,           exp: 15,  natural: true ] #This exp is rewarded for each (natural) block tha falls if a tower is broken
-      - [block: COCOA,            exp: 70,  natural: true ]
-      - [block: SUGAR_CANE,       exp: 70,  natural: true ] #This exp is rewarded for each (natural) block tha falls if a tower is broken
-      - [block: CACTUS,           exp: 38,  natural: true ] #This exp is rewarded for each (natural) block tha falls if a tower is broken
-      - [block: RED_MUSHROOM,     exp: 85,  natural: true ]
-      - [block: BROWN_MUSHROOM,   exp: 85,  natural: true ]
-      - [block: SWEET_BERRY_BUSH, exp: 75,  natural: true ]
-      - [block: KELP,             exp: 5,   natural: true ] #This exp is rewarded for each (natural) block tha falls if a tower is broken
-      - [block: SEA_PICKLE,       exp: 100, natural: true ]
-      - [block: NETHER_WART,      exp: 58,  natural: true ]
-      - [block: CHORUS_PLANT,     exp: 60,  natural: true ]
-      - [block: CHORUS_FLOWER,    exp: 60,  natural: true ]
+
+    # Mobs that give experience for various actions. See comments at the top of the page for more information.
+    mobs:
+      - [mob: MUSHROOM_COW, breedExp: 150, killExp: 100]
+      - [mob: COW,          breedExp: 150, killExp: 100]
+      - [mob: SHEEP,        breedExp: 125, killExp: 100]
+      - [mob: PIG,          breedExp: 125, killExp: 100]
+      - [mob: CHICKEN,      breedExp: 125, killExp: 40 ]
+      - [mob: RABBIT,       breedExp: 175, killExp: 125]
+      - [mob: TURTLE,       breedExp: 175, killExp: 50 ]
+      - [mob: PANDA,        breedExp: 175, killExp: 0  ]
+      - [mob: FOX,          breedExp: 200, killExp: 0  ]
+      - [mob: BEE,          breedExp: 200, killExp: 0  ]
+      - [mob: HORSE,        breedExp: 0,   killExp: 100]
+      - [mob: LLAMA,        breedExp: 0,   killExp: 25 ]
+
+    # Blocks broken that give experience. See comments at the top of the page for more information.
+    blocks:
+      - [block: WHEAT,            breakExp: 50,  natural: true ]
+      - [block: BEATROOTS ,       breakExp: 50,  natural: true ]
+      - [block: CARROTS,          breakExp: 50,  natural: true ]
+      - [block: POTATOES,         breakExp: 50,  natural: true ]
+      - [block: MELON,            breakExp: 85,  natural: true ]
+      - [block: PUMPKIN,          breakExp: 85,  natural: true ]
+      - [block: BAMBOO,           breakExp: 15,  natural: true ] #This exp is rewarded for each (natural) block tha falls if a tower is broken
+      - [block: COCOA,            breakExp: 70,  natural: true ]
+      - [block: SUGAR_CANE,       breakExp: 70,  natural: true ] #This exp is rewarded for each (natural) block tha falls if a tower is broken
+      - [block: CACTUS,           breakExp: 38,  natural: true ] #This exp is rewarded for each (natural) block tha falls if a tower is broken
+      - [block: RED_MUSHROOM,     breakExp: 85,  natural: true ]
+      - [block: BROWN_MUSHROOM,   breakExp: 85,  natural: true ]
+      - [block: SWEET_BERRY_BUSH, breakExp: 75,  natural: true ]
+      - [block: KELP,             breakExp: 5,   natural: true ] #This exp is rewarded for each (natural) block tha falls if a tower is broken
+      - [block: SEA_PICKLE,       breakExp: 100, natural: true ]
+      - [block: NETHER_WART,      breakExp: 58,  natural: true ]
+      - [block: CHORUS_PLANT,     breakExp: 60,  natural: true ]
+      - [block: CHORUS_FLOWER,    breakExp: 60,  natural: true ]
 fishing:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
@@ -233,17 +287,12 @@ fishing:
     # Experience drops for treasure catches can be found in perkConfig.yml
     # Experience drops for normal catches can be found in advancedConfig.yml
 
-    # Mobs that yield experience when taking damaged from the mob
-    # Format: [{Entity Name}, {kill experience rewarded}, {hit experience}, {experience per damage point done}]
-    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
-    # If the entity is not kill-able (ex. snowball), the exp will never be rewarded
-    # hitExp is experience given when the player is hit by that mob, regardless of damage
-    # damageEXP is the experience given for each damage point done by the mob
-    hitMob:
-      - [mob: COD,           killExp: 250, hitExp: 0, damageExp: 0]
-      - [mob: SALMON,        killExp: 250, hitExp: 0, damageExp: 0]
-      - [mob: TROPICAL_FISH, killExp: 300, hitExp: 0, damageExp: 0]
-      - [mob: PUFFERFISH,    killExp: 500, hitExp: 0, damageExp: 0]
+    # Mobs that give experience for various actions. See comments at the top of the page for more information.
+    mobs:
+      - [mob: COD,           killExp: 250]
+      - [mob: SALMON,        killExp: 250]
+      - [mob: TROPICAL_FISH, killExp: 300]
+      - [mob: PUFFERFISH,    killExp: 500]
 archery:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
@@ -261,7 +310,7 @@ archery:
     # If the entity is not kill-able (ex. snowball), the exp will never be rewarded
     # hitExp is experience given when the mob is hit, regardless of damage
     # damageEXP is the experience given for each damage point done to the mob
-    hitMob:
+    mobs:
       - [mob: BAT,              killExp: 15,    hitExp: 20, damageExp: 16]
       - [mob: CAT,              killExp: 25,    hitExp: 20, damageExp: 16]
       - [mob: CHICKEN,          killExp: 30,    hitExp: 20, damageExp: 16]
@@ -342,46 +391,21 @@ beastMastery:
     dogDealDamage: 50 #Exp rewarded when dog does any amount of damage
     expPerDamageDone: 40 #EXP rewarded for each point of damage a dog does
 
-    # Mobs that yield experience when tamed
-    # Format: [{Entity Name}, {experience rewarded}]
-    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
-    # If the entity is not tame-able (ex. snowball), the exp will never be rewarded
-    tame:
-      - [mob: HORSE,  exp: 1500]
-      - [mob: WOLF,   exp: 1600]
-      - [mob: CAT,    exp: 1400]
-      - [mob: PARROT, exp: 1750]
-
-    # Mobs bred that yield experience
-    # Format: [{Entity Name}, {experience rewarded}]
-    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
-    # If the entity is not breedable, the exp will never be rewarded
-    breed:
-      - [mob: HORSE,  exp: 1250]
-      - [mob: WOLF,   exp: 1350]
-      - [mob: CAT,    exp: 1150]
-      - [mob: PARROT, exp: 1450]
-
-    # Mobs that yield experience when damaged (by dog)
-    # Format: [{Entity Name}, {kill experience rewarded}, {hit experience}, {experience per damage point done}]
-    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
-    # If the entity is not kill-able (ex. snowball), the exp will never be rewarded
-    # hitExp is experience given when the mob is hit, regardless of damage
-    # damageEXP is the experience given for each damage point done to the mob
-    hitMob:
+    # Mobs that give experience for various actions. See comments at the top of the page for more information.
+    mobs:
       - [mob: BAT,              killExp: 200,   hitExp: 50, damageExp: 40]
-      - [mob: CAT,              killExp: 400,   hitExp: 50, damageExp: 40]
+      - [mob: CAT,              killExp: 400,   hitExp: 50, damageExp: 40, tameExp: 1750, breedExp: 1450]
       - [mob: CHICKEN,          killExp: 450,   hitExp: 50, damageExp: 40]
       - [mob: COD,              killExp: 450,   hitExp: 50, damageExp: 40]
       - [mob: COW,              killExp: 550,   hitExp: 50, damageExp: 40]
       - [mob: DONKEY,           killExp: 600,   hitExp: 50, damageExp: 40]
       - [mob: FOX,              killExp: 600,   hitExp: 50, damageExp: 40]
-      - [mob: HORSE,            killExp: 600,   hitExp: 50, damageExp: 40]
+      - [mob: HORSE,            killExp: 600,   hitExp: 50, damageExp: 40, tameExp: 1500, breedExp: 1250]
       - [mob: POLAR_BEAR,       killExp: 750,   hitExp: 50, damageExp: 40]
       - [mob: MUSHROOM_COW,     killExp: 550,   hitExp: 50, damageExp: 40]
       - [mob: MULE,             killExp: 600,   hitExp: 50, damageExp: 40]
       - [mob: OCELOT,           killExp: 500,   hitExp: 50, damageExp: 40]
-      - [mob: PARROT,           killExp: 450,   hitExp: 50, damageExp: 40]
+      - [mob: PARROT,           killExp: 450,   hitExp: 50, damageExp: 40, tameExp: 1750, breedExp: 1450]
       - [mob: PIG,              killExp: 450,   hitExp: 50, damageExp: 40]
       - [mob: RABBIT,           killExp: 400,   hitExp: 50, damageExp: 40]
       - [mob: SALMON,           killExp: 450,   hitExp: 50, damageExp: 40]
@@ -402,7 +426,7 @@ beastMastery:
       - [mob: PANDA,            killExp: 650,   hitExp: 50, damageExp: 40]
       - [mob: PUFFERFISH,       killExp: 550,   hitExp: 50, damageExp: 40]
       - [mob: SPIDER,           killExp: 770,   hitExp: 50, damageExp: 40]
-      - [mob: WOLF,             killExp: 500,   hitExp: 50, damageExp: 40]
+      - [mob: WOLF,             killExp: 500,   hitExp: 50, damageExp: 40, tameExp: 1600, breedExp: 1350]
       - [mob: BLAZE,            killExp: 900,   hitExp: 50, damageExp: 40]
       - [mob: CREEPER,          killExp: 1100,  hitExp: 50, damageExp: 40]
       - [mob: DROWNED,          killExp: 1050,  hitExp: 50, damageExp: 40]
@@ -450,13 +474,8 @@ swordsmanship:
     doubleHitActivate: 75 #Experience given when the Double Hit skill activates
     doubleHitMultiplier: 0.75 #Portion of extra experience given for each point of damage done by double hit relative to the total normally awarded experience for a hit
 
-    # Mobs that yield experience when damaged
-    # Format: [{Entity Name}, {kill experience rewarded}, {hit experience}, {experience per damage point done}]
-    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
-    # If the entity is not kill-able (ex. snowball), the exp will never be rewarded
-    # hitExp is experience given when the mob is hit, regardless of damage
-    # damageEXP is the experience given for each damage point done to the mob
-    hitMob:
+    # Mobs that give experience for various actions. See comments at the top of the page for more information.
+    mobs:
       - [mob: BAT,              killExp: 15,    hitExp: 15, damageExp: 12]
       - [mob: CAT,              killExp: 25,    hitExp: 15, damageExp: 12]
       - [mob: CHICKEN,          killExp: 30,    hitExp: 15, damageExp: 12]
@@ -541,101 +560,96 @@ defense:
     healerHealActivate: 30 #Exp rewarded whenver the healer skill activates and give heal buff
 
     # Sources of damage that give defense experience
-    # Format: [{Damage Source}, {hit experience}, {experience per damage point done}]
+    # Format: [{Damage Source}, {take hit experience}, {experience per damage point taken}]
     # Select damage source from: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
     # hitExp is the experience rewarded whenever the player takes damage from the damage cause, regardless of the damage done
     # damageExp is the experience rewarded for each point of damage done to the player by the damage source
-    takeDamage:
-      - [cause: BLOCK_EXPLOSION,     hitExp: 15, damageExp: 20]
-      - [cause: DRAGON_BREATH,       hitExp: 15, damageExp: 20]
-      #- [cause: ENTITY_ATTACK, hitExp: 15, damageExp: 20] This is covered by hitMobExp
-      - [cause: ENTITY_EXPLOSION,    hitExp: 15, damageExp: 20]
-      - [cause: ENTITY_SWEEP_ATTACK, hitExp: 15, damageExp: 20]
-      - [cause: FALL,                hitExp: 15, damageExp: 20]
-      - [cause: FLY_INTO_WALL,       hitExp: 15, damageExp: 20]
-      - [cause: LAVA,                hitExp: 15, damageExp: 20]
-      - [cause: LIGHTNING,           hitExp: 15, damageExp: 20]
-      - [cause: MAGIC,               hitExp: 15, damageExp: 20]
-      - [cause: PROJECTILE,          hitExp: 15, damageExp: 20]
-      - [cause: THORNS,              hitExp: 15, damageExp: 20]
+    damageCause:
+      - [cause: BLOCK_EXPLOSION,     takeHitExp: 15, takeDamageExp: 20]
+      - [cause: DRAGON_BREATH,       takeHitExp: 15, takeDamageExp: 20]
+      - [cause: ENTITY_EXPLOSION,    takeHitExp: 15, takeDamageExp: 20]
+      - [cause: ENTITY_SWEEP_ATTACK, takeHitExp: 15, takeDamageExp: 20]
+      - [cause: FALL,                takeHitExp: 15, takeDamageExp: 20]
+      - [cause: FLY_INTO_WALL,       takeHitExp: 15, takeDamageExp: 20]
+      - [cause: LAVA,                takeHitExp: 15, takeDamageExp: 20]
+      - [cause: LIGHTNING,           takeHitExp: 15, takeDamageExp: 20]
+      - [cause: MAGIC,               takeHitExp: 15, takeDamageExp: 20]
+      - [cause: PROJECTILE,          takeHitExp: 15, takeDamageExp: 20]
+      - [cause: THORNS,              takeHitExp: 15, takeDamageExp: 20]
+    # - [cause: ENTITY_ATTACK, takeHitExp: 15, takeDamageExp: 20] This is covered by hitMobExp
 
 
-    # Mobs that yield experience when taking damaged from the mob
-    # Format: [{Entity Name}, {kill experience rewarded}, {hit experience}, {experience per damage point done}]
-    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
-    # If the entity is not kill-able (ex. snowball), the exp will never be rewarded
-    # hitExp is experience given when the player is hit by that mob, regardless of damage
-    # damageEXP is the experience given for each damage point done by the mob
-    hitMob:
-      - [mob: BAT,              killExp: 15,    hitExp: 15, damageExp: 20]
-      - [mob: CAT,              killExp: 25,    hitExp: 15, damageExp: 20]
-      - [mob: CHICKEN,          killExp: 30,    hitExp: 15, damageExp: 20]
-      - [mob: COD,              killExp: 30,    hitExp: 15, damageExp: 20]
-      - [mob: COW,              killExp: 30,    hitExp: 15, damageExp: 20]
-      - [mob: DONKEY,           killExp: 40,    hitExp: 15, damageExp: 20]
-      - [mob: FOX,              killExp: 50,    hitExp: 15, damageExp: 20]
-      - [mob: HORSE,            killExp: 40,    hitExp: 15, damageExp: 20]
-      - [mob: POLAR_BEAR,       killExp: 75,    hitExp: 15, damageExp: 20]
-      - [mob: MUSHROOM_COW,     killExp: 40,    hitExp: 15, damageExp: 20]
-      - [mob: MULE,             killExp: 40,    hitExp: 15, damageExp: 20]
-      - [mob: OCELOT,           killExp: 30,    hitExp: 15, damageExp: 20]
-      - [mob: PARROT,           killExp: 25,    hitExp: 15, damageExp: 20]
-      - [mob: PIG,              killExp: 30,    hitExp: 15, damageExp: 20]
-      - [mob: RABBIT,           killExp: 30,    hitExp: 15, damageExp: 20]
-      - [mob: SALMON,           killExp: 30,    hitExp: 15, damageExp: 20]
-      - [mob: SHEEP,            killExp: 30,    hitExp: 15, damageExp: 20]
-      - [mob: SKELETON_HORSE,   killExp: 75,    hitExp: 15, damageExp: 20]
-      - [mob: SNOWMAN,          killExp: 10,    hitExp: 15, damageExp: 20]
-      - [mob: SQUID,            killExp: 30,    hitExp: 15, damageExp: 20]
-      - [mob: TROPICAL_FISH,    killExp: 30,    hitExp: 15, damageExp: 20]
-      - [mob: TURTLE,           killExp: 30,    hitExp: 15, damageExp: 20]
-      - [mob: VILLAGER,         killExp: 25,    hitExp: 15, damageExp: 20]
-      - [mob: WANDERING_TRADER, killExp: 500,   hitExp: 15, damageExp: 20]
-      - [mob: BEE,              killExp: 55,    hitExp: 15, damageExp: 20]
-      - [mob: CAVE_SPIDER,      killExp: 85,    hitExp: 15, damageExp: 20]
-      - [mob: DOLPHIN,          killExp: 70,    hitExp: 15, damageExp: 20]
-      - [mob: ENDERMAN,         killExp: 80,    hitExp: 15, damageExp: 20]
-      - [mob: IRON_GOLEM,       killExp: 125,   hitExp: 15, damageExp: 20]
-      - [mob: LLAMA,            killExp: 55,    hitExp: 15, damageExp: 20]
-      - [mob: PANDA,            killExp: 55,    hitExp: 15, damageExp: 20]
-      - [mob: PUFFERFISH,       killExp: 60,    hitExp: 15, damageExp: 20]
-      - [mob: SPIDER,           killExp: 75,    hitExp: 15, damageExp: 20]
-      - [mob: WOLF,             killExp: 75,    hitExp: 15, damageExp: 20]
-      - [mob: BLAZE,            killExp: 85,    hitExp: 15, damageExp: 20]
-      - [mob: CREEPER,          killExp: 85,    hitExp: 15, damageExp: 20]
-      - [mob: DROWNED,          killExp: 90,    hitExp: 15, damageExp: 20]
-      - [mob: ELDER_GUARDIAN,   killExp: 7500,  hitExp: 15, damageExp: 20]
-      - [mob: ENDERMITE,        killExp: 60,    hitExp: 15, damageExp: 20]
-      - [mob: EVOKER,           killExp: 80,    hitExp: 15, damageExp: 20]
-      - [mob: GHAST,            killExp: 90,    hitExp: 15, damageExp: 20]
-      - [mob: GUARDIAN,         killExp: 60,    hitExp: 15, damageExp: 20]
-      - [mob: HUSK,             killExp: 75,    hitExp: 15, damageExp: 20]
-      - [mob: MAGMA_CUBE,       killExp: 45,    hitExp: 15, damageExp: 20]
-      - [mob: PHANTOM,          killExp: 70,    hitExp: 15, damageExp: 20]
-      - [mob: PILLAGER,         killExp: 80,    hitExp: 15, damageExp: 20]
-      - [mob: RAVAGER,          killExp: 100,   hitExp: 15, damageExp: 20]
-      - [mob: SHULKER,          killExp: 85,    hitExp: 15, damageExp: 20]
-      - [mob: SILVERFISH,       killExp: 90,    hitExp: 15, damageExp: 20]
-      - [mob: SKELETON,         killExp: 80,    hitExp: 15, damageExp: 20]
-      - [mob: SLIME,            killExp: 40,    hitExp: 15, damageExp: 20]
-      - [mob: STRAY,            killExp: 75,    hitExp: 15, damageExp: 20]
-      - [mob: VEX,              killExp: 90,    hitExp: 15, damageExp: 20]
-      - [mob: VINDICATOR,       killExp: 85,    hitExp: 15, damageExp: 20]
-      - [mob: WITCH,            killExp: 90,    hitExp: 15, damageExp: 20]
-      - [mob: WITHER_SKELETON,  killExp: 95,    hitExp: 15, damageExp: 20]
-      - [mob: ZOMBIE,           killExp: 75,    hitExp: 15, damageExp: 20]
-      - [mob: ZOMBIE_VILLAGER,  killExp: 75,    hitExp: 15, damageExp: 20]
-      - [mob: ENDER_DRAGON,     killExp: 20000, hitExp: 15, damageExp: 20]
-      - [mob: WITHER,           killExp: 12500, hitExp: 15, damageExp: 20]
-      - [mob: ZOMBIE_HORSE,     killExp: 75,    hitExp: 15, damageExp: 20]
-      - [mob: ILLUSIONER,       killExp: 125,   hitExp: 15, damageExp: 20]
-      - [mob: GIANT,            killExp: 125,   hitExp: 15, damageExp: 20]
-      - [mob: PIGLIN,           killExp: 75,    hitExp: 15, damageExp: 20]
-      - [mob: ZOGLIN,           killExp: 110,   hitExp: 15, damageExp: 20]
-      - [mob: HOGLIN,           killExp: 100,   hitExp: 15, damageExp: 20]
-      - [mob: ZOMBIFIED_PIGLIN, killExp: 85,    hitExp: 15, damageExp: 20]
-      - [mob: PIG_ZOMBIE,       killExp: 75,    hitExp: 15, damageExp: 20] #1.15 zombie pigman (may not work)
-      - [mob: STRIDER,          killExp: 80,    hitExp: 15, damageExp: 20]
+    # Mobs that give experience for various actions. See comments at the top of the page for more information.
+    mobs:
+      - [mob: BAT,              killExp: 15,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: CAT,              killExp: 25,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: CHICKEN,          killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: COD,              killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: COW,              killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: DONKEY,           killExp: 40,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: FOX,              killExp: 50,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: HORSE,            killExp: 40,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: POLAR_BEAR,       killExp: 75,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: MUSHROOM_COW,     killExp: 40,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: MULE,             killExp: 40,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: OCELOT,           killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: PARROT,           killExp: 25,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: PIG,              killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: RABBIT,           killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: SALMON,           killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: SHEEP,            killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: SKELETON_HORSE,   killExp: 75,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: SNOWMAN,          killExp: 10,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: SQUID,            killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: TROPICAL_FISH,    killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: TURTLE,           killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: VILLAGER,         killExp: 25,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: WANDERING_TRADER, killExp: 500,   takeHitExp: 15, takeDamageExp: 20]
+      - [mob: BEE,              killExp: 55,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: CAVE_SPIDER,      killExp: 85,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: DOLPHIN,          killExp: 70,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: ENDERMAN,         killExp: 80,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: IRON_GOLEM,       killExp: 125,   takeHitExp: 15, takeDamageExp: 20]
+      - [mob: LLAMA,            killExp: 55,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: PANDA,            killExp: 55,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: PUFFERFISH,       killExp: 60,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: SPIDER,           killExp: 75,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: WOLF,             killExp: 75,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: BLAZE,            killExp: 85,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: CREEPER,          killExp: 85,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: DROWNED,          killExp: 90,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: ELDER_GUARDIAN,   killExp: 7500,  takeHitExp: 15, takeDamageExp: 20]
+      - [mob: ENDERMITE,        killExp: 60,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: EVOKER,           killExp: 80,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: GHAST,            killExp: 90,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: GUARDIAN,         killExp: 60,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: HUSK,             killExp: 75,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: MAGMA_CUBE,       killExp: 45,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: PHANTOM,          killExp: 70,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: PILLAGER,         killExp: 80,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: RAVAGER,          killExp: 100,   takeHitExp: 15, takeDamageExp: 20]
+      - [mob: SHULKER,          killExp: 85,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: SILVERFISH,       killExp: 90,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: SKELETON,         killExp: 80,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: SLIME,            killExp: 40,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: STRAY,            killExp: 75,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: VEX,              killExp: 90,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: VINDICATOR,       killExp: 85,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: WITCH,            killExp: 90,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: WITHER_SKELETON,  killExp: 95,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: ZOMBIE,           killExp: 75,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: ZOMBIE_VILLAGER,  killExp: 75,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: ENDER_DRAGON,     killExp: 20000, takeHitExp: 15, takeDamageExp: 20]
+      - [mob: WITHER,           killExp: 12500, takeHitExp: 15, takeDamageExp: 20]
+      - [mob: ZOMBIE_HORSE,     killExp: 75,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: ILLUSIONER,       killExp: 125,   takeHitExp: 15, takeDamageExp: 20]
+      - [mob: GIANT,            killExp: 125,   takeHitExp: 15, takeDamageExp: 20]
+      - [mob: PIGLIN,           killExp: 75,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: ZOGLIN,           killExp: 110,   takeHitExp: 15, takeDamageExp: 20]
+      - [mob: HOGLIN,           killExp: 100,   takeHitExp: 15, takeDamageExp: 20]
+      - [mob: ZOMBIFIED_PIGLIN, killExp: 85,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: PIG_ZOMBIE,       killExp: 75,    takeHitExp: 15, takeDamageExp: 20] #1.15 zombie pigman (may not work)
+      - [mob: STRIDER,          killExp: 80,    takeHitExp: 15, takeDamageExp: 20]
 axeMastery:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
@@ -648,13 +662,8 @@ axeMastery:
     revitalizedActivate: 150 #Experience given when revitalized activates
     holyAxeActivate: 100 #Experience given when holy axe activates
 
-    # Mobs that yield experience when taking damaged from the mob
-    # Format: [{Entity Name}, {kill experience rewarded}, {hit experience}, {experience per damage point done}]
-    # Entity names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
-    # If the entity is not kill-able (ex. snowball), the exp will never be rewarded
-    # hitExp is experience given when the player is hit by that mob, regardless of damage
-    # damageEXP is the experience given for each damage point done by the mob
-    hitMob:
+    # Mobs that give experience for various actions. See comments at the top of the page for more information.
+    mob:
       - [mob: BAT,              killExp: 15,    hitExp: 20, damageExp: 14]
       - [mob: CAT,              killExp: 25,    hitExp: 20, damageExp: 14]
       - [mob: CHICKEN,          killExp: 30,    hitExp: 20, damageExp: 14]
@@ -742,41 +751,36 @@ alchemy:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
   exp:
-    drinkPotion: 1000 #Drink any potion
-    drinkExtendedPotion: 500 #Additional experience given for drinking an extended potion
-    drinkUpgradedPotion: 500 #Additional experience given for drinking an upgraded potion
-    drinkCustomPotion: 1500 #Applies to potions added to Ancient knowledge in perkConfig.yml
+    #The experience drops for custom potions are located in perkConfig.yml under alchemy.skill_2A
 
-    # Blocks broken that yield exp (and are tracked a result).
-    # Format: [{Block Name}, {exp reward}, {must be natural? {default == true}]
-    # Block names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-    # natural: false can be added to make the block still give experience even if it is not natural
-    breakBlock:
-      - [block: NETHER_WART, exp: 100,  natural: true ]
+    # Blocks broken that give experience. See comments at the top of the page for more information.
+    blocks:
+      - [block: NETHER_WART, breakExp: 100,  natural: true ]
 
     # Potions that will give experience when brewed
-    # format: [{Potion Type], {exp reward}]
+    # format: [{Potion Type], {brew exp}, {brew extended exp}, {brew upgraded exp}, {drink exp}, {drink extended exp}, {drink upgraded exp}, {throw exp}, {throw extended exp}, {throw upgraded exp}]
     # Potion Types can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionType.html
     brewPotion:
-      - [potionType: AWKWARD,         exp: 250]
-      - [potionType: FIRE_RESISTANCE, exp: 550]
-      - [potionType: INSTANT_DAMAGE,  exp: 500]
-      - [potionType: INSTANT_HEAL,    exp: 500]
-      - [potionType: INVISIBILITY,    exp: 550]
-      - [potionType: JUMP,            exp: 550]
-      - [potionType: LUCK,            exp: 550]
-      - [potionType: MUNDANE,         exp: 200]
-      - [potionType: NIGHT_VISION,    exp: 500]
-      - [potionType: POISON,          exp: 550]
-      - [potionType: REGEN,           exp: 550]
-      - [potionType: SLOW_FALLING,    exp: 550]
-      - [potionType: SLOWNESS,        exp: 500]
-      - [potionType: SPEED,           exp: 500]
-      - [potionType: STRENGTH,        exp: 550]
-      - [potionType: THICK,           exp: 200]
-      - [potionType: TURTLE_MASTER,   exp: 550]
-      - [potionType: WATER_BREATHING, exp: 500]
-      - [potionType: WEAKNESS,        exp: 500]
+      - [potionType: WATER,           brewExp: 0,   brewExtendedExp: 0,   brewUpgradedExp: 0,   drinkExp: 0,    drinkExtendedExp: 0,    drinkUpgradedExp: 0,    throwExp: 0,     throwExtendedExp: 0,    throwUpgradedExp: 0   ]
+      - [potionType: AWKWARD,         brewExp: 250, brewExtendedExp: 0,   brewUpgradedExp: 0,   drinkExp: 0,    drinkExtendedExp: 0,    drinkUpgradedExp: 0,    throwExp: 0,     throwExtendedExp: 0,    throwUpgradedExp: 0   ]
+      - [potionType: FIRE_RESISTANCE, brewExp: 550, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500]
+      - [potionType: INSTANT_DAMAGE,  brewExp: 500, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500]
+      - [potionType: INSTANT_HEAL,    brewExp: 500, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500]
+      - [potionType: INVISIBILITY,    brewExp: 550, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500]
+      - [potionType: JUMP,            brewExp: 550, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500]
+      - [potionType: LUCK,            brewExp: 550, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500]
+      - [potionType: MUNDANE,         brewExp: 200, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500]
+      - [potionType: NIGHT_VISION,    brewExp: 500, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500]
+      - [potionType: POISON,          brewExp: 550, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500]
+      - [potionType: REGEN,           brewExp: 550, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500]
+      - [potionType: SLOW_FALLING,    brewExp: 550, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500]
+      - [potionType: SLOWNESS,        brewExp: 500, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500]
+      - [potionType: SPEED,           brewExp: 500, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500]
+      - [potionType: STRENGTH,        brewExp: 550, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500]
+      - [potionType: THICK,           brewExp: 200, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500]
+      - [potionType: TURTLE_MASTER,   brewExp: 550, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500]
+      - [potionType: WATER_BREATHING, brewExp: 500, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500]
+      - [potionType: WEAKNESS,        brewExp: 500, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500
 smelting:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
@@ -785,54 +789,54 @@ smelting:
     # Format: [{Smelting output name}, {exp reward}]]
     # Item names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
     smelt:
-    - [output: COOKED_BEEF,                        exp: 100]
-    - [output: COOKED_CHICKEN,                     exp: 100]
-    - [output: COOKED_COD,                         exp: 110]
-    - [output: COOKED_MUTTON,                      exp: 100]
-    - [output: COOKED_PORKCHOP,                    exp: 100]
-    - [output: COOKED_RABBIT,                      exp: 100]
-    - [output: COOKED_SALMON,                      exp: 110]
-    - [output: GREEN_DYE,                          exp: 100]
-    - [output: LIME_DYE,                           exp: 100]
-    - [output: DRIED_KELP,                         exp: 60 ]
-    - [output: GLASS,                              exp: 60 ]
-    - [output: BRICK,                              exp: 60 ]
-    - [output: NETHER_BRICK,                       exp: 60 ]
-    - [output: STONE,                              exp: 85 ]
-    - [output: SMOOTH_STONE,                       exp: 85 ]
-    - [output: SMOOTH_QUARTZ,                      exp: 85 ]
-    - [output: TERRACOTTA,                         exp: 85 ]
-    - [output: WHITE_GLAZED_TERRACOTTA,            exp: 90 ]
-    - [output: ORANGE_GLAZED_TERRACOTTA,           exp: 90 ]
-    - [output: MAGENTA_GLAZED_TERRACOTTA,          exp: 90 ]
-    - [output: LIGHT_BLUE_GLAZED_TERRACOTTA,       exp: 90 ]
-    - [output: YELLOW_GLAZED_TERRACOTTA,           exp: 90 ]
-    - [output: LIME_GLAZED_TERRACOTTA,             exp: 90 ]
-    - [output: PINK_GLAZED_TERRACOTTA,             exp: 90 ]
-    - [output: GRAY_GLAZED_TERRACOTTA,             exp: 90 ]
-    - [output: LIGHT_GRAY_GLAZED_TERRACOTTA,       exp: 90 ]
-    - [output: CYAN_GLAZED_TERRACOTTA,             exp: 90 ]
-    - [output: PURPLE_GLAZED_TERRACOTTA,           exp: 90 ]
-    - [output: BLUE_GLAZED_TERRACOTTA,             exp: 90 ]
-    - [output: BROWN_GLAZED_TERRACOTTA,            exp: 90 ]
-    - [output: GREEN_GLAZED_TERRACOTTA,            exp: 90 ]
-    - [output: RED_GLAZED_TERRACOTTA,              exp: 90 ]
-    - [output: BLACK_GLAZED_TERRACOTTA,            exp: 90 ]
-    - [output: CHARCOAL,                           exp: 85 ]
-    - [output: IRON_INGOT,                         exp: 150]
-    - [output: GOLD_INGOT,                         exp: 200]
-    - [output: DIAMOND,                            exp: 450]
-    - [output: LAPIS_LAZULI,                       exp: 320]
-    - [output: EMERALD,                            exp: 500]
-    - [output: REDSTONE,                           exp: 160]
-    - [output: QUARTZ,                             exp: 100]
-    - [output: SPONGE,                             exp: 140]
-    - [output: IRON_NUGGET,                        exp: 230]
-    - [output: GOLD_NUGGET,                        exp: 290]
-    - [output: NETHERITE_SCRAP,                    exp: 350]
-    - [output: CRACKED_NETHER_BRICKS,              exp: 95 ]
-    - [output: CRACKED_STONE_BRICKS,               exp: 95 ]
-    - [output: CRACKED_POLISHED_BLACKSTONE_BRICKS, exp: 95 ]
+    - [output: COOKED_BEEF,                        smeltExp: 100]
+    - [output: COOKED_CHICKEN,                     smeltExp: 100]
+    - [output: COOKED_COD,                         smeltExp: 110]
+    - [output: COOKED_MUTTON,                      smeltExp: 100]
+    - [output: COOKED_PORKCHOP,                    smeltExp: 100]
+    - [output: COOKED_RABBIT,                      smeltExp: 100]
+    - [output: COOKED_SALMON,                      smeltExp: 110]
+    - [output: GREEN_DYE,                          smeltExp: 100]
+    - [output: LIME_DYE,                           smeltExp: 100]
+    - [output: DRIED_KELP,                         smeltExp: 60 ]
+    - [output: GLASS,                              smeltExp: 60 ]
+    - [output: BRICK,                              smeltExp: 60 ]
+    - [output: NETHER_BRICK,                       smeltExp: 60 ]
+    - [output: STONE,                              smeltExp: 85 ]
+    - [output: SMOOTH_STONE,                       smeltExp: 85 ]
+    - [output: SMOOTH_QUARTZ,                      smeltExp: 85 ]
+    - [output: TERRACOTTA,                         smeltExp: 85 ]
+    - [output: WHITE_GLAZED_TERRACOTTA,            smeltExp: 90 ]
+    - [output: ORANGE_GLAZED_TERRACOTTA,           smeltExp: 90 ]
+    - [output: MAGENTA_GLAZED_TERRACOTTA,          smeltExp: 90 ]
+    - [output: LIGHT_BLUE_GLAZED_TERRACOTTA,       smeltExp: 90 ]
+    - [output: YELLOW_GLAZED_TERRACOTTA,           smeltExp: 90 ]
+    - [output: LIME_GLAZED_TERRACOTTA,             smeltExp: 90 ]
+    - [output: PINK_GLAZED_TERRACOTTA,             smeltExp: 90 ]
+    - [output: GRAY_GLAZED_TERRACOTTA,             smeltExp: 90 ]
+    - [output: LIGHT_GRAY_GLAZED_TERRACOTTA,       smeltExp: 90 ]
+    - [output: CYAN_GLAZED_TERRACOTTA,             smeltExp: 90 ]
+    - [output: PURPLE_GLAZED_TERRACOTTA,           smeltExp: 90 ]
+    - [output: BLUE_GLAZED_TERRACOTTA,             smeltExp: 90 ]
+    - [output: BROWN_GLAZED_TERRACOTTA,            smeltExp: 90 ]
+    - [output: GREEN_GLAZED_TERRACOTTA,            smeltExp: 90 ]
+    - [output: RED_GLAZED_TERRACOTTA,              smeltExp: 90 ]
+    - [output: BLACK_GLAZED_TERRACOTTA,            smeltExp: 90 ]
+    - [output: CHARCOAL,                           smeltExp: 85 ]
+    - [output: IRON_INGOT,                         smeltExp: 150]
+    - [output: GOLD_INGOT,                         smeltExp: 200]
+    - [output: DIAMOND,                            smeltExp: 450]
+    - [output: LAPIS_LAZULI,                       smeltExp: 320]
+    - [output: EMERALD,                            smeltExp: 500]
+    - [output: REDSTONE,                           smeltExp: 160]
+    - [output: QUARTZ,                             smeltExp: 100]
+    - [output: SPONGE,                             smeltExp: 140]
+    - [output: IRON_NUGGET,                        smeltExp: 230]
+    - [output: GOLD_NUGGET,                        smeltExp: 290]
+    - [output: NETHERITE_SCRAP,                    smeltExp: 350]
+    - [output: CRACKED_NETHER_BRICKS,              smeltExp: 95 ]
+    - [output: CRACKED_STONE_BRICKS,               smeltExp: 95 ]
+    - [output: CRACKED_POLISHED_BLACKSTONE_BRICKS, smeltExp: 95 ]
 enchanting:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
