@@ -39,38 +39,7 @@ public class LogoutProcedure {
         }
 
         //Ensures no items stay permanently altered from abilities
-        AbilityLogoutTracker logoutTracker = new AbilityLogoutTracker(p);
-        TrackItem trackItem = new TrackItem();
-
-
-        NamespacedKey key_digging = logoutTracker.getPlayerKeys().get("digging");
-        int taskID_digging = logoutTracker.getPlayerTasks().get("digging");
-        ItemStack itemInHand_digging = trackItem.findTrackedItemInInventory(p,key_digging);
-
-        NamespacedKey key_mining = logoutTracker.getPlayerKeys().get("mining");
-        int taskID_mining = logoutTracker.getPlayerTasks().get("mining");
-        ItemStack itemInHand_mining = trackItem.findTrackedItemInInventory(p,key_mining);
-
-        NamespacedKey key_swordsmanship = logoutTracker.getPlayerKeys().get("swordsmanship");
-        int taskID_swordsmanship = logoutTracker.getPlayerTasks().get("swordsmanship");
-        ItemStack itemInHand_swordsmanship = trackItem.findTrackedItemInInventory(p,key_swordsmanship);
-
-        int taskID_defense = logoutTracker.getPlayerTasks().get("defense");
-
-        if (itemInHand_digging != null) {
-            Digging diggingClass = new Digging(p);
-            diggingClass.preventLogoutTheft(taskID_digging, itemInHand_digging,key_digging,disablePlugin);
-        }
-        if (itemInHand_mining != null) {
-            Mining miningClass = new Mining(p);
-            miningClass.preventLogoutTheft(taskID_mining, itemInHand_mining,key_mining,disablePlugin);
-        }
-        if (itemInHand_swordsmanship != null) {
-            Swordsmanship swordsmanshipClass = new Swordsmanship(p);
-            swordsmanshipClass.preventLogoutTheft(taskID_swordsmanship, itemInHand_swordsmanship,key_swordsmanship,disablePlugin);
-        }
-        Defense defenseClass = new Defense(p);
-        defenseClass.preventLogoutTheft(taskID_defense,disablePlugin);
+        preventLogoutTheft(disablePlugin);
 
         //Ends all tasks that track players' buffs gained from some skills
         Farming farmingClass =  new Farming(p);
@@ -111,5 +80,62 @@ public class LogoutProcedure {
 
         AbilityLogoutTracker deleteLogoutTracked = new AbilityLogoutTracker(p);
         deleteLogoutTracked.removePlayer();
+    }
+
+    public void preventLogoutTheft(boolean disablePlugin) {
+        preventLogoutTheftDefense(disablePlugin);
+        preventLogoutTheftMining(disablePlugin);
+        preventLogoutTheftDigging(disablePlugin);
+        preventLogoutTheftSwordsmanship(disablePlugin);
+    }
+
+    public void preventLogoutTheftMining(boolean disablePlugin) {
+        AbilityLogoutTracker logoutTracker = new AbilityLogoutTracker(p);
+        TrackItem trackItem = new TrackItem();
+
+        NamespacedKey key_mining = logoutTracker.getPlayerKeys().get("mining");
+        int taskID_mining = logoutTracker.getPlayerTasks().get("mining");
+        ItemStack itemInHand_mining = trackItem.findTrackedItemInInventory(p,key_mining);
+
+        if (itemInHand_mining != null) {
+            Mining miningClass = new Mining(p);
+            miningClass.preventLogoutTheft(taskID_mining, itemInHand_mining,key_mining,disablePlugin);
+        }
+    }
+
+    public void preventLogoutTheftDigging(boolean disablePlugin) {
+        AbilityLogoutTracker logoutTracker = new AbilityLogoutTracker(p);
+        TrackItem trackItem = new TrackItem();
+
+        NamespacedKey key_digging = logoutTracker.getPlayerKeys().get("digging");
+        int taskID_digging = logoutTracker.getPlayerTasks().get("digging");
+        ItemStack itemInHand_digging = trackItem.findTrackedItemInInventory(p,key_digging);
+
+        if (itemInHand_digging != null) {
+            Digging diggingClass = new Digging(p);
+            diggingClass.preventLogoutTheft(taskID_digging, itemInHand_digging,key_digging,disablePlugin);
+        }
+    }
+
+    public void preventLogoutTheftSwordsmanship(boolean disablePlugin) {
+        AbilityLogoutTracker logoutTracker = new AbilityLogoutTracker(p);
+        TrackItem trackItem = new TrackItem();
+
+        NamespacedKey key_swordsmanship = logoutTracker.getPlayerKeys().get("swordsmanship");
+        int taskID_swordsmanship = logoutTracker.getPlayerTasks().get("swordsmanship");
+        ItemStack itemInHand_swordsmanship = trackItem.findTrackedItemInInventory(p,key_swordsmanship);
+
+        if (itemInHand_swordsmanship != null) {
+            Swordsmanship swordsmanshipClass = new Swordsmanship(p);
+            swordsmanshipClass.preventLogoutTheft(taskID_swordsmanship, itemInHand_swordsmanship,key_swordsmanship,disablePlugin);
+        }
+    }
+
+    public void preventLogoutTheftDefense(boolean disablePlugin) {
+        AbilityLogoutTracker logoutTracker = new AbilityLogoutTracker(p);
+        int taskID_defense = logoutTracker.getPlayerTasks().get("defense");
+
+        Defense defenseClass = new Defense(p);
+        defenseClass.preventLogoutTheft(taskID_defense,disablePlugin);
     }
 }

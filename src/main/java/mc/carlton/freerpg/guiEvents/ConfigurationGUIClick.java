@@ -95,6 +95,7 @@ public class ConfigurationGUIClick implements Listener {
                     case 12:
                         if ((int)pStat.get("global").get(24) > 0) {
                             pStat.get("global").set(24, 0);
+
                         }
                         else {
                             pStat.get("global").set(24, 1);

@@ -41,6 +41,25 @@ public class CustomItem extends CustomContainer {
         this.material = material;
     }
 
+    public CustomItem(ItemStack itemStack) {
+        this(itemStack,null);
+    }
+
+    public CustomItem(ItemStack itemStack, Map<String, Object> containerInformation) {
+        super(containerInformation);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        this.material = itemStack.getType();
+        this.amount = itemStack.getAmount();
+        if (itemStack.getItemMeta() instanceof Damageable) {
+            double maxDurabiliy = itemStack.getType().getMaxDurability();
+            double currentDamage = ((Damageable) itemMeta).getDamage();
+            double durabilityPortion = (maxDurabiliy - currentDamage)/maxDurabiliy;
+            this.minDurabilityPortion = durabilityPortion;
+            this.maxDurabilityPortion = durabilityPortion;
+        }
+        this.enchantments = itemMeta.getEnchants();
+    }
+
     /**
      * Tests if the item is a potion
      * @return true if item is potion

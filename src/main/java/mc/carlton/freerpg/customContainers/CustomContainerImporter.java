@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.customContainers;
 
 import mc.carlton.freerpg.customContainers.collections.CustomEffect;
+import mc.carlton.freerpg.customContainers.collections.CustomRecipe;
 import mc.carlton.freerpg.utilities.FrpgPrint;
 import mc.carlton.freerpg.utilities.UtilityMethods;
 import org.bukkit.Color;
@@ -51,6 +52,9 @@ public class CustomContainerImporter {
     private static final String POTION_EFFECT_TYPE_REQUIRED           = "A Potion Effect Type is required for a custom effect";
     private static final String INVALID_DELAY                         = "Delay cannot be negative";
     private static final String INVALID_DURATION_MULTIPLIER           = "Duration Multiplier cannot be negative";
+    private static final String INVALID_RECIPE_ARRAYLIST              = "Invalid Recipe Array: ";
+    private static final String RECIPE_REQUIRED                       = "Invalid Recipe Array: ";
+    private static final String OUTPUT_REQUIRED                       = "Invalid Recipe Array: ";
 
     /*
      Acceptable keywords for expected information to be read in
@@ -65,12 +69,15 @@ public class CustomContainerImporter {
     private static final List<String> EXPERIENCE_KEYWORDS                 = Arrays.asList(new String[]{"experience","exp"});
     private static final List<String> POTION_KEYWORDS                     = Arrays.asList(new String[]{"potion","potionEffect"});
     private static final List<String> COLOR_KEYWORDS                      = Arrays.asList(new String[]{"color","potionColor"});
-    private static final List<String> EFFECT_TYPE_KEYWORDS                     = Arrays.asList(new String[]{"effect","potionEffect"});
+    private static final List<String> EFFECT_TYPE_KEYWORDS                = Arrays.asList(new String[]{"effect","potionEffect"});
     private static final List<String> EFFECT_LEVEL_KEYWORDS               = Arrays.asList(new String[]{"level","effectLevel","potionLevel"});
     private static final List<String> EFFECT_DURATION_KEYWORDS            = Arrays.asList(new String[]{"duration","length"});
     private static final List<String> EFFECT_DELAY_KEYWORDS               = Arrays.asList(new String[]{"delay","timeDelay"});
     private static final List<String> EFFECT_DURATION_MULTIPLIER_KEYWORDS = Arrays.asList(new String[]{"durationMultiplier","relativeDuration"});
     private static final List<String> EFFECT_DURATION_ADDED_KEYWORDS      = Arrays.asList(new String[]{"durationAdded","relativeDurationAdded"});
+    private static final List<String> RECIPE_OUTPUT_KEYWORDS              = Arrays.asList(new String[]{"output","result"});
+    private static final List<String> RECIPE_RECIPE_KEYWORDS              = Arrays.asList(new String[]{"recipe","craftingGrid"});
+    private static final List<String> RECIPE_XP_COST_KEYWORDS             = Arrays.asList(new String[]{"xpCost","experienceCost"});
     private static final String LOWER_BOUND_KEY_WORD                      = "lower";
     private static final String UPPER_BOUND_KEY_WORD                      = "upper";
     private static final String IS_TREASURE_KEYWORD                       = "isTreasure";
@@ -86,6 +93,40 @@ public class CustomContainerImporter {
     }
     public CustomContainerImporter() {
         this(NO_PATH);
+    }
+
+    public CustomRecipe getCustomRecipe(Object configItem, String id) {
+        if (!(configItem instanceof Map)) {
+            printReadInError();
+            return null;
+        }
+        Map<String,Object> recipeInformation = new HashMap<>();
+        for (Object object : ((Map) configItem).keySet()) {
+            recipeInformation.put(object.toString(),((Map) configItem).get(object));
+        }
+        CustomItem output = null;
+        ArrayList<Material> recipe = null;
+        Integer xpCost = 0;
+        for (String key : recipeInformation.keySet()) {
+            if (UtilityMethods.containsIgnoreCase(RECIPE_OUTPUT_KEYWORDS,key)) {
+                output = getCustomItem(recipeInformation.get(key));
+            }
+            if (UtilityMethods.containsIgnoreCase(RECIPE_RECIPE_KEYWORDS,key)) {
+                recipe = getRecipeArrayList(recipeInformation.get(key));
+            }
+            if (UtilityMethods.containsIgnoreCase(RECIPE_XP_COST_KEYWORDS,key)) {
+                xpCost = Integer.valueOf(recipeInformation.get(key).toString());
+            }
+        }
+        if (output == null) {
+            printReadInError(OUTPUT_REQUIRED);
+            return null;
+        }
+        if (recipe == null) {
+            printReadInError(RECIPE_REQUIRED);
+            return null;
+        }
+        return new CustomRecipe(recipe,output.getItemStack(),xpCost,id);
     }
 
     public CustomItem getCustomItem(Object configItem) {
@@ -362,6 +403,28 @@ public class CustomContainerImporter {
             printReadInError(MATERIAL_NOT_FOUND + value.toString());
         }
         return material;
+    }
+
+    private ArrayList<Material> getRecipeArrayList(Object value) {
+        if (!(value instanceof List)) {
+            printReadInError(INVALID_RECIPE_ARRAYLIST + value.toString());
+            return null;
+        }
+        List valueList = (List) value;
+        if (valueList.size() != 9) {
+            printReadInError(INVALID_RECIPE_ARRAYLIST + value.toString());
+            return null;
+        }
+        ArrayList<Material> recipe = new ArrayList<>();
+        for (Object materialObject : valueList) {
+            recipe.add(getMaterial(materialObject));
+        }
+        for (int i = 0; i < recipe.size(); i++) {
+            if (recipe.get(i) == null) {
+                recipe.set(i,Material.AIR);
+            }
+        }
+        return recipe;
     }
 
     private Map<String,Object> getMap(Object value) {

@@ -3766,151 +3766,132 @@
       virtual: Virtual
       commandDesc16: Changes player's FreeRPG experience multiplier by a specified amount (positive or negative)
 
-    ruRU: #Translated by MoKotik, DevilPlay
-      languageName: Pусский Язык
+    ruRU: #Translated by MoKotik, DevilPlay, Cr1stalz_
+      languageName: Русский язык
       englishLanguageName: Russian
-      translationCredit: MoKotik, DevilPlay
+      translationCredit: Cr1stalz_, MoKotik, Devilplay
       global: Глобальный уровень
-      digging: Копальщик
-      woodcutting: Лесоруб
-      mining: Шахтер
-      farming: Фермер
-      fishing: Рыбалов
-      archery: Лучник
-      beastMastery: Повелитель Зверей
-      swordsmanship: Мечник
-      defense: Защитник
-      axeMastery: Повелитель топора
-      repair: Починщик
-      alchemy: Алхимик
-      agility: Ловкач
-      smelting: Переплавщик
-      enchanting: Зачарователь
+      digging: Копание
+      woodcutting: Добывание дерева
+      mining: Шахтерство
+      farming: Фермество
+      fishing: Рыбаловство
+      archery: Стрельба из лука
+      beastMastery: Повелитель зверей
+      swordsmanship: Фехтование
+      defense: Защита
+      axeMastery: Владение топором
+      repair: Ремонт
+      alchemy: Алхимия
+      agility: Ловкость
+      smelting: Выплавка
+      enchanting: Зачарование
       information: Информация
       configuration: Конфигурация
       level: Уровень
       experience: Опыт
-      toNext: До следующего
-      total: Сейчас
-      diggingPerkTitle0: Mo' drops
+      toNext: к следующему
+      total: Всего
+      diggingPerkTitle0: Больше сокровищ
       diggingPerkTitle1: Двойное сокровище
-      diggingPerkTitle2: Редкий лут
-      diggingPerkTitle3: Покаритель душ
-      diggingPerkTitle4: Искаль кремния
-      diggingPerkTitle5: Рыцарь Лопаты
-      diggingPerkTitle6: Мега копатель
-      diggingPerkDesc0: Расширает таблицу дропа с каждым уровнем
-      diggingPerkDesc1: +5% шанса выпадение двойного лута с каждым уровнем
-      diggingPerkDesc2: За каждый уровень будет расширяться таблица дропа
-      diggingPerkDesc3: Песок душ это +5% более вероятно выпадение сокровищ за каждый
-        уровень
-      diggingPerkDesc4: Гравий дает 100% шанс выпадения кремня (переключается с помощью
-        /flintToggle)
-      diggingPerkDesc5: Лопата дает двойной урон
-      diggingPerkDesc6: При использовании способности вы теперь ломаете блок 3x3 (20%
-        от нормальной нормы сокровищ, когда активен)
-      diggingPassiveTitle0: Пасивные жетоны
+      diggingPerkTitle2: Редкий дроп
+      diggingPerkTitle3: Похититель душ
+      diggingPerkTitle4: Поиск кремния
+      diggingPerkTitle5: Рыцарь лопаты
+      diggingPerkTitle6: Мега копание
+      diggingPerkDesc0: Расширяет таблицу выпадения сокровищ на 1 предмет за уровень
+      diggingPerkDesc1: +5% шанса выпадения двойного сокровища за уровень
+      diggingPerkDesc2: Расширяет таблицу выпадения дропа по предметам за уровень
+      diggingPerkDesc3: Выпадение сокровищ из песка душ на +5% больше за уровень
+      diggingPerkDesc4: Гравий дает 100% шанс выпадения кремня (переключается с помощью /frpg flintToggle)
+      diggingPerkDesc5: Лопата наносит двойной урон
+      diggingPerkDesc6: Теперь при использовании способности, вы разбиваете область 3x3 блока (20% от обычного количества сокровищ, когда оно активно)
+      diggingPassiveTitle0: Пассивные жетоны
       diggingPassiveTitle1: Назад
-      diggingPassiveTitle2: Жетоны Умение
-      diggingPassiveTitle3: Большое продолжительность копание
-      diggingPassiveTitle4: Шанс на Сокровище
-      diggingPassiveDesc0: Жетоны для прокачки в пассивные навыки (красители)
-      diggingPassiveDesc1: Возвращает вас к главному меню навыков
-      diggingPassiveDesc2: Жетоны для прокачки в дерево навыков
-      diggingPassiveDesc3: Увеличивает продолжительность большого копание на 0.02 секунды
+      diggingPassiveTitle2: Жетоны умений
+      diggingPassiveTitle3: Длительность "Большого Копания"
+      diggingPassiveTitle4: Шанс сокровища
+      diggingPassiveDesc0: Жетоны для прокачки пассивных умений (красители)
+      diggingPassiveDesc1: Возвращает вас в главное меню навыков
+      diggingPassiveDesc2: Жетоны для прокачки дерева умений
+      diggingPassiveDesc3: Увеличивает длительность "Большого Копания" на 0.02с
       diggingPassiveDesc4: Увеличивает шанс выкопать сокровище на 0.005%
-      woodcuttingPerkTitle0: Ревностные Корни
-      woodcuttingPerkTitle1: Свежее оружие
+      woodcuttingPerkTitle0: Ревностные корни
+      woodcuttingPerkTitle1: Свежие руки
       woodcuttingPerkTitle2: Скрытое знание
-      woodcuttingPerkTitle3: Падальщик Листьев
+      woodcuttingPerkTitle3: Падающие листья
       woodcuttingPerkTitle4: Древесина+
-      woodcuttingPerkTitle5: Воздуходувка Листьев
-      woodcuttingPerkTitle6: Может Топор
-      woodcuttingPerkDesc0: +20% шанс для древесины выпасть 1 XP за уровень прокачки
-      woodcuttingPerkDesc1: +12 секунд за каждый уровень выпадает Спешка 1, после первой
-        сломаной древесины, каждые 5 минут
-      woodcuttingPerkDesc2: Древесина дает +0.2% шанса с каждым уровнем дропнуть зачарованную
-        книгу
-      woodcuttingPerkDesc3: Листья дает 1% шанса дропнуть +1 редкий предмет с каждым
-        уровнем
-      woodcuttingPerkDesc4: Предел ломание дерево увеличен с 64 до 128
-      woodcuttingPerkDesc5: Мгновенно ломайте листья деревьев удерживая левую кнопку
-        топором
-      woodcuttingPerkDesc6: Двойной дроп, Ревностные Корни, и Скрытые знание все сейчас
-        применить к дривесине (при половине эффективности их)
-      woodcuttingPassiveTitle0: Пасивные Жетоны
+      woodcuttingPerkTitle5: Сдувание листьев
+      woodcuttingPerkTitle6: Всемогущий топор
+      woodcuttingPerkDesc0: +20% шанса для деревьев выдать 1 XP за уровень
+      woodcuttingPerkDesc1: +12с за уровень Спешки I, после первого сломанного бревна в течение 5 минут
+      woodcuttingPerkDesc2: Бревна дают +0.2% шанса за уровень дропнуть зачарованную книгу
+      woodcuttingPerkDesc3: Листья дают 1% шанс дропнуть +1 сокровище за уровень
+      woodcuttingPerkDesc4: Лимит разрушения дерева увеличен с 64 до 128
+      woodcuttingPerkDesc5: Ломайте большую область листьев с помощью топора (переключается с помощью /frpg leafBlowerToggle)
+      woodcuttingPerkDesc6: Двойной дроп, Ревностные корни и Скрытое знание - теперь все применяется к бревнам (с половинной эффективностью)
+      woodcuttingPassiveTitle0: Пассивные жетоны
       woodcuttingPassiveTitle1: Назад
-      woodcuttingPassiveTitle2: Жетоны Умение
-      woodcuttingPassiveTitle3: Время древесины
+      woodcuttingPassiveTitle2: Жетоны умений
+      woodcuttingPassiveTitle3: Длительность "Лесоруба"
       woodcuttingPassiveTitle4: Двойной дроп
-      woodcuttingPassiveDesc0: Жетоны для прокачки в пассивные навыки (Краски)
-      woodcuttingPassiveDesc1: Возвращает вас к главному меню навыков
-      woodcuttingPassiveDesc2: Токены для прокачки в дерево навыков
-      woodcuttingPassiveDesc3: Увеличивает длительность Лесорубство на 0.02 секунд
-      woodcuttingPassiveDesc4: Увеличивает шанс на  0.05% получить двойной дроп
-      miningPerkTitle0: Тратить меньше Спешки
-      miningPerkTitle1: Больше Бомб
+      woodcuttingPassiveDesc0: Жетоны для прокачки пассивных умений (красители)
+      woodcuttingPassiveDesc1: Возвращает вас в главное меню навыков
+      woodcuttingPassiveDesc2: Жетоны для прокачки дерева умений
+      woodcuttingPassiveDesc3: Увеличивает длительность "Лесоруба" на 0.02с
+      woodcuttingPassiveDesc4: Увеличивает шанс двойного дропа на 0.05%
+      miningPerkTitle0: Бесконечная Спешка
+      miningPerkTitle1: Больше бомб
       miningPerkTitle2: Кладоискатель
       miningPerkTitle3: Бомба-вояж
       miningPerkTitle4: Копатель жил
       miningPerkTitle5: Подрывник
-      miningPerkTitle6: Тройные Неприятности
+      miningPerkTitle6: Тройные неприятности
       miningPerkDesc0: Дает Спешку после добычи руды для каждого уровня
-      miningPerkDesc1: Рецепт крафта для TNT производит +1 блок TNT на уровень
-      miningPerkDesc2: При использовании способности на камнях, + 1% за уровень шанс
-        падения руды (дополнительный опыт зарабатывается от выпадающих руд)
-      miningPerkDesc3: Увеличивает радиус взрыва TNT (при зажигании при помощи зажигалки)
-        на каждом уровне
-      miningPerkDesc4: Рудные жилы мгновенно добываются при разрушении одного блока
-        (возможность переключения)
+      miningPerkDesc1: При крафте TNT дается +1 доп. блок TNT за уровень
+      miningPerkDesc2: При использовании способности на камнях, +1% шанс выпадения руды за уровень (дополнительный опыт зарабатывается за выпавшую руду)
+      miningPerkDesc3: Увеличивает радиус взрыва TNT (при использовании зажигалки) на каждом уровне
+      miningPerkDesc4: Рудные жилы мгновенно добываются при разрушении одного блока (переключаемый)
       miningPerkDesc5: Нету урона от взрывов TNT
-      miningPerkDesc6: Двойные дроп теперь тройной дроп
-      miningPassiveTitle0: Пасивные Жетоны
+      miningPerkDesc6: Двойной дроп теперь тройной дроп
+      miningPassiveTitle0: Пассивные жетоны
       miningPassiveTitle1: Назад
-      miningPassiveTitle2: Жетоны Умение
-      miningPassiveTitle3: Длительность использование берсерка
+      miningPassiveTitle2: Жетоны умений
+      miningPassiveTitle3: Длительность "Кирки Берсерка"
       miningPassiveTitle4: Двойной дроп
-      miningPassiveTitle5: Взрывная Добыча
-      miningPassiveDesc0: Жетоны для прокачки в пассивные навыки (Краски)
-      miningPassiveDesc1: Возвращает вас к главному меню навыков
-      miningPassiveDesc2: Токены для прокачки в дерево навыков
-      miningPassiveDesc3: Увеличивает способность Избранный берсерк на 0.02 сек
-      miningPassiveDesc4: Увеличивает шанс выбить в двойной дроп с руды на 0.05%
-      miningPassiveDesc5: Увеличивает шанс выпадение руды из взрыва TNT на 0.01% (Больше
-        сломаных блоков = Больше драгоценностей)
-      farmingPerkTitle0: Лучшее Удобрение
-      farmingPerkTitle1: Ферма Животных
+      miningPassiveTitle5: Взрывная добыча
+      miningPassiveDesc0: Жетоны для прокачки пассивных умений (красители)
+      miningPassiveDesc1: Возвращает вас в главное меню навыков
+      miningPassiveDesc2: Жетоны для прокачки дерева умений
+      miningPassiveDesc3: Увеличивает длительность "Кирки Берсерка" на 0.02с
+      miningPassiveDesc4: Увеличивает шанс получить двойной дроп из руды на 0.05%
+      miningPassiveDesc5: Повышает вероятность образования руды из взрывов TNT на 0.01% (Больше сломаных блоков = Больше драгоценностей)
+      farmingPerkTitle0: Лучшее удобрение
+      farmingPerkTitle1: Ферма животных
       farmingPerkTitle2: Фермерская диета
       farmingPerkTitle3: Плотоядный
       farmingPerkTitle4: Садоводство
-      farmingPerkTitle5: Гормон Роста
-      farmingPerkTitle6: Наедине с Природой
-      farmingPerkDesc0: +10% шанса не использовать костную муку при использовани
+      farmingPerkTitle5: Гормон роста
+      farmingPerkTitle6: Наедине с природой
+      farmingPerkDesc0: +10% шанса не потратить костную муку при использовании
       farmingPerkDesc1: Можете создать больше яиц призыва с каждым уровнем
-      farmingPerkDesc2: Добывание еды это на +20% эффективнее восстанновление голода
-        и сытости с каждым уровнем
-      farmingPerkDesc3: Мясо это +20% эффективнее восстанновление голода и сытости с
-        каждым уровнем
-      farmingPerkDesc4: Способность при пересаживании полностью выращенных культур с
-        более высоким шансом пересадится на более позднюю стадию роста; способность
-        теперь влияет на арбузы и тыквы
-      farmingPerkDesc5: Сахар можно использовать на детенышах животных, чтобы заставить
-        их расти мгновенно
-      farmingPerkDesc6: Вам дается регенерация, когда я стоять на траве
-      farmingPassiveTitle0: Пасивные Жетоны
+      farmingPerkDesc2: Фермерская еда на 20% эффективнее восстанавливает голод и насыщение за уровень
+      farmingPerkDesc3: Мясо на 20% эффективнее восстанавливает голод и насыщение за уровень
+      farmingPerkDesc4: Возможность повторной посадки полностью выращенных культур, с более высокой вероятностью, пересадить на более более позднюю стадию роста; способность теперь действует на арбузы и тыквы
+      farmingPerkDesc5: Сахар можно использовать на детенышах животных, чтобы заставить их расти мгновенно
+      farmingPerkDesc6: Даёт Регенерацию I, когда Вы стоите на траве
+      farmingPassiveTitle0: Пассивные жетоны
       farmingPassiveTitle1: Назад
-      farmingPassiveTitle2: Жетоны Умение
-      farmingPassiveTitle3: Длительность натуральной регенерации
+      farmingPassiveTitle2: Жетоны умений
+      farmingPassiveTitle3: Длительность "Натуральной регенерации"
       farmingPassiveTitle4: Двойной дроп (Растительность)
       farmingPassiveTitle5: Двойной дроп (Животные)
-      farmingPassiveDesc0: Жетоны для прокачки в пассивные навыки (Краски)
-      farmingPassiveDesc1: Возвращает вас к главному меню навыков
-      farmingPassiveDesc2: Токены для прокачки в дерево навыков
-      farmingPassiveDesc3: Увеличивается длительность Натуральной Регенерации на 0.02
-        сек
-      farmingPassiveDesc4: Увеличивает шанс выбить двойной дроп с урожая на 0.05%
-      farmingPassiveDesc5: Больше шанс выбить двойной дроп с дружелюбных животных на
-        0.05%
+      farmingPassiveDesc0: Жетоны для прокачки пассивных умений (красители)
+      farmingPassiveDesc1: Возвращает вас в главное меню навыков
+      farmingPassiveDesc2: Жетоны для прокачки дерева умений
+      farmingPassiveDesc3: Увеличивает длительность "Натуральной регенерации" на 0.02с
+      farmingPassiveDesc4: Увеличивает шанс получить двойной дроп из растительности на 0.05%
+      farmingPassiveDesc5: Увеличивает шанс получить двойной дроп с дружелюбных животных на 0.05%
       fishingPerkTitle0: Счастливчик
       fishingPerkTitle1: Мусорщик
       fishingPerkTitle2: Рыбацкая диета
@@ -3918,330 +3899,293 @@
       fishingPerkTitle4: Абордажный крюк
       fishingPerkTitle5: Горячая удочка
       fishingPerkTitle6: Русалка
-      fishingPerkDesc0: +15% шанс выбить предмет из моба с каждым уровнем
+      fishingPerkDesc0: +15% шанса выбить предмет из моба за уровнем
       fishingPerkDesc1: Открывает новый уровень рыболовных сокровищ
-      fishingPerkDesc2: Рыба восстанавливает +20% голода с каждым уровенем
-      fishingPerkDesc3: Более высокий уровень (II-V) лут будет больше обычного, более
-        низкий уровень (I) будет меньше обычного
-      fishingPerkDesc4: Удочка теперь действует как Абордажный крюк (переключаемый с
-        помощью /grappleToggle )
-      fishingPerkDesc5: Рыба будет пожарена когда словишь, некоторые рыболовные сокровища
-        меняются (переключается с помощью  /hotRodToggle)
-      fishingPerkDesc6: Бесконечное ночное зрение под водой, бесконечная грация дельфина,
-        когда находишься в воде
-      fishingPassiveTitle0: Пасивные Жетоны
+      fishingPerkDesc2: Рыба восстанавливает +20% голода за уровень
+      fishingPerkDesc3: Добыча более высокого уровня (II-V) становится более распространенной, более низкого уровня (I) становится менее распространенной
+      fishingPerkDesc4: Удочка теперь действует как крюк для захвата (переключается с помощью /frpg grappleToggle)
+      fishingPerkDesc5: Рыба теперь готовится при ловле, некоторые рыболовные сокровища изменены (переключается с помощью /frpg hotRodToggle)
+      fishingPerkDesc6: Бесконечное ночное зрение под водой и бесконечная грация дельфина, когда находишься в воде
+      fishingPassiveTitle0: Пассивные жетоны
       fishingPassiveTitle1: Назад
-      fishingPassiveTitle2: Жетоны Умение
-      fishingPassiveTitle3: Супер Продолжительность Приманки
+      fishingPassiveTitle2: Жетоны умений
+      fishingPassiveTitle3: Длительность "Супер приманки"
       fishingPassiveTitle4: Двойной улов
       fishingPassiveTitle5: Искатель сокровищ
-      fishingPassiveDesc0: Жетоны для прокачки в пассивные навыки (Краски)
-      fishingPassiveDesc1: Возвращает вас к главному меню навыков
-      fishingPassiveDesc2: Жетоны для инвестирования в дерево навыков
-      fishingPassiveDesc3: Увеличивает время действие Супер Приманка на 0,01%
+      fishingPassiveDesc0: Жетоны для прокачки пассивных умений (красители)
+      fishingPassiveDesc1: Возвращает вас в главное меню навыков
+      fishingPassiveDesc2: Жетоны для прокачки дерева умений
+      fishingPassiveDesc3: Увеличивает длительность "Супер приманки" на 0.01с
       fishingPassiveDesc4: Увеличивает шанс получить двойной дроп на 0.05%
-      fishingPassiveDesc5: Уменьшает шанс найти мусор на 0.005%, увеличивает шанс поиска
-        сокровище на 0.005%
+      fishingPassiveDesc5: Уменьшает шанс найти мусор на 0.005%, увеличивает шанс поиска сокровище на 0.005%
       archeryPerkTitle0: Дополнительные стрелы
       archeryPerkTitle1: Снайпер
       archeryPerkTitle2: Стрелы света
-      archeryPerkTitle3: Взрывные Стрелы
-      archeryPerkTitle4: Стрелы без драконов
+      archeryPerkTitle3: Взрывные стрелы
+      archeryPerkTitle4: Стрелы без дракона
       archeryPerkTitle5: Быстрая зарядка арбалета
       archeryPerkTitle6: Смертельный удар
-      archeryPerkDesc0: +1 стрела получаемая от крафта за уровня
-      archeryPerkDesc1: Скорость стрелы увеличивается на +2% за уровень (прибавка к
-        урону на 4% за уровень)
-      archeryPerkDesc2: Спектральные стрелы наносят +5% больше урона с каждым уровнем
-      archeryPerkDesc3: Стрелы имеют +1% создание взрыва при попадание
-      archeryPerkDesc4: Позволяет создавать все стрелы с наконечниками из обычных зелий
-        вместо остаточных зелий.
-      archeryPerkDesc5: Теперь способность можно использовать с арбалетом, делая все
-        стрелы заряженными мгновенно
-      archeryPerkDesc6: Выстрел фейерверка из арбалетов наносит двойной урон(до 16 сердец
-        урона)
+      archeryPerkDesc0: +1 стрела, получаемая от крафта, за уровень
+      archeryPerkDesc1: Скорость стрелы увеличивается на +2% за уровень (прибавка к урону на ~4% за уровень)
+      archeryPerkDesc2: Спектральные стрелы получают +5% к урону за уровень
+      archeryPerkDesc3: Стрелы имеют +1% шанса взорваться при попадании
+      archeryPerkDesc4: Позволяет создавать все стрелы с наконечниками из обычных зелий вместо туманных зелий
+      archeryPerkDesc5: Теперь способность можно использовать с арбалетами, чтобы все выстрелы производились мгновенно
+      archeryPerkDesc6: Выстрел фейерверком из арбалетов наносит двойной урон (до 16 урона)
       archeryPassiveTitle0: Пассивные жетоны
       archeryPassiveTitle1: Назад
-      archeryPassiveTitle2: Жетоны Умение
-      archeryPassiveTitle3: Длительность быстрого огня
-      archeryPassiveTitle4: Retrieval
-      archeryPassiveDesc0: Жетоны для прокачки в пассивные навыки (Краски)
-      archeryPassiveDesc1: Возвращает вас к главному меню навыков
-      archeryPassiveDesc2: Жетоны для инвестирования в дерево навыков
-      archeryPassiveDesc3: Увеличивает время действие быстрого огня на 0.02с
-      archeryPassiveDesc4: Увеличивает шанс выстреливая не проглотить  стрелу на 0.05%
-        за уровень
+      archeryPassiveTitle2: Жетоны умений
+      archeryPassiveTitle3: Длительность "Быстрого Огня"
+      archeryPassiveTitle4: Кешбэк
+      archeryPassiveDesc0: Жетоны для прокачки пассивных умений (красители)
+      archeryPassiveDesc1: Возвращает вас в главное меню навыков
+      archeryPassiveDesc2: Жетоны для прокачки дерева умений
+      archeryPassiveDesc3: Увеличивает длительность "Быстрого Огня" на 0.02с
+      archeryPassiveDesc4: Увеличивает шанс для выстрела стрелы не потратив стрелу на 0.05% за уровень
       beastMasteryPerkTitle0: Густой мех
       beastMasteryPerkTitle1: Острые зубы
-      beastMasteryPerkTitle2: Здоровые закуски
+      beastMasteryPerkTitle2: Полезные закуски
       beastMasteryPerkTitle3: Держись подальше
-      beastMasteryPerkTitle4: Акро-собака
-      beastMasteryPerkTitle5: Идентифицировать
+      beastMasteryPerkTitle4: Акро-Собака
+      beastMasteryPerkTitle5: Идентификация
       beastMasteryPerkTitle6: Повышение адреналина
       beastMasteryPerkDesc0: Собаки получают -10% урона за уровень
-      beastMasteryPerkDesc1: Собаки наносят +10% больше урона за уровень
-      beastMasteryPerkDesc2: Собаки лечат +½ сердце за уровень от убийство
-      beastMasteryPerkDesc3: У Собак есть шанс 5% откинуть врага
-      beastMasteryPerkDesc4: Собаки не получают повреждение при падении
-      beastMasteryPerkDesc5: При использовании компоса на лошаде или волке отображается
-        их статистика
-      beastMasteryPerkDesc6: Бафф на стимул имеет Скорость III
+      beastMasteryPerkDesc1: Собаки наносят на +10% больше урона за уровень
+      beastMasteryPerkDesc2: Собаки лечат +1/2 сердце за уровень от убийства
+      beastMasteryPerkDesc3: Собоки получают +5% шанса отбросить врагов
+      beastMasteryPerkDesc4: Собаки не получают урона от падения
+      beastMasteryPerkDesc5: При использовании компоса на лошаде или волке, отображается их статистика
+      beastMasteryPerkDesc6: Усиливание способности "Прямой Удар" теперь имеет Скорость III
       beastMasteryPassiveTitle0: Пассивные жетоны
       beastMasteryPassiveTitle1: Назад
-      beastMasteryPassiveTitle2: Жетоны Умение
-      beastMasteryPassiveTitle3: Продолжительность прямого удара
+      beastMasteryPassiveTitle2: Жетоны умений
+      beastMasteryPassiveTitle3: Длительность "Прямого Удара"
       beastMasteryPassiveTitle4: Критический укус
-      beastMasteryPassiveDesc0: Жетоны для прокачки в пассивные навыки (Краски)
+      beastMasteryPassiveDesc0: Жетоны для прокачки пассивных умений (красители)
       beastMasteryPassiveDesc1: Возвращает вас в главное меню навыков
-      beastMasteryPassiveDesc2: Жетоны для прокачки в дерево навыков
-      beastMasteryPassiveDesc3: Увеличивает время действия Spur Kick на 0.02 с.
+      beastMasteryPassiveDesc2: Жетоны для прокачки дерева умений
+      beastMasteryPassiveDesc3: Увеличивает длительность "Прямого Удара" на 0.02с
       beastMasteryPassiveDesc4: Повышает шанс критического удара для собаки на 0.025%
       swordsmanshipPerkTitle0: Адреналин
       swordsmanshipPerkTitle1: Серия убийств
       swordsmanshipPerkTitle2: Адреналин+
       swordsmanshipPerkTitle3: Убивающее безумие
       swordsmanshipPerkTitle4: Жажда крови
-      swordsmanshipPerkTitle5: Шулер! (мошенник)
+      swordsmanshipPerkTitle5: Резче!
       swordsmanshipPerkTitle6: Мастерство меча
-      swordsmanshipPerkDesc0: Убийство враждебных мобов мечом дает +2 секунды скорости
-        за каждый уровень
-      swordsmanshipPerkDesc1: Убийство враждебных мобов мечом дает 2 секунды силы за
-        каждый уровень
-      swordsmanshipPerkDesc2: +20% баффа Скорости I от адреналина теперь будет
-        Скорость II
-      swordsmanshipPerkDesc3: +20% Силы I бафф от серии убийств теперь имеет Силу II
-      swordsmanshipPerkDesc4: Убийство некоторых агрессивных мобов мечом восстанавливает
-        голод
-      swordsmanshipPerkDesc5: Быстрые удары теперь добавляют уровень остроты вашему
-        мечу.
-      swordsmanshipPerkDesc6: Мечи навсегда наносят +1 сердце к урону
+      swordsmanshipPerkDesc0: Убийство враждебных мобов мечом дает +2с скорости за уровень
+      swordsmanshipPerkDesc1: Убийство враждебных мобов мечом дает +2с силы за уровень
+      swordsmanshipPerkDesc2: +20% баффа Скорости I от "Адреналина" теперь будет Скорость II
+      swordsmanshipPerkDesc3: +20% баффа Силы I от "Серии убийств" теперь будет Сила II
+      swordsmanshipPerkDesc4: Убийство некоторых агрессивных мобов мечом восстанавливает голод
+      swordsmanshipPerkDesc5: "\"Быстрые Удары\" теперь добавляют уровень Остроты вашему мечу"
+      swordsmanshipPerkDesc6: Мечи навсегда получают +1 к урону
       swordsmanshipPassiveTitle0: Пассивные жетоны
       swordsmanshipPassiveTitle1: Назад
-      swordsmanshipPassiveTitle2: Жетоны Умение
-      swordsmanshipPassiveTitle3: Продолжительность быстрых ударов
-      swordsmanshipPassiveTitle4: Двойной удар
-      swordsmanshipPassiveDesc0: Жетоны для прокачки в пассивные навыки (Краски)
+      swordsmanshipPassiveTitle2: Жетоны умений
+      swordsmanshipPassiveTitle3: Длительность "Быстрых Ударов"
+      swordsmanshipPassiveTitle4: Двойные удары
+      swordsmanshipPassiveDesc0: Жетоны для прокачки пассивных умений (красители)
       swordsmanshipPassiveDesc1: Возвращает вас в главное меню навыков
-      swordsmanshipPassiveDesc2: Жетоны для прокачки в дерево навыков
-      swordsmanshipPassiveDesc3: Увеличивает длительность Быстрые Удары на 0,02 с.
-      swordsmanshipPassiveDesc4: Увеличивает шанс ударить моба дважды (второй удар наносит
-        50% урона) на 0,02%
-      defensePerkTitle0: Хиллер
+      swordsmanshipPassiveDesc2: Жетоны для прокачки дерева умений
+      swordsmanshipPassiveDesc3: Увеличивает длительность "Быстрых Ударов" на 0.02с
+      swordsmanshipPassiveDesc4: Увеличивает шанс ударить моба дважды (второй удар наносит 50% урона) на 0.02%
+      defensePerkTitle0: Целитель
       defensePerkTitle1: Жесткость
       defensePerkTitle2: Жесткий
-      defensePerkTitle3: Жестокость+
-      defensePerkTitle4: Подарок сверху
-      defensePerkTitle5: Сильнее ноги
-      defensePerkTitle6: Сердечный
-      defensePerkDesc0: Получает +3 секунды регенерации за уровень за убийство
-      defensePerkDesc1: +2% шанс получить Сопротивление I на 5 секунд при получении
-        удара
-      defensePerkDesc2: Hard Body снижает урон на 6,6% за уровень
-      defensePerkDesc3: + 2% шанс получить сопротивление II на 5 секунд при получении
-        удара
-      defensePerkDesc4: Stone Solid теперь дает 4 поглощающих сердца на время действия
-        способности +1 минуту.
-      defensePerkDesc5: Stone Solid теперь дает медленность I вместо медленности IV.
+      defensePerkTitle3: Жесткость+
+      defensePerkTitle4: Небесный дар
+      defensePerkTitle5: Сильные ноги
+      defensePerkTitle6: Крепкий
+      defensePerkDesc0: Дает +3с регенерации за уровень после убийства
+      defensePerkDesc1: +2% шанса получить Сопротивление урону I на 5с при ударе
+      defensePerkDesc2: "\"Твердое Тело\" снижает урон на 6.6% за уровень"
+      defensePerkDesc3: +2% шанса получить Сопротивление урону II на 5с при ударе
+      defensePerkDesc4: "\"Твердый Камень\" теперь дает 4 поглощающих сердца на время действия способности +1 минуту"
+      defensePerkDesc5: "\"Твердый Камень\" теперь дает Медленность I вместо Медленности IV"
       defensePerkDesc6: +2 сердца навсегда
       defensePassiveTitle0: Пассивные жетоны
       defensePassiveTitle1: Назад
-      defensePassiveTitle2: Жетоны Умение
-      defensePassiveTitle3: Stone Solid Продолжительность
-      defensePassiveTitle4: Твердое тело
-      defensePassiveTitle5: Двойной дроп (враждебные мобы)
-      defensePassiveDesc0: Жетоны для прокачки в пассивные навыки (Краски)
+      defensePassiveTitle2: Жетоны умений
+      defensePassiveTitle3: Длительность "Твердого Камня"
+      defensePassiveTitle4: Твердое Тело
+      defensePassiveTitle5: Двойной дроп (Враждебные мобы)
+      defensePassiveDesc0: Жетоны для прокачки пассивных умений (красители)
       defensePassiveDesc1: Возвращает вас в главное меню навыков
-      defensePassiveDesc2: Жетоны для прокачки в дерево навыков
-      defensePassiveDesc3: Увеличивает время действия Stone Solid на 0,02 секунды.
-      defensePassiveDesc4: Увеличивает шанс получить меньше (базовый -33%) урона на
-        0,01% за каждый уровень
-      defensePassiveDesc5: Увеличивает шанс получить двойной лут с агрессивных мобов
-        на 0,05%
-      axeMasteryPerkTitle0: Большой топор
-      axeMasteryPerkTitle1: Святой Топор
-      axeMasteryPerkTitle2: Оживленный
-      axeMasteryPerkTitle3: Кровавая война
+      defensePassiveDesc2: Жетоны для прокачки дерева умений
+      defensePassiveDesc3: Увеличивает длительность "Твердого Камня" на 0.02с
+      defensePassiveDesc4: Увеличивает шанс получить уменьшенный (базовый -33%) урон на 0.01% за уровень
+      defensePassiveDesc5: Увеличивает шанс получить двойной дроп с агрессивных мобов на 0.05%
+      axeMasteryPerkTitle0: Великий топор
+      axeMasteryPerkTitle1: Святой топор
+      axeMasteryPerkTitle2: Оживление
+      axeMasteryPerkTitle3: Кровь воина
       axeMasteryPerkTitle4: Землетрясение
-      axeMasteryPerkTitle5: Лучшие криты
+      axeMasteryPerkTitle5: Улучшенные криты
       axeMasteryPerkTitle6: Лесоруб
-      axeMasteryPerkDesc0: Радиус урона Great Axe увеличивается на 1 блок за каждый
-        уровень.
-      axeMasteryPerkDesc1: +2% шанс молнии поразить мобов при ударе топором
-      axeMasteryPerkDesc2: +1% шанс на полное исцеление при убийстве за каждый уровень
-      axeMasteryPerkDesc3: +3 секунды Силы I при убийствах топором за каждый уровень
-      axeMasteryPerkDesc4: AУE-урон способность удваивается (25% -> 50% урона).
-      axeMasteryPerkDesc5: Divine Crits теперь имеет множитель 1,6x вместо 1,25x.
-      axeMasteryPerkDesc6: Топоры навсегда наносят +1 сердце к урону
-      axeMasteryPassiveTitle0: Пасивные жетоны
+      axeMasteryPerkDesc0: Радиус урона "Великого топора" увеличивается на 1 блок за уровень
+      axeMasteryPerkDesc1: +2% шанса поразить молние моба при ударе топором
+      axeMasteryPerkDesc2: +1% шанса на полное исцеление при убийстве за уровень
+      axeMasteryPerkDesc3: +3с за уровень Силы I при убийстве топором
+      axeMasteryPerkDesc4: AOE-урон способности удваивается (25% -> 50% урона)
+      axeMasteryPerkDesc5: "\"Улучшенные криты\" теперь имеют множитель 1.6x вместо 1.25"
+      axeMasteryPerkDesc6: Топоры навсегда получают +1 к урону
+      axeMasteryPassiveTitle0: Пассивные жетоны
       axeMasteryPassiveTitle1: Назад
-      axeMasteryPassiveTitle2: Жетоны навыков
-      axeMasteryPassiveTitle3: Длительность Великого Топора
-      axeMasteryPassiveTitle4: Божественные криты
-      axeMasteryPassiveDesc0: Жетоны для прокачки в пассивные навыки (Краски)
+      axeMasteryPassiveTitle2: Жетоны умений
+      axeMasteryPassiveTitle3: Длительность "Великого топора"
+      axeMasteryPassiveTitle4: Улучшенные криты
+      axeMasteryPassiveDesc0: Жетоны для прокачки пассивных умений (красители)
       axeMasteryPassiveDesc1: Возвращает вас в главное меню навыков
-      axeMasteryPassiveDesc2: Жетоны для прокачки в дерево навыков
-      axeMasteryPassiveDesc3: Увеличивает время действия Great Axe на 0,02 секунды.
-      axeMasteryPassiveDesc4: Увеличивает шанс случайного критического удара (базовый
-        урон в 1,25 раза) на 0,01%.
-      repairPerkTitle0: Сборщик
+      axeMasteryPassiveDesc2: Жетоны для прокачки дерева умений
+      axeMasteryPassiveDesc3: Увеличивает длительность "Великого топора" на 0.02с
+      axeMasteryPassiveDesc4: Увеличивает шанс случайного критического удара (базовый урон 1.25x) на 0.01%
+      repairPerkTitle0: Утилизация
       repairPerkTitle1: Находчивый
-      repairPerkTitle2: Мастерство восстановления магии
-      repairPerkDesc0: Получите в среднем больше материалов от раскравта
-      repairPerkDesc1: + 10% шанс сохранить материал, использованный при ремонте
+      repairPerkTitle2: Мастерство магического ремонта
+      repairPerkDesc0: Получите больше материалов от утилизации
+      repairPerkDesc1: +10% шанса сохранить материал, использованный при ремонте
       repairPerkDesc2: Гарантия сохранения чар при ремонте
       repairPassiveTitle0: Назад
-      repairPassiveTitle1: Жетоны навыков
+      repairPassiveTitle1: Жетоны умений
       repairPassiveTitle2: Знание
       repairPassiveDesc0: Возвращает вас в главное меню навыков
-      repairPassiveDesc1: Жетоны для прокачки в дерево навыков
+      repairPassiveDesc1: Жетоны для прокачки дерева умений
       repairPassiveDesc2: Материалы восстанавливают больше прочности при ремонте
-      agilityPerkTitle0: Уклонщик
+      agilityPerkTitle0: Уклонение
       agilityPerkTitle1: Стальные кости
       agilityPerkTitle2: Изящные ноги
       agilityPerkDesc0: +4% шанс уклониться от атак за уровень
-      agilityPerkDesc1: -10% урона от падения за каждый уровень
-      agilityPerkDesc2: Постоянный бафф Скорости I (переключается с помощью /speedToggle)
+      agilityPerkDesc1: -10% урона от падения за уровень
+      agilityPerkDesc2: Постоянный бафф Скорости I (переключается с помощью /frpg speedToggle)
       agilityPassiveTitle0: Назад
-      agilityPassiveTitle1: Жетоны навыков
-      agilityPassiveTitle2: Свиток
+      agilityPassiveTitle1: Жетоны умений
+      agilityPassiveTitle2: Кувырок
       agilityPassiveDesc0: Возвращает вас в главное меню навыков
-      agilityPassiveDesc1: Жетоны для прокачки в дерево навыков
+      agilityPassiveDesc1: Жетоны для прокачки дерева умений
       agilityPassiveDesc2: Шанс получить уменьшенный урон от падения
       alchemyPerkTitle0: Алхимический призыв
       alchemyPerkTitle1: Древнее знание
       alchemyPerkTitle2: Мастер зелий
-      alchemyPerkDesc0: Позволяет создавать некоторые зелья без подставки для заваривания
-      alchemyPerkDesc1: Открывает возможность варить новые зелья
-      alchemyPerkDesc2: Уровень всех используемых зелий повышается на 1 (переключается
-        с помощью /togglePotion)
+      alchemyPerkDesc0: Позволяет создавать некоторые зелья без зельеварки
+      alchemyPerkDesc1: Открывает возможность варить новые зелья.
+      alchemyPerkDesc2: Уровень всех используемых зелий повышается на 1 (переключается с помощью /frpg togglePotion)
       alchemyPassiveTitle0: Назад
-      alchemyPassiveTitle1: Жетоны навыков
+      alchemyPassiveTitle1: Жетоны умений
       alchemyPassiveTitle2: Half-life+
       alchemyPassiveDesc0: Возвращает вас в главное меню навыков
-      alchemyPassiveDesc1: Жетоны для прокачки в дерево навыков
-      alchemyPassiveDesc2: Увеличение продолжительности зелий при использовании
+      alchemyPassiveDesc1: Жетоны для прокачки дерева умений
+      alchemyPassiveDesc2: Увеличивает длительность зелий при использовании
       smeltingPerkTitle0: Эффективность топлива
-      smeltingPerkTitle1: Двойное приготовление
+      smeltingPerkTitle1: Двойная выплавка
       smeltingPerkTitle2: Огненная кирка
-      smeltingPerkDesc0: Топливо длится + 20% дольше за каждый уровень
-      smeltingPerkDesc1: + 5% шанс удвоить выплавленную руду за каждый уровень
-      smeltingPerkDesc2: Добытая руда мгновенно плавляеться (переключается с помощью
-        /toggleFlamePick)
+      smeltingPerkDesc0: Топливо длится на +20% дольше за уровень
+      smeltingPerkDesc1: +5% шанса удвоить выплавленную руду за уровень
+      smeltingPerkDesc2: Добытая руда мгновенно плавится (переключается с помощью /frpg toggleFlamePick)
       smeltingPassiveTitle0: Назад
-      smeltingPassiveTitle1: Жетоны навыков
+      smeltingPassiveTitle1: Жетоны умений
       smeltingPassiveTitle2: Скорость подачи топлива
       smeltingPassiveDesc0: Возвращает вас в главное меню навыков
-      smeltingPassiveDesc1: Жетоны для прокачки в дерево навыков
+      smeltingPassiveDesc1: Жетоны для прокачки дерева умений
       smeltingPassiveDesc2: Увеличение скорости приготовления
       enchantingPerkTitle0: Эффективное наложение чар
       enchantingPerkTitle1: Книжный магазин
       enchantingPerkTitle2: Бессмертный опыт
-      enchantingPerkDesc0: Уровни, необходимые для зачарования -1 за каждый уровень,
-        ремонт наковальни стоит -1 (минимум 2) уровня опыта за каждый уровень
-      enchantingPerkDesc1: Открывает рецепты крафта некоторых зачарованных книг.
+      enchantingPerkDesc0: Уровень, необходимый для зачарования -1 за уровень; ремонт на наковальне стоит на -1 (минимум 2) уровень опыта за уровень
+      enchantingPerkDesc1: Открывает крафт некоторых зачарованных книг
       enchantingPerkDesc2: Сохраняйте опыт после смерти
       enchantingPassiveTitle0: Назад
-      enchantingPassiveTitle1: Жетоны навыков
+      enchantingPassiveTitle1: Жетоны умений
       enchantingPassiveTitle2: Более быстрое развитие
       enchantingPassiveDesc0: Возвращает вас в главное меню навыков
-      enchantingPassiveDesc1: Жетоны для прокачки в дерево навыков
-      enchantingPassiveDesc2: Весь полученный опыт увеличен
+      enchantingPassiveDesc1: Жетоны для прокачки дерева умений
+      enchantingPassiveDesc2: Весь получаемый опыт увеличен
       globalPerkTitle0: Собиратель
       globalPerkTitle1: Ученый
-      globalPerkTitle2: Истребитель
+      globalPerkTitle2: Боец
       globalPerkTitle3: Тяжелая работа
-      globalPerkTitle4: Исследовательская работа
-      globalPerkTitle5: Тренинг
+      globalPerkTitle4: Исследование
+      globalPerkTitle5: Тренировка
       globalPerkTitle6: Реинкарнация+
       globalPerkTitle7: Сбор душ
       globalPerkTitle8: Аватар
       globalPerkTitle9: Магистр искусств
-      globalPerkDesc0: + 20% опыта за копание, рубку леса, горное дело, сельское хозяйство
-        и рыбалку
-      globalPerkDesc1: + 20% опыта, получаемого в ремонте, ловкости, пивоварении, плавке
-        и наложении чар
-      globalPerkDesc2: +20% опыта, полученного в стрельбе из лука, владении зверем,
-        фехтовании, защите, и Мастерство топоров
+      globalPerkDesc0: +20% опыта за Копание, Добывание дерева, Шахтерство, Фермество и Рыбаловство
+      globalPerkDesc1: +20% опыта за Ремонт, Ловкость, Приготовление зелий, Выплавку и Зачарование
+      globalPerkDesc2: +20% опыта за Стрельбу из лука, Повелителя зверей, Фехтование, Защиту и Владения топором
       globalPerkDesc3: +1 жетон умения ко всем умениям Собирателя
-      globalPerkDesc4: +1 жетон навыка ко всем навыкам ученого
-      globalPerkDesc5: +1 жетон навыка ко всем навыкам бойца
-      globalPerkDesc6: После смерти 50% шанс сохранить часть каждого ценного предмета
-        в вашем инвентаре
-      globalPerkDesc7: Теперь вы собираете души, убивая агрессивных мобов, которые можно
-        использовать для возврата дерево навыков.
-      globalPerkDesc8: 10% шанс не получить урон и получить все игровые баффы на 10
-        секунд при ударе, который обычно убивает вас
-      globalPerkDesc9: Время восстоновление способностей уменьшается на 33%
-      globalPassiveTitle0: Глобальные токены
+      globalPerkDesc4: +1 sжетон умения ко всем умениям Ученого
+      globalPerkDesc5: +1 жетон умения ко всем умениям Бойца
+      globalPerkDesc6: 50% шанса сохранить сохранить часть каждого ценного предмета в вашем инвентаре после смерти
+      globalPerkDesc7: Теперь вы собираете души, убивая агрессивных мобов, которые можно использовать для возврата деревьев навыков
+      globalPerkDesc8: 10% шанс не получить урон и получить все игровые баффы на 10с при ударе, который обычно убивает вас
+      globalPerkDesc9: Время восстановления способностей уменьшено на 33%
+      globalPassiveTitle0: Глобальные жетоны
       globalPassiveTitle1: Назад
-      globalPassiveDesc0: Жетоны для инвестирования в дерево навыков
+      globalPassiveDesc0: Жетоны для прокачки дерева умений
       globalPassiveDesc1: Возвращает вас в главное меню навыков
       cannotRepair: Вы не можете ремонтировать, пока активна эта способность!
-      cannotSalvage: Пока эта способность активна, вы не можете спастись!
+      cannotSalvage: Вы не можете утилизировать, пока активна эта способность!
       spite: Все хорошее сделано назло
       refundSkill: требуются для возврата дерева навыков
-      refundSkill2: чтобы вернуть дерево навыков
+      refundSkill2: ", чтобы вернуть дерево навыков"
       needToUnlock: Вам нужно разблокировать
-      perkRequirement: Вам нужно как минимум 2 жетона навыков, вложенных в предыдущие
-        перки, чтобы разблокировать этот перк.
-      perkRequirementM: Вам необходимо как минимум 10 жетонов навыков, вложенных в дерево
-        навыков, чтобы разблокировать этот перк мастерства.
+      perkRequirement: Вам нужно как минимум 2 жетона навыков, вложенных в предыдущие перки, чтобы разблокировать этот перк
+      perkRequirementM: Вам необходимо как минимум 10 жетонов навыков, вложенных в дерево навыков, чтобы разблокировать этот перк мастерства
       noSkillTokens: У вас нет жетонов навыков
       noPassiveTokens: У вас нет пассивных токенов
-      maxedOutPerk: Вы уже исчерпали этот бонус!
-      requiredGlobalPerks0: Чтобы разблокировать этот навык, вам понадобится предыдущий
-        перк.
-      requiredGlobalPerks1: необходимы для разблокировки этого перка
-      requiredGlobalPerks2: требуется для разблокировки этого перка
-      requiredGlobalPerks3: Вам нужны все глобальные перки, чтобы разблокировать этот
-        перк
-      craftRequirement: требуется для создания этого рецепта!
-      roll: РУЛОН
-      dodge: УВЕРНУТЬСЯ
-      prepare: Вы готовите свой
-      rest: Вы отдыхаете
-      activated: активирован!
-      ended: закончился
-      readyToUse: снова готов к использованию
-      cooldown: охлаждаться
-      rapidFire: Быстрый огонь
-      bow: лук
-      greatAxe: Великий топор
-      axe: топор
-      spurKick: Ответный удар
-      leg: Нога
-      stoneSoldier: Каменный солдат
-      yourself: Сами
-      bigDig: Больше копать
-      shovel: лопата
-      naturalRegeneration: Натуральная регенерация
-      hoe: мотыга
-      superBait: Супер наживка
-      fishingRod: удочка
-      berserkPick: Berserk Pick
-      pickaxe: кирка
-      swiftStrikes: Быстрые удары
-      sword: меч
-      timber: Древосек
-      hyperHorse: Эта лошадь уже гипер!
+      maxedOutPerk: Этот навык максимально прокачан!
+      requiredGlobalPerks0: Чтобы разблокировать этот навык, вам понадобится предыдущий навык
+      requiredGlobalPerks1: необходимы для разблокировки этого навыка
+      requiredGlobalPerks2: требуется для разблокировки этого навыка
+      requiredGlobalPerks3: Вам нужны все глобальные навыки, чтобы разблокировать этот навык
+      craftRequirement: требуется для создания крафта!
+      roll: КУВЫРОК
+      dodge: УКЛОНЕНИЕ
+      prepare: Вы готовите
+      rest: Вы остановили подготовку
+      activated: активирована!
+      ended: закончилась
+      readyToUse: снова готова к использованию
+      cooldown: на перезарядке
+      rapidFire: Способность "Быстрый Огонь"
+      bow: лук(а)
+      greatAxe: Способность "Великий топор"
+      axe: топор(а)
+      spurKick: Способность "Прямой Удар"
+      leg: ногу(и)
+      stoneSoldier: Способность "Каменного Солдата"
+      yourself: себя
+      bigDig: Способность "Большое Копание"
+      shovel: лопату(ы)
+      naturalRegeneration: Способность "Натуральная Регенерация"
+      hoe: мотыгу(и)
+      superBait: Способность "Супер приманка"
+      fishingRod: удочку(и)
+      berserkPick: Способность "Кирка Берсерка"
+      pickaxe: кирку(и)
+      swiftStrikes: Способность "Быстрые Удары"
+      sword: меч(а)
+      timber: Способность "Лесоруб"
+      hyperHorse: Эта лошадь уже ускорена!
       magicForce: Магическая сила лишает тебя способности
-      rob: Роб
-      repairFail0: У вас недостаточно навыков, чтобы должным образом починить этот предмет
-      repairFail1: Вам не удалось собрать какие-либо материалы
+      rob: Украсть
+      repairFail0: У вас недостаточно навыков, чтобы должным образом отремонтировать этот предмет
+      repairFail1: Вам не удалось утилизировать какие-либо материалы
       repairFail2: Вам не удалось сохранить силу чар предмета
       treeTooBig0: Это дерево слишком велико, чтобы срубить его за один раз!
-      treeTooBig1: Это дерево никогда нельзя так срубить за один присест...
+      treeTooBig1: Это дерево нельзя за один раз срубить...
       noPermission: У вас нет разрешения на использование этой команды!
-      improperArguments: Неправильные аргументы, попробуйте еще раз.
+      improperArguments: Неправильные аргументы, попробуйте
       totalPlayTime: Общее время игры
       clickForOptions: Нажмите, чтобы увидеть параметры
       unknownCommand: Неизвестная команда
       expToLevel: Опыта до следующего уровня
-      playerName: playerName
-      skillName: skillName (in English)
+      playerName: ник игрока
+      skillName: название навыка (на Английском)
       page: страница
-      on0: ВКЛ
-      off0: ВЫКЛ
+      on0: "ВКЛ"
+      off0: "ВЫКЛ"
       onOrOff: ВКЛ/ВЫКЛ
       manuallyToggles: Переключает вручную
       commandDesc0: Открывает основной меню со всеми навыками
@@ -4250,53 +4194,50 @@
       commandDesc3: Дает выбранному игроку опыт в указанном навыке
       commandDesc4: Устанавливает уровень данного игрока в указанном навыке
       commandDesc5: Сбрасывает статистику игрока в указанном навыке (без возврата статистики)
-      commandDesc6: Отображает таблицу лидеров для указанного показателя
+      commandDesc6: Отображает таблицу лидеров для определенного показателя
       commandDesc7: Предоставляет ссылку на страницу информации о плагине
-      commandDesc8: Попытки наложить чары на предмет в руке пользователя на определенном
-        уровне
+      commandDesc8: Попытки наложить чары на предмет в руке пользователя на определенном уровне
       informationURL: Информационный URL (Google Docs)
       click: НАЖМИТЕ
       levelArgument: Аргумент уровня должен быть меньше 40
-      leaderboard: Leaderboard
+      leaderboard: Таблица лидеров
       playerOffline: Этот игрок не в сети
-      onlyIncrease: Пожалуйста, увеличивайте только exp с помощью этой команды, иначе
-        используйте /frpgstatReset, затем /frpggiveEXP
-      amount: Количество
+      onlyIncrease: Пожалуйста, увеличивайте опыт только с помощью этой команды, иначе используйте /frpg statReset, затем /frpg giveEXP
+      amount: количество
       unlockToggle: Чтобы использовать эту команду, вы должны разблокировать
       levelUpNotif: Уведомления о повышении уровня
       abilityPreparationNotif: Уведомления о подготовке способностей
-      yes0: ДА
-      no0: НЕТ
+      yes0: "ДА"
+      no0: "НЕТ"
       warning: ПРЕДУПРЕЖДЕНИЕ
       souls: души
-      refundSkillTree0: Возврат стоимости дерева навыков
-      refundSkillTree1: это необратимо, вы уверены, что хотите?
+      refundSkillTree0: Стоимость возврата дерева навыков
+      refundSkillTree1: и необратимый, вы уверены, что хотите
       refundSkillTree2: вернуть
       skill: умение
       backToSkillTree: Возвращает вас к дереву навыков
-      miningPerkDesc0_1: 2 секунды Спешка I после добычи любой руды
-      miningPerkDesc0_2: 5 секунд Спешка I после добычи любой руды
-      miningPerkDesc0_3: 10 секунд Спешка I после добычи любой руды
-      miningPerkDesc0_4: 5 секунд Спешка II после добычи любой руды, затем 5 секунд
-        Спешка I
-      miningPerkDesc0_5: 10 секунд Спешка II после добычи любой руды
-      woodcuttingPerkDesc3_1: Теперь листва падает
-      common: общий
+      miningPerkDesc0_1: 2 секунды Спешки I после добычи любой руды
+      miningPerkDesc0_2: 5 секунд Спешки I после добычи любой руды
+      miningPerkDesc0_3: 10 секунд Спешки I после добычи любой руды
+      miningPerkDesc0_4: 5 секунд Спешки II после добычи любой руды, затем 5 секунд Спешки I
+      miningPerkDesc0_5: 10 секунд Спешки II после добычи любой руды
+      woodcuttingPerkDesc3_1: Листья теперь могут дропать
+      common: обычный
       uncommon: необычный
       rare: редкий
       veryRare: очень редкий
       legendary: легендарный
       fishingPerkDesc1_1: Открывает уровень сокровищ
-      farmingPerkDesc1_1: Получите способность создавать
+      farmingPerkDesc1_1: Дает способность крафтить
       cowSpawnEgg: яйцо призыва коровы
-      beeSpawnEgg: яйцо призыва пчел
+      beeSpawnEgg: яйцо призыва пчелы
       mooshroomSpawnEgg: яйцо призыва грибной коровы
       horseSpawnEgg: яйцо призыва лошади
-      slimeSpawnEgg: яйцо призыва слайма
+      slimeSpawnEgg: яйцо призыва слизня
       diggingPerkDesc0_1: Теперь вы можете выкопать
-      defensePerkDesc0_1: Получает +3 секунды регенерации за уровень за убийства
-      defensePerkDesc0_2: Мгновенно получайте +0,5 сердца за уровень за убийства
-      duration: Продолжительность
+      defensePerkDesc0_1: Дает +3с регенерации за уровень при убийстве
+      defensePerkDesc0_2: Дает +0.5 сердца за уровень мгновенно при убийствах
+      duration: Длительность
       likelihood: Вероятность
       junkChance: Шанс на мусор
       locked: ЗАБЛОКИРОВАНО
@@ -4305,25 +4246,19 @@
       beeEgg: Яйцо пчелы
       mooshroomEgg: Яйцо грибной коровы
       horseEgg: Яйцо лошади
-      slimeEgg: Яйцо слизи
+      slimeEgg: Яйцо слизня
       tippedArrows: Остроконечные стрелы
       toggle: Переключить
       refundSkillTitle: Возврат навыков
       refundSkillTreeDesc: Нажмите, чтобы вернуть это дерево навыков
       enchantingPerkDesc1_0: Открывает способность крафтить
-      enchantingPerkDesc1_1: Зачарованные книги Сила I и Эффективность I (создание стоит
-        1 уровень)
-      enchantingPerkDesc1_2: Зачарованные книги Острота I и Защита I (создание стоит
-        1 уровень)
-      enchantingPerkDesc1_3: Зачарованные книги Морская удача I и Приманка I (создание
-        стоит 1 уровень)
-      enchantingPerkDesc1_4: Подводная ходьба I и Ледоход I зачаровали книги (создание
-        стоит 1 уровень)
-      enchantingPerkDesc1_5: Mending (costs 10 levels to craft) and Fortune I (costs
-        2 levels to craft) enchanted books
-      repairPerkDesc0_1: Получите больше материалов от расткравта в среднем
-      repairPerkDesc0_2: В среднем вы получаете больше материалов при утилизации, теперь
-        при утилизации зачарованные предметы хранятся в книге.
+      enchantingPerkDesc1_1: Зачарованные книги Сила I и Эффективность I (создание стоит 1 уровень)
+      enchantingPerkDesc1_2: Зачарованные книги Острота I и Защита I (создание стоит 1 уровень)
+      enchantingPerkDesc1_3: Зачарованные книги Морская удача I и Приманка I (создание стоит 1 уровень)
+      enchantingPerkDesc1_4: Подводная ходьба I и Ледоход I зачаровали книги (создание стоит 1 уровень)
+      enchantingPerkDesc1_5: Зачарованные книги Починка (создание стоит 10 уровень) и Удача I (создание стоит 2 уровня)
+      repairPerkDesc0_1: Получите больше материалов от утилизации в среднем
+      repairPerkDesc0_2: В среднем вы получаете больше материалов при утилизации, теперь при утилизации зачарования предмета хранятся в книге
       xpBoost: Увеличение опыта
       speedBoost: Повышение скорости
       timeExtension: Продление времени
@@ -4338,14 +4273,13 @@
       enchantingCraft8: Книга Починка
       enchantingCraft9: Книга Удача I
       commandDesc9: Устанавливает количество душ для указанного игрока
-      commandDesc10: Устанавливает количество навыков или пассивных жетонов в указанном
-        навыке для указанного игрока
-      commandDesc11: Устанавливает Общие токены для указанного игрока
+      commandDesc10: Устанавливает количество жетонов навыков или пассивных жетонов в указанном навыке для указанного игрока
+      commandDesc11: Устанавливает Глобальные жетоны для указанного игрока
       commandDesc12: Сохраняет статистику всех игроков или указанного игрока
       status: СТАТУС
       complete: ЗАВЕРШЕНО
       incomplete: НЕ ЗАВЕРШЕНО
-      try0: повторите
+      try0: "повторите"
       passiveImprove: Ваши пассивные умения улучшаются с каждым уровнем!
       increasedBy: увеличено на
       expIncrease: Множитель опыта
@@ -4353,31 +4287,18 @@
       translators: Переводчики
       commandDesc13: Устанавливает персональный множитель для указанного игрока
       abilityDescription: Описание способности
-      abilityDescription_digging: Временно увеличивает эффективность вашей лопаты на
-        5 уровней. Активируется щелчком правой кнопкой мыши по лопате и раскопаным блоком.
-      abilityDescription_woodcutting: Временно заставляет топоры ломать все дерево одним
-        раскопаным  блоком. Активируется щелчком правой кнопкой мыши по топору и сломаного
-        бревна.
-      abilityDescription_mining: Временно добавляет кирке 5 уровней эффективности. Активируется
-        щелчком правой кнопкой мыши по кирке и раскопаным  блоком
-      abilityDescription_farming: Временно заставляет посевы, сломанные мотыгой, автоматически
-        пересаживать Активируется щелчком правой кнопкой мыши по мотыге и посатке урожая
-      abilityDescription_fishing: Временно заставляет удочки мгновенно ловить рыбу.
-        Активируется щелчком левой кнопки мыши по удочке и крючком в ​​воде.
-      abilityDescription_archery: Временно заставляет все стрелы стрелять на максимальной
-        скорости. Активируется щелчком левой кнопки мыши по луку и выстрелом из стрелы.
-      abilityDescription_beastMastery: Временно увеличивает скорость вашей лошади. Активируется
-        щелчком правой кнопкой мыши на лошади, а затем щелчком левой кнопкой мыши.
-      abilityDescription_swordsmanship: Временно убирает перезарядку мечей. Активируется
-        щелчком правой кнопки мыши по мечу и попаданием по мобу.
-      abilityDescription_defense: Временно дает пользователю эффекты сопротивления и
-        замедления. Активируется щелчком правой кнопкой мыши пустой рукой и последующим
-        попаданием в моба.
-      abilityDescription_axeMastery: Временно заставляет топоры наносить урон всем мобам
-        в определенном радиусе. Активируется щелчком правой кнопкой мыши по топору,
-        а затем попаданием по мобу.
-      alchemyPerkDesc1_0: Открывает способность варить(зелья)
-      alchemyPerkDesc0_0: Верстак можно использовать для крафта
+      abilityDescription_digging: Временно увеличивает эффективность вашей лопаты на 5 уровней. Активируется щелчком правой кнопкой мыши по лопате, затем разрушением блока.
+      abilityDescription_woodcutting: Временно заставляет топоры ломать все дерево разрушением одного блока. Активируется щелчком правой кнопкой мыши по топору, затем разрушением бревна.
+      abilityDescription_mining: Временно увеличивает эффективность вашей кирки на 5 уровней. Активируется щелчком правой кнопкой мыши по кирке, затем разрушением блока.
+      abilityDescription_farming: Временно заставляет посевы, сломанные мотыгой, автоматически пересаживать. Активируется щелчком правой кнопкой мыши по мотыге, затем разрушением посева.
+      abilityDescription_fishing: Временно заставляет удочки мгновенно ловить рыбу. Активируется щелчком левой кнопки мыши удочкой по блоку, затем ловлей рыбы.
+      abilityDescription_archery: Временно заставляет все стрелы стрелять на максимальной скорости. Активируется щелчком левой кнопки мыши по луку, затем выстрелом.
+      abilityDescription_beastMastery: Временно увеличивает скорость вашей лошади. Активируется щелчком правой кнопкой мыши по лошади, а затем щелчком левой кнопкой мыши.
+      abilityDescription_swordsmanship: Временно убирает перезарядку атаки на мечах. Активируется щелчком правой кнопки мыши по мечу, затем ударом мечом по мобу.
+      abilityDescription_defense: Временно дает пользователю эффекты сопротивления к урону и замедления. Активируется щелчком правой кнопкой мыши пустой рукой, затем ударом по мобу.
+      abilityDescription_axeMastery: Временно заставляет топоры наносить урон всем мобам в определенном радиусе.Активируется щелчком правой кнопкой мыши по топору, затем ударом по мобу.
+      alchemyPerkDesc1_0: Открывает способность варить (зелья)
+      alchemyPerkDesc0_0: Верстак можно использовать для крафта (зелий)
       triggerAbilities: Триггерные способности
       showEXPBar: Показывать полосу опыта
       disabledSkill: Этот навык отключен
@@ -4385,61 +4306,60 @@
       lvl: Ур.
       exp: Опыт
       potionAbsorption: Зелье Поглощения
-      potionBadOmen: Зелье дурного предзнаменования
-      potionBlindess: Зелье слепоты
-      potionConduitPower: Зелье морской силы
-      potionResistance: Зелье сопротивления
-      potionDolphinsGrace: Зелье грация дельфина
-      potionHaste: Зелье спешки
-      potionFireResistance: Зелье сопротивления огню
-      potionGlowing: Зелье свечение
-      potionHarm: Зелье вреда
+      potionBadOmen: Зелье Дурного предзнаменования
+      potionBlindess: Зелье Слепоты
+      potionConduitPower: Зелье Морской силы
+      potionResistance: Зелье Сопротивления к урону
+      potionDolphinsGrace: Зелье Грация дельфина
+      potionHaste: Зелье Спешки
+      potionFireResistance: Зелье Сопротивления огню
+      potionGlowing: Зелье Свечение
+      potionHarm: Зелье Вреда
       potionHealing: Зелье Исцеления
-      potionHealthBoost: Зелье повышения здоровья
-      potiontheHero: Зелье героя
-      potionHunger: Зелье голода
+      potionHealthBoost: Зелье Повышения здоровья
+      potiontheHero: Зелье Героя
+      potionHunger: Зелье Голода
       potionStrength: Зелье Силы
       potionInvsibility: Зелье Невидимости
-      potionJump: Зелье прыгучести
+      potionJump: Зелье Прыгучести
       potionLuck: Зелье Удачи
-      potionNightVision: Зелье ночного видения
-      potionRegeneration: Зелье регенерации
-      potionSaturation: Зелье насыщения
-      potionSlowness: Зелье медлительности
-      potionFatigue: Зелье усталости
-      potionSlowFalling: Зелье медленного падения
-      potionSpeed: Зелье скорости
-      potionBadLuck: Зелье неудачи
-      potionWaterBreathing: Зелье водного дыхания
-      potionWeakness: Зелье слабости
-      potionDecay: Зелье разрушение
+      potionNightVision: Зелье Ночного видения
+      potionRegeneration: Зелье Регенерации
+      potionSaturation: Зелье Насыщения
+      potionSlowness: Зелье Медлительности
+      potionFatigue: Зелье Усталости
+      potionSlowFalling: Зелье Медленного падения
+      potionSpeed: Зелье Скорости
+      potionBadLuck: Зелье Неудачи
+      potionWaterBreathing: Зелье Водного дыхания
+      potionWeakness: Зелье Слабости
+      potionDecay: Зелье Разрушение
       potionAwkward: Неловкое зелье
       potionUncraftable: Невозможное зелье
       potionMundane: Земное зелье
-      potionTurtleMaster: Зелье мастера черепах
+      potionTurtleMaster: Зелье Мастера черепах
       potionThick: Густое зелье
       potionWater: Бутылка с водой
       ingredient: Ингредиент
-      usedToBrew: Используется для заваривания
-      costs: расходы
-      xpLevel: Minecraft XP Level
-      xpLevels: Minecraft XP Levels
+      usedToBrew: Используется для варки
+      costs: стоимость
+      xpLevel: Minecraft XP Уровень
+      xpLevels: Minecraft XP Уровни
       craftXPRequirement: Для этого рецепта требуется не менее
-      bedGUI: Вы не можете использовать эту команду в постели!
-      statsUpdated: Your stats were changed to be consistent with a new EXP curve. All
-        skill trees and passive perks have been reset. All tokens must be re-invested.
-      timeRemaining: Time Remaining
-      numberOfAbilityTimersDisplayed: Number of Ability Timers Displayed
-      commandDesc14: Resets the cooldown period for a skill to 0 seconds
-      commandDesc15: Looks up a player's FreeRPG stats
-      repairUnsafeEnchant: This item is too powerful to be repaired
-      salvageUnsafeEnchant: This item is too powerful to be salvaged
-      rank: Rank
-      stats: stats
-      outOf: out of
-      playerNotInLeaderboard: That player is not on any leaderboards
-      virtual: Virtual
-      commandDesc16: Changes player's FreeRPG experience multiplier by a specified amount (positive or negative)
+      bedGUI: Вы не можете использовать эту команду в кровати!
+      statsUpdated: Ваши характеристики были изменены, чтобы соответствовать новой кривой опыта. Все деревья навыков и пассивные навыки были сброшены. Все токены необходимо переиспользовать.
+      timeRemaining: Оставшееся время
+      numberOfAbilityTimersDisplayed: Количество отображаемых таймеров способностей
+      commandDesc14: Сбрасывает время восстановления умения до 0 секунд.
+      commandDesc15: Просмотр FreeRPG-статистики игрока
+      repairUnsafeEnchant: Этот предмет слишком мощный, чтобы его можно было ремонтировать
+      salvageUnsafeEnchant: Этот предмет слишком мощный, чтобы его можно было утилизировать
+      rank: Ранг
+      stats: статистика
+      outOf: из
+      playerNotInLeaderboard: Этого игрока нет ни в одной таблице лидеров
+      virtual: Виртуальный
+      commandDesc16: Изменяет FreeRPG множитель опыта игрока на указанную величину (положительный или отрицательный)
 
     ptBR: #Translated by gbuueno
       languageName: Porutgues Brazil

@@ -180,21 +180,48 @@
 # 2) [effect: HEALTH_BOOST,      level: 3, duration: 25.0]
 # 3) [effect: STRENGTH, level: 2, relativeDuration: 1.0]
 #
-# RECIPES:
-# A recipe is a list of ingredients formatted as such:
-# - (1) top left
-# - (2) top middle
-# - (3) top right
-# - (4) middle left
-# - (5) middle middle
-# - (6) middle right
-# - (7) bottom left
-# - (8) bottom middle
-# - (9) bottom right
-#  OR
-#  [top left, top middle, top right, middle left, middle middle, middle right, middle right, bottom left, bottom middle, bottom right]
-# Use "AIR" to represent blank entries
+# RECIPES INFORMATION:
 #
+# 1) **REQUIRED** OUTPUT: The crafting recipe's output item
+#    [TAGS] output. result
+#    [EXAMPLE] output: [item: ENCHANTED_BOOK, amount: 1, enchantments: [[enchant: POWER, level: 1]] ]
+#    [NOTES] This node should be a custom item, see above for custom item formatting.
+#            DO NOT set random durabilities/enchantments on these items. They will be rolled once when the server boots up,
+#            and will change every time the plugin is reloaded.
+#
+# 2) **REQUIRED** RECIPE: The materials that make up the recipe
+#    [TAGS] recipe, craftingGrid
+#    [EXAMPLE] recipe: [AIR,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,IRON_PICKAXE]
+#    [NOTES] A recipe is a list of ingredients formatted as such:
+#            - (1) top left
+#            - (2) top middle
+#            - (3) top right
+#            - (4) middle left
+#            - (5) middle middle
+#            - (6) middle right
+#            - (7) bottom left
+#            - (8) bottom middle
+#            - (9) bottom right
+#            OR
+#            [top left, top middle, top right, middle left, middle middle, middle right, middle right, bottom left, bottom middle, bottom right]
+#            Use "AIR" to represent blank entries
+#
+# 3) MINECRAFT XP COST: The number of minecraft levels required to craft the item
+#    [TAGS] xpCost, experienceCost
+#    [DEFAULT VALUE] 0
+#    [EXAMPLE] xpCost: 1
+#    [NOTES] This scales linearly with the number of items crafted (ex. crafting 2 of the recipe will cost 2 * xpCost levels)
+#
+# EXAMPLES:
+# 1) - output: [item: ENCHANTED_BOOK, amount: 1, enchantments: [[enchant: MENDING, level: 1]] ]
+#      recipe: [AIR,DIAMOND_BLOCK,AIR,DIAMOND_BLOCK,PAPER,PAPER,AIR,PAPER,DIAMOND_BLOCK]
+#      xpCost: 10
+# 2) - output: [item: BEE_SPAWN_EGG, amount: 1] #Output Item
+#      recipe: [AIR,OXEYE_DAISY,AIR,DANDELION,HONEY_BOTTLE,POPPY,AIR,AZURE_BLUET,AIR] #Crafting Recipe
+#
+#
+#
+
 
 
 global:

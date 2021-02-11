@@ -5,6 +5,7 @@ import mc.carlton.freerpg.gameTools.ActionBarMessages;
 import mc.carlton.freerpg.gameTools.BossBarStorage;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.guiEvents.MaxPassiveLevels;
+import mc.carlton.freerpg.leaveAndJoin.LogoutProcedure;
 import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.serverConfig.ConfigLoad;
 import org.bukkit.Bukkit;
@@ -495,6 +496,19 @@ public class ChangeStats {
 
     private void endSkillTasks(String skillName){
         ArrayList<Number> pStats = getPlayerSkillStats(skillName);
+
+        //We use some methods from logoutProcedure
+        LogoutProcedure logoutProcedure = new LogoutProcedure(p);
+        if (skillName.equalsIgnoreCase("swordsmanship")) {
+            logoutProcedure.preventLogoutTheftSwordsmanship(false);
+        } else if (skillName.equalsIgnoreCase("defense")) {
+            logoutProcedure.preventLogoutTheftDefense(false);
+        } else if (skillName.equalsIgnoreCase("mining")) {
+            logoutProcedure.preventLogoutTheftMining(false);
+        } else if (skillName.equalsIgnoreCase("digging")) {
+            logoutProcedure.preventLogoutTheftDigging(false);
+        }
+
         //Ends all tasks that track players' buffs gained from some skills
         if (skillName.equals("farming") && (int) pStats.get(13) > 0) {
             Farming farmingClass = new Farming(p);

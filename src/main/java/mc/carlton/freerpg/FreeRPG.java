@@ -9,6 +9,7 @@ import mc.carlton.freerpg.clickEvents.PlayerRightClickEntity;
 import mc.carlton.freerpg.combatEvents.*;
 import mc.carlton.freerpg.commands.*;
 import mc.carlton.freerpg.customContainers.CustomContainerImporter;
+import mc.carlton.freerpg.customContainers.collections.CustomRecipe;
 import mc.carlton.freerpg.enchantingEvents.*;
 import mc.carlton.freerpg.furnaceEvents.FurnaceBurn;
 import mc.carlton.freerpg.furnaceEvents.FurnaceInventoryClick;
@@ -218,11 +219,13 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         f.setReadable(true,false);
         f.setWritable(true,false);
         YamlConfiguration config = YamlConfiguration.loadConfiguration(f);
-        final String testConfigPath = "global.skill_4D.level1.effectsGiven";
-        List test = ( (List) (config.getList(testConfigPath).get(0)) );
+        final String testConfigPath = "enchanting.skill_2A.level1.recipes";
+        Object test = ( (config.getList(testConfigPath).get(0)) );
         System.out.println(test);
-        System.out.println(new CustomContainerImporter(testConfigPath).getCustomEffectPiece(test));
-        System.out.println(CustomContainerImporter.convertListedTableRowToMap(test,testConfigPath));
+        CustomRecipe customRecipe = new CustomContainerImporter(testConfigPath).getCustomRecipe(test,"TEST");
+        customRecipe.addTranslatedVariants();
+        System.out.println(customRecipe);
+        //System.out.println(CustomContainerImporter.convertListedTableRowToMap(test,testConfigPath));
 
     }
 

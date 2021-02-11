@@ -266,8 +266,8 @@ public class AbilityTimers {
         if (!isDisabling) {
             cooldownTimer(skillName, cooldownEndMessage);
         }
-
     }
+
     public void endAbility(String skillName,String endMessage, String cooldownEndMessage,NamespacedKey key,ItemStack itemHeldInHand, int enchantLevel, int levelReqLevel,boolean isDisabling) {
         ActionBarMessages actionMessage = new ActionBarMessages(player);
         AbilityTracker abilities = new AbilityTracker(player);
