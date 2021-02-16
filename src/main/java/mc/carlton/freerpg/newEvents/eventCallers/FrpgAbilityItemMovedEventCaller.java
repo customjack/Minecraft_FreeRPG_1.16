@@ -47,6 +47,12 @@ public class FrpgAbilityItemMovedEventCaller implements Listener {
                 callEventIfItemIsTracked(itemToBeMoved,p,e); //Calls event
             }
         }
+        else if (e.getClick().equals(ClickType.SWAP_OFFHAND)) {
+            ItemStack itemInOffhand = p.getInventory().getItemInOffHand();
+            if (itemInOffhand != null) {
+                callEventIfItemIsTracked(itemInOffhand,p,e); //Calls event
+            }
+        }
         else if (e.isShiftClick()) {
             ItemStack clickedItem = e.getCurrentItem();
             callEventIfItemIsTracked(clickedItem,p,e); //Calls event

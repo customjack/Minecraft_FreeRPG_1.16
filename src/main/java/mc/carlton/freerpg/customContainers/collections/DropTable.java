@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
 
@@ -16,7 +17,7 @@ public class DropTable {
      * Constructor
      * @param drops pre-made drop table
      */
-    public DropTable(ArrayList<CustomItem> drops) {
+    public DropTable(List<CustomItem> drops) {
         addDrops(drops);
     }
 
@@ -109,4 +110,20 @@ public class DropTable {
         return totalWeight;
     }
 
+    private double getTotalStaticProbability() {
+        double totalProb = 0.0;
+        for (CustomItem drop : staticProbabilityDrops) {
+            totalProb += drop.getProbability();
+        }
+        return totalProb;
+    }
+
+    @Override
+    public String toString() {
+        int numberOfItems = weightedProbabilityDrops.size() + staticProbabilityDrops.size();
+        return "{Number of Items=" + numberOfItems +
+                ", Total Static Probability=" + getTotalStaticProbability() +
+                ", Total Weight=" + getTotalWeight() +
+                "}";
+    }
 }

@@ -2,6 +2,7 @@ package mc.carlton.freerpg.customContainers;
 
 import mc.carlton.freerpg.customContainers.collections.CustomEffect;
 import mc.carlton.freerpg.customContainers.collections.CustomRecipe;
+import mc.carlton.freerpg.customContainers.collections.DropTable;
 import mc.carlton.freerpg.utilities.FrpgPrint;
 import mc.carlton.freerpg.utilities.UtilityMethods;
 import org.bukkit.Color;
@@ -95,14 +96,29 @@ public class CustomContainerImporter {
         this(NO_PATH);
     }
 
-    public CustomRecipe getCustomRecipe(Object configItem, String id) {
-        if (!(configItem instanceof Map)) {
+    public DropTable getDropTable(Object configDropTable) {
+        if (!(configDropTable instanceof List)) {
+            printReadInError();
+            return null;
+        }
+        ArrayList<CustomItem> dropTableList = new ArrayList<>();
+        for (Object configItem : (List) configDropTable) {
+            CustomItem dropTableItem = getCustomItem(configItem);
+            if (dropTableItem != null) {
+                dropTableList.add(dropTableItem);
+            }
+        }
+        return new DropTable(dropTableList);
+    }
+
+    public CustomRecipe getCustomRecipe(Object configRecipe, String newRecipeId) {
+        if (!(configRecipe instanceof Map)) {
             printReadInError();
             return null;
         }
         Map<String,Object> recipeInformation = new HashMap<>();
-        for (Object object : ((Map) configItem).keySet()) {
-            recipeInformation.put(object.toString(),((Map) configItem).get(object));
+        for (Object object : ((Map) configRecipe).keySet()) {
+            recipeInformation.put(object.toString(),((Map) configRecipe).get(object));
         }
         CustomItem output = null;
         ArrayList<Material> recipe = null;
@@ -126,7 +142,7 @@ public class CustomContainerImporter {
             printReadInError(RECIPE_REQUIRED);
             return null;
         }
-        return new CustomRecipe(recipe,output.getItemStack(),xpCost,id);
+        return new CustomRecipe(recipe,output.getItemStack(),xpCost,newRecipeId);
     }
 
     public CustomItem getCustomItem(Object configItem) {

@@ -71,4 +71,7 @@ public class UtilityMethods {
         }
         return Color.fromRGB(red,green,blue);
     }
+    public static String camelCaseToSpacedString(String camelCaseString) {
+        return camelCaseString.replaceAll("([^_])([A-Z])", "$1 $2");
+    }
 }
