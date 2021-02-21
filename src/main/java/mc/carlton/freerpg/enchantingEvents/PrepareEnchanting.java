@@ -2,7 +2,7 @@ package mc.carlton.freerpg.enchantingEvents;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.perksAndAbilities.Enchanting;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

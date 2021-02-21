@@ -5,7 +5,7 @@ import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.globalVariables.CraftingRecipes;
 import mc.carlton.freerpg.newEvents.FrpgPlayerCraftItemEvent;
 import mc.carlton.freerpg.perksAndAbilities.Defense;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.playerInfo.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;

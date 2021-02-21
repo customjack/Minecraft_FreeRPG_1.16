@@ -2,7 +2,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.gameTools.TrackItem;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.serverInfo.MinecraftVersion;
 import mc.carlton.freerpg.serverInfo.PlacedBlocksManager;
 import mc.carlton.freerpg.serverInfo.WorldGuardChecks;

@@ -1,4 +1,4 @@
-package mc.carlton.freerpg.perksAndAbilities;
+package mc.carlton.freerpg.skills;
 
 import mc.carlton.freerpg.utilities.UtilityMethods;
 
@@ -28,7 +28,7 @@ public enum SkillName {
      * @param skillName string representation of skillName
      * @return Enum if matched, null otherwise
      */
-    static SkillName matchSkillName(String skillName) {
+    public static SkillName matchSkillName(String skillName) {
         String convertedSkillName = UtilityMethods.camelCaseToSpacedString(skillName).replace(" ","_").toUpperCase();
         try {
             return SkillName.valueOf(convertedSkillName);
@@ -41,7 +41,7 @@ public enum SkillName {
      * Gets values in ArrayList representation
      * @return ArrayList representation of all enum
      */
-    static ArrayList<SkillName> getValues() {
+    public static ArrayList<SkillName> getValues() {
         return new ArrayList<>(Arrays.asList(SkillName.values()));
     }
 
@@ -49,7 +49,7 @@ public enum SkillName {
      * Gets Main skill enums in ArrayList representation
      * @return ArrayList representation of all main skill enum
      */
-    static ArrayList<SkillName> getMainSkillValues() {
+    public static ArrayList<SkillName> getMainSkillValues() {
         return new ArrayList<>(Arrays.asList(SkillName.mainSkillValues()));
     }
 
@@ -57,7 +57,7 @@ public enum SkillName {
      * Gets Passive skill enums in ArrayList representation
      * @return ArrayList representation of all passive skill enum
      */
-    static ArrayList<SkillName> getPassiveSkillValues() {
+    public static ArrayList<SkillName> getPassiveSkillValues() {
         return new ArrayList<>(Arrays.asList(SkillName.passiveSkillValues()));
     }
 
@@ -65,7 +65,7 @@ public enum SkillName {
      * Gets all enums (except global) in ArrayList representation
      * @return ArrayList representation of all enum (except GLOBAL)
      */
-    static ArrayList<SkillName> getValuesWithoutGlobal() {
+    public static ArrayList<SkillName> getValuesWithoutGlobal() {
         return new ArrayList<>(Arrays.asList(SkillName.valuesWithoutGlobal()));
     }
 
@@ -73,7 +73,7 @@ public enum SkillName {
      * Gets main skill enum
      * @return array of main skill enum
      */
-    static SkillName[] mainSkillValues() {
+    public static SkillName[] mainSkillValues() {
         return new SkillName[]{
                 DIGGING,
                 WOODCUTTING,
@@ -91,7 +91,7 @@ public enum SkillName {
      * Gets passive skill enum
      * @return array of passive skill enum
      */
-    static SkillName[] passiveSkillValues() {
+    public static SkillName[] passiveSkillValues() {
         return new SkillName[]{
                 REPAIR,
                 AGILITY,
@@ -104,7 +104,7 @@ public enum SkillName {
      * Gets all enum except GLOBAL
      * @return array of all enum except GLOBAL
      */
-    static SkillName[] valuesWithoutGlobal() {
+    public static SkillName[] valuesWithoutGlobal() {
         return new SkillName[] {
                 DIGGING,
                 WOODCUTTING,

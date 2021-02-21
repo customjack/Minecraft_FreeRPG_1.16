@@ -2,8 +2,8 @@ package mc.carlton.freerpg.skillAndPerkInfo;
 
 public class PerkInfo {
     private boolean enabled = true;
-    private int minLevel;
-    private int maxLevel;
+    private int minLevel = -1;
+    private int maxLevel = -1;
     private String perkId;
     private String descriptionTemplateId;
 

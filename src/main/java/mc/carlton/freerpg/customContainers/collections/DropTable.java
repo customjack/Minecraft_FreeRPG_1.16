@@ -51,6 +51,28 @@ public class DropTable {
     }
 
     /**
+     * Removes a drop from the drop table
+     * @param drop a CustomItem
+     */
+    public void removeDrop(CustomItem drop) {
+        if (drop.isStaticProbability()) {
+            staticProbabilityDrops.remove(drop);
+        } else {
+            weightedProbabilityDrops.remove(drop);
+        }
+    }
+
+    /**
+     * Removes multiple drops from the drop table
+     * @param drops a collection of CustomItems
+     */
+    public void removeDrops(Collection<CustomItem> drops) {
+        for (CustomItem drop : drops) {
+            removeDrop(drop);
+        }
+    }
+
+    /**
      * Rolls for a custom item in the drop table
      * @return the random CustomItem
      */
@@ -83,6 +105,10 @@ public class DropTable {
             }
         }
         return null; //The drop tables are empty (or something went wrong)
+    }
+
+    public boolean isEmpty() {
+        return (staticProbabilityDrops.isEmpty() && weightedProbabilityDrops.isEmpty());
     }
 
     /**

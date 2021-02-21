@@ -3,7 +3,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 import mc.carlton.freerpg.gameTools.ExpFarmTracker;
 import mc.carlton.freerpg.gameTools.HorseRiding;
 import mc.carlton.freerpg.globalVariables.EntityGroups;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import org.bukkit.*;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
@@ -234,7 +234,8 @@ public class BeastMastery extends Skill{
         if (!runMethods) {
             return;
         }
-        if (entity.getType() == EntityType.HORSE || entity.getType() == EntityType.DONKEY || entity.getType() == EntityType.MULE || entity.getType() == EntityType.LLAMA) {
+        List<EntityType> mounts = Arrays.asList(new EntityType[]{EntityType.HORSE,EntityType.DONKEY,EntityType.MULE,EntityType.LLAMA,EntityType.ZOMBIE_HORSE,EntityType.SKELETON_HORSE});
+        if (mounts.contains(entity.getType())) {
             Entity mount = entity;
             HorseRiding data_set = new HorseRiding();
             int taskID = new BukkitRunnable() {

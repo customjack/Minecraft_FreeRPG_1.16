@@ -2,7 +2,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.globalVariables.EntityGroups;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.serverInfo.PlacedBlocksManager;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -283,11 +283,20 @@ public class Farming extends Skill{
         if (doubleDropChance < rand.nextDouble()) {
             return;
         }
+        List<Material> blackListedDrops = Arrays.asList(new Material[]{Material.SADDLE,Material.DIAMOND_HORSE_ARMOR,Material.GOLDEN_HORSE_ARMOR,Material.IRON_HORSE_ARMOR,Material.LEATHER_HORSE_ARMOR});
         EntityGroups entityGroups = new EntityGroups();
         List<EntityType> animals = entityGroups.getAnimals();
         if (animals.contains(entity.getType())) {
             for (ItemStack drop : drops) {
-                dropItemNaturally(entity.getLocation().add(0,0.25,0), drop);
+                if (blackListedDrops.contains(drop.getType())) {
+                    continue;
+                }
+                if (entity instanceof ChestedHorse) {
+                    if (!Arrays.asList( ((ChestedHorse) entity).getInventory().getContents()).contains(drop)) {
+                        continue;
+                    }
+                }
+                dropItemNaturally(entity.getLocation().add(0, 0.25, 0), drop);
             }
         }
     }

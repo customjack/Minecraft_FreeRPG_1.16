@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SkillPerkInfo extends PerkInfo {
-    private Map<Integer,SkillPerkLevel> skillPerkInfo = new HashMap<>();
+    private Map<Integer, SkillPerkLevelInfo> skillPerkInfo = new HashMap<>();
 
-    public SkillPerkInfo(Map<Integer, SkillPerkLevel> skillPerkInfo) {
+    public SkillPerkInfo(Map<Integer, SkillPerkLevelInfo> skillPerkInfo) {
         this.skillPerkInfo = skillPerkInfo;
     }
 
@@ -14,19 +14,19 @@ public class SkillPerkInfo extends PerkInfo {
         this(new HashMap<>());
     }
 
-    public Map<Integer, SkillPerkLevel> getSkillPerkInfo() {
+    public Map<Integer, SkillPerkLevelInfo> getSkillPerkInfo() {
         return skillPerkInfo;
     }
 
-    public void setSkillPerkInfo(Map<Integer, SkillPerkLevel> skillPerkInfo) {
+    public void setSkillPerkInfo(Map<Integer, SkillPerkLevelInfo> skillPerkInfo) {
         this.skillPerkInfo = skillPerkInfo;
     }
 
-    public void addSkillPerkInfo(int level, SkillPerkLevel skillPerkLevel) {
-        this.skillPerkInfo.put(level,skillPerkLevel);
+    public void addSkillPerkInfo(int level, SkillPerkLevelInfo skillPerkLevelInfo) {
+        this.skillPerkInfo.put(level, skillPerkLevelInfo);
     }
 
     public void addSkillPerkInfo(int level, Map<String, Object> skillPerkLevelInfo) {
-        this.skillPerkInfo.put(level,new SkillPerkLevel(level,skillPerkLevelInfo));
+        this.skillPerkInfo.put(level,new SkillPerkLevelInfo(level,skillPerkLevelInfo));
     }
 }

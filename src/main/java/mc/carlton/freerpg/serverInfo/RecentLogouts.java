@@ -2,7 +2,7 @@ package mc.carlton.freerpg.serverInfo;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.playerInfo.OfflinePlayerStatLoadIn;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 

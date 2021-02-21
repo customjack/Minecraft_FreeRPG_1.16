@@ -1,7 +1,7 @@
 package mc.carlton.freerpg.guiEvents;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.perksAndAbilities.*;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.playerInfo.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

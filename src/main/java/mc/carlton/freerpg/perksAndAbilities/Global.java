@@ -2,7 +2,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.globalVariables.EntityGroups;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.playerInfo.PlayerStats;
 import org.bukkit.Material;
 import org.bukkit.entity.*;

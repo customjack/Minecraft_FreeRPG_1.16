@@ -14,7 +14,7 @@ import mc.carlton.freerpg.perksAndAbilities.Agility;
 import mc.carlton.freerpg.playerInfo.*;
 import mc.carlton.freerpg.serverFileManagement.PeriodicSaving;
 import mc.carlton.freerpg.serverFileManagement.PlayerStatsFilePreparation;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.utilities.UtilityMethods;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

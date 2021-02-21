@@ -1,4 +1,4 @@
-package mc.carlton.freerpg.serverConfig;
+package mc.carlton.freerpg.configStorage;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.customContainers.OldCustomPotion;

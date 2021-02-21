@@ -7,7 +7,7 @@ import mc.carlton.freerpg.gameTools.TrackItem;
 import mc.carlton.freerpg.globalVariables.EntityGroups;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.playerInfo.*;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

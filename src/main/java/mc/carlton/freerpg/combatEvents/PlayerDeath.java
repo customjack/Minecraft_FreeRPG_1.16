@@ -3,7 +3,7 @@ package mc.carlton.freerpg.combatEvents;
 import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.playerInfo.AbilityLogoutTracker;
 import mc.carlton.freerpg.playerInfo.AbilityTracker;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.playerInfo.PlayerStats;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;

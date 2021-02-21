@@ -3,7 +3,7 @@ package mc.carlton.freerpg.perksAndAbilities;
 import mc.carlton.freerpg.gameTools.BlockFaceTracker;
 import mc.carlton.freerpg.gameTools.TrackItem;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.serverInfo.WorldGuardChecks;
 import org.bukkit.*;
 import org.bukkit.block.Block;

@@ -4,7 +4,7 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.customContainers.OldCustomPotion;
 import mc.carlton.freerpg.customContainers.collections.OldCustomRecipe;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.utilities.UtilityMethods;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

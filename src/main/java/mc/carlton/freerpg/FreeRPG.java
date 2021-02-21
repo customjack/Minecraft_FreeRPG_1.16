@@ -9,12 +9,12 @@ import mc.carlton.freerpg.clickEvents.PlayerRightClickEntity;
 import mc.carlton.freerpg.combatEvents.*;
 import mc.carlton.freerpg.commands.*;
 import mc.carlton.freerpg.customContainers.CustomContainerImporter;
+import mc.carlton.freerpg.customContainers.CustomPotion;
 import mc.carlton.freerpg.customContainers.collections.CustomRecipe;
 import mc.carlton.freerpg.enchantingEvents.*;
 import mc.carlton.freerpg.furnaceEvents.FurnaceBurn;
 import mc.carlton.freerpg.furnaceEvents.FurnaceInventoryClick;
 import mc.carlton.freerpg.furnaceEvents.FurnaceSmelt;
-import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
 import mc.carlton.freerpg.globalVariables.*;
 import mc.carlton.freerpg.guiEvents.*;
 import mc.carlton.freerpg.leaveAndJoin.LoginProcedure;
@@ -25,13 +25,11 @@ import mc.carlton.freerpg.leaveAndJoin.PlayerLeave;
 import mc.carlton.freerpg.newEvents.eventCallers.FrpgAbilityItemMovedEventCaller;
 import mc.carlton.freerpg.newEvents.eventCallers.FrpgPlayerCraftItemEventCaller;
 import mc.carlton.freerpg.newEvents.eventCallers.FrpgPlayerRightClickEventCaller;
-import mc.carlton.freerpg.perksAndAbilities.SkillName;
 import mc.carlton.freerpg.pistonEvents.PistonEvents;
 import mc.carlton.freerpg.playerInfo.*;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.serverFileManagement.*;
 import mc.carlton.freerpg.serverInfo.*;
-import mc.carlton.freerpg.utilities.UtilityMethods;
 import org.bukkit.*;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -44,8 +42,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public final class FreeRPG extends JavaPlugin implements Listener {
 
@@ -216,17 +212,21 @@ public final class FreeRPG extends JavaPlugin implements Listener {
     }
 
     public void test() { //The purpose of this is to just place test code to run when the plugin is enabled or disabled
+
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
+
         File f = new File(plugin.getDataFolder(),"perkConfig.yml");
         f.setReadable(true,false);
         f.setWritable(true,false);
         YamlConfiguration config = YamlConfiguration.loadConfiguration(f);
-        final String testConfigPath = "enchanting.skill_2A.level1.recipes";
-        Object test = ( (config.getList(testConfigPath).get(0)) );
+
+        final String testConfigPath = "global.skill-1.level-1.test";
+        Object test = config.get(testConfigPath);
         System.out.println(test);
-        CustomRecipe customRecipe = new CustomContainerImporter(testConfigPath).getCustomRecipe(test,"TEST");
-        customRecipe.addTranslatedVariants();
-        System.out.println(customRecipe);
+        System.out.println(test.getClass());
+        //CustomRecipe customRecipe = new CustomContainerImporter(testConfigPath).getCustomRecipe(test,"TEST");
+        //customRecipe.addTranslatedVariants();
+        //System.out.println(customRecipe);
         //System.out.println(CustomContainerImporter.convertListedTableRowToMap(test,testConfigPath));
 
     }

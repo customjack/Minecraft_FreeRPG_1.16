@@ -4,7 +4,7 @@ import mc.carlton.freerpg.gameTools.EntityPickedUpItemStorage;
 import mc.carlton.freerpg.gameTools.ExpFarmTracker;
 import mc.carlton.freerpg.globalVariables.EntityGroups;
 import mc.carlton.freerpg.playerInfo.ChangeStats;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.serverInfo.MinecraftVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

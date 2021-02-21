@@ -1,6 +1,6 @@
 package mc.carlton.freerpg.playerInfo;
 
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 
 import java.util.ArrayList;
 import java.util.UUID;

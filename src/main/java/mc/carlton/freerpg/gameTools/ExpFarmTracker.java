@@ -1,6 +1,6 @@
 package mc.carlton.freerpg.gameTools;
 
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attributable;

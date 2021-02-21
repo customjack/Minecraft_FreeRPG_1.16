@@ -2,7 +2,7 @@ package mc.carlton.freerpg.combatEvents;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.playerInfo.PlayerStats;
 import org.bukkit.GameMode;
 import org.bukkit.entity.LivingEntity;

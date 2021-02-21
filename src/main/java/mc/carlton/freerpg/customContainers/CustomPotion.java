@@ -1,5 +1,6 @@
 package mc.carlton.freerpg.customContainers;
 
+import jdk.internal.org.jline.utils.Colors;
 import mc.carlton.freerpg.utilities.UtilityMethods;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -12,6 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -21,10 +23,12 @@ public class CustomPotion extends CustomItem {
     private boolean isExtended = false;
     private List<PotionEffect> potionEffects = new ArrayList<>();
     private Color color;
+    private ArrayList<Color> colors = new ArrayList<>();
     private static Map<PotionEffectType, Color> potionEffectColors;
 
     public CustomPotion(Map<String, Object> containerInformation) {
         super(Material.POTION,containerInformation);
+        setPotionEffectColors();
     }
 
     public CustomPotion() {
@@ -53,23 +57,33 @@ public class CustomPotion extends CustomItem {
     }
 
     private Color determinePotionColor() {
-        if (color == null) {
-            ArrayList<Color> colors = new ArrayList<>();
-            for (PotionEffect potionEffect : potionEffects) {
-                colors.add(potionEffectColors.get(potionEffect.getType()));
-            }
-            int numberOfColors = colors.size();
-            double red = 0;
-            double green = 0;
-            double blue = 0;
-            for (Color c : colors) {
-                red += c.getRed()/((double)numberOfColors);
-                green += c.getGreen()/((double)numberOfColors);
-                blue += c.getBlue()/((double)numberOfColors);
-            }
-            return Color.fromRGB( (int) Math.round(Math.min(Math.max(red,0),255)),(int) Math.round(Math.min(Math.max(green,0),255)), (int) Math.round(Math.min(Math.max(blue,0),255)));
+        if (color != null) {
+            return color;
         }
-        return color;
+        if (colors.isEmpty()) {
+            ArrayList<Color> defaultColors = new ArrayList<>();
+            for (PotionEffect potionEffect : potionEffects) {
+                defaultColors.add(potionEffectColors.get(potionEffect.getType()));
+            }
+            return mixColors(defaultColors);
+        }
+        return mixColors(colors);
+    }
+
+    private Color mixColors(Collection<Color> colorsToBeMixed) {
+        if (colorsToBeMixed.isEmpty()) {
+            return Color.fromRGB(255,255,255); //Absolute default is white
+        }
+        int numberOfColors = colors.size();
+        double red = 0;
+        double green = 0;
+        double blue = 0;
+        for (Color c : colors) {
+            red += c.getRed()/((double)numberOfColors);
+            green += c.getGreen()/((double)numberOfColors);
+            blue += c.getBlue()/((double)numberOfColors);
+        }
+        return Color.fromRGB( (int) Math.round(Math.min(Math.max(red,0),255)),(int) Math.round(Math.min(Math.max(green,0),255)), (int) Math.round(Math.min(Math.max(blue,0),255)));
     }
 
     public void setPotion(List<PotionEffect> potionEffects) {
@@ -94,11 +108,33 @@ public class CustomPotion extends CustomItem {
         this.color = UtilityMethods.getColorFromString(colorString);
     }
 
-    private static void setPotionEffectColors() {
+    public void addColor(Color color) {
+        colors.add(color);
+    }
+
+    public void removeColor(Color color) {
+        if (colors.contains(color)) {
+            colors.remove(color);
+        }
+    }
+
+    public void addColor(String colorString) {
+        addColor(UtilityMethods.getColorFromString(colorString));
+    }
+
+    public void removeColor(String colorString) {
+        removeColor(UtilityMethods.getColorFromString(colorString));
+    }
+
+    private void setPotionEffectColors() {
         if (potionEffectColors.isEmpty()) {
             PotionMeta potionMeta = ((PotionMeta) new ItemStack(Material.POTION).getItemMeta());
 
             //Effects with predetermined color
+            potionMeta.setBasePotionData(new PotionData(PotionType.FIRE_RESISTANCE));
+            potionEffectColors.put(PotionEffectType.FIRE_RESISTANCE,potionMeta.getColor());
+            potionMeta.setBasePotionData(new PotionData(PotionType.FIRE_RESISTANCE));
+            potionEffectColors.put(PotionEffectType.FIRE_RESISTANCE,potionMeta.getColor());
             potionMeta.setBasePotionData(new PotionData(PotionType.FIRE_RESISTANCE));
             potionEffectColors.put(PotionEffectType.FIRE_RESISTANCE,potionMeta.getColor());
             potionMeta.setBasePotionData(new PotionData(PotionType.INSTANT_DAMAGE));

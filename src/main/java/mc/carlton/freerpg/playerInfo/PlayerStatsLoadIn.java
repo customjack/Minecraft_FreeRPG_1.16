@@ -1,9 +1,8 @@
 package mc.carlton.freerpg.playerInfo;
 
 import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.serverFileManagement.PlayerFilesManager;
-import mc.carlton.freerpg.serverFileManagement.PlayerStatsFilePreparation;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

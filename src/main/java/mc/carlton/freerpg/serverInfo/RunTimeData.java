@@ -1,7 +1,7 @@
 package mc.carlton.freerpg.serverInfo;
 
 import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;

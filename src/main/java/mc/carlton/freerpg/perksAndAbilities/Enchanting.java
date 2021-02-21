@@ -1,7 +1,7 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
 import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentOffer;

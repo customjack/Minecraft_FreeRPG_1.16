@@ -6,7 +6,7 @@ import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.globalVariables.ExpMaps;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.playerInfo.*;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.serverInfo.PlacedBlocksManager;
 import mc.carlton.freerpg.serverInfo.WorldGuardChecks;
 import org.bukkit.*;

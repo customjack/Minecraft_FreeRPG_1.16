@@ -4,7 +4,7 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.BrewingStandUserTracker;
 import mc.carlton.freerpg.perksAndAbilities.Alchemy;
 import mc.carlton.freerpg.playerInfo.ChangeStats;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.BrewingStand;

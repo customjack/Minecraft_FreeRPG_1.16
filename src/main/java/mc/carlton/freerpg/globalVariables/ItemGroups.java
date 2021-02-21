@@ -1,7 +1,7 @@
 package mc.carlton.freerpg.globalVariables;
 
 import mc.carlton.freerpg.customContainers.OldCustomPotion;
-import mc.carlton.freerpg.serverConfig.ConfigLoad;
+import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.serverInfo.MinecraftVersion;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

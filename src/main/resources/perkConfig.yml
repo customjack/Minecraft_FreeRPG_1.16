@@ -63,8 +63,8 @@
 # 6) POTION EFFECTS: The potion effects added to an item.
 #    [TAGS] potion, potionEffect,
 #    [DEFAULT VALUE] [[]] (None)
-#    [EXAMPLE 1] potionEffect: [[effect: SPEED, level: 3, duration: 30]]
-#    [EXAMPLE 2] potion: [[effect: SPEED, level: 3, duration: 30], [effect: JUMP, level: 2, duration: 60]]
+#    [EXAMPLE 1] potionEffect: [[effect: SPEED, level: 3, duration: 30, color: (100,125,55]]
+#    [EXAMPLE 2] potion: [[effect: SPEED, level: 3, duration: 30, color: (255,255,255)], [effect: JUMP, level: 2, duration: 60]]
 #    [EXAMPLE 3] potion: [effect: WATER]
 #    [EXAMPLE 4] potion: [effect: INSTANT_HEAL, isUpgraded: true]
 #    [EXAMPLE 5] potionEffect: [effect: SPEED, isExtended: true]
@@ -75,19 +75,16 @@
 #            Case 1) and 2) are differentiated by the number of brackets.
 #            In case 2) multiple effects can be listed, so there are two sets of brackets (like this: "[[...],[...],...,[...]]")
 #            In case 1) only one vanilla effect can be given to a potion, so there is only one set of brackets (like this "[...]")
-#            The level and duration tags only apply to custom effect potions. They will be ignored otherwise.
-#            The isUpgraded and isExtended tags only apply to vcanilla potions. They will be ignored otherwise.
+#            The level, duration, and color tags only apply to custom effect potions. They will be ignored otherwise.
+#            The isUpgraded and isExtended tags only apply to vanilla potions. They will be ignored otherwise.
 #            If the material is not "POTION", this entry is ignored.
+#            level has a default value of 1
+#            duration has a default value of 0
+#            color is ignored if not supplied. When a potion has multiple colors specified, those colors are mixed. If no color is supplied, a default color is used based on the effects.
+#            isExtended has a default value of false
+#            isUpgraded has a default value of true
 #
-#
-# 7) COLOR: The color of a potion. Must be an RGB triplet.
-#    [TAGS] color, potionColor
-#    [DEFAULT VALUE] Varies (all effect colors are mixed)
-#    [EXAMPLE] color: (255,0,0)
-#    [NOTES] If the material is not "POTION", this entry is ignored. If the potion effeect is a vanilla minecraft potion, this entry is ignored.
-#            In other words, the color only applies to custom effect potions.
-#
-# 8) WEIGHT: the relative probabilistic weight that something drops
+# 7) WEIGHT: the relative probabilistic weight that something drops
 #    [TAGS] weight
 #    [DEFAULT VALUE] 1
 #    [EXAMPLE] weight: 100
@@ -97,7 +94,7 @@
 #            This property of an item is not always relevant (ex. this will do nothing if added to an item in a crafting recipe)
 #            Weights CAN be decimals, despite the fact that I always use integers.
 #
-# 9) PROBABILITY: The rate at which an item drops
+# 8) PROBABILITY: The rate at which an item drops
 #    [TAGS] prob, probability, staticProbability
 #    [DEFAULT VALUE] 1
 #    [EXAMPLE] prob: 0.001
@@ -108,17 +105,24 @@
 #            This property of an item is not always relevant (ex. this will do nothing if added to an item in a crafting recipe)
 #            Static probability will override weight.
 #
-# 10) EXPERIENCE: The amount of experience rewarded when the item is given.
+# 9) EXPERIENCE: The amount of experience rewarded when the item is given.
 #    [TAGS] exp, experience
 #    [DEFAULT VALUE] 0
 #    [EXAMPLE] exp: 500
 #    [NOTES] The exp drop is given for the skill the item is under. For now, you cannot give mining experience for something under digging, for example.
 #
+# 10) NAME: The item name given to the item
+#    [TAGS] name, itemName
+#    [DEFAULT VALUE] None
+#    [EXAMPLE] name: "The Pickaxe"
+#    [NOTES] The name can use alternate color codes.
+#            For example: "&4ADMIN ITEM" should display in red
 #
 # EXAMPLES OF CUSTOM ITEMS:
 # 1) [drop: COAL, amount: 1, exp: 200,  weight: 500]
 # 2) [drop: IRON_HELMET, exp: 1750, weight: 1, durability: [upper: 0.00, lower: 0.85], enchantmentBounds: [upper: 30, lower: 30], weight: 30,  staticEnchantments: [[enchant: RESPIRATION, level: 3]]]
-# 3) [item: POTION, amount: 1, exp: 0, potion: [effect: INSTANT_HEAL, isUpgraded: true]
+# 3) [item: POTION, amount: 1, exp: 0, potion: [effect: INSTANT_HEAL, isUpgraded: true]]
+# 4) [drop: DIAMOND_SWORD, amount: 1, name="FreeRPG Item"]
 #
 #
 #
@@ -225,52 +229,52 @@
 
 
 global:
-  skill_1A: #Gatherer
+  skill-1: #Gatherer
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       expMultiplier: 1.2 #Multiplier for experience in Digging, Woodcutting, Mining, Farming, and Fishing
-  skill_1B: #Scholar
+  skill-2: #Scholar
     enabled: true #Change this to false to disable this skill from
-    level1:
+    level-1:
       expMultiplier: 1.2 #Multiplier for experience in Repair, Agility, Brewing, Smelting, and Enchanting
-  skill_1C: #Fighter
+  skill-3: #Fighter
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       expMultiplier: 1.2 #Multiplier for experience in Archery, Beast Mastery, swordsmanship, Defense, and Axe Mastery
-  skill_2A: #Hard Work
+  skill-4: #Hard Work
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       skillTokenIncrease: 1 #Number of skill tokens added to Digging, Woodcutting, Mining, Farming, and Fishing
       passiveTokenIncrease: 0 #Number of passive tokens added to Digging, Woodcutting, Mining, Farming, and Fishing
-  skill_2B: #Research
+  skill-5: #Research
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       skillTokenIncrease: 1 #Number of skill tokens added to Repair, Agility, Brewing, Smelting, and Enchanting
       passiveTokenIncrease: 0 #Number of passive tokens added to Repair, Agility, Brewing, Smelting, and Enchanting
-  skill_2C: #Training
+  skill-6: #Training
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       skillTokenIncrease: 1 #Number of skill tokens added to Archery, Beast Mastery, swordsmanship, Defense, and Axe Mastery
       passiveTokenIncrease: 0 #Number of passive tokens added to Archery, Beast Mastery, swordsmanship, Defense, and Axe Mastery
-  skill_3: #Soul Harvesting
+  skill-7: #Soul Harvesting
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       #Mobs that will drop souls. You must provide the mob name spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
-      affectedMobs: [SPIDER,CAVE_SPIDER,ENDERMAN,
+      affected-mobList: [SPIDER,CAVE_SPIDER,ENDERMAN,
                      BLAZE,CREEPER,DROWNED,ELDER_GUARDIAN,
                      ENDERMITE,EVOKER,GHAST,GUARDIAN,
                      HUSK,MAGMA_CUBE,PHANTOM,PILLAGER,
                      RAVAGER,SHULKER,SKELETON,SLIME,
                      STRAY,VEX,VINDICATOR,WITCH,
                      WITHER_SKELETON,ZOMBIE,ZOMBIE_VILLAGER]
-  skill_4C: #Reincarnation+
+  skill-8: #Reincarnation+
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       chanceToKeepValuable: 0.5 #Probability of keeping some a valuable
       minimumPortionKept: 0.0 #Minimum potion of the saved valuable item kept (the player will always keep at least 1 if the chanceToKeepValuable roll is good enough)
       maximumPortionKept: 1.0 #Maximum portion of the saved valuable item kept
-      #Items that are considered valuable. You must provide the item name spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-      valuableItems: [IRON_ORE,GOLD_ORE,DIAMOND_ORE,EMERALD_ORE,REDSTONE_ORE,LAPIS_ORE,
+      #Items that have a chance of being kept on death. You must provide the item name spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+      affected-itemList: [IRON_ORE,GOLD_ORE,DIAMOND_ORE,EMERALD_ORE,REDSTONE_ORE,LAPIS_ORE,
                        IRON_BLOCK,GOLD_BLOCK,DIAMOND_BLOCK,EMERALD_BLOCK,REDSTONE_BLOCK,LAPIS_BLOCK,
                        SLIME_BLOCK,SPONGE,NETHER_QUARTZ_ORE,NETHER_WART_BLOCK,DRAGON_EGG,SHULKER_BOX,
                        ENCHANTING_TABLE,ANVIL,BEACON,BREWING_STAND,CAKE,JUKEBOX,
@@ -285,9 +289,9 @@ global:
                        NAME_TAG,TIPPED_ARROW,TOTEM_OF_UNDYING,SPECTRAL_ARROW,DIAMOND,GOLD_INGOT,
                        HEART_OF_THE_SEA,DRAGON_BREATH,EMERALD,NAUTILUS_SHELL,NETHER_STAR,SLIME_BALL,
                        RABBIT_FOOT]
-  skill_4D: #Avatar
+  skill-9: #Avatar
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       effectChance: 0.10 #Chance the perk activates
       # List of custom effects given.
       effectsGiven:
@@ -308,21 +312,21 @@ global:
         - [effect: INCREASE_DAMAGE,   level: 1, duration: 10.0]
         - [effect: REGENERATION,      level: 1, duration: 10.0]
         - [effect: SATURATION,        level: 1, duration: 10.0]
-  skill_M: #Master of the Arts
+  skill-10: #Master of the Arts
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       cooldownMultiplier: 0.67 #Cooldowns are multiplied by this number
 digging:
-  passive1: #Big Dig Duration
+  passive-1: #Big Dig Duration
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 2.0 #Starting duration in seconds
-    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
-    increasePerLevel: 0.02 #Number of seconds the duration increases each level
-  passive2: #Treasure Chance
+    allowedRange: [0.0, INF] #The range of possible durations (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive-2: #Treasure Chance
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 0.01 #Starting likelihood
-    maxValue: 0.25 #The maximum likelihood
-    increasePerLevel: 0.00005 #Increase in likelihood each level
+    allowedRange: [0.0, 0.25] #The allowed range of likelihoods (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.00005 #Increase in likelihood each level
     # Drop table for this skill. Use a list of custom drops. They act as the default treasures for this skill.
     dropTable:
       - [drop: GLOWSTONE_DUST, amount: 1, exp: 100,  weight: 52]
@@ -330,16 +334,16 @@ digging:
       - [drop: STRING,         amount: 1, exp: 100,  weight: 52]
       - [drop: IRON_NUGGET,    amount: 1, exp: 100,  weight: 52]
       - [drop: COBWEB,         amount: 1, exp: 100,  weight: 52]
-  skill_1A: #Mo' Drops
+  skill-1: #Mo' Drops
     enabled: true #Change this to false to disable this skill from working
     # Drop tables added for this skill. Use a list of custom drops.
-    level1:
+    level-1:
       dropsAdded:
         - [drop: GOLD_INGOT,          amount: 1, exp: 100, weight: 52]
-    level2:
+    level-2:
       dropsAdded:
         - [drop: NAME_TAG,            amount: 1, exp: 150, weight: 52]
-    level3:
+    level-3:
       dropsAdded:
         - [drop: MUSIC_DISC_STAL,     amount: 1, exp: 160, weight: 4 ]
         - [drop: MUSIC_DISC_MELLOHI,  amount: 1, exp: 160, weight: 4 ]
@@ -354,206 +358,206 @@ digging:
         - [drop: MUSIC_DISC_STRAD,    amount: 1, exp: 160, weight: 4 ]
         - [drop: MUSIC_DISC_13,       amount: 1, exp: 160, weight: 4 ]
         - [drop: MUSIC_DISC_PIGSTEP,  amount: 1, exp: 160, weight: 4 ]
-    level4:
+    level-4:
       dropsAdded:
         - [drop: DIAMOND_HORSE_ARMOR, amount: 1, exp: 170, weight: 13]
         - [drop: GOLDEN_HORSE_ARMOR,  amount: 1, exp: 170, weight: 13]
         - [drop: IRON_HORSE_ARMOR,    amount: 1, exp: 170, weight: 13]
         - [drop: LEATHER_HORSE_ARMOR, amount: 1, exp: 170, weight: 13]
-    level5:
+    level-5:
       dropsAdded:
         - [drop: DIAMOND,             amount: 1, exp: 2000, prob: 0.0025]
-  skill_1B: #Double Treasure
+  skill-2: #Double Treasure
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       doubleTreasureChance: 0.05 #Total Chance of receiving double treasure
-    level2:
+    level-2:
       doubleTreasureChance: 0.10 #Total Chance of receiving double treasure
-    level3:
+    level-3:
       doubleTreasureChance: 0.15 #Total Chance of receiving double treasure
-    level4:
+    level-4:
       doubleTreasureChance: 0.20 #Total Chance of receiving double treasure
-    level5:
+    level-5:
       doubleTreasureChance: 0.25 #Total Chance of receiving double treasure
-  skill_2A: #Rarer Drops
+  skill-3: #Rarer Drops
     enabled: true #Change this to false to disable this skill from working
     # Drop tables added for this skill. Use a list of custom drops.
-    level1:
+    level-1:
       dropsAdded:
         - [drop: EMERALD,          amount: 1, exp: 180,  prob: 0.022900]
-    level2:
+    level-2:
       dropsAdded:
         - [drop: ENCHANTED_BOOK,   amount: 1, exp: 350,  prob: 0.001275, enchantmentBounds: [lower: 30, upper: 30, isTreasure: true]]
-    level3:
+    level-3:
       dropsAdded:
         - [drop: DRAGON_BREATH,    amount: 1, exp: 600,  prob: 0.008350]
-    level4:
+    level-4:
       dropsAdded:
         - [drop: TOTEM_OF_UNDYING, amount: 1, exp: 2050, prob: 0.002500]
-    level5:
+    level-5:
       dropsAdded:
         - [drop: NETHER_STAR,      amount: 1, exp: 4000, prob: 0.001000]
-  skill_2B: #Soul Stealer
+  skill-4: #Soul Stealer
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       likelihoodIncrease: 0.05 #Total likelihood Increase
-      effectedBlocks: [SOUL_SAND] #Blocks that boost the treasure likelihood
-    level2:
+      affected-blockList: [SOUL_SAND] #Blocks that boost the treasure likelihood
+    level-2:
       likelihoodIncrease: 0.10 #Total likelihood Increase
-      effectedBlocks: [SOUL_SAND] #Blocks that boost the treasure likelihood
-    level3:
+      affected-blockList: [SOUL_SAND] #Blocks that boost the treasure likelihood
+    level-3:
       likelihoodIncrease: 0.15 #Total likelihood Increase
-      effectedBlocks: [SOUL_SAND] #Blocks that boost the treasure likelihood
-    level4:
+      affected-blockList: [SOUL_SAND] #Blocks that boost the treasure likelihood
+    level-4:
       likelihoodIncrease: 0.20 #Total likelihood Increase
-      effectedBlocks: [SOUL_SAND] #Blocks that boost the treasure likelihood
-    level5:
+      affected-blockList: [SOUL_SAND] #Blocks that boost the treasure likelihood
+    level-5:
       likelihoodIncrease: 0.25 #Total likelihood Increase
-      effectedBlocks: [SOUL_SAND] #Blocks that boost the treasure likelihood
-  skill_3A: #Flinter Finder
+      affected-blockList: [SOUL_SAND] #Blocks that boost the treasure likelihood
+  skill-5: #Flinter Finder
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       flintDropChance: 1.0 #Chance that gravel drops flint
-  skill_3B: #Shovel Knight
+  skill-6: #Shovel Knight
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       damageMultiplier: 2.0 #Multiplier on damage done by shovels
-  skill_M: #Mega Dig
+  skill-7: #Mega Dig
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       treasureRate: 0.20 #Nerf on the treasure rate when using Mega Dig (keep in mind 9 blocks can be broken at once)
       expMultiplier: 0.2 #EXP nerf when using the Mega Dig skill
       durabilityModifier: 1.0 #Average durability points of damaged removed per block broken (without unbreaking)
 woodcutting:
-  passive1: #Timber Duration
+  passive-1: #Timber Duration
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 2.0 #Starting duration in seconds
-    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
-    increasePerLevel: 0.02 #Number of seconds the duration increases each level
-  passive2: #Double Drops
+    allowedRange: [0.0, INF] #The allowed range of durations, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive-2: #Double Drops
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 0.00 #Starting probability
-    maxValue: 1.0 #Maximum probability
-    increasePerLevel: 0.0005 #Probability increase per level
+    allowedRange: [0.0, 1.0] #The allowed range of probabilities (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.0005 #Probability increase per level
     # Blocks double drops applies to
     # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
     # Blocks that are not spelled correctly or do not exist in the current minecraft version are ignored
-    effectedBlocks: [ACACIA_LOG,BIRCH_LOG,DARK_OAK_LOG,OAK_LOG,SPRUCE_LOG,JUNGLE_LOG,
+    affected-blockList: [ACACIA_LOG,BIRCH_LOG,DARK_OAK_LOG,OAK_LOG,SPRUCE_LOG,JUNGLE_LOG,
                      STRIPPED_ACACIA_LOG,STRIPPED_BIRCH_LOG,STRIPPED_DARK_OAK_LOG,STRIPPED_JUNGLE_LOG,
                      STRIPPED_OAK_LOG,STRIPPED_SPRUCE_LOG,CRIMSON_STEM,WARPED_STEM,
                      STRIPPED_CRIMSON_STEM,STRIPPED_WARPED_STEM]
-  skill_1A: #Zelous Roots
+  skill-1: #Zelous Roots
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       averageMinecraftExp: 0.2 #Average Minecraft rewarded per log chopped
-    level2:
+    level-2:
       averageMinecraftExp: 0.4 #Average Minecraft rewarded per log chopped
-    level3:
+    level-3:
       averageMinecraftExp: 0.6 #Average Minecraft rewarded per log chopped
-    level4:
+    level-4:
       averageMinecraftExp: 0.8 #Average Minecraft rewarded per log chopped
-    level5:
+    level-5:
       averageMinecraftExp: 1.0 #Average Minecraft rewarded per log chopped
-  skill_1B: #Fresh Arms
+  skill-2: #Fresh Arms
     enabled: true #Change this to false to disable this skill from working
     # Custom effects added for this skill.
-    level1:
+    level-1:
       effectChance: 1.0 #Chance the perk activates
       effectsGiven:
         - [effect: HASTE, level: 1, duration: 12, delay: 0.0, prob: 1.0] #Example of how to use prob
-    level2:
+    level-2:
       effectChance: 1.0 #Chance the perk activates
       effectsGiven:
         - [effect: HASTE, level: 1, duration: 24]
-    level3:
+    level-3:
       effectChance: 1.0 #Chance the perk activates
       effectsGiven:
         - [effect: HASTE, level: 1, duration: 36]
-    level4:
+    level-4:
       effectChance: 1.0 #Chance the perk activates
       effectsGiven:
         - [effect: HASTE, level: 1, duration: 48]
-    level5:
+    level-5:
       effectChance: 1.0 #Chance the perk activates
       effectsGiven:
         - [effect: HASTE, level: 1, duration: 60]
-  skill_2A: #Hidden Knowledge (More coming soon for this one)
+  skill-3: #Hidden Knowledge (More coming soon for this one)
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       dropChance: 0.002 #Total drop chance
-    level2:
+    level-2:
       dropChance: 0.004 #Total drop chance
-    level3:
+    level-3:
       dropChance: 0.006 #Total drop chance
-    level4:
+    level-4:
       dropChance: 0.008 #Total drop chance
-    level5:
+    level-5:
       dropChance: 0.010 #Total drop chance
-  skill_2B: #Leaf Scavenger
+  skill-4: #Leaf Scavenger
     enabled: true #Change this to false to disable this skill from working
     # drop tables for each level of leaf scavenger. Use a list of custom items.
     # It is not recommended to use weight here because these drops are rolled every time leaf block is broken.
     # In other words, using weight will cause something to be dropped every time.
     # If you really want to use weight, you can drop nothing by setting amount to 0.
-    level1:
+    level-1:
       dropTable:
         - [drop: FEATHER,                amount: 1, exp: 150,  prob: 0.0200]
-    level2:
+    level-2:
       dropTable:
         - [drop: FEATHER,                amount: 1, exp: 150,  prob: 0.0200]
         - [drop: GOLD_NUGGET,            amount: 1, exp: 180,  prob: 0.0200]
-    level3:
+    level-3:
       dropTable:
         - [drop: FEATHER,                amount: 1, exp: 150,  prob: 0.0200]
         - [drop: GOLD_NUGGET,            amount: 1, exp: 180,  prob: 0.0200]
         - [drop: GOLDEN_APPLE,           amount: 1, exp: 800,  prob: 0.0025]
-    level4:
+    level-4:
       dropTable:
         - [drop: FEATHER,                amount: 1, exp: 150,  prob: 0.0200]
         - [drop: GOLD_NUGGET,            amount: 1, exp: 180,  prob: 0.0200]
         - [drop: GOLDEN_APPLE,           amount: 1, exp: 800,  prob: 0.0025]
         - [drop: EXPERIENCE_BOTTLE,      amount: 1, exp: 400,  prob: 0.0075]
-    level5:
+    level-5:
       dropTable:
         - [drop: FEATHER,                amount: 1, exp: 150,  prob: 0.0200]
         - [drop: GOLD_NUGGET,            amount: 1, exp: 180,  prob: 0.0200]
         - [drop: GOLDEN_APPLE,           amount: 1, exp: 800,  prob: 0.0025]
         - [drop: EXPERIENCE_BOTTLE,      amount: 1, exp: 400,  prob: 0.0075]
         - [drop: ENCHANTED_GOLDEN_APPLE, amount: 1, exp: 1500, prob: 0.0005]
-  skill_3A: #Timber +
+  skill-5: #Timber +
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       newBreakLimit: 128
-  skill_3B: #Leaf Blower
+  skill-6: #Leaf Blower
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       durabilityModifier: 1.0  #Average durability points of damaged removed per block broken (without unbreaking)
       maxBlocksBroken: 30 #Maximum number of blocks broken by one leaf blower usage
-  skill_M: #Able Axe
+  skill-7: #Able Axe
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       effectiveness: 0.50 #Effectiveness multiplier for double drops, zealous roots, and hidden knowledge when using timber
 mining:
-  passive1: #Berserk Pick Duration
+  passive-1: #Berserk Pick Duration
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 2.0 #Starting duration in seconds
-    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
-    increasePerLevel: 0.02 #Number of seconds the duration increases each level
-  passive2: #Double Drops
+    allowedRange: [0.0, INF] #The allowed range of durations, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive-2: #Double Drops
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 0.00 #Starting probability
-    maxValue: 1.0 #Maximum probability
-    increasePerLevel: 0.0005 #Increase in probability each level
+    allowedRange: [0.0, 1.0] #The allowed range of probabilities (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.0005 #Increase in probability each level
     # Blocks double drops applies to
     # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
     # Blocks that are not spelled correctly or do not exist in the current minecraft version are ignored
-    effectedBlocks: [REDSTONE_ORE,NETHER_QUARTZ_ORE,LAPIS_ORE,IRON_ORE,GOLD_ORE,
+    affected-blockList: [REDSTONE_ORE,NETHER_QUARTZ_ORE,LAPIS_ORE,IRON_ORE,GOLD_ORE,
                      EMERALD_ORE,DIAMOND_ORE,COAL_ORE,NETHER_GOLD_ORE,ANCIENT_DEBRIS,GILDED_BLACKSTONE]
-  passive3: #Blast Mining
+  passive-3: #Blast Mining
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 0.00 #Starting probability
-    maxValue: 1.0 #Maximum probability
-    increasePerLevel: 0.0001 #Increase in probability each level
+    allowedRange: [0.0, 1.0] #The allowed range of probabilities, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.0001 #Increase in probability each level
     # Drop table for this skill. Provide a list of custom items.
     dropTable:
       - [drop: COAL,            amount: 1, exp: 200,  weight: 500]
@@ -564,44 +568,44 @@ mining:
       - [drop: REDSTONE,        amount: 1, exp: 500,  weight: 90 ]
       - [drop: DIAMOND,         amount: 1, exp: 1000, weight: 9  ]
       - [drop: NETHERITE_SCRAP, amount: 1, exp: 1500, weight: 1  ]
-  skill_1A: #Wasteless Haste
+  skill-1: #Wasteless Haste
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       effectChance: 1.0 #Chance the effects are given
       effectsGiven: # Provide a list of custom effects
         - [effect: HASTE, level: 1, duration: 2, prob: 1.0] #Example of how to use prob
-    level2:
+    level-2:
       effectChance: 1.0  #Chance the effects are given
       effectsGiven: # Provide a list of custom effects
         - [effect: HASTE, level: 1, duration: 5]
-    level3:
+    level-3:
       effectChance: 1.0  #Chance the effects are given
       effectsGiven: # Provide a list of custom effects
         - [effect: HASTE, level: 1, duration: 10]
-    level4:
+    level-4:
       effectChance: 1.0  #Chance the effects are given
       effectsGiven: # Provide a list of custom effects
         - [effect: HASTE, level: 2, duration: 5, delay: 0]
         - [effect: HASTE, level: 1, duration: 5, delay: 5]
-    level5:
+    level-5:
       effectChance: 1.0  #Chance the effects are given
       effectsGiven: # Provide a list of custom effects
         - [effect: HASTE, level: 2, duration: 10]
-  skill_1B: #More Bombs
+  skill-2: #More Bombs
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       additionalTNTcrafted: 1 #Integer value of total additional TNT crafted
-    level2:
+    level-2:
       additionalTNTcrafted: 2 #Integer value of total additional TNT crafted
-    level3:
+    level-3:
       additionalTNTcrafted: 3 #Integer value of total additional TNT crafted
-    level4:
+    level-4:
       additionalTNTcrafted: 4 #Integer value of total additional TNT crafted
-    level5:
+    level-5:
       additionalTNTcrafted: 5 #Integer value of total additional TNT crafted
-  skill_2A: #Treasure Seeker
+  skill-3: #Treasure Seeker
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       dropChance: 0.01 #Probability that treasure will be rolled
       effectedBlocks: [STONE] #Blocks that will cause the treasure roll
       # Drop table for this skill. Provide a list of custom items.
@@ -614,7 +618,7 @@ mining:
         - [drop: REDSTONE,        amount: 1, exp: 500,  weight: 90 ]
         - [drop: DIAMOND,         amount: 1, exp: 1000, weight: 9  ]
         - [drop: NETHERITE_SCRAP, amount: 1, exp: 1500, weight: 1  ]
-    level2:
+    level-2:
       dropChance: 0.02 #Probability that treasure will be rolled
       effectedBlocks: [STONE] #Blocks that will cause the treasure roll
       # Drop table for this skill. Provide a list of custom items.
@@ -627,7 +631,7 @@ mining:
         - [drop: REDSTONE,        amount: 1, exp: 500,  weight: 100]
         - [drop: DIAMOND,         amount: 1, exp: 1000, weight: 18 ]
         - [drop: NETHERITE_SCRAP, amount: 1, exp: 1500, weight: 2  ]
-    level3:
+    level-3:
       dropChance: 0.03 #Probability that treasure will be rolled
       effectedBlocks: [STONE] #Blocks that will cause the treasure roll
       # Drop table for this skill. Provide a list of custom items.
@@ -640,7 +644,7 @@ mining:
         - [drop: REDSTONE,        amount: 1, exp: 500,  weight: 110]
         - [drop: DIAMOND,         amount: 1, exp: 1000, weight: 27 ]
         - [drop: NETHERITE_SCRAP, amount: 1, exp: 1500, weight: 3  ]
-    level4:
+    level-4:
       dropChance: 0.04 #Probability that treasure will be rolled
       effectedBlocks: [STONE] #Blocks that will cause the treasure roll
       # Drop table for this skill. Provide a list of custom items.
@@ -653,7 +657,7 @@ mining:
         - [drop: REDSTONE,        amount: 1, exp: 500,  weight: 100]
         - [drop: DIAMOND,         amount: 1, exp: 1000, weight: 36 ]
         - [drop: NETHERITE_SCRAP, amount: 1, exp: 1500, weight: 4  ]
-    level5:
+    level-5:
       dropChance: 0.05 #Probability that treasure will be rolled
       effectedBlocks: [STONE] #Blocks that will cause the treasure roll
       # Drop table for this skill. Provide a list of custom items.
@@ -666,186 +670,186 @@ mining:
         - [drop: REDSTONE,        amount: 1, exp: 500,  weight: 70 ]
         - [drop: DIAMOND,         amount: 1, exp: 1000, weight: 45 ]
         - [drop: NETHERITE_SCRAP, amount: 1, exp: 1500, weight: 5  ]
-  skill_2B: #Bomb-boyage
+  skill-4: #Bomb-boyage
     enabled: true #Change this to false to disable this skill from working
     #Base TNT power is 4.0. The formula for TNT explosion radius is complicated, but a rule of thumb is each additional
     #0.5 power is about 1 increased block radius
-    level1:
+    level-1:
       tntPowerIncrease: 0.5 #Total TNT power increase
-    level2:
+    level-2:
       tntPowerIncrease: 1.0 #Total TNT power increase
-    level3:
+    level-3:
       tntPowerIncrease: 1.5 #Total TNT power increase
-    level4:
+    level-4:
       tntPowerIncrease: 2.0 #Total TNT power increase
-    level5:
+    level-5:
       tntPowerIncrease: 2.5 #Total TNT power increase
-  skill_3A: #vein Miner
+  skill-5: #vein Miner
     enabled: true #Change this to false to disable this skill from working
-    level1:
-      veinMinerBlocks: [REDSTONE_ORE,NETHER_QUARTZ_ORE,LAPIS_ORE,IRON_ORE,GOLD_ORE,EMERALD_ORE,DIAMOND_ORE,COAL_ORE,GLOWSTONE,NETHER_GOLD_ORE,ANCIENT_DEBRIS,GILDED_BLACKSTONE]
-      veinMinerMaximumBlocksBroken: 30 #Set to -1 for no limit (not recommended)
-      veinMinerDurabilityModifier: 1.0 #Average durability points of damaged removed per block broken (without unbreaking)
-      veinMinerExperienceModifier: 1.0 #Multiplier for experience gained from blocks broken by veinMiner
-  skill_3B: #Demolition Man
+    level-1:
+      affected-blockList: [REDSTONE_ORE,NETHER_QUARTZ_ORE,LAPIS_ORE,IRON_ORE,GOLD_ORE,EMERALD_ORE,DIAMOND_ORE,COAL_ORE,GLOWSTONE,NETHER_GOLD_ORE,ANCIENT_DEBRIS,GILDED_BLACKSTONE]
+      maxBlocks: 30 #Set to -1 for no limit (not recommended)
+      durabilityMultiplier: 1.0 #Average durability points of damaged removed per block broken (without unbreaking)
+      expMultiplier: 1.0 #Multiplier for experience gained from blocks broken by veinMiner
+  skill-6: #Demolition Man
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       TNTdamageModifier: 0.0 #Percent of damage taken from TNT explosion (Ex. 0.2 --> 20% TNT damage taken)
-  skill_M: #Triple Trouble
+  skill-7: #Triple Trouble
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       activationRate: 1.0 #Rate at which double drops are converted to triple drops
 farming:
-  passive1: #Natural Regeneration Duration
+  passive-1: #Natural Regeneration Duration
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 2.0 #Starting duration in seconds
-    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
-    increasePerLevel: 0.02 #Number of seconds the duration increases each level
-  passive2: #Double Drops (Crops)
+    allowedRange: [0.0, INF] #The allowed range of durations, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive-2: #Double Drops (Crops)
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 0.00 #Starting probability
-    maxValue: 1.0 #Maximum probability
-    increasePerLevel: 0.0005 #Increase in probability each level
+    allowedRange: [0.0, 1.0] #The allowed range of probabilities, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.0005 #Increase in probability each level
     # Blocks double drops applies to
     # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
     # Blocks that are not spelled correctly or do not exist in the current minecraft version are ignored
-    effectedBlocks: [WHEAT,BEETROOTS,CARROTS,CHORUS_FLOWER,MELON_STEM,MELON,
+    affected-blockList: [WHEAT,BEETROOTS,CARROTS,CHORUS_FLOWER,MELON_STEM,MELON,
                      NETHER_WART,POTATOES,PUMPKIN_STEM,PUMPKIN,SWEET_BERRY_BUSH,COCOA,
                      SUGAR_CANE,BAMBOO,CACTUS,KELP,KELP_PLANT]
-  passive3: #Double Drops (Animals)
+  passive-3: #Double Drops (Animals)
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 0.00 #Starting probability
-    maxValue: 1.0 #Maximum probability
-    increasePerLevel: 0.0005 #Increase in probability each level
+    allowedRange: [0.0, 1.0] #The allowed range of probabilities, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.0005 #Increase in probability each level
     doubleShearDrops: true #Set to false for double drops to not apply to shearing
     # Mobs double drops applies to
     # Select mobs from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
     # Mobs that are not spelled correctly or do not exist in the current minecraft version are ignored
-    effectedMobs: [CHICKEN,COW,DONKEY,FOX,HORSE,MUSHROOM_COW,
+    affected-mobList: [CHICKEN,COW,DONKEY,FOX,HORSE,MUSHROOM_COW,
                    MULE,PARROT,PIG,RABBIT,SHEEP,SQUID,
                    SKELETON_HORSE,TURTLE]
-  skill_1A: #Better Fertilizer
+  skill-1: #Better Fertilizer
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       saveBonemealChance: 0.10 #Probability bonemeal is saved on use
-    level2:
+    level-2:
       saveBonemealChance: 0.20 #Probability bonemeal is saved on use
-    level3:
+    level-3:
       saveBonemealChance: 0.30 #Probability bonemeal is saved on use
-    level4:
+    level-4:
       saveBonemealChance: 0.40 #Probability bonemeal is saved on use
-    level5:
+    level-5:
       saveBonemealChance: 0.50 #Probability bonemeal is saved on use
-  skill_1B: #Animal Farm
+  skill-2: #Animal Farm
     enabled: true #Change this to false to disable this skill from working
     # Output is a custom item
     # Eventually multiple recipes will be able to be added, but for now just one will be read in
-    level1:
+    level-1:
       recipes:
        - output: [item: COW_SPAWN_EGG, amount: 1] #Output Item
          recipe: [LEATHER,BEEF,LEATHER,BEEF,BONE,BEEF,LEATHER,BEEF,LEATHER] #Crafting Recipe
-    level2:
+    level-2:
       recipes:
         - output: [item: BEE_SPAWN_EGG, amount: 1] #Output Item
           recipe: [AIR,OXEYE_DAISY,AIR,DANDELION,HONEY_BOTTLE,POPPY,AIR,AZURE_BLUET,AIR] #Crafting Recipe
-    level3:
+    level-3:
       recipes:
         - output: [item: MOOSHROOM_SPAWN_EGG, amount: 1] #Output Item
           recipe: [LEATHER,RED_MUSHROOM,LEATHER,BEEF,BONE,BEEF,LEATHER,BEEF,LEATHER] #Crafting Recipe
-    level4:
+    level-4:
       recipes:
         - output: [item: HORSE_SPAWN_EGG, amount: 1] #Output Item
           recipe: [LEATHER,SADDLE,LEATHER,LEATHER,BONE,LEATHER,HAY_BLOCK,HAY_BLOCK,HAY_BLOCK] #Crafting Recipe
-    level5:
+    level-5:
       recipes:
         - output: [item: SLIME_SPAWN_EGG, amount: 1] #Output Item
           recipe: [AIR,AIR,AIR,AIR,SLIME_BALL,SLIME_BALL,AIR,SLIME_BALL,SLIME_BALL] #Crafting Recipe
-  skill_2A: #Farmer's Diet
+  skill-3: #Farmer's Diet
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       foodModifier: 1.20 #Effectiveness multiplier for food
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Food effected by food modifier
-      effectedFood: [GOLDEN_APPLE,GOLDEN_CARROT,BAKED_POTATO,BEETROOT,BEETROOT_SOUP,
+      affected-itemList: [GOLDEN_APPLE,GOLDEN_CARROT,BAKED_POTATO,BEETROOT,BEETROOT_SOUP,
                      BREAD,CARROT,MUSHROOM_STEW,APPLE,CHORUS_FRUIT,DRIED_KELP,MELON_SLICE,
                      POTATO,PUMPKIN_PIE,COOKIE,HONEY_BOTTLE,SWEET_BERRIES]
-    level2:
+    level-2:
       foodModifier: 1.40 #Effectiveness multiplier for food
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Food effected by food modifier
-      effectedFood: [GOLDEN_APPLE,GOLDEN_CARROT,BAKED_POTATO,BEETROOT,BEETROOT_SOUP,
+      affected-itemList: [GOLDEN_APPLE,GOLDEN_CARROT,BAKED_POTATO,BEETROOT,BEETROOT_SOUP,
                      BREAD,CARROT,MUSHROOM_STEW,APPLE,CHORUS_FRUIT,DRIED_KELP,MELON_SLICE,
                      POTATO,PUMPKIN_PIE,COOKIE,HONEY_BOTTLE,SWEET_BERRIES]
-    level3:
+    level-3:
       foodModifier: 1.60 #Effectiveness multiplier for food
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Food effected by food modifier
-      effectedFood: [GOLDEN_APPLE,GOLDEN_CARROT,BAKED_POTATO,BEETROOT,BEETROOT_SOUP,
+      affected-itemList: [GOLDEN_APPLE,GOLDEN_CARROT,BAKED_POTATO,BEETROOT,BEETROOT_SOUP,
                      BREAD,CARROT,MUSHROOM_STEW,APPLE,CHORUS_FRUIT,DRIED_KELP,MELON_SLICE,
                      POTATO,PUMPKIN_PIE,COOKIE,HONEY_BOTTLE,SWEET_BERRIES]
-    level4:
+    level-4:
       foodModifier: 1.80 #Effectiveness multiplier for food
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Food effected by food modifier
-      effectedFood: [GOLDEN_APPLE,GOLDEN_CARROT,BAKED_POTATO,BEETROOT,BEETROOT_SOUP,
+      affected-itemList: [GOLDEN_APPLE,GOLDEN_CARROT,BAKED_POTATO,BEETROOT,BEETROOT_SOUP,
                      BREAD,CARROT,MUSHROOM_STEW,APPLE,CHORUS_FRUIT,DRIED_KELP,MELON_SLICE,
                      POTATO,PUMPKIN_PIE,COOKIE,HONEY_BOTTLE,SWEET_BERRIES]
-    level5:
+    level-5:
       foodModifier: 2.00 #Effectiveness multiplier for food
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Food effected by food modifier
-      effectedFood: [GOLDEN_APPLE,GOLDEN_CARROT,BAKED_POTATO,BEETROOT,BEETROOT_SOUP,
+      affected-itemList: [GOLDEN_APPLE,GOLDEN_CARROT,BAKED_POTATO,BEETROOT,BEETROOT_SOUP,
                      BREAD,CARROT,MUSHROOM_STEW,APPLE,CHORUS_FRUIT,DRIED_KELP,MELON_SLICE,
                      POTATO,PUMPKIN_PIE,COOKIE,HONEY_BOTTLE,SWEET_BERRIES]
-  skill_2B: #Carnivore
+  skill-4: #Carnivore
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       foodModifier: 1.20 #Effectiveness multiplier for food
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Food effected by food modifier
-      effectedFood: [COOKED_MUTTON,COOKED_PORKCHOP,COOKED_BEEF,COOKED_CHICKEN,COOKED_RABBIT,
+      affected-itemList: [COOKED_MUTTON,COOKED_PORKCHOP,COOKED_BEEF,COOKED_CHICKEN,COOKED_RABBIT,
                      RABBIT_STEW,BEEF,MUTTON,PORKCHOP,RABBIT,CHICKEN,ROTTEN_FLESH]
-    level2:
+    level-2:
       foodModifier: 1.40 #Effectiveness multiplier for food
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Food effected by food modifier
-      effectedFood: [COOKED_MUTTON,COOKED_PORKCHOP,COOKED_BEEF,COOKED_CHICKEN,COOKED_RABBIT,
+      affected-itemList: [COOKED_MUTTON,COOKED_PORKCHOP,COOKED_BEEF,COOKED_CHICKEN,COOKED_RABBIT,
                      RABBIT_STEW,BEEF,MUTTON,PORKCHOP,RABBIT,CHICKEN,ROTTEN_FLESH]
-    level3:
+    level-3:
       foodModifier: 1.60 #Effectiveness multiplier for food
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Food effected by food modifier
-      effectedFood: [COOKED_MUTTON,COOKED_PORKCHOP,COOKED_BEEF,COOKED_CHICKEN,COOKED_RABBIT,
+      affected-itemList: [COOKED_MUTTON,COOKED_PORKCHOP,COOKED_BEEF,COOKED_CHICKEN,COOKED_RABBIT,
                      RABBIT_STEW,BEEF,MUTTON,PORKCHOP,RABBIT,CHICKEN,ROTTEN_FLESH]
-    level4:
+    level-4:
       foodModifier: 1.80 #Effectiveness multiplier for food
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Food effected by food modifier
-      effectedFood: [COOKED_MUTTON,COOKED_PORKCHOP,COOKED_BEEF,COOKED_CHICKEN,COOKED_RABBIT,
+      affected-itemList: [COOKED_MUTTON,COOKED_PORKCHOP,COOKED_BEEF,COOKED_CHICKEN,COOKED_RABBIT,
                      RABBIT_STEW,BEEF,MUTTON,PORKCHOP,RABBIT,CHICKEN,ROTTEN_FLESH]
-    level5:
+    level-5:
       foodModifier: 2.00 #Effectiveness multiplier for food
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Food effected by food modifier
-      effectedFood: [COOKED_MUTTON,COOKED_PORKCHOP,COOKED_BEEF,COOKED_CHICKEN,COOKED_RABBIT,
+      affected-itemList: [COOKED_MUTTON,COOKED_PORKCHOP,COOKED_BEEF,COOKED_CHICKEN,COOKED_RABBIT,
                      RABBIT_STEW,BEEF,MUTTON,PORKCHOP,RABBIT,CHICKEN,ROTTEN_FLESH]
-  skill_3A: #Green Thumb
+  skill-5: #Green Thumb
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       melonRegrowthChance: 0.5 #Probability Melon regows when broken with ability active
       pumpkinRegrowthChance: 0.5 #Probability Melon regows when broken with ability active
       exponentialDecayFactor: -0.06 #The greater this value is, the higher chance a crop regrows at a later age
-  skill_3B: #Growth Hormones
+  skill-6: #Growth Hormones
     enabled: true #Change this to false to disable this skill from working
-    level1:
-      useableItems: [SUGAR] #Items that can be used to active that growth Hormones Ability
-  skill_M: #One with Nature
+    level-1:
+      affected-itemList: [SUGAR] #Items that can be used to active that growth Hormones Ability
+  skill-7: #One with Nature
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       # Blocks that activate One with nature when stood on
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Blocks that are not spelled correctly or do not exist in the current minecraft version are ignored
-      effectedBlocks: [GRASS_BLOCK]
+      affected-blockList: [GRASS_BLOCK]
       # Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
       # Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional), {probability (default == 1)} ]
       # Note: effectChance is the chance that the perk activates, while the probabilities in effectsGiven are the chance that particular
@@ -855,27 +859,27 @@ farming:
         - [effect: REGENERATION, level: 1, duration: 3, delay: 0.0, prob: 1.0] #Example of how to use delay and prob
       refreshTimer: 2.0 #Number of seconds to between server checks to give the buff
 fishing:
-  passive1: #Super Bait
+  passive-1: #Super Bait
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 1.0 #Starting duration in seconds
-    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
-    increasePerLevel: 0.01 #Number of seconds the duration increases each level
-  passive2: #Double catches
+    allowedRange: [0.0, INF] #The allowed range of durations, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.01 #Number of seconds the duration increases each level
+  passive-2: #Double catches
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 0.00 #Starting probability
-    maxValue: 1.0 #Maximum probability
-    increasePerLevel: 0.0005  #Increase in probability each level
-  passive3: #Treasure Finder
+    allowedRange: [0.0, 1.0] #The allowed range of probabilities, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.0005  #Increase in probability each level
+  passive-3: #Treasure Finder
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 0.10 #Starting probability
-    minValue: 0.00 #Minimum probability
-    decreasePerLevel: 0.00005 #Decrease in probability each level
-  skill_1A: #Rob
+    allowedRange: [0.0, 0.25] #The allowed range of probabilities, (INF or -INF represent positive and negative infinity)
+    changePerLevel: -0.00005 #Decrease in probability each level
+  skill-1: #Rob
     enabled: true #Change this to false to disable this skill from working
     # NOTE:
     # The drop table for this skill is formatted rather redundantly
     # This is a conscious choice to improve readability
-    level1:
+    level-1:
       robChance: 0.15 #Chance of Rob skill activating
       # Mobs rob applies to and what it drops
       # Select mobs from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
@@ -884,7 +888,7 @@ fishing:
       # This is basically a custom drop with a mob appended to it.
       # The weight only matters if there are multiple drops for a single mob
       # To add multiple drops for a mob, list the mob multiple times with the different associated drops
-      dropTable:
+      mobDropTable:
         - [mob: BLAZE,            drop: BLAZE_ROD,             amount: 1, exp: 300]
         - [mob: GHAST,            drop: GHAST_TEAR,            amount: 1, exp: 300]
         - [mob: GHAST,            drop: GUNPOWDER,             amount: 1, exp: 300]
@@ -943,7 +947,7 @@ fishing:
         - [mob: WITCH,            drop: GLOWSTONE_DUST,        amount: 1, exp: 300]
         - [mob: WITCH,            drop: REDSTONE,              amount: 1, exp: 300]
         - [mob: WITCH,            drop: STICK,                 amount: 1, exp: 300]
-    level2:
+    level-2:
       robChance: 0.30 #Chance of Rob skill activating
       # Mobs rob  applies to
       # Select mobs from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
@@ -951,7 +955,7 @@ fishing:
       # Mobs that are not spelled correctly or do not exist in the current minecraft version are ignored
       # Format: [{Entity Name},{Drop Name},{Amount},{experience gained},{probability weight (optional, default == 1)}]
       # To add multiple drops for a mob, list the mob multiple times with the different associated drops
-      dropTable:
+      mobDropTable:
         - [mob: BLAZE,            drop: BLAZE_ROD,             amount: 1, exp: 300]
         - [mob: GHAST,            drop: GHAST_TEAR,            amount: 1, exp: 300]
         - [mob: GHAST,            drop: GUNPOWDER,             amount: 1, exp: 300]
@@ -1010,7 +1014,7 @@ fishing:
         - [mob: WITCH,            drop: GLOWSTONE_DUST,        amount: 1, exp: 300]
         - [mob: WITCH,            drop: REDSTONE,              amount: 1, exp: 300]
         - [mob: WITCH,            drop: STICK,                 amount: 1, exp: 300]
-    level3:
+    level-3:
       robChance: 0.45 #Chance of Rob skill activating
       # Mobs rob  applies to
       # Select mobs from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
@@ -1018,7 +1022,7 @@ fishing:
       # Mobs that are not spelled correctly or do not exist in the current minecraft version are ignored
       # Format: [{Entity Name},{Drop Name},{Amount},{experience gained},{probability weight (optional, default == 1)}]
       # To add multiple drops for a mob, list the mob multiple times with the different associated drops
-      dropTable:
+      mobDropTable:
         - [mob: BLAZE,            drop: BLAZE_ROD,             amount: 1, exp: 300]
         - [mob: GHAST,            drop: GHAST_TEAR,            amount: 1, exp: 300]
         - [mob: GHAST,            drop: GUNPOWDER,             amount: 1, exp: 300]
@@ -1077,7 +1081,7 @@ fishing:
         - [mob: WITCH,            drop: GLOWSTONE_DUST,        amount: 1, exp: 300]
         - [mob: WITCH,            drop: REDSTONE,              amount: 1, exp: 300]
         - [mob: WITCH,            drop: STICK,                 amount: 1, exp: 300]
-    level4:
+    level-4:
       robChance: 0.60 #Chance of Rob skill activating
       # Mobs rob  applies to
       # Select mobs from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
@@ -1085,7 +1089,7 @@ fishing:
       # Mobs that are not spelled correctly or do not exist in the current minecraft version are ignored
       # Format: [{Entity Name},{Drop Name},{Amount},{experience gained},{probability weight (optional, default == 1)}]
       # To add multiple drops for a mob, list the mob multiple times with the different associated drops
-      dropTable:
+      mobDropTable:
         - [mob: BLAZE,            drop: BLAZE_ROD,             amount: 1, exp: 300]
         - [mob: GHAST,            drop: GHAST_TEAR,            amount: 1, exp: 300]
         - [mob: GHAST,            drop: GUNPOWDER,             amount: 1, exp: 300]
@@ -1144,7 +1148,7 @@ fishing:
         - [mob: WITCH,            drop: GLOWSTONE_DUST,        amount: 1, exp: 300]
         - [mob: WITCH,            drop: REDSTONE,              amount: 1, exp: 300]
         - [mob: WITCH,            drop: STICK,                 amount: 1, exp: 300]
-    level5:
+    level-5:
       robChance: 0.75 #Chance of Rob skill activating
       # Mobs rob  applies to
       # Select mobs from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
@@ -1152,7 +1156,7 @@ fishing:
       # Mobs that are not spelled correctly or do not exist in the current minecraft version are ignored
       # Format: [{Entity Name},{Drop Name},{Amount},{experience gained},{probability weight (optional, default == 1)}]
       # To add multiple drops for a mob, list the mob multiple times with the different associated drops
-      dropTable:
+      mobDropTable:
         - [mob: BLAZE,            drop: BLAZE_ROD,             amount: 1, exp: 300]
         - [mob: GHAST,            drop: GHAST_TEAR,            amount: 1, exp: 300]
         - [mob: GHAST,            drop: GUNPOWDER,             amount: 1, exp: 300]
@@ -1211,9 +1215,9 @@ fishing:
         - [mob: WITCH,            drop: GLOWSTONE_DUST,        amount: 1, exp: 300]
         - [mob: WITCH,            drop: REDSTONE,              amount: 1, exp: 300]
         - [mob: WITCH,            drop: STICK,                 amount: 1, exp: 300]
-  skill_1B: #Scavenger
+  skill-2: #Scavenger
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       baseChance: 0.045 #Base probability of tier being rolled (from any catch)
       # Fill in the drop table with custom items
       dropTable:
@@ -1237,7 +1241,7 @@ fishing:
         - [drop: IRON_LEGGINGS,      amount: 1, exp: 2500, weight: 1,  durability: [lower: 0.00, upper: 0.85], enchantmentBounds: [lower: 1,upper: 3, isTreasure: false]]
         - [drop: IRON_CHESTPLATE,    amount: 1, exp: 2500, weight: 1,  durability: [lower: 0.00, upper: 0.85], enchantmentBounds: [lower: 1,upper: 3, isTreasure: false]]
         - [drop: IRON_HELMET,        amount: 1, exp: 2500, weight: 1,  durability: [lower: 0.00, upper: 0.85], enchantmentBounds: [lower: 1,upper: 3, isTreasure: false]]
-    level2:
+    level-2:
       baseChance: 0.025 #Base probability of tier being rolled (from any catch)
       # Fill in the drop table with custom items
       dropTable:
@@ -1268,7 +1272,7 @@ fishing:
         - [drop: GOLDEN_LEGGINGS,    amount: 1, exp: 3000, weight: 2,  durability: [lower: 0.00,upper: 0.85], enchantmentBounds: [lower: 10,upper: 19, isTreasure: false]]
         - [drop: GOLDEN_CHESTPLATE,  amount: 1, exp: 3000, weight: 2,  durability: [lower: 0.00,upper: 0.85], enchantmentBounds: [lower: 10,upper: 19, isTreasure: false]]
         - [drop: GOLDEN_HELMET,      amount: 1, exp: 3000, weight: 2,  durability: [lower: 0.00,upper: 0.85], enchantmentBounds: [lower: 10,upper: 19, isTreasure: false]]
-    level3:
+    level-3:
       baseChance: 0.015 #Base probability of tier being rolled (from any catch)
       # Fill in the drop table with custom items
       dropTable:
@@ -1327,7 +1331,7 @@ fishing:
         - [drop: GOLDEN_SWORD,         amount: 1,  exp: 3500, weight: 26,  durability: [lower: 0.00, upper: 0.85], enchantmentBounds: [lower: 19, upper: 28, isTreasure: false]]
         - [drop: GOLDEN_AXE,           amount: 1,  exp: 3500, weight: 26,  durability: [lower: 0.00, upper: 0.85], enchantmentBounds: [lower: 19, upper: 28, isTreasure: false]]
         - [drop: GOLDEN_PICKAXE,       amount: 1,  exp: 3500, weight: 26,  durability: [lower: 0.00, upper: 0.85], enchantmentBounds: [lower: 19, upper: 28, isTreasure: false]]
-    level4:
+    level-4:
       baseChance: 0.010 #Base probability of tier being rolled (from any catch)
       # Fill in the drop table with custom items
       dropTable:
@@ -1356,7 +1360,7 @@ fishing:
         - [drop: DIAMOND_SWORD,   amount: 1, exp: 4500, weight: 3,   durability: [lower: 0.00,upper: 0.85], enchantmentBounds: [lower: 28,upper: 30, isTreasure: false]]
         - [drop: DIAMOND_AXE,     amount: 1, exp: 4500, weight: 3,   durability: [lower: 0.00,upper: 0.85], enchantmentBounds: [lower: 28,upper: 30, isTreasure: false]]
         - [drop: DIAMOND_PICKAXE, amount: 1, exp: 4500, weight: 3,   durability: [lower: 0.00,upper: 0.85], enchantmentBounds: [lower: 28,upper: 30, isTreasure: false]]
-    level5:
+    level-5:
       baseChance: 0.005 #Base probability of tier being rolled (from any catch)
       # Fill in the drop table with custom items
       dropTable:
@@ -1417,34 +1421,34 @@ fishing:
         - [drop: IRON_HELMET,        amount: 1, exp: 6500, weight: 30,  durability: [lower: 0.00,upper: 0.85], enchantmentBounds: [lower: 30,upper: 30, isTreasure: false], staticEnchantments: [[enchant: RESPIRATION, level: 3]]      ]
         - [drop: IRON_HELMET,        amount: 1, exp: 6500, weight: 30,  durability: [lower: 0.00,upper: 0.85], enchantmentBounds: [lower: 30,upper: 30, isTreasure: false], staticEnchantments: [[enchant: AQUA_AFFINITY, level: 1]]    ]
         - [drop: IRON_HELMET,        amount: 1, exp: 6500, weight: 30,  durability: [lower: 0.00,upper: 0.85], enchantmentBounds: [lower: 30,upper: 30, isTreasure: false], staticEnchantments: [[enchant: MENDING, level: 1]]          ]
-  skill_2A: #Fisherman's diet
+  skill-3: #Fisherman's diet
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       foodModifier: 1.20 #Effectiveness multiplier for food
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Food effected by food modifier
-      effectedFood: [COOKED_MUTTON,COOKED_COD,COD,SALMON,TROPICAL_FISH,PUFFERFISH,DRIED_KELP]
-    level2:
+      affected-itemList: [COOKED_MUTTON,COOKED_COD,COD,SALMON,TROPICAL_FISH,PUFFERFISH,DRIED_KELP]
+    level-2:
       foodModifier: 1.40 #Effectiveness multiplier for food
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Food effected by food modifier
-      effectedFood: [COOKED_MUTTON,COOKED_COD,COD,SALMON,TROPICAL_FISH,PUFFERFISH,DRIED_KELP]
-    level3:
+      affected-itemList: [COOKED_MUTTON,COOKED_COD,COD,SALMON,TROPICAL_FISH,PUFFERFISH,DRIED_KELP]
+    level-3:
       foodModifier: 1.60 #Effectiveness multiplier for food
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Food effected by food modifier
-      effectedFood: [COOKED_MUTTON,COOKED_COD,COD,SALMON,TROPICAL_FISH,PUFFERFISH,DRIED_KELP]
-    level4:
+      affected-itemList: [COOKED_MUTTON,COOKED_COD,COD,SALMON,TROPICAL_FISH,PUFFERFISH,DRIED_KELP]
+    level-4:
       foodModifier: 1.80 #Effectiveness multiplier for food
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Food effected by food modifier
-      effectedFood: [COOKED_MUTTON,COOKED_COD,COD,SALMON,TROPICAL_FISH,PUFFERFISH,DRIED_KELP]
-    level5:
+      affected-itemList: [COOKED_MUTTON,COOKED_COD,COD,SALMON,TROPICAL_FISH,PUFFERFISH,DRIED_KELP]
+    level-5:
       foodModifier: 2.00 #Effectiveness multiplier for food
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Food effected by food modifier
-      effectedFood: [COOKED_MUTTON,COOKED_COD,COD,SALMON,TROPICAL_FISH,PUFFERFISH,DRIED_KELP]
-  skill_2B: #Filtration
+      affected-itemList: [COOKED_MUTTON,COOKED_COD,COD,SALMON,TROPICAL_FISH,PUFFERFISH,DRIED_KELP]
+  skill-4: #Filtration
     #The configuration for this skill is fairly complicated because Filtration's effect depends on the level for Scavenger
     # The relative portion of probability taken from the decreasingTiers
     # ex. portionShifted = 0.30
@@ -1466,7 +1470,7 @@ fishing:
     # IF all tiers are unlocked. If not, that tier is ignored in both decreasingTiers and increasing tiers and
     # the result changes correspondingly
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       portionShifted: 0.222222 #The portion of the total probability of the decreasingTiers moved to Increasing Tiers
       #Where the probability is leaving and where it is going
       # The weight reflects how much of the probability each tier loses or gains
@@ -1478,7 +1482,7 @@ fishing:
         - [tier: 2, weight: 2]
         - [tier: 2, weight: 2]
         - [tier: 2, weight: 1]
-    level2:
+    level-2:
       portionShifted: 0.444444 #The portion of the total probability of the decreasingTiers moved to Increasing Tiers
       #Where the probability is leaving and where it is going
       # The weight reflects how much of the probability each tier loses or gains
@@ -1490,7 +1494,7 @@ fishing:
         - [tier: 2, weight: 2]
         - [tier: 2, weight: 2]
         - [tier: 2, weight: 1]
-    level3:
+    level-3:
       portionShifted: 0.555555 #The portion of the total probability of the decreasingTiers moved to Increasing Tiers
       #Where the probability is leaving and where it is going
       # The weight reflects how much of the probability each tier loses or gains
@@ -1502,7 +1506,7 @@ fishing:
         - [tier: 2, weight: 6]
         - [tier: 2, weight: 6]
         - [tier: 2, weight: 3]
-    level4:
+    level-4:
       portionShifted: 0.666666 #The portion of the total probability of the decreasingTiers moved to Increasing Tiers
       #Where the probability is leaving and where it is going
       # The weight reflects how much of the probability each tier loses or gains
@@ -1514,7 +1518,7 @@ fishing:
         - [tier: 2, weight: 8]
         - [tier: 2, weight: 8]
         - [tier: 2, weight: 4]
-    level5:
+    level-5:
       portionShifted: 0.777777 #The portion of the total probability of the decreasingTiers moved to Increasing Tiers
       #Where the probability is leaving and where it is going
       # The weight reflects how much of the probability each tier loses or gains
@@ -1526,14 +1530,14 @@ fishing:
         - [tier: 2, weight: 10]
         - [tier: 2, weight: 10]
         - [tier: 2, weight: 5]
-  skill_3A: #Grappling Hook
+  skill-5: #Grappling Hook
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       speedMultiplier: 0.2 #Effects the total speed the player is moved at (higher value --> faster)
       heightAdjustmentMultiplier: 0.1 #Effects the extra upward velocity given to the player (higher value --> higher launch angle)
-  skill_3B: #Hot Rod
+  skill-6: #Hot Rod
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       # Items changed by the hot rod ability
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Items that are not spelled correctly or do not exist in the current minecraft version are ignored
@@ -1545,7 +1549,7 @@ fishing:
       # You must add a "placeholder" drop in a tier to replace. This can be any drop with weight 0.
       # Then, replace that drop here with another drop with a nonzero weight.
       # You can also replace drops listed in config.yml's fishing section
-      changedDrops:
+      dropChanges:
           #Ender Pearls --> Fire Charge
         - oldDrop: [drop: ENDER_PEARL,          amount: 1,  exp: 2500, weight: 88]
           newDrop: [drop: FIRE_CHARGE,          amount: 3,  exp: 2750, weight: 33]
@@ -1633,13 +1637,13 @@ fishing:
           newDrop: [drop: NETHERITE_HELMET,     amount: 1, exp: 7000, weight: 150, durability: [lower: 0.00,upper: 0.85], enchantmentBounds: [lower: 30,upper: 30, isTreasure: false], staticEnchantments: [[enchant: AQUA_AFFINITY, level: 1]]    ]
         - oldDrop: [drop: DIAMOND_HELMET,       amount: 1, exp: 6500, weight: 150, durability: [lower: 0.00,upper: 0.85], enchantmentBounds: [lower: 30,upper: 30, isTreasure: false], staticEnchantments: [[enchant: MENDING, level: 1]]          ]
           newDrop: [drop: NETHERITE_HELMET,     amount: 1, exp: 7000, weight: 150, durability: [lower: 0.00,upper: 0.85], enchantmentBounds: [lower: 30,upper: 30, isTreasure: false], staticEnchantments: [[enchant: MENDING, level: 1]]          ]
-  skill_M: #Fish Person
+  skill-7: #Fish Person
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       # Blocks that activate Fish person when the player is inside of them
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Blocks that are not spelled correctly or do not exist in the current minecraft version are ignored
-      effectedBlocks: [WATER]
+      affected-blockList: [WATER]
       # Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
       # Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional), {probability (default == 1)} ]
       # Note: effectChance is the chance that the perk activates, while the probabilities in effectsGiven are the chance that particular
@@ -1650,182 +1654,182 @@ fishing:
         - [effect: NIGHT_VISION,   level: 1, duration: 15]
       refreshTimer: 2.0 #Number of seconds to between server checks to give the buff
 archery:
-  passive1: #Rapid Fire Duration
+  passive-1: #Rapid Fire Duration
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 2.0 #Starting duration in seconds
-    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
-    increasePerLevel: 0.02 #Number of seconds the duration increases each level
-  passive2: #Retrieval
+    allowedRange: [0.0, INF] #The allowed range of durations, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive-2: #Retrieval
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 0.00 #Starting probability
-    maxValue: 1.0 #Maximum Probability
-    increasePerLevel: 0.0005 #Increase in probability each level
+    allowedRange: [0.0, 1.0] #The allowed range of probabilities, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.0005 #Increase in probability each level
     # Select between ARROW, SPECTRAL_ARROW, TIPPED_ARROW, and FIREWORK
-    retrievedArrows: [ARROW,SPECTRAL_ARROW,TIPPED_ARROW]
-  skill_1A: #Extra Arrows
+    affected-itemList: [ARROW,SPECTRAL_ARROW,TIPPED_ARROW]
+  skill-1: #Extra Arrows
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       additionalArrows: 1 #Additional arrows given when crafting arrows
-    level2:
+    level-2:
       additionalArrows: 2 #Additional arrows given when crafting arrows
-    level3:
+    level-3:
       additionalArrows: 3 #Additional arrows given when crafting arrows
-    level4:
+    level-4:
       additionalArrows: 4 #Additional arrows given when crafting arrows
-    level5:
+    level-5:
       additionalArrows: 5 #Additional arrows given when crafting arrows
-  skill_1B: #Sniper
+  skill-2: #Sniper
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       arrowSpeedMultiplier: 1.02 #Multiplier on arrow speed, damage increases with arrow speed
-    level2:
+    level-2:
       arrowSpeedMultiplier: 1.04 #Multiplier on arrow speed, damage increases with arrow speed
-    level3:
+    level-3:
       arrowSpeedMultiplier: 1.06 #Multiplier on arrow speed, damage increases with arrow speed
-    level4:
+    level-4:
       arrowSpeedMultiplier: 1.08 #Multiplier on arrow speed, damage increases with arrow speed
-    level5:
+    level-5:
       arrowSpeedMultiplier: 1.10 #Multiplier on arrow speed, damage increases with arrow speed
-  skill_2A: #Arrow of Light
+  skill-3: #Arrow of Light
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       damageMultiplier: 1.05 #Damage multiplier for spectral arrows on hit
-    level2:
+    level-2:
       damageMultiplier: 1.10 #Damage multiplier for spectral arrows on hit
-    level3:
+    level-3:
       damageMultiplier: 1.15 #Damage multiplier for spectral arrows on hit
-    level4:
+    level-4:
       damageMultiplier: 1.20 #Damage multiplier for spectral arrows on hit
-    level5:
+    level-5:
       damageMultiplier: 1.25 #Damage multiplier for spectral arrows on hit
-  skill_2B: #Explosive Arrows
+  skill-4: #Explosive Arrows
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       explosionChance: 0.01 #Chance of explosion
       explosionPower: 3 #Explosion power, affects damage and size
       setFire: false #Set to true for explosion to cause fire
       breakBlocks: false #Ste to true for explosion to break blocks
-    level2:
+    level-2:
       explosionChance: 0.02 #Chance of explosion
       explosionPower: 3 #Explosion power, affects damage and size
       setFire: false #Set to true for explosion to cause fire
       breakBlocks: false #Ste to true for explosion to break blocks
-    level3:
+    level-3:
       explosionChance: 0.03 #Chance of explosion
       explosionPower: 3 #Explosion power, affects damage and size
       setFire: false #Set to true for explosion to cause fire
       breakBlocks: false #Ste to true for explosion to break blocks
-    level4:
+    level-4:
       explosionChance: 0.04 #Chance of explosion
       explosionPower: 3 #Explosion power, affects damage and size
       setFire: false #Set to true for explosion to cause fire
       breakBlocks: false #Ste to true for explosion to break blocks
-    level5:
+    level-5:
       explosionChance: 0.05 #Chance of explosion
       explosionPower: 3 #Explosion power, affects damage and size
       setFire: false #Set to true for explosion to cause fire
       breakBlocks: false #Ste to true for explosion to break blocks
-  skill_3A: #Dragon-less Arrows
+  skill-5: #Dragon-less Arrows
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       # Disable the perk from working for some tipped arrow types
       # Select potion effects from this list https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
       # Format: [{effect name}, {is extended ?}, {is upgraded ?}]
-      uncraftablePotionEffects:
+      uncraftable-potionDataList:
         - [effect: SPEED, isExtended: true, isUpgraded: true] #This is an example. It will have no effect because no tipped arrow effect is extended and upgraded
-  skill_3B: #Crossbow Rapid Load
+  skill-6: #Crossbow Rapid Load
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       # Arrows that the ability applies to
       # Select between ARROW, SPECTRAL_ARROW, TIPPED_ARROW, and FIREWORK
-      useableArrows: [ARROw,SPECTRAL_ARROW,TIPPED_ARROW]
-  skill_M: #Deadly Strike
+      affected-itemList: [ARROw,SPECTRAL_ARROW,TIPPED_ARROW]
+  skill-7: #Deadly Strike
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       damageMultiplier: 2.0 #Multiplier for damage done by fireworks shot from crossbow
       maxDamage: 32.0 #Maximum damage done by fireworks shot from crossbow b
 beastMastery:
-  passive1: #Spur Kick Duration
+  passive-1: #Spur Kick Duration
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 2.0 #Starting duration in seconds
-    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
-    increasePerLevel: 0.02 #Number of seconds the duration increases each level
-  passive2: #Critical Bite
+    allowedRange: [0.0, INF] #The allowed range of durations, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive-2: #Critical Bite
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 0.00 #Starting probability
-    maxValue: 1.0 #Maximum Probability
-    increasePerLevel: 0.00025 #Increase in probability each level
+    allowedRange: [0.0, 1.0] #The allowed range of durations, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.00025 #Increase in probability each level
     damageMultiplier: 1.5 #Damage multiplier on a critical hit
-  skill_1A: #Thick Fur
+  skill-1: #Thick Fur
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       damageMultiplier: 0.90 #Damage multiplier when dogs are damaged
-    level2:
+    level-2:
       damageMultiplier: 0.80 #Damage multiplier when dogs are damaged
-    level3:
+    level-3:
       damageMultiplier: 0.70 #Damage multiplier when dogs are damaged
-    level4:
+    level-4:
       damageMultiplier: 0.60 #Damage multiplier when dogs are damaged
-    level5:
+    level-5:
       damageMultiplier: 0.50 #Damage multiplier when dogs are damaged
-  skill_1B: #Sharp Teeth
+  skill-2: #Sharp Teeth
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       damageMultiplier: 1.10 #Damage multiplier when dogs do damage
-    level2:
+    level-2:
       damageMultiplier: 1.20 #Damage multiplier when dogs do damage
-    level3:
+    level-3:
       damageMultiplier: 1.30 #Damage multiplier when dogs do damage
-    level4:
+    level-4:
       damageMultiplier: 1.40 #Damage multiplier when dogs do damage
-    level5:
+    level-5:
       damageMultiplier: 1.50 #Damage multiplier when dogs do damage
-  skill_2A: #Healthy Bite
+  skill-3: #Healthy Bite
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       healthHealed: 1.00 #Health healed when dog kills an enemy (1.00 = 1/2 heart)
-    level2:
+    level-2:
       healthHealed: 2.00 #Health healed when dog kills an enemy (1.00 = 1/2 heart)
-    level3:
+    level-3:
       healthHealed: 3.00 #Health healed when dog kills an enemy (1.00 = 1/2 heart)
-    level4:
+    level-4:
       healthHealed: 4.00 #Health healed when dog kills an enemy (1.00 = 1/2 heart)
-    level5:
+    level-5:
       healthHealed: 5.00 #Health healed when dog kills an enemy (1.00 = 1/2 heart)
-  skill_2B: #Keep Away
+  skill-4: #Keep Away
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       knockbackChance: 0.05 #Chance enemy is knocked back by dog
       knockbackMutliplier: 5.0 #Multiplier for knockback done by dog
       knockbackYvalue: 0.4 #Static value for y value of knockback vector
-    level2:
+    level-2:
       knockbackChance: 0.10 #Chance enemy is knocked back by dog
       knockbackMutliplier: 5.0 #Multiplier for knockback done by dog
       knockbackYvalue: 0.4 #Static value for y value of knockback vector
-    level3:
+    level-3:
       knockbackChance: 0.15 #Chance enemy is knocked back by dog
       knockbackMutliplier: 5.0 #Multiplier for knockback done by dog
       knockbackYvalue: 0.4 #Static value for y value of knockback vector
-    level4:
+    level-4:
       knockbackChance: 0.20 #Chance enemy is knocked back by dog
       knockbackMutliplier: 5.0 #Multiplier for knockback done by dog
       knockbackYvalue: 0.4 #Static value for y value of knockback vector
-    level5:
+    level-5:
       knockbackChance: 0.25 #Chance enemy is knocked back by dog
       knockbackMutliplier: 5.0 #Multiplier for knockback done by dog
       knockbackYvalue: 0.4 #Static value for y value of knockback vector
-  skill_3A: #Acro-Dog/Graceful Feet
+  skill-5: #Acro-Dog/Graceful Feet
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       fallDamageChance: 0.0 #Chance a dog takes fall damage reduced by fallDamageMultiplier
       fallDamageMultiplier: 0.0 #Multiplier on fall damaage taken by a dog
-  skill_3B: #Indentify
+  skill-6: #Indentify
     enabled: true #Change this to false to disable this skill from working
-    level1:
-      effectedItems: [COMPASS] #Items that will show a horse's stats when a horse is right clicked on with it
-  skill_M: #Adrenaline Boost
+    level-1:
+      affected_itemList: [COMPASS] #Items that will show a horse's stats when a horse is right clicked on with it
+  skill-7: #Adrenaline Boost
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       #Each buff that will be given to the mounted horse with the level. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
       #Format: [ {EffectName}, {Level (Integer)}, {Duration added (seconds)}, {Duration Multiplier (decimal)}]
       # or
@@ -1835,71 +1839,71 @@ beastMastery:
         - [effect: SPEED, level: 3, durationAdded: 0.0, durationMultiplier: 1.0]
       # - [effect: SPEED, level: 3, staticDuration: 10.0] (Example of how to use static duration)
 swordsmanship:
-  passive1: #Swift Strikes Duration
+  passive-1: #Swift Strikes Duration
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 2.0 #Starting duration in seconds
-    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
-    increasePerLevel: 0.02 #Number of seconds the duration increases each level
-  passive2: #Double Hit
+    allowedRange: [0.0, INF] #The allowed range of durations, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive-2: #Double Hit
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 0.00 #Starting Probability
-    maxValue: 1.0 #Maximum Probability
-    increasePerLevel: 0.0002 #Increae in probability each level
+    allowedRange: [0.0, 1.0] #The allowed range of probabilities, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.0002 #Increae in probability each level
     damageMultiplier: 0.5 #Proportion of damage the second hit does compared to the first
     knockbackMultiplier: 2.0 #Knockback multiplication once second hit is applied
-  skill_1A: #Adrenaline
+  skill-1: #Adrenaline
     enabled: true #Change this to false to disable this skill from working
     # Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
     # Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional), {probability (default == 1)} ]
     # Note: effectChance is the chance that the perk activates, while the probabilities in effectsGiven are the chance that particular
     # effect is added (given that the perk activated).
-    level1:
+    level-1:
       effectChance: 1.0
       effectsGiven:
         - [effect: SPEED, level: 1, duration: 2, delay: 0.0, prob: 1.0] #Example of how to use delay and prob
-    level2:
+    level-2:
       effectChance: 1.0
       effectsGiven:
         - [effect: SPEED, level: 1, duration: 4]
-    level3:
+    level-3:
       effectChance: 1.0
       effectsGiven:
         - [effect: SPEED, level: 1, duration: 6]
-    level4:
+    level-4:
       effectChance: 1.0
       effectsGiven:
         - [effect: SPEED, level: 1, duration: 8]
-    level5:
+    level-5:
       effectChance: 1.0
       effectsGiven:
         - [effect: SPEED, level: 1, duration: 10]
-  skill_1B: #Killing Spree
+  skill-2: #Killing Spree
     enabled: true #Change this to false to disable this skill from working
     # Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
     # Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional), {probability (default == 1)} ]
     # Note: effectChance is the chance that the perk activates, while the probabilities in effectsGiven are the chance that particular
     # effect is added (given that the perk activated).
-    level1:
+    level-1:
       effectChance: 1.0
       effectsGiven:
         - [effect: STRENGTH, level: 1, duration: 2, delay: 0.0, prob: 1.0] #Example of how to use delay and prob
-    level2:
+    level-2:
       effectChance: 1.0
       effectsGiven:
         - [effect: STRENGTH, level: 1, duration: 4]
-    level3:
+    level-3:
       effectChance: 1.0
       effectsGiven:
         - [effect: STRENGTH, level: 1, duration: 6]
-    level4:
+    level-4:
       effectChance: 1.0
       effectsGiven:
         - [effect: STRENGTH, level: 1, duration: 8]
-    level5:
+    level-5:
       effectChance: 1.0
       effectsGiven:
         - [effect: STRENGTH, level: 1, duration: 10]
-  skill_2A: #Adrenaline+
+  skill-3: #Adrenaline+
     enabled: true #Change this to false to disable this skill from working
     # Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
     # If the buff overrides a buff in Adrenaline, give a relative duration instead
@@ -1908,22 +1912,22 @@ swordsmanship:
     # Format: [ {Effect Name}, {Level (Integer)}, {Relative Duration (Decimal)} ]
     # You can both add effects and override effects.
     # Effects with relativeDuration will always activate if the effect in adrenaline activated. Therefore there is no effectChance.
-    level1:
+    level-1:
       effectsGiven:
         - [effect: SPEED, level: 2, relativeDuration: 0.2] #Gives Speed II for 20% of the Speed I duration in Adrenaline
-    level2:
+    level-2:
       effectsGiven:
         - [effect: SPEED, level: 2, relativeDuration: 0.4]
-    level3:
+    level-3:
       effectsGiven:
         - [effect: SPEED, level: 2, relativeDuration: 0.6]
-    level4:
+    level-4:
       effectsGiven:
         - [effect: SPEED, level: 2, relativeDuration: 0.8]
-    level5:
+    level-5:
       effectsGiven:
         - [effect: SPEED, level: 2, relativeDuration: 1.0]
-  skill_2B: #Killing Frenzy
+  skill-4: #Killing Frenzy
     enabled: true #Change this to false to disable this skill from working
     # Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
     # If the buff overrides a buff in Killing Spree, give a relative duration instead
@@ -1932,24 +1936,24 @@ swordsmanship:
     # Format: [ {Effect Name}, {Level (Integer)}, {Relative Duration (Decimal)} ]
     # You can both add effects and override effects.
     # Effects with relativeDuration will always activate if the effect in adrenaline activated. Therefore there is no effectChance.
-    level1:
+    level-1:
       effectsGiven:
         - [effect: STRENGTH, level: 2, relativeDuration: 0.2] #Gives Strength II for 20% of the Speed I duration in Killing Spree
-    level2:
+    level-2:
       effectsGiven:
         - [effect: STRENGTH, level: 2, relativeDuration: 0.4]
-    level3:
+    level-3:
       effectsGiven:
         - [effect: STRENGTH, level: 2, relativeDuration: 0.6]
-    level4:
+    level-4:
       effectsGiven:
         - [effect: STRENGTH, level: 2, relativeDuration: 0.8]
-    level5:
+    level-5:
       effectsGiven:
         - [effect: STRENGTH, level: 2, relativeDuration: 1.0]
-  skill_3A: #Thirst for Blood
+  skill-5: #Thirst for Blood
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       # Mobs thirst for blood applies to
       # Select mobs from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
       # Mobs that are not spelled correctly or do not exist in the current minecraft version are ignored
@@ -1971,44 +1975,44 @@ swordsmanship:
         - [mob: ZOMBIFIED_PIGLIN, hungerRestored: 2, saturationRestored: 2, exp: 50]
         - [mob: ZOGLIN,           hungerRestored: 2, saturationRestored: 3, exp: 50]
         - [mob: PIG_ZOMBIE,       hungerRestored: 2, saturationRestored: 2, exp: 50]
-  skill_3B: #Sharper!
+  skill-6: #Sharper!
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       # Enchantments added the sword temporarily
       # Enchantment names are the same as standard minecraft enchantment names, but with an underscore
       # Ex. Blast Protection == blast_protection
       # Overall Format: [{Enchantment name}, {levels to add}, {relative duration (decimal)}]
       # OR
       # Overall Format: [{Enchantment name}, {levels to add}, {static duration}]
-      enchantmentsAdded:
+      added-enchantmentList:
         - [enchantment: SHARPNESS, addedLevels: 1, relativeDuration: 1.0 ] #Relative duration is 100% of the ability length
         #Example for static duration: - [enchantment: SHARPNESS, addedLevels: 1, staticDuration: 5 ]
-  skill_M: #Sword Mastery
+  skill-7: #Sword Mastery
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       damageIncrease: 2.0 #Amount of extra damage done when enemy is hit by an effected Item
       damageMultiplier: 1.0 #Multiplier for extra damage done when enemy is hit by an effected Item (STACKS WITH DAMAGE INCREASE)
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Items that Sword mastery applies to. I.e items that enemies will receive extra damage when hit by.
-      effectedItems: [WOODEN_SWORD,STONE_SWORD,GOLDEN_SWORD,IRON_SWORD,DIAMOND_SWORD,NETHERITE_SWORD]
+      affected_itemList: [WOODEN_SWORD,STONE_SWORD,GOLDEN_SWORD,IRON_SWORD,DIAMOND_SWORD,NETHERITE_SWORD]
 defense:
-  passive1: #Stone solid duration
+  passive-1: #Stone solid duration
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 2.0 #Starting duration in seconds
-    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
-    increasePerLevel: 0.02 #Number of seconds the duration increases each level
-  passive2: #Hard Body
+    allowedRange: [0.0, INF] #The allowed range of durations, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive-2: #Hard Body
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 0.00 #Starting probability
-    maxValue: 1.0 #Maximum probability
-    increasePerLevel: 0.0001 #Probability increase per level
+    allowedRange: [0.0, 1.0] #The allowed range of probabilities, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.0001 #Probability increase per level
     damageMultiplier: 0.66 #Damage multiplier when perk activated
-  passive3: #Double Drops (Hostile Mobs)
+  passive-3: #Double Drops (Hostile Mobs)
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 0.00 #Starting probability
-    maxValue: 1.0 #Maximum Probability
-    increasePerLevel: 0.0005 #Probability increase per level
-    effectedMobs: [SPIDER,CAVE_SPIDER,ENDERMAN,
+    allowedRange: [0.0, 1.0] #The allowed range of probabilities, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.0005 #Probability increase per level
+    affected_mobList: [SPIDER,CAVE_SPIDER,ENDERMAN,
                   BLAZE,CREEPER,DROWNED,ELDER_GUARDIAN,
                   ENDERMITE,EVOKER,GHAST,GUARDIAN,
                   HUSK,MAGMA_CUBE,PHANTOM,PILLAGER,
@@ -2016,104 +2020,104 @@ defense:
                   STRAY,VEX,VINDICATOR,WITCH,
                   WITHER_SKELETON,ZOMBIE,ZOMBIE_VILLAGER,
                   HOGLIN, PIGLIN, ZOMBIFIED_PIGLIN, ZOGLIN]
-  skill_1A: #Healer
+  skill-1: #Healer
     enabled: true #Change this to false to disable this skill from working
     #Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
     #Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional), {probability (default == 1)} ]
     # Note: effectChance is the chance that the perk activates, while the probabilities in effectsGiven are the chance that particular
     # effect is added (given that the perk activated).
-    level1:
+    level-1:
       healthHealed: 0 #Health instantly healed on a kill (1 = 1/2 heart)
       effectChance: 1.0
       effectsGiven:
         - [effect: REGEN, level: 1, duration: 3, delay: 0.0, prob: 1.0] #Example of how to use delay and prob
-    level2:
+    level-2:
       healthHealed: 0 #Health instantly healed on a kill (1 = 1/2 heart)
       effectChance: 1.0
       effectsGiven:
         - [effect: REGEN, level: 1, duration: 6]
-    level3:
+    level-3:
       healthHealed: 0 #Health instantly healed on a kill (1 = 1/2 heart)
       effectChance: 1.0
       effectsGiven:
         - [effect: REGEN, level: 1, duration: 9]
-    level4:
+    level-4:
       healthHealed: 1 #Health instantly healed on a kill (1 = 1/2 heart)
       effectChance: 1.0
       effectsGiven:
         - [effect: REGEN, level: 1, duration: 12]
-    level5:
+    level-5:
       healthHealed: 2 #Health instantly healed on a kill (1 = 1/2 heart)
       effectChance: 1.0
       effectsGiven:
         - [effect: REGEN, level: 1, duration: 15]
-  skill_1B: #Stiffen
+  skill-2: #Stiffen
     enabled: true #Change this to false to disable this skill from working
     #Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
     #Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional), {probability (default == 1)} ]
     # Note: effectChance is the chance that the perk activates, while the probabilities in effectsGiven are the chance that particular
     # effect is added (given that the perk activated).
-    level1:
+    level-1:
       effectChance: 1.0
       effectsGiven:
         - [effect: DAMAGE_RESISTANCE, level: 1, duration: 5, prob: 0.02, delay: 0.0] #Example of how to use delay
-    level2:
+    level-2:
       effectChance: 1.0
       effectsGiven:
         - [effect: DAMAGE_RESISTANCE, level: 1, duration: 5, prob: 0.04]
-    level3:
+    level-3:
       effectChance: 1.0
       effectsGiven:
         - [effect: DAMAGE_RESISTANCE, level: 1, duration: 5, prob: 0.06]
-    level4:
+    level-4:
       effectChance: 1.0
       effectsGiven:
         - [effect: DAMAGE_RESISTANCE, level: 1, duration: 5, prob: 0.08]
-    level5:
+    level-5:
       effectChance: 1.0
       effectsGiven:
         - [effect: DAMAGE_RESISTANCE, level: 1, duration: 5, prob: 0.10]
-  skill_2A: #Hard Headed
+  skill-3: #Hard Headed
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       damageMultiplier: 0.594 #Damage multiplier when the Hard Body perk activated
-    level2:
+    level-2:
       damageMultiplier: 0.528 #Damage multiplier when the Hard Body perk activated
-    level3:
+    level-3:
       damageMultiplier: 0.462 #Damage multiplier when the Hard Body perk activated
-    level4:
+    level-4:
       damageMultiplier: 0.396 #Damage multiplier when the Hard Body perk activated
-    level5:
+    level-5:
       damageMultiplier: 0.33 #Damage multiplier when the Hard Body perk activated
-  skill_2B: #Stiffen+
+  skill-4: #Stiffen+
     enabled: true #Change this to false to disable this skill from working
     #Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
     #Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional), {probability (default == 1)} ]
     # Note: effectChance is the chance that the perk activates, while the probabilities in effectsGiven are the chance that particular
     # effect is added (given that the perk activated).
-    level1:
+    level-1:
       effectChance: 1.0
       effectsGiven:
         - [effect: DAMAGE_RESISTANCE, level: 2, duration: 5, prob: 0.02, delay: 0.0] #Example of how to use delay
-    level2:
+    level-2:
       effectChance: 1.0
       effectsGiven:
         - [effect: DAMAGE_RESISTANCE, level: 2, duration: 5, prob: 0.04]
-    level3:
+    level-3:
       effectChance: 1.0
       effectsGiven:
         - [effect: DAMAGE_RESISTANCE, level: 2, duration: 5, prob: 0.06]
-    level4:
+    level-4:
       effectChance: 1.0
       effectsGiven:
         - [effect: DAMAGE_RESISTANCE, level: 2, duration: 5, prob: 0.08]
-    level5:
+    level-5:
       effectChance: 1.0
       effectsGiven:
         - [effect: DAMAGE_RESISTANCE, level: 2, duration: 5, prob: 0.10]
-  skill_3A: #Gift From Above
+  skill-5: #Gift From Above
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       #Each buff that will be given to the player with the level. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
       #Format: [ {EffectName}, {Level (Integer)}, {Duration added (seconds)}, {Duration Multiplier (decimal)}]
       # or
@@ -2122,9 +2126,9 @@ defense:
       effectsAdded:
         - [effect: ABSORPTION, level: 2, durationAdded: 60.0, durationMultiplier: 1.0]
       # - [effect: ABSORPTION, level: 2, staticDuration: 10.0] (Example of how to use static duration)
-  skill_3B: #Stronger Legs
+  skill-6: #Stronger Legs
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       #Each buff that will be given to the player with the level. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
       #Format: [ {EffectName}, {Level (Integer)}, {Duration added (seconds)}, {Duration Multiplier (decimal)}]
       # or
@@ -2133,199 +2137,204 @@ defense:
       effectsAdded:
         - [effect: SLOW, level: 1, durationAdded: 0.0, durationMultiplier: 1.0]
       # - [effect: SLOW, level: 2, staticDuration: 10.0] (Example of how to use static duration)
-  skill_M: #Hearty
+  skill-7: #Hearty
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       permanentHealthAdded: 4.0 #Health added to player permanently (1.0 = 1/2 heart)
 axeMastery:
-  passive1: #Great Axe Duration
+  passive-1: #Great Axe Duration
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 2.0 #Starting duration in seconds
-    maxValue: -1 #The maximum duration in seconds, set to -1 for no maximum
-    increasePerLevel: 0.02 #Number of seconds the duration increases each level
-  passive2: #Divine Crits
+    allowedRange: [0.0, INF] #The allowed range of durations, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.02 #Number of seconds the duration increases each level
+  passive-2: #Divine Crits
     enabled: true #Change this to false to disable this passive skill from working
     startingValue: 0.00 #Starting probability
-    maxValue: 1.0 #Maximum Probability
-    increasePerLevel: 0.0001 #Probability Increase per level
+    allowedRange: [0.0, 1.0] #The allowed range of probabilities, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.0001 #Probability Increase per level
     damageMultiplier: 1.25 #Damage multiplier when a crit is rolled
-  skill_1A: #Greater Axe
+  skill-1: #Greater Axe
     enabled: true #Change this to false to disable this skill from working
-    level1:
-      radiusIncrease: 1 #total blocks Great Axe radius is increased by
-    level2:
-      radiusIncrease: 2 #total blocks Great Axe radius is increased by
-    level3:
-      radiusIncrease: 3 #total blocks Great Axe radius is increased by
-    level4:
-      radiusIncrease: 4 #total blocks Great Axe radius is increased by
-    level5:
-      radiusIncrease: 5 #total blocks Great Axe radius is increased by
-  skill_1B: #Holy Axe
+    level-1:
+      radiusIncrease: 1.0 #total blocks Great Axe radius is increased by
+    level-2:
+      radiusIncrease: 2.0 #total blocks Great Axe radius is increased by
+    level-3:
+      radiusIncrease: 3.0 #total blocks Great Axe radius is increased by
+    level-4:
+      radiusIncrease: 4.0 #total blocks Great Axe radius is increased by
+    level-5:
+      radiusIncrease: 5.0 #total blocks Great Axe radius is increased by
+  skill-2: #Holy Axe
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       lightningChance: 0.02 #Chance lightning strikes a mob on hit with an axe
-    level2:
+    level-2:
       lightningChance: 0.04 #Chance lightning strikes a mob on hit with an axe
-    level3:
+    level-3:
       lightningChance: 0.06 #Chance lightning strikes a mob on hit with an axe
-    level4:
+    level-4:
       lightningChance: 0.08 #Chance lightning strikes a mob on hit with an axe
-    level5:
+    level-5:
       lightningChance: 0.10 #Chance lightning strikes a mob on hit with an axe
-  skill_2A: #Revitalized
+  skill-3: #Revitalized
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       portionHealed: 1.0 #Portion of full health that is healed
       healChance: 0.01 #Chance lightning strikes a mob on hit with an axe
-    level2:
+    level-2:
       portionHealed: 1.0 #Portion of full health that is healed
       healChance: 0.02 #Chance lightning strikes a mob on hit with an axe
-    level3:
+    level-3:
       portionHealed: 1.0 #Portion of full health that is healed
       healChance: 0.03 #Chance lightning strikes a mob on hit with an axe
-    level4:
+    level-4:
       portionHealed: 1.0 #Portion of full health that is healed
       healChance: 0.04 #Chance lightning strikes a mob on hit with an axe
-    level5:
+    level-5:
       portionHealed: 1.0 #Portion of full health that is healed
       healChance: 0.05 #Chance lightning strikes a mob on hit with an axe
-  skill_2B: #Warrior Blood
+  skill-4: #Warrior Blood
     enabled: true #Change this to false to disable this skill from working
     #Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
     #Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional), {probability (default == 1)} ]
     # Note: effectChance is the chance that the perk activates, while the probabilities in effectsGiven are the chance that particular
     # effect is added (given that the perk activated).
-    level1:
+    level-1:
       effectChance: 1.0
       effectsGiven:
         - [effect: STRENGTH, level: 1, duration: 3, prob: 1.0, delay: 0.0] #Example of how to use delay and prob
-    level2:
+    level-2:
       effectChance: 1.0
       effectsGiven:
         - [effect: STRENGTH, level: 1, duration: 6]
-    level3:
+    level-3:
       effectChance: 1.0
       effectsGiven:
         - [effect: STRENGTH, level: 1, duration: 9]
-    level4:
+    level-4:
       effectChance: 1.0
       effectsGiven:
         - [effect: STRENGTH, level: 1, duration: 12]
-    level5:
+    level-5:
       effectChance: 1.0
       effectsGiven:
         - [effect: STRENGTH, level: 1, duration: 15]
-  skill_3A: #Earthquake
+  skill-5: #Earthquake
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       damageMultiplier: 2.0 #Damage multiplier for damage done to mobs by earthquake
-  skill_3B: #Better Crits
+  skill-6: #Better Crits
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       damageMultiplier: 1.6 #New damage multiplier for divine crits
-  skill_M: #Axe Man
+  skill-7: #Axe Man
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       damageIncrease: 2.0 #Amount of extra damage done when enemy is hit by an effected Item
       damageMultiplier: 1.0 #Multiplier for extra damage done when enemy is hit by an effected Item (STACKS WITH DAMAGE INCREASE)
       # Select items from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       # Items that axe mastery applies to. I.e items that enemies will receive extra damage when hit by.
-      effectedItems: [WOODEN_AXE,STONE_AXE,GOLDEN_AXE,IRON_AXE,DIAMOND_AXE,NETHERITE_AXE]
+      affected-itemList: [WOODEN_AXE,STONE_AXE,GOLDEN_AXE,IRON_AXE,DIAMOND_AXE,NETHERITE_AXE]
 repair:
-  passive1: #Proficiency
+  passive-1: #Proficiency
     enabled: true #Change this to false to disable this skill from working
     startingValue: 0 #Starting level
-    maxValue: -1 #The maximum level in seconds, set to -1 for no maximum
+    allowedRange: [0.0, INF] #The allowed range of repair bonuses, (INF or -INF represent positive and negative infinity)
     # Each item tier (diamond, wood, etc.) has a difficultly modifier, X < 1.0. For example X = 0.9 for wood tools (by default)
     # Each item has a number of components to craft, Y. For example a diamond pickaxe takes 3 diamonds so Y=3 (by default).
     # Let the player's repair level be Z
     # The formula for the percentage repaired is:
     # (X + (repairBonusPerLevel) * Z)/ Y
-    repairBonusPerLevel: 0.002
-  skill_1A: #Salvaging
+    changePerLevel: 0.002
+  skill-1: #Salvaging
     enabled: true #Change this to false to disable this skill from working
     # Let salvageBaseChance = X
     # Let the amount of materials required to craft an item be Y
     # The amount of materials received from salvaging is:
     # round( (salvageBaseChance + (1 - salvageBaseChance)*(random number))*Y)
-    level1:
+    level-1:
       salvageBaseChance: 0.1
       salvageEnchantedBookChance: 0.0 #Chance the enchantments of the item are placed on an enchanted book
-    level2:
+    level-2:
       salvageBaseChance: 0.2
       salvageEnchantedBookChance: 0.0 #Chance the enchantments of the item are placed on an enchanted book
-    level3:
+    level-3:
       salvageBaseChance: 0.3
       salvageEnchantedBookChance: 0.0 #Chance the enchantments of the item are placed on an enchanted book
-    level4:
+    level-4:
       salvageBaseChance: 0.4
       salvageEnchantedBookChance: 0.0 #Chance the enchantments of the item are placed on an enchanted book
-    level5:
+    level-5:
       salvageBaseChance: 0.5
       salvageEnchantedBookChance: 1.0 #Chance the enchantments of the item are placed on an enchanted book
-  skill_2A: #Resourceful
+  skill-2: #Resourceful
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       keepMaterialsChance: 0.1 #Chance to keep materials when repairing
-    level2:
+    level-2:
       keepMaterialsChance: 0.2 #Chance to keep materials when repairing
-    level3:
+    level-3:
       keepMaterialsChance: 0.3 #Chance to keep materials when repairing
-    level4:
+    level-4:
       keepMaterialsChance: 0.4 #Chance to keep materials when repairing
-    level5:
+    level-5:
       keepMaterialsChance: 0.5 #Chance to keep materials when repairing
-  skill_M: #Magic Repair Mastery
+  skill-3: #Magic Repair Mastery
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       keepEnchantsChance: 1.0 #Chance enchantments are kept on the item when repaired
       #More config for this to come later
 agility:
-  passive1: #Roll
+  passive-1: #Roll
     enabled: true #Change this to false to disable this skill from working
     startingValue: 0.00 #Starting probability
-    maxValue: 1.0 #Maximum Probability
-    increasePerLevel: 0.0005 #Probability Increase per level
+    allowedRange: [0.0, 1.0] #The allowed range of probabilities, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.0005 #Probability Increase per level
     damageMultiplier: 0.5 #Multiplier on fall damage taken
-  skill_1A: #Dodge
+  skill-1: #Dodge
     enabled: true #Change this to false to disable this skill from working
     # Types of damage that can be dodged must be spelled exactly as seen on https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
-    level1:
+    level-1:
       dodgeChance: 0.04 #Chance that damage is dodged
-      avoidableDamage: [BLOCK_EXPLOSION,CONTACT,DRAGON_BREATH,ENTITY_ATTACK,ENTITY_EXPLOSION,ENTITY_SWEEP_ATTACK,
-                        FALLING_BLOCK,HOT_FLOOR,LIGHTNING,MAGIC,PROJECTILE,THORNS]
-    level2:
+      # Damage types that can be avoided
+      affected-damageTypeList: [BLOCK_EXPLOSION,CONTACT,DRAGON_BREATH,ENTITY_ATTACK,ENTITY_EXPLOSION,ENTITY_SWEEP_ATTACK,
+                                FALLING_BLOCK,HOT_FLOOR,LIGHTNING,MAGIC,PROJECTILE,THORNS]
+    level-2:
       dodgeChance: 0.08 #Chance that damage is dodged
-      avoidableDamage: [BLOCK_EXPLOSION,CONTACT,DRAGON_BREATH,ENTITY_ATTACK,ENTITY_EXPLOSION,ENTITY_SWEEP_ATTACK,
-                        FALLING_BLOCK,HOT_FLOOR,LIGHTNING,MAGIC,PROJECTILE,THORNS]
-    level3:
+      # Damage types that can be avoided
+      affected-damageTypeList: [BLOCK_EXPLOSION,CONTACT,DRAGON_BREATH,ENTITY_ATTACK,ENTITY_EXPLOSION,ENTITY_SWEEP_ATTACK,
+                                FALLING_BLOCK,HOT_FLOOR,LIGHTNING,MAGIC,PROJECTILE,THORNS]
+    level-3:
       dodgeChance: 0.12 #Chance that damage is dodged
-      avoidableDamage: [BLOCK_EXPLOSION,CONTACT,DRAGON_BREATH,ENTITY_ATTACK,ENTITY_EXPLOSION,ENTITY_SWEEP_ATTACK,
-                        FALLING_BLOCK,HOT_FLOOR,LIGHTNING,MAGIC,PROJECTILE,THORNS]
-    level4:
+      # Damage types that can be avoided
+      affected-damageTypeList: [BLOCK_EXPLOSION,CONTACT,DRAGON_BREATH,ENTITY_ATTACK,ENTITY_EXPLOSION,ENTITY_SWEEP_ATTACK,
+                                FALLING_BLOCK,HOT_FLOOR,LIGHTNING,MAGIC,PROJECTILE,THORNS]
+    level-4:
       dodgeChance: 0.16 #Chance that damage is dodged
-      avoidableDamage: [BLOCK_EXPLOSION,CONTACT,DRAGON_BREATH,ENTITY_ATTACK,ENTITY_EXPLOSION,ENTITY_SWEEP_ATTACK,
-                        FALLING_BLOCK,HOT_FLOOR,LIGHTNING,MAGIC,PROJECTILE,THORNS]
-    level5:
+      # Damage types that can be avoided
+      affected-damageTypeList: [BLOCK_EXPLOSION,CONTACT,DRAGON_BREATH,ENTITY_ATTACK,ENTITY_EXPLOSION,ENTITY_SWEEP_ATTACK,
+                                FALLING_BLOCK,HOT_FLOOR,LIGHTNING,MAGIC,PROJECTILE,THORNS]
+    level-5:
       dodgeChance: 0.20 #Chance that damage is dodged
-      avoidableDamage: [BLOCK_EXPLOSION,CONTACT,DRAGON_BREATH,ENTITY_ATTACK,ENTITY_EXPLOSION,ENTITY_SWEEP_ATTACK,
-                        FALLING_BLOCK,HOT_FLOOR,LIGHTNING,MAGIC,PROJECTILE,THORNS]
-  skill_2A: #Steel Bones
+      # Damage types that can be avoided
+      affected-damageTypeList: [BLOCK_EXPLOSION,CONTACT,DRAGON_BREATH,ENTITY_ATTACK,ENTITY_EXPLOSION,ENTITY_SWEEP_ATTACK,
+                                FALLING_BLOCK,HOT_FLOOR,LIGHTNING,MAGIC,PROJECTILE,THORNS]
+  skill-2: #Steel Bones
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       damageMultiplier: 0.4 #Damage multiplier for Roll
-    level2:
+    level-2:
       damageMultiplier: 0.3 #Damage multiplier for Roll
-    level3:
+    level-3:
       damageMultiplier: 0.2 #Damage multiplier for Roll
-    level4:
+    level-4:
       damageMultiplier: 0.1 #Damage multiplier for Roll
-    level5:
+    level-5:
       damageMultiplier: 0.0 #Damage multiplier for Roll
-  skill_M: #Graceful feet
+  skill-3: #Graceful feet
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       # Each buff that will be given with the level and duration. You must provide the potion effect spelled correctly. Select from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
       # Format: [ {EffectName}, {Level (Integer)}, {Duration (Decimal)}, {Delay (optional), {probability (default == 1)} ]
       # Note: effectChance is the chance that the perk activates, while the probabilities in effectsGiven are the chance that particular
@@ -2335,108 +2344,280 @@ agility:
         - [effect: SPEED, level: 1, duration: 1200, delay: 0.0, prob: 1.0] #Example of how to use delay and prob
       refreshTimer: 10.0 #Number of seconds to between server checks to give the buff
 alchemy:
-  passive1: #Half-life+
+  passive-1: #Half-life+
     enabled: true #Change this to false to disable this skill from working
     startingValue: 0.00 #Starting time extension
-    maxValue: -1 #Maximum Time extension (set to -1 for no limit)
-    increasePerLevel: 0.001 #Proportional extension per level
-  skill_1A: #Alchemical Summoning
+    allowedRange: [0, INF] #The allowed range of percent increases, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.001 #Proportional extension per level
+  skill-1: #Alchemical Summoning
     enabled: true #Change this to false to disable this skill from working
     # Output is a custom item
     # Eventually multiple recipes will be able to be added, but for now just the first one will be read in
     # For now, custom items are not recognizable in crafting recipes (it takes quite a bit of code to make crafting recipes recognize more than a material)
-    level1:
+    level-1:
       recipes:
         - output: [item: POTION, amount: 1, potion: [effect: WATER_BREATHING, isUpgraded: false, isExtended: false] ] #Output Item
           recipe: [AIR,PUFFERFISH,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR] #Crafting Recipe
-    level2:
+    level-2:
       recipes:
         - output: [item: POTION, amount: 1, potion: [effect: SPEED, isUpgraded: false, isExtended: false] ] #Output Item
           recipe: [AIR,SUGAR,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR] #Crafting Recipe
-    level3:
+    level-3:
       recipes:
         - output: [item: POTION, amount: 1, potion: [effect: FIRE_RESISTANCE, isUpgraded: false, isExtended: false] ] #Output Item
           recipe: [AIR,MAGMA_CREAM,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR] #Crafting Recipe
-    level4:
+    level-4:
       recipes:
         - output: [item: POTION, amount: 1, potion: [effect: HEAL, isUpgraded: false, isExtended: false] ] #Output Item
           recipe: [AIR,GLISTERING_MELON_SLICE,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR] #Crafting Recipe
-    level5:
+    level-5:
       recipes:
         - output: [item: POTION, amount: 1, potion: [effect: INCREASE_DAMAGE, isUpgraded: false, isExtended: false] ] #Output Item
           recipe: [AIR,BLAZE_POWDER,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR] #Crafting Recipe
-  skill_2A: #Ancient Knowledge
+  skill-2: #Ancient Knowledge
     enabled: true #Change this to false to disable this skill from working
     # Effects on the crafted potion are added under potionEffects. Mutliple can be added. Select from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
-    # Format: [{effect name}, {effect level}, {effect duration}, {potion color (RGB triple)}]
-    # If multiple effects are on the potion with two different colors, the colors are mixed
     # Select ingredient from https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-    level1:
-      ingredient: EMERALD #Item used in ingredient slot of brewing stand
-      brewExp: 700 #Experience rewarded when brewing the potion
-      brewExtendedExp: 300 #Experience rewarded for extending potion
-      brewUpgradedExp: 300 #Experience rewarded for upgrading potion
-      drinkExp: 1500 #Experience rewarded for drinking this potion
-      drinkExtendedExp: 2000 #Experience rewarded for drinking the extended version of this potion
-      drinkUpgradedPotion: 2000 #Experience rewarded for drinking the upgraded version of this potion
-      throwExp: 1000 #Experience rewarded for throwing the potion
-      throwUpgradedPotion: 1500 #Experience rewarded for throwing the upgraded version of this potion
-      throwExtendedPotion: 1500 #Experience rewarded for throwing the extended version of htis potion
-      potionEffects:
-        - [effect: HERO_OF_THE_VILLAGE, level: 1, duration: 180, color: (30,210,64)]
-    level2:
-      ingredient: SLIME_BALL #Item used in ingredient slot of brewing stand
-      brewExp: 725 #Experience rewarded when brewing the potion
-      brewExtendedExp: 300 #Experience rewarded for extending potion
-      brewUpgradedExp: 300 #Experience rewarded for upgrading potion
-      drinkExp: 0 #Experience rewarded for drinking this potion
-      drinkExtendedExp: 0 #Experience rewarded for drinking the extended version of this potion
-      drinkUpgradedPotion: 0 #Experience rewarded for drinking the upgraded version of this potion
-      throwExp: 1600 #Experience rewarded for throwing the potion
-      throwUpgradedPotion: 2100 #Experience rewarded for throwing the upgraded version of this potion
-      throwExtendedPotion: 2100 #Experience rewarded for throwing the extended version of htis potion
-      potionEffects:
-        - [effect: SLOW_DIGGING, level: 1, duration: 60, color: (164,212,10)]
-    level3:
-      ingredient: CLOCK #Item used in ingredient slot of brewing stand
-      brewExp: 750 #Experience rewarded when brewing the potion
-      brewExtendedExp: 300 #Experience rewarded for extending potion
-      brewUpgradedExp: 300 #Experience rewarded for upgrading potion
-      drinkExp: 1500 #Experience rewarded for drinking this potion
-      drinkExtendedExp: 2000 #Experience rewarded for drinking the extended version of this potion
-      drinkUpgradedPotion: 2000 #Experience rewarded for drinking the upgraded version of this potion
-      throwExp: 1000 #Experience rewarded for throwing the potion
-      throwUpgradedPotion: 1500 #Experience rewarded for throwing the upgraded version of this potion
-      throwExtendedPotion: 1500 #Experience rewarded for throwing the extended version of htis potion
-      potionEffects:
-        - [effect: FAST_DIGGING, level: 1, duration: 180, color: (159,232,186)]
-    level4:
-      ingredient: POISONOUS_POTATO #Item used in ingredient slot of brewing stand
-      brewExp: 775 #Experience rewarded when brewing the potion
-      brewExtendedExp: 300 #Experience rewarded for extending potion
-      brewUpgradedExp: 300 #Experience rewarded for upgrading potion
-      drinkExp: 0 #Experience rewarded for drinking this potion
-      drinkExtendedExp: 0 #Experience rewarded for drinking the extended version of this potion
-      drinkUpgradedPotion: 0 #Experience rewarded for drinking the upgraded version of this potion
-      throwExp: 1600 #Experience rewarded for throwing the potion
-      throwUpgradedPotion: 2100 #Experience rewarded for throwing the upgraded version of this potion
-      throwExtendedPotion: 2100 #Experience rewarded for throwing the extended version of htis potion
-      potionEffects:
-        - [effect: WITHER, level: 1, duration: 30, color: (0,0,0)]
-    level5:
-      ingredient: GOLDEN_APPLE #Item used in ingredient slot of brewing stand
-      brewExp: 800 #Experience rewarded when brewing the potion
-      brewExtendedExp: 300 #Experience rewarded for extending potion
-      brewUpgradedExp: 300 #Experience rewarded for upgrading potion
-      drinkExp: 1500 #Experience rewarded for drinking this potion
-      drinkExtendedExp: 2000 #Experience rewarded for drinking the extended version of this potion
-      drinkUpgradedPotion: 2000 #Experience rewarded for drinking the upgraded version of this potion
-      throwExp: 1000 #Experience rewarded for throwing the potion
-      throwUpgradedPotion: 1500 #Experience rewarded for throwing the upgraded version of this potion
-      throwExtendedPotion: 1500 #Experience rewarded for throwing the extended version of htis potion
-      potionEffects:
-        - [effect: DAMAGE_RESISTANCE, level: 1, duration: 180, color: (150,140,175)]
-  skill_M: #Potion Master
+    # PotionRecipes have 3 pieces of information:
+    # 1) ingredient: {a custom item}
+    # 2) output: {a custom item}
+    # 3) input: {a custom item}
+    # You can add as many potion recipes as you want, and the inputs/outputs do not have to be potions
+    level-1:
+      potionRecipes:
+          #Initial
+        - ingredient: [item: EMERALD]
+          output:     [name: "Potion of Resistance", item: POTION, amount: 1, potion: [[effect: HERO_OF_THE_VILLAGE, level: 1, duration: 180, color: (30,210,64)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [effect: AWKWARD] ] #Input Item(s)
+
+          #Extension
+        - ingredient: [item: REDSTONE]
+          output:     [name: "Potion of Resistance", item: POTION, amount: 1, potion: [[effect: HERO_OF_THE_VILLAGE, level: 1, duration: 480, color: (30,210,64)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [[effect: HERO_OF_THE_VILLAGE, level: 1, duration: 180, color: (30,210,64)]] ] #Input Item(s)
+
+          #Upgrade
+        - ingredient: [item: GLOWSTONE]
+          output:     [name: "Potion of Resistance II", item: POTION, amount: 1, potion: [[effect: HERO_OF_THE_VILLAGE, level: 2, duration: 90, color: (30,210,64)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [[effect: HERO_OF_THE_VILLAGE, level: 1, duration: 180, color: (30,210,64)]] ] #Input Item(s)
+
+          #Splash
+        - ingredient: [item: GUNPOWDER]
+          output:     [name: "Splash Potion of Resistance", item: SPLASH_POTION, amount: 1, potion: [[effect: HERO_OF_THE_VILLAGE, level: 1, duration: 180, color: (30,210,64)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [[effect: HERO_OF_THE_VILLAGE, level: 1, duration: 180, color: (30,210,64)]] ] #Input Item(s)
+
+          #Splash Extended
+        - ingredient: [item: GUNPOWDER]
+          output:     [name: "Splash Potion of Resistance", item: SPLASH_POTION, amount: 1, potion: [[effect: HERO_OF_THE_VILLAGE, level: 1, duration: 480, color: (30,210,64)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [[effect: HERO_OF_THE_VILLAGE, level: 1, duration: 480, color: (30,210,64)]] ] #Input Item(s)
+
+          #Splash Upgraded
+        - ingredient: [item: GUNPOWDER]
+          output:     [name: "Splash Potion of Resistance II", item: SPLASH_POTION, amount: 1, potion: [[effect: HERO_OF_THE_VILLAGE, level: 2, duration: 90, color: (30,210,64)]] ] #Output Item
+          input:      [tem: POTION, amount: 1, potion: [[effect: HERO_OF_THE_VILLAGE, level: 2, duration: 90, color: (30,210,64)]] ] #Input Item(s)
+
+          #Lingering
+        - ingredient: [item: DRAGON_BREATH]
+          output:     [name: "Lingering Potion of Resistance", item: LINGERING_POTION, amount: 1, potion: [[effect: HERO_OF_THE_VILLAGE, level: 1, duration: 180, color: (30,210,64)]] ] #Output Item
+          input:      [item: SPLASH_POTION, amount: 1, potion: [[effect: HERO_OF_THE_VILLAGE, level: 1, duration: 180, color: (30,210,64)]] ] #Input Item(s)
+
+          #Lingering Extended
+        - ingredient: [item: DRAGON_BREATH]
+          output:     [name: "Lingering Potion of Resistance", item: LINGERING_POTION, amount: 1, potion: [[effect: HERO_OF_THE_VILLAGE, level: 1, duration: 480, color: (30,210,64)]] ] #Output Item
+          input:      [item: SPLASH_POTION, amount: 1, potion: [[effect: HERO_OF_THE_VILLAGE, level: 1, duration: 480, color: (30,210,64)]] ] #Input Item(s)
+
+          #lingering Upgraded
+        - ingredient: [item: DRAGON_BREATH]
+          output:     [name: "Lingering Potion of Resistance II", item: LINGERING_POTION, amount: 1, potion: [[effect: HERO_OF_THE_VILLAGE, level: 2, duration: 90, color: (30,210,64)]] ] #Output Item
+          input:      [item: SPLASH_POTION, amount: 1, potion: [[effect: HERO_OF_THE_VILLAGE, level: 2, duration: 90, color: (30,210,64)]] ] #Input Item(s)
+
+    level-2:
+      potionRecipes:
+          #Initial
+        - ingredient: [item: SLIMEBALL]
+          output:     [name: "Potion of Mining Fatigue", item: POTION, amount: 1, potion: [[effect: SLOW_DIGGING, level: 1, duration: 60, color: (164,212,10)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [effect: AWKWARD] ] #Input Item(s)
+
+          #Extension
+        - ingredient: [item: REDSTONE]
+          output:     [name: "Potion of Mining Fatigue", item: POTION, amount: 1, potion: [[effect: SLOW_DIGGING, level: 1, duration: 160, color: (164,212,10)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [[effect: SLOW_DIGGING, level: 1, duration: 60, color: (164,212,10)]] ] #Input Item(s)
+
+          #Upgrade
+        - ingredient: [item: GLOWSTONE]
+          output:     [name: "Potion of Mining Fatigue II", item: POTION, amount: 1, potion: [[effect: SLOW_DIGGING, level: 2, duration: 30, color: (164,212,10)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [[effect: SLOW_DIGGING, level: 1, duration: 60, color: (164,212,10)]] ] #Input Item(s)
+
+          #Splash
+        - ingredient: [item: GUNPOWDER]
+          output:     [name: "Splash Potion of Mining Fatigue", item: POTION, amount: 1, potion: [[effect: SLOW_DIGGING, level: 1, duration: 60, color: (164,212,10)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [[effect: SLOW_DIGGING, level: 1, duration: 60, color: (164,212,10)]] ] #Input Item(s)
+
+          #Splash Extended
+        - ingredient: [item: GUNPOWDER]
+          output:     [name: "Splash Potion of Mining Fatigue", item: SPLASH_POTION, amount: 1, potion: [[effect: SLOW_DIGGING, level: 1, duration: 160, color: (164,212,10)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [[effect: SLOW_DIGGING, level: 1, duration: 160, color: (164,212,10)]] ] #Input Item(s)
+
+          #Splash Upgraded
+        - ingredient: [item: GUNPOWDER]
+          output:     [name: "Splash Potion of Mining Fatigue II", item: SPLASH_POTION, amount: 1, potion: [[effect: SLOW_DIGGING, level: 2, duration: 30, color: (164,212,10)]] ] #Output Item
+          input:      [tem: POTION, amount: 1, potion: [[effect: SLOW_DIGGING, level: 2, duration: 30, color: (164,212,10)]] ] #Input Item(s)
+
+          #Lingering
+        - ingredient: [item: DRAGON_BREATH]
+          output:     [name: "Lingering Potion of Mining Fatigue", item: LINGERING_POTION, amount: 1, potion: [[effect: SLOW_DIGGING, level: 1, duration: 60, color: (164,212,10)]] ] #Output Item
+          input:      [item: SPLASH_POTION, amount: 1, potion: [[effect: SLOW_DIGGING, level: 1, duration: 60, color: (164,212,10)]] ] #Input Item(s)
+
+          #Lingering Extended
+        - ingredient: [item: DRAGON_BREATH]
+          output:     [name: "Lingering Potion of Mining Fatigue", item: LINGERING_POTION, amount: 1, potion: [[effect: SLOW_DIGGING, level: 1, duration: 160, color: (164,212,10)]] ] #Output Item
+          input:      [item: SPLASH_POTION, amount: 1, potion: [[effect: SLOW_DIGGING, level: 1, duration: 160, color: (164,212,10)]] ] #Input Item(s)
+
+          #lingering Upgraded
+        - ingredient: [item: DRAGON_BREATH]
+          output:     [name: "Lingering Potion of Mining Fatigue II", item: LINGERING_POTION, amount: 1, potion: [[effect: SLOW_DIGGING, level: 2, duration: 30, color: (164,212,10)]] ] #Output Item
+          input:      [item: SPLASH_POTION, amount: 1, potion: [[effect: SLOW_DIGGING, level: 2, duration: 30, color: (164,212,10)]] ] #Input Item(s)
+
+    level-3:
+      potionRecipes:
+          #Initial
+        - ingredient: [item: CLOCK]
+          output:     [name: "Potion of Haste", item: POTION, amount: 1, potion: [[effect: FAST_DIGGING, level: 1, duration: 180, color: (159,232,186)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [effect: AWKWARD] ] #Input Item(s)
+
+          #Extension
+        - ingredient: [item: REDSTONE]
+          output:     [name: "Potion of Haste", item: POTION, amount: 1, potion: [[effect: FAST_DIGGING, level: 1, duration: 480, color: (159,232,186)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [[effect: FAST_DIGGING, level: 1, duration: 180, color: (159,232,186)]] ] #Input Item(s)
+
+          #Upgrade
+        - ingredient: [item: GLOWSTONE]
+          output:     [name: "Potion of Haste II", item: POTION, amount: 1, potion: [[effect: FAST_DIGGING, level: 2, duration: 90, color: (159,232,186)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [[effect: FAST_DIGGING, level: 1, duration: 180, color: (159,232,186)]] ] #Input Item(s)
+
+          #Splash
+        - ingredient: [item: GUNPOWDER]
+          output:     [name: "Splash Potion of Haste", item: SPLASH_POTION, amount: 1, potion: [[effect: FAST_DIGGING, level: 1, duration: 180, color: (159,232,186)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [[effect: FAST_DIGGING, level: 1, duration: 180, color: (159,232,186)]] ] #Input Item(s)
+
+          #Splash Extended
+        - ingredient: [item: GUNPOWDER]
+          output:     [name: "Splash Potion of Haste", item: SPLASH_POTION, amount: 1, potion: [[effect: FAST_DIGGING, level: 1, duration: 480, color: (159,232,186)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [[effect: FAST_DIGGING, level: 1, duration: 480, color: (159,232,186)]] ] #Input Item(s)
+
+          #Splash Upgraded
+        - ingredient: [item: GUNPOWDER]
+          output:     [name: "Splash Potion of Haste II", item: SPLASH_POTION, amount: 1, potion: [[effect: FAST_DIGGING, level: 2, duration: 90, color: (159,232,186)]] ] #Output Item
+          input:      [tem: POTION, amount: 1, potion: [[effect: FAST_DIGGING, level: 2, duration: 90, color: (159,232,186)]] ] #Input Item(s)
+
+          #Lingering
+        - ingredient: [item: DRAGON_BREATH]
+          output:     [name: "Lingering Potion of Haste", item: LINGERING_POTION, amount: 1, potion: [[effect: FAST_DIGGING, level: 1, duration: 180, color: (159,232,186)]] ] #Output Item
+          input:      [item: SPLASH_POTION, amount: 1, potion: [[effect: FAST_DIGGING, level: 1, duration: 180, color: (159,232,186)]] ] #Input Item(s)
+
+          #Lingering Extended
+        - ingredient: [item: DRAGON_BREATH]
+          output:     [name: "Lingering Potion of Haste", item: LINGERING_POTION, amount: 1, potion: [[effect: FAST_DIGGING, level: 1, duration: 480, color: (159,232,186)]] ] #Output Item
+          input:      [item: SPLASH_POTION, amount: 1, potion: [[effect: FAST_DIGGING, level: 1, duration: 480, color: (159,232,186)]] ] #Input Item(s)
+
+          #lingering Upgraded
+        - ingredient: [item: DRAGON_BREATH]
+          output:     [name: "Lingering Potion of Haste II", item: LINGERING_POTION, amount: 1, potion: [[effect: FAST_DIGGING, level: 2, duration: 90, color: (159,232,186)]] ] #Output Item
+          input:      [item: SPLASH_POTION, amount: 1, potion: [[effect: FAST_DIGGING, level: 2, duration: 90, color: (159,232,186)]] ] #Input Item(s)
+
+    level-4:
+      #Initial
+      - ingredient: [item: POISONOUS_POTATO]
+        output:     [name: "Potion of Mining Fatigue", item: POTION, amount: 1, potion: [[effect: WITHER, level: 1, duration: 30, color: (0,0,0)]] ] #Output Item
+        input:      [item: POTION, amount: 1, potion: [effect: AWKWARD] ] #Input Item(s)
+
+        #Extension
+      - ingredient: [item: REDSTONE]
+        output:     [name: "Potion of Mining Fatigue", item: POTION, amount: 1, potion: [[effect: WITHER, level: 1, duration: 80, color: (0,0,0)]] ] #Output Item
+        input:      [item: POTION, amount: 1, potion: [[effect: WITHER, level: 1, duration: 30, color: (0,0,0)]] ] #Input Item(s)
+
+        #Upgrade
+      - ingredient: [item: GLOWSTONE]
+        output:     [name: "Potion of Mining Fatigue II", item: POTION, amount: 1, potion: [[effect: WITHER, level: 2, duration: 15, color: (0,0,0)]] ] #Output Item
+        input:      [item: POTION, amount: 1, potion: [[effect: WITHER, level: 1, duration: 30, color: (0,0,0)]] ] #Input Item(s)
+
+        #Splash
+      - ingredient: [item: GUNPOWDER]
+        output:     [name: "Splash Potion of Mining Fatigue", item: POTION, amount: 1, potion: [[effect: WITHER, level: 1, duration: 30, color: (0,0,0)]] ] #Output Item
+        input:      [item: POTION, amount: 1, potion: [[effect: WITHER, level: 1, duration: 30, color: (0,0,0)]] ] #Input Item(s)
+
+        #Splash Extended
+      - ingredient: [item: GUNPOWDER]
+        output:     [name: "Splash Potion of Mining Fatigue", item: SPLASH_POTION, amount: 1, potion: [[effect: WITHER, level: 1, duration: 80, color: (0,0,0)]] ] #Output Item
+        input:      [item: POTION, amount: 1, potion: [[effect: WITHER, level: 1, duration: 80, color: (0,0,0)]] ] #Input Item(s)
+
+        #Splash Upgraded
+      - ingredient: [item: GUNPOWDER]
+        output:     [name: "Splash Potion of Mining Fatigue II", item: SPLASH_POTION, amount: 1, potion: [[effect: WITHER, level: 2, duration: 15, color: (0,0,0)]] ] #Output Item
+        input:      [tem: POTION, amount: 1, potion: [[effect: WITHER, level: 2, duration: 15, color: (0,0,0)]] ] #Input Item(s)
+
+        #Lingering
+      - ingredient: [item: DRAGON_BREATH]
+        output:     [name: "Lingering Potion of Mining Fatigue", item: LINGERING_POTION, amount: 1, potion: [[effect: WITHER, level: 1, duration: 30, color: (0,0,0)]] ] #Output Item
+        input:      [item: SPLASH_POTION, amount: 1, potion: [[effect: WITHER, level: 1, duration: 30, color: (0,0,0)]] ] #Input Item(s)
+
+        #Lingering Extended
+      - ingredient: [item: DRAGON_BREATH]
+        output:     [name: "Lingering Potion of Mining Fatigue", item: LINGERING_POTION, amount: 1, potion: [[effect: WITHER, level: 1, duration: 80, color: (0,0,0)]] ] #Output Item
+        input:      [item: SPLASH_POTION, amount: 1, potion: [[effect: WITHER, level: 1, duration: 80, color: (0,0,0)]] ] #Input Item(s)
+
+        #lingering Upgraded
+      - ingredient: [item: DRAGON_BREATH]
+        output:     [name: "Lingering Potion of Mining Fatigue II", item: LINGERING_POTION, amount: 1, potion: [[effect: WITHER, level: 2, duration: 15, color: (0,0,0)]] ] #Output Item
+        input:      [item: SPLASH_POTION, amount: 1, potion: [[effect: WITHER, level: 2, duration: 15, color: (0,0,0)]] ] #Input Item(s)
+
+    level-5:
+      potionRecipes:
+        #Initial
+        - ingredient: [item: GOLDEN_APPLE]
+          output:     [name: "Potion of Haste", item: POTION, amount: 1, potion: [[effect: DAMAGE_RESISTANCE, level: 1, duration: 180, color: (150,140,175)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [effect: AWKWARD] ] #Input Item(s)
+
+          #Extension
+        - ingredient: [item: REDSTONE]
+          output:     [name: "Potion of Haste", item: POTION, amount: 1, potion: [[effect: DAMAGE_RESISTANCE, level: 1, duration: 480, color: (150,140,175)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [[effect: DAMAGE_RESISTANCE, level: 1, duration: 180, color: (150,140,175)]] ] #Input Item(s)
+
+          #Upgrade
+        - ingredient: [item: GLOWSTONE]
+          output:     [name: "Potion of Haste II", item: POTION, amount: 1, potion: [[effect: DAMAGE_RESISTANCE, level: 2, duration: 90, color: (150,140,175)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [[effect: DAMAGE_RESISTANCE, level: 1, duration: 180, color: (150,140,175)]] ] #Input Item(s)
+
+          #Splash
+        - ingredient: [item: GUNPOWDER]
+          output:     [name: "Splash Potion of Haste", item: SPLASH_POTION, amount: 1, potion: [[effect: DAMAGE_RESISTANCE, level: 1, duration: 180, color: (150,140,175)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [[effect: DAMAGE_RESISTANCE, level: 1, duration: 180, color: (150,140,175)]] ] #Input Item(s)
+
+          #Splash Extended
+        - ingredient: [item: GUNPOWDER]
+          output:     [name: "Splash Potion of Haste", item: SPLASH_POTION, amount: 1, potion: [[effect: DAMAGE_RESISTANCE, level: 1, duration: 480, color: (150,140,175)]] ] #Output Item
+          input:      [item: POTION, amount: 1, potion: [[effect: DAMAGE_RESISTANCE, level: 1, duration: 480, color: (150,140,175)]] ] #Input Item(s)
+
+          #Splash Upgraded
+        - ingredient: [item: GUNPOWDER]
+          output:     [name: "Splash Potion of Haste II", item: SPLASH_POTION, amount: 1, potion: [[effect: DAMAGE_RESISTANCE, level: 2, duration: 90, color: (150,140,175)]] ] #Output Item
+          input:      [tem: POTION, amount: 1, potion: [[effect: DAMAGE_RESISTANCE, level: 2, duration: 90, color: (150,140,175)]] ] #Input Item(s)
+
+          #Lingering
+        - ingredient: [item: DRAGON_BREATH]
+          output:     [name: "Lingering Potion of Haste", item: LINGERING_POTION, amount: 1, potion: [[effect: DAMAGE_RESISTANCE, level: 1, duration: 180, color: (150,140,175)]] ] #Output Item
+          input:      [item: SPLASH_POTION, amount: 1, potion: [[effect: DAMAGE_RESISTANCE, level: 1, duration: 180, color: (150,140,175)]] ] #Input Item(s)
+
+          #Lingering Extended
+        - ingredient: [item: DRAGON_BREATH]
+          output:     [name: "Lingering Potion of Haste", item: LINGERING_POTION, amount: 1, potion: [[effect: DAMAGE_RESISTANCE, level: 1, duration: 480, color: (150,140,175)]] ] #Output Item
+          input:      [item: SPLASH_POTION, amount: 1, potion: [[effect: DAMAGE_RESISTANCE, level: 1, duration: 480, color: (150,140,175)]] ] #Input Item(s)
+
+          #lingering Upgraded
+        - ingredient: [item: DRAGON_BREATH]
+          output:     [name: "Lingering Potion of Haste II", item: LINGERING_POTION, amount: 1, potion: [[effect: DAMAGE_RESISTANCE, level: 2, duration: 90, color: (150,140,175)]] ] #Output Item
+          input:      [item: SPLASH_POTION, amount: 1, potion: [[effect: DAMAGE_RESISTANCE, level: 2, duration: 90, color: (150,140,175)]] ] #Input Item(s)
+
+  skill-3: #Potion Master
     enabled: true #Change this to false to disable this skill from working
     # Select PotionTypes from https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionType.html
     # Select potionEffects from https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionType.html
@@ -2444,7 +2625,7 @@ alchemy:
     # Format: [{potionType name}, {level change}]
     # OR
     # Format [{potionEffect name}, {level change}]
-    level1:
+    level-1:
       changedEffects: #Effects increased or decreased in level by potion Master. At minimum, the level will be reduced to 1.
         - [potionType:   FIRE_RESISTANCE,     levelChange:  1]
         - [potionType:   INSTANT_DAMAGE,      levelChange: -1]
@@ -2493,73 +2674,73 @@ alchemy:
         - [potionEffect: WEAKNESS,            levelChange: -1]
         - [potionEffect: WITHER,              levelChange: -1]
 smelting:
-  passive1: #Fuel Speed
+  passive-1: #Fuel Speed
     enabled: true #Change this to false to disable this skill from working
     startingValue: 0.00 #Starting speed increase
-    maxValue: -1 #Maximum speed increase (set to 0 for no limit)
-    increasePerLevel: 0.002 #Proportional speed boost per level
-  skill_1A: #Fuel Efficiency
+    allowedRange: [0.0, INF] #The allowed range of speed increase proportions, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.002 #Proportional speed boost per level
+  skill-1: #Fuel Efficiency
     enabled: true #Change this to false to disable this skill from working
     #More config for this possibly to come in the future
-    level1:
+    level-1:
       durationMultiplier: 1.20 #Multiplier for the length of time a fuel source burns
-    level2:
+    level-2:
       durationMultiplier: 1.40 #Multiplier for the length of time a fuel source burns
-    level3:
+    level-3:
       durationMultiplier: 1.60 #Multiplier for the length of time a fuel source burns
-    level4:
+    level-4:
       durationMultiplier: 1.80 #Multiplier for the length of time a fuel source burns
-    level5:
+    level-5:
       durationMultiplier: 2.00 #Multiplier for the length of time a fuel source burns
-  skill_2A: #Double Smelt
+  skill-2: #Double Smelt
     enabled: true #Change this to false to disable this skill from working
     #More config for this possibly to come in the future
-    level1:
+    level-1:
       activationChance: 0.05 #chance for a double smelt to occur
-    level2:
+    level-2:
       activationChance: 0.10 #chance for a double smelt to occur
-    level3:
+    level-3:
       activationChance: 0.15 #chance for a double smelt to occur
-    level4:
+    level-4:
       activationChance: 0.20 #chance for a double smelt to occur
-    level5:
+    level-5:
       activationChance: 0.25 #chance for a double smelt to occur
-  skill_M: #Flame Pickaxe
+  skill-3: #Flame Pickaxe
     enabled: true #Change this to false to disable this skill from working
     #more config possible for this skill in the future
-    level1:
+    level-1:
       giveMinecraftEXP: true #Whether or not flame pick smelted items give equivalent minecraft exp for smelting
       durabilityModifier: 1.0 #Average durability points removed per block broken using flame pickaxe (without unbreaking)
 enchanting:
-  passive1: #Quicker Development
+  passive-1: #Quicker Development
     enabled: true #Change this to false to disable this skill from working
     startingValue: 0.00 #Starting minecraft xp boost
-    maxValue: -1 #Maximum minecraft xp boost (set to 0 for no limit)
-    increasePerLevel: 0.002 #Proportional minecraft xp boost per level
-  skill_1A: #Efficient Enchanting
+    allowedRange: [0.0, INF] #The allowed range of minecraft xp boost proportions, (INF or -INF represent positive and negative infinity)
+    changePerLevel: 0.002 #Proportional minecraft xp boost per level
+  skill-1: #Efficient Enchanting
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       enchantRequirementReduction: 1 #Number of levels enchanting requirement is reduced by
       repairCostReduction: 1 #Number of levels repair cost is reduced by
-    level2:
+    level-2:
       enchantRequirementReduction: 2 #Number of levels enchanting requirement is reduced by
       repairCostReduction: 2 #Number of levels repair cost is reduced by
-    level3:
+    level-3:
       enchantRequirementReduction: 3 #Number of levels enchanting requirement is reduced by
       repairCostReduction: 3 #Number of levels repair cost is reduced by
-    level4:
+    level-4:
       enchantRequirementReduction: 4 #Number of levels enchanting requirement is reduced by
       repairCostReduction: 4 #Number of levels repair cost is reduced by
-    level5:
+    level-5:
       enchantRequirementReduction: 5 #Number of levels enchanting requirement is reduced by
       repairCostReduction: 5 #Number of levels repair cost is reduced by
-  skill_2A: #Booksmart
+  skill-2: #Booksmart
     enabled: true #Change this to false to disable this skill from working
     # Output is a custom item
     # Eventually more than two recipes will be able to be added, but for now just the first two will be read in
     # For now, custom items are not recognizable in crafting recipes (it takes quite a bit of code to make crafting recipes recognize more than a material)
     # You can also add the "XPcost" tag which requires and subtracts a specified number of levels on crafting
-    level1:
+    level-1:
       recipes:
         - output: [item: ENCHANTED_BOOK, amount: 1, enchantments: [[enchant: POWER, level: 1]] ]
           recipe: [AIR,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,BOW]
@@ -2567,7 +2748,7 @@ enchanting:
         - output: [item: ENCHANTED_BOOK, amount: 1, enchantments: [[enchant: EFFICIENCY, level: 1]] ]
           recipe: [AIR,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,IRON_PICKAXE]
           xpCost: 1
-    level2:
+    level-2:
       recipes:
         - output: [item: ENCHANTED_BOOK, amount: 1, enchantments: [[enchant: SHARPNESS, level: 1]] ]
           recipe: [IRON_INGOT,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,IRON_SWORD]
@@ -2575,7 +2756,7 @@ enchanting:
         - output: [item: ENCHANTED_BOOK, amount: 1, enchantments: [[enchant: PROTECTION, level: 1]] ]
           recipe: [AIR,IRON_INGOT,AIR,IRON_INGOT,PAPER,PAPER,AIR,PAPER,IRON_INGOT]
           xpCost: 1
-    level3:
+    level-3:
       recipes:
         - output: [item: ENCHANTED_BOOK, amount: 1, enchantments: [[enchant: LUCK_OF_THE_SEA, level: 1]] ]
           recipe: [RABBIT_FOOT,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,FISHING_ROD]
@@ -2583,7 +2764,7 @@ enchanting:
         - output: [item: ENCHANTED_BOOK, amount: 1, enchantments: [[enchant: LURE, level: 1]] ]
           recipe: [COD_BUCKET,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,FISHING_ROD]
           xpCost: 1
-    level4:
+    level-4:
       recipes:
         - output: [item: ENCHANTED_BOOK, amount: 1, enchantments: [[enchant: FROST_WALKER, level: 1]] ]
           recipe: [ICE,PACKED_ICE,PACKED_ICE,PACKED_ICE,PAPER,PAPER,PACKED_ICE,PAPER,BLUE_ICE]
@@ -2591,7 +2772,7 @@ enchanting:
         - output: [item: ENCHANTED_BOOK, amount: 1, enchantments: [[enchant: DEPTH_STRIDER, level: 1]] ]
           recipe: [AIR,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,NAUTILUS_SHELL]
           xpCost: 2
-    level5:
+    level-5:
       recipes:
         - output: [item: ENCHANTED_BOOK, amount: 1, enchantments: [[enchant: MENDING, level: 1]] ]
           recipe: [AIR,DIAMOND_BLOCK,AIR,DIAMOND_BLOCK,PAPER,PAPER,AIR,PAPER,DIAMOND_BLOCK]
@@ -2599,9 +2780,9 @@ enchanting:
         - output: [item: ENCHANTED_BOOK, amount: 1, enchantments: [[enchant: FORTUNE, level: 1]] ]
           recipe: [AIR,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,GOLD_BLOCK]
           xpCost: 2
-  skill_M: #Immortal Experience
+  skill-3: #Immortal Experience
     enabled: true #Change this to false to disable this skill from working
-    level1:
+    level-1:
       keepXPchance: 1.0 #Chance minecraft xp is kept on death
       proportionKept: 1.0 #Percent of XP kept on death
       maxLevelsKept: -1 #Maximum number of levels kept, (set to -1 for no limit)
