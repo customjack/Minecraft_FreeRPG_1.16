@@ -218,20 +218,6 @@ public class Fishing extends Skill{
 
     }
 
-    public void normalCatch(FishHook fishhook, Entity hookedEntity,World world) {
-        if (!runMethods) {
-            return;
-        }
-        if (hookedEntity == null) {
-            return;
-        }
-        if (hookedEntity instanceof Item) {
-            ItemStack drop = dropTable(false);
-            ((Item) hookedEntity).setItemStack(drop);
-
-        }
-    }
-
     public void fishPersonStart() {
         if (!runMethods) {
             return;

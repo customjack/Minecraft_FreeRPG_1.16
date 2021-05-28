@@ -54,9 +54,6 @@ public class PlayerFish implements Listener {
             if (pAbilities[4] == -2) {
                 fishingClass.superBait(e.getHook(),caughtThing,world);
             }
-            else {
-                fishingClass.normalCatch(e.getHook(),caughtThing,world);
-            }
         }
         else if (e.getState() == PlayerFishEvent.State.CAUGHT_ENTITY) {
             Fishing fishingClass = new Fishing(p);
