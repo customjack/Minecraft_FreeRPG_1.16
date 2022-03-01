@@ -204,7 +204,7 @@ public class PlayerRightClick implements Listener {
             //Farming
             else if (hoes.contains(itemInHandType)) {
                 if (a.equals(Action.RIGHT_CLICK_BLOCK)) {
-                    if (!(e.getClickedBlock().getType() == Material.DIRT || e.getClickedBlock().getType() == Material.GRASS_BLOCK || e.getClickedBlock().getType() == Material.GRASS_PATH )) {
+                    if (!(e.getClickedBlock().getType() == Material.DIRT || e.getClickedBlock().getType() == Material.GRASS_BLOCK || e.getClickedBlock().getType() == Material.DIRT_PATH )) {
                         Farming farmingClass = new Farming(p);
                         farmingClass.initiateAbility();
                     } else {
