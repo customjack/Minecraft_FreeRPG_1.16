@@ -322,8 +322,6 @@ farming:
       #  breakExp: 200 might be too high, but to get players discovering the underground it might be just right
       - [block: SPORE_BLOSSOM,    breakExp: 200, natural: true ]
       - [block: BIG_DRIPLEAF,     breakExp: 70,  natural: true ]
-      - [block: BIG_DRIPLEAF,     breakExp: 70,  natural: true ]
-      - [block: BIG_DRIPLEAF,     breakExp: 70,  natural: true ]
 fishing:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier

@@ -30,7 +30,7 @@ public class ExpMaps {
         diggingEXP.put(Material.CLAY, expMap.get("breakClay"));
         diggingEXP.put(Material.FARMLAND,expMap.get("breakFarmland"));
         diggingEXP.put(Material.GRASS_BLOCK,expMap.get("breakGrassBlock"));
-        diggingEXP.put(Material.GRASS_PATH,expMap.get("breakGrassPath"));
+        diggingEXP.put(Material.DIRT_PATH,expMap.get("breakGrassPath"));
         diggingEXP.put(Material.GRAVEL,expMap.get("breakGravel"));
         diggingEXP.put(Material.MYCELIUM,expMap.get("breakMycelium"));
         diggingEXP.put(Material.PODZOL,expMap.get("breakPodzol"));
@@ -59,6 +59,8 @@ public class ExpMaps {
         diggingEXP.put(Material.BLACK_CONCRETE_POWDER,expMap.get("breakConcretePowder"));
         if (mcVersion >= 1.16) {
             diggingEXP.put(Material.SOUL_SOIL,expMap.get("breakSoulSoil"));
+        } else if (mcVersion >= 1.17) {
+            diggingEXP.put(Material.ROOTED_DIRT,expMap.get("breakRooted_Dirt"));
         }
     }
 
@@ -111,6 +113,8 @@ public class ExpMaps {
             woodcuttingEXP.put(Material.STRIPPED_WARPED_STEM, expMap.get("breakWarped_Stem"));
             woodcuttingEXP.put(Material.WARPED_PLANKS, expMap.get("breakCrimson_Planks"));
             woodcuttingEXP.put(Material.CRIMSON_PLANKS, expMap.get("breakWarped_Planks"));
+        } else if (mcVersion >= 1.17) {
+            woodcuttingEXP.put(Material.FLOWERING_AZALEA_LEAVES, expMap.get("breakFlowering_Azalea_Leaves"));
         }
     }
 
@@ -157,6 +161,25 @@ public class ExpMaps {
             miningEXP.put(Material.CRIMSON_NYLIUM, expMap.get("breakCrimson_Nylium"));
             miningEXP.put(Material.WARPED_NYLIUM, expMap.get("breakWarped_Nylium"));
             miningEXP.put(Material.GILDED_BLACKSTONE, expMap.get("breakGilded_Blackstone"));
+        } else if (mcVersion >= 1.17) {
+            miningEXP.put(Material.AMETHYST_CLUSTER, expMap.get("breakAmethyst_Cluster"));
+            miningEXP.put(Material.AMETHYST_BLOCK, expMap.get("breakAmethyst_Block"));
+            miningEXP.put(Material.RAW_COPPER_BLOCK, expMap.get("breakRaw_Copper_Block"));
+            miningEXP.put(Material.RAW_IRON_BLOCK, expMap.get("breakRaw_Iron_Block"));
+            miningEXP.put(Material.CALCITE, expMap.get("breakCalcite"));
+            miningEXP.put(Material.DEEPSLATE, expMap.get("breakDeepslate"));
+            miningEXP.put(Material.COPPER_ORE, expMap.get("breakCopper_Ore"));
+            miningEXP.put(Material.DEEPSLATE_COAL_ORE, expMap.get("breakDeepslate_Coal_Ore"));
+            miningEXP.put(Material.DEEPSLATE_COPPER_ORE, expMap.get("breakDeepslate_Copper_Ore"));
+            miningEXP.put(Material.DEEPSLATE_DIAMOND_ORE, expMap.get("breakDeepslate_Diamond_Ore"));
+            miningEXP.put(Material.DEEPSLATE_EMERALD_ORE, expMap.get("breakDeepslate_Emerald_Ore"));
+            miningEXP.put(Material.DEEPSLATE_GOLD_ORE, expMap.get("breakDeepslate_Gold_Ore"));
+            miningEXP.put(Material.DEEPSLATE_IRON_ORE, expMap.get("breakDeepslate_Iron_Ore"));
+            miningEXP.put(Material.DEEPSLATE_LAPIS_ORE, expMap.get("breakDeepslate_Lapis_Ore"));
+            miningEXP.put(Material.DEEPSLATE_REDSTONE_ORE, expMap.get("breakDeepslate_Redstone_Ore"));
+            miningEXP.put(Material.DRIPSTONE_BLOCK, expMap.get("breakDripstone_Block"));
+            miningEXP.put(Material.POINTED_DRIPSTONE, expMap.get("breakPointed_Dripstone"));
+            miningEXP.put(Material.TUFF, expMap.get("breakTuff"));
         }
     }
 
@@ -180,6 +203,19 @@ public class ExpMaps {
         farmingEXP.put(Material.SEA_PICKLE,expMap.get("breakSea_Pickle"));
         farmingEXP.put(Material.NETHER_WART,expMap.get("breakNether_Wart"));
         farmingEXP.put(Material.CHORUS_PLANT,expMap.get("breakChorusPlant"));
+        if (mcVersion >= 1.17) {
+            farmingEXP.put(Material.AZALEA,expMap.get("breakAzalea"));
+            farmingEXP.put(Material.FLOWERING_AZALEA,expMap.get("breakFlowering_Aealea"));
+            farmingEXP.put(Material.CAVE_VINES,expMap.get("breakCave_Vines"));
+            farmingEXP.put(Material.SMALL_DRIPLEAF,expMap.get("breakSmall_Dripleaf"));
+            farmingEXP.put(Material.GLOW_LICHEN,expMap.get("breakGlow_Lichen"));
+            farmingEXP.put(Material.HANGING_ROOTS,expMap.get("breakHanging_Roots"));
+            farmingEXP.put(Material.MOSS_BLOCK,expMap.get("breakMoos_block"));
+            farmingEXP.put(Material.SPORE_BLOSSOM,expMap.get("breakSpore_Blossom"));
+            // Not sure if this is a great idea
+            farmingEXP.put(Material.BIG_DRIPLEAF,expMap.get("breakBig_Dripleaf"));
+            farmingEXP.put(Material.BIG_DRIPLEAF_STEM,expMap.get("breakBig_Dripleaf"));
+        }
     }
     public void initializeFlamePickEXP() {
         ConfigLoad configLoad = new ConfigLoad();

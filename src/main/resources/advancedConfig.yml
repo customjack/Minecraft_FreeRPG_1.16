@@ -149,6 +149,8 @@ digging:
     breakSnowBlock: 22
     breakSnow: 4
     breakConcretePowder: 20
+    # added since 1.16.5
+    breakRooted_Dirt: 100
 woodcutting:
   timberEXPMultiplier: 0.4 #EXP nerf when using the Timber skill
   timberMaxBreakInitial: 64 #Max number of logs that can be broken with the without Timber+
@@ -203,6 +205,8 @@ woodcutting:
     breakWarped_Stem: 125
     breakCrimson_Planks: 28
     breakWarped_Planks: 28
+    # added since 1.16.5
+    breakFlowering_Azalea_Leaves: 13
 mining:
   # All Blocks affected by the Vein Miner perk. Putting something like "DIRT" will break your server if maximum blocks broken is very high or -1.
   veinMinerBlocks: [REDSTONE_ORE,NETHER_QUARTZ_ORE,LAPIS_ORE,IRON_ORE,GOLD_ORE,EMERALD_ORE,DIAMOND_ORE,COAL_ORE,
@@ -246,6 +250,14 @@ mining:
     breakCrimson_Nylium: 15
     breakWarped_Nylium: 15
     breakGilded_Blackstone: 500
+    # added since 1.16.5
+    breakAmethyst_Cluster: 850
+    breakAmethyst_Block: 250
+    breakRaw_Copper_Block: 4500
+    breakRaw_Iron_Block: 4500
+    breakCalcite: 25
+    breakDeepslate: 30
+    breakCopper_Ore: 350
     breakDeepslate_Coal_Ore: 400
     breakDeepslate_Copper_Ore: 700
     breakDeepslate_Diamond_Ore: 2000
@@ -254,6 +266,9 @@ mining:
     breakDeepslate_Iron_Ore: 700
     breakDeepslate_Lapis_Ore: 1400
     breakDeepslate_Redstone_Ore: 1000
+    breakDripstone_Block: 45
+    breakPointed_Dripstone: 95
+    breakTuff: 30
 farming:
   expDrops:
     enableEXPDrops: true
@@ -289,6 +304,16 @@ farming:
     breakSea_Pickle: 100
     breakNether_Wart: 58
     breakChorusPlant: 60
+    # added since 1.16.5
+    breakAzalea: 75
+    breakFlowering_Aealea: 75
+    breakCave_Vines: 85
+    breakSmall_Dripleaf: 70
+    breakGlow_Lichen: 70
+    breakHanging_Roots: 250
+    breakMoos_block: 15
+    breakSpore_Blossom: 200
+    breakBig_Dripleaf: 70
   crafting: #Animal Farm Perks
     # recipes are a list of ingredients formatted as such:
     # - (1) top left
@@ -520,6 +545,9 @@ archery:
     killIllusioner: 125
     killGiant: 125
     killAnythingElse: 30 #If you are using 1.15 this is the value used for zombie pigmen
+    # added since 1.16.5
+    killAxolotl: 50
+    killGoat: 40
 beastMastery:
   spawnerMobsEXPMultiplier: 1.0 #Nerfs EXP recieved from mobs that spawned from a spawner
   #mobFarmEXPMutliplier is circumventable as it relies on mob density. It does stack with spawnerMobsEXPMultiplier
@@ -604,6 +632,9 @@ beastMastery:
     killIllusioner: 750
     killGiant: 750
     killAnythingElse: 300 #If you are using 1.15 this is the value used for zombie pigmen
+    # added since 1.16.5
+    killAxolotl: 50
+    killGoat: 40
 swordsmanship:
   spawnerMobsEXPMultiplier: 1.0 #Nerfs EXP recieved from mobs that spawned from a spawner
   #mobFarmEXPMutliplier is circumventable as it relies on mob density. It does stack with spawnerMobsEXPMultiplier
@@ -684,6 +715,9 @@ swordsmanship:
     killIllusioner: 125
     killGiant: 125
     killAnythingElse: 30 #If you are using 1.15 this is the value used for zombie pigmen
+    # added since 1.16.5
+    killAxolotl: 50
+    killGoat: 40
 defense:
   spawnerMobsEXPMultiplier: 1.0 #Nerfs EXP recieved from mobs that spawned from a spawner
   #mobFarmEXPMutliplier is circumventable as it relies on mob density. In other words, it's not surefire but should not hurt normal EXP gain
@@ -767,6 +801,9 @@ defense:
     killIllusioner: 125
     killGiant: 125
     killAnythingElse: 30 #If you are using 1.15 this is the value used for zombie pigmen
+    # added since 1.16.5
+    killAxolotl: 50
+    killGoat: 40
 axeMastery:
   spawnerMobsEXPMultiplier: 1.0 #Nerfs EXP recieved from mobs that spawned from a spawner
   #mobFarmEXPMutliplier is circumventable as it relies on mob density. It does stack with spawnerMobsEXPMultiplier
@@ -847,6 +884,9 @@ axeMastery:
     killIllusioner: 125
     killGiant: 125
     killAnythingElse: 30 #If you are using 1.15 this is the value used for zombie pigmen
+    # added since 1.16.5
+    killAxolotl: 50
+    killGoat: 40
 repair:
   preventRepairOfItemsWithUnsafeEnchantments: true #Prevents items with non-vanilla enchants from being repaired when true
   preventSalvageOfItemsWithUnsafeEnchantments: true #Prevents items with non-vanilla enchants from being salvaged when true
