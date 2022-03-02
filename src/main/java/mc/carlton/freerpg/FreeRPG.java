@@ -30,6 +30,9 @@ import mc.carlton.freerpg.playerInfo.*;
 import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.serverFileManagement.*;
 import mc.carlton.freerpg.serverInfo.*;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.*;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -44,9 +47,11 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 
 public final class FreeRPG extends JavaPlugin implements Listener {
+    private static Logger LOGGER = LogManager.getLogger(FreeRPG.class.getSimpleName());
 
     @Override
     public void onEnable() {
+        log(Level.INFO, "Initializing FreeRPG");
         //Plugin startup logic
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
 
@@ -239,7 +244,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
             try {
                 logout.playerLogout(true);
             } catch (IOException e) {
-                e.printStackTrace();
+                log(Level.WARN, e.getMessage());
             }
         }
 
@@ -267,7 +272,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
             Enchantment.registerEnchantment(enchantment);
         } catch (Exception e) {
             registered = false;
-            e.printStackTrace();
+            log(Level.WARN, e.getMessage());
         }
         if(registered){
             // It's been registered!
@@ -298,6 +303,10 @@ public final class FreeRPG extends JavaPlugin implements Listener {
 
         } catch (Exception ignored) { }
 
+    }
+
+    public static void log(Level level, String message) {
+        LOGGER.log(level, message);
     }
 
 }
