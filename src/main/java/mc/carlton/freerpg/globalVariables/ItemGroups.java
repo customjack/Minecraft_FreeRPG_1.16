@@ -119,6 +119,7 @@ public class ItemGroups {
         enchantmentLevelMap.put(Enchantment.WATER_WORKER, 1);
     }
 
+    // TODO Comment what for the blocks are tracked
     public void initializeTrackedBlocks() {
         Material[] trackedBlocks0 = new Material[]{Material.ACACIA_LOG, Material.ACACIA_LEAVES, Material.BIRCH_LOG, Material.BIRCH_LEAVES,
                 Material.DARK_OAK_LOG, Material.DARK_OAK_LEAVES, Material.JUNGLE_LOG, Material.JUNGLE_LEAVES,
@@ -134,11 +135,20 @@ public class ItemGroups {
             List<Material> trackedBlocks_append = Arrays.asList(trackedBlocks_v1_16);
             trackedBlocks1.addAll(trackedBlocks_append);
         }
+        if (mcVersion >= 1.17) {
+            Material[] trackedBlocks_v1_17 = {Material.DEEPSLATE_COAL_ORE,Material.DEEPSLATE_DIAMOND_ORE,
+                    Material.DEEPSLATE_COPPER_ORE, Material.DEEPSLATE_EMERALD_ORE, Material.DEEPSLATE_IRON_ORE,
+                    Material.DEEPSLATE_GOLD_ORE, Material.DEEPSLATE_LAPIS_ORE, Material.DEEPSLATE_REDSTONE_ORE};
+            List<Material> trackedBlocks_append = Arrays.asList(trackedBlocks_v1_17);
+            trackedBlocks1.addAll(trackedBlocks_append);
+        }
         for (Material mat : trackedBlocks1) {
             trackedBlocks.putIfAbsent(mat,true);
         }
         ConfigLoad configLoad = new ConfigLoad();
         ExpMaps expMaps = new ExpMaps();
+
+        // Sets the exp for the blocks
         if (!configLoad.isTrackFewerBlocks()) {
             for (Material mat : expMaps.getWoodcuttingEXP().keySet()) {
                 trackedBlocks.putIfAbsent(mat,true);
@@ -173,6 +183,10 @@ public class ItemGroups {
         Material[] crops0 = {Material.WHEAT,Material.BEETROOTS,Material.CARROTS,Material.CHORUS_FLOWER,
                 Material.MELON_STEM,Material.MELON,Material.NETHER_WART,Material.POTATOES,Material.PUMPKIN_STEM,
                 Material.PUMPKIN,Material.SWEET_BERRY_BUSH,Material.COCOA, Material.CAVE_VINES};
+        /*
+            TODO exp of cave_vines only apply to the lowest part of the cave_vines, otherwise they don't give exp
+            Its better to only give exp if the cave_vines with blockstate berries=true are broken!
+         */
         crops = Arrays.asList(crops0);
         // adds ore to list
         Material[] ores0 = {Material.REDSTONE_ORE,Material.NETHER_QUARTZ_ORE,Material.LAPIS_ORE,Material.IRON_ORE,
@@ -193,7 +207,8 @@ public class ItemGroups {
             ores.addAll(ores_append);
         }
         // adds all ores which can be smelted to LinkedList flamePickOres
-        // TODO might need a rework due to ore changes in 1.18, so that code is backwards compatible to older versions
+        // TODO What exactly is flamePickOres, maybe needs comment to describe it!
+        // TODO Might need a rework due to ore changes in 1.18, so that code is backwards compatible to older versions
         Material[] flamePickOres0 = {Material.IRON_ORE,Material.GOLD_ORE};
         flamePickOres = new LinkedList<>(Arrays.asList(flamePickOres0));
         // appends new 1.16 ores
@@ -371,6 +386,11 @@ public class ItemGroups {
         farmFoodSaturation.put(Material.HONEY_BOTTLE,1.2);
         farmFood.put(Material.SWEET_BERRIES,2);
         farmFoodSaturation.put(Material.SWEET_BERRIES,0.4);
+        if (mcVersion >= 1.17) {
+            // TODO check if values are valid!
+            farmFood.put(Material.GLOW_BERRIES,2);
+            farmFoodSaturation.put(Material.GLOW_BERRIES,0.4);
+        }
 
         meatFood.put(Material.COOKED_MUTTON,6);
         meatFoodSaturation.put(Material.COOKED_MUTTON,9.6);
@@ -436,6 +456,7 @@ public class ItemGroups {
                     Material.NETHERITE_SCRAP,Material.ANCIENT_DEBRIS};
             List<Material> valueableItems_append = Arrays.asList(valuableItems_append0);
             valuableItems.addAll(valueableItems_append);
+            // TODO might need to add 1.17 items
         }
     }
 
@@ -699,12 +720,15 @@ public class ItemGroups {
         smeltableItemsMap.put(Material.GOLDEN_BOOTS,Material.GOLD_NUGGET);
         smeltableItemsMap.put(Material.GOLDEN_HORSE_ARMOR,Material.GOLD_NUGGET);
 
-
         if (mcVersion >= 1.16) {
             smeltableItemsMap.put(Material.ANCIENT_DEBRIS,Material.NETHERITE_SCRAP);
             smeltableItemsMap.put(Material.NETHER_GOLD_ORE,Material.GOLD_INGOT);
             smeltableItemsMap.put(Material.NETHER_BRICK,Material.CRACKED_NETHER_BRICKS);
-
+        }
+        if (mcVersion >= 1.17) {
+            smeltableItemsMap.put(Material.RAW_IRON,Material.RAW_IRON);
+            smeltableItemsMap.put(Material.RAW_COPPER,Material.RAW_COPPER);
+            smeltableItemsMap.put(Material.RAW_GOLD,Material.RAW_GOLD);
         }
 
     }
@@ -800,7 +824,11 @@ public class ItemGroups {
             smeltingXPMap.put(Material.ANCIENT_DEBRIS,2.0);
             smeltingXPMap.put(Material.NETHER_GOLD_ORE,1.0);
             smeltingXPMap.put(Material.NETHER_BRICK,0.1);
-
+        }
+        if (mcVersion >= 1.17) {
+            smeltingXPMap.put(Material.RAW_IRON,0.7);
+            smeltingXPMap.put(Material.RAW_GOLD,1.0);
+            smeltingXPMap.put(Material.RAW_COPPER,0.7);
         }
 
     }

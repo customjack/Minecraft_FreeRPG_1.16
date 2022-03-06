@@ -161,7 +161,8 @@ public class ExpMaps {
             miningEXP.put(Material.CRIMSON_NYLIUM, expMap.get("breakCrimson_Nylium"));
             miningEXP.put(Material.WARPED_NYLIUM, expMap.get("breakWarped_Nylium"));
             miningEXP.put(Material.GILDED_BLACKSTONE, expMap.get("breakGilded_Blackstone"));
-        } else if (mcVersion >= 1.17) {
+        }
+        if (mcVersion >= 1.17) {
             miningEXP.put(Material.AMETHYST_CLUSTER, expMap.get("breakAmethyst_Cluster"));
             miningEXP.put(Material.AMETHYST_BLOCK, expMap.get("breakAmethyst_Block"));
             miningEXP.put(Material.RAW_COPPER_BLOCK, expMap.get("breakRaw_Copper_Block"));
