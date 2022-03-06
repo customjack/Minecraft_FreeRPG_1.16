@@ -232,7 +232,7 @@ public class ItemGroups {
         allLogs.addAll(strippedWood);
         Material[] leaves0 = {Material.ACACIA_LEAVES,Material.BIRCH_LEAVES,Material.DARK_OAK_LEAVES,Material.OAK_LEAVES,
                 Material.SPRUCE_LEAVES,Material.JUNGLE_LEAVES};
-        leaves = Arrays.asList(leaves0);
+        leaves = new LinkedList<>(Arrays.asList(leaves0));
         // TODO Do the leaves of all the nether trees count as well? Might need to be added
         // appends new 1.17 leaves
         if (mcVersion >= 1.17) {
