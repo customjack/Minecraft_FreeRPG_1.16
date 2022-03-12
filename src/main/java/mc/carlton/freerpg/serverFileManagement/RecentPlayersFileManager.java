@@ -2,6 +2,7 @@ package mc.carlton.freerpg.serverFileManagement;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.serverInfo.RecentLogouts;
+import org.apache.logging.log4j.Level;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
@@ -26,7 +27,7 @@ public class RecentPlayersFileManager {
                 }
                 recentLogouts.setLastLogouts(lastLogoutUUIDs);
             } catch (IOException error) {
-                error.printStackTrace();
+                FreeRPG.log(Level.ERROR, error.getMessage());
             }
         }
     }
@@ -43,7 +44,7 @@ public class RecentPlayersFileManager {
                     fileWriter.write("\n");
                 }
             } catch (IOException error) {
-                error.printStackTrace();
+                FreeRPG.log(Level.ERROR, error.getMessage());
             }
         }
     }
@@ -62,7 +63,7 @@ public class RecentPlayersFileManager {
             }
         }
         catch (IOException error) {
-            error.printStackTrace();
+            FreeRPG.log(Level.ERROR, error.getMessage());
         }
 
     }

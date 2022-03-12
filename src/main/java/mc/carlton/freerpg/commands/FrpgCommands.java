@@ -16,6 +16,7 @@ import mc.carlton.freerpg.serverFileManagement.PeriodicSaving;
 import mc.carlton.freerpg.serverFileManagement.PlayerStatsFilePreparation;
 import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.utilities.UtilityMethods;
+import org.apache.logging.log4j.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -869,7 +870,7 @@ public class FrpgCommands implements CommandExecutor {
                 try {
                     saveStats.setPlayerStatsMap();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    FreeRPG.log(Level.ERROR, e.getMessage());
                 }
             }
         }
@@ -1942,7 +1943,7 @@ public class FrpgCommands implements CommandExecutor {
                 p.performCommand("frpg");
             }
             else {
-                System.out.println("You must be a player to perform this command");
+                FreeRPG.log(Level.WARN, "You must be a player to perform this command");
             }
         }
 

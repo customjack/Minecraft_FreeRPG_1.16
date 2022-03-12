@@ -2,6 +2,7 @@ package mc.carlton.freerpg.furnaceEvents;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.FurnaceUserTracker;
+import org.apache.logging.log4j.Level;
 import org.bukkit.block.Furnace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,6 +22,7 @@ public class FurnaceInventoryClick implements Listener {
         try {
             InventoryType invType = e.getClickedInventory().getType();
         } catch (Exception except) {
+            FreeRPG.log(Level.WARN, except.getMessage());
             return;
         }
         if (e.getInventory().getHolder() instanceof Furnace) { //This section is very buggy, and not clean. Hopefully I can improve it in the future

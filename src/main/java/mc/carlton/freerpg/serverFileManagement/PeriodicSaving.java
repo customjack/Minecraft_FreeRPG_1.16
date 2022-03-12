@@ -4,6 +4,7 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.playerInfo.PlayerStats;
 import mc.carlton.freerpg.playerInfo.PlayerStatsLoadIn;
 import mc.carlton.freerpg.configStorage.ConfigLoad;
+import org.apache.logging.log4j.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -48,9 +49,8 @@ public class PeriodicSaving {
                 sum += time;
             }
             double avg = Math.round((sum/N)*100)/100.0;
-            System.out.println("[FreeRPG] Total time Taken: " + sum + " ms");
-            System.out.println("[FreeRPG] Average time Taken: " + avg + " ms");
-
+            FreeRPG.log(Level.INFO, "[FreeRPG] Total time Taken: " + sum + " ms");
+            FreeRPG.log(Level.INFO, "[FreeRPG] Average time Taken: " + avg + " ms");
         }
         else {
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -71,7 +71,7 @@ public class PeriodicSaving {
             loadIn.setPlayerStatsMap();
         }
         catch (IOException e) {
-            System.out.println("[FreeRPG] FAILED TO SAVE STATS OF PLAYER: " + p.getDisplayName());
+            FreeRPG.log(Level.ERROR, "[FreeRPG] FAILED TO SAVE STATS OF PLAYER: " + p.getDisplayName());
         }
     }
 
@@ -81,7 +81,7 @@ public class PeriodicSaving {
             loadIn.setPlayerStatsMap(isPlayerOnline(playerUUID));
         }
         catch (IOException e) {
-            System.out.println("[FreeRPG] FAILED TO SAVE STATS OF PLAYER UUID:" + playerUUID.toString());
+            FreeRPG.log(Level.ERROR, "[FreeRPG] FAILED TO SAVE STATS OF PLAYER UUID:" + playerUUID.toString());
         }
     }
 

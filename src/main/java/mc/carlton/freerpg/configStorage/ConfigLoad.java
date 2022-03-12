@@ -3,6 +3,7 @@ package mc.carlton.freerpg.configStorage;
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.customContainers.OldCustomPotion;
 import mc.carlton.freerpg.customContainers.collections.OldCustomRecipe;
+import org.apache.logging.log4j.Level;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -268,13 +269,14 @@ public class ConfigLoad {
             for (String item : recipeStrings) {
                 Material recipeMaterial = Material.matchMaterial(item);
                 if (recipeMaterial == null) {
-                    System.out.println("[FreeRPG] WARNING: Unrecognized Material in " + "farming.crafting.recipe"+i + "(Some materials will be treated as air");
+                    FreeRPG.log(Level.WARN, "[FreeRPG] WARNING: Unrecognized Material in " +
+                            "farming.crafting.recipe"+ i + "(Some materials will be treated as air");
                 }
                 recipeMaterials.add(recipeMaterial);
             }
             oldCustomRecipe.setRecipe(recipeMaterials);
-            oldCustomRecipe.setYAML_ID("farming.crafting.recipe"+i);
-            craftingRecipes.put("farming"+i, oldCustomRecipe);
+            oldCustomRecipe.setYAML_ID("farming.crafting.recipe" + i);
+            craftingRecipes.put("farming" + i, oldCustomRecipe);
         }
         for (int i = 1; i <= 10; i++) {
             OldCustomRecipe oldCustomRecipe = new OldCustomRecipe();
@@ -291,7 +293,8 @@ public class ConfigLoad {
             for (String item : recipeStrings) {
                 Material recipeMaterial = Material.matchMaterial(item);
                 if (recipeMaterial == null) {
-                    System.out.println("[FreeRPG] WARNING: Unrecognized Material in " + "enchanting.crafting.recipe"+i + "(Some materials will be treated as air");
+                    FreeRPG.log(Level.WARN, "[FreeRPG] WARNING: Unrecognized Material in " +
+                            "enchanting.crafting.recipe" + i + "(Some materials will be treated as air");
                 }
                 recipeMaterials.add(recipeMaterial);
             }
@@ -314,7 +317,8 @@ public class ConfigLoad {
             for (String item : recipeStrings) {
                 Material recipeMaterial = Material.matchMaterial(item);
                 if (recipeMaterial == null) {
-                    System.out.println("[FreeRPG] WARNING: Unrecognized Material in " + "alchemy.crafting.recipe"+i + "(Some materials will be treated as air");
+                    FreeRPG.log(Level.WARN, "[FreeRPG] WARNING: Unrecognized Material in " +
+                            "alchemy.crafting.recipe" + i + "(Some materials will be treated as air");
                 }
                 recipeMaterials.add(recipeMaterial);
             }

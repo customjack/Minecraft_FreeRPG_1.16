@@ -1,7 +1,9 @@
 package mc.carlton.freerpg.commands;
 
+import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
+import org.apache.logging.log4j.Level;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,7 +21,7 @@ public class SpiteQuote implements CommandExecutor {
         } else {
             StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
             String version = stringsAndOtherData.getVersion();
-            System.out.println("[COMMAND_OUT] Running FreeRPG version " + version);
+            FreeRPG.log(Level.INFO, "[COMMAND_OUT] Running FreeRPG version " + version);
         }
         return true;
     }

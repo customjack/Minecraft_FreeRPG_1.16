@@ -4,6 +4,7 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.leaveAndJoin.LoginProcedure;
 import mc.carlton.freerpg.serverFileManagement.PlayerStatsFilePreparation;
 import mc.carlton.freerpg.serverInfo.RecentLogouts;
+import org.apache.logging.log4j.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -63,8 +64,8 @@ public class OfflinePlayerStatLoadIn {
                     sum += time;
                 }
                 double avg = Math.round((sum/N)*100)/100.0;
-                System.out.println("Total time Taken: " + sum + " ms");
-                System.out.println("Average time Taken: " + avg + " ms");
+                FreeRPG.log(Level.INFO, "Total time Taken: " + sum + " ms");
+                FreeRPG.log(Level.INFO, "Average time Taken: " + avg + " ms");
             }
         }.runTaskAsynchronously(plugin);
 

@@ -1,6 +1,8 @@
 package mc.carlton.freerpg.gameTools;
 
+import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.serverInfo.MinecraftVersion;
+import org.apache.logging.log4j.Level;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -181,7 +183,7 @@ public class PsuedoEnchanting {
 
     public void printInfo() {
         for (Enchantment enchant : enchantmentWeightMap.keySet()) {
-            System.out.println(enchant.getKey());
+            FreeRPG.log(Level.INFO, String.valueOf(enchant.getKey()));
         }
     }
 

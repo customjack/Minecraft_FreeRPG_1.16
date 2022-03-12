@@ -8,7 +8,9 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
+import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.configStorage.ConfigLoad;
+import org.apache.logging.log4j.Level;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -22,6 +24,7 @@ public class WorldGuardChecks {
         } catch (NoClassDefFoundError e) {
             worldGuardPresent = false;
         }
+        FreeRPG.log(Level.INFO, "Worldguard is present: " + worldGuardPresent);
     }
 
     public boolean canBuild(Player p, Location l) {

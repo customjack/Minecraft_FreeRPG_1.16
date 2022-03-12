@@ -2,6 +2,7 @@ package mc.carlton.freerpg.serverFileManagement;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.serverInfo.PlacedBlocksManager;
+import org.apache.logging.log4j.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -35,7 +36,7 @@ public class PlacedBlockFileManager {
                 }
                 placedBlocksManager.setBlocksMap(blocks);
             } catch (IOException error) {
-                error.printStackTrace();
+                FreeRPG.log(Level.ERROR, error.getMessage());
             }
         }
     }
@@ -62,7 +63,7 @@ public class PlacedBlockFileManager {
                     }
                 }
             } catch (IOException error) {
-                error.printStackTrace();
+                FreeRPG.log(Level.ERROR, error.getMessage());
             }
         }
     }
@@ -91,7 +92,7 @@ public class PlacedBlockFileManager {
             }
         }
         catch (IOException error) {
-            error.printStackTrace();
+            FreeRPG.log(Level.ERROR, error.getMessage());
         }
 
     }

@@ -51,7 +51,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        log(Level.INFO, "Initializing FreeRPG");
+        log(Level.INFO, "Starting FreeRPG");
         //Plugin startup logic
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
 
@@ -63,6 +63,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
 
 
         //Checks config.yml and languages.yml for updates, and update them if needed (while trying to keep any edits)
+        log(Level.INFO, "Checking for config and language files");
         YMLManager ymlManager = new YMLManager();
         ymlManager.updateCheckYML("config.yml");
         ymlManager.updateCheckYML("languages.yml");
@@ -71,6 +72,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
 
 
         //Loads config to into memory
+        log(Level.INFO, "Loading configs");
         ConfigLoad loadConfig = new ConfigLoad();
         loadConfig.initializeConfig();
 
@@ -94,6 +96,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
 
 
         //Check if the server uses world guard
+        log(Level.INFO, "Checking for APIs");
         WorldGuardChecks CheckWorldGuardExistence = new WorldGuardChecks();
         CheckWorldGuardExistence.initializeWorldGuardPresent();
 
@@ -101,10 +104,12 @@ public final class FreeRPG extends JavaPlugin implements Listener {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI").isEnabled()) {
                 new FreeRPGPlaceHolders(this).register();
+                log(Level.INFO, "PlaceholderAPI is present: true");
             }
         }
 
         //Initializes all "global" variables
+        log(Level.INFO, "Initializing FreeRPG");
         MinecraftVersion minecraftVersion = new MinecraftVersion();
         minecraftVersion.initializeVersion();
         EntityGroups entityGroups = new EntityGroups();
@@ -237,6 +242,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
     }
 
     public void onDisable() {
+        log(Level.INFO, "Shutting down FreeRPG");
 
         //Does everything that would normally be done if a player were to log out
         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -244,7 +250,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
             try {
                 logout.playerLogout(true);
             } catch (IOException e) {
-                log(Level.WARN, e.getMessage());
+                log(Level.ERROR, e.getMessage());
             }
         }
 
@@ -272,7 +278,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
             Enchantment.registerEnchantment(enchantment);
         } catch (Exception e) {
             registered = false;
-            log(Level.WARN, e.getMessage());
+            log(Level.ERROR, e.getMessage());
         }
         if(registered){
             // It's been registered!
