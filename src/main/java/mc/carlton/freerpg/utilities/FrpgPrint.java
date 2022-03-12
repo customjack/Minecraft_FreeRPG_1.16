@@ -1,7 +1,10 @@
 package mc.carlton.freerpg.utilities;
 
+import mc.carlton.freerpg.FreeRPG;
+import org.apache.logging.log4j.Level;
+
 public class FrpgPrint {
     public static void print(String message) {
-        System.out.println("[FreeRPG] " + message);
+        FreeRPG.log(Level.INFO, message);
     }
 }

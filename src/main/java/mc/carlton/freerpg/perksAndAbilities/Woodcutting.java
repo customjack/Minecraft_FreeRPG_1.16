@@ -479,6 +479,7 @@ public class Woodcutting extends Skill{
 
     }
 
+    // TODO remove dead code
     /* OLD leaf blower skill
     public void leafBlower(Block block, World world) {
         if (!runMethods) {

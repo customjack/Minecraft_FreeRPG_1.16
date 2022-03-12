@@ -161,7 +161,7 @@ public class CommandHelper {
             LanguageSelector lang = new LanguageSelector(p);
             p.sendMessage(ChatColor.RED +lang.getString("improperArguments")+lang.translateMessage(improperArgumentsMessage));
         } else {
-            sender.sendMessage("Improper Arugments, try " + LanguageSelector.getEnglishMessage(improperArgumentsMessage));
+            sender.sendMessage("Improper Arguments, try " + LanguageSelector.getEnglishMessage(improperArgumentsMessage));
         }
     }
 }

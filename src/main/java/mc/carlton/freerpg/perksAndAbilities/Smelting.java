@@ -1,10 +1,12 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
+import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.gameTools.FurnaceUserTracker;
 import mc.carlton.freerpg.globalVariables.ExpMaps;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.serverInfo.MinecraftVersion;
+import org.apache.logging.log4j.Level;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Furnace;
@@ -99,7 +101,7 @@ public class Smelting extends Skill{
     }
     public void printContents(ItemStack[] contents) {
         ArrayList<ItemStack> newContents = new ArrayList<>(Arrays.asList(contents));
-        System.out.println(newContents);
+        FreeRPG.log(Level.INFO, String.valueOf(newContents));
     }
 
     public boolean checkIfBlockIsFurnace(World world,Location location) {
@@ -369,6 +371,7 @@ public class Smelting extends Skill{
                 EXP = expMap.get("smeltCracked_Nether_Bricks");
             }
         }
+        // TODO add 1.17 items
         return EXP;
     }
 

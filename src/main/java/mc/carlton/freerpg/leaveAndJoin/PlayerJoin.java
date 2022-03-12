@@ -23,6 +23,7 @@ public class PlayerJoin implements Listener {
         login.playerLogin();
     }
 
+    // TODO remove dead code!
     /* Some code testing a custom enchantment I was making
         ItemStack choppingAxe = new ItemStack(Material.DIAMOND_AXE,1);
         choppingAxe.addUnsafeEnchantment(Enchantment.getByKey(new NamespacedKey(FreeRPG.getPlugin(FreeRPG.class),"chopping")),1);

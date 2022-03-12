@@ -3,6 +3,7 @@ package mc.carlton.freerpg.playerInfo;
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.serverFileManagement.PlayerFilesManager;
+import org.apache.logging.log4j.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -284,10 +285,10 @@ public class PlayerStatsLoadIn {
             PlayerStats playerStats = new PlayerStats(pUUID);
             playerStats.setPlayerAreStatsSaved(true);
             if (pName != null) {
-                System.out.println("[FreeRPG] Saved " + pName + " stats successfully");
+                FreeRPG.log(Level.INFO, "[FreeRPG] Saved " + pName + " stats successfully");
             }
             else {
-                System.out.println("[FreeRPG] Saved player UUID " + pUUID.toString() + " stats successfully");
+                FreeRPG.log(Level.INFO, "[FreeRPG] Saved player UUID " + pUUID.toString() + " stats successfully");
             }
         }
     }
@@ -300,7 +301,7 @@ public class PlayerStatsLoadIn {
                 try {
                     setPlayerStatsMap();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    FreeRPG.log(Level.ERROR, e.getMessage());
                 }
             }
         }.runTaskAsynchronously(plugin);
