@@ -3,6 +3,7 @@ package mc.carlton.freerpg.enchantingEvents;
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.playerInfo.ChangeStats;
 import mc.carlton.freerpg.configStorage.ConfigLoad;
+import org.apache.logging.log4j.Level;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -25,6 +26,7 @@ public class AnvilClick implements Listener {
         try {
             InventoryType invType = e.getClickedInventory().getType();
         } catch (Exception except) {
+            FreeRPG.log(Level.WARN, except.getMessage());
             return;
         }
         if (e.getInventory() instanceof AnvilInventory) { //This section is very buggy, and not clean. Hopefully I can improve it in the future

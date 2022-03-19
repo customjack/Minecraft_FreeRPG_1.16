@@ -334,7 +334,7 @@ public class CraftingRecipes {
     public ArrayList<Material> getWaterBreathingRecipe() {
         return waterBreathing;
     }
-
+    // TODO remove dead code!
     /*
     public void beeEgg() {
         ItemStack item = new ItemStack(Material.BEE_SPAWN_EGG, 1);

@@ -119,6 +119,7 @@ public class ItemGroups {
         enchantmentLevelMap.put(Enchantment.WATER_WORKER, 1);
     }
 
+    // TODO Comment what for the blocks are tracked
     public void initializeTrackedBlocks() {
         Material[] trackedBlocks0 = new Material[]{Material.ACACIA_LOG, Material.ACACIA_LEAVES, Material.BIRCH_LOG, Material.BIRCH_LEAVES,
                 Material.DARK_OAK_LOG, Material.DARK_OAK_LEAVES, Material.JUNGLE_LOG, Material.JUNGLE_LEAVES,
@@ -129,9 +130,16 @@ public class ItemGroups {
                 Material.BAMBOO, Material.CACTUS, Material.SPAWNER};
         List<Material> trackedBlocks1 = new LinkedList<>(Arrays.asList(trackedBlocks0));
         if (mcVersion >= 1.16) {
-            Material[] trackedBlocks_v1_16 = {Material.ANCIENT_DEBRIS, Material.NETHER_GOLD_ORE, Material.WARPED_STEM, Material.CRIMSON_STEM,
-                                              Material.GILDED_BLACKSTONE};
+            Material[] trackedBlocks_v1_16 = {Material.ANCIENT_DEBRIS, Material.NETHER_GOLD_ORE, Material.WARPED_STEM,
+                                                Material.CRIMSON_STEM,Material.GILDED_BLACKSTONE};
             List<Material> trackedBlocks_append = Arrays.asList(trackedBlocks_v1_16);
+            trackedBlocks1.addAll(trackedBlocks_append);
+        }
+        if (mcVersion >= 1.17) {
+            Material[] trackedBlocks_v1_17 = {Material.DEEPSLATE_COAL_ORE,Material.DEEPSLATE_DIAMOND_ORE,
+                    Material.DEEPSLATE_COPPER_ORE, Material.DEEPSLATE_EMERALD_ORE, Material.DEEPSLATE_IRON_ORE,
+                    Material.DEEPSLATE_GOLD_ORE, Material.DEEPSLATE_LAPIS_ORE, Material.DEEPSLATE_REDSTONE_ORE};
+            List<Material> trackedBlocks_append = Arrays.asList(trackedBlocks_v1_17);
             trackedBlocks1.addAll(trackedBlocks_append);
         }
         for (Material mat : trackedBlocks1) {
@@ -139,6 +147,8 @@ public class ItemGroups {
         }
         ConfigLoad configLoad = new ConfigLoad();
         ExpMaps expMaps = new ExpMaps();
+
+        // Sets the exp for the blocks
         if (!configLoad.isTrackFewerBlocks()) {
             for (Material mat : expMaps.getWoodcuttingEXP().keySet()) {
                 trackedBlocks.putIfAbsent(mat,true);
@@ -158,46 +168,78 @@ public class ItemGroups {
     public void initializeBlocks() {
         Material[] tallCrops0 = {Material.SUGAR_CANE,Material.BAMBOO,Material.CACTUS,Material.KELP,Material.KELP_PLANT};
         tallCrops = Arrays.asList(tallCrops0);
-        Material[] logs0 = {Material.ACACIA_LOG,Material.BIRCH_LOG,Material.DARK_OAK_LOG,Material.OAK_LOG,Material.SPRUCE_LOG,Material.JUNGLE_LOG,
-                Material.STRIPPED_ACACIA_LOG,Material.STRIPPED_BIRCH_LOG,Material.STRIPPED_DARK_OAK_LOG,Material.STRIPPED_JUNGLE_LOG,
-                Material.STRIPPED_OAK_LOG,Material.STRIPPED_SPRUCE_LOG};
+        Material[] logs0 = {Material.ACACIA_LOG,Material.BIRCH_LOG,Material.DARK_OAK_LOG,Material.OAK_LOG,
+                Material.SPRUCE_LOG,Material.JUNGLE_LOG,Material.STRIPPED_ACACIA_LOG,Material.STRIPPED_BIRCH_LOG,
+                Material.STRIPPED_DARK_OAK_LOG,Material.STRIPPED_JUNGLE_LOG,Material.STRIPPED_OAK_LOG,
+                Material.STRIPPED_SPRUCE_LOG};
         logs = new LinkedList<>(Arrays.asList(logs0));
         if (mcVersion >= 1.16) {
-            Material[] logs_append0 = {Material.CRIMSON_STEM,Material.WARPED_STEM, Material.STRIPPED_CRIMSON_STEM,Material.STRIPPED_WARPED_STEM};
+            Material[] logs_append0 = {Material.CRIMSON_STEM,Material.WARPED_STEM, Material.STRIPPED_CRIMSON_STEM,
+                    Material.STRIPPED_WARPED_STEM};
             List<Material> logs_append = Arrays.asList(logs_append0);
             logs.addAll(logs_append);
         }
-
-        Material[] crops0 = {Material.WHEAT,Material.BEETROOTS,Material.CARROTS,Material.CHORUS_FLOWER,Material.MELON_STEM,Material.MELON,
-                Material.NETHER_WART,Material.POTATOES,Material.PUMPKIN_STEM,Material.PUMPKIN,Material.SWEET_BERRY_BUSH,Material.COCOA};
+        // TODO What is the reason why Material.MELON is missing below and pumkin is not?
+        Material[] crops0 = {Material.WHEAT,Material.BEETROOTS,Material.CARROTS,Material.CHORUS_FLOWER,
+                Material.MELON_STEM,Material.MELON,Material.NETHER_WART,Material.POTATOES,Material.PUMPKIN_STEM,
+                Material.PUMPKIN,Material.SWEET_BERRY_BUSH,Material.COCOA, Material.CAVE_VINES};
+        /*
+            TODO exp of cave_vines only apply to the lowest part of the cave_vines, otherwise they don't give exp
+            Its better to only give exp if the cave_vines with blockstate berries=true are broken!
+         */
         crops = Arrays.asList(crops0);
-        Material[] ores0 = {Material.REDSTONE_ORE,Material.NETHER_QUARTZ_ORE,Material.LAPIS_ORE,Material.IRON_ORE,Material.GOLD_ORE,
-                Material.EMERALD_ORE,Material.DIAMOND_ORE,Material.COAL_ORE};
+        // adds ore to list
+        Material[] ores0 = {Material.REDSTONE_ORE,Material.NETHER_QUARTZ_ORE,Material.LAPIS_ORE,Material.IRON_ORE,
+                Material.GOLD_ORE,Material.EMERALD_ORE,Material.DIAMOND_ORE,Material.COAL_ORE};
         ores = new LinkedList<>(Arrays.asList(ores0));
+        // appends new 1.16 ores to LinkedList ores
         if (mcVersion >= 1.16) {
-            Material[] ores_append0 = {Material.NETHER_GOLD_ORE,Material.ANCIENT_DEBRIS,Material.GILDED_BLACKSTONE};
-            List<Material> ores_append = Arrays.asList(ores_append0);
+            Material[] ores_append_v1_16 = {Material.NETHER_GOLD_ORE,Material.ANCIENT_DEBRIS,Material.GILDED_BLACKSTONE};
+            List<Material> ores_append = Arrays.asList(ores_append_v1_16);
             ores.addAll(ores_append);
         }
+        // appends new 1.17 ores to LinkedList ores
+        if (mcVersion >= 1.17) {
+            Material[] ores_append_v1_17 = {Material.DEEPSLATE_COAL_ORE,Material.DEEPSLATE_DIAMOND_ORE,
+                    Material.DEEPSLATE_COPPER_ORE, Material.DEEPSLATE_EMERALD_ORE, Material.DEEPSLATE_IRON_ORE,
+                    Material.DEEPSLATE_GOLD_ORE, Material.DEEPSLATE_LAPIS_ORE, Material.DEEPSLATE_REDSTONE_ORE};
+            List<Material> ores_append = Arrays.asList(ores_append_v1_17);
+            ores.addAll(ores_append);
+        }
+        // adds all ores which can be smelted to LinkedList flamePickOres
+        // TODO What exactly is flamePickOres, maybe needs comment to describe it!
+        // TODO Might need a rework due to ore changes in 1.18, so that code is backwards compatible to older versions
         Material[] flamePickOres0 = {Material.IRON_ORE,Material.GOLD_ORE};
         flamePickOres = new LinkedList<>(Arrays.asList(flamePickOres0));
+        // appends new 1.16 ores
         if (mcVersion >= 1.16) {
-            Material[] flamePickOres_append0 = {Material.NETHER_GOLD_ORE,Material.ANCIENT_DEBRIS};
-            List<Material> flamePickOres_append = Arrays.asList(flamePickOres_append0);
+            Material[] flamePickOres_append_v1_16 = {Material.NETHER_GOLD_ORE,Material.ANCIENT_DEBRIS};
+            List<Material> flamePickOres_append = Arrays.asList(flamePickOres_append_v1_16);
             flamePickOres.addAll(flamePickOres_append);
         }
-        Material[] strippedLogs0 = {Material.STRIPPED_SPRUCE_LOG,Material.STRIPPED_OAK_LOG,Material.STRIPPED_JUNGLE_LOG,Material.STRIPPED_DARK_OAK_LOG,Material.STRIPPED_BIRCH_LOG,Material.STRIPPED_ACACIA_LOG};
+        Material[] strippedLogs0 = {Material.STRIPPED_SPRUCE_LOG,Material.STRIPPED_OAK_LOG,Material.STRIPPED_JUNGLE_LOG,
+                Material.STRIPPED_DARK_OAK_LOG,Material.STRIPPED_BIRCH_LOG,Material.STRIPPED_ACACIA_LOG};
         strippedLogs = Arrays.asList(strippedLogs0);
-        Material[] wood0 = {Material.SPRUCE_WOOD,Material.OAK_WOOD,Material.JUNGLE_WOOD,Material.DARK_OAK_WOOD,Material.BIRCH_WOOD,Material.ACACIA_WOOD};
+        Material[] wood0 = {Material.SPRUCE_WOOD,Material.OAK_WOOD,Material.JUNGLE_WOOD,Material.DARK_OAK_WOOD,
+                Material.BIRCH_WOOD,Material.ACACIA_WOOD};
         wood = Arrays.asList(wood0);
-        Material[] strippedWood0 = {Material.STRIPPED_SPRUCE_WOOD,Material.STRIPPED_OAK_WOOD,Material.STRIPPED_JUNGLE_WOOD,Material.STRIPPED_DARK_OAK_WOOD,Material.STRIPPED_BIRCH_WOOD,Material.STRIPPED_ACACIA_WOOD};
+        Material[] strippedWood0 = {Material.STRIPPED_SPRUCE_WOOD,Material.STRIPPED_OAK_WOOD,Material.STRIPPED_JUNGLE_WOOD,
+                Material.STRIPPED_DARK_OAK_WOOD,Material.STRIPPED_BIRCH_WOOD,Material.STRIPPED_ACACIA_WOOD};
         strippedWood = Arrays.asList(strippedWood0);
         allLogs.addAll(logs);
         allLogs.addAll(strippedLogs);
         allLogs.addAll(wood);
         allLogs.addAll(strippedWood);
-        Material[] leaves0 = {Material.ACACIA_LEAVES,Material.BIRCH_LEAVES,Material.DARK_OAK_LEAVES,Material.OAK_LEAVES,Material.SPRUCE_LEAVES,Material.JUNGLE_LEAVES};
-        leaves = Arrays.asList(leaves0);
+        Material[] leaves0 = {Material.ACACIA_LEAVES,Material.BIRCH_LEAVES,Material.DARK_OAK_LEAVES,Material.OAK_LEAVES,
+                Material.SPRUCE_LEAVES,Material.JUNGLE_LEAVES};
+        leaves = new LinkedList<>(Arrays.asList(leaves0));
+        // TODO Do the leaves of all the nether trees count as well? Might need to be added
+        // appends new 1.17 leaves
+        if (mcVersion >= 1.17) {
+            Material[] leaves_append_v1_17 = {Material.AZALEA_LEAVES,Material.FLOWERING_AZALEA_LEAVES};
+            List<Material> leaves_append = Arrays.asList(leaves_append_v1_17);
+            leaves.addAll(leaves_append);
+        }
 
         ConfigLoad configLoad = new ConfigLoad();
         veinMinerBlocks = configLoad.getVeinMinerBlocks();
@@ -344,6 +386,11 @@ public class ItemGroups {
         farmFoodSaturation.put(Material.HONEY_BOTTLE,1.2);
         farmFood.put(Material.SWEET_BERRIES,2);
         farmFoodSaturation.put(Material.SWEET_BERRIES,0.4);
+        if (mcVersion >= 1.17) {
+            // TODO check if values are valid!
+            farmFood.put(Material.GLOW_BERRIES,2);
+            farmFoodSaturation.put(Material.GLOW_BERRIES,0.4);
+        }
 
         meatFood.put(Material.COOKED_MUTTON,6);
         meatFoodSaturation.put(Material.COOKED_MUTTON,9.6);
@@ -409,6 +456,7 @@ public class ItemGroups {
                     Material.NETHERITE_SCRAP,Material.ANCIENT_DEBRIS};
             List<Material> valueableItems_append = Arrays.asList(valuableItems_append0);
             valuableItems.addAll(valueableItems_append);
+            // TODO might need to add 1.17 items
         }
     }
 
@@ -672,12 +720,15 @@ public class ItemGroups {
         smeltableItemsMap.put(Material.GOLDEN_BOOTS,Material.GOLD_NUGGET);
         smeltableItemsMap.put(Material.GOLDEN_HORSE_ARMOR,Material.GOLD_NUGGET);
 
-
         if (mcVersion >= 1.16) {
             smeltableItemsMap.put(Material.ANCIENT_DEBRIS,Material.NETHERITE_SCRAP);
             smeltableItemsMap.put(Material.NETHER_GOLD_ORE,Material.GOLD_INGOT);
             smeltableItemsMap.put(Material.NETHER_BRICK,Material.CRACKED_NETHER_BRICKS);
-
+        }
+        if (mcVersion >= 1.17) {
+            smeltableItemsMap.put(Material.RAW_IRON,Material.RAW_IRON);
+            smeltableItemsMap.put(Material.RAW_COPPER,Material.RAW_COPPER);
+            smeltableItemsMap.put(Material.RAW_GOLD,Material.RAW_GOLD);
         }
 
     }
@@ -773,7 +824,11 @@ public class ItemGroups {
             smeltingXPMap.put(Material.ANCIENT_DEBRIS,2.0);
             smeltingXPMap.put(Material.NETHER_GOLD_ORE,1.0);
             smeltingXPMap.put(Material.NETHER_BRICK,0.1);
-
+        }
+        if (mcVersion >= 1.17) {
+            smeltingXPMap.put(Material.RAW_IRON,0.7);
+            smeltingXPMap.put(Material.RAW_GOLD,1.0);
+            smeltingXPMap.put(Material.RAW_COPPER,0.7);
         }
 
     }

@@ -6,6 +6,7 @@ import mc.carlton.freerpg.customContainers.collections.OldCustomRecipe;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.configStorage.ConfigLoad;
 import mc.carlton.freerpg.utilities.UtilityMethods;
+import org.apache.logging.log4j.Level;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -76,7 +77,8 @@ public class StringsAndOtherData {
             }
         }
         if (languageCodes.size() > 14) {
-            System.out.println("[FreeRPG] WARNING: Player configuration currently only supports the first 12 language options!");
+            FreeRPG.log(Level.WARN, "[FreeRPG] WARNING: Player configuration currently only " +
+                    "supports the first 12 language options!");
         }
         ConfigLoad configLoad = new ConfigLoad();
         String newDefaultLanguageCode = UtilityMethods.convertStringToListCasing(languageCodes,configLoad.getDefaultLanguage());
@@ -99,7 +101,7 @@ public class StringsAndOtherData {
 
     public void initializeLanguageCompletions() {
         if (!languageCodes.contains("enUs")) {
-            System.out.println("[FreeRPG] Languages.yml is missing enUs! Some features may be broken");
+            FreeRPG.log(Level.WARN, "[FreeRPG] Languages.yml is missing enUs! Some features may be broken");
             for (String language : languageCodes) {
                 languageProgress.put(language,1.0);
             }

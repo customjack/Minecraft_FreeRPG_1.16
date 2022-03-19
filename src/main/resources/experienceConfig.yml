@@ -149,6 +149,8 @@ digging:
       - [block: RED_CONCRETE_POWDER,        breakExp: 20, natural: false]
       - [block: WHITE_CONCRETE_POWDER,      breakExp: 20, natural: false]
       - [block: YELLOW_CONCRETE_POWDER,     breakExp: 20, natural: false]
+      # added since 1.16.5
+      - [block: ROOTED_DIRT,          breakExp: 100,   natural: true]
 wooductting:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   EXP_Multiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
@@ -179,6 +181,8 @@ wooductting:
       - [block: WARPED_STEM,          breakExp: 125, natural: true ]
       - [block: CRIMSON_PLANKS,       breakExp: 28,  natural: false]
       - [block: WARPED_PLANKS,        breakExp: 28,  natural: false]
+      # added since 1.16.5
+      - [block: FLOWERING_AZALEA_LEAVES,breakExp: 13,natural: true ]
 mining:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
@@ -233,6 +237,30 @@ mining:
       - [block: RED_TERRACOTTA,        breakExp: 25,   natural: false]
       - [block: BLACK_TERRACOTTA,      breakExp: 25,   natural: false]
       - [block: TERRACOTTA,            breakExp: 25,   natural: false]
+      # added since 1.16.5
+      - [block: AMETHYST_CLUSTER,      breakExp: 850,   natural: true]
+      - [block: AMETHYST_BLOCK,        breakExp: 250,   natural: true]
+      - [block: RAW_COPPER_BLOCK,      breakExp: 4500,  natural: true]
+      - [block: RAW_IRON_BLOCK,        breakExp: 4500,  natural: true]
+      - [block: CALCITE,               breakExp: 25,    natural: true]
+      - [block: DEEPSLATE,             breakExp: 30,    natural: true]
+      - [block: COPPER_ORE,            breakExp: 350,   natural: true]
+      # double amount of exp so mining in the deepslate is more attractive due to hardness of deepslate
+      - [block: DEEPSLATE_COAL_ORE,    breakExp: 400,   natural: true]
+      - [block: DEEPSLATE_COPPER_ORE,  breakExp: 700,   natural: true]
+      - [block: DEEPSLATE_DIAMOND_ORE, breakExp: 2000,  natural: true]
+      - [block: DEEPSLATE_EMERALD_ORE, breakExp: 2500,  natural: true]
+      - [block: DEEPSLATE_IRON_ORE,    breakExp: 700,   natural: true]
+      - [block: DEEPSLATE_LAPIS_ORE,   breakExp: 1400,  natural: true]
+      - [block: DEEPSLATE_REDSTONE_ORE,breakExp: 1000,  natural: true]
+      - [block: DRIPSTONE_BLOCK,       breakExp: 45,    natural: true]
+      - [block: POINTED_DRIPSTONE,     breakExp: 95,    natural: true]
+      - [block: TUFF,                  breakExp: 30,    natural: true]
+      # is natural generated false
+      - [block: COPPER_BLOCK,          breakExp: 75,   natural: false]
+      - [block: RAW_COPPER_BLOCK,      breakExp: 25,   natural: false]
+      - [block: RAW_GOLD_BLOCK,        breakExp: 25,   natural: false]
+      - [block: RAW_IRON_BLOCK,        breakExp: 25,   natural: false]
 farming:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
@@ -259,6 +287,9 @@ farming:
       - [mob: BEE,          breedExp: 200, killExp: 0  ]
       - [mob: HORSE,        breedExp: 0,   killExp: 100]
       - [mob: LLAMA,        breedExp: 0,   killExp: 25 ]
+      # added since 1.16.5
+      - [mob: AXOLOTL,      breedExp: 200, killExp: 0  ]
+      - [mob: GOAT,         breedExp: 175, killExp: 100  ]
 
     # Blocks broken that give experience. See comments at the top of the page for more information.
     blocks:
@@ -280,6 +311,17 @@ farming:
       - [block: NETHER_WART,      breakExp: 58,  natural: true ]
       - [block: CHORUS_PLANT,     breakExp: 60,  natural: true ]
       - [block: CHORUS_FLOWER,    breakExp: 60,  natural: true ]
+      # added since 1.16.5
+      - [block: AZALEA,           breakExp: 75,  natural: true ]
+      - [block: FLOWERING_AZALEA, breakExp: 75,  natural: true ]
+      - [block: CAVE_VINES,       breakExp: 85,  natural: true ]
+      - [block: SMALL_DRIPLEAF,   breakExp: 70,  natural: true ]
+      - [block: GLOW_LICHEN,      breakExp: 70,  natural: true ]
+      - [block: HANGING_ROOTS,    breakExp: 250, natural: true ]
+      - [block: MOSS_BLOCK,       breakExp: 15,  natural: true ]
+      #  breakExp: 200 might be too high, but to get players discovering the underground it might be just right
+      - [block: SPORE_BLOSSOM,    breakExp: 200, natural: true ]
+      - [block: BIG_DRIPLEAF,     breakExp: 70,  natural: true ]
 fishing:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
@@ -311,7 +353,7 @@ archery:
     # hitExp is experience given when the mob is hit, regardless of damage
     # damageEXP is the experience given for each damage point done to the mob
     mobs:
-      - [mob: BAT,              killExp: 15,    hitExp: 20, damageExp: 16]
+      - [mob: BAT,              killExp: 15,    hitExp: 20, damageExp: 16] # why not even higher, so it makes sense to kill them
       - [mob: CAT,              killExp: 25,    hitExp: 20, damageExp: 16]
       - [mob: CHICKEN,          killExp: 30,    hitExp: 20, damageExp: 16]
       - [mob: COD,              killExp: 30,    hitExp: 20, damageExp: 16]
@@ -334,7 +376,7 @@ archery:
       - [mob: TROPICAL_FISH,    killExp: 30,    hitExp: 20, damageExp: 16]
       - [mob: TURTLE,           killExp: 30,    hitExp: 20, damageExp: 16]
       - [mob: VILLAGER,         killExp: 25,    hitExp: 20, damageExp: 16]
-      - [mob: WANDERING_TRADER, killExp: 500,   hitExp: 20, damageExp: 16]
+      - [mob: WANDERING_TRADER, killExp: 500,   hitExp: 20, damageExp: 16] # needs to be higher ;)
       - [mob: BEE,              killExp: 55,    hitExp: 20, damageExp: 16]
       - [mob: CAVE_SPIDER,      killExp: 85,    hitExp: 20, damageExp: 16]
       - [mob: DOLPHIN,          killExp: 70,    hitExp: 20, damageExp: 16]
@@ -380,6 +422,9 @@ archery:
       - [mob: ZOMBIFIED_PIGLIN, killExp: 85,    hitExp: 20, damageExp: 16]
       - [mob: PIG_ZOMBIE,       killExp: 75,    hitExp: 20, damageExp: 16] #1.15 zombie pigman (may not work)
       - [mob: STRIDER,          killExp: 80,    hitExp: 20, damageExp: 16]
+      # added since 1.16.5
+      - [mob: GLOW_SQUID,       killExp: 80,    hitExp: 20, damageExp: 16]
+      - [mob: GOAT,             killExp: 80,    hitExp: 20, damageExp: 16]
 beastMastery:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
@@ -462,6 +507,9 @@ beastMastery:
       - [mob: ZOMBIFIED_PIGLIN, killExp: 600,   hitExp: 50, damageExp: 40]
       - [mob: PIG_ZOMBIE,       killExp: 600,   hitExp: 50, damageExp: 40] #1.15 zombie pigman (may not work)
       - [mob: STRIDER,          killExp: 500,   hitExp: 50, damageExp: 40]
+      # added since 1.16.5
+      - [mob: GLOW_SQUID,       killExp: 450,   hitExp: 50, damageExp: 40]
+      - [mob: GOAT,             killExp: 550,   hitExp: 50, damageExp: 40]
 swordsmanship:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
@@ -545,6 +593,9 @@ swordsmanship:
       - [mob: ZOMBIFIED_PIGLIN, killExp: 85,    hitExp: 15, damageExp: 12]
       - [mob: PIG_ZOMBIE,       killExp: 75,    hitExp: 15, damageExp: 12] #1.15 zombie pigman (may not work)
       - [mob: STRIDER,          killExp: 80,    hitExp: 15, damageExp: 12]
+      # added since 1.16.5
+      - [mob: GLOW_SQUID,       killExp: 30,    hitExp: 15, damageExp: 12]
+      - [mob: GOAT,             killExp: 45,    hitExp: 15, damageExp: 12]
 defense:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
@@ -581,7 +632,7 @@ defense:
 
     # Mobs that give experience for various actions. See comments at the top of the page for more information.
     mobs:
-      - [mob: BAT,              killExp: 15,    takeHitExp: 15, takeDamageExp: 20]
+      - [mob: BAT,              killExp: 15,    takeHitExp: 15, takeDamageExp: 20] # more exp?
       - [mob: CAT,              killExp: 25,    takeHitExp: 15, takeDamageExp: 20]
       - [mob: CHICKEN,          killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
       - [mob: COD,              killExp: 30,    takeHitExp: 15, takeDamageExp: 20]
@@ -650,6 +701,9 @@ defense:
       - [mob: ZOMBIFIED_PIGLIN, killExp: 85,    takeHitExp: 15, takeDamageExp: 20]
       - [mob: PIG_ZOMBIE,       killExp: 75,    takeHitExp: 15, takeDamageExp: 20] #1.15 zombie pigman (may not work)
       - [mob: STRIDER,          killExp: 80,    takeHitExp: 15, takeDamageExp: 20]
+      # added since 1.16.5
+      - [mob: GLOW_SQUID,       killExp: 30,    takeHitExp: 15, takeDamageExp: 12]
+      - [mob: GOAT,             killExp: 45,    takeHitExp: 15, takeDamageExp: 12]
 axeMastery:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
@@ -733,6 +787,9 @@ axeMastery:
       - [mob: ZOMBIFIED_PIGLIN, killExp: 85,    hitExp: 20, damageExp: 14]
       - [mob: PIG_ZOMBIE,       killExp: 75,    hitExp: 20, damageExp: 14] #1.15 zombie pigman (may not work)
       - [mob: STRIDER,          killExp: 80,    hitExp: 20, damageExp: 14]
+      # added since 1.16.5
+      - [mob: GLOW_SQUID,       killExp: 30,    hitExp: 20, damageExp: 14]
+      - [mob: GOAT,             killExp: 45,    hitExp: 20, damageExp: 14]
 repair:
   maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
   expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier

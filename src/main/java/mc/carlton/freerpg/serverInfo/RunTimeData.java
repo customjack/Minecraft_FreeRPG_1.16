@@ -2,6 +2,7 @@ package mc.carlton.freerpg.serverInfo;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.configStorage.ConfigLoad;
+import org.apache.logging.log4j.Level;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
@@ -57,7 +58,7 @@ public class RunTimeData {
                     }
 
                 } catch (IOException exception) {
-                    exception.printStackTrace();
+                    FreeRPG.log(Level.ERROR, exception.getMessage());
                 }
             }
         }

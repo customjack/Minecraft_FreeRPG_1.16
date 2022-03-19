@@ -64,6 +64,7 @@ public class Repair extends Skill{
                 double a = 1.0;
                 MinecraftVersion minecraftVersion = new MinecraftVersion();
                 double MCversion = minecraftVersion.getMinecraftVersion_Double();
+                // TODO check if code in if statements can be extracted to separate methode
                 if (toolType.equals(Material.WOODEN_AXE)) {
                     repairPercentage = (0.9 + repairBonus) / 3.0;
                     a = 3.0;

@@ -358,6 +358,8 @@ digging:
         - [drop: MUSIC_DISC_STRAD,    amount: 1, exp: 160, weight: 4 ]
         - [drop: MUSIC_DISC_13,       amount: 1, exp: 160, weight: 4 ]
         - [drop: MUSIC_DISC_PIGSTEP,  amount: 1, exp: 160, weight: 4 ]
+        # added since 1.16.5
+        - [drop: MUSIC_DISC_OTHERSIDE,  amount: 1, exp: 160, weight: 4 ]
     level-4:
       dropsAdded:
         - [drop: DIAMOND_HORSE_ARMOR, amount: 1, exp: 170, weight: 13]
@@ -687,7 +689,11 @@ mining:
   skill-5: #vein Miner
     enabled: true #Change this to false to disable this skill from working
     level-1:
-      affected-blockList: [REDSTONE_ORE,NETHER_QUARTZ_ORE,LAPIS_ORE,IRON_ORE,GOLD_ORE,EMERALD_ORE,DIAMOND_ORE,COAL_ORE,GLOWSTONE,NETHER_GOLD_ORE,ANCIENT_DEBRIS,GILDED_BLACKSTONE]
+      affected-blockList: [REDSTONE_ORE,NETHER_QUARTZ_ORE,LAPIS_ORE,IRON_ORE,GOLD_ORE,EMERALD_ORE,
+                           DIAMOND_ORE,COAL_ORE,GLOWSTONE,NETHER_GOLD_ORE,ANCIENT_DEBRIS,
+                           GILDED_BLACKSTONE,COPPER_ORE,DEEPSLATE_COPPER_ORE,DEEPSLATE_COAL_ORE,
+                           DEEPSLATE_DIAMOND_ORE,DEEPSLATE_EMERALD_ORE,DEEPSLATE_IRON_ORE,
+                           DEEPSLATE_LAPIS_ORE,DEEPSLATE_REDSTONE_ORE]
       maxBlocks: 30 #Set to -1 for no limit (not recommended)
       durabilityMultiplier: 1.0 #Average durability points of damaged removed per block broken (without unbreaking)
       expMultiplier: 1.0 #Multiplier for experience gained from blocks broken by veinMiner
@@ -1289,6 +1295,7 @@ fishing:
         - [drop: MUSIC_DISC_STRAD,     amount: 1,  exp: 3500, weight: 84  ]
         - [drop: MUSIC_DISC_13,        amount: 1,  exp: 3500, weight: 84  ]
         - [drop: MUSIC_DISC_PIGSTEP,   amount: 1,  exp: 3500, weight: 84  ]
+        - [drop: MUSIC_DISC_OTHERSIDE, amount: 1,  exp: 3500, weight: 84  ]
         - [drop: CHAINMAIL_BOOTS,      amount: 1,  exp: 3500, weight: 273 ]
         - [drop: CHAINMAIL_CHESTPLATE, amount: 1,  exp: 3500, weight: 273 ]
         - [drop: CHAINMAIL_HELMET,     amount: 1,  exp: 3500, weight: 273 ]

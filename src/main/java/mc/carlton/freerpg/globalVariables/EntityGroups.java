@@ -66,15 +66,15 @@ public class EntityGroups {
     public void initializeFarmingAnimals() {
         EntityType[] animals0 = {EntityType.CHICKEN,EntityType.COW,EntityType.DONKEY,EntityType.FOX,EntityType.HORSE,EntityType.MUSHROOM_COW,
                 EntityType.MULE,EntityType.PARROT,EntityType.PIG,EntityType.RABBIT,EntityType.SHEEP,EntityType.SQUID,
-                EntityType.SKELETON_HORSE,EntityType.TURTLE};
+                EntityType.SKELETON_HORSE,EntityType.TURTLE,EntityType.GOAT};
         animals = Arrays.asList(animals0);
         EntityType[] babyAnimals0 = {EntityType.MUSHROOM_COW,EntityType.COW,EntityType.SHEEP,EntityType.PIG,EntityType.CHICKEN,EntityType.RABBIT,
                 EntityType.WOLF,EntityType.CAT,EntityType.OCELOT,EntityType.LLAMA,EntityType.POLAR_BEAR,
                 EntityType.HORSE,EntityType.DONKEY,EntityType.MULE,EntityType.SKELETON_HORSE,EntityType.TURTLE,
-                EntityType.PANDA,EntityType.FOX,EntityType.BEE};
+                EntityType.PANDA,EntityType.FOX,EntityType.BEE,EntityType.GOAT};
         babyAnimals = Arrays.asList(babyAnimals0);
         EntityType[] breedingAnimals0 = {EntityType.MUSHROOM_COW,EntityType.COW,EntityType.SHEEP,EntityType.PIG,EntityType.CHICKEN,EntityType.RABBIT,
-                EntityType.TURTLE, EntityType.PANDA,EntityType.FOX,EntityType.BEE};
+                EntityType.TURTLE, EntityType.PANDA,EntityType.FOX,EntityType.BEE,EntityType.GOAT};
         breedingAnimalsFarming = Arrays.asList(breedingAnimals0);
     }
 
@@ -296,6 +296,13 @@ public class EntityGroups {
                         expReward =  expMap.get("killZombie_Pigman");
                     } else if (type.equals(EntityType.STRIDER)) {
                         expReward =  expMap.get("killStrider");
+                    }
+                }
+                if (mcVersion >= 1.17) {
+                    if (type.equals(EntityType.GLOW_SQUID)) {
+                        expReward =  expMap.get("killGlow_Squid");
+                    } else if (type.equals(EntityType.GOAT)) {
+                        expReward =  expMap.get("killGoat");
                     }
                 }
                 ExpFarmTracker expFarmTracker = new ExpFarmTracker();

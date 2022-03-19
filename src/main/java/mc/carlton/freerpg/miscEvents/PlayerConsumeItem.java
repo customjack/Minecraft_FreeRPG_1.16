@@ -19,15 +19,15 @@ public class PlayerConsumeItem implements Listener {
         Player p  = e.getPlayer();
         ItemStack consumedItem = e.getItem();
 
-        //Farming
+        // Farming
         Farming farmingClass = new Farming(p);
         farmingClass.eatFarmFood(consumedItem);
 
-        //Fishing
+        // Fishing
         Fishing fishingClass = new Fishing(p);
         fishingClass.eatFishFood(consumedItem);
 
-        //
+        // Alchemy
         Alchemy alchemyClass = new Alchemy(p);
         alchemyClass.drinkPotion(consumedItem);
 

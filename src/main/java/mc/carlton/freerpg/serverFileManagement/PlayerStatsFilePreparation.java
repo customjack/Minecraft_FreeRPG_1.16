@@ -2,6 +2,7 @@ package mc.carlton.freerpg.serverFileManagement;
 
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.configStorage.ConfigLoad;
+import org.apache.logging.log4j.Level;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -240,7 +241,7 @@ public class PlayerStatsFilePreparation {
             createPlayerYAML(pName);
             playerData.save(f);
         } catch (IOException exception){
-            exception.printStackTrace();
+            FreeRPG.log(Level.ERROR, exception.getMessage());
         }
     }
 
@@ -250,7 +251,7 @@ public class PlayerStatsFilePreparation {
             updatePlayerYAML(pName,isRealLogin);
             playerData.save(f);
         } catch (IOException exception){
-            exception.printStackTrace();
+            FreeRPG.log(Level.ERROR, exception.getMessage());
         }
     }
 

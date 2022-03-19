@@ -35,9 +35,16 @@ public class MinecraftVersion {
         else if (minecraftVersion.contains("1.16")){
             minecraftVersion_Double = 1.16;
         }
+        else if (minecraftVersion.contains("1.17")){
+            minecraftVersion_Double = 1.17;
+        }
+        else if (minecraftVersion.contains("1.18")){
+            minecraftVersion_Double = 1.18;
+        }
         else {
-            minecraftVersion_Double = 1.16;
-            System.out.println("[FreeRPG] Could not determine minecraft verison, Assuming 1.16...");
+            minecraftVersion_Double = 1.18;
+            // TODO replace with logger call
+            System.out.println("[FreeRPG] Could not determine minecraft version, Assuming 1.18...");
         }
     }
 

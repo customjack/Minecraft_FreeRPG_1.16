@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class ScoreboardOperations {
-
+    // TODO remove dead code!
     /*
     public void setPlayerPowerLevel(Player p) {
         //Checks if a scoreboard exists already, if not, it makes its own

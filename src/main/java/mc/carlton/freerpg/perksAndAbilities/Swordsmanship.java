@@ -259,7 +259,7 @@ public class Swordsmanship extends Skill{
                 break potionEffectLoop;
             }
         }
-
+        // TODO check for code duplication, check if code can be extracted to separate method
         if (addEffect) {
             if (hasEffect) {
                 p.removePotionEffect(PotionEffectType.SPEED);
@@ -306,7 +306,7 @@ public class Swordsmanship extends Skill{
                 break potionEffectLoop;
             }
         }
-
+        // TODO check for code duplication, check if code can be extracted to separate method
         if (addEffect) {
             if (hasEffect) {
                 p.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);

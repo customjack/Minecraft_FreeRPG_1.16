@@ -36,6 +36,7 @@ public class PlayerMoveAbilityItem implements Listener {
     public void moveAbilityItem(FrpgAbilityItemMovedEvent e) {
         e.setCancelled(true); //We simply want to cancel the ability item being moved in all cases
     }
+    // TODO remove dead code!
     /*
     @EventHandler(priority =  EventPriority.HIGH)
     public void clickEvent(InventoryClickEvent e) {

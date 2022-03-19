@@ -1,6 +1,8 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
+import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.configStorage.ConfigLoad;
+import org.apache.logging.log4j.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -150,8 +152,8 @@ public class Agility extends Skill{
                     increaseStats.changeEXP(skillName, expToGive);
                 }
             }
-            catch (Exception e) { //This is terrible practice and I forgot why I did it
-
+            catch (Exception e) {
+                FreeRPG.log(Level.ERROR, e.getMessage());
             }
         }
     }

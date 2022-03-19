@@ -4,6 +4,7 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
 import mc.carlton.freerpg.playerInfo.Leaderboards;
 import mc.carlton.freerpg.playerInfo.PlayerLeaderboardStat;
+import org.apache.logging.log4j.Level;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
@@ -72,7 +73,7 @@ public class LeaderBoardFilesManager {
             newYamlConfiguration.save(leaderBoardsYML);
         }
         catch (IOException e) {
-            e.printStackTrace();
+            FreeRPG.log(Level.ERROR, e.getMessage());
         }
     }
 
@@ -135,7 +136,7 @@ public class LeaderBoardFilesManager {
     public boolean createLeaderBoardFile(boolean forceCreate){ //This creates a leaderboard file using every player's file on the server, it may take a while to execute
         initializePlayerFile();
         if (!leaderBoardsYML.exists() || forceCreate) {
-            System.out.println("[FreeRPG] Creating Leaderboard File, this may take a while...");
+            FreeRPG.log(Level.INFO, "[FreeRPG] Creating Leaderboard File, this may take a while...");
             //Load playerLeaderBoard class and set it to false (since this will likely be done async)
             Leaderboards leaderboards = new Leaderboards();
             leaderboards.setLeaderboardsLoaded(false);
@@ -176,7 +177,7 @@ public class LeaderBoardFilesManager {
             //Now that all the player's information is added to the PlayerLeaderboardClass, we can sort the data
             addDataToFile(leaderBoardsYML,leaderboardConfig); //Adds data to leaderboards yaml configuration and saves
             leaderboards.setLeaderboardsLoaded(true);
-            System.out.println("[FreeRPG] leaderboards.yml created successfully!");
+            FreeRPG.log(Level.INFO, "[FreeRPG] leaderboards.yml created successfully!");
             return true;
         }
         return false;
