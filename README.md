@@ -6,7 +6,8 @@ offer a free Mcmmo alternative. Each skill has a skill tree, with an additional 
 The skill trees can be accessed with a very simplistic, Hypixel inspired GUI accessed using ``/frpg``.
 
 ## Current Updates
-  Check the tags on github for current releases.
+  Current version is 1.4.52, check the tags/releases on GitHub for a current version or
+  build it yourself from source.
 
 ## Getting Started
 To install on any spigot server, simply drag the ``freerpg-{version}.jar`` file into the plugins folder.
