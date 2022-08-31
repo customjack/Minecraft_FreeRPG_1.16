@@ -2,7 +2,7 @@ package mc.carlton.freerpg.skills;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import mc.carlton.freerpg.utilities.UtilityMethods;
+import mc.carlton.freerpg.utils.UtilityMethods;
 
 public enum SkillName {
   DIGGING,

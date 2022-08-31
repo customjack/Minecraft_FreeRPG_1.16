@@ -3,7 +3,7 @@ package mc.carlton.freerpg.customContainers;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
+import mc.carlton.freerpg.utils.game.PsuedoEnchanting;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;

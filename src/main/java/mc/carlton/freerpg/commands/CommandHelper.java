@@ -1,6 +1,6 @@
 package mc.carlton.freerpg.commands;
 
-import mc.carlton.freerpg.gameTools.LanguageSelector;
+import mc.carlton.freerpg.utils.game.LanguageSelector;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

@@ -1,6 +1,6 @@
 package mc.carlton.freerpg.customContainers;
 
-import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
+import mc.carlton.freerpg.utils.globalVariables.StringsAndOtherData;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;

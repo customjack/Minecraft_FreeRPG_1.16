@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import mc.carlton.freerpg.utilities.UtilityMethods;
+import mc.carlton.freerpg.utils.UtilityMethods;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

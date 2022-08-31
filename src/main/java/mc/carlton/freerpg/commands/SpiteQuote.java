@@ -1,8 +1,8 @@
 package mc.carlton.freerpg.commands;
 
 import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.gameTools.LanguageSelector;
-import mc.carlton.freerpg.globalVariables.StringsAndOtherData;
+import mc.carlton.freerpg.utils.game.LanguageSelector;
+import mc.carlton.freerpg.utils.globalVariables.StringsAndOtherData;
 import org.apache.logging.log4j.Level;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
