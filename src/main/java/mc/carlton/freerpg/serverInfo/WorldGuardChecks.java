@@ -15,104 +15,106 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class WorldGuardChecks {
-    static boolean worldGuardPresent;
 
-    public void initializeWorldGuardPresent() {
-        worldGuardPresent = true;
-        try {
-            WorldGuard.getInstance();
-        } catch (NoClassDefFoundError e) {
-            worldGuardPresent = false;
-        }
-        FreeRPG.log(Level.INFO, "Worldguard is present: " + worldGuardPresent);
+  static boolean worldGuardPresent;
+
+  public void initializeWorldGuardPresent() {
+    worldGuardPresent = true;
+    try {
+      WorldGuard.getInstance();
+    } catch (NoClassDefFoundError e) {
+      worldGuardPresent = false;
     }
+    FreeRPG.log(Level.INFO, "Worldguard is present: " + worldGuardPresent);
+  }
 
-    public boolean canBuild(Player p, Location l) {
-        if (!worldGuardPresent) {
-            return true;
-        }
-        if (!inRegion(l)) {
-            ConfigLoad loadConfig = new ConfigLoad();
-            return loadConfig.isAllowBuild();
-        }
-        RegionQuery query = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
-        LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(p);
-        com.sk89q.worldedit.util.Location loc = BukkitAdapter.adapt(l);
-        if (!hasBypass(localPlayer)) {
-            return query.testState(loc, WorldGuardPlugin.inst().wrapPlayer(p), Flags.BUILD);
-        }else {
-            return true;
-        }
+  public boolean canBuild(Player p, Location l) {
+    if (!worldGuardPresent) {
+      return true;
     }
-
-    public boolean canPvP(Player p, Location l) {
-        if (!worldGuardPresent) {
-            return true;
-        }
-        if (!inRegion(l)) {
-            ConfigLoad loadConfig = new ConfigLoad();
-            return loadConfig.isAllowPvP();
-        }
-        RegionQuery query = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
-        LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(p);
-        com.sk89q.worldedit.util.Location loc = BukkitAdapter.adapt(l);
-        if (!hasBypass(localPlayer)) {
-            return query.testState(loc, WorldGuardPlugin.inst().wrapPlayer(p), Flags.PVP);
-        }else {
-            return true;
-        }
+    if (!inRegion(l)) {
+      ConfigLoad loadConfig = new ConfigLoad();
+      return loadConfig.isAllowBuild();
     }
-
-    public boolean canDamageEntities(Player p, Location l) {
-        if (!worldGuardPresent) {
-            return true;
-        }
-        if (!inRegion(l)) {
-            ConfigLoad loadConfig = new ConfigLoad();
-            return loadConfig.isAllowHurtAnimals();
-        }
-        RegionQuery query = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
-        LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(p);
-        com.sk89q.worldedit.util.Location loc = BukkitAdapter.adapt(l);
-        if (!hasBypass(localPlayer)) {
-            return query.testState(loc, WorldGuardPlugin.inst().wrapPlayer(p), Flags.DAMAGE_ANIMALS);
-        }else {
-            return true;
-        }
+    RegionQuery query = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
+    LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(p);
+    com.sk89q.worldedit.util.Location loc = BukkitAdapter.adapt(l);
+    if (!hasBypass(localPlayer)) {
+      return query.testState(loc, WorldGuardPlugin.inst().wrapPlayer(p), Flags.BUILD);
+    } else {
+      return true;
     }
+  }
 
-    public boolean canExplode(Player p, Location l) {
-        if (!worldGuardPresent) {
-            return true;
-        }
-        if (!inRegion(l)) {
-            ConfigLoad loadConfig = new ConfigLoad();
-            return loadConfig.isAllowExplosions();
-        }
-        RegionQuery query = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
-        LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(p);
-        com.sk89q.worldedit.util.Location loc = BukkitAdapter.adapt(l);
-        if (!hasBypass(localPlayer)) {
-            return query.testState(loc, WorldGuardPlugin.inst().wrapPlayer(p), Flags.OTHER_EXPLOSION);
-        }else {
-            return true;
-        }
+  public boolean canPvP(Player p, Location l) {
+    if (!worldGuardPresent) {
+      return true;
     }
-
-
-    public boolean hasBypass(LocalPlayer localPlayer) {
-        return WorldGuard.getInstance().getPlatform().getSessionManager().hasBypass(localPlayer, localPlayer.getWorld());
+    if (!inRegion(l)) {
+      ConfigLoad loadConfig = new ConfigLoad();
+      return loadConfig.isAllowPvP();
     }
-
-    public boolean inRegion(Location l) {
-        boolean inRegion = false;
-        com.sk89q.worldedit.util.Location loc = BukkitAdapter.adapt(l);
-        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-        RegionQuery query = container.createQuery();
-        ApplicableRegionSet set = query.getApplicableRegions(loc);
-        if (!set.getRegions().isEmpty()) {
-            inRegion = true;
-        }
-        return  inRegion;
+    RegionQuery query = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
+    LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(p);
+    com.sk89q.worldedit.util.Location loc = BukkitAdapter.adapt(l);
+    if (!hasBypass(localPlayer)) {
+      return query.testState(loc, WorldGuardPlugin.inst().wrapPlayer(p), Flags.PVP);
+    } else {
+      return true;
     }
+  }
+
+  public boolean canDamageEntities(Player p, Location l) {
+    if (!worldGuardPresent) {
+      return true;
+    }
+    if (!inRegion(l)) {
+      ConfigLoad loadConfig = new ConfigLoad();
+      return loadConfig.isAllowHurtAnimals();
+    }
+    RegionQuery query = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
+    LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(p);
+    com.sk89q.worldedit.util.Location loc = BukkitAdapter.adapt(l);
+    if (!hasBypass(localPlayer)) {
+      return query.testState(loc, WorldGuardPlugin.inst().wrapPlayer(p), Flags.DAMAGE_ANIMALS);
+    } else {
+      return true;
+    }
+  }
+
+  public boolean canExplode(Player p, Location l) {
+    if (!worldGuardPresent) {
+      return true;
+    }
+    if (!inRegion(l)) {
+      ConfigLoad loadConfig = new ConfigLoad();
+      return loadConfig.isAllowExplosions();
+    }
+    RegionQuery query = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
+    LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(p);
+    com.sk89q.worldedit.util.Location loc = BukkitAdapter.adapt(l);
+    if (!hasBypass(localPlayer)) {
+      return query.testState(loc, WorldGuardPlugin.inst().wrapPlayer(p), Flags.OTHER_EXPLOSION);
+    } else {
+      return true;
+    }
+  }
+
+
+  public boolean hasBypass(LocalPlayer localPlayer) {
+    return WorldGuard.getInstance().getPlatform().getSessionManager()
+        .hasBypass(localPlayer, localPlayer.getWorld());
+  }
+
+  public boolean inRegion(Location l) {
+    boolean inRegion = false;
+    com.sk89q.worldedit.util.Location loc = BukkitAdapter.adapt(l);
+    RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+    RegionQuery query = container.createQuery();
+    ApplicableRegionSet set = query.getApplicableRegions(loc);
+    if (!set.getRegions().isEmpty()) {
+      inRegion = true;
+    }
+    return inRegion;
+  }
 }

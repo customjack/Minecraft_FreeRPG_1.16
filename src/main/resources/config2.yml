@@ -105,30 +105,30 @@ fishing:
     # Fill the drop table with custom items
     # Please refer to the custom item information in the comments of perkConfig.yml
     dropTable:
-      - [drop: LILY_PAD,      amount: 1, exp: 1000, weight: 17]
-      - [drop: BOWL,          amount: 1, exp: 1000, weight: 10]
-      - [drop: FISHING_ROD,   amount: 1, exp: 1000, weight: 2,  durability: [lower: 0.10, upper: 1.00]]
-      - [drop: LEATHER,       amount: 1, exp: 1000, weight: 10]
-      - [drop: LEATHER_BOOTS, amount: 1, exp: 1000, weight: 10, durability: [lower: 0.10, upper: 1.00]]
-      - [drop: ROTTEN FLESH,  amount: 1, exp: 1000, weight: 10]
-      - [drop: STICK,         amount: 1, exp: 1000, weight: 5 ]
-      - [drop: STRING,        amount: 1, exp: 1000, weight: 5 ]
-      - [drop: BOTTLE,        amount: 1, exp: 1000, weight: 10, potion: [effect: WATER] ]
-      - [drop: BONE,          amount: 1, exp: 1000, weight: 10]
-      - [drop: INK_SAC,       amount: 1, exp: 1000, weight: 1 ]
-      - [drop: TRIPWIRE_HOOK, amount: 1, exp: 1000, weight: 10]
+      - [ drop: LILY_PAD,      amount: 1, exp: 1000, weight: 17 ]
+      - [ drop: BOWL,          amount: 1, exp: 1000, weight: 10 ]
+      - [ drop: FISHING_ROD,   amount: 1, exp: 1000, weight: 2,  durability: [ lower: 0.10, upper: 1.00 ] ]
+      - [ drop: LEATHER,       amount: 1, exp: 1000, weight: 10 ]
+      - [ drop: LEATHER_BOOTS, amount: 1, exp: 1000, weight: 10, durability: [ lower: 0.10, upper: 1.00 ] ]
+      - [ drop: ROTTEN FLESH,  amount: 1, exp: 1000, weight: 10 ]
+      - [ drop: STICK,         amount: 1, exp: 1000, weight: 5 ]
+      - [ drop: STRING,        amount: 1, exp: 1000, weight: 5 ]
+      - [ drop: BOTTLE,        amount: 1, exp: 1000, weight: 10, potion: [ effect: WATER ] ]
+      - [ drop: BONE,          amount: 1, exp: 1000, weight: 10 ]
+      - [ drop: INK_SAC,       amount: 1, exp: 1000, weight: 1 ]
+      - [ drop: TRIPWIRE_HOOK, amount: 1, exp: 1000, weight: 10 ]
 
   treasureCatches:
     baseChance: 0.050 #Base probability of tier being rolled (from any catch)
     # Fill the drop table with custom items
     # Please refer to the custom item information in the comments of perkConfig.yml
     dropTable:
-      - [drop: BOW,            amount: 1, exp: 2000, weight: 1, durability: [lower: 0, upper: 0.18], enchantmentBounds: [lower: 22,upper: 30, isTreasure: true] ]
-      - [drop: ENCHANTED_BOOK, amount: 1, exp: 2000, weight: 1, enchantmentBounds: [lower: 22,upper: 30, isTreasure: true] ]
-      - [drop: FISHING_ROD,    amount: 1, exp: 2000, weight: 1, durability: [lower: 0, upper: 0.18], enchantmentBounds: [lower: 22,upper: 30, isTreasure: true] ]
-      - [drop: NAME_TAG,       amount: 1, exp: 2000, weight: 1]
-      - [drop: NAUTILUS_SHELL, amount: 1, exp: 2000, weight: 1]
-      - [drop: ROTTEN SADDLE,  amount: 1, exp: 2000, weight: 1]
+      - [ drop: BOW,            amount: 1, exp: 2000, weight: 1, durability: [ lower: 0, upper: 0.18 ], enchantmentBounds: [ lower: 22,upper: 30, isTreasure: true ] ]
+      - [ drop: ENCHANTED_BOOK, amount: 1, exp: 2000, weight: 1, enchantmentBounds: [ lower: 22,upper: 30, isTreasure: true ] ]
+      - [ drop: FISHING_ROD,    amount: 1, exp: 2000, weight: 1, durability: [ lower: 0, upper: 0.18 ], enchantmentBounds: [ lower: 22,upper: 30, isTreasure: true ] ]
+      - [ drop: NAME_TAG,       amount: 1, exp: 2000, weight: 1 ]
+      - [ drop: NAUTILUS_SHELL, amount: 1, exp: 2000, weight: 1 ]
+      - [ drop: ROTTEN SADDLE,  amount: 1, exp: 2000, weight: 1 ]
 archery:
   enabled: true #Setting this to false disables all skill features and EXP drops.
   startingSkillTokens: 0 #number of skill tokens each player starts with in this skill

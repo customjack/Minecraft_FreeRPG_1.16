@@ -1,49 +1,50 @@
 package mc.carlton.freerpg.skillAndPerkInfo;
 
 public class PerkInfo {
-    private boolean enabled = true;
-    private int minLevel = -1;
-    private int maxLevel = -1;
-    private String perkId;
-    private String descriptionTemplateId;
 
-    public int getMaxLevel() {
-        return maxLevel;
-    }
+  private boolean enabled = true;
+  private int minLevel = -1;
+  private int maxLevel = -1;
+  private String perkId;
+  private String descriptionTemplateId;
 
-    public void setMaxLevel(int maxLevel) {
-        this.maxLevel = maxLevel;
-    }
+  public int getMaxLevel() {
+    return maxLevel;
+  }
 
-    public int getMinLevel() {
-        return minLevel;
-    }
+  public void setMaxLevel(int maxLevel) {
+    this.maxLevel = maxLevel;
+  }
 
-    public void setMinLevel(int minLevel) {
-        this.minLevel = minLevel;
-    }
+  public int getMinLevel() {
+    return minLevel;
+  }
 
-    public String getDescriptionTemplateId() {
-        return descriptionTemplateId;
-    }
+  public void setMinLevel(int minLevel) {
+    this.minLevel = minLevel;
+  }
 
-    public void setDescriptionTemplateId(String descriptionTemplateId) {
-        this.descriptionTemplateId = descriptionTemplateId;
-    }
+  public String getDescriptionTemplateId() {
+    return descriptionTemplateId;
+  }
 
-    public String getPerkId() {
-        return perkId;
-    }
+  public void setDescriptionTemplateId(String descriptionTemplateId) {
+    this.descriptionTemplateId = descriptionTemplateId;
+  }
 
-    public void setPerkId(String perkId) {
-        this.perkId = perkId;
-    }
+  public String getPerkId() {
+    return perkId;
+  }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
+  public void setPerkId(String perkId) {
+    this.perkId = perkId;
+  }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 }

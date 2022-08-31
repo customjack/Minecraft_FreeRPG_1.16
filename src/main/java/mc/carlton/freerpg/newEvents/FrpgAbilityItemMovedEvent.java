@@ -1,7 +1,9 @@
 package mc.carlton.freerpg.newEvents;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.*;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -12,101 +14,112 @@ import org.jetbrains.annotations.NotNull;
  * This event constitutes multiple event in the case that an ability item is moved
  */
 public class FrpgAbilityItemMovedEvent extends Event implements Cancellable {
-    private static final HandlerList handlers = new HandlerList();
-    private boolean cancelled;
-    private Event event;
-    private Player player;
-    private ItemStack abilityItem;
 
-    private FrpgAbilityItemMovedEvent(ItemStack abilityItem, Event event) {
-        this.event = event;
-        this.abilityItem = abilityItem;
-        if (event instanceof Cancellable) {
-            this.cancelled = ((Cancellable) event).isCancelled();
-        }
-    }
+  private static final HandlerList handlers = new HandlerList();
+  private boolean cancelled;
+  private Event event;
+  private Player player;
+  private ItemStack abilityItem;
 
-    /**
-     * Class constructor
-     * @param event InventoryClickEvent
-     * @param abilityItem Item that has active ability on it
-     */
-    public FrpgAbilityItemMovedEvent(InventoryClickEvent event, ItemStack abilityItem) {
-        this(abilityItem,event);
-        this.player = (Player) event.getWhoClicked();
+  private FrpgAbilityItemMovedEvent(ItemStack abilityItem, Event event) {
+    this.event = event;
+    this.abilityItem = abilityItem;
+    if (event instanceof Cancellable) {
+      this.cancelled = ((Cancellable) event).isCancelled();
     }
-    /**
-     * Class constructor
-     * @param event InventoryDragEvent
-     * @param abilityItem Item that has active ability on it
-     */
-    public FrpgAbilityItemMovedEvent(InventoryDragEvent event, ItemStack abilityItem) {
-        this(abilityItem,event);
-        this.player = (Player) event.getWhoClicked();
-    }
-    /**
-     * Class constructor
-     * @param event FrpgPlayerRightClickEvent
-     * @param abilityItem Item that has active ability on it
-     */
-    public FrpgAbilityItemMovedEvent(FrpgPlayerRightClickEvent event, ItemStack abilityItem) {
-        this(abilityItem,event);
-        this.player = event.getPlayer();
-    }
+  }
 
-    /**
-     * Class constructor
-     * @param event FrpgPlayerRightClickEvent
-     * @param abilityItem Item that has active ability on it
-     */
-    public FrpgAbilityItemMovedEvent(PlayerInteractEntityEvent event, ItemStack abilityItem) {
-        this(abilityItem,event);
-        this.player = event.getPlayer();
-    }
+  /**
+   * Class constructor
+   *
+   * @param event       InventoryClickEvent
+   * @param abilityItem Item that has active ability on it
+   */
+  public FrpgAbilityItemMovedEvent(InventoryClickEvent event, ItemStack abilityItem) {
+    this(abilityItem, event);
+    this.player = (Player) event.getWhoClicked();
+  }
 
-    /**
-     * Getter for the player
-     * @return Player who moved the ability item
-     */
-    public Player getPlayer() {
-        return player;
-    }
+  /**
+   * Class constructor
+   *
+   * @param event       InventoryDragEvent
+   * @param abilityItem Item that has active ability on it
+   */
+  public FrpgAbilityItemMovedEvent(InventoryDragEvent event, ItemStack abilityItem) {
+    this(abilityItem, event);
+    this.player = (Player) event.getWhoClicked();
+  }
 
-    /**
-     * getter for abilityItem
-     * @return The resulting itemstack that is an ability item
-     */
-    public ItemStack getAbilityItem() {
-        return abilityItem;
-    }
+  /**
+   * Class constructor
+   *
+   * @param event       FrpgPlayerRightClickEvent
+   * @param abilityItem Item that has active ability on it
+   */
+  public FrpgAbilityItemMovedEvent(FrpgPlayerRightClickEvent event, ItemStack abilityItem) {
+    this(abilityItem, event);
+    this.player = event.getPlayer();
+  }
 
-    /**
-     * Getter for cancelled
-     * @return true if the associated event is cancelled
-     */
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
+  /**
+   * Class constructor
+   *
+   * @param event       FrpgPlayerRightClickEvent
+   * @param abilityItem Item that has active ability on it
+   */
+  public FrpgAbilityItemMovedEvent(PlayerInteractEntityEvent event, ItemStack abilityItem) {
+    this(abilityItem, event);
+    this.player = event.getPlayer();
+  }
 
-    /**
-     * Setter for cancrlled, also cancels the event
-     * @param cancel true if the event is to be cancelled
-     */
-    @Override
-    public void setCancelled(boolean cancel) {
-        if (event instanceof Cancellable) {
-            ((Cancellable) event).setCancelled(cancel);
-        }
-        this.cancelled = cancel;
-    }
+  public static HandlerList getHandlerList() {
+    return handlers;
+  }
 
-    @Override
-    public @NotNull HandlerList getHandlers() {
-        return handlers;
-    }
+  /**
+   * Getter for the player
+   *
+   * @return Player who moved the ability item
+   */
+  public Player getPlayer() {
+    return player;
+  }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
+  /**
+   * getter for abilityItem
+   *
+   * @return The resulting itemstack that is an ability item
+   */
+  public ItemStack getAbilityItem() {
+    return abilityItem;
+  }
+
+  /**
+   * Getter for cancelled
+   *
+   * @return true if the associated event is cancelled
+   */
+  @Override
+  public boolean isCancelled() {
+    return cancelled;
+  }
+
+  /**
+   * Setter for cancrlled, also cancels the event
+   *
+   * @param cancel true if the event is to be cancelled
+   */
+  @Override
+  public void setCancelled(boolean cancel) {
+    if (event instanceof Cancellable) {
+      ((Cancellable) event).setCancelled(cancel);
     }
+    this.cancelled = cancel;
+  }
+
+  @Override
+  public @NotNull HandlerList getHandlers() {
+    return handlers;
+  }
 }

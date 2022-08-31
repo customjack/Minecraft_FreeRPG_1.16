@@ -1,42 +1,16 @@
 package mc.carlton.freerpg.miscEvents;
 
-import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.gameTools.ActionBarMessages;
-import mc.carlton.freerpg.gameTools.TrackItem;
 import mc.carlton.freerpg.newEvents.FrpgAbilityItemMovedEvent;
-import mc.carlton.freerpg.perksAndAbilities.Digging;
-import mc.carlton.freerpg.perksAndAbilities.Mining;
-import mc.carlton.freerpg.perksAndAbilities.Swordsmanship;
-import mc.carlton.freerpg.playerInfo.AbilityLogoutTracker;
-import mc.carlton.freerpg.playerInfo.AbilityTimers;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class PlayerMoveAbilityItem implements Listener {
 
-    @EventHandler
-    public void moveAbilityItem(FrpgAbilityItemMovedEvent e) {
-        e.setCancelled(true); //We simply want to cancel the ability item being moved in all cases
-    }
-    // TODO remove dead code!
+  @EventHandler
+  public void moveAbilityItem(FrpgAbilityItemMovedEvent e) {
+    e.setCancelled(true); //We simply want to cancel the ability item being moved in all cases
+  }
+  // TODO remove dead code!
     /*
     @EventHandler(priority =  EventPriority.HIGH)
     public void clickEvent(InventoryClickEvent e) {

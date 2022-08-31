@@ -1,6 +1,7 @@
 package mc.carlton.freerpg.miscEvents;
 
 
+import java.util.Map;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
 import mc.carlton.freerpg.serverInfo.PlacedBlocksManager;
 import mc.carlton.freerpg.serverInfo.WorldGuardChecks;
@@ -13,32 +14,31 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-import java.util.Map;
-
 
 public class PlayerBlockPlace implements Listener {
-    @EventHandler(priority = EventPriority.HIGHEST)
-    void onblockPlace(BlockPlaceEvent e){
-        Player p = e.getPlayer();
-        Block block = e.getBlockPlaced();
-        Location loc = block.getLocation();
 
-        if (e.isCancelled()) {
-            return;
-        }
+  @EventHandler(priority = EventPriority.HIGHEST)
+  void onblockPlace(BlockPlaceEvent e) {
+    Player p = e.getPlayer();
+    Block block = e.getBlockPlaced();
+    Location loc = block.getLocation();
 
-        //WorldGuard Check
-        WorldGuardChecks BuildingCheck = new WorldGuardChecks();
-        if (!BuildingCheck.canBuild(p, loc)) {
-            return;
-        }
-        ItemGroups itemGroups = new ItemGroups();
-        Map<Material,Boolean> trackedBlocks = itemGroups.getTrackedBlocks();
-        Material blockType = block.getType();
-        boolean isTracked = trackedBlocks.containsKey(blockType);
-        if (isTracked) {
-            PlacedBlocksManager blockTracker = new PlacedBlocksManager();
-            blockTracker.addLocation(loc);
-        }
+    if (e.isCancelled()) {
+      return;
     }
+
+    //WorldGuard Check
+    WorldGuardChecks BuildingCheck = new WorldGuardChecks();
+    if (!BuildingCheck.canBuild(p, loc)) {
+      return;
+    }
+    ItemGroups itemGroups = new ItemGroups();
+    Map<Material, Boolean> trackedBlocks = itemGroups.getTrackedBlocks();
+    Material blockType = block.getType();
+    boolean isTracked = trackedBlocks.containsKey(blockType);
+    if (isTracked) {
+      PlacedBlocksManager blockTracker = new PlacedBlocksManager();
+      blockTracker.addLocation(loc);
+    }
+  }
 }

@@ -11,25 +11,26 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 public class PlayerRightClickEntity implements Listener {
-    @EventHandler(priority = EventPriority.HIGH)
-    void onRightClick(PlayerInteractEntityEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-        Player p = e.getPlayer();
-        if (p.getGameMode() == GameMode.CREATIVE) {
-            return;
-        }
-        Entity entity = e.getRightClicked();
 
-        //Farming
-        Farming farmingClass = new Farming(p);
-        farmingClass.babyAnimalGrow(entity);
-        farmingClass.milkingEXP(entity);
-
-        //Beast Mastery
-        BeastMastery beastMasteryClass = new BeastMastery(p);
-        beastMasteryClass.getHorseStats(entity);
-
+  @EventHandler(priority = EventPriority.HIGH)
+  void onRightClick(PlayerInteractEntityEvent e) {
+    if (e.isCancelled()) {
+      return;
     }
+    Player p = e.getPlayer();
+    if (p.getGameMode() == GameMode.CREATIVE) {
+      return;
+    }
+    Entity entity = e.getRightClicked();
+
+    //Farming
+    Farming farmingClass = new Farming(p);
+    farmingClass.babyAnimalGrow(entity);
+    farmingClass.milkingEXP(entity);
+
+    //Beast Mastery
+    BeastMastery beastMasteryClass = new BeastMastery(p);
+    beastMasteryClass.getHorseStats(entity);
+
+  }
 }

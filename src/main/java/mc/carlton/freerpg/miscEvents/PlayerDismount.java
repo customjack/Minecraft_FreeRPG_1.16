@@ -9,17 +9,18 @@ import org.bukkit.event.Listener;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
 public class PlayerDismount implements Listener {
-    @EventHandler(priority = EventPriority.HIGH)
-    void onPlayerTakeDamage(EntityDismountEvent e){
-        if (e.isCancelled()) {
-            return;
-        }
-        Entity mount = e.getDismounted();
-        HorseRiding horseRiding = new HorseRiding();
-        Player p = horseRiding.getPlayerFromMount(mount.getUniqueId());
-        if (p!=null){
-            horseRiding.deletePlayerData(p);
-        }
 
+  @EventHandler(priority = EventPriority.HIGH)
+  void onPlayerTakeDamage(EntityDismountEvent e) {
+    if (e.isCancelled()) {
+      return;
     }
+    Entity mount = e.getDismounted();
+    HorseRiding horseRiding = new HorseRiding();
+    Player p = horseRiding.getPlayerFromMount(mount.getUniqueId());
+    if (p != null) {
+      horseRiding.deletePlayerData(p);
+    }
+
+  }
 }

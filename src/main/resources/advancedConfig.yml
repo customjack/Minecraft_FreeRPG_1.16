@@ -209,10 +209,10 @@ woodcutting:
     breakFlowering_Azalea_Leaves: 13
 mining:
   # All Blocks affected by the Vein Miner perk. Putting something like "DIRT" will break your server if maximum blocks broken is very high or -1.
-  veinMinerBlocks: [REDSTONE_ORE,NETHER_QUARTZ_ORE,LAPIS_ORE,IRON_ORE,GOLD_ORE,EMERALD_ORE,DIAMOND_ORE,COAL_ORE,
-                    GLOWSTONE,NETHER_GOLD_ORE,ANCIENT_DEBRIS,GILDED_BLACKSTONE,COPPER_ORE,DEEPSLATE_COAL_ORE,DEEPSLATE_COPPER_ORE,
-                    DEEPSLATE_DIAMOND_ORE,DEEPSLATE_EMERALD_ORE,DEEPSLATE_GOLD_ORE,DEEPSLATE_IRON_ORE,
-                    DEEPSLATE_LAPIS_ORE,DEEPSLATE_REDSTONE_ORE]
+  veinMinerBlocks: [ REDSTONE_ORE,NETHER_QUARTZ_ORE,LAPIS_ORE,IRON_ORE,GOLD_ORE,EMERALD_ORE,DIAMOND_ORE,COAL_ORE,
+                     GLOWSTONE,NETHER_GOLD_ORE,ANCIENT_DEBRIS,GILDED_BLACKSTONE,COPPER_ORE,DEEPSLATE_COAL_ORE,DEEPSLATE_COPPER_ORE,
+                     DEEPSLATE_DIAMOND_ORE,DEEPSLATE_EMERALD_ORE,DEEPSLATE_GOLD_ORE,DEEPSLATE_IRON_ORE,
+                     DEEPSLATE_LAPIS_ORE,DEEPSLATE_REDSTONE_ORE ]
   veinMinerMaximumBlocksBroken: 30 #Set to -1 for no limit (not recommended)
   veinMinerDurabilityModifier: 1.0 #Average durability points of damaged removed per block broken (without unbreaking)
   expDrops:
@@ -328,19 +328,19 @@ farming:
     # Use "AIR" to represent blank entries
     recipeOutput1: COW_SPAWN_EGG
     recipeOutputAmount1: 1
-    recipe1: [LEATHER,BEEF,LEATHER,BEEF,BONE,BEEF,LEATHER,BEEF,LEATHER]
+    recipe1: [ LEATHER,BEEF,LEATHER,BEEF,BONE,BEEF,LEATHER,BEEF,LEATHER ]
     recipeOutput2: BEE_SPAWN_EGG
     recipeOutputAmount2: 1
-    recipe2: [AIR,OXEYE_DAISY,AIR,DANDELION,HONEY_BOTTLE,POPPY,AIR,AZURE_BLUET,AIR]
+    recipe2: [ AIR,OXEYE_DAISY,AIR,DANDELION,HONEY_BOTTLE,POPPY,AIR,AZURE_BLUET,AIR ]
     recipeOutput3: MOOSHROOM_SPAWN_EGG
     recipeOutputAmount3: 1
-    recipe3: [LEATHER,RED_MUSHROOM,LEATHER,BEEF,BONE,BEEF,LEATHER,BEEF,LEATHER]
+    recipe3: [ LEATHER,RED_MUSHROOM,LEATHER,BEEF,BONE,BEEF,LEATHER,BEEF,LEATHER ]
     recipeOutput4: HORSE_SPAWN_EGG
     recipeOutputAmount4: 1
-    recipe4: [LEATHER,SADDLE,LEATHER,LEATHER,BONE,LEATHER,HAY_BLOCK,HAY_BLOCK,HAY_BLOCK]
+    recipe4: [ LEATHER,SADDLE,LEATHER,LEATHER,BONE,LEATHER,HAY_BLOCK,HAY_BLOCK,HAY_BLOCK ]
     recipeOutput5: SLIME_SPAWN_EGG
     recipeOutputAmount5: 1
-    recipe5: [AIR,AIR,AIR,AIR,SLIME_BALL,SLIME_BALL,AIR,SLIME_BALL,SLIME_BALL]
+    recipe5: [ AIR,AIR,AIR,AIR,SLIME_BALL,SLIME_BALL,AIR,SLIME_BALL,SLIME_BALL ]
 fishing:
   superBaitEXPMultiplier: 1.0 #EXP nerf when using the Super Bait skill
   robCooldown: 10 #Time in seconds a player must wait between using rob twice
@@ -1002,31 +1002,31 @@ alchemy:
     recipePotionType1: WATER_BREATHING
     recipePotionExtended1: false
     recipePotionUpgraded1: false
-    recipe1: [AIR,PUFFERFISH,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR]
+    recipe1: [ AIR,PUFFERFISH,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR ]
     recipeOutput2: POTION
     recipeOutputAmount2: 1
     recipePotionType2: SPEED
     recipePotionExtended2: false
     recipePotionUpgraded2: false
-    recipe2: [AIR,SUGAR,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR]
+    recipe2: [ AIR,SUGAR,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR ]
     recipeOutput3: POTION
     recipeOutputAmount3: 1
     recipePotionType3: FIRE_RESISTANCE
     recipePotionExtended3: false
     recipePotionUpgraded3: false
-    recipe3: [AIR,MAGMA_CREAM,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR]
+    recipe3: [ AIR,MAGMA_CREAM,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR ]
     recipeOutput4: POTION
     recipeOutputAmount4: 1
     recipePotionType4: INSTANT_HEAL
     recipePotionExtended4: false
     recipePotionUpgraded4: false
-    recipe4: [AIR,GLISTERING_MELON_SLICE,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR]
+    recipe4: [ AIR,GLISTERING_MELON_SLICE,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR ]
     recipeOutput5: POTION
     recipeOutputAmount5: 1
     recipePotionType5: STRENGTH
     recipePotionExtended5: false
     recipePotionUpgraded5: false
-    recipe5: [AIR,BLAZE_POWDER,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR]
+    recipe5: [ AIR,BLAZE_POWDER,AIR,AIR,GLASS_BOTTLE,AIR,AIR,AIR,AIR ]
   expDrops:
     enableEXPDrops: true
     breakNetherWart: 100
@@ -1133,59 +1133,59 @@ enchanting:
     recipeEnchant1: power
     recipeEnchantLevel1: 1
     XPcostToCraft1: 1
-    recipe1: [AIR,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,BOW]
+    recipe1: [ AIR,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,BOW ]
     recipeOutput2: ENCHANTED_BOOK
     recipeOutputAmount2: 1
     recipeEnchant2: efficiency
     recipeEnchantLevel2: 1
     XPcostToCraft2: 1
-    recipe2: [AIR,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,IRON_PICKAXE]
+    recipe2: [ AIR,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,IRON_PICKAXE ]
     recipeOutput3: ENCHANTED_BOOK
     recipeOutputAmount3: 1
     recipeEnchant3: sharpness
     recipeEnchantLevel3: 1
     XPcostToCraft3: 1
-    recipe3: [IRON_INGOT,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,IRON_SWORD]
+    recipe3: [ IRON_INGOT,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,IRON_SWORD ]
     recipeOutput4: ENCHANTED_BOOK
     recipeOutputAmount4: 1
     recipeEnchant4: protection
     recipeEnchantLevel4: 1
     XPcostToCraft4: 1
-    recipe4: [AIR,IRON_INGOT,AIR,IRON_INGOT,PAPER,PAPER,AIR,PAPER,IRON_INGOT]
+    recipe4: [ AIR,IRON_INGOT,AIR,IRON_INGOT,PAPER,PAPER,AIR,PAPER,IRON_INGOT ]
     recipeOutput5: ENCHANTED_BOOK
     recipeOutputAmount5: 1
     recipeEnchant5: luck_of_the_sea
     recipeEnchantLevel5: 1
     XPcostToCraft5: 1
-    recipe5: [RABBIT_FOOT,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,FISHING_ROD]
+    recipe5: [ RABBIT_FOOT,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,FISHING_ROD ]
     recipeOutput6: ENCHANTED_BOOK
     recipeOutputAmount6: 1
     recipeEnchant6: lure
     recipeEnchantLevel6: 1
     XPcostToCraft6: 1
-    recipe6: [COD_BUCKET,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,FISHING_ROD]
+    recipe6: [ COD_BUCKET,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,FISHING_ROD ]
     recipeOutput7: ENCHANTED_BOOK
     recipeOutputAmount7: 1
     recipeEnchant7: frost_walker
     recipeEnchantLevel7: 1
     XPcostToCraft7: 2
-    recipe7: [ICE,PACKED_ICE,PACKED_ICE,PACKED_ICE,PAPER,PAPER,PACKED_ICE,PAPER,BLUE_ICE]
+    recipe7: [ ICE,PACKED_ICE,PACKED_ICE,PACKED_ICE,PAPER,PAPER,PACKED_ICE,PAPER,BLUE_ICE ]
     recipeOutput8: ENCHANTED_BOOK
     recipeOutputAmount8: 1
     recipeEnchant8: depth_strider
     recipeEnchantLevel8: 1
     XPcostToCraft8: 2
-    recipe8: [AIR,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,NAUTILUS_SHELL]
+    recipe8: [ AIR,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,NAUTILUS_SHELL ]
     recipeOutput9: ENCHANTED_BOOK
     recipeOutputAmount9: 1
     recipeEnchant9: mending
     recipeEnchantLevel9: 1
     XPcostToCraft9: 10
-    recipe9: [AIR,DIAMOND_BLOCK,AIR,DIAMOND_BLOCK,PAPER,PAPER,AIR,PAPER,DIAMOND_BLOCK]
+    recipe9: [ AIR,DIAMOND_BLOCK,AIR,DIAMOND_BLOCK,PAPER,PAPER,AIR,PAPER,DIAMOND_BLOCK ]
     recipeOutput10: ENCHANTED_BOOK
     recipeOutputAmount10: 1
     recipeEnchant10: fortune
     recipeEnchantLevel10: 1
     XPcostToCraft10: 2
-    recipe10: [AIR,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,GOLD_BLOCK]
+    recipe10: [ AIR,AIR,AIR,AIR,PAPER,PAPER,AIR,PAPER,GOLD_BLOCK ]
 

@@ -2,13 +2,13 @@ name: FreeRPG
 version: ${project.version}
 main: mc.carlton.freerpg.FreeRPG
 api-version: 1.13
-authors: [JackCarlton, AdvancedWipe]
+authors: [ JackCarlton, AdvancedWipe ]
 description: Made from Spite
-softdepend: [WorldGuard,PlaceholderAPI]
+softdepend: [ WorldGuard,PlaceholderAPI ]
 commands:
   frpg:
     description: Main FreeRPG command, type /frpg help for more info
-    aliases: [rpgFree]
+    aliases: [ rpgFree ]
   spite:
     descriptions: Tells you what spite is good for.
 permissions:

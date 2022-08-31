@@ -4,11 +4,11 @@ import java.util.Map;
 
 public interface LowestLevelInfo {
 
-    Map<String, Object> getAllInfo();
+  Map<String, Object> getAllInfo();
 
-    Object getInfo(String identifier);
+  Object getInfo(String identifier);
 
-    void setInfo(Map<String, Object> skillPerkLevelInfo);
+  void setInfo(Map<String, Object> skillPerkLevelInfo);
 
-    void addInfo(String identifier, Object information);
+  void addInfo(String identifier, Object information);
 }

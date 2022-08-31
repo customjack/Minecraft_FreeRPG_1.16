@@ -10,19 +10,20 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityBreedEvent;
 
 public class PlayerBreedEntity implements Listener {
-    @EventHandler(priority = EventPriority.HIGH)
-    void onPlayerBreed(EntityBreedEvent e){
-        if (e.isCancelled()) {
-            return;
-        }
-        if (e.getBreeder() instanceof Player) {
-            Player p = (Player) e.getBreeder();
-            Entity entity = e.getEntity();
-            Farming farmingClass = new Farming(p);
-            farmingClass.breedingEXP(entity);
-            BeastMastery beastMasteryClass = new BeastMastery(p);
-            beastMasteryClass.breedingEXP(entity);
-        }
 
+  @EventHandler(priority = EventPriority.HIGH)
+  void onPlayerBreed(EntityBreedEvent e) {
+    if (e.isCancelled()) {
+      return;
     }
+    if (e.getBreeder() instanceof Player) {
+      Player p = (Player) e.getBreeder();
+      Entity entity = e.getEntity();
+      Farming farmingClass = new Farming(p);
+      farmingClass.breedingEXP(entity);
+      BeastMastery beastMasteryClass = new BeastMastery(p);
+      beastMasteryClass.breedingEXP(entity);
+    }
+
+  }
 }
