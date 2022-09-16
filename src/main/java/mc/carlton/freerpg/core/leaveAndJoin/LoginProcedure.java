@@ -5,12 +5,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 import mc.carlton.freerpg.FreeRPG;
-import mc.carlton.freerpg.utils.game.BossBarStorage;
-import mc.carlton.freerpg.utils.game.FurnaceUserTracker;
-import mc.carlton.freerpg.skills.perksAndAbilities.Agility;
-import mc.carlton.freerpg.skills.perksAndAbilities.Defense;
-import mc.carlton.freerpg.skills.perksAndAbilities.Farming;
-import mc.carlton.freerpg.skills.perksAndAbilities.Fishing;
 import mc.carlton.freerpg.core.info.player.AbilityLogoutTracker;
 import mc.carlton.freerpg.core.info.player.AbilityTimers;
 import mc.carlton.freerpg.core.info.player.AbilityTracker;
@@ -19,6 +13,12 @@ import mc.carlton.freerpg.core.info.player.Leaderboards;
 import mc.carlton.freerpg.core.info.player.PlayerStats;
 import mc.carlton.freerpg.core.info.player.PlayerStatsLoadIn;
 import mc.carlton.freerpg.core.serverFileManagement.PlayerStatsFilePreparation;
+import mc.carlton.freerpg.skills.perksAndAbilities.Agility;
+import mc.carlton.freerpg.skills.perksAndAbilities.Defense;
+import mc.carlton.freerpg.skills.perksAndAbilities.Farming;
+import mc.carlton.freerpg.skills.perksAndAbilities.Fishing;
+import mc.carlton.freerpg.utils.game.BossBarStorage;
+import mc.carlton.freerpg.utils.game.FurnaceUserTracker;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
@@ -118,7 +118,7 @@ public class LoginProcedure {
 
     //Initiates player abiliyLogoutTracker
     AbilityLogoutTracker abilityLogout = new AbilityLogoutTracker(p);
-    abilityLogout.intiializePlayer();
+    abilityLogout.initializePlayer();
 
     //Initializes Abilities
     Farming farmingClass = new Farming(p);

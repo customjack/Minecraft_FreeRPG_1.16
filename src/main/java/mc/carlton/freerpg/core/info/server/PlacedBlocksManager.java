@@ -27,7 +27,7 @@ public class PlacedBlocksManager {
 
   public HashSet<Location> getBlocks() {
     isFileMangerMakingCopy = true; //Let all classes know a copy is being made
-    copiesBeingMade += 1; //Add to to total number of copies currently being made
+    copiesBeingMade += 1; //Add to total number of copies currently being made
     HashSet<Location> blocksCopy = new HashSet<>(blocks);
     copiesBeingMade -= 1; //Copy is made, reduce the number of total copies currently being made by one
     if (copiesBeingMade
@@ -83,5 +83,4 @@ public class PlacedBlocksManager {
       }.runTaskLater(plugin, 1).getTaskId();
     }
   }
-
 }

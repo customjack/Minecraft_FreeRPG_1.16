@@ -6,10 +6,10 @@ import java.util.Map;
 import java.util.Random;
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.config.ConfigLoad;
+import mc.carlton.freerpg.core.info.server.MinecraftVersion;
 import mc.carlton.freerpg.utils.game.FurnaceUserTracker;
 import mc.carlton.freerpg.utils.globalVariables.ExpMaps;
 import mc.carlton.freerpg.utils.globalVariables.ItemGroups;
-import mc.carlton.freerpg.core.info.server.MinecraftVersion;
 import org.apache.logging.log4j.Level;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -361,7 +361,7 @@ public class Smelting extends Skill {
         break;
     }
     MinecraftVersion minecraftVersion = new MinecraftVersion();
-    if (minecraftVersion.getMinecraftVersion_Double() >= 1.16 && EXP != expMap.get(
+    if (minecraftVersion.getMinecraftVersionAsDouble() >= 1.16 && EXP != expMap.get(
         "smeltAnythingElse")) {
       if (smeltedMaterial.equals(Material.NETHERITE_SCRAP)) {
         EXP = expMap.get("smeltNetherite_Scrap");

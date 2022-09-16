@@ -1,7 +1,7 @@
 package mc.carlton.freerpg.events.combat;
 
-import mc.carlton.freerpg.utils.game.FireworkShotByPlayerTracker;
 import mc.carlton.freerpg.skills.perksAndAbilities.Archery;
+import mc.carlton.freerpg.utils.game.FireworkShotByPlayerTracker;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Firework;

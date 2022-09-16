@@ -1,10 +1,10 @@
 package mc.carlton.freerpg.events.misc;
 
+import mc.carlton.freerpg.core.info.player.AbilityLogoutTracker;
+import mc.carlton.freerpg.core.info.player.AbilityTracker;
 import mc.carlton.freerpg.skills.perksAndAbilities.Digging;
 import mc.carlton.freerpg.skills.perksAndAbilities.Mining;
 import mc.carlton.freerpg.skills.perksAndAbilities.Swordsmanship;
-import mc.carlton.freerpg.core.info.player.AbilityLogoutTracker;
-import mc.carlton.freerpg.core.info.player.AbilityTracker;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

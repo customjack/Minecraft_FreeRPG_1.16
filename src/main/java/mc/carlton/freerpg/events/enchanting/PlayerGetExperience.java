@@ -1,8 +1,8 @@
 package mc.carlton.freerpg.events.enchanting;
 
 import mc.carlton.freerpg.config.ConfigLoad;
-import mc.carlton.freerpg.utils.game.ExperienceBottleTracking;
 import mc.carlton.freerpg.skills.perksAndAbilities.Enchanting;
+import mc.carlton.freerpg.utils.game.ExperienceBottleTracking;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;

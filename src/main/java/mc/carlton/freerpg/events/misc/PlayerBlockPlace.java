@@ -2,9 +2,9 @@ package mc.carlton.freerpg.events.misc;
 
 
 import java.util.Map;
-import mc.carlton.freerpg.utils.globalVariables.ItemGroups;
 import mc.carlton.freerpg.core.info.server.PlacedBlocksManager;
 import mc.carlton.freerpg.core.info.server.WorldGuardChecks;
+import mc.carlton.freerpg.utils.globalVariables.ItemGroups;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

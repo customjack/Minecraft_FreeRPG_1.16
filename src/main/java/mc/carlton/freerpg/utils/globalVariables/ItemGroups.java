@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import mc.carlton.freerpg.config.ConfigLoad;
-import mc.carlton.freerpg.customContainers.OldCustomPotion;
 import mc.carlton.freerpg.core.info.server.MinecraftVersion;
+import mc.carlton.freerpg.customContainers.OldCustomPotion;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -19,6 +19,9 @@ import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
+/**
+ * ItemGroups initializes all items and blocks tracked by the plugin
+ */
 public class ItemGroups {
 
   static List<Material> newIngredients = new ArrayList<>();
@@ -63,7 +66,7 @@ public class ItemGroups {
   static Map<Material, Material> smeltableItemsMap = new HashMap<>();
   static Map<Material, Double> smeltingXPMap = new HashMap<>();
   private MinecraftVersion minecraftVersion = new MinecraftVersion();
-  private double mcVersion = minecraftVersion.getMinecraftVersion_Double();
+  private double mcVersion = minecraftVersion.getMinecraftVersionAsDouble();
 
   public static ArrayList<Material> getAllLogs() {
     return allLogs;

@@ -2,8 +2,8 @@ package mc.carlton.freerpg.utils.game;
 
 import java.util.Map;
 import mc.carlton.freerpg.config.ConfigLoad;
-import mc.carlton.freerpg.utils.globalVariables.StringsAndOtherData;
 import mc.carlton.freerpg.core.info.player.PlayerStats;
+import mc.carlton.freerpg.utils.globalVariables.StringsAndOtherData;
 import org.bukkit.entity.Player;
 
 public class LanguageSelector {

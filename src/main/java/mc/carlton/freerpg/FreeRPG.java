@@ -4,6 +4,26 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import mc.carlton.freerpg.commands.FrpgCommands;
+import mc.carlton.freerpg.commands.SpiteQuote;
+import mc.carlton.freerpg.config.ConfigLoad;
+import mc.carlton.freerpg.core.info.player.Leaderboards;
+import mc.carlton.freerpg.core.info.player.OfflinePlayerStatLoadIn;
+import mc.carlton.freerpg.core.info.server.FreeRPGPlaceHolders;
+import mc.carlton.freerpg.core.info.server.MinecraftVersion;
+import mc.carlton.freerpg.core.info.server.RunTimeData;
+import mc.carlton.freerpg.core.info.server.WorldGuardChecks;
+import mc.carlton.freerpg.core.leaveAndJoin.LoginProcedure;
+import mc.carlton.freerpg.core.leaveAndJoin.LogoutProcedure;
+import mc.carlton.freerpg.core.leaveAndJoin.PlayerJoin;
+import mc.carlton.freerpg.core.leaveAndJoin.PlayerLeave;
+import mc.carlton.freerpg.core.serverFileManagement.LeaderBoardFilesManager;
+import mc.carlton.freerpg.core.serverFileManagement.PeriodicSaving;
+import mc.carlton.freerpg.core.serverFileManagement.PlacedBlockFileManager;
+import mc.carlton.freerpg.core.serverFileManagement.PlayerStatsFilePreparation;
+import mc.carlton.freerpg.core.serverFileManagement.RecentPlayersFileManager;
+import mc.carlton.freerpg.core.serverFileManagement.ServerDataFolderPreparation;
+import mc.carlton.freerpg.core.serverFileManagement.YMLManager;
 import mc.carlton.freerpg.events.brewing.BrewingInventoryClick;
 import mc.carlton.freerpg.events.brewing.FinishedBrewing;
 import mc.carlton.freerpg.events.click.PlayerLeftClick;
@@ -19,9 +39,6 @@ import mc.carlton.freerpg.events.combat.PlayerKillEntity;
 import mc.carlton.freerpg.events.combat.PlayerShootBow;
 import mc.carlton.freerpg.events.combat.PlayerTakeDamage;
 import mc.carlton.freerpg.events.combat.PotionSplash;
-import mc.carlton.freerpg.commands.FrpgCommands;
-import mc.carlton.freerpg.commands.SpiteQuote;
-import mc.carlton.freerpg.config.ConfigLoad;
 import mc.carlton.freerpg.events.enchanting.AnvilClick;
 import mc.carlton.freerpg.events.enchanting.ExperienceBottleBreak;
 import mc.carlton.freerpg.events.enchanting.PlayerEnchant;
@@ -31,21 +48,12 @@ import mc.carlton.freerpg.events.enchanting.PrepareRepair;
 import mc.carlton.freerpg.events.furnace.FurnaceBurn;
 import mc.carlton.freerpg.events.furnace.FurnaceInventoryClick;
 import mc.carlton.freerpg.events.furnace.FurnaceSmelt;
-import mc.carlton.freerpg.utils.globalVariables.CraftingRecipes;
-import mc.carlton.freerpg.utils.globalVariables.EntityGroups;
-import mc.carlton.freerpg.utils.globalVariables.ExpMaps;
-import mc.carlton.freerpg.utils.globalVariables.ItemGroups;
-import mc.carlton.freerpg.utils.globalVariables.StringsAndOtherData;
 import mc.carlton.freerpg.events.gui.ConfigurationGUIClick;
 import mc.carlton.freerpg.events.gui.ConfirmationGUIClick;
 import mc.carlton.freerpg.events.gui.CraftingGUIclick;
 import mc.carlton.freerpg.events.gui.MainGUIclick;
 import mc.carlton.freerpg.events.gui.SkillsConfigGUIClick;
 import mc.carlton.freerpg.events.gui.SkillsGUIclick;
-import mc.carlton.freerpg.core.leaveAndJoin.LoginProcedure;
-import mc.carlton.freerpg.core.leaveAndJoin.LogoutProcedure;
-import mc.carlton.freerpg.core.leaveAndJoin.PlayerJoin;
-import mc.carlton.freerpg.core.leaveAndJoin.PlayerLeave;
 import mc.carlton.freerpg.events.misc.CreatureSpawn;
 import mc.carlton.freerpg.events.misc.DispenserDispenseItem;
 import mc.carlton.freerpg.events.misc.EntityPickUpItem;
@@ -70,19 +78,11 @@ import mc.carlton.freerpg.events.newEvents.eventCallers.FrpgAbilityItemMovedEven
 import mc.carlton.freerpg.events.newEvents.eventCallers.FrpgPlayerCraftItemEventCaller;
 import mc.carlton.freerpg.events.newEvents.eventCallers.FrpgPlayerRightClickEventCaller;
 import mc.carlton.freerpg.events.piston.PistonEvents;
-import mc.carlton.freerpg.core.info.player.Leaderboards;
-import mc.carlton.freerpg.core.info.player.OfflinePlayerStatLoadIn;
-import mc.carlton.freerpg.core.serverFileManagement.LeaderBoardFilesManager;
-import mc.carlton.freerpg.core.serverFileManagement.PeriodicSaving;
-import mc.carlton.freerpg.core.serverFileManagement.PlacedBlockFileManager;
-import mc.carlton.freerpg.core.serverFileManagement.PlayerStatsFilePreparation;
-import mc.carlton.freerpg.core.serverFileManagement.RecentPlayersFileManager;
-import mc.carlton.freerpg.core.serverFileManagement.ServerDataFolderPreparation;
-import mc.carlton.freerpg.core.serverFileManagement.YMLManager;
-import mc.carlton.freerpg.core.info.server.FreeRPGPlaceHolders;
-import mc.carlton.freerpg.core.info.server.MinecraftVersion;
-import mc.carlton.freerpg.core.info.server.RunTimeData;
-import mc.carlton.freerpg.core.info.server.WorldGuardChecks;
+import mc.carlton.freerpg.utils.globalVariables.CraftingRecipes;
+import mc.carlton.freerpg.utils.globalVariables.EntityGroups;
+import mc.carlton.freerpg.utils.globalVariables.ExpMaps;
+import mc.carlton.freerpg.utils.globalVariables.ItemGroups;
+import mc.carlton.freerpg.utils.globalVariables.StringsAndOtherData;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -159,6 +159,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
     }
 
     //Initializes all "global" variables
+    // TODO find a better solution
     log(Level.INFO, "Initializing FreeRPG");
     MinecraftVersion minecraftVersion = new MinecraftVersion();
     minecraftVersion.initializeVersion();
@@ -182,11 +183,11 @@ public final class FreeRPG extends JavaPlugin implements Listener {
       leaderBoardFilesManager.readInLeaderBoardFile();
     }
 
-    //Initiliazes periodically saving stats
+    //Initializes periodically saving stats
     PeriodicSaving saveStats = new PeriodicSaving();
     saveStats.periodicallySaveStats();
 
-    //Events
+    //Register Events
     ConfigLoad configLoad = new ConfigLoad();
     if (!configLoad.isSaveRunTimeData()) {
       getServer().getPluginManager().registerEvents(new PlayerLeftClick(), this);
@@ -249,7 +250,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
     getServer().getPluginManager().registerEvents(new FrpgAbilityItemMovedEventCaller(), this);
     getServer().getPluginManager().registerEvents(new FrpgPlayerRightClickEventCaller(), this);
 
-    //Registers commands
+    //Register commands
     getCommand("frpg").setExecutor(new FrpgCommands());
     getCommand("spite").setExecutor(new SpiteQuote());
 
@@ -286,7 +287,6 @@ public final class FreeRPG extends JavaPlugin implements Listener {
     //customRecipe.addTranslatedVariants();
     //System.out.println(customRecipe);
     //System.out.println(CustomContainerImporter.convertListedTableRowToMap(test,testConfigPath));
-
   }
 
   public void onDisable() {
@@ -358,7 +358,5 @@ public final class FreeRPG extends JavaPlugin implements Listener {
 
     } catch (Exception ignored) {
     }
-
   }
-
 }

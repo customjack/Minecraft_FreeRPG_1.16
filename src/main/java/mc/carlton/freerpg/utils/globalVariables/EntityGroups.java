@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import mc.carlton.freerpg.utils.game.ExpFarmTracker;
 import mc.carlton.freerpg.core.info.player.ChangeStats;
 import mc.carlton.freerpg.core.info.server.MinecraftVersion;
+import mc.carlton.freerpg.utils.game.ExpFarmTracker;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -22,7 +22,7 @@ public class EntityGroups {
   static List<EntityType> thirstMobs;
   static List<EntityType> hookableEntities;
   private MinecraftVersion minecraftVersion = new MinecraftVersion();
-  private double mcVersion = minecraftVersion.getMinecraftVersion_Double();
+  private double mcVersion = minecraftVersion.getMinecraftVersionAsDouble();
 
   public void initializeAllEntityGroups() {
     initializeHostileMobs();

@@ -1,12 +1,23 @@
 package mc.carlton.freerpg.core.info.server;
 
+import mc.carlton.freerpg.FreeRPG;
+import org.apache.logging.log4j.Level;
 import org.bukkit.Bukkit;
 
+/**
+ * MinecraftVersion is the class which provides the current Minecraft version of the server the
+ * plugin is running on. This helps to turn off certain features of the plugin if they are not
+ * supported in this version.
+ */
 public class MinecraftVersion {
 
   public static String minecraftVersion;
   public static double minecraftVersion_Double;
 
+  /**
+   * Initializes the Minecraft version of the server the plugin is running, so features can be
+   * turned off for certain versions.
+   */
   public void initializeVersion() {
     minecraftVersion = Bukkit.getVersion();
     if (minecraftVersion.contains("1.8")) {
@@ -34,16 +45,29 @@ public class MinecraftVersion {
     } else {
       minecraftVersion_Double = 1.18;
       // TODO replace with logger call
-      System.out.println("[FreeRPG] Could not determine minecraft version, Assuming 1.18...");
+      FreeRPG.log(Level.WARN,
+          "Could not determine minecraft version, the plugin assumes 1.18. "
+              + "This might be caused due to the usage of a newer minecraft version the plugin does not support. "
+              + "If you notice unexpected behaviour please visit the plugins Github page and open a new issue!");
     }
   }
 
-  public double getMinecraftVersion_Double() {
+  /**
+   * Provides the current Minecraft version of the server as a double. A server running on Minecraft
+   * 1.18 returns the double 1.18
+   *
+   * @return
+   */
+  public double getMinecraftVersionAsDouble() {
     return minecraftVersion_Double;
   }
 
-  public String getMinecraftVersion() {
+  /**
+   * Provides the current Minecraft version of the server as a String.
+   *
+   * @return
+   */
+  public String getMinecraftVersionAsString() {
     return minecraftVersion;
   }
-
 }

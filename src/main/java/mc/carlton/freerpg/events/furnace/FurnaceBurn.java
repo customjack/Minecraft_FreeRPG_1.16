@@ -1,7 +1,7 @@
 package mc.carlton.freerpg.events.furnace;
 
-import mc.carlton.freerpg.utils.game.FurnaceUserTracker;
 import mc.carlton.freerpg.skills.perksAndAbilities.Smelting;
+import mc.carlton.freerpg.utils.game.FurnaceUserTracker;
 import org.bukkit.Material;
 import org.bukkit.block.Furnace;
 import org.bukkit.entity.Player;

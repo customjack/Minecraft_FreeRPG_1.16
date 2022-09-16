@@ -1,14 +1,14 @@
 package mc.carlton.freerpg.events.combat;
 
 import java.util.List;
-import mc.carlton.freerpg.utils.game.EntityPickedUpItemStorage;
-import mc.carlton.freerpg.utils.globalVariables.ItemGroups;
 import mc.carlton.freerpg.skills.perksAndAbilities.AxeMastery;
 import mc.carlton.freerpg.skills.perksAndAbilities.Defense;
 import mc.carlton.freerpg.skills.perksAndAbilities.Farming;
 import mc.carlton.freerpg.skills.perksAndAbilities.Fishing;
 import mc.carlton.freerpg.skills.perksAndAbilities.Global;
 import mc.carlton.freerpg.skills.perksAndAbilities.Swordsmanship;
+import mc.carlton.freerpg.utils.game.EntityPickedUpItemStorage;
+import mc.carlton.freerpg.utils.globalVariables.ItemGroups;
 import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
@@ -67,12 +67,9 @@ public class PlayerKillEntity implements Listener {
       //Global (Souls)
       Global globalClass = new Global(p);
       globalClass.gainSoul(entity);
-
     }
 
     EntityPickedUpItemStorage entityPickedUpItemStorage = new EntityPickedUpItemStorage();
     entityPickedUpItemStorage.removeEntity(entity);
-
-
   }
 }

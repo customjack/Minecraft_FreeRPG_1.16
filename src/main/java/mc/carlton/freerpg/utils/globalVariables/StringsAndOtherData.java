@@ -10,8 +10,8 @@ import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.config.ConfigLoad;
 import mc.carlton.freerpg.customContainers.OldCustomPotion;
 import mc.carlton.freerpg.customContainers.collections.OldCustomRecipe;
-import mc.carlton.freerpg.utils.game.LanguageSelector;
 import mc.carlton.freerpg.utils.UtilityMethods;
+import mc.carlton.freerpg.utils.game.LanguageSelector;
 import org.apache.logging.log4j.Level;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -26,6 +26,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
+/**
+ * Placeholder for global variables
+ */
 public class StringsAndOtherData {
 
   static public String version;

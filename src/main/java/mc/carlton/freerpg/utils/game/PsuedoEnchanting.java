@@ -26,7 +26,7 @@ public class PsuedoEnchanting {
   public PsuedoEnchanting() {
     //toolEnchantMao
     MinecraftVersion minecraftVersion = new MinecraftVersion();
-    double mcVersion = minecraftVersion.getMinecraftVersion_Double();
+    double mcVersion = minecraftVersion.getMinecraftVersionAsDouble();
 
     toolEnchantMap.put("chestplate",
         new Enchantment[]{Enchantment.DURABILITY, Enchantment.MENDING, Enchantment.VANISHING_CURSE,

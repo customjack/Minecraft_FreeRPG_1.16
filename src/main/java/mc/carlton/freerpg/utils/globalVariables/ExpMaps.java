@@ -8,14 +8,17 @@ import org.bukkit.Material;
 
 public class ExpMaps {
 
-  static Map<Material, Integer> diggingEXP = new HashMap<Material, Integer>();
-  static Map<Material, Integer> woodcuttingEXP = new HashMap<Material, Integer>();
-  static Map<Material, Integer> miningEXP = new HashMap<Material, Integer>();
-  static Map<Material, Integer> farmingEXP = new HashMap<Material, Integer>();
-  static Map<Material, Object[]> flamePickEXP = new HashMap<Material, Object[]>();
-  private MinecraftVersion minecraftVersion = new MinecraftVersion();
-  private double mcVersion = minecraftVersion.getMinecraftVersion_Double();
+  static Map<Material, Integer> diggingEXP = new HashMap<>();
+  static Map<Material, Integer> woodcuttingEXP = new HashMap<>();
+  static Map<Material, Integer> miningEXP = new HashMap<>();
+  static Map<Material, Integer> farmingEXP = new HashMap<>();
+  static Map<Material, Object[]> flamePickEXP = new HashMap<>();
+  private final MinecraftVersion minecraftVersion = new MinecraftVersion();
+  private final double mcVersion = minecraftVersion.getMinecraftVersionAsDouble();
 
+  /**
+   * Initializes all experience
+   */
   public void initializeAllExpMaps() {
     initializeDiggingEXP();
     initializeWoodcuttingEXP();

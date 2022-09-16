@@ -838,67 +838,67 @@ alchemy:
       - [ potionType: TURTLE_MASTER,   brewExp: 550, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500 ]
       - [ potionType: WATER_BREATHING, brewExp: 500, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500 ]
       - [ potionType: WEAKNESS,        brewExp: 500, brewExtendedExp: 300, brewUpgradedExp: 300, drinkExp: 1000, drinkExtendedExp: 1500, drinkUpgradedExp: 1500, throwExp: 1000,  throwExtendedExp: 1500, throwUpgradedExp: 1500
-        smelting:
-          maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
-          expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
-          exp:
-            # Smelted items that yield exp.
-            # Format: [{Smelting output name}, {exp reward}]]
-            # Item names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-            smelt:
-              - [ output: COOKED_BEEF,                        smeltExp: 100 ]
-              - [ output: COOKED_CHICKEN,                     smeltExp: 100 ]
-              - [ output: COOKED_COD,                         smeltExp: 110 ]
-              - [ output: COOKED_MUTTON,                      smeltExp: 100 ]
-              - [ output: COOKED_PORKCHOP,                    smeltExp: 100 ]
-              - [ output: COOKED_RABBIT,                      smeltExp: 100 ]
-              - [ output: COOKED_SALMON,                      smeltExp: 110 ]
-              - [ output: GREEN_DYE,                          smeltExp: 100 ]
-              - [ output: LIME_DYE,                           smeltExp: 100 ]
-              - [ output: DRIED_KELP,                         smeltExp: 60 ]
-              - [ output: GLASS,                              smeltExp: 60 ]
-              - [ output: BRICK,                              smeltExp: 60 ]
-              - [ output: NETHER_BRICK,                       smeltExp: 60 ]
-              - [ output: STONE,                              smeltExp: 85 ]
-              - [ output: SMOOTH_STONE,                       smeltExp: 85 ]
-              - [ output: SMOOTH_QUARTZ,                      smeltExp: 85 ]
-              - [ output: TERRACOTTA,                         smeltExp: 85 ]
-              - [ output: WHITE_GLAZED_TERRACOTTA,            smeltExp: 90 ]
-              - [ output: ORANGE_GLAZED_TERRACOTTA,           smeltExp: 90 ]
-              - [ output: MAGENTA_GLAZED_TERRACOTTA,          smeltExp: 90 ]
-              - [ output: LIGHT_BLUE_GLAZED_TERRACOTTA,       smeltExp: 90 ]
-              - [ output: YELLOW_GLAZED_TERRACOTTA,           smeltExp: 90 ]
-              - [ output: LIME_GLAZED_TERRACOTTA,             smeltExp: 90 ]
-              - [ output: PINK_GLAZED_TERRACOTTA,             smeltExp: 90 ]
-              - [ output: GRAY_GLAZED_TERRACOTTA,             smeltExp: 90 ]
-              - [ output: LIGHT_GRAY_GLAZED_TERRACOTTA,       smeltExp: 90 ]
-              - [ output: CYAN_GLAZED_TERRACOTTA,             smeltExp: 90 ]
-              - [ output: PURPLE_GLAZED_TERRACOTTA,           smeltExp: 90 ]
-              - [ output: BLUE_GLAZED_TERRACOTTA,             smeltExp: 90 ]
-              - [ output: BROWN_GLAZED_TERRACOTTA,            smeltExp: 90 ]
-              - [ output: GREEN_GLAZED_TERRACOTTA,            smeltExp: 90 ]
-              - [ output: RED_GLAZED_TERRACOTTA,              smeltExp: 90 ]
-              - [ output: BLACK_GLAZED_TERRACOTTA,            smeltExp: 90 ]
-              - [ output: CHARCOAL,                           smeltExp: 85 ]
-              - [ output: IRON_INGOT,                         smeltExp: 150 ]
-              - [ output: GOLD_INGOT,                         smeltExp: 200 ]
-              - [ output: DIAMOND,                            smeltExp: 450 ]
-              - [ output: LAPIS_LAZULI,                       smeltExp: 320 ]
-              - [ output: EMERALD,                            smeltExp: 500 ]
-              - [ output: REDSTONE,                           smeltExp: 160 ]
-              - [ output: QUARTZ,                             smeltExp: 100 ]
-              - [ output: SPONGE,                             smeltExp: 140 ]
-              - [ output: IRON_NUGGET,                        smeltExp: 230 ]
-              - [ output: GOLD_NUGGET,                        smeltExp: 290 ]
-              - [ output: NETHERITE_SCRAP,                    smeltExp: 350 ]
-              - [ output: CRACKED_NETHER_BRICKS,              smeltExp: 95 ]
-              - [ output: CRACKED_STONE_BRICKS,               smeltExp: 95 ]
-              - [ output: CRACKED_POLISHED_BLACKSTONE_BRICKS, smeltExp: 95 ]
-        enchanting:
-          maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
-          expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
-          gainEXPfromEnchantingBottles: false #Disables gaining FreeRPG EXP from xp bottles and xp boost from xp bottles when set to false
-          exp:
-            spendLevelOnAnvil: 500 #Experience rewarded for each level used on an anvil
-            enchantItem: 250 #Experience rewarded for for each level of the "cost" of an enchantment, where the cost in the level on the right side of the encahntment offer, NOT the XP levels used.
-            gainMinecraftXP: 25 #FreeRPG experience given for each minecraft XP gained
+                                                                                                                                                                                                            smelting:
+                                                                                                                                                                                                              maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
+                                                                                                                                                                                                              expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
+                                                                                                                                                                                                              exp:
+                                                                                                                                                                                                                # Smelted items that yield exp.
+                                                                                                                                                                                                                # Format: [{Smelting output name}, {exp reward}]]
+                                                                                                                                                                                                                # Item names can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+                                                                                                                                                                                                                smelt:
+                                                                                                                                                                                                                  - [ output: COOKED_BEEF,                        smeltExp: 100 ]
+                                                                                                                                                                                                                  - [ output: COOKED_CHICKEN,                     smeltExp: 100 ]
+                                                                                                                                                                                                                  - [ output: COOKED_COD,                         smeltExp: 110 ]
+                                                                                                                                                                                                                  - [ output: COOKED_MUTTON,                      smeltExp: 100 ]
+                                                                                                                                                                                                                  - [ output: COOKED_PORKCHOP,                    smeltExp: 100 ]
+                                                                                                                                                                                                                  - [ output: COOKED_RABBIT,                      smeltExp: 100 ]
+                                                                                                                                                                                                                  - [ output: COOKED_SALMON,                      smeltExp: 110 ]
+                                                                                                                                                                                                                  - [ output: GREEN_DYE,                          smeltExp: 100 ]
+                                                                                                                                                                                                                  - [ output: LIME_DYE,                           smeltExp: 100 ]
+                                                                                                                                                                                                                  - [ output: DRIED_KELP,                         smeltExp: 60 ]
+                                                                                                                                                                                                                  - [ output: GLASS,                              smeltExp: 60 ]
+                                                                                                                                                                                                                  - [ output: BRICK,                              smeltExp: 60 ]
+                                                                                                                                                                                                                  - [ output: NETHER_BRICK,                       smeltExp: 60 ]
+                                                                                                                                                                                                                  - [ output: STONE,                              smeltExp: 85 ]
+                                                                                                                                                                                                                  - [ output: SMOOTH_STONE,                       smeltExp: 85 ]
+                                                                                                                                                                                                                  - [ output: SMOOTH_QUARTZ,                      smeltExp: 85 ]
+                                                                                                                                                                                                                  - [ output: TERRACOTTA,                         smeltExp: 85 ]
+                                                                                                                                                                                                                  - [ output: WHITE_GLAZED_TERRACOTTA,            smeltExp: 90 ]
+                                                                                                                                                                                                                  - [ output: ORANGE_GLAZED_TERRACOTTA,           smeltExp: 90 ]
+                                                                                                                                                                                                                  - [ output: MAGENTA_GLAZED_TERRACOTTA,          smeltExp: 90 ]
+                                                                                                                                                                                                                  - [ output: LIGHT_BLUE_GLAZED_TERRACOTTA,       smeltExp: 90 ]
+                                                                                                                                                                                                                  - [ output: YELLOW_GLAZED_TERRACOTTA,           smeltExp: 90 ]
+                                                                                                                                                                                                                  - [ output: LIME_GLAZED_TERRACOTTA,             smeltExp: 90 ]
+                                                                                                                                                                                                                  - [ output: PINK_GLAZED_TERRACOTTA,             smeltExp: 90 ]
+                                                                                                                                                                                                                  - [ output: GRAY_GLAZED_TERRACOTTA,             smeltExp: 90 ]
+                                                                                                                                                                                                                  - [ output: LIGHT_GRAY_GLAZED_TERRACOTTA,       smeltExp: 90 ]
+                                                                                                                                                                                                                  - [ output: CYAN_GLAZED_TERRACOTTA,             smeltExp: 90 ]
+                                                                                                                                                                                                                  - [ output: PURPLE_GLAZED_TERRACOTTA,           smeltExp: 90 ]
+                                                                                                                                                                                                                  - [ output: BLUE_GLAZED_TERRACOTTA,             smeltExp: 90 ]
+                                                                                                                                                                                                                  - [ output: BROWN_GLAZED_TERRACOTTA,            smeltExp: 90 ]
+                                                                                                                                                                                                                  - [ output: GREEN_GLAZED_TERRACOTTA,            smeltExp: 90 ]
+                                                                                                                                                                                                                  - [ output: RED_GLAZED_TERRACOTTA,              smeltExp: 90 ]
+                                                                                                                                                                                                                  - [ output: BLACK_GLAZED_TERRACOTTA,            smeltExp: 90 ]
+                                                                                                                                                                                                                  - [ output: CHARCOAL,                           smeltExp: 85 ]
+                                                                                                                                                                                                                  - [ output: IRON_INGOT,                         smeltExp: 150 ]
+                                                                                                                                                                                                                  - [ output: GOLD_INGOT,                         smeltExp: 200 ]
+                                                                                                                                                                                                                  - [ output: DIAMOND,                            smeltExp: 450 ]
+                                                                                                                                                                                                                  - [ output: LAPIS_LAZULI,                       smeltExp: 320 ]
+                                                                                                                                                                                                                  - [ output: EMERALD,                            smeltExp: 500 ]
+                                                                                                                                                                                                                  - [ output: REDSTONE,                           smeltExp: 160 ]
+                                                                                                                                                                                                                  - [ output: QUARTZ,                             smeltExp: 100 ]
+                                                                                                                                                                                                                  - [ output: SPONGE,                             smeltExp: 140 ]
+                                                                                                                                                                                                                  - [ output: IRON_NUGGET,                        smeltExp: 230 ]
+                                                                                                                                                                                                                  - [ output: GOLD_NUGGET,                        smeltExp: 290 ]
+                                                                                                                                                                                                                  - [ output: NETHERITE_SCRAP,                    smeltExp: 350 ]
+                                                                                                                                                                                                                  - [ output: CRACKED_NETHER_BRICKS,              smeltExp: 95 ]
+                                                                                                                                                                                                                  - [ output: CRACKED_STONE_BRICKS,               smeltExp: 95 ]
+                                                                                                                                                                                                                  - [ output: CRACKED_POLISHED_BLACKSTONE_BRICKS, smeltExp: 95 ]
+                                                                                                                                                                                                            enchanting:
+                                                                                                                                                                                                              maxLevel: -1 #The maximum level allowed for this skill, set to -1 for no limit
+                                                                                                                                                                                                              expMultiplier: 1.0 #Multiplier for all experience drops in this skill, STACKS with global.EXP_Multiplier
+                                                                                                                                                                                                              gainEXPfromEnchantingBottles: false #Disables gaining FreeRPG EXP from xp bottles and xp boost from xp bottles when set to false
+                                                                                                                                                                                                              exp:
+                                                                                                                                                                                                                spendLevelOnAnvil: 500 #Experience rewarded for each level used on an anvil
+                                                                                                                                                                                                                enchantItem: 250 #Experience rewarded for for each level of the "cost" of an enchantment, where the cost in the level on the right side of the encahntment offer, NOT the XP levels used.
+                                                                                                                                                                                                                gainMinecraftXP: 25 #FreeRPG experience given for each minecraft XP gained

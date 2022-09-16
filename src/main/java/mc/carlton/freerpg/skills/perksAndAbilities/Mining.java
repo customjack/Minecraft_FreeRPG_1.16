@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import mc.carlton.freerpg.config.ConfigLoad;
-import mc.carlton.freerpg.utils.game.TrackItem;
-import mc.carlton.freerpg.utils.globalVariables.ItemGroups;
 import mc.carlton.freerpg.core.info.server.MinecraftVersion;
 import mc.carlton.freerpg.core.info.server.PlacedBlocksManager;
 import mc.carlton.freerpg.core.info.server.WorldGuardChecks;
+import mc.carlton.freerpg.utils.game.TrackItem;
+import mc.carlton.freerpg.utils.globalVariables.ItemGroups;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -239,7 +239,7 @@ public class Mining extends Skill {
         increaseStats.changeEXP(skillName, expMap.get("breakDiamond_Ore"));
       } else {
         MinecraftVersion minecraftVersion = new MinecraftVersion();
-        if (minecraftVersion.getMinecraftVersion_Double() >= 1.16) {
+        if (minecraftVersion.getMinecraftVersionAsDouble() >= 1.16) {
           world.dropItemNaturally(loc, new ItemStack(Material.NETHERITE_SCRAP, 1));
           increaseStats.changeEXP(skillName, expMap.get("breakAncient_Debris"));
         } else {
@@ -514,7 +514,7 @@ public class Mining extends Skill {
       EXP = expMap.get("breakLapis_Ore");
     } else if (brokenOre.equals(Material.DIAMOND_ORE)) {
       EXP = expMap.get("breakDiamond_Ore");
-    } else if (minecraftVersion.getMinecraftVersion_Double() >= 1.16) {
+    } else if (minecraftVersion.getMinecraftVersionAsDouble() >= 1.16) {
       if (brokenOre.equals(Material.ANCIENT_DEBRIS)) {
         EXP = expMap.get("breakAncient_Debris");
       } else if (brokenOre.equals(Material.GILDED_BLACKSTONE)) {
@@ -522,7 +522,7 @@ public class Mining extends Skill {
       } else if (brokenOre.equals(Material.NETHER_GOLD_ORE)) {
         EXP = expMap.get("breakNether_Gold_Ore");
       }
-    } else if (minecraftVersion.getMinecraftVersion_Double() >= 1.17) {
+    } else if (minecraftVersion.getMinecraftVersionAsDouble() >= 1.17) {
       if (brokenOre.equals(Material.DEEPSLATE_COAL_ORE)) {
         EXP = expMap.get("breakDeepslate_Coal_Ore");
       } else if (brokenOre.equals(Material.DEEPSLATE_COPPER_ORE)) {

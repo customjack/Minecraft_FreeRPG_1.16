@@ -10,10 +10,10 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-/*
- * This class acts as a wrapper class for an ItemStack to be used in a gui. Appeands additionally information about the item
- * And uses tools to make text output neater and easier to implement.
- * The GuiItem object is mutable
+/**
+ * This class acts as a wrapper class for an ItemStack to be used in a gui. Appends additionally
+ * information about the item And uses tools to make text output neater and easier to implement. The
+ * GuiItem object is mutable
  */
 public class GuiItem {
 
@@ -23,7 +23,7 @@ public class GuiItem {
   private String name;
   private String description;
   private GuiIconColors textColors;
-  private ArrayList<GuiDisplayStatistic> statitistics;
+  private ArrayList<GuiDisplayStatistic> statistics;
   private ArrayList<String> specialLoreLines;
   private boolean themeExemption;
 
@@ -97,7 +97,7 @@ public class GuiItem {
     hideItemInformation(); //Hides things like enchantments, potion info, and attributes
     this.gui = gui;
     this.textColors = textColors;
-    this.statitistics = new ArrayList<>();
+    this.statistics = new ArrayList<>();
     this.specialLoreLines = new ArrayList<>();
     if (!isIndexInsideGUI(index)) {
       throw (new IllegalArgumentException("Index outside of Inventory size"));
@@ -152,7 +152,7 @@ public class GuiItem {
    */
   public void setStatisticNameColor(String ColorString) {
     textColors.setStatisticNamesColor(ColorString);
-    setStatitistics(this.statitistics);
+    setStatistics(this.statistics);
   }
 
   /**
@@ -162,7 +162,7 @@ public class GuiItem {
    */
   public void setStatisticNameColor(ChatColor color) {
     textColors.setStatisticNameColor(color);
-    setStatitistics(this.statitistics);
+    setStatistics(this.statistics);
   }
 
   /**
@@ -172,7 +172,7 @@ public class GuiItem {
    */
   public void setStatisticColor(String ColorString) {
     textColors.setStatisticsColor(ColorString);
-    setStatitistics(this.statitistics);
+    setStatistics(this.statistics);
   }
 
   /**
@@ -182,7 +182,7 @@ public class GuiItem {
    */
   public void setStatisticColor(ChatColor color) {
     textColors.setStatisticColor(color);
-    setStatitistics(this.statitistics);
+    setStatistics(this.statistics);
   }
 
   /**
@@ -220,7 +220,7 @@ public class GuiItem {
    * @param guiDisplayStatistic
    */
   public void addStatistic(GuiDisplayStatistic guiDisplayStatistic) {
-    this.statitistics.add(guiDisplayStatistic);
+    this.statistics.add(guiDisplayStatistic);
     setLore();
   }
 
@@ -231,17 +231,17 @@ public class GuiItem {
    * @param statistic     value of the statistic to add, can be any object with a toString method.
    */
   public void addStatistic(String statisticName, Object statistic) {
-    this.statitistics.add(new GuiDisplayStatistic(statisticName, statistic));
+    this.statistics.add(new GuiDisplayStatistic(statisticName, statistic));
     setLore();
   }
 
   /**
    * Setter for statistics, adds statistics to item's lore
    *
-   * @param statitistics
+   * @param statistics
    */
-  public void setStatitistics(ArrayList<GuiDisplayStatistic> statitistics) {
-    this.statitistics = statitistics;
+  public void setStatistics(ArrayList<GuiDisplayStatistic> statistics) {
+    this.statistics = statistics;
     setLore();
   }
 
@@ -351,7 +351,7 @@ public class GuiItem {
   }
 
   /**
-   * Settter for GUI
+   * Setter for GUI
    *
    * @param gui Inventory that will act as the gui
    */
@@ -386,6 +386,9 @@ public class GuiItem {
     }
   }
 
+  /**
+   * Hides the information about the items in the GUI
+   */
   private void hideItemInformation() {
     ItemMeta itemMeta = item.getItemMeta();
     itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -399,7 +402,7 @@ public class GuiItem {
     ArrayList<String> loreLines = new ArrayList<>();
     StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
     ArrayList<String> splitDescriptionLines = stringsAndOtherData.getStringLines(description);
-    for (GuiDisplayStatistic guiDisplayStatistic : statitistics) {
+    for (GuiDisplayStatistic guiDisplayStatistic : statistics) {
       loreLines.add(getLoreLineStringFromStatistic(guiDisplayStatistic, false));
     }
     for (String specialLoreLine : specialLoreLines) {
@@ -417,7 +420,7 @@ public class GuiItem {
     ArrayList<String> loreLines = new ArrayList<>();
     StringsAndOtherData stringsAndOtherData = new StringsAndOtherData();
     ArrayList<String> splitDescriptionLines = stringsAndOtherData.getStringLines(description);
-    for (GuiDisplayStatistic guiDisplayStatistic : statitistics) {
+    for (GuiDisplayStatistic guiDisplayStatistic : statistics) {
       loreLines.add(getLoreLineStringFromStatistic(guiDisplayStatistic, forceTheme));
     }
     for (String specialLoreLine : specialLoreLines) {

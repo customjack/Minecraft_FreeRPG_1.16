@@ -14,6 +14,9 @@ import org.apache.logging.log4j.Level;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+/**
+ * WorldGuardChecks is the class which checks if the Worldguard plugin is installed.
+ */
 public class WorldGuardChecks {
 
   static boolean worldGuardPresent;

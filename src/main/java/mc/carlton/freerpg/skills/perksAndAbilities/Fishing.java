@@ -9,10 +9,10 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 import mc.carlton.freerpg.config.ConfigLoad;
+import mc.carlton.freerpg.core.info.server.MinecraftVersion;
 import mc.carlton.freerpg.utils.game.PsuedoEnchanting;
 import mc.carlton.freerpg.utils.globalVariables.EntityGroups;
 import mc.carlton.freerpg.utils.globalVariables.ItemGroups;
-import mc.carlton.freerpg.core.info.server.MinecraftVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -585,7 +585,7 @@ public class Fishing extends Skill {
         drop.setType(Material.PURPUR_BLOCK);
       }
       increaseStats.changeEXP(skillName, expMap.get("robShulker"));
-    } else if (minecraftVersion.getMinecraftVersion_Double() >= 1.16) {
+    } else if (minecraftVersion.getMinecraftVersionAsDouble() >= 1.16) {
       if (hookedEntity.getType() == EntityType.ZOMBIFIED_PIGLIN) {
         double randomNum = rand.nextDouble();
         if (randomNum < .5) {

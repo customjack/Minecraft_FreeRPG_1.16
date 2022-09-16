@@ -6,10 +6,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-/*
-This class acts as a Wrapper for an inventory acting as a gui
-It adds additional methods to the inventory and reduces lines of code when implementing a GUI
-The GuiWrapper object is mutable
+/**
+ * This class acts as a Wrapper for an inventory acting as a gui It adds additional methods to the
+ * inventory and reduces lines of code when implementing a GUI The GuiWrapper object is mutable
  */
 public class GuiWrapper {
 
@@ -95,9 +94,9 @@ public class GuiWrapper {
   }
 
   /**
-   * Sets a GuiItem to be displayed in the gui at a given positonal index
+   * Sets a GuiItem to be displayed in the gui at a given positional index
    *
-   * @param index   postional index of where the guiItem will be
+   * @param index   positional index of where the guiItem will be
    * @param guiItem a GuiItem
    */
   public void setGuiItem(int index, GuiItem guiItem) {
@@ -106,7 +105,7 @@ public class GuiWrapper {
   }
 
   /**
-   * setter for theme
+   * Setter for theme
    *
    * @param theme a String of ChatColors ex (ChatColor.BOLD + ChatColor.WHITE.toString())
    */
@@ -115,7 +114,7 @@ public class GuiWrapper {
   }
 
   /**
-   * Opens the gui for the player
+   * Opens the GUI for the player
    */
   public void displayGuiForPlayer() {
     p.openInventory(gui);
@@ -139,6 +138,4 @@ public class GuiWrapper {
     }
     guiItem.refreshLore(true);
   }
-
-
 }

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 import mc.carlton.freerpg.config.ConfigLoad;
+import mc.carlton.freerpg.core.info.server.MinecraftVersion;
 import mc.carlton.freerpg.utils.game.LanguageSelector;
 import mc.carlton.freerpg.utils.globalVariables.ItemGroups;
-import mc.carlton.freerpg.core.info.server.MinecraftVersion;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -66,7 +66,7 @@ public class Repair extends Skill {
         repaired = true;
         double a = 1.0;
         MinecraftVersion minecraftVersion = new MinecraftVersion();
-        double MCversion = minecraftVersion.getMinecraftVersion_Double();
+        double MCversion = minecraftVersion.getMinecraftVersionAsDouble();
         // TODO check if code in if statements can be extracted to separate methode
         if (toolType.equals(Material.WOODEN_AXE)) {
           repairPercentage = (0.9 + repairBonus) / 3.0;
@@ -449,7 +449,7 @@ public class Repair extends Skill {
       double maxDamage = itemType.getMaxDurability();
       double percentDurability = (1 - (currentDamage / maxDamage));
       MinecraftVersion minecraftVersion = new MinecraftVersion();
-      double mcVersion = minecraftVersion.getMinecraftVersion_Double();
+      double mcVersion = minecraftVersion.getMinecraftVersionAsDouble();
 
       double amountToReturn_pre = amount * percentDurability * multiplier;
       double roundUpChance = (amountToReturn_pre - Math.floor(amountToReturn_pre));

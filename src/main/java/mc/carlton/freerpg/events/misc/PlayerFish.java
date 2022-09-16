@@ -1,7 +1,7 @@
 package mc.carlton.freerpg.events.misc;
 
-import mc.carlton.freerpg.skills.perksAndAbilities.Fishing;
 import mc.carlton.freerpg.core.info.player.AbilityTracker;
+import mc.carlton.freerpg.skills.perksAndAbilities.Fishing;
 import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;

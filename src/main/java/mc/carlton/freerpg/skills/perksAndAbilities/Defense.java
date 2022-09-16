@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import mc.carlton.freerpg.config.ConfigLoad;
+import mc.carlton.freerpg.core.info.player.ChangeStats;
+import mc.carlton.freerpg.core.info.server.MinecraftVersion;
 import mc.carlton.freerpg.utils.game.EntityPickedUpItemStorage;
 import mc.carlton.freerpg.utils.game.ExpFarmTracker;
 import mc.carlton.freerpg.utils.globalVariables.EntityGroups;
-import mc.carlton.freerpg.core.info.player.ChangeStats;
-import mc.carlton.freerpg.core.info.server.MinecraftVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -454,7 +454,7 @@ public class Defense extends Skill {
     armorEXP.put(Material.DIAMOND_HELMET, 250 * 10);
 
     MinecraftVersion minecraftVersion = new MinecraftVersion();
-    if (minecraftVersion.getMinecraftVersion_Double() >= 1.16) {
+    if (minecraftVersion.getMinecraftVersionAsDouble() >= 1.16) {
       armorEXP.put(Material.NETHERITE_BOOTS, 200 * 15);
       armorEXP.put(Material.NETHERITE_LEGGINGS, 350 * 15);
       armorEXP.put(Material.NETHERITE_CHESTPLATE, 400 * 15);
