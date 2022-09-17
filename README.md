@@ -87,6 +87,13 @@ please open a pull request with the added language.
 
 ## Contribute
 
+### Tasks to be done
+
+- [ ] Clean up code
+- [ ] Reduce code duplication
+- [ ] Simplify methods, so code is more readable
+
+
 ### Reporting Issues
 
 You can report bugs and crashes by opening an issue on
@@ -102,12 +109,6 @@ Please provide the following details in your issue:
 * If your issue is a bug or otherwise unexpected behavior, explain what you expected to happen.
 * If your issue only occurs with other plugins installed, be sure to specify the names and versions
   of those.
-
-### Building from Source
-
-Support is not provided for setting up build environments or compiling the plugin. We ask that users
-who are looking to get their hands dirty with the code have a basic understanding of compiling
-Java/Maven projects. The basic overview is provided here for those familiar.
 
 ### Licence
 
