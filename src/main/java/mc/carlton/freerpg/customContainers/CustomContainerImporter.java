@@ -5,12 +5,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.customContainers.collections.CustomEffect;
 import mc.carlton.freerpg.customContainers.collections.CustomRecipe;
 import mc.carlton.freerpg.customContainers.collections.DropTable;
 import mc.carlton.freerpg.customContainers.collections.MobDropTable;
-import mc.carlton.freerpg.utils.FreeRPGPrint;
 import mc.carlton.freerpg.utils.UtilityMethods;
+import org.apache.logging.log4j.Level;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -768,11 +769,11 @@ public class CustomContainerImporter {
   }
 
   private void printReadInError() {
-    FreeRPGPrint.print(IMPROPER_CONFIG + configPath);
+    FreeRPG.log(Level.INFO, IMPROPER_CONFIG + configPath);
   }
 
   private void printReadInError(String extraMessage) {
-    FreeRPGPrint.print(IMPROPER_CONFIG + configPath + " (" + extraMessage + ")");
+    FreeRPG.log(Level.INFO, IMPROPER_CONFIG + configPath + " (" + extraMessage + ")");
   }
 
   private Object getOnlyKey(Map map) {
@@ -808,7 +809,7 @@ public class CustomContainerImporter {
   public List<Map<String, Object>> getConfigTableInformation(YamlConfiguration config) {
     List configTable = config.getList(configPath);
     if (configTable == null) {
-      FreeRPGPrint.print(EXPECTED_LIST + configPath);
+      FreeRPG.log(Level.INFO, EXPECTED_LIST + configPath);
       return null;
     }
     return getConfigTableInformation(configTable);
@@ -823,7 +824,7 @@ public class CustomContainerImporter {
    */
   public List<Map<String, Object>> getConfigTableInformation(Object configTable) {
     if (!(configTable instanceof List)) {
-      FreeRPGPrint.print(EXPECTED_LIST + configPath);
+      FreeRPG.log(Level.INFO, EXPECTED_LIST + configPath);
       return null;
     }
     ArrayList<Map<String, Object>> tableInformation = new ArrayList<>();
@@ -855,13 +856,13 @@ public class CustomContainerImporter {
    */
   public Map<String, Object> convertListedTableRowToMap(Object listOfConfigNodes) {
     if (!(listOfConfigNodes instanceof List)) {
-      FreeRPGPrint.print(EXPECTED_LIST + configPath);
+      FreeRPG.log(Level.INFO,EXPECTED_LIST + configPath);
       return null;
     }
     Map<String, Object> tableRow = new HashMap<>();
     if (!UtilityMethods.collectionOnlyContainsOneClass((List) listOfConfigNodes,
         Map.class)) { //Checks if the list only contains maps first
-      FreeRPGPrint.print(EXPECTED_LIST_OF_MAPS + configPath);
+      FreeRPG.log(Level.INFO,EXPECTED_LIST_OF_MAPS + configPath);
       return null;
     }
     for (Object tableElementObject : (List) listOfConfigNodes) {
