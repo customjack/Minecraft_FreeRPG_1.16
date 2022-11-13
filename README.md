@@ -18,7 +18,7 @@ yourself from source.
 
 ## Getting Started
 
-To install on any spigot server, simply drag the ``freerpg-{version}.jar`` file into the plugins
+To install on any Spigot server, simply drag the ``freerpg-{version}.jar`` file into the plugins
 folder.
 
 To get started playing, type ``/frpg``. This will bring up the Skills GUI seen in the gif above.
@@ -69,16 +69,16 @@ different worlds is not possible at the moment.
 
 FreeRPG fully/partially supports the following languages by default:
 
-- English
-- Hungarian (Translated by: vERKE)
-- French (Translated by: Temuel)
-- German (Translated by: KlenerTeufel96 of FruitLab.gg)
-- Polish (Translated by: QuarVey)
-- Spanish (Translated by: PibeChileno)
-- Russian (Translated by:Cr1stalz_, MoKotik, and DevilPlay)
-- Portuguese (Translated by: gbuueno)
-- Czech (Translated by: Pieck444 and Fractvival)
-- Korean (Translated by: Re_Oh)
+- 🇺🇸 English
+- 🇭🇺 Hungarian (Translated by: vERKE)
+- 🇫🇷 French (Translated by: Temuel)
+- 🇩🇪 German (Translated by: KlenerTeufel96 of FruitLab.gg)
+- 🇵🇱 Polish (Translated by: QuarVey)
+- 🇪🇸 Spanish (Translated by: PibeChileno)
+- 🇷🇺 Russian (Translated by: Cr1stalz_, MoKotik, and DevilPlay)
+- 🇵🇹 Portuguese (Translated by: gbuueno)
+- 🇨🇿 Czech (Translated by: Pieck444 and Fractvival)
+- 🇰🇷 Korean (Translated by: Re_Oh)
 
 The default server language can be set in config.yml. Additionally, each player can pick which
 language they want the plugin to be represented in. Server administrators can add their own
