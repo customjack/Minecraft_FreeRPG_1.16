@@ -31,29 +31,19 @@ invested in the passive skills represented by the dyes on the left. Every 100 le
 gain **1 skill token** which can be invested in the skills represented by the terracotta skill tree.
 Every 1000 levels, you will gain **1 global token** that can be used in the global skill tree.
 
-To activate abilities, in most cases you can right click the corresponding tool then break a block.
-The 10 abilities are as follows:
+Name | Related Skill | Description | Activation | Duration by default
+---|---|---|---|---
+**Big Dig** |Digging| Increases dig speed drastically. | Right-clicking a shovel, then breaking a block. | 300 sec
+**Timber** |Woodcutting| Will cause all logs above to break. | Right-clicking a pickaxe, then breaking a block. | 300 sec
+**Berserk Pick** |Mining| Will increase mining speed drastically. | Right-clicking a pickaxe, then breaking a block. | 300 sec
+**Natural Regeneration** |Farming| Automatically replants all crops at a random growth stage. | Right-clicking a hoe, then breaking a crop. | 300 sec
+**Super Bait** |Fishing| Fish are instantly pulled out of the water, without waiting to get a bite. | Left-clicking a fishing rod, then fishing. | 300 sec
+**Rapid Fire** |Archery| Arrow shots come out at maximum speed no matter how far the bow is pulled back. | Left-clicking a bow. | 300 sec
+**Spur Kick** |Beast Mastery| Grants your horse a temporary speed boost. | Right-clicking most items while on a horse, then left-clicking most items. | 300 sec
+**Swift Strikes** |Swordsmanship| Your swings no longer have a cooldown. | Right-clicking a sword then hitting an entity.| 300 sec
+**Stone Solid** |Defense| Grants resistance at the cost of being slowed down. | Right-clicking with an empty hand, then hitting an entity.| 300 sec
+**Great Axe** |Axe Mastery| Your attacks become an AOE strike that deals damage in a certain radius. | Right-clicking an axe, then hitting an entity.| 300 sec
 
-* **Big Dig**: Increases dig speed drastically.
-    * Activated by right clicking a shovel then breaking a block.
-* **Timber**: Will cause all logs above to break.
-    * Activated by right clicking an axe then cutting a log.
-* **Berserk Pick**: Will increase mining speed drastically.
-    * Activated by right clicking a pickaxe then breaking a block.
-* **Natural Regeneration**: Automatically replants all crops at a random growth stage.
-    * Activated by right clicking a hoe then breaking a crop.
-* **Super Bait**: Fish are instantly pulled out of the water, without waiting to get a bite.
-    * Activated by left clicking a fishing rod then fishing.
-* **Rapid Fire**: Arrow shots come out at maximum speed no matter how far the bow is pulled back.
-    * Activated by left clicking a bow.
-* **Spur Kick**: Grants your horse a temporary speed boost.
-    * Activated by right clicking most items while on a horse then left clicking most items.
-* **Swift Strikes**: Your swings no longer have a cooldown.
-    * Activated by right clicking a sword then hitting an entity.
-* **Stone Solid**: Grants resistance at the cost of being slowed down.
-    * Activated by right clicking with an empty hand then hitting an entity.
-* **Great Axe**: Your attacks become an AOE strike that deals damage in a certain radius.
-    * Activated by right clicking an axe then hitting an entity.
 
 For further features and information on configuration, permissions and usage check out
 the [wiki](https://github.com/AdvancedWipe/Minecraft_FreeRPG_1.16/wiki).
