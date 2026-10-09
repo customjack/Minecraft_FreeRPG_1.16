@@ -406,6 +406,11 @@
       noSkillTokens: You do not have any skill tokens
       noPassiveTokens: You do not have any passive tokens
       maxedOutPerk: You have already maxed out this perk!
+      nodeRarity: Rarity
+      nodeLocked: Locked
+      nodeAvailable: Click to unlock
+      nodeInProgress: Click to upgrade
+      nodeMaxed: Maxed out
       requiredGlobalPerks0: You need the previous perk to unlock this perk
       requiredGlobalPerks1: are required to unlock this perk
       requiredGlobalPerks2: is required to unlock this perk
@@ -4815,6 +4820,11 @@
       noSkillTokens: Você não tem nenhum Tokens de habilidade
       noPassiveTokens: Você não tem nenhum Tokens passivo
       maxedOutPerk: Você já atingiu o limite máximo deste benefício!
+      nodeRarity: Raridade
+      nodeLocked: Bloqueado
+      nodeAvailable: Clique para desbloquear
+      nodeInProgress: Clique para melhorar
+      nodeMaxed: Nível máximo
       requiredGlobalPerks0: Você precisa do benefício anterior para desbloquear este benefício
       requiredGlobalPerks1: são necessários para desbloquear este privilégio
       requiredGlobalPerks2: é necessário para desbloquear este privilégio

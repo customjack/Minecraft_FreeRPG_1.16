@@ -1,4 +1,5 @@
 package mc.carlton.freerpg.guiEvents;
+import mc.carlton.freerpg.guiTools.SkillNodeIcon;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
 import mc.carlton.freerpg.perksAndAbilities.*;
 import mc.carlton.freerpg.configStorage.ConfigLoad;
@@ -56,7 +57,7 @@ public class SkillsGUIclick implements Listener {
                 int passiveTokens = pStats.get(2).intValue();
                 //Determine what they selected and what to do
                 if (e.getCurrentItem() != null) {
-                    switch (e.getCurrentItem().getType()) {
+                    switch (SkillNodeIcon.clickType(e.getCurrentItem())) {
                         case ARROW:
                             p.closeInventory();
                             p.performCommand("frpg skills");
@@ -331,7 +332,7 @@ public class SkillsGUIclick implements Listener {
                 Map<String, ArrayList<Number>> pStatAll = statAll.get(p.getUniqueId());
                 ArrayList<Number> pStats = pStatAll.get(skillName);
                 if (e.getCurrentItem() != null && e.getSlot() < 54) {
-                    switch (e.getCurrentItem().getType()) {
+                    switch (SkillNodeIcon.clickType(e.getCurrentItem())) {
                         case ARROW:
                             p.closeInventory();
                             p.performCommand("frpg skills");
