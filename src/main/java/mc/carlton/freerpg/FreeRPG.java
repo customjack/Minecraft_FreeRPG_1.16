@@ -1,5 +1,7 @@
 package mc.carlton.freerpg;
 
+import mc.carlton.freerpg.utilities.FrpgPrint;
+
 import mc.carlton.freerpg.brewingEvents.BrewingInventoryClick;
 import mc.carlton.freerpg.brewingEvents.FinishedBrewing;
 import mc.carlton.freerpg.clickEvents.PlayerLeftClick;
@@ -225,12 +227,12 @@ public final class FreeRPG extends JavaPlugin implements Listener {
 
         final String testConfigPath = "global.skill-1.level-1.test";
         Object test = config.get(testConfigPath);
-        System.out.println(test);
-        System.out.println(test.getClass());
+        FrpgPrint.print(String.valueOf(test));
+        FrpgPrint.print(String.valueOf(test.getClass()));
         //CustomRecipe customRecipe = new CustomContainerImporter(testConfigPath).getCustomRecipe(test,"TEST");
         //customRecipe.addTranslatedVariants();
-        //System.out.println(customRecipe);
-        //System.out.println(CustomContainerImporter.convertListedTableRowToMap(test,testConfigPath));
+        //FrpgPrint.print(String.valueOf(customRecipe));
+        //FrpgPrint.print(String.valueOf(CustomContainerImporter.convertListedTableRowToMap(test,testConfigPath)));
 
     }
 
@@ -242,7 +244,7 @@ public final class FreeRPG extends JavaPlugin implements Listener {
             try {
                 logout.playerLogout(true);
             } catch (IOException e) {
-                e.printStackTrace();
+                FrpgPrint.error("Unexpected error", e);
             }
         }
 

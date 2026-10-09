@@ -1,5 +1,7 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
+import mc.carlton.freerpg.utilities.FrpgPrint;
+
 import mc.carlton.freerpg.gameTools.FurnaceUserTracker;
 import mc.carlton.freerpg.globalVariables.ExpMaps;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
@@ -98,7 +100,7 @@ public class Smelting extends Skill{
     }
     public void printContents(ItemStack[] contents) {
         ArrayList<ItemStack> newContents = new ArrayList<>(Arrays.asList(contents));
-        System.out.println(newContents);
+        FrpgPrint.print(String.valueOf(newContents));
     }
 
     public boolean checkIfBlockIsFurnace(World world,Location location) {

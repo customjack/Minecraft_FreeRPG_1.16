@@ -1,5 +1,7 @@
 package mc.carlton.freerpg.gameTools;
 
+import mc.carlton.freerpg.utilities.FrpgPrint;
+
 import mc.carlton.freerpg.serverInfo.MinecraftVersion;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -188,7 +190,7 @@ public class PsuedoEnchanting {
 
     public void printInfo() {
         for (Enchantment enchant : enchantmentWeightMap.keySet()) {
-            System.out.println(enchant.getKey());
+            FrpgPrint.print(String.valueOf(enchant.getKey()));
         }
     }
 

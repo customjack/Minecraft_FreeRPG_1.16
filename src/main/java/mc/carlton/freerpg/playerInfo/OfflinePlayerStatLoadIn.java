@@ -1,5 +1,7 @@
 package mc.carlton.freerpg.playerInfo;
 
+import mc.carlton.freerpg.utilities.FrpgPrint;
+
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.leaveAndJoin.LoginProcedure;
 import mc.carlton.freerpg.serverFileManagement.PlayerStatsFilePreparation;
@@ -63,8 +65,8 @@ public class OfflinePlayerStatLoadIn {
                     sum += time;
                 }
                 double avg = Math.round((sum/N)*100)/100.0;
-                System.out.println("Total time Taken: " + sum + " ms");
-                System.out.println("Average time Taken: " + avg + " ms");
+                FrpgPrint.print("Total time Taken: " + sum + " ms");
+                FrpgPrint.print("Average time Taken: " + avg + " ms");
             }
         }.runTaskAsynchronously(plugin);
 

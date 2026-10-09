@@ -1,5 +1,7 @@
 package mc.carlton.freerpg.serverFileManagement;
 
+import mc.carlton.freerpg.utilities.FrpgPrint;
+
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.configStorage.ConfigLoad;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -249,7 +251,7 @@ public class PlayerStatsFilePreparation {
             createPlayerYAML(pName);
             playerData.save(f);
         } catch (IOException exception){
-            exception.printStackTrace();
+            FrpgPrint.error("Unexpected error", exception);
         }
     }
 
@@ -259,7 +261,7 @@ public class PlayerStatsFilePreparation {
             updatePlayerYAML(pName,isRealLogin);
             playerData.save(f);
         } catch (IOException exception){
-            exception.printStackTrace();
+            FrpgPrint.error("Unexpected error", exception);
         }
     }
 

@@ -1,5 +1,7 @@
 package mc.carlton.freerpg.serverFileManagement;
 
+import mc.carlton.freerpg.utilities.FrpgPrint;
+
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.playerInfo.PlayerStats;
 import mc.carlton.freerpg.playerInfo.PlayerStatsLoadIn;
@@ -48,8 +50,8 @@ public class PeriodicSaving {
                 sum += time;
             }
             double avg = Math.round((sum/N)*100)/100.0;
-            System.out.println("[FreeRPG] Total time Taken: " + sum + " ms");
-            System.out.println("[FreeRPG] Average time Taken: " + avg + " ms");
+            FrpgPrint.print("Total time Taken: " + sum + " ms");
+            FrpgPrint.print("Average time Taken: " + avg + " ms");
 
         }
         else {
@@ -71,7 +73,7 @@ public class PeriodicSaving {
             loadIn.setPlayerStatsMap();
         }
         catch (IOException e) {
-            System.out.println("[FreeRPG] FAILED TO SAVE STATS OF PLAYER: " + p.getDisplayName());
+            FrpgPrint.warning("FAILED TO SAVE STATS OF PLAYER: " + p.getDisplayName());
         }
     }
 
@@ -81,7 +83,7 @@ public class PeriodicSaving {
             loadIn.setPlayerStatsMap(isPlayerOnline(playerUUID));
         }
         catch (IOException e) {
-            System.out.println("[FreeRPG] FAILED TO SAVE STATS OF PLAYER UUID:" + playerUUID.toString());
+            FrpgPrint.warning("FAILED TO SAVE STATS OF PLAYER UUID:" + playerUUID.toString());
         }
     }
 

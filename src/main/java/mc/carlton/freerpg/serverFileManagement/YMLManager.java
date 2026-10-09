@@ -1,5 +1,7 @@
 package mc.carlton.freerpg.serverFileManagement;
 
+import mc.carlton.freerpg.utilities.FrpgPrint;
+
 import mc.carlton.freerpg.FreeRPG;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -77,7 +79,7 @@ public class YMLManager {
             return new File(plugin.getDataFolder().getPath(),fileName);
         }
         catch (IOException e) {
-            e.printStackTrace();
+            FrpgPrint.error("Unexpected error", e);
             return null;
         }
 
@@ -94,9 +96,9 @@ public class YMLManager {
 
     public void updateLanguagesYML(String fileName) {
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-        System.out.println("[FreeRPG] "+fileName+" keys mismatch the current version's keys. The file may be updated... ");
+        FrpgPrint.print(""+fileName+" keys mismatch the current version's keys. The file may be updated... ");
         storeOldFile(fileName);
-        System.out.println("[FreeRPG] Old "+fileName+" stored in /.../FreeRPG/OutdatedYMLFiles");
+        FrpgPrint.print("Old "+fileName+" stored in /.../FreeRPG/OutdatedYMLFiles");
 
         plugin.saveResource(fileName,true); //Saves default file (with comments)
 
@@ -154,28 +156,28 @@ public class YMLManager {
             try {
                 newYAML.save(f); //Changes file (comments are lost)
                 if (addedLines) {
-                    System.out.println("[FreeRPG] " + fileName + " updated to include new keys.");
+                    FrpgPrint.print("" + fileName + " updated to include new keys.");
                 }
                 else {
-                    System.out.println("[FreeRPG] " + fileName + " no new keys were added.");
+                    FrpgPrint.print("" + fileName + " no new keys were added.");
                 }
                 if (overWroteData) {
-                    System.out.println("[FreeRPG] Overwrote some data in " + fileName + " (You may not edit previously defined languages).");
+                    FrpgPrint.print("Overwrote some data in " + fileName + " (You may not edit previously defined languages).");
                 }
                 else {
-                    System.out.println("[FreeRPG] No data was overwritten in " + fileName);
+                    FrpgPrint.print("No data was overwritten in " + fileName);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                FrpgPrint.error("Unexpected error", e);
             }
         }
     }
 
     public void updateYML(String fileName) {
         Plugin plugin = FreeRPG.getPlugin(FreeRPG.class);
-        System.out.println("[FreeRPG] "+fileName+" keys mismatch the current version's keys. The file may be updated... ");
+        FrpgPrint.print(""+fileName+" keys mismatch the current version's keys. The file may be updated... ");
         storeOldFile(fileName);
-        System.out.println("[FreeRPG] Old "+fileName+" stored in /.../FreeRPG/OutdatedYMLFiles");
+        FrpgPrint.print("Old "+fileName+" stored in /.../FreeRPG/OutdatedYMLFiles");
 
         plugin.saveResource(fileName,true); //Saves default file (with comments)
 
@@ -211,13 +213,13 @@ public class YMLManager {
         if (changeMade) {
             try {
                 newYAML.save(f); //Changes file (comments are lost)
-                System.out.println("[FreeRPG] " + fileName + " updated to include new keys.");
+                FrpgPrint.print("" + fileName + " updated to include new keys.");
             } catch (IOException e) {
-                e.printStackTrace();
+                FrpgPrint.error("Unexpected error", e);
             }
         }
         else {
-            System.out.println("[FreeRPG] "+fileName+" updated to default version successfully! (If you previously made changes to " + fileName + " this is an error)");
+            FrpgPrint.print(""+fileName+" updated to default version successfully! (If you previously made changes to " + fileName + " this is an error)");
         }
     }
 }

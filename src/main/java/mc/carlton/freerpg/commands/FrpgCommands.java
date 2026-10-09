@@ -1,5 +1,7 @@
 package mc.carlton.freerpg.commands;
 
+import mc.carlton.freerpg.utilities.FrpgPrint;
+
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.customContainers.collections.OldCustomRecipe;
 import mc.carlton.freerpg.gameTools.LanguageSelector;
@@ -869,7 +871,7 @@ public class FrpgCommands implements CommandExecutor {
                 try {
                     saveStats.setPlayerStatsMap();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    FrpgPrint.error("Unexpected error", e);
                 }
             }
         }
@@ -1942,7 +1944,7 @@ public class FrpgCommands implements CommandExecutor {
                 p.performCommand("frpg");
             }
             else {
-                System.out.println("You must be a player to perform this command");
+                sender.sendMessage("You must be a player to perform this command");
             }
         }
 
@@ -3344,7 +3346,7 @@ public class FrpgCommands implements CommandExecutor {
             }
 
             else {
-                System.out.println("You need to be a player to cast this command");
+                sender.sendMessage("You need to be a player to cast this command");
             }
         }
 

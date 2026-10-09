@@ -1,5 +1,7 @@
 package mc.carlton.freerpg.serverFileManagement;
 
+import mc.carlton.freerpg.utilities.FrpgPrint;
+
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.serverInfo.RecentLogouts;
 import org.bukkit.plugin.Plugin;
@@ -26,7 +28,7 @@ public class RecentPlayersFileManager {
                 }
                 recentLogouts.setLastLogouts(lastLogoutUUIDs);
             } catch (IOException error) {
-                error.printStackTrace();
+                FrpgPrint.error("Unexpected error", error);
             }
         }
     }
@@ -43,7 +45,7 @@ public class RecentPlayersFileManager {
                     fileWriter.write("\n");
                 }
             } catch (IOException error) {
-                error.printStackTrace();
+                FrpgPrint.error("Unexpected error", error);
             }
         }
     }
@@ -62,7 +64,7 @@ public class RecentPlayersFileManager {
             }
         }
         catch (IOException error) {
-            error.printStackTrace();
+            FrpgPrint.error("Unexpected error", error);
         }
 
     }

@@ -1,5 +1,7 @@
 package mc.carlton.freerpg.serverFileManagement;
 
+import mc.carlton.freerpg.utilities.FrpgPrint;
+
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.serverInfo.PlacedBlocksManager;
 import org.bukkit.Bukkit;
@@ -35,7 +37,7 @@ public class PlacedBlockFileManager {
                 }
                 placedBlocksManager.setBlocksMap(blocks);
             } catch (IOException error) {
-                error.printStackTrace();
+                FrpgPrint.error("Unexpected error", error);
             }
         }
     }
@@ -62,7 +64,7 @@ public class PlacedBlockFileManager {
                     }
                 }
             } catch (IOException error) {
-                error.printStackTrace();
+                FrpgPrint.error("Unexpected error", error);
             }
         }
     }
@@ -86,12 +88,12 @@ public class PlacedBlockFileManager {
                     fileWriter.write("\n");
                     fileWriter.write(worldName + ",1,1,1");
                 } catch (IOException exception) {
-                    exception.printStackTrace();
+                    FrpgPrint.error("Unexpected error", exception);
                 }
             }
         }
         catch (IOException error) {
-            error.printStackTrace();
+            FrpgPrint.error("Unexpected error", error);
         }
 
     }

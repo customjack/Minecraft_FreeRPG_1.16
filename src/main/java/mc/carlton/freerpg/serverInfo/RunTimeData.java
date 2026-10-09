@@ -1,5 +1,7 @@
 package mc.carlton.freerpg.serverInfo;
 
+import mc.carlton.freerpg.utilities.FrpgPrint;
+
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.configStorage.ConfigLoad;
 import org.bukkit.plugin.Plugin;
@@ -57,12 +59,12 @@ public class RunTimeData {
                     }
 
                 } catch (IOException exception) {
-                    exception.printStackTrace();
+                    FrpgPrint.error("Unexpected error", exception);
                 }
             }
         }
         catch (IOException error) {
-            error.printStackTrace();
+            FrpgPrint.error("Unexpected error", error);
         }
     }
 

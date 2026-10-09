@@ -1,5 +1,7 @@
 package mc.carlton.freerpg.configStorage;
 
+import mc.carlton.freerpg.utilities.FrpgPrint;
+
 import mc.carlton.freerpg.FreeRPG;
 import mc.carlton.freerpg.customContainers.OldCustomPotion;
 import mc.carlton.freerpg.customContainers.collections.OldCustomRecipe;
@@ -238,7 +240,7 @@ public class ConfigLoad {
             String potionEffectTypeString = advancedConfig.getString("alchemy.customPotions.potionType"+i);
             PotionEffectType potionEffectType = UtilityMethods.matchPotionEffectType(potionEffectTypeString); //Also accepts pre-1.20.5 names (e.g. SLOW_DIGGING)
             if (potionEffectType == null) {
-                System.out.println("[FreeRPG] WARNING: Unrecognized potion effect type " + potionEffectTypeString + " in alchemy.customPotions.potionType"+i);
+                FrpgPrint.warning("Unrecognized potion effect type " + potionEffectTypeString + " in alchemy.customPotions.potionType"+i);
             }
             customPotion.setPotionEffectType(potionEffectType);
             customPotion.setIngredient(Material.matchMaterial(advancedConfig.getString("alchemy.customPotions.potionIngredient"+i)));
@@ -295,7 +297,7 @@ public class ConfigLoad {
             for (String item : recipeStrings) {
                 Material recipeMaterial = Material.matchMaterial(item);
                 if (recipeMaterial == null) {
-                    System.out.println("[FreeRPG] WARNING: Unrecognized Material in " + "farming.crafting.recipe"+i + "(Some materials will be treated as air");
+                    FrpgPrint.warning("Unrecognized Material in " + "farming.crafting.recipe"+i + "(Some materials will be treated as air");
                 }
                 recipeMaterials.add(recipeMaterial);
             }
@@ -318,7 +320,7 @@ public class ConfigLoad {
             for (String item : recipeStrings) {
                 Material recipeMaterial = Material.matchMaterial(item);
                 if (recipeMaterial == null) {
-                    System.out.println("[FreeRPG] WARNING: Unrecognized Material in " + "enchanting.crafting.recipe"+i + "(Some materials will be treated as air");
+                    FrpgPrint.warning("Unrecognized Material in " + "enchanting.crafting.recipe"+i + "(Some materials will be treated as air");
                 }
                 recipeMaterials.add(recipeMaterial);
             }
@@ -335,7 +337,7 @@ public class ConfigLoad {
                 String potionTypeString = advancedConfig.getString("alchemy.crafting.recipePotionType"+i);
                 PotionType potionType = UtilityMethods.matchPotionType(potionTypeString); //Also accepts pre-1.20.5 names (e.g. SPEED, INSTANT_HEAL)
                 if (potionType == null) {
-                    System.out.println("[FreeRPG] WARNING: Unrecognized potion type " + potionTypeString + " in alchemy.crafting.recipePotionType"+i);
+                    FrpgPrint.warning("Unrecognized potion type " + potionTypeString + " in alchemy.crafting.recipePotionType"+i);
                 }
                 oldCustomRecipe.setPotionType(potionType);
                 oldCustomRecipe.setExtended(advancedConfig.getBoolean("alchemy.crafting.recipePotionExtended"+i));
@@ -346,7 +348,7 @@ public class ConfigLoad {
             for (String item : recipeStrings) {
                 Material recipeMaterial = Material.matchMaterial(item);
                 if (recipeMaterial == null) {
-                    System.out.println("[FreeRPG] WARNING: Unrecognized Material in " + "alchemy.crafting.recipe"+i + "(Some materials will be treated as air");
+                    FrpgPrint.warning("Unrecognized Material in " + "alchemy.crafting.recipe"+i + "(Some materials will be treated as air");
                 }
                 recipeMaterials.add(recipeMaterial);
             }

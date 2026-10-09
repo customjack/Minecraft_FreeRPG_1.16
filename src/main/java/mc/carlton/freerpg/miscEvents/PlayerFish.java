@@ -1,5 +1,7 @@
 package mc.carlton.freerpg.miscEvents;
 
+import mc.carlton.freerpg.utilities.FrpgPrint;
+
 import mc.carlton.freerpg.perksAndAbilities.Fishing;
 import mc.carlton.freerpg.playerInfo.AbilityTracker;
 import org.bukkit.GameMode;
@@ -66,8 +68,8 @@ public class PlayerFish implements Listener {
 
 
         /*
-        System.out.println(e.getState());;
-        System.out.println(e.getHook().getLocation().getBlock().getType());
+        FrpgPrint.print(String.valueOf(e.getState()));;
+        FrpgPrint.print(String.valueOf(e.getHook().getLocation().getBlock().getType()));
         if (caughtThing == null && e.getState() == PlayerFishEvent.State.REEL_IN) {
             double dx = p.getLocation().getX() - e.getHook().getLocation().getX();
             double dy = p.getLocation().getY() - e.getHook().getLocation().getY();

@@ -1,5 +1,7 @@
 package mc.carlton.freerpg.perksAndAbilities;
 
+import mc.carlton.freerpg.utilities.FrpgPrint;
+
 import mc.carlton.freerpg.gameTools.PsuedoEnchanting;
 import mc.carlton.freerpg.globalVariables.EntityGroups;
 import mc.carlton.freerpg.globalVariables.ItemGroups;
@@ -845,9 +847,9 @@ public class Fishing extends Skill{
          */
 
         /*
-        System.out.println(Double.toString(tierChances[0]) + " " + Double.toString(tierChances[1]) + " " + Double.toString(tierChances[2]) + " " +
+        FrpgPrint.print(String.valueOf(Double.toString(tierChances[0]) + " " + Double.toString(tierChances[1]) + " " + Double.toString(tierChances[2]) + " " +
                            Double.toString(tierChances[3]) + " " + Double.toString(tierChances[4]) + " " + Double.toString(tierChances[5]) + " " +
-                           Double.toString(tierChances[6]));
+                           Double.toString(tierChances[6])));
 
          */
 
